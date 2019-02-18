@@ -23,6 +23,8 @@ Hotfix deploy - commit from hotfix/we_gonna_die branch should be in master first
 ##  Branch diagram
 
 ![N|GIT](http://images.vfl.ru/ii/1550085601/6a1eafaa/25379949.png)
+![N|GIT](http://images.vfl.ru/ii/1550509504/5c263906/25449597.png)
+
 
 
 
