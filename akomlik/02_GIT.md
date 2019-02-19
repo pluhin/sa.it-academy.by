@@ -1,5 +1,4 @@
-  
-  ## Home Task 02_GIT.md
+## Home Task 02_GIT.md
 ### Working with local git repository
 ```bash
   748  git clone https://github.com/volat1977/sa.it-academy.by.git
