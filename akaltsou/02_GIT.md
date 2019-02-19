@@ -1,3 +1,4 @@
+```
   268  git init
   269  touch first.txt
   270  echo 'content of first file' > first.txt 
@@ -48,3 +49,4 @@
   315  git merge hotfix/we_gonna_die 
   316  git log --graph --all --decorate
   317  history > history.txt
+```
