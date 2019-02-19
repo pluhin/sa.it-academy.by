@@ -1,3 +1,6 @@
+## Homework
+### Log of my git
+```bash
   371  git init
   372  git status
   373  git config --global user.name "Igor Savastsiuk"
@@ -69,3 +72,4 @@
   439  git log --oneline 
   440  git log --graph --all --decorate
   441  history > GIT.log
+```
