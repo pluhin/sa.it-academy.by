@@ -2,7 +2,7 @@
   ## Webinar work
 ### Working with local git repository
 ```bash
-	748  git clone https://github.com/volat1977/sa.it-academy.by.git
+  748  git clone https://github.com/volat1977/sa.it-academy.by.git
   749  git config --global user.name "Aliaksand Komlik"
   750  git config --global user.email komlik.al@gmail.com 
   751  mkdir akomlik
