@@ -1,5 +1,8 @@
   
-  748  git clone https://github.com/volat1977/sa.it-academy.by.git
+  ## Webinar work
+### Working with local git repository
+```bash
+	748  git clone https://github.com/volat1977/sa.it-academy.by.git
   749  git config --global user.name "Aliaksand Komlik"
   750  git config --global user.email komlik.al@gmail.com 
   751  mkdir akomlik
@@ -32,7 +35,7 @@
   778  git commit -m "First commint in features/do_one branch"
   779  git checkout master 
   780  git checkout -b hotfix/we_gonna_die
-  781  cat hometask.txt 
+	781  cat hometask.txt 
   782  echo "Add first line in hotfix/we_gonna_die branch">> hometask.txt 
   783  git add hometask.txt 
   784  git commit -m "first commit in hotfix/we_gonna_die branch"
@@ -48,3 +51,4 @@
   794  git merge hotfix/we_gonna_die
   795  cd ..
   796  history > 02_GIT.md
+```
