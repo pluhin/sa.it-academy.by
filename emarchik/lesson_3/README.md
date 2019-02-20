@@ -1,8 +1,6 @@
 #Lesson 3: Git-Hosting
 
 ##Home task:
-
----
 **Path_1**
 * Create public repo on: 
 1. GitHub
