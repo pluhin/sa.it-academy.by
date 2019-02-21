@@ -1,5 +1,5 @@
 # HW 01 A.Maldavanava
-bash```
+```bash
     4  mkdir devops_itacademy
     5  cd devops_itacademy/
     6  sudo apt-get install git
