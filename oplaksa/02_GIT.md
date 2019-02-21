@@ -1,5 +1,6 @@
 ## Home work 01
-### Local git
+### Local git history
+```bash
   363  ll
   364  alias ll='ls -la'
   365  ll
