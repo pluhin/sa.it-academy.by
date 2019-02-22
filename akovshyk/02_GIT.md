@@ -1,3 +1,6 @@
+## Domashka
+### Git log
+```bash
   543  cd kovsh/
   544  git init
   545  git config --global user.email a.kovshyk@gmail.com
