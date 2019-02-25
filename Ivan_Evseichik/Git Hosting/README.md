@@ -50,3 +50,29 @@ Fast-forward
     > Notification:
     ![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/i.evseichik/Git%20Hosting/Images/notification.jpg)
     
+### Gitlab CE
+
+- Setup access and email notification
+  - Setup the GitLab RPM repo and then install GitLab CE
+  ``` bash
+  cd curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+  sudo EXTERNAL_URL="http://gitlab.example.com" yum install -y gitlab-ce
+  ```
+  - Setup email configuration
+  ``` bash
+   gitlab_rails['smtp_enable'] = true
+   gitlab_rails['smtp_address'] = "**********"
+   gitlab_rails['smtp_port'] = 585
+   gitlab_rails['smtp_domain'] = "**********"
+   gitlab_rails['smtp_authentication'] = false
+  ````
+- Create my project
+> Project:
+![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/i.evseichik/Git%20Hosting/Images/project2.jpg)
+- Create profile
+> Profile:
+![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/i.evseichik/Git%20Hosting/Images/profile.jpg)
+- Add members to my project, send  invitation by Gitlab notificator.
+> Members:
+![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/i.evseichik/Git%20Hosting/Images/members.jpg)
+  
