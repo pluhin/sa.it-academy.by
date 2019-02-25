@@ -1,0 +1,92 @@
+2019-02-25 13:23:35,322 p=7437 u=agarim |  ansible-playbook 2.4.1.0
+  config file = /mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_4/ansible/ansible.cfg
+  configured module search path = [u'/home/agarim/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/local/lib/python2.7/dist-packages/ansible
+  executable location = /usr/local/bin/ansible-playbook
+  python version = 2.7.12 (default, Nov 12 2018, 14:36:49) [GCC 5.4.0 20160609]
+2019-02-25 13:23:35,323 p=7437 u=agarim |  Using /mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_4/ansible/ansible.cfg as config file
+2019-02-25 13:23:35,601 p=7437 u=agarim |  PLAYBOOK: ansible_first_task.yml **************************************************************************************************************************************************************************************************
+2019-02-25 13:23:35,602 p=7437 u=agarim |  1 plays in ansible_first_task.yml
+2019-02-25 13:23:35,617 p=7437 u=agarim |  PLAY [Asible First Task] **********************************************************************************************************************************************************************************************************
+2019-02-25 13:23:35,630 p=7437 u=agarim |  TASK [Gathering Facts] ************************************************************************************************************************************************************************************************************
+2019-02-25 13:23:35,630 p=7437 u=agarim |  Monday 25 February 2019  13:23:35 +0300 (0:00:00.055)       0:00:00.055 ******* 
+2019-02-25 13:23:43,462 p=7437 u=agarim |  ok: [CENTOS_WS]
+2019-02-25 13:23:44,976 p=7437 u=agarim |  ok: [UBUNTU_WS]
+2019-02-25 13:23:44,976 p=7437 u=agarim |  META: ran handlers
+2019-02-25 13:23:44,983 p=7437 u=agarim |  TASK [For ReadHat/CentOS] *********************************************************************************************************************************************************************************************************
+2019-02-25 13:23:44,983 p=7437 u=agarim |  task path: /mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_4/ansible/ansible_first_task.yml:12
+2019-02-25 13:23:44,983 p=7437 u=agarim |  Monday 25 February 2019  13:23:44 +0300 (0:00:09.352)       0:00:09.408 ******* 
+2019-02-25 13:23:45,020 p=7437 u=agarim |  skipping: [UBUNTU_WS] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False", 
+    "skipped": true
+}
+2019-02-25 13:23:52,563 p=7437 u=agarim |  changed: [CENTOS_WS] => {
+    "changed": true, 
+    "cmd": "hostname\n hostname -I\n sudo yum update -y", 
+    "delta": "0:00:00.560224", 
+    "end": "2019-02-25 05:23:52.362730", 
+    "failed": false, 
+    "rc": 0, 
+    "start": "2019-02-25 05:23:51.802506"
+}
+
+STDOUT:
+
+sa-cent
+192.168.254.50 
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: ftp.byfly.by
+ * extras: ftp.byfly.by
+ * updates: mirror.mirohost.net
+No packages marked for update
+
+2019-02-25 13:23:52,569 p=7437 u=agarim |  TASK [For Debian/Ubuntu] **********************************************************************************************************************************************************************************************************
+2019-02-25 13:23:52,569 p=7437 u=agarim |  task path: /mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_4/ansible/ansible_first_task.yml:20
+2019-02-25 13:23:52,570 p=7437 u=agarim |  Monday 25 February 2019  13:23:52 +0300 (0:00:07.586)       0:00:16.994 ******* 
+2019-02-25 13:23:52,593 p=7437 u=agarim |  skipping: [CENTOS_WS] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False", 
+    "skipped": true
+}
+2019-02-25 13:24:03,257 p=7437 u=agarim |  changed: [UBUNTU_WS] => {
+    "changed": true, 
+    "cmd": "hostname\n hostname -I\n sudo apt-get update\n sudo apt-get upgrade -y", 
+    "delta": "0:00:02.212153", 
+    "end": "2019-02-25 10:24:03.058179", 
+    "failed": false, 
+    "rc": 0, 
+    "start": "2019-02-25 10:24:00.846026"
+}
+
+STDOUT:
+
+sa-ubuntu
+192.168.254.51 
+Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+Get:2 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
+Get:3 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
+Get:4 http://archive.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+Fetched 252 kB in 1s (435 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+
+2019-02-25 13:24:03,258 p=7437 u=agarim |  META: ran handlers
+2019-02-25 13:24:03,258 p=7437 u=agarim |  META: ran handlers
+2019-02-25 13:24:03,259 p=7437 u=agarim |  PLAY RECAP ************************************************************************************************************************************************************************************************************************
+2019-02-25 13:24:03,259 p=7437 u=agarim |  CENTOS_WS                  : ok=2    changed=1    unreachable=0    failed=0   
+2019-02-25 13:24:03,260 p=7437 u=agarim |  UBUNTU_WS                  : ok=2    changed=1    unreachable=0    failed=0   
+2019-02-25 13:24:03,260 p=7437 u=agarim |  Monday 25 February 2019  13:24:03 +0300 (0:00:10.690)       0:00:27.684 ******* 
+2019-02-25 13:24:03,260 p=7437 u=agarim |  =============================================================================== 
+2019-02-25 13:24:03,260 p=7437 u=agarim |  For Debian/Ubuntu --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 10.69s
+/mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_4/ansible/ansible_first_task.yml:20 -----------------------------------------------------------------------------------------------------------------------------------
+2019-02-25 13:24:03,261 p=7437 u=agarim |  Gathering Facts ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 9.35s
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2019-02-25 13:24:03,261 p=7437 u=agarim |  For ReadHat/CentOS --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 7.59s
+/mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_4/ansible/ansible_first_task.yml:12 -----------------------------------------------------------------------------------------------------------------------------------
+2019-02-25 13:24:03,261 p=7437 u=agarim |  Playbook run took 0 days, 0 hours, 0 minutes, 27 seconds
