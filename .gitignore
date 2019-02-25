@@ -1,4 +1,5 @@
 .idea
+.retry
 *.log
 *.retry
 .test

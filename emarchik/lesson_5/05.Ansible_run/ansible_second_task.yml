@@ -1,0 +1,87 @@
+---
+########################################
+##### Second Task Path_1 : 28.02.19 #####
+########################################
+- name: Asible Second Path_1 Task
+  hosts: workstation
+  tags:
+    - second_task_path_1
+  vars:
+    parameters:
+      - OS_FAMILY: "{{ ansible_os_family }}"
+      - OS_DISTRIBUTTION: "{{ ansible_distribution }}"
+      - DISTRIBUTTION_VERSION: "{{ ansible_distribution_version }}"
+      - NODE_NAME: "{{ ansible_nodename }}"
+      - NODE_ARCHITECTURE: "{{ ansible_architecture }}"
+      - POINT_MOUNTS: "{{ ansible_mounts[0].mount }}"
+      - HDD_SIZE_TOTAL: "{{ ansible_mounts[0].size_total }}"
+      - HDD_AVAILABLE: "{{ ansible_mounts[0].size_available }}"
+      - RAM_TOTAL: "{{ansible_memtotal_mb }}"
+      - RAM_FREE: "{{ ansible_memfree_mb }}"
+
+  tasks:
+
+  - name: Print out remote host parameters
+    debug:
+      msg: "{{ parameters }}"
+
+########################################
+##### Second Path_2 Task: 28.02.19 #####
+########################################
+- name: Asible Second Path_2 Task
+  hosts: workstation
+  become: yes
+  tags:
+    - second_task_path_2
+
+  tasks:
+
+  - block: # ======== BLock for Redhat =========
+      - name: "Creating User"
+        user:
+          name: agarim
+          #group: "wheel"
+          comment: "Add by Ansible user"
+          state: present
+
+      - name: "Add authorized keys for User"
+        authorized_key:
+           user: agarim
+           state: present
+           key: "{{ lookup('file', '/home/agarim/.ssh/id_rsa.pub') }}"
+
+      - name: "Allow user without a password"
+        lineinfile:
+          dest: "/etc/sudoers"
+          state: "present"
+          regexp: "^%agarim"
+          line: "%agarim ALL=(ALL) NOPASSWD: ALL"
+    when: ansible_os_family == "RedHat"
+
+  - block: # ======== Block for Ubuntu =========
+      - name: "Creating User"
+        user:
+          name: agarim
+          #group: "sudo"
+          comment: "Add by Ansible user"
+          state: present
+ 
+      - name: "Add authorized keys for User"
+        authorized_key:
+          user: agarim
+          state: present
+          key: "{{ lookup('file', '/home/agarim/.ssh/id_rsa.pub') }}"
+
+      - name: "Allow user without a password"
+        lineinfile:
+          dest: "/etc/sudoers"
+          state: "present"
+          regexp: "^%agarim"
+          line: "%agarim ALL=(ALL) NOPASSWD: ALL"
+    when: ansible_os_family == "Debian"
+
+ # - name: "Removing User"
+ #   user:
+ #     name: agarim
+ #     comment: "Remove by Ansible user"
+ #     state: absent
