@@ -21,13 +21,14 @@
 
  ![](http://images.vfl.ru/ii/1551125757/4b587efb/25543863_m.png)
 
-##### 2) *Gitlab CE
+##### 2) Gitlab CE
 
 * Deploy Gitlab
 * Setup access and email notification
 * Create project
 * Check difference between EE and CE
 * Send me invitation by Gitlab notification
+
 '''
 Was launched AMI EC2 in spot with Gitlab (in container) -> Create project "Task-2" -> invitation to your mail (pluhin@gmail.com) by Gitlab notification
 '''
