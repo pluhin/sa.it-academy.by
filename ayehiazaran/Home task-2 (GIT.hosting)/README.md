@@ -30,5 +30,5 @@
 * Send me invitation by Gitlab notification
 
 '''
-Was launched AMI EC2 in spot with Gitlab (in container) -> Create project "Task-2" -> invitation to your mail (pluhin@gmail.com) by Gitlab notification
+Was launched AMI EC2 in spot with Gitlab (in container) -> Create project "ayehiazaran-task-gitlabce" -> invitation to your mail (pluhin@gmail.com) by Gitlab notification
 '''
