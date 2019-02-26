@@ -4,8 +4,8 @@
 ### Localhost
 ------
 
-1. Create local user 'iggy'.
-2. Allow 'iggy' to run commands 'apt/yum upgrade' without password:
+1. Create local user `iggy`.
+2. Allow `iggy` to run commands `apt/yum upgrade` without password:
 
 ![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/04.Ans.Homework/Pics/sudoers.JPG)
 
