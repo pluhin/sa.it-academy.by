@@ -7,7 +7,7 @@ sudo visudo
 sudo apt-get update
 ansible localhost -m apt -a "upgrade=yes update_cache=yes" -b
 ```
--Output
+- Output
 ```bash
 localhost | SUCCESS => {
     "changed": false, 
@@ -28,7 +28,7 @@ Host Bastion
 Host 192.168.254.*
 	ProxyJump Bastion
 ```
--Ansible inventory
+- Ansible inventory
 ```bash
 [jump]
 178.124.206.48 ansible_user=jump
@@ -44,14 +44,14 @@ jump
 cent
 ub
 ```
--Allow ansible user upgrade system (192.168.254.50/51) 
+- Allow ansible user upgrade system (192.168.254.50/51) 
 ```bash
 ## Read drop-in files from /etc/sudoers.d (the # here does not mean a comment)
 #includedir /etc/sudoers.d
 %agarim ALL=(ALL) NOPASSWD: ALL
 nmol	ALL=(ALL) NOPASSWD: ALL
 ```
--Ansible graph
+- Ansible graph
 ```bash
 $ ansible-inventory --graph
 @all:
@@ -64,7 +64,7 @@ $ ansible-inventory --graph
   |  |  |--ubuntu_01
   |--@ungrouped:
 ```
--Upgrading remote ubuntu host
+- Upgrading remote ubuntu host
 ```bash
 $ ansible ub -m apt -a "upgrade=yes update_cache=yes" --ask-vault-pass -b
 Vault password: 
@@ -85,7 +85,7 @@ ubuntu_01 | SUCCESS => {
     ]
 }
 ```
--Upgrading remote centos host
+- Upgrading remote centos host
 ```bash
 $ ansible cent -m yum -a "name=* state=latest" -b
 192.168.254.50 | SUCCESS => {
@@ -97,7 +97,7 @@ $ ansible cent -m yum -a "name=* state=latest" -b
     ]
 }
 ```
-- Hostname
+- Get Hostname 
 ```bash
 $ ansible all -m shell -a "cat /etc/hostname" --ask-vault-pass
 Vault password: 
@@ -110,6 +110,39 @@ sa-cent
 ubuntu_01 | SUCCESS | rc=0 >>
 sa-ubuntu
 ```
+- Getting hosts' ip adressess
+```bash
+$ ansible all -m setup -a filter=ansible_all_ipv4* --ask-vault-pass
+Vault password: 
+178.124.206.48 | SUCCESS => {
+    "ansible_facts": {
+        "ansible_all_ipv4_addresses": [
+            "172.18.0.1", 
+            "172.17.0.1", 
+            "192.168.254.11", 
+            "172.19.0.1", 
+            "178.124.206.48"
+        ]
+    }, 
+    "changed": false
+}
+192.168.254.50 | SUCCESS => {
+    "ansible_facts": {
+        "ansible_all_ipv4_addresses": [
+            "192.168.254.50"
+        ]
+    }, 
+    "changed": false
+}
+ubuntu_01 | SUCCESS => {
+    "ansible_facts": {
+        "ansible_all_ipv4_addresses": [
+            "192.168.254.51"
+        ]
+    }, 
+    "changed": false
+}
+``` 
 
-
+#finish
 
