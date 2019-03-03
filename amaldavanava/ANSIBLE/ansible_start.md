@@ -1,5 +1,5 @@
 # Ansible Start
-- Installing Ansible on local machine
+- Installing Ansible on a local machine
 ```bash
 sudo apt-get install ansible
 sudo update-alternatives --config editor
@@ -14,10 +14,10 @@ localhost | SUCCESS => {
     "msg": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nReading extended state information...\nInitializing package states...\nWriting extended state information...\nBuilding tag database...\nNo packages will be installed, upgraded, or removed.\n0 packages upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\nNeed to get 0 B of archives. After unpacking 0 B will be used.\nWriting extended state information...\nReading package lists...\nBuilding dependency tree...\nReading state information...\nReading extended state information...\nInitializing package states...\nWriting extended state information...\nBuilding tag database...\n", 
     "stderr": "", 
 ```
-- Connect to the remote host
+- Creating ssh key for jump host and importing key on the jump host
 ```bash
- 24  ssh-keygen -t rsa -b 4096 -C "ansible_maldavanava"
- 25  ssh-copy-id -i .ssh/id_rsa.pub jump@178.124.206.48
+ssh-keygen -t rsa -b 4096 -C "ansible_maldavanava"
+ssh-copy-id -i .ssh/id_rsa.pub jump@178.124.206.48
 ```
 - ssh_config
 ```bash
@@ -28,7 +28,16 @@ Host Bastion
 Host 192.168.254.*
 	ProxyJump Bastion
 ```
-- Ansible inventory
+
+- Allowing created user "nmol" executing commands withount password (192.168.254.50/51) 
+```bash
+## Read drop-in files from /etc/sudoers.d (the # here does not mean a comment)
+#includedir /etc/sudoers.d
+%agarim ALL=(ALL) NOPASSWD: ALL
+nmol	ALL=(ALL) NOPASSWD: ALL
+```
+
+- Ansible inventory file
 ```bash
 [jump]
 178.124.206.48 ansible_user=jump
@@ -44,13 +53,7 @@ jump
 cent
 ub
 ```
-- Allow ansible user upgrade system (192.168.254.50/51) 
-```bash
-## Read drop-in files from /etc/sudoers.d (the # here does not mean a comment)
-#includedir /etc/sudoers.d
-%agarim ALL=(ALL) NOPASSWD: ALL
-nmol	ALL=(ALL) NOPASSWD: ALL
-```
+
 - Ansible graph
 ```bash
 $ ansible-inventory --graph
@@ -97,7 +100,7 @@ $ ansible cent -m yum -a "name=* state=latest" -b
     ]
 }
 ```
-- Get Hostname 
+- Get Hostnames  
 ```bash
 $ ansible all -m shell -a "cat /etc/hostname" --ask-vault-pass
 Vault password: 
@@ -143,6 +146,4 @@ ubuntu_01 | SUCCESS => {
     "changed": false
 }
 ``` 
-
-#finish
 
