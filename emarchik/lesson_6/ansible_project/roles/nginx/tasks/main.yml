@@ -1,0 +1,28 @@
+---
+# This role install WebServer "Nginx" on Linux OS
+
+- name: Install Nginx on RadHat OS Family
+  include_tasks: redhat_os_family.yml
+  when: ansible_os_family == "RedHat"
+
+- name: Install Nginx on Debian OS Family
+  include_tasks: debian_os_family.yml
+  when: ansible_os_family == "Debian"
+
+- name: Check connect by Port on WebServer
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    delay: 0
+    timeout: 5
+
+- name: Check by url by WebServer
+  uri:
+    url: http://localhost
+    return_content: yes
+  register: results_check
+
+- name: Print Results Checks
+  debug:
+    msg: "{{ results_check }}"
