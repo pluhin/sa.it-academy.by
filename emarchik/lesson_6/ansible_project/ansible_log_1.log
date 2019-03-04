@@ -1,0 +1,1101 @@
+2019-03-03 16:20:56,182 p=8147 u=zik |  ansible-playbook 2.5.1
+  config file = /home/zik/Desktop/lesson_6/ansible_project/ansible.cfg
+  configured module search path = [u'/home/zik/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python2.7/dist-packages/ansible
+  executable location = /usr/bin/ansible-playbook
+  python version = 2.7.15rc1 (default, Nov 12 2018, 14:31:15) [GCC 7.3.0]
+2019-03-03 16:20:56,182 p=8147 u=zik |  Using /home/zik/Desktop/lesson_6/ansible_project/ansible.cfg as config file
+2019-03-03 16:20:56,183 p=8147 u=zik |  [DEPRECATION WARNING]: DEFAULT_MODULE_LANG option, Modules are coded to set their own locale if needed for screenscraping . This feature will be 
+removed in version 2.9. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+2019-03-03 16:20:56,183 p=8147 u=zik |  [DEPRECATION WARNING]: DEFAULT_MODULE_SET_LOCALE option, Modules are coded to set their own locale if needed for screenscraping . This feature will 
+be removed in version 2.9. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+2019-03-03 16:20:56,649 p=8147 u=zik |  PLAYBOOK: ansible_three_task.yml *********************************************************************************************************************
+2019-03-03 16:20:56,650 p=8147 u=zik |  2 plays in ansible_three_task.yml
+2019-03-03 16:20:56,706 p=8147 u=zik |  PLAY [Create service ansible user] *******************************************************************************************************************
+2019-03-03 16:20:56,734 p=8147 u=zik |  TASK [Gathering Facts] *******************************************************************************************************************************
+2019-03-03 16:20:56,734 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:6
+2019-03-03 16:20:56,735 p=8147 u=zik |  Sunday 03 March 2019  16:20:56 +0300 (0:00:00.111)       0:00:00.111 ********** 
+2019-03-03 16:20:58,551 p=8147 u=zik |  ok: [UBUNTU_WS]
+2019-03-03 16:21:23,931 p=8147 u=zik |  ok: [CENTOS_WS]
+2019-03-03 16:21:23,961 p=8147 u=zik |  META: ran handlers
+2019-03-03 16:21:23,983 p=8147 u=zik |  TASK [Create ansible user] ***************************************************************************************************************************
+2019-03-03 16:21:23,984 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:9
+2019-03-03 16:21:23,984 p=8147 u=zik |  Sunday 03 March 2019  16:21:23 +0300 (0:00:27.249)       0:00:27.361 ********** 
+2019-03-03 16:21:24,681 p=8147 u=zik |  changed: [UBUNTU_WS] => {
+    "changed": true, 
+    "comment": "", 
+    "create_home": true, 
+    "group": 1001, 
+    "home": "/home/ansible", 
+    "name": "ansible", 
+    "shell": "/bin/bash", 
+    "state": "present", 
+    "system": false, 
+    "uid": 1001
+}
+2019-03-03 16:21:24,965 p=8147 u=zik |  changed: [CENTOS_WS] => {
+    "changed": true, 
+    "comment": "", 
+    "create_home": true, 
+    "group": 1000, 
+    "home": "/home/ansible", 
+    "name": "ansible", 
+    "shell": "/bin/bash", 
+    "state": "present", 
+    "system": false, 
+    "uid": 1000
+}
+2019-03-03 16:21:24,994 p=8147 u=zik |  TASK [Add authorized keys for User] ******************************************************************************************************************
+2019-03-03 16:21:24,995 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:15
+2019-03-03 16:21:24,995 p=8147 u=zik |  Sunday 03 March 2019  16:21:24 +0300 (0:00:01.011)       0:00:28.372 ********** 
+2019-03-03 16:21:25,651 p=8147 u=zik |  changed: [UBUNTU_WS] => {
+    "changed": true, 
+    "comment": null, 
+    "exclusive": false, 
+    "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWY0cX8PThwv3ZhOqAxhHJxeRxvp6aysNOFIug8EKibuxSILi3nkvi3GsL0aUYzbS0L8S6SyZmnu89DyqHL+aQbDMKZaI6ygi8Gs6aXR/qyxiBWbz9YtrU/W16iWbO2duYcXplG8GUEJD5qvPORvSWZvCl6rmBKGIfkyb6LEZioY1NJHe02bFtsUBlKZlFJG7nghEfGEwzuq9v2JS5iqDf0Mbp+pZ7fFBUXiRBi/Fy/tCsHgJyYuJnBkkzs/fOR6lUAzjhQYsvVfI6nE3hlXS4xzVljWcg4cKsTtlVxWoizt0dCRXlfNSHyT1VbBGEu5Vg5ab464C5qJ0FktdYyoWr zik@Book", 
+    "key_options": null, 
+    "keyfile": "/home/ansible/.ssh/authorized_keys", 
+    "manage_dir": true, 
+    "path": null, 
+    "state": "present", 
+    "unique": false, 
+    "user": "ansible", 
+    "validate_certs": true
+}
+2019-03-03 16:21:25,988 p=8147 u=zik |  changed: [CENTOS_WS] => {
+    "changed": true, 
+    "comment": null, 
+    "exclusive": false, 
+    "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWY0cX8PThwv3ZhOqAxhHJxeRxvp6aysNOFIug8EKibuxSILi3nkvi3GsL0aUYzbS0L8S6SyZmnu89DyqHL+aQbDMKZaI6ygi8Gs6aXR/qyxiBWbz9YtrU/W16iWbO2duYcXplG8GUEJD5qvPORvSWZvCl6rmBKGIfkyb6LEZioY1NJHe02bFtsUBlKZlFJG7nghEfGEwzuq9v2JS5iqDf0Mbp+pZ7fFBUXiRBi/Fy/tCsHgJyYuJnBkkzs/fOR6lUAzjhQYsvVfI6nE3hlXS4xzVljWcg4cKsTtlVxWoizt0dCRXlfNSHyT1VbBGEu5Vg5ab464C5qJ0FktdYyoWr zik@Book", 
+    "key_options": null, 
+    "keyfile": "/home/ansible/.ssh/authorized_keys", 
+    "manage_dir": true, 
+    "path": null, 
+    "state": "present", 
+    "unique": false, 
+    "user": "ansible", 
+    "validate_certs": true
+}
+2019-03-03 16:21:26,015 p=8147 u=zik |  TASK [Allow user without a password] *****************************************************************************************************************
+2019-03-03 16:21:26,015 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:21
+2019-03-03 16:21:26,016 p=8147 u=zik |  Sunday 03 March 2019  16:21:26 +0300 (0:00:01.020)       0:00:29.392 ********** 
+2019-03-03 16:21:26,554 p=8147 u=zik |  changed: [UBUNTU_WS] => {
+    "backup": "", 
+    "changed": true
+}
+
+MSG:
+
+line added
+
+2019-03-03 16:21:26,762 p=8147 u=zik |  changed: [CENTOS_WS] => {
+    "backup": "", 
+    "changed": true
+}
+
+MSG:
+
+line added
+
+2019-03-03 16:21:26,764 p=8147 u=zik |  META: ran handlers
+2019-03-03 16:21:26,765 p=8147 u=zik |  META: ran handlers
+2019-03-03 16:21:26,773 p=8147 u=zik |  PLAY [Install WebServer] *****************************************************************************************************************************
+2019-03-03 16:21:26,780 p=8147 u=zik |  META: ran handlers
+2019-03-03 16:21:26,802 p=8147 u=zik |  TASK [nginx : Install Nginx on RadHat OS Family] *****************************************************************************************************
+2019-03-03 16:21:26,802 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:4
+2019-03-03 16:21:26,802 p=8147 u=zik |  Sunday 03 March 2019  16:21:26 +0300 (0:00:00.786)       0:00:30.179 ********** 
+2019-03-03 16:21:26,859 p=8147 u=zik |  skipping: [UBUNTU_WS] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+2019-03-03 16:21:26,894 p=8147 u=zik |  included: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml for CENTOS_WS
+2019-03-03 16:21:26,920 p=8147 u=zik |  TASK [nginx : Update && Upgrade Linux Cache] *********************************************************************************************************
+2019-03-03 16:21:26,921 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:4
+2019-03-03 16:21:26,921 p=8147 u=zik |  Sunday 03 March 2019  16:21:26 +0300 (0:00:00.118)       0:00:30.297 ********** 
+2019-03-03 16:21:26,924 p=8147 u=zik |  META: noop
+2019-03-03 16:37:49,318 p=8147 u=zik |  changed: [CENTOS_WS] => {
+    "changed": true, 
+    "rc": 0, 
+    "results": [
+        "Загружены модули: fastestmirror, langpacks\nLoading mirror speeds from cached hostfile\n * base: ftp.byfly.by\n * epel: mirror.karneval.cz\n * extras: ftp.agh.edu.pl\n * updates: ftp.agh.edu.pl\nРазрешение зависимостей\n--> Проверка сценария\n---> Пакет adcli.x86_64 0:0.8.1-6.el7 помечен для обновления\n---> Пакет adcli.x86_64 0:0.8.1-6.el7_6.1 помечен как обновление\n---> Пакет ansible.noarch 0:2.4.2.0-2.el7 помечен для обновления\n---> Пакет ansible.noarch 0:2.7.8-1.el7 помечен как обновление\n--> Обработка зависимостей: python-crypto пакета: ansible-2.7.8-1.el7.noarch\n--> Обработка зависимостей: python-keyczar пакета: ansible-2.7.8-1.el7.noarch\n---> Пакет augeas-libs.x86_64 0:1.4.0-6.el7 помечен для обновления\n---> Пакет augeas-libs.x86_64 0:1.4.0-6.el7_6.1 помечен как обновление\n---> Пакет bind-libs.x86_64 32:9.9.4-72.el7 помечен для обновления\n---> Пакет bind-libs.x86_64 32:9.9.4-73.el7_6 помечен как обновление\n---> Пакет bind-libs-lite.x86_64 32:9.9.4-72.el7 помечен для обновления\n---> Пакет bind-libs-lite.x86_64 32:9.9.4-73.el7_6 помечен как обновление\n---> Пакет bind-license.noarch 32:9.9.4-72.el7 помечен для обновления\n---> Пакет bind-license.noarch 32:9.9.4-73.el7_6 помечен как обновление\n---> Пакет bind-utils.x86_64 32:9.9.4-72.el7 помечен для обновления\n---> Пакет bind-utils.x86_64 32:9.9.4-73.el7_6 помечен как обновление\n---> Пакет device-mapper.x86_64 7:1.02.149-10.el7_6.2 помечен для обновления\n---> Пакет device-mapper.x86_64 7:1.02.149-10.el7_6.3 помечен как обновление\n---> Пакет device-mapper-event.x86_64 7:1.02.149-10.el7_6.2 помечен для обновления\n---> Пакет device-mapper-event.x86_64 7:1.02.149-10.el7_6.3 помечен как обновление\n---> Пакет device-mapper-event-libs.x86_64 7:1.02.149-10.el7_6.2 помечен для обновления\n---> Пакет device-mapper-event-libs.x86_64 7:1.02.149-10.el7_6.3 помечен как обновление\n---> Пакет device-mapper-libs.x86_64 7:1.02.149-10.el7_6.2 помечен для обновления\n---> Пакет device-mapper-libs.x86_64 7:1.02.149-10.el7_6.3 помечен как обновление\n---> Пакет efivar-libs.x86_64 0:36-11.el7 помечен для обновления\n---> Пакет efivar-libs.x86_64 0:36-11.el7_6.1 помечен как обновление\n---> Пакет freetype.x86_64 0:2.8-12.el7 помечен для обновления\n---> Пакет freetype.x86_64 0:2.8-12.el7_6.1 помечен как обновление\n---> Пакет ghostscript.x86_64 0:9.07-31.el7_6.6 помечен для обновления\n---> Пакет ghostscript.x86_64 0:9.07-31.el7_6.9 помечен как обновление\n---> Пакет glibc.x86_64 0:2.17-260.el7 помечен для обновления\n---> Пакет glibc.x86_64 0:2.17-260.el7_6.3 помечен как обновление\n---> Пакет glibc-common.x86_64 0:2.17-260.el7 помечен для обновления\n---> Пакет glibc-common.x86_64 0:2.17-260.el7_6.3 помечен как обновление\n---> Пакет glibc-devel.x86_64 0:2.17-260.el7 помечен для обновления\n---> Пакет glibc-devel.x86_64 0:2.17-260.el7_6.3 помечен как обновление\n---> Пакет glibc-headers.x86_64 0:2.17-260.el7 помечен для обновления\n---> Пакет glibc-headers.x86_64 0:2.17-260.el7_6.3 помечен как обновление\n---> Пакет grub2.x86_64 1:2.02-0.76.el7.centos помечен для обновления\n---> Пакет grub2.x86_64 1:2.02-0.76.el7.centos.1 помечен как обновление\n---> Пакет grub2-common.noarch 1:2.02-0.76.el7.centos помечен для обновления\n---> Пакет grub2-common.noarch 1:2.02-0.76.el7.centos.1 помечен как обновление\n---> Пакет grub2-pc.x86_64 1:2.02-0.76.el7.centos помечен для обновления\n---> Пакет grub2-pc.x86_64 1:2.02-0.76.el7.centos.1 помечен как обновление\n---> Пакет grub2-pc-modules.noarch 1:2.02-0.76.el7.centos помечен для обновления\n---> Пакет grub2-pc-modules.noarch 1:2.02-0.76.el7.centos.1 помечен как обновление\n---> Пакет grub2-tools.x86_64 1:2.02-0.76.el7.centos помечен для обновления\n---> Пакет grub2-tools.x86_64 1:2.02-0.76.el7.centos.1 помечен как обновление\n---> Пакет grub2-tools-extra.x86_64 1:2.02-0.76.el7.centos помечен для обновления\n---> Пакет grub2-tools-extra.x86_64 1:2.02-0.76.el7.centos.1 помечен как обновление\n---> Пакет grub2-tools-minimal.x86_64 1:2.02-0.76.el7.centos помечен для обновления\n---> Пакет grub2-tools-minimal.x86_64 1:2.02-0.76.el7.centos.1 помечен как обновление\n---> Пакет ipa-client.x86_64 0:4.6.4-10.el7.centos помечен для обновления\n---> Пакет ipa-client.x86_64 0:4.6.4-10.el7.centos.2 помечен как обновление\n---> Пакет ipa-client-common.noarch 0:4.6.4-10.el7.centos помечен для обновления\n---> Пакет ipa-client-common.noarch 0:4.6.4-10.el7.centos.2 помечен как обновление\n---> Пакет ipa-common.noarch 0:4.6.4-10.el7.centos помечен для обновления\n---> Пакет ipa-common.noarch 0:4.6.4-10.el7.centos.2 помечен как обновление\n---> Пакет kernel.x86_64 0:3.10.0-957.5.1.el7 помечен для установки\n---> Пакет kernel-devel.x86_64 0:3.10.0-957.5.1.el7 помечен для установки\n---> Пакет kernel-headers.x86_64 0:3.10.0-957.1.3.el7 помечен для обновления\n---> Пакет kernel-headers.x86_64 0:3.10.0-957.5.1.el7 помечен как обновление\n---> Пакет kernel-tools.x86_64 0:3.10.0-957.1.3.el7 помечен для обновления\n---> Пакет kernel-tools.x86_64 0:3.10.0-957.5.1.el7 помечен как обновление\n---> Пакет kernel-tools-libs.x86_64 0:3.10.0-957.1.3.el7 помечен для обновления\n---> Пакет kernel-tools-libs.x86_64 0:3.10.0-957.5.1.el7 помечен как обновление\n---> Пакет krb5-libs.x86_64 0:1.15.1-34.el7 помечен для обновления\n---> Пакет krb5-libs.x86_64 0:1.15.1-37.el7_6 помечен как обновление\n---> Пакет krb5-workstation.x86_64 0:1.15.1-34.el7 помечен для обновления\n---> Пакет krb5-workstation.x86_64 0:1.15.1-37.el7_6 помечен как обновление\n---> Пакет libipa_hbac.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет libipa_hbac.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет libkadm5.x86_64 0:1.15.1-34.el7 помечен для обновления\n---> Пакет libkadm5.x86_64 0:1.15.1-37.el7_6 помечен как обновление\n---> Пакет libsss_autofs.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет libsss_autofs.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет libsss_certmap.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет libsss_certmap.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет libsss_idmap.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет libsss_idmap.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет libsss_nss_idmap.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет libsss_nss_idmap.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет libsss_sudo.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет libsss_sudo.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет lvm2.x86_64 7:2.02.180-10.el7_6.2 помечен для обновления\n---> Пакет lvm2.x86_64 7:2.02.180-10.el7_6.3 помечен как обновление\n---> Пакет lvm2-libs.x86_64 7:2.02.180-10.el7_6.2 помечен для обновления\n---> Пакет lvm2-libs.x86_64 7:2.02.180-10.el7_6.3 помечен как обновление\n---> Пакет mesa-libEGL.x86_64 0:18.0.5-3.el7 помечен для обновления\n---> Пакет mesa-libEGL.x86_64 0:18.0.5-4.el7_6 помечен как обновление\n---> Пакет mesa-libGL.x86_64 0:18.0.5-3.el7 помечен для обновления\n---> Пакет mesa-libGL.x86_64 0:18.0.5-4.el7_6 помечен как обновление\n---> Пакет mesa-libgbm.x86_64 0:18.0.5-3.el7 помечен для обновления\n---> Пакет mesa-libgbm.x86_64 0:18.0.5-4.el7_6 помечен как обновление\n---> Пакет mesa-libglapi.x86_64 0:18.0.5-3.el7 помечен для обновления\n---> Пакет mesa-libglapi.x86_64 0:18.0.5-4.el7_6 помечен как обновление\n---> Пакет mokutil.x86_64 0:15-1.el7.centos помечен для обновления\n---> Пакет mokutil.x86_64 0:15-2.el7.centos помечен как обновление\n---> Пакет nss.x86_64 0:3.36.0-7.el7_5 помечен для обновления\n---> Пакет nss.x86_64 0:3.36.0-7.1.el7_6 помечен как обновление\n---> Пакет nss-sysinit.x86_64 0:3.36.0-7.el7_5 помечен для обновления\n---> Пакет nss-sysinit.x86_64 0:3.36.0-7.1.el7_6 помечен как обновление\n---> Пакет nss-tools.x86_64 0:3.36.0-7.el7_5 помечен для обновления\n---> Пакет nss-tools.x86_64 0:3.36.0-7.1.el7_6 помечен как обновление\n---> Пакет nss-util.x86_64 0:3.36.0-1.el7_5 помечен для обновления\n---> Пакет nss-util.x86_64 0:3.36.0-1.1.el7_6 помечен как обновление\n---> Пакет openldap.x86_64 0:2.4.44-20.el7 помечен для обновления\n---> Пакет openldap.x86_64 0:2.4.44-21.el7_6 помечен как обновление\n---> Пакет perf.x86_64 0:3.10.0-957.1.3.el7 помечен для обновления\n---> Пакет perf.x86_64 0:3.10.0-957.5.1.el7 помечен как обновление\n---> Пакет perl.x86_64 4:5.16.3-293.el7 помечен для обновления\n---> Пакет perl.x86_64 4:5.16.3-294.el7_6 помечен как обновление\n---> Пакет perl-Pod-Escapes.noarch 1:1.04-293.el7 помечен для обновления\n---> Пакет perl-Pod-Escapes.noarch 1:1.04-294.el7_6 помечен как обновление\n---> Пакет perl-libs.x86_64 4:5.16.3-293.el7 помечен для обновления\n---> Пакет perl-libs.x86_64 4:5.16.3-294.el7_6 помечен как обновление\n---> Пакет perl-macros.x86_64 4:5.16.3-293.el7 помечен для обновления\n---> Пакет perl-macros.x86_64 4:5.16.3-294.el7_6 помечен как обновление\n---> Пакет policycoreutils.x86_64 0:2.5-29.el7 помечен для обновления\n---> Пакет policycoreutils.x86_64 0:2.5-29.el7_6.1 помечен как обновление\n---> Пакет policycoreutils-python.x86_64 0:2.5-29.el7 помечен для обновления\n---> Пакет policycoreutils-python.x86_64 0:2.5-29.el7_6.1 помечен как обновление\n---> Пакет python-libipa_hbac.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет python-libipa_hbac.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет python-passlib.noarch 0:1.6.5-2.el7 помечен как недействительный\n---> Пакет python-perf.x86_64 0:3.10.0-957.1.3.el7 помечен для обновления\n---> Пакет python-perf.x86_64 0:3.10.0-957.5.1.el7 помечен как обновление\n---> Пакет python-sss-murmur.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет python-sss-murmur.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет python-sssdconfig.noarch 0:1.16.2-13.el7 помечен для обновления\n---> Пакет python-sssdconfig.noarch 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет python2-ipaclient.noarch 0:4.6.4-10.el7.centos помечен для обновления\n---> Пакет python2-ipaclient.noarch 0:4.6.4-10.el7.centos.2 помечен как обновление\n---> Пакет python2-ipalib.noarch 0:4.6.4-10.el7.centos помечен для обновления\n---> Пакет python2-ipalib.noarch 0:4.6.4-10.el7.centos.2 помечен как обновление\n---> Пакет python2-passlib.noarch 0:1.7.1-1.el7 помечен для исключения\n---> Пакет selinux-policy.noarch 0:3.13.1-229.el7_6.6 помечен для обновления\n---> Пакет selinux-policy.noarch 0:3.13.1-229.el7_6.9 помечен как обновление\n---> Пакет selinux-policy-targeted.noarch 0:3.13.1-229.el7_6.6 помечен для обновления\n---> Пакет selinux-policy-targeted.noarch 0:3.13.1-229.el7_6.9 помечен как обновление\n---> Пакет sos.noarch 0:3.6-11.el7.centos помечен для обновления\n---> Пакет sos.noarch 0:3.6-13.el7.centos помечен как обновление\n---> Пакет sssd.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет sssd.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет sssd-ad.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет sssd-ad.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет sssd-client.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет sssd-client.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет sssd-common.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет sssd-common.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет sssd-common-pac.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет sssd-common-pac.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет sssd-ipa.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет sssd-ipa.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет sssd-krb5.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет sssd-krb5.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет sssd-krb5-common.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет sssd-krb5-common.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет sssd-ldap.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет sssd-ldap.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет sssd-proxy.x86_64 0:1.16.2-13.el7 помечен для обновления\n---> Пакет sssd-proxy.x86_64 0:1.16.2-13.el7_6.5 помечен как обновление\n---> Пакет systemd.x86_64 0:219-62.el7 помечен для обновления\n---> Пакет systemd.x86_64 0:219-62.el7_6.5 помечен как обновление\n---> Пакет systemd-libs.x86_64 0:219-62.el7 помечен для обновления\n---> Пакет systemd-libs.x86_64 0:219-62.el7_6.5 помечен как обновление\n---> Пакет systemd-python.x86_64 0:219-62.el7 помечен для обновления\n---> Пакет systemd-python.x86_64 0:219-62.el7_6.5 помечен как обновление\n---> Пакет systemd-sysv.x86_64 0:219-62.el7 помечен для обновления\n---> Пакет systemd-sysv.x86_64 0:219-62.el7_6.5 помечен как обновление\n---> Пакет tzdata.noarch 0:2018g-1.el7 помечен для обновления\n---> Пакет tzdata.noarch 0:2018i-1.el7 помечен как обновление\n---> Пакет tzdata-java.noarch 0:2018g-1.el7 помечен для обновления\n---> Пакет tzdata-java.noarch 0:2018i-1.el7 помечен как обновление\n--> Проверка сценария\n---> Пакет python-keyczar.noarch 0:0.71c-2.el7 помечен для установки\n---> Пакет python2-crypto.x86_64 0:2.6.1-15.el7 помечен для установки\n--> Обработка зависимостей: libtomcrypt.so.0()(64bit) пакета: python2-crypto-2.6.1-15.el7.x86_64\n--> Проверка сценария\n---> Пакет libtomcrypt.x86_64 0:1.17-26.el7 помечен для установки\n--> Обработка зависимостей: libtommath >= 0.42.0 пакета: libtomcrypt-1.17-26.el7.x86_64\n--> Обработка зависимостей: libtommath.so.0()(64bit) пакета: libtomcrypt-1.17-26.el7.x86_64\n--> Проверка сценария\n---> Пакет libtommath.x86_64 0:0.42.0-6.el7 помечен для установки\n--> Проверка зависимостей окончена\n\nЗависимости определены\n\n================================================================================\n Package                    Архитектура\n                                     Версия                     Репозиторий \n                                                                          Размер\n================================================================================\nУстановка:\n kernel                     x86_64   3.10.0-957.5.1.el7         updates    48 M\n kernel-devel               x86_64   3.10.0-957.5.1.el7         updates    17 M\n python2-passlib            noarch   1.7.1-1.el7                epel      741 k\n     замена  python-passlib.noarch 1.6.5-2.el7\nОбновление:\n adcli                      x86_64   0.8.1-6.el7_6.1            updates   110 k\n ansible                    noarch   2.7.8-1.el7                epel       11 M\n augeas-libs                x86_64   1.4.0-6.el7_6.1            updates   355 k\n bind-libs                  x86_64   32:9.9.4-73.el7_6          updates   1.0 M\n bind-libs-lite             x86_64   32:9.9.4-73.el7_6          updates   741 k\n bind-license               noarch   32:9.9.4-73.el7_6          updates    87 k\n bind-utils                 x86_64   32:9.9.4-73.el7_6          updates   206 k\n device-mapper              x86_64   7:1.02.149-10.el7_6.3      updates   292 k\n device-mapper-event        x86_64   7:1.02.149-10.el7_6.3      updates   188 k\n device-mapper-event-libs   x86_64   7:1.02.149-10.el7_6.3      updates   188 k\n device-mapper-libs         x86_64   7:1.02.149-10.el7_6.3      updates   320 k\n efivar-libs                x86_64   36-11.el7_6.1              updates    89 k\n freetype                   x86_64   2.8-12.el7_6.1             updates   380 k\n ghostscript                x86_64   9.07-31.el7_6.9            updates   4.3 M\n glibc                      x86_64   2.17-260.el7_6.3           updates   3.7 M\n glibc-common               x86_64   2.17-260.el7_6.3           updates    12 M\n glibc-devel                x86_64   2.17-260.el7_6.3           updates   1.1 M\n glibc-headers              x86_64   2.17-260.el7_6.3           updates   683 k\n grub2                      x86_64   1:2.02-0.76.el7.centos.1   updates    31 k\n grub2-common               noarch   1:2.02-0.76.el7.centos.1   updates   728 k\n grub2-pc                   x86_64   1:2.02-0.76.el7.centos.1   updates    31 k\n grub2-pc-modules           noarch   1:2.02-0.76.el7.centos.1   updates   846 k\n grub2-tools                x86_64   1:2.02-0.76.el7.centos.1   updates   1.8 M\n grub2-tools-extra          x86_64   1:2.02-0.76.el7.centos.1   updates   995 k\n grub2-tools-minimal        x86_64   1:2.02-0.76.el7.centos.1   updates   172 k\n ipa-client                 x86_64   4.6.4-10.el7.centos.2      updates   268 k\n ipa-client-common          noarch   4.6.4-10.el7.centos.2      updates   174 k\n ipa-common                 noarch   4.6.4-10.el7.centos.2      updates   599 k\n kernel-headers             x86_64   3.10.0-957.5.1.el7         updates   8.0 M\n kernel-tools               x86_64   3.10.0-957.5.1.el7         updates   7.1 M\n kernel-tools-libs          x86_64   3.10.0-957.5.1.el7         updates   7.0 M\n krb5-libs                  x86_64   1.15.1-37.el7_6            updates   803 k\n krb5-workstation           x86_64   1.15.1-37.el7_6            updates   816 k\n libipa_hbac                x86_64   1.16.2-13.el7_6.5          updates   143 k\n libkadm5                   x86_64   1.15.1-37.el7_6            updates   178 k\n libsss_autofs              x86_64   1.16.2-13.el7_6.5          updates   145 k\n libsss_certmap             x86_64   1.16.2-13.el7_6.5          updates   172 k\n libsss_idmap               x86_64   1.16.2-13.el7_6.5          updates   148 k\n libsss_nss_idmap           x86_64   1.16.2-13.el7_6.5          updates   154 k\n libsss_sudo                x86_64   1.16.2-13.el7_6.5          updates   144 k\n lvm2                       x86_64   7:2.02.180-10.el7_6.3      updates   1.3 M\n lvm2-libs                  x86_64   7:2.02.180-10.el7_6.3      updates   1.1 M\n mesa-libEGL                x86_64   18.0.5-4.el7_6             updates   102 k\n mesa-libGL                 x86_64   18.0.5-4.el7_6             updates   162 k\n mesa-libgbm                x86_64   18.0.5-4.el7_6             updates    38 k\n mesa-libglapi              x86_64   18.0.5-4.el7_6             updates    44 k\n mokutil                    x86_64   15-2.el7.centos            updates    42 k\n nss                        x86_64   3.36.0-7.1.el7_6           updates   835 k\n nss-sysinit                x86_64   3.36.0-7.1.el7_6           updates    62 k\n nss-tools                  x86_64   3.36.0-7.1.el7_6           updates   515 k\n nss-util                   x86_64   3.36.0-1.1.el7_6           updates    78 k\n openldap                   x86_64   2.4.44-21.el7_6            updates   356 k\n perf                       x86_64   3.10.0-957.5.1.el7         updates   8.5 M\n perl                       x86_64   4:5.16.3-294.el7_6         updates   8.0 M\n perl-Pod-Escapes           noarch   1:1.04-294.el7_6           updates    51 k\n perl-libs                  x86_64   4:5.16.3-294.el7_6         updates   688 k\n perl-macros                x86_64   4:5.16.3-294.el7_6         updates    44 k\n policycoreutils            x86_64   2.5-29.el7_6.1             updates   916 k\n policycoreutils-python     x86_64   2.5-29.el7_6.1             updates   456 k\n python-libipa_hbac         x86_64   1.16.2-13.el7_6.5          updates   136 k\n python-perf                x86_64   3.10.0-957.5.1.el7         updates   7.1 M\n python-sss-murmur          x86_64   1.16.2-13.el7_6.5          updates   126 k\n python-sssdconfig          noarch   1.16.2-13.el7_6.5          updates   161 k\n python2-ipaclient          noarch   4.6.4-10.el7.centos.2      updates   682 k\n python2-ipalib             noarch   4.6.4-10.el7.centos.2      updates   662 k\n selinux-policy             noarch   3.13.1-229.el7_6.9         updates   483 k\n selinux-policy-targeted    noarch   3.13.1-229.el7_6.9         updates   6.9 M\n sos                        noarch   3.6-13.el7.centos          updates   467 k\n sssd                       x86_64   1.16.2-13.el7_6.5          updates   135 k\n sssd-ad                    x86_64   1.16.2-13.el7_6.5          updates   264 k\n sssd-client                x86_64   1.16.2-13.el7_6.5          updates   202 k\n sssd-common                x86_64   1.16.2-13.el7_6.5          updates   1.4 M\n sssd-common-pac            x86_64   1.16.2-13.el7_6.5          updates   205 k\n sssd-ipa                   x86_64   1.16.2-13.el7_6.5          updates   354 k\n sssd-krb5                  x86_64   1.16.2-13.el7_6.5          updates   177 k\n sssd-krb5-common           x86_64   1.16.2-13.el7_6.5          updates   210 k\n sssd-ldap                  x86_64   1.16.2-13.el7_6.5          updates   228 k\n sssd-proxy                 x86_64   1.16.2-13.el7_6.5          updates   170 k\n systemd                    x86_64   219-62.el7_6.5             updates   5.1 M\n systemd-libs               x86_64   219-62.el7_6.5             updates   407 k\n systemd-python             x86_64   219-62.el7_6.5             updates   132 k\n systemd-sysv               x86_64   219-62.el7_6.5             updates    84 k\n tzdata                     noarch   2018i-1.el7                updates   490 k\n tzdata-java                noarch   2018i-1.el7                updates   187 k\nУстановка зависимостей:\n libtomcrypt                x86_64   1.17-26.el7                extras    224 k\n libtommath                 x86_64   0.42.0-6.el7               extras     36 k\n python-keyczar             noarch   0.71c-2.el7                epel      218 k\n python2-crypto             x86_64   2.6.1-15.el7               extras    477 k\n\nИтого за операцию\n================================================================================\nУстановить   3 пакета (+4 зависимых)\nОбновить    84 пакета\n\nОбъем загрузки: 183 M\nDownloading packages:\nDelta RPMs disabled because /usr/bin/applydeltarpm not installed.\nПубличный ключ для ansible-2.7.8-1.el7.noarch.rpm не установлен\n--------------------------------------------------------------------------------\nОбщий размер                                       358 kB/s | 183 MB  08:42     \nПолучение ключа из file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7\nRunning transaction check\nRunning transaction test\nTransaction test succeeded\nRunning transaction\n  Обновление  : 1:grub2-common-2.02-0.76.el7.centos.1.noarch              1/176 \n  Обновление  : ipa-common-4.6.4-10.el7.centos.2.noarch                   2/176 \n  Обновление  : ipa-client-common-4.6.4-10.el7.centos.2.noarch            3/176 \n  Обновление  : 32:bind-license-9.9.4-73.el7_6.noarch                     4/176 \n  Обновление  : python-sssdconfig-1.16.2-13.el7_6.5.noarch                5/176 \n  Обновление  : 1:grub2-pc-modules-2.02-0.76.el7.centos.1.noarch          6/176 \n  Обновление  : kernel-headers-3.10.0-957.5.1.el7.x86_64                  7/176 \n  Обновление  : tzdata-2018i-1.el7.noarch                                 8/176 \n  Обновление  : glibc-2.17-260.el7_6.3.x86_64                             9/176 \n  Обновление  : glibc-common-2.17-260.el7_6.3.x86_64                     10/176 \n  Обновление  : krb5-libs-1.15.1-37.el7_6.x86_64                         11/176 \n  Обновление  : systemd-libs-219-62.el7_6.5.x86_64                       12/176 \n  Обновление  : nss-util-3.36.0-1.1.el7_6.x86_64                         13/176 \n  Обновление  : systemd-219-62.el7_6.5.x86_64                            14/176 \n  Обновление  : libsss_idmap-1.16.2-13.el7_6.5.x86_64                    15/176 \n  Обновление  : policycoreutils-2.5-29.el7_6.1.x86_64                    16/176 \n  Обновление  : mesa-libglapi-18.0.5-4.el7_6.x86_64                      17/176 \n  Обновление  : 7:device-mapper-1.02.149-10.el7_6.3.x86_64               18/176 \n  Обновление  : 7:device-mapper-libs-1.02.149-10.el7_6.3.x86_64          19/176 \n  Обновление  : 7:device-mapper-event-libs-1.02.149-10.el7_6.3.x86_64    20/176 \n  Обновление  : 1:grub2-tools-minimal-2.02-0.76.el7.centos.1.x86_64      21/176 \n  Обновление  : 1:grub2-tools-2.02-0.76.el7.centos.1.x86_64              22/176 \n  Обновление  : 4:perl-macros-5.16.3-294.el7_6.x86_64                    23/176 \n  Обновление  : 4:perl-libs-5.16.3-294.el7_6.x86_64                      24/176 \n  Обновление  : 4:perl-5.16.3-294.el7_6.x86_64                           25/176 \n  Обновление  : libipa_hbac-1.16.2-13.el7_6.5.x86_64                     26/176 \n  Обновление  : freetype-2.8-12.el7_6.1.x86_64                           27/176 \n  Обновление  : libsss_autofs-1.16.2-13.el7_6.5.x86_64                   28/176 \n  Обновление  : 1:grub2-tools-extra-2.02-0.76.el7.centos.1.x86_64        29/176 \n  Обновление  : 1:grub2-pc-2.02-0.76.el7.centos.1.x86_64                 30/176 \n  Обновление  : python-libipa_hbac-1.16.2-13.el7_6.5.x86_64              31/176 \n  Обновление  : 7:device-mapper-event-1.02.149-10.el7_6.3.x86_64         32/176 \n  Обновление  : 7:lvm2-libs-2.02.180-10.el7_6.3.x86_64                   33/176 \n  Обновление  : mesa-libgbm-18.0.5-4.el7_6.x86_64                        34/176 \n  Обновление  : selinux-policy-3.13.1-229.el7_6.9.noarch                 35/176 \n  Обновление  : nss-3.36.0-7.1.el7_6.x86_64                              36/176 \n  Обновление  : nss-sysinit-3.36.0-7.1.el7_6.x86_64                      37/176 \n  Обновление  : libsss_certmap-1.16.2-13.el7_6.5.x86_64                  38/176 \n  Обновление  : nss-tools-3.36.0-7.1.el7_6.x86_64                        39/176 \n  Обновление  : openldap-2.4.44-21.el7_6.x86_64                          40/176 \n  Обновление  : libkadm5-1.15.1-37.el7_6.x86_64                          41/176 \n  Обновление  : krb5-workstation-1.15.1-37.el7_6.x86_64                  42/176 \n  Обновление  : 32:bind-libs-9.9.4-73.el7_6.x86_64                       43/176 \n  Обновление  : 32:bind-utils-9.9.4-73.el7_6.x86_64                      44/176 \n  Обновление  : glibc-headers-2.17-260.el7_6.3.x86_64                    45/176 \n  Обновление  : kernel-tools-libs-3.10.0-957.5.1.el7.x86_64              46/176 \n  Обновление  : libsss_sudo-1.16.2-13.el7_6.5.x86_64                     47/176 \n  Обновление  : python-sss-murmur-1.16.2-13.el7_6.5.x86_64               48/176 \n  Обновление  : python2-ipalib-4.6.4-10.el7.centos.2.noarch              49/176 \n  Обновление  : python2-ipaclient-4.6.4-10.el7.centos.2.noarch           50/176 \n  Обновление  : libsss_nss_idmap-1.16.2-13.el7_6.5.x86_64                51/176 \n  Обновление  : sssd-client-1.16.2-13.el7_6.5.x86_64                     52/176 \n  Обновление  : sssd-common-1.16.2-13.el7_6.5.x86_64                     53/176 \n  Обновление  : sssd-krb5-common-1.16.2-13.el7_6.5.x86_64                54/176 \n  Обновление  : sssd-common-pac-1.16.2-13.el7_6.5.x86_64                 55/176 \n  Обновление  : sssd-ipa-1.16.2-13.el7_6.5.x86_64                        56/176 \n  Обновление  : sssd-ad-1.16.2-13.el7_6.5.x86_64                         57/176 \n  Обновление  : sssd-krb5-1.16.2-13.el7_6.5.x86_64                       58/176 \n  Обновление  : sssd-ldap-1.16.2-13.el7_6.5.x86_64                       59/176 \n  Обновление  : sssd-proxy-1.16.2-13.el7_6.5.x86_64                      60/176 \n  Обновление  : sssd-1.16.2-13.el7_6.5.x86_64                            61/176 \n  Обновление  : efivar-libs-36-11.el7_6.1.x86_64                         62/176 \n  Установка   : libtommath-0.42.0-6.el7.x86_64                           63/176 \n  Установка   : libtomcrypt-1.17-26.el7.x86_64                           64/176 \n  Установка   : python2-crypto-2.6.1-15.el7.x86_64                       65/176 \n  Установка   : python-keyczar-0.71c-2.el7.noarch                        66/176 \n  Обновление  : ansible-2.7.8-1.el7.noarch                               67/176 \n  Обновление  : mokutil-15-2.el7.centos.x86_64                           68/176 \n  Обновление  : ipa-client-4.6.4-10.el7.centos.2.x86_64                  69/176 \n  Обновление  : kernel-tools-3.10.0-957.5.1.el7.x86_64                   70/176 \n  Обновление  : glibc-devel-2.17-260.el7_6.3.x86_64                      71/176 \n  Обновление  : adcli-0.8.1-6.el7_6.1.x86_64                             72/176 \n  Обновление  : selinux-policy-targeted-3.13.1-229.el7_6.9.noarch        73/176 \n  Обновление  : mesa-libEGL-18.0.5-4.el7_6.x86_64                        74/176 \n  Обновление  : 7:lvm2-2.02.180-10.el7_6.3.x86_64                        75/176 \n  Обновление  : 1:grub2-2.02-0.76.el7.centos.1.x86_64                    76/176 \n  Обновление  : ghostscript-9.07-31.el7_6.9.x86_64                       77/176 \n  Обновление  : 1:perl-Pod-Escapes-1.04-294.el7_6.noarch                 78/176 \n  Установка   : kernel-devel-3.10.0-957.5.1.el7.x86_64                   79/176 \n  Обновление  : perf-3.10.0-957.5.1.el7.x86_64                           80/176 \n  Обновление  : mesa-libGL-18.0.5-4.el7_6.x86_64                         81/176 \n  Обновление  : policycoreutils-python-2.5-29.el7_6.1.x86_64             82/176 \n  Обновление  : systemd-python-219-62.el7_6.5.x86_64                     83/176 \n  Обновление  : systemd-sysv-219-62.el7_6.5.x86_64                       84/176 \n  Обновление  : 32:bind-libs-lite-9.9.4-73.el7_6.x86_64                  85/176 \n  Обновление  : python-perf-3.10.0-957.5.1.el7.x86_64                    86/176 \n  Обновление  : augeas-libs-1.4.0-6.el7_6.1.x86_64                       87/176 \n  Установка   : kernel-3.10.0-957.5.1.el7.x86_64                         88/176 \n  Обновление  : tzdata-java-2018i-1.el7.noarch                           89/176 \n  Установка   : python2-passlib-1.7.1-1.el7.noarch                       90/176 \n  Обновление  : sos-3.6-13.el7.centos.noarch                             91/176 \n  Очистка     : ipa-client-4.6.4-10.el7.centos.x86_64                    92/176 \n  Очистка     : 7:lvm2-2.02.180-10.el7_6.2.x86_64                        93/176 \n  Очистка     : sssd-1.16.2-13.el7.x86_64                                94/176 \n  Очистка     : sssd-ipa-1.16.2-13.el7.x86_64                            95/176 \n  Очистка     : sssd-ad-1.16.2-13.el7.x86_64                             96/176 \n  Очистка     : sssd-ldap-1.16.2-13.el7.x86_64                           97/176 \n  Очистка     : sssd-common-pac-1.16.2-13.el7.x86_64                     98/176 \n  Очистка     : sssd-krb5-1.16.2-13.el7.x86_64                           99/176 \n  Очистка     : sssd-proxy-1.16.2-13.el7.x86_64                         100/176 \n  Очистка     : 32:bind-utils-9.9.4-72.el7.x86_64                       101/176 \n  Очистка     : 7:lvm2-libs-2.02.180-10.el7_6.2.x86_64                  102/176 \n  Очистка     : 7:device-mapper-event-1.02.149-10.el7_6.2.x86_64        103/176 \n  Очистка     : sssd-krb5-common-1.16.2-13.el7.x86_64                   104/176 \n  Очистка     : sssd-common-1.16.2-13.el7.x86_64                        105/176 \n  Очистка     : libsss_certmap-1.16.2-13.el7.x86_64                     106/176 \n  Очистка     : sssd-client-1.16.2-13.el7.x86_64                        107/176 \n  Очистка     : krb5-workstation-1.15.1-34.el7.x86_64                   108/176 \n  Очистка     : mesa-libEGL-18.0.5-3.el7.x86_64                         109/176 \n  Очистка     : perf-3.10.0-957.1.3.el7.x86_64                          110/176 \n  Очистка     : libkadm5-1.15.1-34.el7.x86_64                           111/176 \n  Очистка     : 32:bind-libs-9.9.4-72.el7.x86_64                        112/176 \n  Очистка     : mesa-libGL-18.0.5-3.el7.x86_64                          113/176 \n  Очистка     : 32:bind-libs-lite-9.9.4-72.el7.x86_64                   114/176 \n  Очистка     : systemd-python-219-62.el7.x86_64                        115/176 \n  Очистка     : python2-ipaclient-4.6.4-10.el7.centos.noarch            116/176 \n  Очистка     : python2-ipalib-4.6.4-10.el7.centos.noarch               117/176 \n  Очистка     : glibc-devel-2.17-260.el7.x86_64                         118/176 \n  Очистка     : glibc-headers-2.17-260.el7.x86_64                       119/176 \n  Очистка     : selinux-policy-targeted-3.13.1-229.el7_6.6.noarch       120/176 \n  Очистка     : selinux-policy-3.13.1-229.el7_6.6.noarch                121/176 \n  Очистка     : 1:grub2-2.02-0.76.el7.centos.x86_64                     122/176 \n  Очистка     : 1:grub2-pc-2.02-0.76.el7.centos.x86_64                  123/176 \n  Очистка     : 1:grub2-pc-modules-2.02-0.76.el7.centos.noarch          124/176 \n  Очистка     : ansible-2.4.2.0-2.el7.noarch                            125/176 \n  Очистка     : systemd-sysv-219-62.el7.x86_64                          126/176 \n  Очистка     : 1:perl-Pod-Escapes-1.04-293.el7.noarch                  127/176 \n  Очистка     : 1:grub2-tools-extra-2.02-0.76.el7.centos.x86_64         128/176 \n  Очистка     : 4:perl-libs-5.16.3-293.el7.x86_64                       129/176 \n  Очистка     : 4:perl-macros-5.16.3-293.el7.x86_64                     130/176 \n  Очистка     : 4:perl-5.16.3-293.el7.x86_64                            131/176 \n  Очистка     : 1:grub2-tools-2.02-0.76.el7.centos.x86_64               132/176 \n  Очистка     : 1:grub2-tools-minimal-2.02-0.76.el7.centos.x86_64       133/176 \n  Очистка     : adcli-0.8.1-6.el7.x86_64                                134/176 \n  Очистка     : openldap-2.4.44-20.el7.x86_64                           135/176 \n  Очистка     : nss-tools-3.36.0-7.el7_5.x86_64                         136/176 \n  Очистка     : nss-sysinit-3.36.0-7.el7_5.x86_64                       137/176 \n  Очистка     : nss-3.36.0-7.el7_5.x86_64                               138/176 \n  Очистка     : kernel-tools-3.10.0-957.1.3.el7.x86_64                  139/176 \n  Очистка     : ghostscript-9.07-31.el7_6.6.x86_64                      140/176 \n  Очистка     : python-libipa_hbac-1.16.2-13.el7.x86_64                 141/176 \n  Очистка     : mesa-libgbm-18.0.5-3.el7.x86_64                         142/176 \n  Очистка     : 7:device-mapper-event-libs-1.02.149-10.el7_6.2.x86_64   143/176 \n  Очистка     : 7:device-mapper-1.02.149-10.el7_6.2.x86_64              144/176 \n  Очистка     : 7:device-mapper-libs-1.02.149-10.el7_6.2.x86_64         145/176 \n  Очистка     : systemd-219-62.el7.x86_64                               146/176 \n  Очистка     : policycoreutils-python-2.5-29.el7.x86_64                147/176 \n  Очистка     : mokutil-15-1.el7.centos.x86_64                          148/176 \n  Очистка     : efivar-libs-36-11.el7.x86_64                            149/176 \n  Очистка     : policycoreutils-2.5-29.el7.x86_64                       150/176 \n  Очистка     : systemd-libs-219-62.el7.x86_64                          151/176 \n  Очистка     : mesa-libglapi-18.0.5-3.el7.x86_64                       152/176 \n  Очистка     : libipa_hbac-1.16.2-13.el7.x86_64                        153/176 \n  Очистка     : freetype-2.8-12.el7.x86_64                              154/176 \n  Очистка     : krb5-libs-1.15.1-34.el7.x86_64                          155/176 \n  Очистка     : kernel-tools-libs-3.10.0-957.1.3.el7.x86_64             156/176 \n  Очистка     : nss-util-3.36.0-1.el7_5.x86_64                          157/176 \n  Очистка     : python-sss-murmur-1.16.2-13.el7.x86_64                  158/176 \n  Очистка     : libsss_idmap-1.16.2-13.el7.x86_64                       159/176 \n  Очистка     : libsss_nss_idmap-1.16.2-13.el7.x86_64                   160/176 \n  Очистка     : libsss_autofs-1.16.2-13.el7.x86_64                      161/176 \n  Очистка     : libsss_sudo-1.16.2-13.el7.x86_64                        162/176 \n  Очистка     : augeas-libs-1.4.0-6.el7.x86_64                          163/176 \n  Очистка     : python-perf-3.10.0-957.1.3.el7.x86_64                   164/176 \n  Очистка     : 1:grub2-common-2.02-0.76.el7.centos.noarch              165/176 \n  Удаление    : python-passlib-1.6.5-2.el7.noarch                       166/176 \n  Очистка     : kernel-headers-3.10.0-957.1.3.el7.x86_64                167/176 \n  Очистка     : ipa-common-4.6.4-10.el7.centos.noarch                   168/176 \n  Очистка     : ipa-client-common-4.6.4-10.el7.centos.noarch            169/176 \n  Очистка     : 32:bind-license-9.9.4-72.el7.noarch                     170/176 \n  Очистка     : python-sssdconfig-1.16.2-13.el7.noarch                  171/176 \n  Очистка     : tzdata-java-2018g-1.el7.noarch                          172/176 \n  Очистка     : sos-3.6-11.el7.centos.noarch                            173/176 \n  Очистка     : glibc-common-2.17-260.el7.x86_64                        174/176 \n  Очистка     : glibc-2.17-260.el7.x86_64                               175/176 \n  Очистка     : tzdata-2018g-1.el7.noarch                               176/176 \nVirtualBox Guest Additions: Building the VirtualBox Guest Additions kernel modules.  This may take a while.\ngrep: Непарная ) или \\)\nVirtualBox Guest Additions: Look at /var/log/vboxadd-setup.log to find out what went wrong\n  Проверка    : python-keyczar-0.71c-2.el7.noarch                         1/176 \n  Проверка    : python-perf-3.10.0-957.5.1.el7.x86_64                     2/176 \n  Проверка    : libsss_idmap-1.16.2-13.el7_6.5.x86_64                     3/176 \n  Проверка    : mesa-libgbm-18.0.5-4.el7_6.x86_64                         4/176 \n  Проверка    : 1:grub2-common-2.02-0.76.el7.centos.1.noarch              5/176 \n  Проверка    : 7:device-mapper-libs-1.02.149-10.el7_6.3.x86_64           6/176 \n  Проверка    : ipa-common-4.6.4-10.el7.centos.2.noarch                   7/176 \n  Проверка    : 32:bind-utils-9.9.4-73.el7_6.x86_64                       8/176 \n  Проверка    : python2-ipaclient-4.6.4-10.el7.centos.2.noarch            9/176 \n  Проверка    : systemd-python-219-62.el7_6.5.x86_64                     10/176 \n  Проверка    : selinux-policy-3.13.1-229.el7_6.9.noarch                 11/176 \n  Проверка    : selinux-policy-targeted-3.13.1-229.el7_6.9.noarch        12/176 \n  Проверка    : 1:perl-Pod-Escapes-1.04-294.el7_6.noarch                 13/176 \n  Проверка    : glibc-devel-2.17-260.el7_6.3.x86_64                      14/176 \n  Проверка    : python-libipa_hbac-1.16.2-13.el7_6.5.x86_64              15/176 \n  Проверка    : glibc-headers-2.17-260.el7_6.3.x86_64                    16/176 \n  Проверка    : kernel-tools-libs-3.10.0-957.5.1.el7.x86_64              17/176 \n  Проверка    : augeas-libs-1.4.0-6.el7_6.1.x86_64                       18/176 \n  Проверка    : 1:grub2-pc-2.02-0.76.el7.centos.1.x86_64                 19/176 \n  Проверка    : krb5-workstation-1.15.1-37.el7_6.x86_64                  20/176 \n  Проверка    : libsss_sudo-1.16.2-13.el7_6.5.x86_64                     21/176 \n  Проверка    : kernel-devel-3.10.0-957.5.1.el7.x86_64                   22/176 \n  Проверка    : sssd-proxy-1.16.2-13.el7_6.5.x86_64                      23/176 \n  Проверка    : krb5-libs-1.15.1-37.el7_6.x86_64                         24/176 \n  Проверка    : 4:perl-libs-5.16.3-294.el7_6.x86_64                      25/176 \n  Проверка    : nss-sysinit-3.36.0-7.1.el7_6.x86_64                      26/176 \n  Проверка    : sssd-ipa-1.16.2-13.el7_6.5.x86_64                        27/176 \n  Проверка    : systemd-libs-219-62.el7_6.5.x86_64                       28/176 \n  Проверка    : nss-3.36.0-7.1.el7_6.x86_64                              29/176 \n  Проверка    : 1:grub2-tools-2.02-0.76.el7.centos.1.x86_64              30/176 \n  Проверка    : 7:device-mapper-event-libs-1.02.149-10.el7_6.3.x86_64    31/176 \n  Проверка    : tzdata-2018i-1.el7.noarch                                32/176 \n  Проверка    : python-sss-murmur-1.16.2-13.el7_6.5.x86_64               33/176 \n  Проверка    : 7:device-mapper-1.02.149-10.el7_6.3.x86_64               34/176 \n  Проверка    : 7:device-mapper-event-1.02.149-10.el7_6.3.x86_64         35/176 \n  Проверка    : systemd-sysv-219-62.el7_6.5.x86_64                       36/176 \n  Проверка    : 1:grub2-tools-extra-2.02-0.76.el7.centos.1.x86_64        37/176 \n  Проверка    : mokutil-15-2.el7.centos.x86_64                           38/176 \n  Проверка    : libkadm5-1.15.1-37.el7_6.x86_64                          39/176 \n  Проверка    : sssd-krb5-1.16.2-13.el7_6.5.x86_64                       40/176 \n  Проверка    : ipa-client-4.6.4-10.el7.centos.2.x86_64                  41/176 \n  Проверка    : perf-3.10.0-957.5.1.el7.x86_64                           42/176 \n  Проверка    : sssd-krb5-common-1.16.2-13.el7_6.5.x86_64                43/176 \n  Проверка    : ghostscript-9.07-31.el7_6.9.x86_64                       44/176 \n  Проверка    : 7:lvm2-libs-2.02.180-10.el7_6.3.x86_64                   45/176 \n  Проверка    : libipa_hbac-1.16.2-13.el7_6.5.x86_64                     46/176 \n  Проверка    : ansible-2.7.8-1.el7.noarch                               47/176 \n  Проверка    : sos-3.6-13.el7.centos.noarch                             48/176 \n  Проверка    : sssd-ldap-1.16.2-13.el7_6.5.x86_64                       49/176 \n  Проверка    : kernel-tools-3.10.0-957.5.1.el7.x86_64                   50/176 \n  Проверка    : 1:grub2-2.02-0.76.el7.centos.1.x86_64                    51/176 \n  Проверка    : python-sssdconfig-1.16.2-13.el7_6.5.noarch               52/176 \n  Проверка    : policycoreutils-2.5-29.el7_6.1.x86_64                    53/176 \n  Проверка    : nss-tools-3.36.0-7.1.el7_6.x86_64                        54/176 \n  Проверка    : 7:lvm2-2.02.180-10.el7_6.3.x86_64                        55/176 \n  Проверка    : 4:perl-5.16.3-294.el7_6.x86_64                           56/176 \n  Проверка    : python2-passlib-1.7.1-1.el7.noarch                       57/176 \n  Проверка    : systemd-219-62.el7_6.5.x86_64                            58/176 \n  Проверка    : policycoreutils-python-2.5-29.el7_6.1.x86_64             59/176 \n  Проверка    : sssd-common-pac-1.16.2-13.el7_6.5.x86_64                 60/176 \n  Проверка    : sssd-1.16.2-13.el7_6.5.x86_64                            61/176 \n  Проверка    : glibc-common-2.17-260.el7_6.3.x86_64                     62/176 \n  Проверка    : 32:bind-libs-9.9.4-73.el7_6.x86_64                       63/176 \n  Проверка    : 1:grub2-tools-minimal-2.02-0.76.el7.centos.1.x86_64      64/176 \n  Проверка    : freetype-2.8-12.el7_6.1.x86_64                           65/176 \n  Проверка    : tzdata-java-2018i-1.el7.noarch                           66/176 \n  Проверка    : mesa-libglapi-18.0.5-4.el7_6.x86_64                      67/176 \n  Проверка    : adcli-0.8.1-6.el7_6.1.x86_64                             68/176 \n  Проверка    : libsss_certmap-1.16.2-13.el7_6.5.x86_64                  69/176 \n  Проверка    : sssd-common-1.16.2-13.el7_6.5.x86_64                     70/176 \n  Проверка    : 32:bind-license-9.9.4-73.el7_6.noarch                    71/176 \n  Проверка    : libsss_autofs-1.16.2-13.el7_6.5.x86_64                   72/176 \n  Проверка    : kernel-headers-3.10.0-957.5.1.el7.x86_64                 73/176 \n  Проверка    : nss-util-3.36.0-1.1.el7_6.x86_64                         74/176 \n  Проверка    : kernel-3.10.0-957.5.1.el7.x86_64                         75/176 \n  Проверка    : 32:bind-libs-lite-9.9.4-73.el7_6.x86_64                  76/176 \n  Проверка    : mesa-libGL-18.0.5-4.el7_6.x86_64                         77/176 \n  Проверка    : 4:perl-macros-5.16.3-294.el7_6.x86_64                    78/176 \n  Проверка    : mesa-libEGL-18.0.5-4.el7_6.x86_64                        79/176 \n  Проверка    : sssd-client-1.16.2-13.el7_6.5.x86_64                     80/176 \n  Проверка    : python2-ipalib-4.6.4-10.el7.centos.2.noarch              81/176 \n  Проверка    : libsss_nss_idmap-1.16.2-13.el7_6.5.x86_64                82/176 \n  Проверка    : openldap-2.4.44-21.el7_6.x86_64                          83/176 \n  Проверка    : glibc-2.17-260.el7_6.3.x86_64                            84/176 \n  Проверка    : sssd-ad-1.16.2-13.el7_6.5.x86_64                         85/176 \n  Проверка    : ipa-client-common-4.6.4-10.el7.centos.2.noarch           86/176 \n  Проверка    : efivar-libs-36-11.el7_6.1.x86_64                         87/176 \n  Проверка    : libtommath-0.42.0-6.el7.x86_64                           88/176 \n  Проверка    : python2-crypto-2.6.1-15.el7.x86_64                       89/176 \n  Проверка    : 1:grub2-pc-modules-2.02-0.76.el7.centos.1.noarch         90/176 \n  Проверка    : libtomcrypt-1.17-26.el7.x86_64                           91/176 \n  Проверка    : adcli-0.8.1-6.el7.x86_64                                 92/176 \n  Проверка    : selinux-policy-3.13.1-229.el7_6.6.noarch                 93/176 \n  Проверка    : 1:grub2-pc-2.02-0.76.el7.centos.x86_64                   94/176 \n  Проверка    : 1:grub2-pc-modules-2.02-0.76.el7.centos.noarch           95/176 \n  Проверка    : libsss_idmap-1.16.2-13.el7.x86_64                        96/176 \n  Проверка    : mokutil-15-1.el7.centos.x86_64                           97/176 \n  Проверка    : sssd-ldap-1.16.2-13.el7.x86_64                           98/176 \n  Проверка    : freetype-2.8-12.el7.x86_64                               99/176 \n  Проверка    : efivar-libs-36-11.el7.x86_64                            100/176 \n  Проверка    : mesa-libgbm-18.0.5-3.el7.x86_64                         101/176 \n  Проверка    : 1:grub2-tools-extra-2.02-0.76.el7.centos.x86_64         102/176 \n  Проверка    : 32:bind-license-9.9.4-72.el7.noarch                     103/176 \n  Проверка    : policycoreutils-2.5-29.el7.x86_64                       104/176 \n  Проверка    : systemd-libs-219-62.el7.x86_64                          105/176 \n  Проверка    : 1:perl-Pod-Escapes-1.04-293.el7.noarch                  106/176 \n  Проверка    : libipa_hbac-1.16.2-13.el7.x86_64                        107/176 \n  Проверка    : nss-sysinit-3.36.0-7.el7_5.x86_64                       108/176 \n  Проверка    : krb5-libs-1.15.1-34.el7.x86_64                          109/176 \n  Проверка    : ansible-2.4.2.0-2.el7.noarch                            110/176 \n  Проверка    : libsss_certmap-1.16.2-13.el7.x86_64                     111/176 \n  Проверка    : sssd-common-1.16.2-13.el7.x86_64                        112/176 \n  Проверка    : tzdata-java-2018g-1.el7.noarch                          113/176 \n  Проверка    : libsss_autofs-1.16.2-13.el7.x86_64                      114/176 \n  Проверка    : 4:perl-libs-5.16.3-293.el7.x86_64                       115/176 \n  Проверка    : perf-3.10.0-957.1.3.el7.x86_64                          116/176 \n  Проверка    : krb5-workstation-1.15.1-34.el7.x86_64                   117/176 \n  Проверка    : kernel-tools-3.10.0-957.1.3.el7.x86_64                  118/176 \n  Проверка    : 1:grub2-tools-2.02-0.76.el7.centos.x86_64               119/176 \n  Проверка    : 4:perl-macros-5.16.3-293.el7.x86_64                     120/176 \n  Проверка    : nss-util-3.36.0-1.el7_5.x86_64                          121/176 \n  Проверка    : 7:lvm2-libs-2.02.180-10.el7_6.2.x86_64                  122/176 \n  Проверка    : python-libipa_hbac-1.16.2-13.el7.x86_64                 123/176 \n  Проверка    : ipa-common-4.6.4-10.el7.centos.noarch                   124/176 \n  Проверка    : mesa-libglapi-18.0.5-3.el7.x86_64                       125/176 \n  Проверка    : sssd-ipa-1.16.2-13.el7.x86_64                           126/176 \n  Проверка    : systemd-219-62.el7.x86_64                               127/176 \n  Проверка    : nss-tools-3.36.0-7.el7_5.x86_64                         128/176 \n  Проверка    : augeas-libs-1.4.0-6.el7.x86_64                          129/176 \n  Проверка    : libsss_sudo-1.16.2-13.el7.x86_64                        130/176 \n  Проверка    : selinux-policy-targeted-3.13.1-229.el7_6.6.noarch       131/176 \n  Проверка    : 1:grub2-2.02-0.76.el7.centos.x86_64                     132/176 \n  Проверка    : 1:grub2-common-2.02-0.76.el7.centos.noarch              133/176 \n  Проверка    : sssd-proxy-1.16.2-13.el7.x86_64                         134/176 \n  Проверка    : sssd-krb5-1.16.2-13.el7.x86_64                          135/176 \n  Проверка    : ipa-client-common-4.6.4-10.el7.centos.noarch            136/176 \n  Проверка    : kernel-tools-libs-3.10.0-957.1.3.el7.x86_64             137/176 \n  Проверка    : policycoreutils-python-2.5-29.el7.x86_64                138/176 \n  Проверка    : 1:grub2-tools-minimal-2.02-0.76.el7.centos.x86_64       139/176 \n  Проверка    : mesa-libGL-18.0.5-3.el7.x86_64                          140/176 \n  Проверка    : 7:device-mapper-event-libs-1.02.149-10.el7_6.2.x86_64   141/176 \n  Проверка    : ghostscript-9.07-31.el7_6.6.x86_64                      142/176 \n  Проверка    : openldap-2.4.44-20.el7.x86_64                           143/176 \n  Проверка    : 7:device-mapper-event-1.02.149-10.el7_6.2.x86_64        144/176 \n  Проверка    : glibc-2.17-260.el7.x86_64                               145/176 \n  Проверка    : python-perf-3.10.0-957.1.3.el7.x86_64                   146/176 \n  Проверка    : python-sss-murmur-1.16.2-13.el7.x86_64                  147/176 \n  Проверка    : 7:device-mapper-1.02.149-10.el7_6.2.x86_64              148/176 \n  Проверка    : 32:bind-libs-lite-9.9.4-72.el7.x86_64                   149/176 \n  Проверка    : 32:bind-utils-9.9.4-72.el7.x86_64                       150/176 \n  Проверка    : python2-ipalib-4.6.4-10.el7.centos.noarch               151/176 \n  Проверка    : sssd-ad-1.16.2-13.el7.x86_64                            152/176 \n  Проверка    : glibc-devel-2.17-260.el7.x86_64                         153/176 \n  Проверка    : kernel-headers-3.10.0-957.1.3.el7.x86_64                154/176 \n  Проверка    : mesa-libEGL-18.0.5-3.el7.x86_64                         155/176 \n  Проверка    : python2-ipaclient-4.6.4-10.el7.centos.noarch            156/176 \n  Проверка    : tzdata-2018g-1.el7.noarch                               157/176 \n  Проверка    : systemd-python-219-62.el7.x86_64                        158/176 \n  Проверка    : ipa-client-4.6.4-10.el7.centos.x86_64                   159/176 \n  Проверка    : sssd-common-pac-1.16.2-13.el7.x86_64                    160/176 \n  Проверка    : systemd-sysv-219-62.el7.x86_64                          161/176 \n  Проверка    : 32:bind-libs-9.9.4-72.el7.x86_64                        162/176 \n  Проверка    : libsss_nss_idmap-1.16.2-13.el7.x86_64                   163/176 \n  Проверка    : nss-3.36.0-7.el7_5.x86_64                               164/176 \n  Проверка    : 7:lvm2-2.02.180-10.el7_6.2.x86_64                       165/176 \n  Проверка    : sos-3.6-11.el7.centos.noarch                            166/176 \n  Проверка    : sssd-krb5-common-1.16.2-13.el7.x86_64                   167/176 \n  Проверка    : python-passlib-1.6.5-2.el7.noarch                       168/176 \n  Проверка    : libkadm5-1.15.1-34.el7.x86_64                           169/176 \n  Проверка    : glibc-common-2.17-260.el7.x86_64                        170/176 \n  Проверка    : sssd-client-1.16.2-13.el7.x86_64                        171/176 \n  Проверка    : python-sssdconfig-1.16.2-13.el7.noarch                  172/176 \n  Проверка    : 7:device-mapper-libs-1.02.149-10.el7_6.2.x86_64         173/176 \n  Проверка    : 4:perl-5.16.3-293.el7.x86_64                            174/176 \n  Проверка    : glibc-headers-2.17-260.el7.x86_64                       175/176 \n  Проверка    : sssd-1.16.2-13.el7.x86_64                               176/176 \n\nУстановлено:\n  kernel.x86_64 0:3.10.0-957.5.1.el7   kernel-devel.x86_64 0:3.10.0-957.5.1.el7\n  python2-passlib.noarch 0:1.7.1-1.el7\n\nУстановлены зависимости:\n  libtomcrypt.x86_64 0:1.17-26.el7       libtommath.x86_64 0:0.42.0-6.el7       \n  python-keyczar.noarch 0:0.71c-2.el7    python2-crypto.x86_64 0:2.6.1-15.el7   \n\nОбновлено:\n  adcli.x86_64 0:0.8.1-6.el7_6.1                                                \n  ansible.noarch 0:2.7.8-1.el7                                                  \n  augeas-libs.x86_64 0:1.4.0-6.el7_6.1                                          \n  bind-libs.x86_64 32:9.9.4-73.el7_6                                            \n  bind-libs-lite.x86_64 32:9.9.4-73.el7_6                                       \n  bind-license.noarch 32:9.9.4-73.el7_6                                         \n  bind-utils.x86_64 32:9.9.4-73.el7_6                                           \n  device-mapper.x86_64 7:1.02.149-10.el7_6.3                                    \n  device-mapper-event.x86_64 7:1.02.149-10.el7_6.3                              \n  device-mapper-event-libs.x86_64 7:1.02.149-10.el7_6.3                         \n  device-mapper-libs.x86_64 7:1.02.149-10.el7_6.3                               \n  efivar-libs.x86_64 0:36-11.el7_6.1                                            \n  freetype.x86_64 0:2.8-12.el7_6.1                                              \n  ghostscript.x86_64 0:9.07-31.el7_6.9                                          \n  glibc.x86_64 0:2.17-260.el7_6.3                                               \n  glibc-common.x86_64 0:2.17-260.el7_6.3                                        \n  glibc-devel.x86_64 0:2.17-260.el7_6.3                                         \n  glibc-headers.x86_64 0:2.17-260.el7_6.3                                       \n  grub2.x86_64 1:2.02-0.76.el7.centos.1                                         \n  grub2-common.noarch 1:2.02-0.76.el7.centos.1                                  \n  grub2-pc.x86_64 1:2.02-0.76.el7.centos.1                                      \n  grub2-pc-modules.noarch 1:2.02-0.76.el7.centos.1                              \n  grub2-tools.x86_64 1:2.02-0.76.el7.centos.1                                   \n  grub2-tools-extra.x86_64 1:2.02-0.76.el7.centos.1                             \n  grub2-tools-minimal.x86_64 1:2.02-0.76.el7.centos.1                           \n  ipa-client.x86_64 0:4.6.4-10.el7.centos.2                                     \n  ipa-client-common.noarch 0:4.6.4-10.el7.centos.2                              \n  ipa-common.noarch 0:4.6.4-10.el7.centos.2                                     \n  kernel-headers.x86_64 0:3.10.0-957.5.1.el7                                    \n  kernel-tools.x86_64 0:3.10.0-957.5.1.el7                                      \n  kernel-tools-libs.x86_64 0:3.10.0-957.5.1.el7                                 \n  krb5-libs.x86_64 0:1.15.1-37.el7_6                                            \n  krb5-workstation.x86_64 0:1.15.1-37.el7_6                                     \n  libipa_hbac.x86_64 0:1.16.2-13.el7_6.5                                        \n  libkadm5.x86_64 0:1.15.1-37.el7_6                                             \n  libsss_autofs.x86_64 0:1.16.2-13.el7_6.5                                      \n  libsss_certmap.x86_64 0:1.16.2-13.el7_6.5                                     \n  libsss_idmap.x86_64 0:1.16.2-13.el7_6.5                                       \n  libsss_nss_idmap.x86_64 0:1.16.2-13.el7_6.5                                   \n  libsss_sudo.x86_64 0:1.16.2-13.el7_6.5                                        \n  lvm2.x86_64 7:2.02.180-10.el7_6.3                                             \n  lvm2-libs.x86_64 7:2.02.180-10.el7_6.3                                        \n  mesa-libEGL.x86_64 0:18.0.5-4.el7_6                                           \n  mesa-libGL.x86_64 0:18.0.5-4.el7_6                                            \n  mesa-libgbm.x86_64 0:18.0.5-4.el7_6                                           \n  mesa-libglapi.x86_64 0:18.0.5-4.el7_6                                         \n  mokutil.x86_64 0:15-2.el7.centos                                              \n  nss.x86_64 0:3.36.0-7.1.el7_6                                                 \n  nss-sysinit.x86_64 0:3.36.0-7.1.el7_6                                         \n  nss-tools.x86_64 0:3.36.0-7.1.el7_6                                           \n  nss-util.x86_64 0:3.36.0-1.1.el7_6                                            \n  openldap.x86_64 0:2.4.44-21.el7_6                                             \n  perf.x86_64 0:3.10.0-957.5.1.el7                                              \n  perl.x86_64 4:5.16.3-294.el7_6                                                \n  perl-Pod-Escapes.noarch 1:1.04-294.el7_6                                      \n  perl-libs.x86_64 4:5.16.3-294.el7_6                                           \n  perl-macros.x86_64 4:5.16.3-294.el7_6                                         \n  policycoreutils.x86_64 0:2.5-29.el7_6.1                                       \n  policycoreutils-python.x86_64 0:2.5-29.el7_6.1                                \n  python-libipa_hbac.x86_64 0:1.16.2-13.el7_6.5                                 \n  python-perf.x86_64 0:3.10.0-957.5.1.el7                                       \n  python-sss-murmur.x86_64 0:1.16.2-13.el7_6.5                                  \n  python-sssdconfig.noarch 0:1.16.2-13.el7_6.5                                  \n  python2-ipaclient.noarch 0:4.6.4-10.el7.centos.2                              \n  python2-ipalib.noarch 0:4.6.4-10.el7.centos.2                                 \n  selinux-policy.noarch 0:3.13.1-229.el7_6.9                                    \n  selinux-policy-targeted.noarch 0:3.13.1-229.el7_6.9                           \n  sos.noarch 0:3.6-13.el7.centos                                                \n  sssd.x86_64 0:1.16.2-13.el7_6.5                                               \n  sssd-ad.x86_64 0:1.16.2-13.el7_6.5                                            \n  sssd-client.x86_64 0:1.16.2-13.el7_6.5                                        \n  sssd-common.x86_64 0:1.16.2-13.el7_6.5                                        \n  sssd-common-pac.x86_64 0:1.16.2-13.el7_6.5                                    \n  sssd-ipa.x86_64 0:1.16.2-13.el7_6.5                                           \n  sssd-krb5.x86_64 0:1.16.2-13.el7_6.5                                          \n  sssd-krb5-common.x86_64 0:1.16.2-13.el7_6.5                                   \n  sssd-ldap.x86_64 0:1.16.2-13.el7_6.5                                          \n  sssd-proxy.x86_64 0:1.16.2-13.el7_6.5                                         \n  systemd.x86_64 0:219-62.el7_6.5                                               \n  systemd-libs.x86_64 0:219-62.el7_6.5                                          \n  systemd-python.x86_64 0:219-62.el7_6.5                                        \n  systemd-sysv.x86_64 0:219-62.el7_6.5                                          \n  tzdata.noarch 0:2018i-1.el7                                                   \n  tzdata-java.noarch 0:2018i-1.el7                                              \n\nЗаменено:\n  python-passlib.noarch 0:1.6.5-2.el7                                           \n\nВыполнено!\n"
+    ]
+}
+
+MSG:
+
+warning: /var/cache/yum/x86_64/7/epel/packages/ansible-2.7.8-1.el7.noarch.rpm: Header V3 RSA/SHA256 Signature, key ID 352c64e5: NOKEY
+http://centos.ip-connect.vn.ua/7.6.1810/updates/x86_64/Packages/kernel-tools-libs-3.10.0-957.5.1.el7.x86_64.rpm: [Errno 14] curl#6 - "Could not resolve host: centos.ip-connect.vn.ua; Unknown error"
+Пробуем другое зеркало.
+http://centos.itt-consulting.com/7.6.1810/updates/x86_64/Packages/kernel-headers-3.10.0-957.5.1.el7.x86_64.rpm: [Errno 14] curl#18 - "transfer closed with 7536024 bytes remaining to read"
+Пробуем другое зеркало.
+Импорт GPG ключа 0x352C64E5:
+ Владелец   : "Fedora EPEL (7) <epel@fedoraproject.org>"
+ Отпечаток  : 91e9 7d7c 4a5e 96f1 7f3e 888f 6a2f aea2 352c 64e5
+ Пакет      : epel-release-7-11.noarch (installed)
+ Источник   : /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+ПРЕДУПРЕЖДЕНИЕ: база данных RPM была изменена вне Yum.
+
+
+2019-03-03 16:37:49,356 p=8147 u=zik |  TASK [nginx : Install Package] ***********************************************************************************************************************
+2019-03-03 16:37:49,356 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:10
+2019-03-03 16:37:49,357 p=8147 u=zik |  Sunday 03 March 2019  16:37:49 +0300 (0:16:22.435)       0:16:52.733 ********** 
+2019-03-03 16:37:49,361 p=8147 u=zik |  META: noop
+2019-03-03 16:38:00,345 p=8147 u=zik |  changed: [CENTOS_WS] => {
+    "changed": true, 
+    "rc": 0, 
+    "results": [
+        "epel-release-7-11.noarch providing epel-release is already installed", 
+        "Loaded plugins: fastestmirror, langpacks\nLoading mirror speeds from cached hostfile\n * base: ftp.byfly.by\n * epel: mirror.karneval.cz\n * extras: ftp.agh.edu.pl\n * updates: ftp.agh.edu.pl\nResolving Dependencies\n--> Running transaction check\n---> Package nginx.x86_64 1:1.12.2-2.el7 will be installed\n--> Processing Dependency: nginx-all-modules = 1:1.12.2-2.el7 for package: 1:nginx-1.12.2-2.el7.x86_64\n--> Processing Dependency: nginx-filesystem = 1:1.12.2-2.el7 for package: 1:nginx-1.12.2-2.el7.x86_64\n--> Processing Dependency: nginx-filesystem for package: 1:nginx-1.12.2-2.el7.x86_64\n--> Processing Dependency: libprofiler.so.0()(64bit) for package: 1:nginx-1.12.2-2.el7.x86_64\n--> Running transaction check\n---> Package gperftools-libs.x86_64 0:2.6.1-1.el7 will be installed\n---> Package nginx-all-modules.noarch 1:1.12.2-2.el7 will be installed\n--> Processing Dependency: nginx-mod-http-geoip = 1:1.12.2-2.el7 for package: 1:nginx-all-modules-1.12.2-2.el7.noarch\n--> Processing Dependency: nginx-mod-http-image-filter = 1:1.12.2-2.el7 for package: 1:nginx-all-modules-1.12.2-2.el7.noarch\n--> Processing Dependency: nginx-mod-http-perl = 1:1.12.2-2.el7 for package: 1:nginx-all-modules-1.12.2-2.el7.noarch\n--> Processing Dependency: nginx-mod-http-xslt-filter = 1:1.12.2-2.el7 for package: 1:nginx-all-modules-1.12.2-2.el7.noarch\n--> Processing Dependency: nginx-mod-mail = 1:1.12.2-2.el7 for package: 1:nginx-all-modules-1.12.2-2.el7.noarch\n--> Processing Dependency: nginx-mod-stream = 1:1.12.2-2.el7 for package: 1:nginx-all-modules-1.12.2-2.el7.noarch\n---> Package nginx-filesystem.noarch 1:1.12.2-2.el7 will be installed\n--> Running transaction check\n---> Package nginx-mod-http-geoip.x86_64 1:1.12.2-2.el7 will be installed\n---> Package nginx-mod-http-image-filter.x86_64 1:1.12.2-2.el7 will be installed\n---> Package nginx-mod-http-perl.x86_64 1:1.12.2-2.el7 will be installed\n---> Package nginx-mod-http-xslt-filter.x86_64 1:1.12.2-2.el7 will be installed\n---> Package nginx-mod-mail.x86_64 1:1.12.2-2.el7 will be installed\n---> Package nginx-mod-stream.x86_64 1:1.12.2-2.el7 will be installed\n--> Finished Dependency Resolution\n\nDependencies Resolved\n\n================================================================================\n Package                         Arch       Version              Repository\n                                                                           Size\n================================================================================\nInstalling:\n nginx                           x86_64     1:1.12.2-2.el7       epel     530 k\nInstalling for dependencies:\n gperftools-libs                 x86_64     2.6.1-1.el7          base     272 k\n nginx-all-modules               noarch     1:1.12.2-2.el7       epel      16 k\n nginx-filesystem                noarch     1:1.12.2-2.el7       epel      17 k\n nginx-mod-http-geoip            x86_64     1:1.12.2-2.el7       epel      23 k\n nginx-mod-http-image-filter     x86_64     1:1.12.2-2.el7       epel      26 k\n nginx-mod-http-perl             x86_64     1:1.12.2-2.el7       epel      36 k\n nginx-mod-http-xslt-filter      x86_64     1:1.12.2-2.el7       epel      26 k\n nginx-mod-mail                  x86_64     1:1.12.2-2.el7       epel      54 k\n nginx-mod-stream                x86_64     1:1.12.2-2.el7       epel      76 k\n\nTransaction Summary\n================================================================================\nInstall  1 Package (+9 Dependent packages)\n\nTotal download size: 1.1 M\nInstalled size: 3.2 M\nDownloading packages:\n--------------------------------------------------------------------------------\nTotal                                              381 kB/s | 1.1 MB  00:02     \nRunning transaction check\nRunning transaction test\nTransaction test succeeded\nRunning transaction\n  Installing : gperftools-libs-2.6.1-1.el7.x86_64                          1/10 \n  Installing : 1:nginx-filesystem-1.12.2-2.el7.noarch                      2/10 \n  Installing : 1:nginx-mod-http-perl-1.12.2-2.el7.x86_64                   3/10 \n  Installing : 1:nginx-mod-http-geoip-1.12.2-2.el7.x86_64                  4/10 \n  Installing : 1:nginx-mod-mail-1.12.2-2.el7.x86_64                        5/10 \n  Installing : 1:nginx-mod-http-xslt-filter-1.12.2-2.el7.x86_64            6/10 \n  Installing : 1:nginx-mod-http-image-filter-1.12.2-2.el7.x86_64           7/10 \n  Installing : 1:nginx-all-modules-1.12.2-2.el7.noarch                     8/10 \n  Installing : 1:nginx-1.12.2-2.el7.x86_64                                 9/10 \n  Installing : 1:nginx-mod-stream-1.12.2-2.el7.x86_64                     10/10 \n  Verifying  : 1:nginx-filesystem-1.12.2-2.el7.noarch                      1/10 \n  Verifying  : 1:nginx-mod-http-perl-1.12.2-2.el7.x86_64                   2/10 \n  Verifying  : 1:nginx-mod-http-geoip-1.12.2-2.el7.x86_64                  3/10 \n  Verifying  : 1:nginx-1.12.2-2.el7.x86_64                                 4/10 \n  Verifying  : 1:nginx-mod-mail-1.12.2-2.el7.x86_64                        5/10 \n  Verifying  : 1:nginx-all-modules-1.12.2-2.el7.noarch                     6/10 \n  Verifying  : gperftools-libs-2.6.1-1.el7.x86_64                          7/10 \n  Verifying  : 1:nginx-mod-http-xslt-filter-1.12.2-2.el7.x86_64            8/10 \n  Verifying  : 1:nginx-mod-http-image-filter-1.12.2-2.el7.x86_64           9/10 \n  Verifying  : 1:nginx-mod-stream-1.12.2-2.el7.x86_64                     10/10 \n\nInstalled:\n  nginx.x86_64 1:1.12.2-2.el7                                                   \n\nDependency Installed:\n  gperftools-libs.x86_64 0:2.6.1-1.el7                                          \n  nginx-all-modules.noarch 1:1.12.2-2.el7                                       \n  nginx-filesystem.noarch 1:1.12.2-2.el7                                        \n  nginx-mod-http-geoip.x86_64 1:1.12.2-2.el7                                    \n  nginx-mod-http-image-filter.x86_64 1:1.12.2-2.el7                             \n  nginx-mod-http-perl.x86_64 1:1.12.2-2.el7                                     \n  nginx-mod-http-xslt-filter.x86_64 1:1.12.2-2.el7                              \n  nginx-mod-mail.x86_64 1:1.12.2-2.el7                                          \n  nginx-mod-stream.x86_64 1:1.12.2-2.el7                                        \n\nComplete!\n"
+    ]
+}
+2019-03-03 16:38:00,369 p=8147 u=zik |  TASK [nginx : Start Nginx] ***************************************************************************************************************************
+2019-03-03 16:38:00,369 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:15
+2019-03-03 16:38:00,370 p=8147 u=zik |  Sunday 03 March 2019  16:38:00 +0300 (0:00:11.013)       0:17:03.746 ********** 
+2019-03-03 16:38:00,374 p=8147 u=zik |  META: noop
+2019-03-03 16:38:01,405 p=8147 u=zik |  changed: [CENTOS_WS] => {
+    "changed": true, 
+    "name": "nginx", 
+    "state": "started", 
+    "status": {
+        "ActiveEnterTimestampMonotonic": "0", 
+        "ActiveExitTimestampMonotonic": "0", 
+        "ActiveState": "inactive", 
+        "After": "system.slice -.mount network.target basic.target remote-fs.target systemd-journald.socket tmp.mount nss-lookup.target", 
+        "AllowIsolate": "no", 
+        "AmbientCapabilities": "0", 
+        "AssertResult": "no", 
+        "AssertTimestampMonotonic": "0", 
+        "Before": "shutdown.target", 
+        "BlockIOAccounting": "no", 
+        "BlockIOWeight": "18446744073709551615", 
+        "CPUAccounting": "no", 
+        "CPUQuotaPerSecUSec": "infinity", 
+        "CPUSchedulingPolicy": "0", 
+        "CPUSchedulingPriority": "0", 
+        "CPUSchedulingResetOnFork": "no", 
+        "CPUShares": "18446744073709551615", 
+        "CanIsolate": "no", 
+        "CanReload": "yes", 
+        "CanStart": "yes", 
+        "CanStop": "yes", 
+        "CapabilityBoundingSet": "18446744073709551615", 
+        "ConditionResult": "no", 
+        "ConditionTimestampMonotonic": "0", 
+        "Conflicts": "shutdown.target", 
+        "ControlPID": "0", 
+        "DefaultDependencies": "yes", 
+        "Delegate": "no", 
+        "Description": "The nginx HTTP and reverse proxy server", 
+        "DevicePolicy": "auto", 
+        "ExecMainCode": "0", 
+        "ExecMainExitTimestampMonotonic": "0", 
+        "ExecMainPID": "0", 
+        "ExecMainStartTimestampMonotonic": "0", 
+        "ExecMainStatus": "0", 
+        "ExecReload": "{ path=/bin/kill ; argv[]=/bin/kill -s HUP $MAINPID ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecStart": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecStartPre": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx -t ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "FailureAction": "none", 
+        "FileDescriptorStoreMax": "0", 
+        "FragmentPath": "/usr/lib/systemd/system/nginx.service", 
+        "GuessMainPID": "yes", 
+        "IOScheduling": "0", 
+        "Id": "nginx.service", 
+        "IgnoreOnIsolate": "no", 
+        "IgnoreOnSnapshot": "no", 
+        "IgnoreSIGPIPE": "yes", 
+        "InactiveEnterTimestampMonotonic": "0", 
+        "InactiveExitTimestampMonotonic": "0", 
+        "JobTimeoutAction": "none", 
+        "JobTimeoutUSec": "0", 
+        "KillMode": "process", 
+        "KillSignal": "3", 
+        "LimitAS": "18446744073709551615", 
+        "LimitCORE": "18446744073709551615", 
+        "LimitCPU": "18446744073709551615", 
+        "LimitDATA": "18446744073709551615", 
+        "LimitFSIZE": "18446744073709551615", 
+        "LimitLOCKS": "18446744073709551615", 
+        "LimitMEMLOCK": "65536", 
+        "LimitMSGQUEUE": "819200", 
+        "LimitNICE": "0", 
+        "LimitNOFILE": "4096", 
+        "LimitNPROC": "3871", 
+        "LimitRSS": "18446744073709551615", 
+        "LimitRTPRIO": "0", 
+        "LimitRTTIME": "18446744073709551615", 
+        "LimitSIGPENDING": "3871", 
+        "LimitSTACK": "18446744073709551615", 
+        "LoadState": "loaded", 
+        "MainPID": "0", 
+        "MemoryAccounting": "no", 
+        "MemoryCurrent": "18446744073709551615", 
+        "MemoryLimit": "18446744073709551615", 
+        "MountFlags": "0", 
+        "Names": "nginx.service", 
+        "NeedDaemonReload": "no", 
+        "Nice": "0", 
+        "NoNewPrivileges": "no", 
+        "NonBlocking": "no", 
+        "NotifyAccess": "none", 
+        "OOMScoreAdjust": "0", 
+        "OnFailureJobMode": "replace", 
+        "PIDFile": "/run/nginx.pid", 
+        "PermissionsStartOnly": "no", 
+        "PrivateDevices": "no", 
+        "PrivateNetwork": "no", 
+        "PrivateTmp": "yes", 
+        "ProtectHome": "no", 
+        "ProtectSystem": "no", 
+        "RefuseManualStart": "no", 
+        "RefuseManualStop": "no", 
+        "RemainAfterExit": "no", 
+        "Requires": "basic.target -.mount", 
+        "RequiresMountsFor": "/var/tmp", 
+        "Restart": "no", 
+        "RestartUSec": "100ms", 
+        "Result": "success", 
+        "RootDirectoryStartOnly": "no", 
+        "RuntimeDirectoryMode": "0755", 
+        "SameProcessGroup": "no", 
+        "SecureBits": "0", 
+        "SendSIGHUP": "no", 
+        "SendSIGKILL": "yes", 
+        "Slice": "system.slice", 
+        "StandardError": "inherit", 
+        "StandardInput": "null", 
+        "StandardOutput": "journal", 
+        "StartLimitAction": "none", 
+        "StartLimitBurst": "5", 
+        "StartLimitInterval": "10000000", 
+        "StartupBlockIOWeight": "18446744073709551615", 
+        "StartupCPUShares": "18446744073709551615", 
+        "StatusErrno": "0", 
+        "StopWhenUnneeded": "no", 
+        "SubState": "dead", 
+        "SyslogLevelPrefix": "yes", 
+        "SyslogPriority": "30", 
+        "SystemCallErrorNumber": "0", 
+        "TTYReset": "no", 
+        "TTYVHangup": "no", 
+        "TTYVTDisallocate": "no", 
+        "TasksAccounting": "no", 
+        "TasksCurrent": "18446744073709551615", 
+        "TasksMax": "18446744073709551615", 
+        "TimeoutStartUSec": "1min 30s", 
+        "TimeoutStopUSec": "5s", 
+        "TimerSlackNSec": "50000", 
+        "Transient": "no", 
+        "Type": "forking", 
+        "UMask": "0022", 
+        "UnitFilePreset": "disabled", 
+        "UnitFileState": "disabled", 
+        "Wants": "system.slice", 
+        "WatchdogTimestampMonotonic": "0", 
+        "WatchdogUSec": "0"
+    }
+}
+2019-03-03 16:38:01,433 p=8147 u=zik |  TASK [nginx : Copy index.html on WebServer] **********************************************************************************************************
+2019-03-03 16:38:01,433 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:20
+2019-03-03 16:38:01,434 p=8147 u=zik |  Sunday 03 March 2019  16:38:01 +0300 (0:00:01.063)       0:17:04.810 ********** 
+2019-03-03 16:38:01,437 p=8147 u=zik |  META: noop
+2019-03-03 16:38:03,006 p=8147 u=zik |  changed: [CENTOS_WS] => {
+    "changed": true, 
+    "checksum": "70925fcd09ac491ec2f0c953b2265fa3892b3d7e", 
+    "dest": "/usr/share/nginx/html/index.html", 
+    "gid": 0, 
+    "group": "root", 
+    "md5sum": "ba3023f947b9de0baf05fbf1c514c6a1", 
+    "mode": "0644", 
+    "owner": "root", 
+    "secontext": "system_u:object_r:httpd_sys_content_t:s0", 
+    "size": 149, 
+    "src": "/tmp/.ansible-root/tmp/ansible-tmp-1551620281.54-149927066078307/source", 
+    "state": "file", 
+    "uid": 0
+}
+2019-03-03 16:38:03,030 p=8147 u=zik |  TASK [nginx : Install Nginx on Debian OS Family] *****************************************************************************************************
+2019-03-03 16:38:03,031 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:8
+2019-03-03 16:38:03,031 p=8147 u=zik |  Sunday 03 March 2019  16:38:03 +0300 (0:00:01.597)       0:17:06.407 ********** 
+2019-03-03 16:38:03,072 p=8147 u=zik |  skipping: [CENTOS_WS] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+2019-03-03 16:38:03,119 p=8147 u=zik |  included: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml for UBUNTU_WS
+2019-03-03 16:38:03,129 p=8147 u=zik |  META: noop
+2019-03-03 16:38:03,150 p=8147 u=zik |  TASK [nginx : Update && Upgrade Linux Cache] *********************************************************************************************************
+2019-03-03 16:38:03,151 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:4
+2019-03-03 16:38:03,151 p=8147 u=zik |  Sunday 03 March 2019  16:38:03 +0300 (0:00:00.119)       0:17:06.527 ********** 
+2019-03-03 16:38:34,275 p=8147 u=zik |   [WARNING]: Could not find aptitude. Using apt-get instead.
+
+2019-03-03 16:38:34,278 p=8147 u=zik |  ok: [UBUNTU_WS] => {
+    "changed": false
+}
+
+STDOUT:
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+
+
+
+MSG:
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+
+
+2019-03-03 16:38:34,280 p=8147 u=zik |  META: noop
+2019-03-03 16:38:34,309 p=8147 u=zik |  TASK [nginx : Install Package] ***********************************************************************************************************************
+2019-03-03 16:38:34,309 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:9
+2019-03-03 16:38:34,309 p=8147 u=zik |  Sunday 03 March 2019  16:38:34 +0300 (0:00:31.158)       0:17:37.686 ********** 
+2019-03-03 16:38:57,999 p=8147 u=zik |  changed: [UBUNTU_WS] => {
+    "cache_update_time": 1551620312, 
+    "cache_updated": false, 
+    "changed": true
+}
+
+STDOUT:
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
+  libjpeg-turbo8 libjpeg8 libtiff5 libvpx3 libxpm4 nginx-common nginx-core
+Suggested packages:
+  libgd-tools fcgiwrap nginx-doc ssl-cert
+The following NEW packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
+  libjpeg-turbo8 libjpeg8 libtiff5 libvpx3 libxpm4 nginx nginx-common
+  nginx-core
+0 upgraded, 13 newly installed, 0 to remove and 0 not upgraded.
+Need to get 2858 kB of archives.
+After this operation, 9311 kB of additional disk space will be used.
+Get:1 http://ru.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libjpeg-turbo8 amd64 1.4.2-0ubuntu3.1 [111 kB]
+Get:2 http://ru.archive.ubuntu.com/ubuntu xenial/main amd64 libjbig0 amd64 2.1-3.1 [26.6 kB]
+Get:3 http://ru.archive.ubuntu.com/ubuntu xenial/main amd64 fonts-dejavu-core all 2.35-1 [1039 kB]
+Get:4 http://ru.archive.ubuntu.com/ubuntu xenial-updates/main amd64 fontconfig-config all 2.11.94-0ubuntu1.1 [49.9 kB]
+Get:5 http://ru.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libfontconfig1 amd64 2.11.94-0ubuntu1.1 [131 kB]
+Get:6 http://ru.archive.ubuntu.com/ubuntu xenial/main amd64 libjpeg8 amd64 8c-2ubuntu8 [2194 B]
+Get:7 http://ru.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libtiff5 amd64 4.0.6-1ubuntu0.5 [149 kB]
+Get:8 http://ru.archive.ubuntu.com/ubuntu xenial/main amd64 libvpx3 amd64 1.5.0-2ubuntu1 [732 kB]
+Get:9 http://ru.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libxpm4 amd64 1:3.5.11-1ubuntu0.16.04.1 [33.8 kB]
+Get:10 http://ru.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libgd3 amd64 2.1.1-4ubuntu0.16.04.11 [126 kB]
+Get:11 http://ru.archive.ubuntu.com/ubuntu xenial-updates/main amd64 nginx-common all 1.10.3-0ubuntu0.16.04.3 [26.7 kB]
+Get:12 http://ru.archive.ubuntu.com/ubuntu xenial-updates/main amd64 nginx-core amd64 1.10.3-0ubuntu0.16.04.3 [429 kB]
+Get:13 http://ru.archive.ubuntu.com/ubuntu xenial-updates/main amd64 nginx all 1.10.3-0ubuntu0.16.04.3 [3506 B]
+Preconfiguring packages ...
+Fetched 2858 kB in 14s (196 kB/s)
+Selecting previously unselected package libjpeg-turbo8:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 93797 files and directories currently installed.)
+Preparing to unpack .../libjpeg-turbo8_1.4.2-0ubuntu3.1_amd64.deb ...
+Unpacking libjpeg-turbo8:amd64 (1.4.2-0ubuntu3.1) ...
+Selecting previously unselected package libjbig0:amd64.
+Preparing to unpack .../libjbig0_2.1-3.1_amd64.deb ...
+Unpacking libjbig0:amd64 (2.1-3.1) ...
+Selecting previously unselected package fonts-dejavu-core.
+Preparing to unpack .../fonts-dejavu-core_2.35-1_all.deb ...
+Unpacking fonts-dejavu-core (2.35-1) ...
+Selecting previously unselected package fontconfig-config.
+Preparing to unpack .../fontconfig-config_2.11.94-0ubuntu1.1_all.deb ...
+Unpacking fontconfig-config (2.11.94-0ubuntu1.1) ...
+Selecting previously unselected package libfontconfig1:amd64.
+Preparing to unpack .../libfontconfig1_2.11.94-0ubuntu1.1_amd64.deb ...
+Unpacking libfontconfig1:amd64 (2.11.94-0ubuntu1.1) ...
+Selecting previously unselected package libjpeg8:amd64.
+Preparing to unpack .../libjpeg8_8c-2ubuntu8_amd64.deb ...
+Unpacking libjpeg8:amd64 (8c-2ubuntu8) ...
+Selecting previously unselected package libtiff5:amd64.
+Preparing to unpack .../libtiff5_4.0.6-1ubuntu0.5_amd64.deb ...
+Unpacking libtiff5:amd64 (4.0.6-1ubuntu0.5) ...
+Selecting previously unselected package libvpx3:amd64.
+Preparing to unpack .../libvpx3_1.5.0-2ubuntu1_amd64.deb ...
+Unpacking libvpx3:amd64 (1.5.0-2ubuntu1) ...
+Selecting previously unselected package libxpm4:amd64.
+Preparing to unpack .../libxpm4_1%3a3.5.11-1ubuntu0.16.04.1_amd64.deb ...
+Unpacking libxpm4:amd64 (1:3.5.11-1ubuntu0.16.04.1) ...
+Selecting previously unselected package libgd3:amd64.
+Preparing to unpack .../libgd3_2.1.1-4ubuntu0.16.04.11_amd64.deb ...
+Unpacking libgd3:amd64 (2.1.1-4ubuntu0.16.04.11) ...
+Selecting previously unselected package nginx-common.
+Preparing to unpack .../nginx-common_1.10.3-0ubuntu0.16.04.3_all.deb ...
+Unpacking nginx-common (1.10.3-0ubuntu0.16.04.3) ...
+Selecting previously unselected package nginx-core.
+Preparing to unpack .../nginx-core_1.10.3-0ubuntu0.16.04.3_amd64.deb ...
+Unpacking nginx-core (1.10.3-0ubuntu0.16.04.3) ...
+Selecting previously unselected package nginx.
+Preparing to unpack .../nginx_1.10.3-0ubuntu0.16.04.3_all.deb ...
+Unpacking nginx (1.10.3-0ubuntu0.16.04.3) ...
+Processing triggers for libc-bin (2.23-0ubuntu11) ...
+Processing triggers for man-db (2.7.5-1) ...
+Processing triggers for systemd (229-4ubuntu21.16) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+Processing triggers for ufw (0.35-0ubuntu2) ...
+Setting up libjpeg-turbo8:amd64 (1.4.2-0ubuntu3.1) ...
+Setting up libjbig0:amd64 (2.1-3.1) ...
+Setting up fonts-dejavu-core (2.35-1) ...
+Setting up fontconfig-config (2.11.94-0ubuntu1.1) ...
+Setting up libfontconfig1:amd64 (2.11.94-0ubuntu1.1) ...
+Setting up libjpeg8:amd64 (8c-2ubuntu8) ...
+Setting up libtiff5:amd64 (4.0.6-1ubuntu0.5) ...
+Setting up libvpx3:amd64 (1.5.0-2ubuntu1) ...
+Setting up libxpm4:amd64 (1:3.5.11-1ubuntu0.16.04.1) ...
+Setting up libgd3:amd64 (2.1.1-4ubuntu0.16.04.11) ...
+Setting up nginx-common (1.10.3-0ubuntu0.16.04.3) ...
+Setting up nginx-core (1.10.3-0ubuntu0.16.04.3) ...
+Setting up nginx (1.10.3-0ubuntu0.16.04.3) ...
+Processing triggers for libc-bin (2.23-0ubuntu11) ...
+Processing triggers for systemd (229-4ubuntu21.16) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+Processing triggers for ufw (0.35-0ubuntu2) ...
+
+
+2019-03-03 16:38:58,003 p=8147 u=zik |  META: noop
+2019-03-03 16:38:58,031 p=8147 u=zik |  TASK [nginx : Start Nginx] ***************************************************************************************************************************
+2019-03-03 16:38:58,032 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:14
+2019-03-03 16:38:58,033 p=8147 u=zik |  Sunday 03 March 2019  16:38:58 +0300 (0:00:23.723)       0:18:01.409 ********** 
+2019-03-03 16:38:58,466 p=8147 u=zik |  ok: [UBUNTU_WS] => {
+    "changed": false, 
+    "name": "nginx", 
+    "state": "started", 
+    "status": {
+        "ActiveEnterTimestamp": "Вс 2019-03-03 16:38:54 +03", 
+        "ActiveEnterTimestampMonotonic": "1262000958", 
+        "ActiveExitTimestampMonotonic": "0", 
+        "ActiveState": "active", 
+        "After": "sysinit.target systemd-journald.socket basic.target network.target system.slice", 
+        "AllowIsolate": "no", 
+        "AmbientCapabilities": "0", 
+        "AssertResult": "yes", 
+        "AssertTimestamp": "Вс 2019-03-03 16:38:54 +03", 
+        "AssertTimestampMonotonic": "1261891135", 
+        "Before": "shutdown.target multi-user.target", 
+        "BlockIOAccounting": "no", 
+        "BlockIOWeight": "18446744073709551615", 
+        "CPUAccounting": "no", 
+        "CPUQuotaPerSecUSec": "infinity", 
+        "CPUSchedulingPolicy": "0", 
+        "CPUSchedulingPriority": "0", 
+        "CPUSchedulingResetOnFork": "no", 
+        "CPUShares": "18446744073709551615", 
+        "CPUUsageNSec": "18446744073709551615", 
+        "CanIsolate": "no", 
+        "CanReload": "yes", 
+        "CanStart": "yes", 
+        "CanStop": "yes", 
+        "CapabilityBoundingSet": "18446744073709551615", 
+        "ConditionResult": "yes", 
+        "ConditionTimestamp": "Вс 2019-03-03 16:38:54 +03", 
+        "ConditionTimestampMonotonic": "1261891135", 
+        "Conflicts": "shutdown.target", 
+        "ControlGroup": "/system.slice/nginx.service", 
+        "ControlPID": "0", 
+        "DefaultDependencies": "yes", 
+        "Delegate": "no", 
+        "Description": "A high performance web server and a reverse proxy server", 
+        "DevicePolicy": "auto", 
+        "ExecMainCode": "0", 
+        "ExecMainExitTimestampMonotonic": "0", 
+        "ExecMainPID": "2260", 
+        "ExecMainStartTimestamp": "Вс 2019-03-03 16:38:54 +03", 
+        "ExecMainStartTimestampMonotonic": "1262000897", 
+        "ExecMainStatus": "0", 
+        "ExecReload": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx -g daemon on; master_process on; -s reload ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecStart": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx -g daemon on; master_process on; ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecStartPre": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx -t -q -g daemon on; master_process on; ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecStop": "{ path=/sbin/start-stop-daemon ; argv[]=/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /run/nginx.pid ; ignore_errors=yes ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "FailureAction": "none", 
+        "FileDescriptorStoreMax": "0", 
+        "FragmentPath": "/lib/systemd/system/nginx.service", 
+        "GuessMainPID": "yes", 
+        "IOScheduling": "0", 
+        "Id": "nginx.service", 
+        "IgnoreOnIsolate": "no", 
+        "IgnoreSIGPIPE": "yes", 
+        "InactiveEnterTimestampMonotonic": "0", 
+        "InactiveExitTimestamp": "Вс 2019-03-03 16:38:54 +03", 
+        "InactiveExitTimestampMonotonic": "1261892788", 
+        "JobTimeoutAction": "none", 
+        "JobTimeoutUSec": "infinity", 
+        "KillMode": "mixed", 
+        "KillSignal": "15", 
+        "LimitAS": "18446744073709551615", 
+        "LimitASSoft": "18446744073709551615", 
+        "LimitCORE": "18446744073709551615", 
+        "LimitCORESoft": "0", 
+        "LimitCPU": "18446744073709551615", 
+        "LimitCPUSoft": "18446744073709551615", 
+        "LimitDATA": "18446744073709551615", 
+        "LimitDATASoft": "18446744073709551615", 
+        "LimitFSIZE": "18446744073709551615", 
+        "LimitFSIZESoft": "18446744073709551615", 
+        "LimitLOCKS": "18446744073709551615", 
+        "LimitLOCKSSoft": "18446744073709551615", 
+        "LimitMEMLOCK": "65536", 
+        "LimitMEMLOCKSoft": "65536", 
+        "LimitMSGQUEUE": "819200", 
+        "LimitMSGQUEUESoft": "819200", 
+        "LimitNICE": "0", 
+        "LimitNICESoft": "0", 
+        "LimitNOFILE": "4096", 
+        "LimitNOFILESoft": "1024", 
+        "LimitNPROC": "3803", 
+        "LimitNPROCSoft": "3803", 
+        "LimitRSS": "18446744073709551615", 
+        "LimitRSSSoft": "18446744073709551615", 
+        "LimitRTPRIO": "0", 
+        "LimitRTPRIOSoft": "0", 
+        "LimitRTTIME": "18446744073709551615", 
+        "LimitRTTIMESoft": "18446744073709551615", 
+        "LimitSIGPENDING": "3803", 
+        "LimitSIGPENDINGSoft": "3803", 
+        "LimitSTACK": "18446744073709551615", 
+        "LimitSTACKSoft": "8388608", 
+        "LoadState": "loaded", 
+        "MainPID": "2260", 
+        "MemoryAccounting": "no", 
+        "MemoryCurrent": "18446744073709551615", 
+        "MemoryLimit": "18446744073709551615", 
+        "MountFlags": "0", 
+        "NFileDescriptorStore": "0", 
+        "Names": "nginx.service", 
+        "NeedDaemonReload": "no", 
+        "Nice": "0", 
+        "NoNewPrivileges": "no", 
+        "NonBlocking": "no", 
+        "NotifyAccess": "none", 
+        "OOMScoreAdjust": "0", 
+        "OnFailureJobMode": "replace", 
+        "PIDFile": "/run/nginx.pid", 
+        "PermissionsStartOnly": "no", 
+        "PrivateDevices": "no", 
+        "PrivateNetwork": "no", 
+        "PrivateTmp": "no", 
+        "ProtectHome": "no", 
+        "ProtectSystem": "no", 
+        "RefuseManualStart": "no", 
+        "RefuseManualStop": "no", 
+        "RemainAfterExit": "no", 
+        "Requires": "sysinit.target system.slice", 
+        "Restart": "no", 
+        "RestartUSec": "100ms", 
+        "Result": "success", 
+        "RootDirectoryStartOnly": "no", 
+        "RuntimeDirectoryMode": "0755", 
+        "RuntimeMaxUSec": "infinity", 
+        "SameProcessGroup": "no", 
+        "SecureBits": "0", 
+        "SendSIGHUP": "no", 
+        "SendSIGKILL": "yes", 
+        "Slice": "system.slice", 
+        "StandardError": "inherit", 
+        "StandardInput": "null", 
+        "StandardOutput": "journal", 
+        "StartLimitAction": "none", 
+        "StartLimitBurst": "5", 
+        "StartLimitInterval": "10000000", 
+        "StartupBlockIOWeight": "18446744073709551615", 
+        "StartupCPUShares": "18446744073709551615", 
+        "StateChangeTimestamp": "Вс 2019-03-03 16:38:54 +03", 
+        "StateChangeTimestampMonotonic": "1262000958", 
+        "StatusErrno": "0", 
+        "StopWhenUnneeded": "no", 
+        "SubState": "running", 
+        "SyslogFacility": "3", 
+        "SyslogLevel": "6", 
+        "SyslogLevelPrefix": "yes", 
+        "SyslogPriority": "30", 
+        "SystemCallErrorNumber": "0", 
+        "TTYReset": "no", 
+        "TTYVHangup": "no", 
+        "TTYVTDisallocate": "no", 
+        "TasksAccounting": "no", 
+        "TasksCurrent": "18446744073709551615", 
+        "TasksMax": "18446744073709551615", 
+        "TimeoutStartUSec": "1min 30s", 
+        "TimeoutStopUSec": "5s", 
+        "TimerSlackNSec": "50000", 
+        "Transient": "no", 
+        "Type": "forking", 
+        "UMask": "0022", 
+        "UnitFilePreset": "enabled", 
+        "UnitFileState": "enabled", 
+        "UtmpMode": "init", 
+        "WantedBy": "multi-user.target", 
+        "WatchdogTimestampMonotonic": "0", 
+        "WatchdogUSec": "0"
+    }
+}
+2019-03-03 16:38:58,471 p=8147 u=zik |  META: noop
+2019-03-03 16:38:58,496 p=8147 u=zik |  TASK [nginx : Copy index.html on WebServer] **********************************************************************************************************
+2019-03-03 16:38:58,497 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:19
+2019-03-03 16:38:58,497 p=8147 u=zik |  Sunday 03 March 2019  16:38:58 +0300 (0:00:00.464)       0:18:01.874 ********** 
+2019-03-03 16:38:59,270 p=8147 u=zik |  changed: [UBUNTU_WS] => {
+    "changed": true, 
+    "checksum": "70925fcd09ac491ec2f0c953b2265fa3892b3d7e", 
+    "dest": "/var/www/html/index.html", 
+    "gid": 0, 
+    "group": "root", 
+    "md5sum": "ba3023f947b9de0baf05fbf1c514c6a1", 
+    "mode": "0644", 
+    "owner": "root", 
+    "size": 149, 
+    "src": "/tmp/.ansible-root/tmp/ansible-tmp-1551620338.6-3830556534938/source", 
+    "state": "file", 
+    "uid": 0
+}
+2019-03-03 16:38:59,296 p=8147 u=zik |  TASK [nginx : Check connect by Port on WebServer] ****************************************************************************************************
+2019-03-03 16:38:59,297 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:12
+2019-03-03 16:38:59,297 p=8147 u=zik |  Sunday 03 March 2019  16:38:59 +0300 (0:00:00.800)       0:18:02.674 ********** 
+2019-03-03 16:38:59,953 p=8147 u=zik |  ok: [UBUNTU_WS] => {
+    "changed": false, 
+    "elapsed": 0, 
+    "path": null, 
+    "port": 80, 
+    "search_regex": null, 
+    "state": "started"
+}
+2019-03-03 16:39:00,200 p=8147 u=zik |  ok: [CENTOS_WS] => {
+    "changed": false, 
+    "elapsed": 0, 
+    "path": null, 
+    "port": 80, 
+    "search_regex": null, 
+    "state": "started"
+}
+2019-03-03 16:39:00,228 p=8147 u=zik |  TASK [nginx : Check by url by WebServer] *************************************************************************************************************
+2019-03-03 16:39:00,229 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:20
+2019-03-03 16:39:00,229 p=8147 u=zik |  Sunday 03 March 2019  16:39:00 +0300 (0:00:00.932)       0:18:03.606 ********** 
+2019-03-03 16:39:01,013 p=8147 u=zik |  ok: [UBUNTU_WS] => {
+    "accept_ranges": "bytes", 
+    "changed": false, 
+    "connection": "close", 
+    "content": "<!DOCTYPE html>\r\n<html>\r\n<body>\r\n\r\n<h1>Welcome to the \"Lesson_5: Ansible Cruise!\"</h1>\r\n<p>If you see this page, all is good!</p>\r\n\r\n</body>\r\n</html>", 
+    "content_length": "149", 
+    "content_type": "text/html", 
+    "cookies": {}, 
+    "date": "Sun, 03 Mar 2019 13:39:00 GMT", 
+    "etag": "\"5c7bd8f2-95\"", 
+    "last_modified": "Sun, 03 Mar 2019 13:38:58 GMT", 
+    "redirected": false, 
+    "server": "nginx/1.10.3 (Ubuntu)", 
+    "status": 200, 
+    "url": "http://localhost"
+}
+
+MSG:
+
+OK (149 bytes)
+
+2019-03-03 16:39:01,377 p=8147 u=zik |  ok: [CENTOS_WS] => {
+    "accept_ranges": "bytes", 
+    "changed": false, 
+    "connection": "close", 
+    "content": "<!DOCTYPE html>\r\n<html>\r\n<body>\r\n\r\n<h1>Welcome to the \"Lesson_5: Ansible Cruise!\"</h1>\r\n<p>If you see this page, all is good!</p>\r\n\r\n</body>\r\n</html>", 
+    "content_length": "149", 
+    "content_type": "text/html", 
+    "cookies": {}, 
+    "date": "Sun, 03 Mar 2019 13:39:01 GMT", 
+    "etag": "\"5c7bd8ba-95\"", 
+    "last_modified": "Sun, 03 Mar 2019 13:38:02 GMT", 
+    "redirected": false, 
+    "server": "nginx/1.12.2", 
+    "status": 200, 
+    "url": "http://localhost"
+}
+
+MSG:
+
+OK (149 bytes)
+
+2019-03-03 16:39:01,413 p=8147 u=zik |  TASK [nginx : Print Results Checks] ******************************************************************************************************************
+2019-03-03 16:39:01,413 p=8147 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:26
+2019-03-03 16:39:01,413 p=8147 u=zik |  Sunday 03 March 2019  16:39:01 +0300 (0:00:01.183)       0:18:04.790 ********** 
+2019-03-03 16:39:01,540 p=8147 u=zik |  ok: [CENTOS_WS] => {}
+
+MSG:
+
+{u'status': 200, u'content_length': u'149', u'cookies': {}, u'url': u'http://localhost', u'changed': False, u'server': u'nginx/1.12.2', u'content': u'<!DOCTYPE html>\r\n<html>\r\n<body>\r\n\r\n<h1>Welcome to the "Lesson_5: Ansible Cruise!"</h1>\r\n<p>If you see this page, all is good!</p>\r\n\r\n</body>\r\n</html>', 'failed': False, u'connection': u'close', u'last_modified': u'Sun, 03 Mar 2019 13:38:02 GMT', u'etag': u'"5c7bd8ba-95"', u'content_type': u'text/html', u'date': u'Sun, 03 Mar 2019 13:39:01 GMT', u'redirected': False, u'accept_ranges': u'bytes', u'msg': u'OK (149 bytes)'}
+
+2019-03-03 16:39:01,584 p=8147 u=zik |  ok: [UBUNTU_WS] => {}
+
+MSG:
+
+{u'status': 200, u'content_length': u'149', u'cookies': {}, u'url': u'http://localhost', u'changed': False, u'server': u'nginx/1.10.3 (Ubuntu)', u'content': u'<!DOCTYPE html>\r\n<html>\r\n<body>\r\n\r\n<h1>Welcome to the "Lesson_5: Ansible Cruise!"</h1>\r\n<p>If you see this page, all is good!</p>\r\n\r\n</body>\r\n</html>', 'failed': False, u'connection': u'close', u'last_modified': u'Sun, 03 Mar 2019 13:38:58 GMT', u'etag': u'"5c7bd8f2-95"', u'content_type': u'text/html', u'date': u'Sun, 03 Mar 2019 13:39:00 GMT', u'redirected': False, u'accept_ranges': u'bytes', u'msg': u'OK (149 bytes)'}
+
+2019-03-03 16:39:01,588 p=8147 u=zik |  RUNNING HANDLER [nginx : Restart WebServer] **********************************************************************************************************
+2019-03-03 16:39:01,589 p=8147 u=zik |  Sunday 03 March 2019  16:39:01 +0300 (0:00:00.175)       0:18:04.965 ********** 
+2019-03-03 16:39:02,387 p=8147 u=zik |  changed: [UBUNTU_WS] => {
+    "changed": true, 
+    "enabled": true, 
+    "name": "nginx", 
+    "state": "started", 
+    "status": {
+        "ActiveEnterTimestamp": "Вс 2019-03-03 16:38:54 +03", 
+        "ActiveEnterTimestampMonotonic": "1262000958", 
+        "ActiveExitTimestampMonotonic": "0", 
+        "ActiveState": "active", 
+        "After": "sysinit.target systemd-journald.socket basic.target network.target system.slice", 
+        "AllowIsolate": "no", 
+        "AmbientCapabilities": "0", 
+        "AssertResult": "yes", 
+        "AssertTimestamp": "Вс 2019-03-03 16:38:54 +03", 
+        "AssertTimestampMonotonic": "1261891135", 
+        "Before": "shutdown.target multi-user.target", 
+        "BlockIOAccounting": "no", 
+        "BlockIOWeight": "18446744073709551615", 
+        "CPUAccounting": "no", 
+        "CPUQuotaPerSecUSec": "infinity", 
+        "CPUSchedulingPolicy": "0", 
+        "CPUSchedulingPriority": "0", 
+        "CPUSchedulingResetOnFork": "no", 
+        "CPUShares": "18446744073709551615", 
+        "CPUUsageNSec": "18446744073709551615", 
+        "CanIsolate": "no", 
+        "CanReload": "yes", 
+        "CanStart": "yes", 
+        "CanStop": "yes", 
+        "CapabilityBoundingSet": "18446744073709551615", 
+        "ConditionResult": "yes", 
+        "ConditionTimestamp": "Вс 2019-03-03 16:38:54 +03", 
+        "ConditionTimestampMonotonic": "1261891135", 
+        "Conflicts": "shutdown.target", 
+        "ControlGroup": "/system.slice/nginx.service", 
+        "ControlPID": "0", 
+        "DefaultDependencies": "yes", 
+        "Delegate": "no", 
+        "Description": "A high performance web server and a reverse proxy server", 
+        "DevicePolicy": "auto", 
+        "ExecMainCode": "0", 
+        "ExecMainExitTimestampMonotonic": "0", 
+        "ExecMainPID": "2260", 
+        "ExecMainStartTimestamp": "Вс 2019-03-03 16:38:54 +03", 
+        "ExecMainStartTimestampMonotonic": "1262000897", 
+        "ExecMainStatus": "0", 
+        "ExecReload": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx -g daemon on; master_process on; -s reload ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecStart": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx -g daemon on; master_process on; ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecStartPre": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx -t -q -g daemon on; master_process on; ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecStop": "{ path=/sbin/start-stop-daemon ; argv[]=/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /run/nginx.pid ; ignore_errors=yes ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "FailureAction": "none", 
+        "FileDescriptorStoreMax": "0", 
+        "FragmentPath": "/lib/systemd/system/nginx.service", 
+        "GuessMainPID": "yes", 
+        "IOScheduling": "0", 
+        "Id": "nginx.service", 
+        "IgnoreOnIsolate": "no", 
+        "IgnoreSIGPIPE": "yes", 
+        "InactiveEnterTimestampMonotonic": "0", 
+        "InactiveExitTimestamp": "Вс 2019-03-03 16:38:54 +03", 
+        "InactiveExitTimestampMonotonic": "1261892788", 
+        "JobTimeoutAction": "none", 
+        "JobTimeoutUSec": "infinity", 
+        "KillMode": "mixed", 
+        "KillSignal": "15", 
+        "LimitAS": "18446744073709551615", 
+        "LimitASSoft": "18446744073709551615", 
+        "LimitCORE": "18446744073709551615", 
+        "LimitCORESoft": "0", 
+        "LimitCPU": "18446744073709551615", 
+        "LimitCPUSoft": "18446744073709551615", 
+        "LimitDATA": "18446744073709551615", 
+        "LimitDATASoft": "18446744073709551615", 
+        "LimitFSIZE": "18446744073709551615", 
+        "LimitFSIZESoft": "18446744073709551615", 
+        "LimitLOCKS": "18446744073709551615", 
+        "LimitLOCKSSoft": "18446744073709551615", 
+        "LimitMEMLOCK": "65536", 
+        "LimitMEMLOCKSoft": "65536", 
+        "LimitMSGQUEUE": "819200", 
+        "LimitMSGQUEUESoft": "819200", 
+        "LimitNICE": "0", 
+        "LimitNICESoft": "0", 
+        "LimitNOFILE": "4096", 
+        "LimitNOFILESoft": "1024", 
+        "LimitNPROC": "3803", 
+        "LimitNPROCSoft": "3803", 
+        "LimitRSS": "18446744073709551615", 
+        "LimitRSSSoft": "18446744073709551615", 
+        "LimitRTPRIO": "0", 
+        "LimitRTPRIOSoft": "0", 
+        "LimitRTTIME": "18446744073709551615", 
+        "LimitRTTIMESoft": "18446744073709551615", 
+        "LimitSIGPENDING": "3803", 
+        "LimitSIGPENDINGSoft": "3803", 
+        "LimitSTACK": "18446744073709551615", 
+        "LimitSTACKSoft": "8388608", 
+        "LoadState": "loaded", 
+        "MainPID": "2260", 
+        "MemoryAccounting": "no", 
+        "MemoryCurrent": "18446744073709551615", 
+        "MemoryLimit": "18446744073709551615", 
+        "MountFlags": "0", 
+        "NFileDescriptorStore": "0", 
+        "Names": "nginx.service", 
+        "NeedDaemonReload": "no", 
+        "Nice": "0", 
+        "NoNewPrivileges": "no", 
+        "NonBlocking": "no", 
+        "NotifyAccess": "none", 
+        "OOMScoreAdjust": "0", 
+        "OnFailureJobMode": "replace", 
+        "PIDFile": "/run/nginx.pid", 
+        "PermissionsStartOnly": "no", 
+        "PrivateDevices": "no", 
+        "PrivateNetwork": "no", 
+        "PrivateTmp": "no", 
+        "ProtectHome": "no", 
+        "ProtectSystem": "no", 
+        "RefuseManualStart": "no", 
+        "RefuseManualStop": "no", 
+        "RemainAfterExit": "no", 
+        "Requires": "sysinit.target system.slice", 
+        "Restart": "no", 
+        "RestartUSec": "100ms", 
+        "Result": "success", 
+        "RootDirectoryStartOnly": "no", 
+        "RuntimeDirectoryMode": "0755", 
+        "RuntimeMaxUSec": "infinity", 
+        "SameProcessGroup": "no", 
+        "SecureBits": "0", 
+        "SendSIGHUP": "no", 
+        "SendSIGKILL": "yes", 
+        "Slice": "system.slice", 
+        "StandardError": "inherit", 
+        "StandardInput": "null", 
+        "StandardOutput": "journal", 
+        "StartLimitAction": "none", 
+        "StartLimitBurst": "5", 
+        "StartLimitInterval": "10000000", 
+        "StartupBlockIOWeight": "18446744073709551615", 
+        "StartupCPUShares": "18446744073709551615", 
+        "StateChangeTimestamp": "Вс 2019-03-03 16:38:54 +03", 
+        "StateChangeTimestampMonotonic": "1262000958", 
+        "StatusErrno": "0", 
+        "StopWhenUnneeded": "no", 
+        "SubState": "running", 
+        "SyslogFacility": "3", 
+        "SyslogLevel": "6", 
+        "SyslogLevelPrefix": "yes", 
+        "SyslogPriority": "30", 
+        "SystemCallErrorNumber": "0", 
+        "TTYReset": "no", 
+        "TTYVHangup": "no", 
+        "TTYVTDisallocate": "no", 
+        "TasksAccounting": "no", 
+        "TasksCurrent": "18446744073709551615", 
+        "TasksMax": "18446744073709551615", 
+        "TimeoutStartUSec": "1min 30s", 
+        "TimeoutStopUSec": "5s", 
+        "TimerSlackNSec": "50000", 
+        "Transient": "no", 
+        "Type": "forking", 
+        "UMask": "0022", 
+        "UnitFilePreset": "enabled", 
+        "UnitFileState": "enabled", 
+        "UtmpMode": "init", 
+        "WantedBy": "multi-user.target", 
+        "WatchdogTimestampMonotonic": "0", 
+        "WatchdogUSec": "0"
+    }
+}
+2019-03-03 16:39:02,924 p=8147 u=zik |  changed: [CENTOS_WS] => {
+    "changed": true, 
+    "enabled": true, 
+    "name": "nginx", 
+    "state": "started", 
+    "status": {
+        "ActiveEnterTimestamp": "Вс 2019-03-03 16:38:01 MSK", 
+        "ActiveEnterTimestampMonotonic": "1204739549", 
+        "ActiveExitTimestampMonotonic": "0", 
+        "ActiveState": "active", 
+        "After": "remote-fs.target system.slice systemd-journald.socket nss-lookup.target basic.target network.target -.mount tmp.mount", 
+        "AllowIsolate": "no", 
+        "AmbientCapabilities": "0", 
+        "AssertResult": "yes", 
+        "AssertTimestamp": "Вс 2019-03-03 16:38:01 MSK", 
+        "AssertTimestampMonotonic": "1204574158", 
+        "Before": "shutdown.target", 
+        "BlockIOAccounting": "no", 
+        "BlockIOWeight": "18446744073709551615", 
+        "CPUAccounting": "no", 
+        "CPUQuotaPerSecUSec": "infinity", 
+        "CPUSchedulingPolicy": "0", 
+        "CPUSchedulingPriority": "0", 
+        "CPUSchedulingResetOnFork": "no", 
+        "CPUShares": "18446744073709551615", 
+        "CanIsolate": "no", 
+        "CanReload": "yes", 
+        "CanStart": "yes", 
+        "CanStop": "yes", 
+        "CapabilityBoundingSet": "18446744073709551615", 
+        "ConditionResult": "yes", 
+        "ConditionTimestamp": "Вс 2019-03-03 16:38:01 MSK", 
+        "ConditionTimestampMonotonic": "1204574157", 
+        "Conflicts": "shutdown.target", 
+        "ControlGroup": "/system.slice/nginx.service", 
+        "ControlPID": "0", 
+        "DefaultDependencies": "yes", 
+        "Delegate": "no", 
+        "Description": "The nginx HTTP and reverse proxy server", 
+        "DevicePolicy": "auto", 
+        "ExecMainCode": "0", 
+        "ExecMainExitTimestampMonotonic": "0", 
+        "ExecMainPID": "1590", 
+        "ExecMainStartTimestamp": "Вс 2019-03-03 16:38:01 MSK", 
+        "ExecMainStartTimestampMonotonic": "1204739329", 
+        "ExecMainStatus": "0", 
+        "ExecReload": "{ path=/bin/kill ; argv[]=/bin/kill -s HUP $MAINPID ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecStart": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx ; ignore_errors=no ; start_time=[Вс 2019-03-03 16:38:01 MSK] ; stop_time=[Вс 2019-03-03 16:38:01 MSK] ; pid=1588 ; code=exited ; status=0 }", 
+        "ExecStartPre": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx -t ; ignore_errors=no ; start_time=[Вс 2019-03-03 16:38:01 MSK] ; stop_time=[Вс 2019-03-03 16:38:01 MSK] ; pid=1585 ; code=exited ; status=0 }", 
+        "FailureAction": "none", 
+        "FileDescriptorStoreMax": "0", 
+        "FragmentPath": "/usr/lib/systemd/system/nginx.service", 
+        "GuessMainPID": "yes", 
+        "IOScheduling": "0", 
+        "Id": "nginx.service", 
+        "IgnoreOnIsolate": "no", 
+        "IgnoreOnSnapshot": "no", 
+        "IgnoreSIGPIPE": "yes", 
+        "InactiveEnterTimestampMonotonic": "0", 
+        "InactiveExitTimestamp": "Вс 2019-03-03 16:38:01 MSK", 
+        "InactiveExitTimestampMonotonic": "1204576557", 
+        "JobTimeoutAction": "none", 
+        "JobTimeoutUSec": "0", 
+        "KillMode": "process", 
+        "KillSignal": "3", 
+        "LimitAS": "18446744073709551615", 
+        "LimitCORE": "18446744073709551615", 
+        "LimitCPU": "18446744073709551615", 
+        "LimitDATA": "18446744073709551615", 
+        "LimitFSIZE": "18446744073709551615", 
+        "LimitLOCKS": "18446744073709551615", 
+        "LimitMEMLOCK": "65536", 
+        "LimitMSGQUEUE": "819200", 
+        "LimitNICE": "0", 
+        "LimitNOFILE": "4096", 
+        "LimitNPROC": "3871", 
+        "LimitRSS": "18446744073709551615", 
+        "LimitRTPRIO": "0", 
+        "LimitRTTIME": "18446744073709551615", 
+        "LimitSIGPENDING": "3871", 
+        "LimitSTACK": "18446744073709551615", 
+        "LoadState": "loaded", 
+        "MainPID": "1590", 
+        "MemoryAccounting": "no", 
+        "MemoryCurrent": "18446744073709551615", 
+        "MemoryLimit": "18446744073709551615", 
+        "MountFlags": "0", 
+        "Names": "nginx.service", 
+        "NeedDaemonReload": "no", 
+        "Nice": "0", 
+        "NoNewPrivileges": "no", 
+        "NonBlocking": "no", 
+        "NotifyAccess": "none", 
+        "OOMScoreAdjust": "0", 
+        "OnFailureJobMode": "replace", 
+        "PIDFile": "/run/nginx.pid", 
+        "PermissionsStartOnly": "no", 
+        "PrivateDevices": "no", 
+        "PrivateNetwork": "no", 
+        "PrivateTmp": "yes", 
+        "ProtectHome": "no", 
+        "ProtectSystem": "no", 
+        "RefuseManualStart": "no", 
+        "RefuseManualStop": "no", 
+        "RemainAfterExit": "no", 
+        "Requires": "basic.target -.mount", 
+        "RequiresMountsFor": "/var/tmp", 
+        "Restart": "no", 
+        "RestartUSec": "100ms", 
+        "Result": "success", 
+        "RootDirectoryStartOnly": "no", 
+        "RuntimeDirectoryMode": "0755", 
+        "SameProcessGroup": "no", 
+        "SecureBits": "0", 
+        "SendSIGHUP": "no", 
+        "SendSIGKILL": "yes", 
+        "Slice": "system.slice", 
+        "StandardError": "inherit", 
+        "StandardInput": "null", 
+        "StandardOutput": "journal", 
+        "StartLimitAction": "none", 
+        "StartLimitBurst": "5", 
+        "StartLimitInterval": "10000000", 
+        "StartupBlockIOWeight": "18446744073709551615", 
+        "StartupCPUShares": "18446744073709551615", 
+        "StatusErrno": "0", 
+        "StopWhenUnneeded": "no", 
+        "SubState": "running", 
+        "SyslogLevelPrefix": "yes", 
+        "SyslogPriority": "30", 
+        "SystemCallErrorNumber": "0", 
+        "TTYReset": "no", 
+        "TTYVHangup": "no", 
+        "TTYVTDisallocate": "no", 
+        "TasksAccounting": "no", 
+        "TasksCurrent": "18446744073709551615", 
+        "TasksMax": "18446744073709551615", 
+        "TimeoutStartUSec": "1min 30s", 
+        "TimeoutStopUSec": "5s", 
+        "TimerSlackNSec": "50000", 
+        "Transient": "no", 
+        "Type": "forking", 
+        "UMask": "0022", 
+        "UnitFilePreset": "disabled", 
+        "UnitFileState": "disabled", 
+        "Wants": "system.slice", 
+        "WatchdogTimestampMonotonic": "0", 
+        "WatchdogUSec": "0"
+    }
+}
+2019-03-03 16:39:02,926 p=8147 u=zik |  META: ran handlers
+2019-03-03 16:39:02,927 p=8147 u=zik |  META: ran handlers
+2019-03-03 16:39:02,929 p=8147 u=zik |  PLAY RECAP *******************************************************************************************************************************************
+2019-03-03 16:39:02,929 p=8147 u=zik |  CENTOS_WS                  : ok=13   changed=8    unreachable=0    failed=0   
+2019-03-03 16:39:02,930 p=8147 u=zik |  UBUNTU_WS                  : ok=13   changed=6    unreachable=0    failed=0   
+2019-03-03 16:39:02,930 p=8147 u=zik |  Sunday 03 March 2019  16:39:02 +0300 (0:00:01.341)       0:18:06.307 ********** 
+2019-03-03 16:39:02,930 p=8147 u=zik |  =============================================================================== 
+2019-03-03 16:39:02,931 p=8147 u=zik |  nginx : Update && Upgrade Linux Cache ------------------------------------------------------------------------------------------------------- 982.44s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:4 -----------------------------------------------------------------
+2019-03-03 16:39:02,931 p=8147 u=zik |  nginx : Update && Upgrade Linux Cache -------------------------------------------------------------------------------------------------------- 31.16s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:4 -----------------------------------------------------------------
+2019-03-03 16:39:02,932 p=8147 u=zik |  Gathering Facts ------------------------------------------------------------------------------------------------------------------------------ 27.25s
+/home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:6 ---------------------------------------------------------------------------------
+2019-03-03 16:39:02,932 p=8147 u=zik |  nginx : Install Package ---------------------------------------------------------------------------------------------------------------------- 23.72s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:9 -----------------------------------------------------------------
+2019-03-03 16:39:02,932 p=8147 u=zik |  nginx : Install Package ---------------------------------------------------------------------------------------------------------------------- 11.01s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:10 ----------------------------------------------------------------
+2019-03-03 16:39:02,932 p=8147 u=zik |  nginx : Copy index.html on WebServer ---------------------------------------------------------------------------------------------------------- 1.60s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:20 ----------------------------------------------------------------
+2019-03-03 16:39:02,933 p=8147 u=zik |  nginx : Restart WebServer --------------------------------------------------------------------------------------------------------------------- 1.34s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/handlers/main.yml:2 --------------------------------------------------------------------------
+2019-03-03 16:39:02,933 p=8147 u=zik |  nginx : Check by url by WebServer ------------------------------------------------------------------------------------------------------------- 1.18s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:20 ----------------------------------------------------------------------------
+2019-03-03 16:39:02,933 p=8147 u=zik |  nginx : Start Nginx --------------------------------------------------------------------------------------------------------------------------- 1.06s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:15 ----------------------------------------------------------------
+2019-03-03 16:39:02,933 p=8147 u=zik |  Add authorized keys for User ------------------------------------------------------------------------------------------------------------------ 1.02s
+/home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:15 --------------------------------------------------------------------------------
+2019-03-03 16:39:02,933 p=8147 u=zik |  Create ansible user --------------------------------------------------------------------------------------------------------------------------- 1.01s
+/home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:9 ---------------------------------------------------------------------------------
+2019-03-03 16:39:02,934 p=8147 u=zik |  nginx : Check connect by Port on WebServer ---------------------------------------------------------------------------------------------------- 0.93s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:12 ----------------------------------------------------------------------------
+2019-03-03 16:39:02,934 p=8147 u=zik |  nginx : Copy index.html on WebServer ---------------------------------------------------------------------------------------------------------- 0.80s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:19 ----------------------------------------------------------------
+2019-03-03 16:39:02,934 p=8147 u=zik |  Allow user without a password ----------------------------------------------------------------------------------------------------------------- 0.79s
+/home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:21 --------------------------------------------------------------------------------
+2019-03-03 16:39:02,934 p=8147 u=zik |  nginx : Start Nginx --------------------------------------------------------------------------------------------------------------------------- 0.46s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:14 ----------------------------------------------------------------
+2019-03-03 16:39:02,934 p=8147 u=zik |  nginx : Print Results Checks ------------------------------------------------------------------------------------------------------------------ 0.18s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:26 ----------------------------------------------------------------------------
+2019-03-03 16:39:02,935 p=8147 u=zik |  nginx : Install Nginx on Debian OS Family ----------------------------------------------------------------------------------------------------- 0.12s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:8 -----------------------------------------------------------------------------
+2019-03-03 16:39:02,935 p=8147 u=zik |  nginx : Install Nginx on RadHat OS Family ----------------------------------------------------------------------------------------------------- 0.12s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:4 -----------------------------------------------------------------------------
+2019-03-03 16:39:02,935 p=8147 u=zik |  Playbook run took 0 days, 0 hours, 18 minutes, 6 seconds

@@ -1,0 +1,35 @@
+---
+################################
+##### Three Task: 03.03.19 #####
+################################
+
+- name: "Create service ansible user"
+  hosts: workstation
+  tasks:
+    - name: "Create ansible user"
+      user:
+        name: ansible
+        shell: /bin/bash
+        home: /home/ansible
+
+    - name: "Add authorized keys for User"
+      authorized_key:
+        user: ansible
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    - name: "Allow user without a password"
+      lineinfile:
+        dest: "/etc/sudoers"
+        state: "present"
+        regexp: "^%ansible"
+        line: "%ansible ALL=(ALL) NOPASSWD: ALL"
+
+- name: "Install WebServer"
+  hosts: workstation
+  remote_user: ansible
+  gather_facts: false
+  tags:
+    - three_task
+  roles:
+    - nginx
