@@ -1,6 +1,6 @@
 - hosts: prod
   gather_facts: True
   remote_user: albert
-  sudo: yes
+  become: yes
   roles:
    - 06-ansible-cruise
