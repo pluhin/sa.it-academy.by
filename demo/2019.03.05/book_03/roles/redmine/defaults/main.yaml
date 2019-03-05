@@ -15,3 +15,9 @@ apt_redmine:
 app_db_name: redmine
 app_db_user: redmine
 app_db_pass: redmine
+app_db_host: "127.0.0.1"
+
+app_repo: https://github.com/redmine/redmine.git
+app_vers: 4.0-stable
+app_home: /opt/redmine
+app_lang: "ru"

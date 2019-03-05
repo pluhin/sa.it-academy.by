@@ -3,3 +3,8 @@
   service:
     name: mysql
     state: restarted
+
+- name: apache restart
+  service:
+    name: apache2
+    state: restarted
