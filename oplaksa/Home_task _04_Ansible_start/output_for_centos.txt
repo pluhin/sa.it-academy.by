@@ -1,0 +1,8 @@
+192.168.254.50 | CHANGED | rc=0 >>
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: ftp.byfly.by
+ * extras: ftp.byfly.by
+ * updates: ftp.byfly.by
+No packages marked for update
+	inet4 192.168.254.50/16
