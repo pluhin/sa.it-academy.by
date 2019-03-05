@@ -1,0 +1,231 @@
+### 06. Ansible cruise Nginx
+
+##### Deploy nginx servers
+------
+- Create roles for deploy web servers
+  - Create dirs for roles web
+  ```bash
+  1. web -- include tasks for web
+  1.1 web/defaults -- vars for install packages
+  1.2 web/tasks -- your tasks
+  1.3 web/files -- include your configs Nginx for RedHat and Debian OS
+  1.4 web/templates -- include Jinja2 for set hostname to /etc/hosts 
+  2. inventories -- your infra with remote access for vagrant VM
+  ```
+  - show web tasks main.yaml:
+  ```bash
+  ---
+  - name: For Ubuntu
+  include: web_ubuntu.yaml
+  when: ansible_os_family == 'Debian'
+
+  - name: For Centos
+  include: web_centos.yaml
+  when: ansible_os_family == 'RedHat'
+
+  - name: Check connect Nginx start
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    delay: 0
+    timeout: 4
+  - name: Create folder for site
+  file:
+    path: "{{ index }}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+  - name: Template, add sitename
+  tags: hosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+  - name: Copy index.html for site DevOps BY
+  copy:
+    src: devops.by/index.html
+    dest: "{{ index_by }}"
+  - name: Copy index.html for site DevOps RU
+  copy:
+    src: devops.ru/index.html
+    dest: "{{ index_ru }}"
+  - name: Reload nginx config
+  tags: conf_reload
+  shell: "nginx -t | nginx -s reload"
+  ```
+  - show web_centos.yaml:
+  ```
+  ---
+  - name: install epel dependense
+  yum: 
+    name: "{{ epel }}"
+    state: latest
+  - name: Nginx. Redhat
+  yum:
+    name: "{{ yum_nginx }}" 
+    state: latest
+  - name: Nginx. Start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  - name: Copy site config for RedHat OS
+  tags: cp_site
+  copy:
+    src: "{{ item }}"
+    dest: "{{ sites_rh }}"
+  with_items:
+    - devops.by/devops.by.conf
+    - devops.ru/devops.ru.conf
+
+  ```
+  - show web_ubuntu.yaml:
+  ```
+  ---
+  - name: Install Nginx. Ubuntu
+  apt:
+    name: "{{ apt_nginx }}"
+  - name: Nginx start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  - name: Copy site config for Debian OS
+  tags: cp_site
+  copy:
+    src: "{{ item }}"
+    dest: "{{ sites_deb }}"
+  with_items:
+    - devops.by/devops.by
+    - devops.ru/devops.ru
+  ```
+  - show defaults/main.yaml
+  ```
+  ---
+  epel:
+  - epel-release
+  yum_nginx:
+  - mc
+  - nano
+  - nginx
+  apt_nginx:
+  - nginx
+  - mc
+  - vim
+  virual_hosts:
+  - { ip: "127.0.0.1", name: "devops.by www.devops.by" }
+  - { ip: "127.0.0.1", name: "devops.ru www.devops.ru" } 
+  index_ru: "/var/www/devops_ru/"
+  index_by: "/var/www/devops_by/"
+  index:
+  - "{{ index_ru }}"
+  - "{{ index_by }}"
+  sites_deb: "/etc/nginx/sites-enabled/"
+  sites_rh: "/etc/nginx/conf.d"
+  devops.by: "devops/devops.by"
+  devops.ru: "devops/devops.ru"
+  my_site:
+  - "{{ devops.by }}"
+  - "{{ devops.ru }}"
+  ```
+  - show web role web.yaml
+  ```
+  ---
+  - hosts: vsphere
+    become: yes
+    roles:
+      - web
+  ```
+  - show my inventories for access remote hosts VM:
+  ```
+  ---
+  all:
+    children:
+      vsphere:
+        hosts:
+          vm1:
+          ansible_user: vagrant
+          ansible_host: 10.50.80.104
+          ansible_ssh_port: 8022
+          ansible_ssh_private_key_file: ~/.ssh/id_rsa
+          vm2:
+          ansible_user: vagrant
+          ansible_host: 10.50.80.104
+          ansible_ssh_port: 8023
+          ansible_ssh_private_key_file: ~/.ssh/id_rsa
+  ...
+  ```
+- Play your playbook for web role:
+```
+PLAY RECAP *************************************************************************************************************************************************************************************
+vm1                        : ok=10   changed=1    unreachable=0    failed=0
+vm2                        : ok=11   changed=1    unreachable=0    failed=0
+
+Tuesday 05 March 2019  15:03:06 +0300 (0:00:01.055)       0:00:34.750 *********
+===============================================================================
+web -------------------------------------------------------------------- 30.72s
+setup ------------------------------------------------------------------- 3.96s
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+total ------------------------------------------------------------------ 34.68s
+Playbook run took 0 days, 0 hours, 0 minutes, 34 seconds
+```
+-------------------
+##### Check url
+------------
+- Create curl.yaml for check url:
+```
+---
+- name: Curl
+  hosts: vsphere
+  tasks:
+    - name: Check working all sites
+      uri:
+        url: http://{{item}}
+        return_content: yes
+      register: devops
+      with_items:
+        - devops.by
+        - devops.ru
+    - name: show debug
+      debug:
+        msg: "{{ devops }}"
+...
+```
+- play playbook curl.yaml
+```
+ok: [vm1] => {
+    "msg": {
+        "changed": false,
+        "msg": "All items completed",
+        "results": [
+            {
+                "_ansible_ignore_errors": null,
+                "_ansible_item_label": "devops.by",
+                "_ansible_item_result": true,
+                "_ansible_no_log": false,
+                "_ansible_parsed": true,
+                "accept_ranges": "bytes",
+                "changed": false,
+                "connection": "close",
+                "content": "<html>\n  <head>\n    <title>Hello, this site for DevOps BY</title>\n  </head>\n  <body>\n    <h1>www.devops.by</h1>\n  </body>\n</html>\n",
+ok: [vm2] => {
+    "msg": {
+        "changed": false,
+        "msg": "All items completed",
+        "results": [
+            {
+                "_ansible_ignore_errors": null,
+                "_ansible_item_label": "devops.by",
+                "_ansible_item_result": true,
+                "_ansible_no_log": false,
+                "_ansible_parsed": true,
+                "accept_ranges": "bytes",
+                "changed": false,
+                "connection": "close",
+                "content": "<html>\n  <head>\n    <title>Hello, this site for DevOps BY</title>\n  </head>\n  <body>\n    <h1>www.devops.by</h1>\n  </body>\n</html>\n",
+                "content_length": "130",
+
+```
