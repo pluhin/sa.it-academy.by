@@ -21,3 +21,4 @@ app_repo: https://github.com/redmine/redmine.git
 app_vers: 4.0-stable
 app_home: /opt/redmine
 app_lang: "ru"
+app_fqdn: "redmine.home"

@@ -65,6 +65,20 @@
 - name: Apache. Config
   template:
     src: redmine.conf.j2
-    dest: /etc/apache2/site-enabled/redmine.conf
+    dest: /etc/apache2/sites-enabled/redmine.conf
   notify:
     - apache restart
+
+- name: Add host
+  shell: echo "127.0.0.1  {{ app_fqdn }}" >> /etc/hosts
+
+- uri:
+    url: "http://{{ app_fqdn }}"
+    return_content: yes
+  register: this
+  failed_when: "'Jean-Philippe' not in this.content"
+
+- lineinfile:
+    path: /etc/hosts
+    state: absent
+    regexp: '^127.0.0.1  {{ app_fqdn }}'
