@@ -1,0 +1,40 @@
+---
+- hosts: servers
+  become: yes
+    
+  tasks:
+    - name: Add User
+      user:
+        name: "{{ user_add }}"
+        comment: User creating by Ansible
+        state: present
+        shell: /bin/bash
+    - name: Add ssh
+      authorized_key:
+        user: "{{ user_add }}"
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+     # tags: 
+     #   - ssh
+    - block: 
+        - name: Edit ub_sudoers for "{{ user_add }}"
+          lineinfile:
+            path: /etc/sudoers
+            state: present
+            regexp: '^"{{ user_add }}" ALL='
+            line: '{{ user_add }} ALL=(ALL) NOPASSWD: /usr/bin/apt-get'
+            validate: '/usr/sbin/visudo -cf %s'
+          tags:
+            - ub_sudoers
+      when: ansible_os_family == "Debian"
+    - block:
+        - name: Edit cen_sudoers for "{{ user_add }}"
+          lineinfile:
+            path: /etc/sudoers
+            state: present
+            regexp: '^"{{ user_add }}" ALL='
+            line: '{{ user_add }} ALL=(ALL) NOPASSWD: /usr/bin/yum'
+            validate: '/usr/sbin/visudo -cf %s'
+          tags:
+            - cen_sudoers
+      when:  ansible_os_family == "RedHat"
