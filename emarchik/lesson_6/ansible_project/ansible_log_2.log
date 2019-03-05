@@ -1,0 +1,660 @@
+2019-03-03 16:43:43,373 p=8550 u=zik |  ansible-playbook 2.5.1
+  config file = /home/zik/Desktop/lesson_6/ansible_project/ansible.cfg
+  configured module search path = [u'/home/zik/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python2.7/dist-packages/ansible
+  executable location = /usr/bin/ansible-playbook
+  python version = 2.7.15rc1 (default, Nov 12 2018, 14:31:15) [GCC 7.3.0]
+2019-03-03 16:43:43,374 p=8550 u=zik |  Using /home/zik/Desktop/lesson_6/ansible_project/ansible.cfg as config file
+2019-03-03 16:43:43,375 p=8550 u=zik |  [DEPRECATION WARNING]: DEFAULT_MODULE_LANG option, Modules are coded to set their own locale if needed for screenscraping . This feature will be 
+removed in version 2.9. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+2019-03-03 16:43:43,375 p=8550 u=zik |  [DEPRECATION WARNING]: DEFAULT_MODULE_SET_LOCALE option, Modules are coded to set their own locale if needed for screenscraping . This feature will 
+be removed in version 2.9. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+2019-03-03 16:43:43,862 p=8550 u=zik |  PLAYBOOK: ansible_three_task.yml *********************************************************************************************************************
+2019-03-03 16:43:43,863 p=8550 u=zik |  2 plays in ansible_three_task.yml
+2019-03-03 16:43:43,912 p=8550 u=zik |  PLAY [Create service ansible user] *******************************************************************************************************************
+2019-03-03 16:43:43,958 p=8550 u=zik |  TASK [Gathering Facts] *******************************************************************************************************************************
+2019-03-03 16:43:43,959 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:6
+2019-03-03 16:43:43,959 p=8550 u=zik |  Sunday 03 March 2019  16:43:43 +0300 (0:00:00.122)       0:00:00.122 ********** 
+2019-03-03 16:43:45,740 p=8550 u=zik |  ok: [UBUNTU_WS]
+2019-03-03 16:44:11,653 p=8550 u=zik |  ok: [CENTOS_WS]
+2019-03-03 16:44:11,681 p=8550 u=zik |  META: ran handlers
+2019-03-03 16:44:11,703 p=8550 u=zik |  TASK [Create ansible user] ***************************************************************************************************************************
+2019-03-03 16:44:11,703 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:9
+2019-03-03 16:44:11,703 p=8550 u=zik |  Sunday 03 March 2019  16:44:11 +0300 (0:00:27.744)       0:00:27.867 ********** 
+2019-03-03 16:44:12,345 p=8550 u=zik |  ok: [UBUNTU_WS] => {
+    "append": false, 
+    "changed": false, 
+    "comment": "", 
+    "group": 1001, 
+    "home": "/home/ansible", 
+    "move_home": false, 
+    "name": "ansible", 
+    "shell": "/bin/bash", 
+    "state": "present", 
+    "uid": 1001
+}
+2019-03-03 16:44:12,593 p=8550 u=zik |  ok: [CENTOS_WS] => {
+    "append": false, 
+    "changed": false, 
+    "comment": "", 
+    "group": 1000, 
+    "home": "/home/ansible", 
+    "move_home": false, 
+    "name": "ansible", 
+    "shell": "/bin/bash", 
+    "state": "present", 
+    "uid": 1000
+}
+2019-03-03 16:44:12,615 p=8550 u=zik |  TASK [Add authorized keys for User] ******************************************************************************************************************
+2019-03-03 16:44:12,615 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:15
+2019-03-03 16:44:12,615 p=8550 u=zik |  Sunday 03 March 2019  16:44:12 +0300 (0:00:00.912)       0:00:28.779 ********** 
+2019-03-03 16:44:13,282 p=8550 u=zik |  ok: [UBUNTU_WS] => {
+    "changed": false, 
+    "comment": null, 
+    "exclusive": false, 
+    "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWY0cX8PThwv3ZhOqAxhHJxeRxvp6aysNOFIug8EKibuxSILi3nkvi3GsL0aUYzbS0L8S6SyZmnu89DyqHL+aQbDMKZaI6ygi8Gs6aXR/qyxiBWbz9YtrU/W16iWbO2duYcXplG8GUEJD5qvPORvSWZvCl6rmBKGIfkyb6LEZioY1NJHe02bFtsUBlKZlFJG7nghEfGEwzuq9v2JS5iqDf0Mbp+pZ7fFBUXiRBi/Fy/tCsHgJyYuJnBkkzs/fOR6lUAzjhQYsvVfI6nE3hlXS4xzVljWcg4cKsTtlVxWoizt0dCRXlfNSHyT1VbBGEu5Vg5ab464C5qJ0FktdYyoWr zik@Book", 
+    "key_options": null, 
+    "keyfile": "/home/ansible/.ssh/authorized_keys", 
+    "manage_dir": true, 
+    "path": null, 
+    "state": "present", 
+    "unique": false, 
+    "user": "ansible", 
+    "validate_certs": true
+}
+2019-03-03 16:44:13,605 p=8550 u=zik |  ok: [CENTOS_WS] => {
+    "changed": false, 
+    "comment": null, 
+    "exclusive": false, 
+    "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWY0cX8PThwv3ZhOqAxhHJxeRxvp6aysNOFIug8EKibuxSILi3nkvi3GsL0aUYzbS0L8S6SyZmnu89DyqHL+aQbDMKZaI6ygi8Gs6aXR/qyxiBWbz9YtrU/W16iWbO2duYcXplG8GUEJD5qvPORvSWZvCl6rmBKGIfkyb6LEZioY1NJHe02bFtsUBlKZlFJG7nghEfGEwzuq9v2JS5iqDf0Mbp+pZ7fFBUXiRBi/Fy/tCsHgJyYuJnBkkzs/fOR6lUAzjhQYsvVfI6nE3hlXS4xzVljWcg4cKsTtlVxWoizt0dCRXlfNSHyT1VbBGEu5Vg5ab464C5qJ0FktdYyoWr zik@Book", 
+    "key_options": null, 
+    "keyfile": "/home/ansible/.ssh/authorized_keys", 
+    "manage_dir": true, 
+    "path": null, 
+    "state": "present", 
+    "unique": false, 
+    "user": "ansible", 
+    "validate_certs": true
+}
+2019-03-03 16:44:13,627 p=8550 u=zik |  TASK [Allow user without a password] *****************************************************************************************************************
+2019-03-03 16:44:13,627 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:21
+2019-03-03 16:44:13,628 p=8550 u=zik |  Sunday 03 March 2019  16:44:13 +0300 (0:00:01.012)       0:00:29.791 ********** 
+2019-03-03 16:44:14,245 p=8550 u=zik |  ok: [UBUNTU_WS] => {
+    "backup": "", 
+    "changed": false
+}
+2019-03-03 16:44:14,490 p=8550 u=zik |  ok: [CENTOS_WS] => {
+    "backup": "", 
+    "changed": false
+}
+2019-03-03 16:44:14,493 p=8550 u=zik |  META: ran handlers
+2019-03-03 16:44:14,493 p=8550 u=zik |  META: ran handlers
+2019-03-03 16:44:14,504 p=8550 u=zik |  PLAY [Install WebServer] *****************************************************************************************************************************
+2019-03-03 16:44:14,510 p=8550 u=zik |  META: ran handlers
+2019-03-03 16:44:14,533 p=8550 u=zik |  TASK [nginx : Install Nginx on RadHat OS Family] *****************************************************************************************************
+2019-03-03 16:44:14,533 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:4
+2019-03-03 16:44:14,533 p=8550 u=zik |  Sunday 03 March 2019  16:44:14 +0300 (0:00:00.905)       0:00:30.697 ********** 
+2019-03-03 16:44:14,594 p=8550 u=zik |  skipping: [UBUNTU_WS] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+2019-03-03 16:44:14,629 p=8550 u=zik |  included: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml for CENTOS_WS
+2019-03-03 16:44:14,657 p=8550 u=zik |  TASK [nginx : Update && Upgrade Linux Cache] *********************************************************************************************************
+2019-03-03 16:44:14,657 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:4
+2019-03-03 16:44:14,657 p=8550 u=zik |  Sunday 03 March 2019  16:44:14 +0300 (0:00:00.124)       0:00:30.821 ********** 
+2019-03-03 16:44:14,661 p=8550 u=zik |  META: noop
+2019-03-03 16:44:24,315 p=8550 u=zik |  ok: [CENTOS_WS] => {
+    "changed": false, 
+    "rc": 0, 
+    "results": [
+        "Nothing to do here, all packages are up to date"
+    ]
+}
+2019-03-03 16:44:24,343 p=8550 u=zik |  TASK [nginx : Install Package] ***********************************************************************************************************************
+2019-03-03 16:44:24,344 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:10
+2019-03-03 16:44:24,344 p=8550 u=zik |  Sunday 03 March 2019  16:44:24 +0300 (0:00:09.686)       0:00:40.507 ********** 
+2019-03-03 16:44:24,349 p=8550 u=zik |  META: noop
+2019-03-03 16:44:25,468 p=8550 u=zik |  ok: [CENTOS_WS] => {
+    "changed": false, 
+    "rc": 0, 
+    "results": [
+        "epel-release-7-11.noarch providing epel-release is already installed", 
+        "1:nginx-1.12.2-2.el7.x86_64 providing nginx is already installed"
+    ]
+}
+2019-03-03 16:44:25,492 p=8550 u=zik |  TASK [nginx : Start Nginx] ***************************************************************************************************************************
+2019-03-03 16:44:25,492 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:15
+2019-03-03 16:44:25,492 p=8550 u=zik |  Sunday 03 March 2019  16:44:25 +0300 (0:00:01.147)       0:00:41.655 ********** 
+2019-03-03 16:44:25,496 p=8550 u=zik |  META: noop
+2019-03-03 16:44:26,260 p=8550 u=zik |  ok: [CENTOS_WS] => {
+    "changed": false, 
+    "name": "nginx", 
+    "state": "started", 
+    "status": {
+        "ActiveEnterTimestamp": "Вс 2019-03-03 16:39:02 MSK", 
+        "ActiveEnterTimestampMonotonic": "1266247978", 
+        "ActiveExitTimestamp": "Вс 2019-03-03 16:39:02 MSK", 
+        "ActiveExitTimestampMonotonic": "1266084772", 
+        "ActiveState": "active", 
+        "After": "remote-fs.target -.mount tmp.mount systemd-journald.socket nss-lookup.target basic.target network.target system.slice", 
+        "AllowIsolate": "no", 
+        "AmbientCapabilities": "0", 
+        "AssertResult": "yes", 
+        "AssertTimestamp": "Вс 2019-03-03 16:39:02 MSK", 
+        "AssertTimestampMonotonic": "1266102796", 
+        "Before": "multi-user.target shutdown.target", 
+        "BlockIOAccounting": "no", 
+        "BlockIOWeight": "18446744073709551615", 
+        "CPUAccounting": "no", 
+        "CPUQuotaPerSecUSec": "infinity", 
+        "CPUSchedulingPolicy": "0", 
+        "CPUSchedulingPriority": "0", 
+        "CPUSchedulingResetOnFork": "no", 
+        "CPUShares": "18446744073709551615", 
+        "CanIsolate": "no", 
+        "CanReload": "yes", 
+        "CanStart": "yes", 
+        "CanStop": "yes", 
+        "CapabilityBoundingSet": "18446744073709551615", 
+        "ConditionResult": "yes", 
+        "ConditionTimestamp": "Вс 2019-03-03 16:39:02 MSK", 
+        "ConditionTimestampMonotonic": "1266102796", 
+        "Conflicts": "shutdown.target", 
+        "ControlGroup": "/system.slice/nginx.service", 
+        "ControlPID": "0", 
+        "DefaultDependencies": "yes", 
+        "Delegate": "no", 
+        "Description": "The nginx HTTP and reverse proxy server", 
+        "DevicePolicy": "auto", 
+        "ExecMainCode": "0", 
+        "ExecMainExitTimestampMonotonic": "0", 
+        "ExecMainPID": "1877", 
+        "ExecMainStartTimestamp": "Вс 2019-03-03 16:39:02 MSK", 
+        "ExecMainStartTimestampMonotonic": "1266247667", 
+        "ExecMainStatus": "0", 
+        "ExecReload": "{ path=/bin/kill ; argv[]=/bin/kill -s HUP $MAINPID ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecStart": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx ; ignore_errors=no ; start_time=[Вс 2019-03-03 16:39:02 MSK] ; stop_time=[Вс 2019-03-03 16:39:02 MSK] ; pid=1875 ; code=exited ; status=0 }", 
+        "ExecStartPre": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx -t ; ignore_errors=no ; start_time=[Вс 2019-03-03 16:39:02 MSK] ; stop_time=[Вс 2019-03-03 16:39:02 MSK] ; pid=1872 ; code=exited ; status=0 }", 
+        "FailureAction": "none", 
+        "FileDescriptorStoreMax": "0", 
+        "FragmentPath": "/usr/lib/systemd/system/nginx.service", 
+        "GuessMainPID": "yes", 
+        "IOScheduling": "0", 
+        "Id": "nginx.service", 
+        "IgnoreOnIsolate": "no", 
+        "IgnoreOnSnapshot": "no", 
+        "IgnoreSIGPIPE": "yes", 
+        "InactiveEnterTimestamp": "Вс 2019-03-03 16:39:02 MSK", 
+        "InactiveEnterTimestampMonotonic": "1266101767", 
+        "InactiveExitTimestamp": "Вс 2019-03-03 16:39:02 MSK", 
+        "InactiveExitTimestampMonotonic": "1266104781", 
+        "JobTimeoutAction": "none", 
+        "JobTimeoutUSec": "0", 
+        "KillMode": "process", 
+        "KillSignal": "3", 
+        "LimitAS": "18446744073709551615", 
+        "LimitCORE": "18446744073709551615", 
+        "LimitCPU": "18446744073709551615", 
+        "LimitDATA": "18446744073709551615", 
+        "LimitFSIZE": "18446744073709551615", 
+        "LimitLOCKS": "18446744073709551615", 
+        "LimitMEMLOCK": "65536", 
+        "LimitMSGQUEUE": "819200", 
+        "LimitNICE": "0", 
+        "LimitNOFILE": "4096", 
+        "LimitNPROC": "3871", 
+        "LimitRSS": "18446744073709551615", 
+        "LimitRTPRIO": "0", 
+        "LimitRTTIME": "18446744073709551615", 
+        "LimitSIGPENDING": "3871", 
+        "LimitSTACK": "18446744073709551615", 
+        "LoadState": "loaded", 
+        "MainPID": "1877", 
+        "MemoryAccounting": "no", 
+        "MemoryCurrent": "18446744073709551615", 
+        "MemoryLimit": "18446744073709551615", 
+        "MountFlags": "0", 
+        "Names": "nginx.service", 
+        "NeedDaemonReload": "no", 
+        "Nice": "0", 
+        "NoNewPrivileges": "no", 
+        "NonBlocking": "no", 
+        "NotifyAccess": "none", 
+        "OOMScoreAdjust": "0", 
+        "OnFailureJobMode": "replace", 
+        "PIDFile": "/run/nginx.pid", 
+        "PermissionsStartOnly": "no", 
+        "PrivateDevices": "no", 
+        "PrivateNetwork": "no", 
+        "PrivateTmp": "yes", 
+        "ProtectHome": "no", 
+        "ProtectSystem": "no", 
+        "RefuseManualStart": "no", 
+        "RefuseManualStop": "no", 
+        "RemainAfterExit": "no", 
+        "Requires": "-.mount basic.target", 
+        "RequiresMountsFor": "/var/tmp", 
+        "Restart": "no", 
+        "RestartUSec": "100ms", 
+        "Result": "success", 
+        "RootDirectoryStartOnly": "no", 
+        "RuntimeDirectoryMode": "0755", 
+        "SameProcessGroup": "no", 
+        "SecureBits": "0", 
+        "SendSIGHUP": "no", 
+        "SendSIGKILL": "yes", 
+        "Slice": "system.slice", 
+        "StandardError": "inherit", 
+        "StandardInput": "null", 
+        "StandardOutput": "journal", 
+        "StartLimitAction": "none", 
+        "StartLimitBurst": "5", 
+        "StartLimitInterval": "10000000", 
+        "StartupBlockIOWeight": "18446744073709551615", 
+        "StartupCPUShares": "18446744073709551615", 
+        "StatusErrno": "0", 
+        "StopWhenUnneeded": "no", 
+        "SubState": "running", 
+        "SyslogLevelPrefix": "yes", 
+        "SyslogPriority": "30", 
+        "SystemCallErrorNumber": "0", 
+        "TTYReset": "no", 
+        "TTYVHangup": "no", 
+        "TTYVTDisallocate": "no", 
+        "TasksAccounting": "no", 
+        "TasksCurrent": "18446744073709551615", 
+        "TasksMax": "18446744073709551615", 
+        "TimeoutStartUSec": "1min 30s", 
+        "TimeoutStopUSec": "5s", 
+        "TimerSlackNSec": "50000", 
+        "Transient": "no", 
+        "Type": "forking", 
+        "UMask": "0022", 
+        "UnitFilePreset": "disabled", 
+        "UnitFileState": "enabled", 
+        "WantedBy": "multi-user.target", 
+        "Wants": "system.slice", 
+        "WatchdogTimestampMonotonic": "0", 
+        "WatchdogUSec": "0"
+    }
+}
+2019-03-03 16:44:26,287 p=8550 u=zik |  TASK [nginx : Copy index.html on WebServer] **********************************************************************************************************
+2019-03-03 16:44:26,287 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:20
+2019-03-03 16:44:26,287 p=8550 u=zik |  Sunday 03 March 2019  16:44:26 +0300 (0:00:00.795)       0:00:42.451 ********** 
+2019-03-03 16:44:26,292 p=8550 u=zik |  META: noop
+2019-03-03 16:44:27,595 p=8550 u=zik |  ok: [CENTOS_WS] => {
+    "changed": false, 
+    "checksum": "70925fcd09ac491ec2f0c953b2265fa3892b3d7e", 
+    "dest": "/usr/share/nginx/html/index.html", 
+    "gid": 0, 
+    "group": "root", 
+    "mode": "0644", 
+    "owner": "root", 
+    "path": "/usr/share/nginx/html/index.html", 
+    "secontext": "system_u:object_r:httpd_sys_content_t:s0", 
+    "size": 149, 
+    "state": "file", 
+    "uid": 0
+}
+2019-03-03 16:44:27,620 p=8550 u=zik |  TASK [nginx : Install Nginx on Debian OS Family] *****************************************************************************************************
+2019-03-03 16:44:27,620 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:8
+2019-03-03 16:44:27,621 p=8550 u=zik |  Sunday 03 March 2019  16:44:27 +0300 (0:00:01.333)       0:00:43.784 ********** 
+2019-03-03 16:44:27,660 p=8550 u=zik |  skipping: [CENTOS_WS] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+2019-03-03 16:44:27,707 p=8550 u=zik |  included: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml for UBUNTU_WS
+2019-03-03 16:44:27,715 p=8550 u=zik |  META: noop
+2019-03-03 16:44:27,737 p=8550 u=zik |  TASK [nginx : Update && Upgrade Linux Cache] *********************************************************************************************************
+2019-03-03 16:44:27,737 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:4
+2019-03-03 16:44:27,737 p=8550 u=zik |  Sunday 03 March 2019  16:44:27 +0300 (0:00:00.116)       0:00:43.900 ********** 
+2019-03-03 16:44:33,118 p=8550 u=zik |   [WARNING]: Could not find aptitude. Using apt-get instead.
+
+2019-03-03 16:44:33,118 p=8550 u=zik |  ok: [UBUNTU_WS] => {
+    "changed": false
+}
+
+STDOUT:
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+
+
+
+MSG:
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+
+
+2019-03-03 16:44:33,120 p=8550 u=zik |  META: noop
+2019-03-03 16:44:33,144 p=8550 u=zik |  TASK [nginx : Install Package] ***********************************************************************************************************************
+2019-03-03 16:44:33,145 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:9
+2019-03-03 16:44:33,145 p=8550 u=zik |  Sunday 03 March 2019  16:44:33 +0300 (0:00:05.407)       0:00:49.308 ********** 
+2019-03-03 16:44:34,136 p=8550 u=zik |  ok: [UBUNTU_WS] => {
+    "cache_update_time": 1551620671, 
+    "cache_updated": false, 
+    "changed": false
+}
+2019-03-03 16:44:34,138 p=8550 u=zik |  META: noop
+2019-03-03 16:44:34,162 p=8550 u=zik |  TASK [nginx : Start Nginx] ***************************************************************************************************************************
+2019-03-03 16:44:34,162 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:14
+2019-03-03 16:44:34,162 p=8550 u=zik |  Sunday 03 March 2019  16:44:34 +0300 (0:00:01.017)       0:00:50.326 ********** 
+2019-03-03 16:44:34,593 p=8550 u=zik |  ok: [UBUNTU_WS] => {
+    "changed": false, 
+    "name": "nginx", 
+    "state": "started", 
+    "status": {
+        "ActiveEnterTimestamp": "Вс 2019-03-03 16:39:02 +03", 
+        "ActiveEnterTimestampMonotonic": "1269273400", 
+        "ActiveExitTimestamp": "Вс 2019-03-03 16:39:02 +03", 
+        "ActiveExitTimestampMonotonic": "1269106181", 
+        "ActiveState": "active", 
+        "After": "sysinit.target systemd-journald.socket basic.target network.target system.slice", 
+        "AllowIsolate": "no", 
+        "AmbientCapabilities": "0", 
+        "AssertResult": "yes", 
+        "AssertTimestamp": "Вс 2019-03-03 16:39:02 +03", 
+        "AssertTimestampMonotonic": "1269198047", 
+        "Before": "shutdown.target multi-user.target", 
+        "BlockIOAccounting": "no", 
+        "BlockIOWeight": "18446744073709551615", 
+        "CPUAccounting": "no", 
+        "CPUQuotaPerSecUSec": "infinity", 
+        "CPUSchedulingPolicy": "0", 
+        "CPUSchedulingPriority": "0", 
+        "CPUSchedulingResetOnFork": "no", 
+        "CPUShares": "18446744073709551615", 
+        "CPUUsageNSec": "38685898", 
+        "CanIsolate": "no", 
+        "CanReload": "yes", 
+        "CanStart": "yes", 
+        "CanStop": "yes", 
+        "CapabilityBoundingSet": "18446744073709551615", 
+        "ConditionResult": "yes", 
+        "ConditionTimestamp": "Вс 2019-03-03 16:39:02 +03", 
+        "ConditionTimestampMonotonic": "1269198047", 
+        "Conflicts": "shutdown.target", 
+        "ControlGroup": "/system.slice/nginx.service", 
+        "ControlPID": "0", 
+        "DefaultDependencies": "yes", 
+        "Delegate": "no", 
+        "Description": "A high performance web server and a reverse proxy server", 
+        "DevicePolicy": "auto", 
+        "ExecMainCode": "0", 
+        "ExecMainExitTimestampMonotonic": "0", 
+        "ExecMainPID": "2431", 
+        "ExecMainStartTimestamp": "Вс 2019-03-03 16:39:02 +03", 
+        "ExecMainStartTimestampMonotonic": "1269273346", 
+        "ExecMainStatus": "0", 
+        "ExecReload": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx -g daemon on; master_process on; -s reload ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecStart": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx -g daemon on; master_process on; ; ignore_errors=no ; start_time=[Вс 2019-03-03 16:39:02 +03] ; stop_time=[Вс 2019-03-03 16:39:02 +03] ; pid=2426 ; code=exited ; status=0 }", 
+        "ExecStartPre": "{ path=/usr/sbin/nginx ; argv[]=/usr/sbin/nginx -t -q -g daemon on; master_process on; ; ignore_errors=no ; start_time=[Вс 2019-03-03 16:39:02 +03] ; stop_time=[Вс 2019-03-03 16:39:02 +03] ; pid=2423 ; code=exited ; status=0 }", 
+        "ExecStop": "{ path=/sbin/start-stop-daemon ; argv[]=/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /run/nginx.pid ; ignore_errors=yes ; start_time=[Вс 2019-03-03 16:39:02 +03] ; stop_time=[Вс 2019-03-03 16:39:02 +03] ; pid=2418 ; code=exited ; status=0 }", 
+        "FailureAction": "none", 
+        "FileDescriptorStoreMax": "0", 
+        "FragmentPath": "/lib/systemd/system/nginx.service", 
+        "GuessMainPID": "yes", 
+        "IOScheduling": "0", 
+        "Id": "nginx.service", 
+        "IgnoreOnIsolate": "no", 
+        "IgnoreSIGPIPE": "yes", 
+        "InactiveEnterTimestamp": "Вс 2019-03-03 16:39:02 +03", 
+        "InactiveEnterTimestampMonotonic": "1269178063", 
+        "InactiveExitTimestamp": "Вс 2019-03-03 16:39:02 +03", 
+        "InactiveExitTimestampMonotonic": "1269199849", 
+        "JobTimeoutAction": "none", 
+        "JobTimeoutUSec": "infinity", 
+        "KillMode": "mixed", 
+        "KillSignal": "15", 
+        "LimitAS": "18446744073709551615", 
+        "LimitASSoft": "18446744073709551615", 
+        "LimitCORE": "18446744073709551615", 
+        "LimitCORESoft": "0", 
+        "LimitCPU": "18446744073709551615", 
+        "LimitCPUSoft": "18446744073709551615", 
+        "LimitDATA": "18446744073709551615", 
+        "LimitDATASoft": "18446744073709551615", 
+        "LimitFSIZE": "18446744073709551615", 
+        "LimitFSIZESoft": "18446744073709551615", 
+        "LimitLOCKS": "18446744073709551615", 
+        "LimitLOCKSSoft": "18446744073709551615", 
+        "LimitMEMLOCK": "65536", 
+        "LimitMEMLOCKSoft": "65536", 
+        "LimitMSGQUEUE": "819200", 
+        "LimitMSGQUEUESoft": "819200", 
+        "LimitNICE": "0", 
+        "LimitNICESoft": "0", 
+        "LimitNOFILE": "4096", 
+        "LimitNOFILESoft": "1024", 
+        "LimitNPROC": "3803", 
+        "LimitNPROCSoft": "3803", 
+        "LimitRSS": "18446744073709551615", 
+        "LimitRSSSoft": "18446744073709551615", 
+        "LimitRTPRIO": "0", 
+        "LimitRTPRIOSoft": "0", 
+        "LimitRTTIME": "18446744073709551615", 
+        "LimitRTTIMESoft": "18446744073709551615", 
+        "LimitSIGPENDING": "3803", 
+        "LimitSIGPENDINGSoft": "3803", 
+        "LimitSTACK": "18446744073709551615", 
+        "LimitSTACKSoft": "8388608", 
+        "LoadState": "loaded", 
+        "MainPID": "2431", 
+        "MemoryAccounting": "no", 
+        "MemoryCurrent": "1843200", 
+        "MemoryLimit": "18446744073709551615", 
+        "MountFlags": "0", 
+        "NFileDescriptorStore": "0", 
+        "Names": "nginx.service", 
+        "NeedDaemonReload": "no", 
+        "Nice": "0", 
+        "NoNewPrivileges": "no", 
+        "NonBlocking": "no", 
+        "NotifyAccess": "none", 
+        "OOMScoreAdjust": "0", 
+        "OnFailureJobMode": "replace", 
+        "PIDFile": "/run/nginx.pid", 
+        "PermissionsStartOnly": "no", 
+        "PrivateDevices": "no", 
+        "PrivateNetwork": "no", 
+        "PrivateTmp": "no", 
+        "ProtectHome": "no", 
+        "ProtectSystem": "no", 
+        "RefuseManualStart": "no", 
+        "RefuseManualStop": "no", 
+        "RemainAfterExit": "no", 
+        "Requires": "sysinit.target system.slice", 
+        "Restart": "no", 
+        "RestartUSec": "100ms", 
+        "Result": "success", 
+        "RootDirectoryStartOnly": "no", 
+        "RuntimeDirectoryMode": "0755", 
+        "RuntimeMaxUSec": "infinity", 
+        "SameProcessGroup": "no", 
+        "SecureBits": "0", 
+        "SendSIGHUP": "no", 
+        "SendSIGKILL": "yes", 
+        "Slice": "system.slice", 
+        "StandardError": "inherit", 
+        "StandardInput": "null", 
+        "StandardOutput": "journal", 
+        "StartLimitAction": "none", 
+        "StartLimitBurst": "5", 
+        "StartLimitInterval": "10000000", 
+        "StartupBlockIOWeight": "18446744073709551615", 
+        "StartupCPUShares": "18446744073709551615", 
+        "StateChangeTimestamp": "Вс 2019-03-03 16:39:02 +03", 
+        "StateChangeTimestampMonotonic": "1269273400", 
+        "StatusErrno": "0", 
+        "StopWhenUnneeded": "no", 
+        "SubState": "running", 
+        "SyslogFacility": "3", 
+        "SyslogLevel": "6", 
+        "SyslogLevelPrefix": "yes", 
+        "SyslogPriority": "30", 
+        "SystemCallErrorNumber": "0", 
+        "TTYReset": "no", 
+        "TTYVHangup": "no", 
+        "TTYVTDisallocate": "no", 
+        "TasksAccounting": "no", 
+        "TasksCurrent": "2", 
+        "TasksMax": "18446744073709551615", 
+        "TimeoutStartUSec": "1min 30s", 
+        "TimeoutStopUSec": "5s", 
+        "TimerSlackNSec": "50000", 
+        "Transient": "no", 
+        "Type": "forking", 
+        "UMask": "0022", 
+        "UnitFilePreset": "enabled", 
+        "UnitFileState": "enabled", 
+        "UtmpMode": "init", 
+        "WantedBy": "multi-user.target", 
+        "WatchdogTimestampMonotonic": "0", 
+        "WatchdogUSec": "0"
+    }
+}
+2019-03-03 16:44:34,596 p=8550 u=zik |  META: noop
+2019-03-03 16:44:34,618 p=8550 u=zik |  TASK [nginx : Copy index.html on WebServer] **********************************************************************************************************
+2019-03-03 16:44:34,618 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:19
+2019-03-03 16:44:34,619 p=8550 u=zik |  Sunday 03 March 2019  16:44:34 +0300 (0:00:00.456)       0:00:50.782 ********** 
+2019-03-03 16:44:35,318 p=8550 u=zik |  ok: [UBUNTU_WS] => {
+    "changed": false, 
+    "checksum": "70925fcd09ac491ec2f0c953b2265fa3892b3d7e", 
+    "dest": "/var/www/html/index.html", 
+    "gid": 0, 
+    "group": "root", 
+    "mode": "0644", 
+    "owner": "root", 
+    "path": "/var/www/html/index.html", 
+    "size": 149, 
+    "state": "file", 
+    "uid": 0
+}
+2019-03-03 16:44:35,345 p=8550 u=zik |  TASK [nginx : Check connect by Port on WebServer] ****************************************************************************************************
+2019-03-03 16:44:35,345 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:12
+2019-03-03 16:44:35,345 p=8550 u=zik |  Sunday 03 March 2019  16:44:35 +0300 (0:00:00.726)       0:00:51.509 ********** 
+2019-03-03 16:44:35,866 p=8550 u=zik |  ok: [UBUNTU_WS] => {
+    "changed": false, 
+    "elapsed": 0, 
+    "path": null, 
+    "port": 80, 
+    "search_regex": null, 
+    "state": "started"
+}
+2019-03-03 16:44:36,086 p=8550 u=zik |  ok: [CENTOS_WS] => {
+    "changed": false, 
+    "elapsed": 0, 
+    "path": null, 
+    "port": 80, 
+    "search_regex": null, 
+    "state": "started"
+}
+2019-03-03 16:44:36,112 p=8550 u=zik |  TASK [nginx : Check by url by WebServer] *************************************************************************************************************
+2019-03-03 16:44:36,112 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:20
+2019-03-03 16:44:36,113 p=8550 u=zik |  Sunday 03 March 2019  16:44:36 +0300 (0:00:00.767)       0:00:52.276 ********** 
+2019-03-03 16:44:36,689 p=8550 u=zik |  ok: [UBUNTU_WS] => {
+    "accept_ranges": "bytes", 
+    "changed": false, 
+    "connection": "close", 
+    "content": "<!DOCTYPE html>\r\n<html>\r\n<body>\r\n\r\n<h1>Welcome to the \"Lesson_5: Ansible Cruise!\"</h1>\r\n<p>If you see this page, all is good!</p>\r\n\r\n</body>\r\n</html>", 
+    "content_length": "149", 
+    "content_type": "text/html", 
+    "cookies": {}, 
+    "date": "Sun, 03 Mar 2019 13:44:36 GMT", 
+    "etag": "\"5c7bd8f2-95\"", 
+    "last_modified": "Sun, 03 Mar 2019 13:38:58 GMT", 
+    "redirected": false, 
+    "server": "nginx/1.10.3 (Ubuntu)", 
+    "status": 200, 
+    "url": "http://localhost"
+}
+
+MSG:
+
+OK (149 bytes)
+
+2019-03-03 16:44:36,973 p=8550 u=zik |  ok: [CENTOS_WS] => {
+    "accept_ranges": "bytes", 
+    "changed": false, 
+    "connection": "close", 
+    "content": "<!DOCTYPE html>\r\n<html>\r\n<body>\r\n\r\n<h1>Welcome to the \"Lesson_5: Ansible Cruise!\"</h1>\r\n<p>If you see this page, all is good!</p>\r\n\r\n</body>\r\n</html>", 
+    "content_length": "149", 
+    "content_type": "text/html", 
+    "cookies": {}, 
+    "date": "Sun, 03 Mar 2019 13:44:36 GMT", 
+    "etag": "\"5c7bd8ba-95\"", 
+    "last_modified": "Sun, 03 Mar 2019 13:38:02 GMT", 
+    "redirected": false, 
+    "server": "nginx/1.12.2", 
+    "status": 200, 
+    "url": "http://localhost"
+}
+
+MSG:
+
+OK (149 bytes)
+
+2019-03-03 16:44:37,000 p=8550 u=zik |  TASK [nginx : Print Results Checks] ******************************************************************************************************************
+2019-03-03 16:44:37,000 p=8550 u=zik |  task path: /home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:26
+2019-03-03 16:44:37,001 p=8550 u=zik |  Sunday 03 March 2019  16:44:36 +0300 (0:00:00.888)       0:00:53.164 ********** 
+2019-03-03 16:44:37,066 p=8550 u=zik |  ok: [CENTOS_WS] => {}
+
+MSG:
+
+{u'status': 200, u'content_length': u'149', u'cookies': {}, u'url': u'http://localhost', u'changed': False, u'server': u'nginx/1.12.2', u'content': u'<!DOCTYPE html>\r\n<html>\r\n<body>\r\n\r\n<h1>Welcome to the "Lesson_5: Ansible Cruise!"</h1>\r\n<p>If you see this page, all is good!</p>\r\n\r\n</body>\r\n</html>', 'failed': False, u'connection': u'close', u'last_modified': u'Sun, 03 Mar 2019 13:38:02 GMT', u'etag': u'"5c7bd8ba-95"', u'content_type': u'text/html', u'date': u'Sun, 03 Mar 2019 13:44:36 GMT', u'redirected': False, u'accept_ranges': u'bytes', u'msg': u'OK (149 bytes)'}
+
+2019-03-03 16:44:37,101 p=8550 u=zik |  ok: [UBUNTU_WS] => {}
+
+MSG:
+
+{u'status': 200, u'content_length': u'149', u'cookies': {}, u'url': u'http://localhost', u'changed': False, u'server': u'nginx/1.10.3 (Ubuntu)', u'content': u'<!DOCTYPE html>\r\n<html>\r\n<body>\r\n\r\n<h1>Welcome to the "Lesson_5: Ansible Cruise!"</h1>\r\n<p>If you see this page, all is good!</p>\r\n\r\n</body>\r\n</html>', 'failed': False, u'connection': u'close', u'last_modified': u'Sun, 03 Mar 2019 13:38:58 GMT', u'etag': u'"5c7bd8f2-95"', u'content_type': u'text/html', u'date': u'Sun, 03 Mar 2019 13:44:36 GMT', u'redirected': False, u'accept_ranges': u'bytes', u'msg': u'OK (149 bytes)'}
+
+2019-03-03 16:44:37,103 p=8550 u=zik |  META: ran handlers
+2019-03-03 16:44:37,104 p=8550 u=zik |  META: ran handlers
+2019-03-03 16:44:37,106 p=8550 u=zik |  PLAY RECAP *******************************************************************************************************************************************
+2019-03-03 16:44:37,106 p=8550 u=zik |  CENTOS_WS                  : ok=12   changed=0    unreachable=0    failed=0   
+2019-03-03 16:44:37,107 p=8550 u=zik |  UBUNTU_WS                  : ok=12   changed=0    unreachable=0    failed=0   
+2019-03-03 16:44:37,107 p=8550 u=zik |  Sunday 03 March 2019  16:44:37 +0300 (0:00:00.106)       0:00:53.270 ********** 
+2019-03-03 16:44:37,107 p=8550 u=zik |  =============================================================================== 
+2019-03-03 16:44:37,108 p=8550 u=zik |  Gathering Facts ------------------------------------------------------------------------------------------------------------------------------ 27.74s
+/home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:6 ---------------------------------------------------------------------------------
+2019-03-03 16:44:37,108 p=8550 u=zik |  nginx : Update && Upgrade Linux Cache --------------------------------------------------------------------------------------------------------- 9.69s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:4 -----------------------------------------------------------------
+2019-03-03 16:44:37,108 p=8550 u=zik |  nginx : Update && Upgrade Linux Cache --------------------------------------------------------------------------------------------------------- 5.41s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:4 -----------------------------------------------------------------
+2019-03-03 16:44:37,108 p=8550 u=zik |  nginx : Copy index.html on WebServer ---------------------------------------------------------------------------------------------------------- 1.33s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:20 ----------------------------------------------------------------
+2019-03-03 16:44:37,108 p=8550 u=zik |  nginx : Install Package ----------------------------------------------------------------------------------------------------------------------- 1.15s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:10 ----------------------------------------------------------------
+2019-03-03 16:44:37,109 p=8550 u=zik |  nginx : Install Package ----------------------------------------------------------------------------------------------------------------------- 1.02s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:9 -----------------------------------------------------------------
+2019-03-03 16:44:37,109 p=8550 u=zik |  Add authorized keys for User ------------------------------------------------------------------------------------------------------------------ 1.01s
+/home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:15 --------------------------------------------------------------------------------
+2019-03-03 16:44:37,109 p=8550 u=zik |  Create ansible user --------------------------------------------------------------------------------------------------------------------------- 0.91s
+/home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:9 ---------------------------------------------------------------------------------
+2019-03-03 16:44:37,109 p=8550 u=zik |  Allow user without a password ----------------------------------------------------------------------------------------------------------------- 0.91s
+/home/zik/Desktop/lesson_6/ansible_project/ansible_three_task.yml:21 --------------------------------------------------------------------------------
+2019-03-03 16:44:37,110 p=8550 u=zik |  nginx : Check by url by WebServer ------------------------------------------------------------------------------------------------------------- 0.89s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:20 ----------------------------------------------------------------------------
+2019-03-03 16:44:37,110 p=8550 u=zik |  nginx : Start Nginx --------------------------------------------------------------------------------------------------------------------------- 0.80s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/redhat_os_family.yml:15 ----------------------------------------------------------------
+2019-03-03 16:44:37,110 p=8550 u=zik |  nginx : Check connect by Port on WebServer ---------------------------------------------------------------------------------------------------- 0.77s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:12 ----------------------------------------------------------------------------
+2019-03-03 16:44:37,110 p=8550 u=zik |  nginx : Copy index.html on WebServer ---------------------------------------------------------------------------------------------------------- 0.73s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:19 ----------------------------------------------------------------
+2019-03-03 16:44:37,110 p=8550 u=zik |  nginx : Start Nginx --------------------------------------------------------------------------------------------------------------------------- 0.46s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/debian_os_family.yml:14 ----------------------------------------------------------------
+2019-03-03 16:44:37,111 p=8550 u=zik |  nginx : Install Nginx on RadHat OS Family ----------------------------------------------------------------------------------------------------- 0.12s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:4 -----------------------------------------------------------------------------
+2019-03-03 16:44:37,111 p=8550 u=zik |  nginx : Install Nginx on Debian OS Family ----------------------------------------------------------------------------------------------------- 0.12s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:8 -----------------------------------------------------------------------------
+2019-03-03 16:44:37,111 p=8550 u=zik |  nginx : Print Results Checks ------------------------------------------------------------------------------------------------------------------ 0.11s
+/home/zik/Desktop/lesson_6/ansible_project/roles/nginx/tasks/main.yml:26 ----------------------------------------------------------------------------
+2019-03-03 16:44:37,111 p=8550 u=zik |  Playbook run took 0 days, 0 hours, 0 minutes, 53 seconds

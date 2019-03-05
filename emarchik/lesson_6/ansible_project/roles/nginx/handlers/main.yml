@@ -1,0 +1,6 @@
+---
+- name: Restart WebServer
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
