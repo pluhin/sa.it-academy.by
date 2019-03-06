@@ -1,0 +1,9 @@
+[cent]
+CENTOS_WS ansible_host=192.168.43.254
+
+[ub]
+UBUNTU_WS ansible_host=192.168.43.239
+
+[workstation:children]
+cent
+ub
