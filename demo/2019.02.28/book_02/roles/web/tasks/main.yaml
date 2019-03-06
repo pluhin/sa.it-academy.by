@@ -9,7 +9,7 @@
 
 - name: Copy index.html
   copy:
-    scr: index.html
+    src: index.html
     dest: "{{ index_home }}"
 
 - name: Check connect
