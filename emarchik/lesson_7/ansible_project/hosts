@@ -1,0 +1,2 @@
+[ub]
+UBUNTU_WS ansible_host=10.0.10.4
