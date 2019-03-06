@@ -1,4 +1,0 @@
----
-- hosts: prod_hosts
-  tasks:
-    - name: Creating User
