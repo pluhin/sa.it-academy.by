@@ -1,0 +1,41 @@
+---
+- name: Ensure dependencies are installed.
+  apt:
+    name:
+      - curl
+      - software-properties-common
+      - apt-transport-https
+      - openjdk-8-jdk
+    state: present
+
+- name: Add Jenkins apt repository key.
+  apt_key:
+    url: "{{ jenkins_repo_key_url }}"
+    state: present
+
+- name: Add Jenkins apt repository.
+  apt_repository:
+    repo: "{{ jenkins_repo_url }}"
+    state: present
+    update_cache: true
+
+- name: Jenkins is installed.
+  apt:
+    name: jenkins
+    state: present
+
+- name: Ensure Jenkins is started and runs on startup.
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+
+- name: Check jenkins_secrets_initialAdminPassword for login in Web
+  become: yes
+  command: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: passwd_jenkins
+
+- name: Print
+  debug:
+    msg: "{{ passwd_jenkins }}"
+  
