@@ -1,0 +1,10 @@
+---
+  - name: OS/version
+    debug: 
+      msg: "{{ ansible_lsb  }} " 
+  - name: Mount point/capacity/used
+    debug: 
+      msg: "{{ ansible_mounts }}"
+  - name: RAM/capacity/free
+    debug: 
+      msg: "{{ ansible_memory_mb }}"
