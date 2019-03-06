@@ -1,6 +1,0 @@
----
-all hosts:
-  hosts: 
-    redmine:
-      ansible_user: user
-      ansible_host: 192.168.253.60
