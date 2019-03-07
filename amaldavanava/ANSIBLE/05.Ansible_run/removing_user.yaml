@@ -1,0 +1,13 @@
+---
+- hosts: ec_htp
+  tasks:
+    - name: "Removing User {{ user_add }}"
+      user:
+       name: "{{ user_add }}"
+       comment: "Managed by Ansible"
+       state: absent
+
+    - name: "Clean {{ user_add }} file in sudoers.d"
+      file:
+        state: absent
+        path: "/etc/sudoers.d/{{ user_add }}"
