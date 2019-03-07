@@ -1,0 +1,7 @@
+ 1059  ansible cent -m shell -a "sudo yum -y update && nmcli|grep inet4" > output_for_centos.txt
+ 1060  pwd
+ 1061  less output_for_centos.txt 
+ 1062  ansible ub -m shell -a "sudo apt update && ifconfig|grep inet|grep -v inet6|grep -v 127" > output_for_ub.txt
+ 1063  history
+ 1064  history|tail -6
+ 1065  history|tail -7 > my_command_from_localhost.txt

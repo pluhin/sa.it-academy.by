@@ -1,0 +1,9 @@
+---
+- hosts: prod_hosts
+  vars:
+    var_01: "hi"
+  tasks:
+    - name: Print vars
+      debug:
+        msg: "{{ var_01 }}"
+
