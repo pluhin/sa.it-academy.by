@@ -1,0 +1,18 @@
+---
+- hosts: servers
+  tasks:
+  - name: Get Info
+    command: 'grep "{{ user_add }}" /etc/passwd'
+   # become: yes
+   # become_user: sova
+   # command: 'sudo cat /etc/sudoers'
+    register: output
+  - name: Slack
+    slack: 
+      token: "{{ token }}"
+      channel: "{{ channel }}"
+      msg: 'New user ("{{ user_add }}") on {{ inventory_hostname }} from /etc/passwd:    "{{ output.stdout_lines }}"'
+      color: good
+      username: 'webhookbot'
+      icon_emoji: ':ghost:'
+

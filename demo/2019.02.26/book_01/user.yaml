@@ -1,0 +1,12 @@
+---
+- hosts: ec_htp
+  tasks:
+  - name: "Creating {{ user_add }}"
+    user: 
+      name: "{{ user_add }}"
+      comment: "Managed by Ansible"
+      state: present
+  - name: "Removing {{ user_add }}"
+    user:
+      name: "{{ user_add }}"
+      state: absent

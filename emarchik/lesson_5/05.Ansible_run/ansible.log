@@ -1,0 +1,203 @@
+2019-02-28 10:57:26,416 p=19256 u=agarim |  ansible-playbook 2.4.1.0
+  config file = /mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible.cfg
+  configured module search path = [u'/home/agarim/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/local/lib/python2.7/dist-packages/ansible
+  executable location = /usr/local/bin/ansible-playbook
+  python version = 2.7.12 (default, Nov 12 2018, 14:36:49) [GCC 5.4.0 20160609]
+2019-02-28 10:57:26,416 p=19256 u=agarim |  Using /mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible.cfg as config file
+2019-02-28 10:57:26,725 p=19256 u=agarim |  PLAYBOOK: ansible_second_task.yml *************************************************************************************************************************************************************************************************
+2019-02-28 10:57:26,727 p=19256 u=agarim |  2 plays in ansible_second_task.yml
+2019-02-28 10:57:26,746 p=19256 u=agarim |  PLAY [Asible Second Path_1 Task] **************************************************************************************************************************************************************************************************
+2019-02-28 10:57:26,761 p=19256 u=agarim |  TASK [Gathering Facts] ************************************************************************************************************************************************************************************************************
+2019-02-28 10:57:26,762 p=19256 u=agarim |  Thursday 28 February 2019  10:57:26 +0300 (0:00:00.064)       0:00:00.064 ***** 
+2019-02-28 10:57:30,612 p=19256 u=agarim |  ok: [CENTOS_WS]
+2019-02-28 10:57:30,964 p=19256 u=agarim |  ok: [UBUNTU_WS]
+2019-02-28 10:57:30,965 p=19256 u=agarim |  META: ran handlers
+2019-02-28 10:57:30,973 p=19256 u=agarim |  TASK [Print out remote host parameters] *******************************************************************************************************************************************************************************************
+2019-02-28 10:57:30,973 p=19256 u=agarim |  task path: /mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible_second_task.yml:24
+2019-02-28 10:57:30,973 p=19256 u=agarim |  Thursday 28 February 2019  10:57:30 +0300 (0:00:04.211)       0:00:04.275 ***** 
+2019-02-28 10:57:31,068 p=19256 u=agarim |  ok: [CENTOS_WS] => {}
+
+MSG:
+
+[{u'OS_FAMILY': u'RedHat'}, {u'OS_DISTRIBUTTION': u'CentOS'}, {u'DISTRIBUTTION_VERSION': u'7.6.1810'}, {u'NODE_NAME': u'sa-cent'}, {u'NODE_ARCHITECTURE': u'x86_64'}, {u'POINT_MOUNTS': u'/'}, {u'HDD_SIZE_TOTAL': u'31114924032'}, {u'HDD_AVAILABLE': u'29496856576'}, {u'RAM_TOTAL': 990}, {u'RAM_FREE': 293}]
+
+2019-02-28 10:57:31,077 p=19256 u=agarim |  ok: [UBUNTU_WS] => {}
+
+MSG:
+
+[{u'OS_FAMILY': u'Debian'}, {u'OS_DISTRIBUTTION': u'Ubuntu'}, {u'DISTRIBUTTION_VERSION': u'18.04'}, {u'NODE_NAME': u'sa-ubuntu'}, {u'NODE_ARCHITECTURE': u'x86_64'}, {u'POINT_MOUNTS': u'/'}, {u'HDD_SIZE_TOTAL': u'33683161088'}, {u'HDD_AVAILABLE': u'26261798912'}, {u'RAM_TOTAL': 984}, {u'RAM_FREE': 119}]
+
+2019-02-28 10:57:31,078 p=19256 u=agarim |  META: ran handlers
+2019-02-28 10:57:31,078 p=19256 u=agarim |  META: ran handlers
+2019-02-28 10:57:31,092 p=19256 u=agarim |  PLAY [Asible Second Path_2 Task] **************************************************************************************************************************************************************************************************
+2019-02-28 10:57:31,101 p=19256 u=agarim |  TASK [Gathering Facts] ************************************************************************************************************************************************************************************************************
+2019-02-28 10:57:31,101 p=19256 u=agarim |  Thursday 28 February 2019  10:57:31 +0300 (0:00:00.127)       0:00:04.403 ***** 
+2019-02-28 10:57:31,902 p=19256 u=agarim |  ok: [CENTOS_WS]
+2019-02-28 10:57:31,937 p=19256 u=agarim |  ok: [UBUNTU_WS]
+2019-02-28 10:57:31,938 p=19256 u=agarim |  META: ran handlers
+2019-02-28 10:57:31,945 p=19256 u=agarim |  TASK [Creating User] **************************************************************************************************************************************************************************************************************
+2019-02-28 10:57:31,946 p=19256 u=agarim |  task path: /mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible_second_task.yml:40
+2019-02-28 10:57:31,946 p=19256 u=agarim |  Thursday 28 February 2019  10:57:31 +0300 (0:00:00.844)       0:00:05.248 ***** 
+2019-02-28 10:57:31,990 p=19256 u=agarim |  skipping: [UBUNTU_WS] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False", 
+    "skipped": true
+}
+2019-02-28 10:57:32,775 p=19256 u=agarim |  changed: [CENTOS_WS] => {
+    "changed": true, 
+    "comment": "Add by Ansible user", 
+    "createhome": true, 
+    "failed": false, 
+    "group": 10, 
+    "home": "/home/agarim", 
+    "name": "agarim", 
+    "shell": "/bin/bash", 
+    "state": "present", 
+    "system": false, 
+    "uid": 1004
+}
+
+STDERR:
+
+useradd: warning: the home directory already exists.
+Not copying any file from skel directory into it.
+Creating mailbox file: File exists
+
+
+2019-02-28 10:57:32,782 p=19256 u=agarim |  TASK [Add authorized keys for User] ***********************************************************************************************************************************************************************************************
+2019-02-28 10:57:32,786 p=19256 u=agarim |  task path: /mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible_second_task.yml:47
+2019-02-28 10:57:32,786 p=19256 u=agarim |  Thursday 28 February 2019  10:57:32 +0300 (0:00:00.840)       0:00:06.088 ***** 
+2019-02-28 10:57:32,838 p=19256 u=agarim |  skipping: [UBUNTU_WS] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False", 
+    "skipped": true
+}
+2019-02-28 10:57:33,466 p=19256 u=agarim |  ok: [CENTOS_WS] => {
+    "changed": false, 
+    "comment": null, 
+    "exclusive": false, 
+    "failed": false, 
+    "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDzz5GdW/HO8LNhrDZrtrOIfpgNQ7freh4euncwGc0AgBZRPps6IAKVsT/PE1oVs0yEEPjxRwyhhhKMO4Thf5NEMz5fnD6NpiftqPIc6sVw1RYfaGJefg2eGn+dHoJ6KieRTdSB2AHpKjB644fyjWslK8uZ8V0UXCxVnoCd/zTllanbRMLob5lK+GVnkNfKitXAJUJVpRNasVQq7hbm6LmzkoZQpNC2W+FcRhJW2f8le38Om0eHucbCawsNo8l7vB5wWTx3Ysdnz6Erc93eUSCWv4UvYbWEZMYfVX+plTmG5KOMN5bFPcbb9vtMRvQDrPXLoDIp+GMrcXNv7fTx8Op1 agarim@WSMMIN-0189", 
+    "key_options": null, 
+    "keyfile": "/home/agarim/.ssh/authorized_keys", 
+    "manage_dir": true, 
+    "path": null, 
+    "state": "present", 
+    "unique": false, 
+    "user": "agarim", 
+    "validate_certs": true
+}
+2019-02-28 10:57:33,477 p=19256 u=agarim |  TASK [Allow admin users to wheel without a password] ******************************************************************************************************************************************************************************
+2019-02-28 10:57:33,478 p=19256 u=agarim |  task path: /mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible_second_task.yml:53
+2019-02-28 10:57:33,478 p=19256 u=agarim |  Thursday 28 February 2019  10:57:33 +0300 (0:00:00.691)       0:00:06.780 ***** 
+2019-02-28 10:57:33,534 p=19256 u=agarim |  skipping: [UBUNTU_WS] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False", 
+    "skipped": true
+}
+2019-02-28 10:57:34,395 p=19256 u=agarim |  changed: [CENTOS_WS] => {
+    "backup": "", 
+    "changed": true, 
+    "failed": false
+}
+
+MSG:
+
+line added
+
+2019-02-28 10:57:34,405 p=19256 u=agarim |  TASK [Creating User] **************************************************************************************************************************************************************************************************************
+2019-02-28 10:57:34,406 p=19256 u=agarim |  task path: /mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible_second_task.yml:62
+2019-02-28 10:57:34,406 p=19256 u=agarim |  Thursday 28 February 2019  10:57:34 +0300 (0:00:00.928)       0:00:07.708 ***** 
+2019-02-28 10:57:34,439 p=19256 u=agarim |  skipping: [CENTOS_WS] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False", 
+    "skipped": true
+}
+2019-02-28 10:57:34,970 p=19256 u=agarim |  changed: [UBUNTU_WS] => {
+    "changed": true, 
+    "comment": "Add by Ansible user", 
+    "createhome": true, 
+    "failed": false, 
+    "group": 27, 
+    "home": "/home/agarim", 
+    "name": "agarim", 
+    "shell": "/bin/sh", 
+    "state": "present", 
+    "system": false, 
+    "uid": 1006
+}
+
+STDERR:
+
+useradd: warning: the home directory already exists.
+Not copying any file from skel directory into it.
+
+
+2019-02-28 10:57:34,978 p=19256 u=agarim |  TASK [Add authorized keys for User] ***********************************************************************************************************************************************************************************************
+2019-02-28 10:57:34,978 p=19256 u=agarim |  task path: /mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible_second_task.yml:69
+2019-02-28 10:57:34,978 p=19256 u=agarim |  Thursday 28 February 2019  10:57:34 +0300 (0:00:00.572)       0:00:08.280 ***** 
+2019-02-28 10:57:35,006 p=19256 u=agarim |  skipping: [CENTOS_WS] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False", 
+    "skipped": true
+}
+2019-02-28 10:57:35,434 p=19256 u=agarim |  ok: [UBUNTU_WS] => {
+    "changed": false, 
+    "comment": null, 
+    "exclusive": false, 
+    "failed": false, 
+    "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDzz5GdW/HO8LNhrDZrtrOIfpgNQ7freh4euncwGc0AgBZRPps6IAKVsT/PE1oVs0yEEPjxRwyhhhKMO4Thf5NEMz5fnD6NpiftqPIc6sVw1RYfaGJefg2eGn+dHoJ6KieRTdSB2AHpKjB644fyjWslK8uZ8V0UXCxVnoCd/zTllanbRMLob5lK+GVnkNfKitXAJUJVpRNasVQq7hbm6LmzkoZQpNC2W+FcRhJW2f8le38Om0eHucbCawsNo8l7vB5wWTx3Ysdnz6Erc93eUSCWv4UvYbWEZMYfVX+plTmG5KOMN5bFPcbb9vtMRvQDrPXLoDIp+GMrcXNv7fTx8Op1 agarim@WSMMIN-0189", 
+    "key_options": null, 
+    "keyfile": "/home/agarim/.ssh/authorized_keys", 
+    "manage_dir": true, 
+    "path": null, 
+    "state": "present", 
+    "unique": false, 
+    "user": "agarim", 
+    "validate_certs": true
+}
+2019-02-28 10:57:35,441 p=19256 u=agarim |  TASK [Allow admin users to sudo without a password] *******************************************************************************************************************************************************************************
+2019-02-28 10:57:35,441 p=19256 u=agarim |  task path: /mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible_second_task.yml:75
+2019-02-28 10:57:35,441 p=19256 u=agarim |  Thursday 28 February 2019  10:57:35 +0300 (0:00:00.463)       0:00:08.744 ***** 
+2019-02-28 10:57:35,466 p=19256 u=agarim |  skipping: [CENTOS_WS] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False", 
+    "skipped": true
+}
+2019-02-28 10:57:35,969 p=19256 u=agarim |  changed: [UBUNTU_WS] => {
+    "backup": "", 
+    "changed": true, 
+    "failed": false
+}
+
+MSG:
+
+line added
+
+2019-02-28 10:57:35,970 p=19256 u=agarim |  META: ran handlers
+2019-02-28 10:57:35,971 p=19256 u=agarim |  META: ran handlers
+2019-02-28 10:57:35,971 p=19256 u=agarim |  PLAY RECAP ************************************************************************************************************************************************************************************************************************
+2019-02-28 10:57:35,972 p=19256 u=agarim |  CENTOS_WS                  : ok=6    changed=2    unreachable=0    failed=0   
+2019-02-28 10:57:35,972 p=19256 u=agarim |  UBUNTU_WS                  : ok=6    changed=2    unreachable=0    failed=0   
+2019-02-28 10:57:35,972 p=19256 u=agarim |  Thursday 28 February 2019  10:57:35 +0300 (0:00:00.530)       0:00:09.274 ***** 
+2019-02-28 10:57:35,972 p=19256 u=agarim |  =============================================================================== 
+2019-02-28 10:57:35,973 p=19256 u=agarim |  Gathering Facts ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 4.21s
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2019-02-28 10:57:35,973 p=19256 u=agarim |  Allow admin users to wheel without a password ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 0.93s
+/mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible_second_task.yml:53 ---------------------------------------------------------------------------------------------------------------------------
+2019-02-28 10:57:35,973 p=19256 u=agarim |  Gathering Facts ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 0.84s
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2019-02-28 10:57:35,973 p=19256 u=agarim |  Creating User -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.84s
+/mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible_second_task.yml:40 ---------------------------------------------------------------------------------------------------------------------------
+2019-02-28 10:57:35,973 p=19256 u=agarim |  Add authorized keys for User ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.69s
+/mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible_second_task.yml:47 ---------------------------------------------------------------------------------------------------------------------------
+2019-02-28 10:57:35,974 p=19256 u=agarim |  Creating User -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.57s
+/mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible_second_task.yml:62 ---------------------------------------------------------------------------------------------------------------------------
+2019-02-28 10:57:35,974 p=19256 u=agarim |  Allow admin users to sudo without a password ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.53s
+/mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible_second_task.yml:75 ---------------------------------------------------------------------------------------------------------------------------
+2019-02-28 10:57:35,974 p=19256 u=agarim |  Add authorized keys for User ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.46s
+/mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible_second_task.yml:69 ---------------------------------------------------------------------------------------------------------------------------
+2019-02-28 10:57:35,974 p=19256 u=agarim |  Print out remote host parameters ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.13s
+/mnt/d/Courses/IT_Academy/sa.it-academy.by/emarchik/lesson_5/05.Ansible_run/ansible_second_task.yml:24 ---------------------------------------------------------------------------------------------------------------------------
+2019-02-28 10:57:35,974 p=19256 u=agarim |  Playbook run took 0 days, 0 hours, 0 minutes, 9 seconds

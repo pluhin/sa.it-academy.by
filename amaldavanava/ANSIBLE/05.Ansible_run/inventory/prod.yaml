@@ -1,0 +1,14 @@
+---
+prod_hosts:
+  children:
+    ec_htp:
+      hosts:
+        cent:
+          ansible_host: 192.168.254.50
+        ub:
+          ansible_host: 192.168.254.51
+    jump_hosts:
+      hosts:
+        jump:
+          ansible_user: jump
+          ansible_host: 178.124.206.48

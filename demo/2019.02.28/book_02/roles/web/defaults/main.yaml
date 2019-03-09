@@ -1,0 +1,10 @@
+---
+yum_http:
+  - httpd
+apt_http:
+  - apache2
+
+index_home: "/var/www/html/"
+virual_hosts:
+  - { name: "local_ubuntu.site", ip: "{{ hostvars[\"sa_ubuntu\"].ansible_host }}"}
+  - { name: "local_cent.site", ip: "{{ hostvars[\"sa_cent\"].ansible_host }}"}
