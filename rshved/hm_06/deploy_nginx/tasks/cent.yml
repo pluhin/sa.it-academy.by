@@ -1,0 +1,28 @@
+---
+- name: add epel repo
+  yum:
+    name: epel-release
+    state: present
+
+- name: update packages on cent_os
+  yum:
+    name: "*"
+    state: latest
+  
+- name: install packages on cent_os
+  yum: 
+    name: "{{ cent_packages }}"
+    state: latest
+
+- name: start and enable nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: insert index file on cent_os
+  template:
+    dest: /usr/share/nginx/html/index.html # required. Location to render the template to on the remote machine.
+    src: index.html # required. Path of a Jinja2 formatted template on the Ansible controller. This can be a relative or absolute path.
+  notify:
+    - nginx_restart
