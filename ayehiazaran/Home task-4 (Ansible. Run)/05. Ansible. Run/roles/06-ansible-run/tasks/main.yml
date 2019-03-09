@@ -1,0 +1,40 @@
+---
+  - block: 
+      - name: "Creating User"
+        user:
+          name: albert
+          comment: "User adding"
+          state: present
+
+      - name: "Add keys for user"
+        authorized_key:
+           user: albert
+           state: present
+           key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+      - name: "Add to the sudo:nopasswd"
+        lineinfile:
+          dest: "/etc/sudoers"
+          state: "present"
+          line: "albert ALL=(ALL) NOPASSWD: ALL"
+    when: ansible_os_family == "RedHat"
+
+  - block: 
+      - name: "Creating User"
+        user:
+          name: albert
+          comment: "Add user"
+          state: present
+ 
+      - name: "Add authorized keys for User"
+        authorized_key:
+          user: albert
+          state: present
+          key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+      - name: "Add to the sudo:nopasswd"
+        lineinfile:
+          dest: "/etc/sudoers"
+          state: "present"
+          line: "albert ALL=(ALL) NOPASSWD: ALL"
+    when: ansible_os_family == "Debian"
