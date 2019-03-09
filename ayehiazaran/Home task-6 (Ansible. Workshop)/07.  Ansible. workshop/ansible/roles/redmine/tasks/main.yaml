@@ -64,8 +64,8 @@
 
 - name: Apache. Config
   template:
-      src: redmine.conf.j2
-      dest: /etc/apache2/sites-enabled/redmine.conf
+    src: redmine.conf.j2
+    dest: /etc/apache2/sites-enabled/redmine.conf
   notify:
     - apache restart
 
