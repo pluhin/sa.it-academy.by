@@ -1,0 +1,71 @@
+---
+- name: Install requirements for Jenkins
+  apt:
+    name: "{{ packages }}"
+- name: Add user for jenkins
+  user:
+    name: jenkins
+    shell: /bin/bash
+    home: /tmp/jenkins
+- name: Add repository .ssh
+  file:
+    path: "/tmp/jenkins/.ssh/"
+    state: directory
+    owner: jenkins
+    group: jenkins
+- name: Copy private ssh key for jenkins user
+  copy:
+    src: "~/.ssh/id_rsa"
+    dest: /tmp/jenkins/.ssh/
+    mode: 0600
+    owner: jenkins
+    group: jenkins
+- name: Copy public ssh key for jenkins user
+  copy:
+    src: "~/.ssh/id_rsa.pub"
+    dest: /tmp/jenkins/.ssh/authorized_keys
+    owner: jenkins
+    group: jenkins
+    mode: 0644
+- name: add the repository key to the system 
+  shell: "wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -"
+- name: append the Debian package repository address to the server's
+  apt_repository: 
+    repo: deb https://pkg.jenkins.io/debian-stable binary/
+    state: present
+- name: Apt update
+  apt:
+    update_cache: yes
+- name: Install Jenkins
+  apt:
+    name: "{{ apt_packages }}"
+#- name: Make sure a service is running Jenkins,Nginx
+#  service:
+#    name: "{{ services }}"
+#    state: started
+#    enabled: yes
+- name: Check Start Jenkins
+  wait_for:
+    host: "localhost"
+    port: "8080"
+    state: started
+    delay: 0
+    timeout: 3
+- name: show initialAdminPassword
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: pass
+- name: show pass
+  debug:
+    var: pass.stdout_lines
+- name: Change hosts file for site
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+- name: Copy site config for Nginx server
+  template:
+    src: "master.jenkins.by.j2"
+    dest: "/etc/nginx/sites-enabled/master.jenkins.by"
+  notify: 
+    - nginx restart
+

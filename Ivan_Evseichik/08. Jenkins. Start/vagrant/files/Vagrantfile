@@ -1,0 +1,23 @@
+#############################config#########################
+	Vagrant.configure("2") do |config|
+        config.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key", "id_rsa"]
+        config.ssh.insert_key = false
+        config.vm.provision "file", source: "id_rsa.pub" , destination: "~/.ssh/authorized_keys"
+
+#Virtual machine VM1
+
+        config.vm.define "jenkins" do |jenkins|
+        jenkins.vm.network "public_network", ip: "192.168.200.100"
+        jenkins.vm.network "forwarded_port", guest: 22, host: 8022, protocol: "tcp", auto_correct: true
+        jenkins.vm.network "forwarded_port", guest: 80, host: 8081, protocol: "tcp", auto_correct: true
+        jenkins.vm.provision "shell", inline: "which python || sudo apt -y install python"
+        jenkins.vm.box = "ubuntu/xenial64"
+        jenkins.vm.hostname = "jenkins"
+        jenkins.vm.provider "virtualbox" do |v1|
+        v1.memory = 2048
+        v1.cpus = 2
+        v1.gui = false
+end
+end
+
+end
