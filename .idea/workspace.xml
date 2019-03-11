@@ -2,16 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e48b8875-8c57-484d-9365-b1ce98019415" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/amaldavanava/ANSIBLE/ansible_workshop/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/amaldavanava/ANSIBLE/ansible_workshop/ansible_workshop.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/amaldavanava/ANSIBLE/ansible_workshop/inventory/inventory.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/amaldavanava/ANSIBLE/ansible_workshop/play.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/amaldavanava/ANSIBLE/ansible_workshop/roles/redmine/defaults/main.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/amaldavanava/ANSIBLE/ansible_workshop/roles/redmine/handlers/main.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/amaldavanava/ANSIBLE/ansible_workshop/roles/redmine/tasks/main.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/amaldavanava/ANSIBLE/ansible_workshop/roles/redmine/templates/.my.cnf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/amaldavanava/ANSIBLE/ansible_workshop/roles/redmine/templates/database.yml.j2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/amaldavanava/ANSIBLE/ansible_workshop/roles/redmine/templates/redmine.conf.j2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sa.it-academy.by.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -164,9 +160,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-1" width="1366" height="728" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.81017613" visible="true" weight="0.33730453" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.81017613" visible="true" weight="0.33730453" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.18982388" side_tool="true" visible="true" weight="0.33730453" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -176,7 +171,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" visible="true" weight="0.1539735" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.1539735" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" />
