@@ -17,17 +17,17 @@
 ------
 1. Slack information about task:
 
-![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/07.Ans.Homework/Pics/slack_result.JPG)
+![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/06.Ans. Homework/Pics/slack_result.JPG)
 
 
 2. Ping new sites on the diffrent servers:
 
-![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/07.Ans.Homework/Pics/ping.JPG)
+![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/06.Ans. Homework/Pics/ping.JPG)
 
 
 3. Check by browsers:
 
-![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/07.Ans.Homework/Pics/browser.JPG)
+![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/06.Ans. Homework/Pics/browser.JPG)
 
 
 
