@@ -1,0 +1,57 @@
+---
+- name: Install VirtualBox
+  tags: install
+  apt:
+    name: "{{apt_packages}}"
+    state: latest
+- name: Install vagrant from deb package
+  tags: install
+  apt:
+    deb: "{{ deb_packages }}"
+  register: deb_install
+- name: show install deb package
+  debug:
+    var: deb_install 
+- name: Create vagrant work directory
+  tags: install
+  shell: "mkdir ~/jenkins && cd ~/jenkins && vagrant init"
+  args:
+    warn: false
+- name: Vagrant remove Vagrantfile
+  tags: install
+  file:
+    path: "~/jenkins/Vagrantfile"
+    state: absent
+- name: Copy private ssh key for vagrant machine
+  tags: install
+  copy:
+    src: "~/.ssh/id_rsa"
+    dest: ~/jenkins/
+    mode: 0600
+    owner: vagrant
+    group: vagrant
+- name: Copy public ssh key for vagrant machine
+  tags: install
+  copy:
+    src: "~/.ssh/id_rsa.pub"
+    dest: ~/jenkins/
+    owner: vagrant
+    group: vagrant
+    mode: 0644
+- name: Copy files from loacl machine to jenkins VM
+  tags: install
+  copy:
+    src: Vagrantfile
+    dest: ~/jenkins/
+- name: change permissions for folder jenkins
+  tags: install
+  file:
+    dest: ~/jenkins/
+    owner: vagrant
+    group: vagrant
+    recurse: yes
+- name: Deploy vagrant machine
+  tags: up
+  shell: |
+    cd ~/jenkins/ && vagrant up
+...

@@ -1,0 +1,5 @@
+all_servers:
+  hosts:
+    redmine:
+      ansible_host: 192.168.253.4
+      ansible_user: user
