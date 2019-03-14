@@ -6,4 +6,4 @@ echo "NMAP installed"
 else 
 sudo apt --only-upgrade install nmap
 echo "NMAP updated"
-end;
+fi
