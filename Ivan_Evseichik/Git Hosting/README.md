@@ -6,7 +6,7 @@ Git Hosting
 	- Generate from local machine OS Centos ssh-key ```#ssh-keygen -t rsa -b 2048```
 	- Copy your id_rsa.pub to Git
 > SSH key:
-![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/i.evseichik/ssh.jpg)
+![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git%20Hosting/Images/ssh.jpg)
 
 - Synchronise with with your local repositories
 ``` bash
