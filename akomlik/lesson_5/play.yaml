@@ -1,0 +1,20 @@
+---
+- hosts: ec_htp
+  vars:
+    var_01: "Hi"
+  tasks:
+  - name: Print OS
+    debug:
+      msg: "{{ hostvars[inventory_hostname]. ansible_distribution}}"    
+  - name: Print ansible mounts
+    debug:
+      msg: "{{ hostvars[inventory_hostname].ansible_mounts}}"
+  - name: Print Memory
+    debug:
+      msg: "{{ hostvars[inventory_hostname].ansible_memory_mb}}"
+
+
+
+
+
+
