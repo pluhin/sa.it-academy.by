@@ -1,0 +1,11 @@
+# THIS FILE IS CONTROLLED BY ANSIBLE
+# any local modifications will be overwritten!
+#
+
+# This file is managed by Ansible.
+127.0.0.1 localhost.localdomain localhost
+{% if virual_hosts is defined %}
+{% for var in virual_hosts %}
+{{ hostvars[inventory_hostname].ansible_default_ipv4.address }}  {{ var.name }}
+{% endfor %}
+{% endif %}
