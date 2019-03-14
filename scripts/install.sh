@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' nmap|grep "install ok installed")
 if [ "" == "$PKG_OK" ];  then
 sudo apt -y install nmap
