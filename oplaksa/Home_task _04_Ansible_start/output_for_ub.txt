@@ -1,0 +1,12 @@
+192.168.254.51 | CHANGED | rc=0 >>
+Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+Get:2 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
+Get:3 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
+Get:4 http://archive.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+Fetched 252 kB in 1s (388 kB/s)
+Reading package lists...
+Building dependency tree...
+Reading state information...
+4 packages can be upgraded. Run 'apt list --upgradable' to see them.
+        inet 192.168.254.51  netmask 255.255.0.0  broadcast 192.168.255.255
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.

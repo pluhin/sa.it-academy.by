@@ -1,0 +1,15 @@
+---
+- hosts: servers
+  become: yes
+    
+  tasks:
+   # - name: Remove ssh-key
+   #   authorized_key:
+   #     user: "{{ user_add }}"
+   #     state: absent
+   #     key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    - name: Remove User
+      user:
+        name: "{{ user_add }}"
+        state: absent
+        remove: yes

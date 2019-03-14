@@ -1,0 +1,3 @@
+---
+ansible_user: agarim
+ansible_ssh_private_key_file: /home/agarim/.ssh/id_rsa

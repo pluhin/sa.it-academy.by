@@ -1,0 +1,17 @@
+---
+- hosts: ec_htp
+  vars:
+    var_01: "Hi"
+  tasks:
+  - name: Pring facts
+    debug: 
+      msg: "{{ ansible_distribution }}"
+    tags:
+      - print_facts
+      - print::facts
+  - name: Print inventory
+    debug:
+      msg: "{{ hostvars[inventory_hostname].ansible_ssh_pass }}"
+  - name: Print vars
+    debug:
+      msg: "{{ var_01 }}"

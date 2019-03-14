@@ -1,0 +1,15 @@
+---
+- hosts: prod_hosts
+  vars:
+    params:
+      distr: "{{ ansible_distribution }}"
+      distr_version: "{{ ansible_distribution_version }}"
+      mount: "{{ ansible_mounts[0].mount }} "
+      size_total: "{{ ansible_mounts[0].size_total }}"
+      size_available: "{{ ansible_mounts[0].size_available }}"
+      RAM_mb: "{{ ansible_memtotal_mb }}"
+      RAM_free_mb: "{{ ansible_memfree_mb }}"
+  tasks:
+    - name: Print params 
+      debug:
+        msg: "{{ params }}"
