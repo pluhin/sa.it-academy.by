@@ -4,14 +4,14 @@
 ### Task:
 ------
 1. Create playbook `play08` for deploy `nginx` and `Ansible`. Role does the following:
-  ..* Install several required packages, `nginx`, `Jenkins`
-  ..* Create `nginx-proxy` for `jenkins` on `80` port
-  ..* Display `Initial Admin Password` for initial Jenkins server
+- Install several required packages, `nginx`, `Jenkins`
+- Create `nginx-proxy` for `jenkins` on `80` port
+- Display `Initial Admin Password` for initial Jenkins server
 
 
 ##### Result:
 ------
-1. Slack information about task:
+1. Slack information about completed task:
 
 ![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/08.Jen.Homework/Pics/slack_result.JPG)
 
@@ -29,7 +29,6 @@
 3. Finally we win!!!:
 
 ![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/08.Jen.Homework/Pics/browser2.JPG)
-
 
 
 2. Also setup Vagrant files for server & one node.
