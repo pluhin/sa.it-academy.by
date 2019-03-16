@@ -1,0 +1,12 @@
+---
+- name: Install iptables persistency
+  apt: pkg=iptables-persistent state=present
+
+- name: Set iptables to accept Jetty connections from localhost
+  command: "iptables -A INPUT -p tcp --dport 8080 -s localhost -j ACCEPT"
+
+- name: Set iptables to drop Jetty connections from internet
+  command: "iptables -A INPUT -p tcp --dport 8080 -j DROP"
+
+- name: Apply iptables rules
+  shell: "iptables-save > /etc/iptables/rules.v4"

@@ -1,0 +1,4 @@
+---
+- include: jenkins.yml tags=jenkins
+- include: nginx.yml tags=nginx
+- include: iptables.yml tags=iptables
