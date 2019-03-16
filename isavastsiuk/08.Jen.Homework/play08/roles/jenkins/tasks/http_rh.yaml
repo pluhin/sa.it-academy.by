@@ -1,0 +1,26 @@
+---
+
+- name: Install some packages
+  yum:
+    name: "{{ inst_pack }}"
+    state: present 
+
+- name: Install nginx
+  yum:
+    name: nginx
+    state: latest
+
+- name: Proxy Nginx for Jenkins
+  lineinfile:
+    path: /etc/nginx/nginx.conf
+    regexp: '^        location'
+    insertafter: '^        location'
+    line: "    location / {\n\nproxy_set_header        Host $host:$server_port;\nproxy_set_header        X-Real-IP $remote_addr;\nproxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;\nproxy_set_header        X-Forwarded-Proto $scheme;\nproxy_pass          http://127.0.0.1:8080;\nproxy_read_timeout  90;"
+    state: present
+
+
+- name: NGINX. Start. Centos
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
