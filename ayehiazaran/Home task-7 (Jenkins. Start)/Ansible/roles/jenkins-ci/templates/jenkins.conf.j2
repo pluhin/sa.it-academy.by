@@ -20,7 +20,7 @@ server {
 
     location @jenkins {
         sendfile off;
-        proxy_pass         http://192.168.190.132/:{{ http_jenkins_port }};
+        proxy_pass         http://127.0.0.1:{{ http_jenkins_port }};
         proxy_redirect     default;
 
         proxy_set_header   Host             $host;
