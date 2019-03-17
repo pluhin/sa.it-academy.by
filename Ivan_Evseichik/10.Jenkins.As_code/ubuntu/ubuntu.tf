@@ -115,6 +115,7 @@ connection {
   provisioner "remote-exec" {
     inline = [
     "chmod  600 /root/.ssh/authorized_keys",
+    "sudo apt -yq install python",  
     ]
     }
 }
