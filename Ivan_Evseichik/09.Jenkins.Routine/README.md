@@ -21,7 +21,7 @@
    - Create script for nmap tools [nmap.sh](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/09.Jenkins.Routine/scripts/nmap.sh)
    - my nmap job
    > Image:
-   ![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/09.%20Jenkins.Routine/images/scan_job.png)
+   ![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/09.Jenkins.Routine/images/scan_job.png)
    - my job output:
    > Image:
    ![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/09.Jenkins.Routine/images/scan_all_hosts.png)
