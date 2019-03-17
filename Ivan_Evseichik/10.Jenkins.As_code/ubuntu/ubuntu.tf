@@ -115,9 +115,7 @@ connection {
   provisioner "remote-exec" {
     inline = [
     "chmod  600 /root/.ssh/authorized_keys",
-    "sudo add-apt-repository ppa:jonathonf/python-3.6",
-    "sudo apt-get update -q",
-    "sudo apt-get install python3.6 -yq",
+    "sudo apt install -qy python-minimal",
     ]
     }
 }
