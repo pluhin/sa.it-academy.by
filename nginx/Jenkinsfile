@@ -1,0 +1,43 @@
+pipeline { 
+    agent { node { label 'coreos' } }
+    parameters {
+        choice(name: 'repository_branch', choices: ['m-sa2-06-19', 'jenkins'], description: 'Pick the branch')
+	choice(name: 'site', choices: ['devops.by', 'www.devops.by'], description: 'Pick the site name')
+        string(name: 'repository_url', defaultValue: 'git@github.com:ifanui/sa.it-academy.by.git', description: 'Github repository url')
+        booleanParam(name: 'clean_files', defaultValue: false, description: 'Delete all files after deploy nginx on coreos')
+    }
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                    git url: "${params.repository_url}", branch: "${params.repository_branch}"
+            }
+        }
+	stage(' Edit /etc/hosts/ ') {
+		steps {
+ 			sh 'echo "127.0.0.1  ${params.site}" >> /etc/hosts'
+		}
+	}	
+        stage(' Go to nginx directory ') {
+            steps {
+                sh label: 'show dir', script: '''cd nginx/ 
+                            ls -l
+			echo "Show dir nginx"	'''
+            }
+        }
+	stage('Build docker image for nginx') {
+	    steps {
+		sh 'docker build -t="jenkins/nginx" .'
+		}
+	}
+	stage ('Run jenkins/nginx with forwarding port 80 ') {
+	    steps {
+		sh 'docker run -d -p 80:80 jenkins/nginx'
+	        }
+ 	}
+	stage ('Check working nginx') {
+	    steps {
+		sh 'curl http://${params.site}'
+		}	
+    }
+}
+}
