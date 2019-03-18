@@ -10,6 +10,6 @@
  
 ## Report: 
 
-Screen_1: ![](https://github.com/ZikFred/sa.it-academy.by/blob/m-sa2-06-19/emarchik/lesson_10/image/1.png)
+Screen_1: ![](https://github.com/ZikFred/sa.it-academy.by/blob/m-sa2-06-19/emarchik/lesson_10/image/3.PNG)
 
 Screen_2: ![](https://github.com/ZikFred/sa.it-academy.by/blob/m-sa2-06-19/emarchik/lesson_10/image/2.png)
