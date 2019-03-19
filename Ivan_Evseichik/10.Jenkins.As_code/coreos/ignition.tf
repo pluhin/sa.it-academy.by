@@ -27,6 +27,7 @@ data "ignition_user" "example_jenkins_user" {
     name = "jenkins"
     home_dir = "/var/lib/jenkins"
     shell = "/bin/bash"
+    groups = ["sudo","docker"]
     ssh_authorized_keys = ["${var.management_ssh_keys}"]
 }
 
