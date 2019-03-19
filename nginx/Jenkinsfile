@@ -2,42 +2,66 @@ pipeline {
     agent { node { label 'coreos' } }
     parameters {
         choice(name: 'repository_branch', choices: ['m-sa2-06-19', 'jenkins'], description: 'Pick the branch')
-	choice(name: 'site', choices: ['devops.by', 'www.devops.by'], description: 'Pick the site name')
+	    choice(name: 'site', choices: ['coreos.by', 'www.coreos.by'], description: 'Pick the site name')
         string(name: 'repository_url', defaultValue: 'git@github.com:ifanui/sa.it-academy.by.git', description: 'Github repository url')
-        booleanParam(name: 'clean_files', defaultValue: false, description: 'Delete all files after deploy nginx on coreos')
+        booleanParam(name: 'clean_images', defaultValue: false, description: 'Delete all images after deploy nginx on coreos')
+        booleanParam(name: 'clean_containers', defaultValue: true, description: 'Delete all containerss after deploy nginx on coreos')
     }
     stages {
         stage('Clone repository') { 
             steps { 
-                    git url: "${params.repository_url}", branch: "${params.repository_branch}"
+                    git branch: "${params.repository_branch}", url: "${params.repository_url}"
             }
         }
-	stage(' Edit /etc/hosts/ ') {
-		steps {
- 			sh 'echo "127.0.0.1  ${params.site}" >> /etc/hosts'
-		}
-	}	
         stage(' Go to nginx directory ') {
             steps {
                 sh label: 'show dir', script: '''cd nginx/ 
                             ls -l
-			echo "Show dir nginx"	'''
+			                echo "Show dir nginx"	'''
             }
         }
 	stage('Build docker image for nginx') {
 	    steps {
-		sh 'docker build -t="jenkins/nginx" .'
+		sh 'docker build -t nginx $WORKSPACE/nginx/'
 		}
 	}
 	stage ('Run jenkins/nginx with forwarding port 80 ') {
 	    steps {
-		sh 'docker run -d -p 80:80 jenkins/nginx'
+		sh 'docker run -d -p 80:80 nginx'
 	        }
  	}
 	stage ('Check working nginx') {
 	    steps {
-		sh 'curl http://${params.site}'
+		sh "curl http://${params.site}"
 		}	
     }
+    stage('Clean containers from deploy') {
+            when {
+                expression {params.clean_containers == true}
+            }
+            steps {
+                sh '''
+                docker rm --force $(docker ps | grep nginx | tr -s ' ' | cut -d ' ' -f 1)
+                '''
+            }
+        }
+    stage('Clean images from deploy') {
+            when {
+                expression {params.clean_images == true}
+            }
+            steps {
+                sh '''
+                docker rmi $(docker images | grep nginx | tr -s ' ' | cut -d ' ' -f 3)
+                '''
+            }
+        }
 }
+post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
 }
