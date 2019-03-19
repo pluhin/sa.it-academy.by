@@ -1,0 +1,17 @@
+---
+- name: EPEL. Install. Centos
+  yum:
+    name: epel-release
+    state: present
+
+
+- name: NGINX. Install. Centos
+  yum:
+    name: "{{ inst_nginx }}"
+    state: latest
+
+- name: NGINX. Start. Centos
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
