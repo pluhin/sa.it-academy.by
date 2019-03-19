@@ -6,7 +6,7 @@ Git Hosting
 	- Generate from local machine OS Centos ssh-key ```#ssh-keygen -t rsa -b 2048```
 	- Copy your id_rsa.pub to Git
 > SSH key:
-![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git%20Hosting/Images/ssh.jpg)
+![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git_Hosting/Images/ssh.jpg)
 
 - Synchronise with with your local repositories
 ``` bash
@@ -27,28 +27,28 @@ Fast-forward
 
 - Add project into Code
 > Code:
-![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git%20Hosting/Images/code.jpg)
+![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git_Hosting/Images/code.jpg)
 
 - Create slack/email integration push events
 	- Create new chanel from Slack
 	> Chanel:
-	![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git%20Hosting/Images/slack.jpg)
+	![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git_Hosting/Images/slack.jpg)
     
 	- Add app Git in Slack
 	> Git app:
-	![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git%20Hosting/Images/Git.jpg)
+	![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git_Hosting/Images/Git.jpg)
     
     - GitHub Notifications for Slack
     > Webhook:
-    ![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git%20Hosting/Images/WebHook.jpg)
+    ![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git_Hosting/Images/WebHook.jpg)
     
     - Add url webhoo into your GitHub
     > Webhooks Git:
-    ![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git%20Hosting/Images/webhooks.jpg)
+    ![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git_Hosting/Images/webhooks.jpg)
     
     - Now you can see your notification on slack chanel
     > Notification:
-    ![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git%20Hosting/Images/notification.jpg)
+    ![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git_Hosting/Images/notification.jpg)
     
 ### Gitlab CE
 
@@ -68,11 +68,11 @@ Fast-forward
   ````
 - Create my project
 > Project:
-![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git%20Hosting/Images/project2.jpg)
+![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git_Hosting/Images/project2.jpg)
 - Create profile
 > Profile:
-![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git%20Hosting/Images/profile.jpg)
+![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git_Hosting/Images/profile.jpg)
 - Add members to my project, send  invitation by Gitlab notificator.
 > Members:
-![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git%20Hosting/Images/members.jpg)
+![](https://github.com/ifanui/sa.it-academy.by/blob/m-sa2-06-19/Ivan_Evseichik/Git_Hosting/Images/members.jpg)
   
