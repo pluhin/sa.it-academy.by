@@ -1,12 +1,12 @@
 # vCenter connection
 
 variable "vsphere_user" {
-   default = "i.evseichik@cedoni.corp"
+   default = "i.evseichik@*********"
    description = "vSphere user name"
 }
 
 variable "vsphere_password" {
-  default = "Pasadu!r"
+  default = "********"
   description = "vSphere password"
 }
 
@@ -23,7 +23,7 @@ variable "vsphere_unverified_ssl" {
 # VM specifications
 
 variable "vsphere_datacenter" {
-  default = "Cedoni.corp"
+  default = "*********"
   description = "In which datacenter the VM will be deployed"
 }
 
@@ -90,11 +90,11 @@ variable "vsphere_dns_servers" {
 
 variable "vsphere_domain" {
   description = "What is the domain of the VM"
-  default = "cedoni.corp"
+  default = "********"
 }
 variable "root_password" {
   description = "Root passwd for ubuntu machine"
-  default = "pasadur"
+  default = "********"
 }
 
 variable "vsphere_time_zone" {
