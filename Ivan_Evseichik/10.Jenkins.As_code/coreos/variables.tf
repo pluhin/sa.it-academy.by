@@ -1,11 +1,11 @@
 // login and password for access to VCSA
 variable "vsphere_password" {
     type = "string"
-    default = "Pasadu!r"  
+    default = "*******"  
 }
 variable "vsphere_login" {
      type = "string"
-     default = "i.evseichik@cedoni.corp"
+     default = "i.evseichik@********"
 }
 
 // The name prefix of the virtual machines to create.
@@ -16,7 +16,7 @@ variable "virtual_machine_name_prefix" {
 
 // The domain name to set up each virtual machine as.
 variable "virtual_machine_domain" {
-  default = "cedoni.corp"
+  default = "*********"
   type    = "string"
 }
 
@@ -35,7 +35,7 @@ variable "virtual_machine_gateway" {
 
 // The DNS servers for the network the virtual machines reside in.
 variable "virtual_machine_dns_servers" {
-  default = "10.50.50.10"
+  default = "8.8.8.8"
   type    = "string"
 }
 
