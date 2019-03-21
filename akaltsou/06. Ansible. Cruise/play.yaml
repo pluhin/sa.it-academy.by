@@ -1,0 +1,5 @@
+---
+- hosts: web-apps 
+  become: yes
+  roles:
+  - nginx
