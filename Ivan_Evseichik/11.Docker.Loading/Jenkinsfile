@@ -2,7 +2,7 @@ pipeline {
     agent { node { label 'coreos' } }
     parameters {
         string(name: 'repository_url', defaultValue: 'git@github.com:ifanui/docker.git', description: 'Git hub repository url')
-	string(name: 'docker.hub', defaultValue: 'ifanui/it-academy', description: 'Docker hub repository url')
+	string(name: 'docker_hub', defaultValue: 'ifanui/it-academy', description: 'Docker hub repository url')
         booleanParam(name: 'check_status', defaultValue: true, description: 'Check status web service') 
 	booleanParam(name: 'clean_images', defaultValue: false, description: 'Delete all images after deploy coreos on coreos')
         booleanParam(name: 'clean_containers', defaultValue: true, description: 'Delete all containerss after deploy coreos on coreos')
@@ -15,12 +15,12 @@ pipeline {
 	}
         stage('Docker pull from  docker hub') { 
             steps {
-		sh 'docker pull ifanui/it-academy' 
+		    sh "docker pull ${params.docker_hub}"
             }
         }
 	stage('Docker run') {
 	    steps {
-		sh 'docker run   -p 8400:8400 -p 8500:8500   -p 8600:53/udp   -v $WORKSPACE/docker/consul/config:/consul/config -d  ifanui/it-academy:latest'
+		sh "docker run   -p 8400:8400 -p 8500:8500   -p 8600:53/udp   -v $WORKSPACE/docker/consul/config:/consul/config -d  ${params.docker_hub:latest"
 		}
         }
 	stage ('Check web service status on consul') {
@@ -43,8 +43,8 @@ pipeline {
             }
             steps {
                 sh '''
-                docker rm --force $(docker ps | grep ifanui/it-academy:latest | tr -s ' ' | cut -d ' ' -f 1)
-                '''
+		  docker rm $(docker ps -qa) -f
+		'''
             }
         }
         stage('Clean images from deploy') {
