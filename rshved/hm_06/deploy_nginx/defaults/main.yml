@@ -1,0 +1,13 @@
+---
+# defaults file for deploy_nginx
+cent_packages:
+  - vim
+  - net-tools
+  - nginx
+
+ubuntu_packages:
+  - vim
+  - nginx
+
+ip_cent: "192.168.100.222"
+ip_ubuntu: "192.168.100.220"

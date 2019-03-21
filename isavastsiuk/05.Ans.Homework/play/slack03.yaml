@@ -1,0 +1,35 @@
+---
+- hosts: servers 
+  tasks:
+  - block:
+    - name: Get Info
+      become: yes
+      become_user: "{{ user_add }}"
+      command: 'sudo apt-get update'
+      register: output
+    - name: Slack
+      slack:
+        token: "{{ token }}"
+        channel: "{{ channel }}"
+        msg: 'Update on =={{ inventory_hostname }}==  by  "{{ user_add }}":  "{{ output.stdout_lines }}"'
+        color: good
+        username: 'webhookbot'
+        icon_emoji: ':ghost:'
+    when:  ansible_os_family == "Debian"
+  - block:
+    - name: Get Info
+      become: yes
+      become_user: "{{ user_add }}"
+      command: 'sudo yum update'
+      register: output
+    - name: Slack
+      slack:
+        token: "{{ token }}"
+        channel: "{{ channel }}"
+        msg: 'Update on =={{ inventory_hostname }}==  by  "{{ user_add }}":  "{{ output.stdout_lines }}"'
+        color: good
+        username: 'webhookbot'
+        icon_emoji: ':ghost:'
+    when:  ansible_os_family == "RedHat"
+
+

@@ -1,0 +1,35 @@
+---
+- hosts: ec_htp
+#  become: yes
+  
+  tasks:
+  - name: Create user oplaksa_1
+    user:
+      name: oplaksa_1
+      comment: Managed by Ansible
+      state: present
+      
+  - name: Create ssh connnection for user oplaksa_1
+    authorized_key:
+      user: oplaksa_1
+      key: "{{ lookup('file','/home/mel/.ssh/id_rsa.pub') }}"
+      
+  - name: Sudoers privileges for user 'oplaksa_1' for "Ubuntu"
+    lineinfile:
+      dest: "/etc/sudoers"
+      backup: yes
+      state: present
+      regexp: '^oplaksa_1 ALL=(ALL)'
+      line: 'oplaksa_1 ALL=(ALL) NOPASSWD: /usr/bin/apt-get'
+      validate: '/usr/sbin/visudo -cf %s'
+    when: ansible_os_family == "Debian"
+      
+  - name: Sudoers privileges for user 'oplaksa_1' for "Centos"
+    lineinfile:
+      dest: "/etc/sudoers"
+      backup: yes
+      state: present
+      regexp: '^oplaksa_1 ALL=(ALL)'
+      line: 'oplaksa_1 ALL=(ALL) NOPASSWD: /usr/bin/yum'
+      validate: '/usr/sbin/visudo -cf %s'
+    when: ansible_os_family == "RedHat"

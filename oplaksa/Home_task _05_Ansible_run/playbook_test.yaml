@@ -1,0 +1,15 @@
+---
+- hosts: ec_htp
+
+  remote_user: oplaksa_1
+
+  tasks:
+  
+  - name: Test update for CentOS
+    shell: yum update
+    when: ansible_os_family == "RedHat"
+      
+  - name: Test update for Debian
+    shell: apt-get update
+    when: ansible_os_family == "Debian"
+
