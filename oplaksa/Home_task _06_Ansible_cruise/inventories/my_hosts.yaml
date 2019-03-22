@@ -1,0 +1,21 @@
+---
+web-apps:
+    hosts:
+      cent:
+      ub:
+
+all_hosts:
+  children:
+    ec_htp:
+      vars:
+        name_env: "MY HOSTS"
+      hosts: 
+        cent:
+          ansible_user: mel
+          ansible_host: 192.168.56.103
+        ub:
+          ansible_user: mel
+          ansible_host: 192.168.56.102
+
+ 
+
