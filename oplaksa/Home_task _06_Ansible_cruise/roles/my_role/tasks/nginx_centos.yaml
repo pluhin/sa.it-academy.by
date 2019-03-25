@@ -1,0 +1,11 @@
+---
+- name: Nginx.Centos.Install
+  yum:
+    name: nginx
+    state: latest
+    
+- name: Nginx.Centos.Start
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes

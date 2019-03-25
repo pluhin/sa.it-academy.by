@@ -1,0 +1,48 @@
+---
+- name: For Centos
+  include: nginx_centos.yaml
+  when: ansible_os_family == "RedHat"
+
+- name: For Ubuntu
+  include: nginx_ubuntu.yaml
+  when: ansible_os_family == "Debian"
+
+- name: Ansible create directory "/var/www/"
+  file:
+    path: "{{ index_home }}"
+    state: directory  
+
+- name: Copy index.html
+  copy:
+    src: index.html
+    dest: "{{ index_home }}"
+    
+- name: Copy config for nginx
+  copy:
+    src: default.conf
+    dest: "{{ conf_home }}"
+  notify: restart nginx
+    
+
+- name: Check connection
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    delay: 0
+    timeout: 3
+
+- name: Check by url!!!
+  uri:
+    url: http://localhost
+    return_content: yes
+  register: this
+- debug: 
+    msg: "{{ this }}"
+
+# - name: Template
+  # template:
+    # src: "hosts.j2"
+    # dest: "/etc/hosts"
+    # backup: yes
+
