@@ -179,3 +179,10 @@ Your Dockerfile and links to your Dockerhub put into folder `11. Docker. Lading`
 
 Your Dockerfile, docker-compose files, Jenkinsfile and Jenkins output put into folder `12. Docker. Logistics` add to your repository, then prepare PR (Pull Request)
 
+## 13. K8s. Structure
+- Install minikube on your bare/virtual host
+- Provide access to the dashboard from your workstation
+- Automate it (bash/ansible/Jenkinsfile) 
+Your code and printscreen of dachboard put into folder `13. K8s. Structure` add to your repository, then prepare PR (Pull Request)
+
+## 14. K8s. Deployment
