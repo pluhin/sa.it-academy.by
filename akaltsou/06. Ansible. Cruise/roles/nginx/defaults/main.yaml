@@ -1,0 +1,12 @@
+---
+yum_nginx:
+  - nginx
+apt_nginx:
+  - nginx
+
+db_index_home: "/var/www/html/"
+rh_index_home: "/usr/share/nginx/html/"
+
+virual_hosts:
+  - { name: "ubuntu.loc", ip: "{{ hostvars[\"ub\"].ansible_host }}"}
+  - { name: "centos.loc", ip: "{{ hostvars[\"cent\"].ansible_host }}"}

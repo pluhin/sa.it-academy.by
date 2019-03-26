@@ -1,0 +1,13 @@
+---
+- name: Install python-software-properties
+  apt: pkg=python-software-properties state=installed update-cache=yes
+
+- name: Add Jenkins CI repositories to APT sources list
+  apt_repository: repo='deb http://pkg.jenkins-ci.org/debian binary/' state=present
+
+- name: Add keychain for Jenkins CI repositories
+  apt_key: url=http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key state=present
+
+- name: Install Jenkins CI server
+  apt: pkg=jenkins state=latest update_cache=yes
+  notify: start jenkins

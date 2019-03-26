@@ -1,0 +1,14 @@
+---
+web-apps:
+  hosts:
+    cent:
+    ub:
+
+all_hosts:
+  hosts:
+    cent:
+      ansible_user: kaltsou
+      ansible_host: 130.193.44.130
+    ub:
+      ansible_user: kaltsou
+      ansible_host: 130.193.45.150

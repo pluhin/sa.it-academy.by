@@ -1,0 +1,14 @@
+---
+- name: Nginx install. Debian
+  apt:
+    name: "{{ apt_nginx }}"
+    state: latest
+- name: Nginx. Start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+- name: Copy index.html
+  copy:
+    src: index.html
+    dest: "{{ db_index_home }}"

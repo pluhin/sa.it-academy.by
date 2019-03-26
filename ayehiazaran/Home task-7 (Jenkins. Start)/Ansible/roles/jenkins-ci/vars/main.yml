@@ -1,0 +1,5 @@
+---
+nginx_requirements:
+  - nginx
+  - nginx-common
+  - nginx-full

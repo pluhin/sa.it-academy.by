@@ -1,0 +1,279 @@
+Started by user admin
+Obtained Jenkinsfile from git git@github.com:iggysav/Test.git
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on slave02 in /home/jenkins/workspace/Pipeline_01.1_Jenkins
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+using credential 1a58bbc4-2450-429c-ad9d-60770dc670bd
+Cloning the remote Git repository
+Cloning repository git@github.com:iggysav/Test.git
+ > git init /home/jenkins/workspace/Pipeline_01.1_Jenkins # timeout=10
+Fetching upstream changes from git@github.com:iggysav/Test.git
+ > git --version # timeout=10
+using GIT_SSH to set credentials 
+ > git fetch --tags --progress git@github.com:iggysav/Test.git +refs/heads/*:refs/remotes/origin/*
+ > git config remote.origin.url git@github.com:iggysav/Test.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url git@github.com:iggysav/Test.git # timeout=10
+Fetching upstream changes from git@github.com:iggysav/Test.git
+using GIT_SSH to set credentials 
+ > git fetch --tags --progress git@github.com:iggysav/Test.git +refs/heads/*:refs/remotes/origin/*
+Checking out Revision 642247be03bcc2dcb38ba6749f2ca65c67da54ab (refs/remotes/origin/nmap)
+Commit message: "Delete online_hosts.txt"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Clone)
+ > git rev-parse refs/remotes/origin/nmap^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/nmap^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 642247be03bcc2dcb38ba6749f2ca65c67da54ab
+ > git rev-list --no-walk 1e81b4dd934362e6a7472ccf7de55638cb6abaee # timeout=10
+[Pipeline] git
+No credentials specified
+Fetching changes from the remote Git repository
+ > git rev-parse --is-inside-work-tree # timeout=10
+ > git config remote.origin.url git@github.com:iggysav/Test.git # timeout=10
+Fetching upstream changes from git@github.com:iggysav/Test.git
+ > git --version # timeout=10
+ > git fetch --tags --progress git@github.com:iggysav/Test.git +refs/heads/*:refs/remotes/origin/*
+Checking out Revision 642247be03bcc2dcb38ba6749f2ca65c67da54ab (refs/remotes/origin/nmap)
+Commit message: "Delete online_hosts.txt"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run script)
+[Pipeline] sh
++ sudo apt-get install nmap -y
+Reading package lists...
+Building dependency tree... > git rev-parse refs/remotes/origin/nmap^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/nmap^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 642247be03bcc2dcb38ba6749f2ca65c67da54ab
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b nmap 642247be03bcc2dcb38ba6749f2ca65c67da54ab
+
+Reading state information...
+The following packages were automatically installed and are no longer required:
+  fonts-ubuntu-console fonts-ubuntu-font-family-console g++-5 libasprintf0v5
+  libboost-filesystem1.58.0 libboost-iostreams1.58.0 libboost-system1.58.0
+  libcapnp-0.5.3 libcapnp-0.6.1 libdbus-glib-1-2 libegl1-mesa libgdbm3
+  libgsoap8 libicu55 libllvm6.0 liblua5.1-0 libmirclient9 libmircommon7
+  libmircore1 libmirprotobuf3 libpcre16-3 libprotobuf-lite10
+  libprotobuf-lite9v5 libruby2.3 libstdc++-5-dev libtxc-dxtn-s2tc0 libvpx3
+  libxapian22v5 python-ecdsa ruby2.3 ruby2.3-dev
+Use 'sudo apt autoremove' to remove them.
+Suggested packages:
+  ndiff
+The following NEW packages will be installed:
+  nmap
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
+0 upgraded, 1 newly installed, 0 to remove and 5 not upgraded.
+Need to get 0 B/5,174 kB of archives.
+After this operation, 24.0 MB of additional disk space will be used.
+Selecting previously unselected package nmap.
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 188560 files and directories currently installed.)
+Preparing to unpack .../nmap_7.60-1ubuntu5_amd64.deb ...
+Unpacking nmap (7.60-1ubuntu5) ...
+Setting up nmap (7.60-1ubuntu5) ...
+Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
++ nmap -sP 192.168.253.0/24
++ sudo apt-get remove nmap -y
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages were automatically installed and are no longer required:
+  fonts-ubuntu-console fonts-ubuntu-font-family-console g++-5 libasprintf0v5
+  libblas3 libboost-filesystem1.58.0 libboost-iostreams1.58.0
+  libboost-system1.58.0 libcapnp-0.5.3 libcapnp-0.6.1 libdbus-glib-1-2
+  libegl1-mesa libgdbm3 libgsoap8 libicu55 liblinear3 libllvm6.0 liblua5.1-0
+  liblua5.3-0 libmirclient9 libmircommon7 libmircore1 libmirprotobuf3
+  libpcre16-3 libprotobuf-lite10 libprotobuf-lite9v5 libruby2.3
+  libstdc++-5-dev libtxc-dxtn-s2tc0 libvpx3 libxapian22v5 python-ecdsa ruby2.3
+  ruby2.3-dev
+Use 'sudo apt autoremove' to remove them.
+The following packages will be REMOVED:
+  nmap
+0 upgraded, 0 newly installed, 1 to remove and 5 not upgraded.
+After this operation, 24.0 MB disk space will be freed.
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 189371 files and directories currently installed.)
+Removing nmap (7.60-1ubuntu5) ...
+Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declaring Variable)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ cat online_hosts.txt
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test output)
+[Pipeline] echo
+Result: 
+Starting Nmap 7.60 ( https://nmap.org ) at 2019-03-25 13:34 +03
+Nmap scan report for 192.168.253.1
+Host is up (0.0053s latency).
+Nmap scan report for 192.168.253.2
+Host is up (0.0052s latency).
+Nmap scan report for 192.168.253.3
+Host is up (0.0051s latency).
+Nmap scan report for 192.168.253.4
+Host is up (0.0051s latency).
+Nmap scan report for 192.168.253.5
+Host is up (0.0051s latency).
+Nmap scan report for 192.168.253.6
+Host is up (0.0051s latency).
+Nmap scan report for 192.168.253.7
+Host is up (0.0051s latency).
+Nmap scan report for 192.168.253.8
+Host is up (0.0051s latency).
+Nmap scan report for 192.168.253.9
+Host is up (0.0051s latency).
+Nmap scan report for 192.168.253.10
+Host is up (0.0050s latency).
+Nmap scan report for 192.168.253.11
+Host is up (0.0028s latency).
+Nmap scan report for 192.168.253.49
+Host is up (0.0048s latency).
+Nmap scan report for 192.168.253.57
+Host is up (0.0042s latency).
+Nmap scan report for 192.168.253.58
+Host is up (0.0042s latency).
+Nmap scan report for 192.168.253.60
+Host is up (0.0041s latency).
+Nmap scan report for 192.168.253.61
+Host is up (0.0040s latency).
+Nmap scan report for 192.168.253.62
+Host is up (0.0040s latency).
+Nmap scan report for 192.168.253.117
+Host is up (0.0076s latency).
+Nmap scan report for 192.168.253.122
+Host is up (0.0055s latency).
+Nmap scan report for 192.168.253.158
+Host is up (0.00067s latency).
+Nmap scan report for 192.168.253.160
+Host is up (0.00064s latency).
+Nmap scan report for 192.168.253.170
+Host is up (0.000046s latency).
+Nmap scan report for 192.168.253.215
+Host is up (0.032s latency).
+Nmap scan report for 192.168.253.231
+Host is up (0.0039s latency).
+Nmap scan report for 192.168.253.237
+Host is up (0.0092s latency).
+Nmap done: 256 IP addresses (25 hosts up) scanned in 2.14 seconds
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Git update)
+[Pipeline] sh
++ git config --global user.email igor.savastsiuk@it-academy.by
++ git config --global user.name Iggysav
++ git add --all
++ git commit -m New list online hosts
+[nmap 417702d] New list online hosts
+ 1 file changed, 53 insertions(+)
+ create mode 100644 online_hosts.txt
++ git push origin nmap --force
+To github.com:iggysav/Test.git
+   642247b..417702d  nmap -> nmap
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Git no update. View output file)
+Stage "Git no update. View output file" skipped due to when conditional
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Packing test)
+[Pipeline] sh
++ ls -l
+total 20
+-rw-rw-r-- 1 jenkins jenkins   32 Mar 25 13:34 _config.yml
+-rw-rw-r-- 1 jenkins jenkins 2584 Mar 25 13:34 Jenkinsfile
+-rw-rw-r-- 1 jenkins jenkins  106 Mar 25 13:34 nmap.sh
+-rw-rw-r-- 1 jenkins jenkins 1783 Mar 25 13:34 online_hosts.txt
+-rw-rw-r-- 1 jenkins jenkins 1261 Mar 25 13:34 README.md
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Delete local rep)
+[Pipeline] deleteDir (hide)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] slackSend
+Slack Send Pipeline step running, values are - baseUrl: https://sa-itacademy-by.slack.com/services/hooks/jenkins-ci/, teamDomain: <empty>, channel: , color: #00FF00, botUser: false, tokenCredentialId: f24adc5a-4ac5-4b17-9a72-51a69340b85e
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

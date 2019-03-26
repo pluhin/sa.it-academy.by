@@ -1,0 +1,6 @@
+---
+- hosts: web-apps
+  become: yes
+  roles:
+  - my_role
+

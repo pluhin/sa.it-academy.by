@@ -1,0 +1,87 @@
+2019-03-21 21:21:38,885 p=14120 u=alex |  [DEPRECATION WARNING]: DEFAULT_MODULE_LANG option, Modules are coded to set 
+their own locale if needed for screenscraping . This feature will be removed in
+ version 2.9. Deprecation warnings can be disabled by setting 
+deprecation_warnings=False in ansible.cfg.
+2019-03-21 21:21:38,885 p=14120 u=alex |  [DEPRECATION WARNING]: DEFAULT_MODULE_SET_LOCALE option, Modules are coded to 
+set their own locale if needed for screenscraping . This feature will be 
+removed in version 2.9. Deprecation warnings can be disabled by setting 
+deprecation_warnings=False in ansible.cfg.
+2019-03-21 21:21:39,086 p=14120 u=alex |  PLAY [web-apps] ****************************************************************
+2019-03-21 21:21:39,094 p=14120 u=alex |  TASK [Gathering Facts] *********************************************************
+2019-03-21 21:21:39,094 p=14120 u=alex |  Thursday 21 March 2019  21:21:39 +0300 (0:00:00.033)       0:00:00.033 ******** 
+2019-03-21 21:21:41,905 p=14120 u=alex |  ok: [suse]
+2019-03-21 21:21:42,527 p=14120 u=alex |  ok: [ub]
+2019-03-21 21:21:42,554 p=14120 u=alex |  TASK [web : Update && Upgrade Linux Cache] *************************************
+2019-03-21 21:21:42,555 p=14120 u=alex |  Thursday 21 March 2019  21:21:42 +0300 (0:00:03.460)       0:00:03.493 ******** 
+2019-03-21 21:21:42,577 p=14120 u=alex |  skipping: [suse]
+2019-03-21 21:21:45,739 p=14120 u=alex |   [WARNING]: Could not find aptitude. Using apt-get instead.
+
+2019-03-21 21:21:45,740 p=14120 u=alex |  ok: [ub]
+2019-03-21 21:21:45,778 p=14120 u=alex |  TASK [web : Install Package] ***************************************************
+2019-03-21 21:21:45,779 p=14120 u=alex |  Thursday 21 March 2019  21:21:45 +0300 (0:00:03.224)       0:00:06.718 ******** 
+2019-03-21 21:21:45,800 p=14120 u=alex |  skipping: [suse]
+2019-03-21 21:21:47,855 p=14120 u=alex |  ok: [ub]
+2019-03-21 21:21:47,891 p=14120 u=alex |  TASK [web : Start Nginx] *******************************************************
+2019-03-21 21:21:47,891 p=14120 u=alex |  Thursday 21 March 2019  21:21:47 +0300 (0:00:02.112)       0:00:08.830 ******** 
+2019-03-21 21:21:47,916 p=14120 u=alex |  skipping: [suse]
+2019-03-21 21:21:49,750 p=14120 u=alex |  ok: [ub]
+2019-03-21 21:21:49,785 p=14120 u=alex |  TASK [web : Copy index.html on WebServer] **************************************
+2019-03-21 21:21:49,785 p=14120 u=alex |  Thursday 21 March 2019  21:21:49 +0300 (0:00:01.894)       0:00:10.724 ******** 
+2019-03-21 21:21:49,809 p=14120 u=alex |  skipping: [suse]
+2019-03-21 21:21:52,202 p=14120 u=alex |  ok: [ub]
+2019-03-21 21:21:52,236 p=14120 u=alex |  TASK [web : Update all packages Suse] ******************************************
+2019-03-21 21:21:52,236 p=14120 u=alex |  Thursday 21 March 2019  21:21:52 +0300 (0:00:02.450)       0:00:13.175 ******** 
+2019-03-21 21:21:52,271 p=14120 u=alex |  skipping: [ub]
+2019-03-21 21:22:00,687 p=14120 u=alex |  ok: [suse]
+2019-03-21 21:22:00,723 p=14120 u=alex |  TASK [web : Install Package] ***************************************************
+2019-03-21 21:22:00,724 p=14120 u=alex |  Thursday 21 March 2019  21:22:00 +0300 (0:00:08.488)       0:00:21.663 ******** 
+2019-03-21 21:22:00,762 p=14120 u=alex |  skipping: [ub]
+2019-03-21 21:22:03,416 p=14120 u=alex |  ok: [suse]
+2019-03-21 21:22:03,432 p=14120 u=alex |  TASK [web : Start Nginx] *******************************************************
+2019-03-21 21:22:03,432 p=14120 u=alex |  Thursday 21 March 2019  21:22:03 +0300 (0:00:02.708)       0:00:24.371 ******** 
+2019-03-21 21:22:03,469 p=14120 u=alex |  skipping: [ub]
+2019-03-21 21:22:05,035 p=14120 u=alex |  ok: [suse]
+2019-03-21 21:22:05,057 p=14120 u=alex |  TASK [web : Copy index.html on WebServer] **************************************
+2019-03-21 21:22:05,057 p=14120 u=alex |  Thursday 21 March 2019  21:22:05 +0300 (0:00:01.624)       0:00:25.996 ******** 
+2019-03-21 21:22:05,091 p=14120 u=alex |  skipping: [ub]
+2019-03-21 21:22:07,477 p=14120 u=alex |  ok: [suse]
+2019-03-21 21:22:07,512 p=14120 u=alex |  TASK [web : Check connect] *****************************************************
+2019-03-21 21:22:07,512 p=14120 u=alex |  Thursday 21 March 2019  21:22:07 +0300 (0:00:02.455)       0:00:28.451 ******** 
+2019-03-21 21:22:08,962 p=14120 u=alex |  ok: [ub]
+2019-03-21 21:22:08,994 p=14120 u=alex |  ok: [suse]
+2019-03-21 21:22:09,025 p=14120 u=alex |  TASK [web : Check by url] ******************************************************
+2019-03-21 21:22:09,025 p=14120 u=alex |  Thursday 21 March 2019  21:22:09 +0300 (0:00:01.513)       0:00:29.964 ******** 
+2019-03-21 21:22:10,520 p=14120 u=alex |  ok: [ub]
+2019-03-21 21:22:10,543 p=14120 u=alex |  ok: [suse]
+2019-03-21 21:22:10,557 p=14120 u=alex |  TASK [web : debug] *************************************************************
+2019-03-21 21:22:10,557 p=14120 u=alex |  Thursday 21 March 2019  21:22:10 +0300 (0:00:01.531)       0:00:31.496 ******** 
+2019-03-21 21:22:10,609 p=14120 u=alex |  ok: [suse] => {}
+
+MSG:
+
+{u'status': 200, u'content_length': u'144', u'cookies': {}, u'last_modified': u'Thu, 21 Mar 2019 18:11:09 GMT', u'content_type': u'text/html', u'date': u'Thu, 21 Mar 2019 18:22:10 GMT', u'url': u'http://localhost', u'changed': False, u'server': u'nginx/1.14.2', u'content': u'  \n<!DOCTYPE html>\n<html>\n<body>\n\n<h1>Welcome to the "Lesson_6: Ansible Cruise!"</h1>\n<p>If you see this page, all is good!</p>\n\n</body>\n</html>', 'failed': False, u'connection': u'close', u'etag': u'"5c93d3bd-90"', u'msg': u'OK (144 bytes)', u'redirected': False, u'accept_ranges': u'bytes', u'cookies_string': u''}
+
+2019-03-21 21:22:10,626 p=14120 u=alex |  ok: [ub] => {}
+
+MSG:
+
+{u'status': 200, u'content_length': u'144', u'cookies': {}, u'last_modified': u'Thu, 21 Mar 2019 18:10:52 GMT', u'content_type': u'text/html', u'date': u'Thu, 21 Mar 2019 18:22:10 GMT', u'url': u'http://localhost', u'changed': False, u'server': u'nginx/1.14.0 (Ubuntu)', u'content': u'  \n<!DOCTYPE html>\n<html>\n<body>\n\n<h1>Welcome to the "Lesson_6: Ansible Cruise!"</h1>\n<p>If you see this page, all is good!</p>\n\n</body>\n</html>', 'failed': False, u'connection': u'close', u'etag': u'"5c93d3ac-90"', u'msg': u'OK (144 bytes)', u'redirected': False, u'accept_ranges': u'bytes', u'cookies_string': u''}
+
+2019-03-21 21:22:10,628 p=14120 u=alex |  PLAY RECAP *********************************************************************
+2019-03-21 21:22:10,628 p=14120 u=alex |  suse                       : ok=8    changed=0    unreachable=0    failed=0   
+2019-03-21 21:22:10,628 p=14120 u=alex |  ub                         : ok=8    changed=0    unreachable=0    failed=0   
+2019-03-21 21:22:10,628 p=14120 u=alex |  Thursday 21 March 2019  21:22:10 +0300 (0:00:00.071)       0:00:31.567 ******** 
+2019-03-21 21:22:10,628 p=14120 u=alex |  =============================================================================== 
+2019-03-21 21:22:10,629 p=14120 u=alex |  web : Update all packages Suse ------------------------------------------ 8.49s
+2019-03-21 21:22:10,629 p=14120 u=alex |  Gathering Facts --------------------------------------------------------- 3.46s
+2019-03-21 21:22:10,629 p=14120 u=alex |  web : Update && Upgrade Linux Cache ------------------------------------- 3.22s
+2019-03-21 21:22:10,629 p=14120 u=alex |  web : Install Package --------------------------------------------------- 2.71s
+2019-03-21 21:22:10,629 p=14120 u=alex |  web : Copy index.html on WebServer -------------------------------------- 2.46s
+2019-03-21 21:22:10,629 p=14120 u=alex |  web : Copy index.html on WebServer -------------------------------------- 2.45s
+2019-03-21 21:22:10,629 p=14120 u=alex |  web : Install Package --------------------------------------------------- 2.11s
+2019-03-21 21:22:10,629 p=14120 u=alex |  web : Start Nginx ------------------------------------------------------- 1.89s
+2019-03-21 21:22:10,629 p=14120 u=alex |  web : Start Nginx ------------------------------------------------------- 1.62s
+2019-03-21 21:22:10,629 p=14120 u=alex |  web : Check by url ------------------------------------------------------ 1.53s
+2019-03-21 21:22:10,629 p=14120 u=alex |  web : Check connect ----------------------------------------------------- 1.51s
+2019-03-21 21:22:10,629 p=14120 u=alex |  web : debug ------------------------------------------------------------- 0.07s
+2019-03-21 21:22:10,630 p=14120 u=alex |  Playbook run took 0 days, 0 hours, 0 minutes, 31 seconds

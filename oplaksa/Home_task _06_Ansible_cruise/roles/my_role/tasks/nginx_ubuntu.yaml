@@ -1,0 +1,11 @@
+---
+- name: Nginx.Ubuntu.Install
+  apt:
+    name: nginx
+    state: latest
+    
+- name: Nginx.Ubuntu.Start
+  service: 
+    name: nginx
+    state: restarted
+    enabled: yes
