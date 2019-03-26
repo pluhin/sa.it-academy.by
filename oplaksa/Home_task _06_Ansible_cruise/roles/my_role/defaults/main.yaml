@@ -1,0 +1,8 @@
+---
+index_home: "/var/www/"
+
+conf_home: "/etc/nginx/conf.d/" 
+
+virual_hosts:
+  - { name: "local_ubuntu.site", ip: "{{ hostvars[inventory_hostname].ansible_host }}"}
+  - { name: "local_cent.site", ip: "{{ hostvars[inventory_hostname].ansible_host }}"}
