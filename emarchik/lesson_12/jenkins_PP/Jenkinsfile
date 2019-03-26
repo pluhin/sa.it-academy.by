@@ -1,0 +1,48 @@
+pipeline {
+    environment {
+        registry = "agarim999/docker_test_repo"
+    }
+    parameters {
+        string(name: 'repository_url', defaultValue: 'git@github.com:ZikFred/Docker.git', description: 'Github repository url')
+        booleanParam(name: 'remove', defaultValue: true, description: 'Remove Buiild package')
+    }
+    agent any
+    stages {
+        stage('Cloning Git') {
+            steps {
+                git "${params.repository_url}"
+            }
+        }
+        stage('Checking repository'){
+            steps {
+                    sh """
+                    cd project/
+                    pwd
+                    ls -l
+                    whoami
+                    """
+            }
+        }
+        stage('Building image') {
+            steps {
+                sh "docker build --tag $registry:$BUILD_NUMBER ."
+            }
+        }
+        stage('Deploy Image') {
+            steps{
+                   sh """
+                   docker login -u agarim999 -p ********
+                   docker push $registry:$BUILD_NUMBER
+                   """
+            }
+        }
+        stage('Remove Unused docker image') {
+            when {
+                expression {params.remove == true}
+            }
+            steps {
+                sh "docker rmi $registry:$BUILD_NUMBER"
+            }
+        }
+    }
+}
