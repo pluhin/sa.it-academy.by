@@ -1,0 +1,234 @@
+Started by user ivan 
+Replayed #47
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on coreos in /var/lib/jenkins/workspace/DevOps/consul.docker
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+using credential 1b2b3159-b901-473a-bf28-a41bc366e3ba
+Fetching changes from the remote Git repository
+ > git rev-parse --is-inside-work-tree # timeout=10
+ > git config remote.origin.url git@github.com:ifanui/docker.git # timeout=10
+Fetching upstream changes from git@github.com:ifanui/docker.git
+ > git --version # timeout=10
+using GIT_SSH to set credentials 
+ > git fetch --tags --progress git@github.com:ifanui/docker.git +refs/heads/*:refs/remotes/origin/*
+Checking out Revision 4f1d87c087df04b7edb8fb294e84575656fac23a (refs/remotes/origin/master)
+Commit message: "Update Jenkinsfile"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { ( Clone repository)
+[Pipeline] git
+No credentials specified
+Fetching changes from the remote Git repository
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 4f1d87c087df04b7edb8fb294e84575656fac23a
+ > git rev-list --no-walk 4f1d87c087df04b7edb8fb294e84575656fac23a # timeout=10
+ > git rev-parse --is-inside-work-tree # timeout=10
+ > git config remote.origin.url git@github.com:ifanui/docker.git # timeout=10
+Fetching upstream changes from git@github.com:ifanui/docker.git
+ > git --version # timeout=10
+ > git fetch --tags --progress git@github.com:ifanui/docker.git +refs/heads/*:refs/remotes/origin/*
+Checking out Revision 4f1d87c087df04b7edb8fb294e84575656fac23a (refs/remotes/origin/master)
+Commit message: "Update Jenkinsfile"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Building image)
+[Pipeline] script
+[Pipeline] {
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 4f1d87c087df04b7edb8fb294e84575656fac23a
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b master 4f1d87c087df04b7edb8fb294e84575656fac23a
+[Pipeline] sh
++ docker build -t ifanui/it-academy:48 .
+Sending build context to Docker daemon  100.4kB
+
+Step 1/15 : FROM alpine:3.8
+3.8: Pulling from library/alpine
+c87736221ed0: Pulling fs layer
+c87736221ed0: Verifying Checksum
+c87736221ed0: Download complete
+c87736221ed0: Pull complete
+Digest: sha256:a4d41fa0d6bb5b1194189bab4234b1f2abfabb4728bda295f5c53d89766aa046
+Status: Downloaded newer image for alpine:3.8
+ ---> dac705114996
+Step 2/15 : MAINTAINER Ivan Evseichik
+ ---> Running in 8e7cd00363a2
+Removing intermediate container 8e7cd00363a2
+ ---> 79d3c5b247cc
+Step 3/15 : ARG CONSUL_USERID
+ ---> Running in 4d5ededcf2ee
+Removing intermediate container 4d5ededcf2ee
+ ---> bd3a2112cbd5
+Step 4/15 : ENV CONSUL_VERSION=1.4.3     CONSUL_USERNAME="consul"     CONSUL_USERID=${CONSUL_USERID:-1050}
+ ---> Running in 046916bf8d59
+Removing intermediate container 046916bf8d59
+ ---> 4728bb4c5e84
+Step 5/15 : RUN apk --update --no-cache add tini curl bash libcap python net-tools ca-certificates &&     rm -rf /var/cache/apk/* &&     mkdir /consul
+ ---> Running in ca0a553c7f82
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.8/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.8/community/x86_64/APKINDEX.tar.gz
+(1/20) Installing ncurses-terminfo-base (6.1_p20180818-r1)
+(2/20) Installing ncurses-terminfo (6.1_p20180818-r1)
+(3/20) Installing ncurses-libs (6.1_p20180818-r1)
+(4/20) Installing readline (7.0.003-r0)
+(5/20) Installing bash (4.4.19-r1)
+Executing bash-4.4.19-r1.post-install
+(6/20) Installing ca-certificates (20171114-r3)
+(7/20) Installing nghttp2-libs (1.32.0-r0)
+(8/20) Installing libssh2 (1.8.1-r0)
+(9/20) Installing libcurl (7.61.1-r2)
+(10/20) Installing curl (7.61.1-r2)
+(11/20) Installing libcap (2.25-r1)
+(12/20) Installing mii-tool (1.60_git20140218-r2)
+(13/20) Installing net-tools (1.60_git20140218-r2)
+(14/20) Installing libbz2 (1.0.6-r6)
+(15/20) Installing expat (2.2.5-r0)
+(16/20) Installing libffi (3.2.1-r4)
+(17/20) Installing gdbm (1.13-r1)
+(18/20) Installing sqlite-libs (3.25.3-r0)
+(19/20) Installing python2 (2.7.15-r1)
+(20/20) Installing tini (0.18.0-r0)
+Executing busybox-1.28.4-r3.trigger
+Executing ca-certificates-20171114-r3.trigger
+OK: 54 MiB in 33 packages
+Removing intermediate container ca0a553c7f82
+ ---> 181177c1c0f7
+Step 6/15 : COPY ./src/bin/start-consul.sh /bin/start-consul.sh
+ ---> ec8fceb44e8d
+Step 7/15 : COPY ./src/etc/config.json /consul/config.json
+ ---> 126739d7b168
+Step 8/15 : RUN adduser -D -u $CONSUL_USERID $CONSUL_USERNAME &&     curl -sSLo /tmp/consul.zip https://releases.hashicorp.com/consul/$CONSUL_VERSION/consul_${CONSUL_VERSION}_linux_amd64.zip &&     unzip -d /bin /tmp/consul.zip &&     rm -f /tmp/consul.zip &&     mkdir -p /consul/data /consul/ui /consul/config &&     chown -R consul /consul &&     chmod 644 /consul/config.json &&     setcap cap_ipc_lock=+ep $(readlink -f /bin/consul) &&     setcap "cap_net_bind_service=+ep" /bin/consul &&     chmod +x /bin/start-consul.sh
+ ---> Running in 6399993f6097
+Archive:  /tmp/consul.zip
+  inflating: consul
+Removing intermediate container 6399993f6097
+ ---> 7f278a672e80
+Step 9/15 : USER $CONSUL_USERNAME
+ ---> Running in c061e7538ed8
+Removing intermediate container c061e7538ed8
+ ---> 35697cb54dda
+Step 10/15 : EXPOSE 8300 8301 8301/udp 8302 8302/udp 8400 8500 53 53/udp
+ ---> Running in abd76ca0d11f
+Removing intermediate container abd76ca0d11f
+ ---> 7b530ab51d2f
+Step 11/15 : VOLUME ["/consul/data", "/consul/config"]
+ ---> Running in 7194f28bdaeb
+Removing intermediate container 7194f28bdaeb
+ ---> bf270479cc83
+Step 12/15 : HEALTHCHECK --interval=10s --timeout=5s CMD curl -sf http://localhost:8500/ || exit 1
+ ---> Running in b52afb6a717b
+Removing intermediate container b52afb6a717b
+ ---> 219431d99042
+Step 13/15 : ENV SHELL /bin/bash
+ ---> Running in 1bb2451c4393
+Removing intermediate container 1bb2451c4393
+ ---> 5de670652dc9
+Step 14/15 : ENTRYPOINT ["/sbin/tini", "--", "/bin/start-consul.sh"]
+ ---> Running in 6d030da652e0
+Removing intermediate container 6d030da652e0
+ ---> b1ca5392eefb
+Step 15/15 : CMD []
+ ---> Running in eeb9e92e6d6a
+Removing intermediate container eeb9e92e6d6a
+ ---> 34636fd915a8
+Successfully built 34636fd915a8
+Successfully tagged ifanui/it-academy:48
+[Pipeline] dockerFingerprintFrom
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy Image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withDockerRegistry
+$ docker login -u ifanui -p ******** https://index.docker.io/v1/
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+[Pipeline] {
+[Pipeline] sh
+WARNING! Your password will be stored unencrypted in /var/lib/jenkins/workspace/DevOps/consul.docker@tmp/ce469226-f496-46fc-959c-0c115b429a9b/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
++ docker tag ifanui/it-academy:48 ifanui/it-academy:48
+[Pipeline] sh
++ docker push ifanui/it-academy:48
+The push refers to repository [docker.io/ifanui/it-academy]
+8485b53371c6: Preparing
+ea306c5b743e: Preparing
+10ff5775f95e: Preparing
+13b49577519a: Preparing
+d9ff549177a9: Preparing
+d9ff549177a9: Layer already exists
+10ff5775f95e: Pushed
+ea306c5b743e: Pushed
+13b49577519a: Pushed
+8485b53371c6: Pushed
+48: digest: sha256:74b6b2db71b6c676c65c2a84f28d4cb90bd30caf3a9dfe96259255e4258e59e9 size: 1366
+[Pipeline] }
+[Pipeline] // withDockerRegistry
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Clean images from deploy)
+[Pipeline] sh
++ docker rmi ifanui/it-academy:48
+Untagged: ifanui/it-academy:48
+Untagged: ifanui/it-academy@sha256:74b6b2db71b6c676c65c2a84f28d4cb90bd30caf3a9dfe96259255e4258e59e9
+Deleted: sha256:34636fd915a89d8d20a431d1c48d99e1148b6877754c6069ead0a3d89c83619e
+Deleted: sha256:b1ca5392eefb972afc061567c33a753308f7ff57af71fe87aeb814d47c1a5576
+Deleted: sha256:5de670652dc9c5023bfa16878e331f9e247bcfedb867ec362108b12fd35d20dd
+Deleted: sha256:219431d9904212fe74a0b2045574eb73908c5162788eeeb97966bda726814a6e
+Deleted: sha256:bf270479cc83512d66343ae29d0d9b9591cec25861e1465ff9397547ca71f039
+Deleted: sha256:7b530ab51d2f7574cde361bdbb10282dd4fe83b000864450c2f680a69cfaa582
+Deleted: sha256:35697cb54dda03f40069f20a6cacac85f4d01a6cc558c4e078a2644e999b304e
+Deleted: sha256:7f278a672e8096bed77379caa442fa14f5f52f39601f51ae52bbe6c7c6f78d07
+Deleted: sha256:eafe088ab652bf60576e0a14038755668c1f74a9980b13e27a38f89eebb173dc
+Deleted: sha256:126739d7b1685f095f77a2c9b24a4158722fc258903b1beba4c0fe10619f36d3
+Deleted: sha256:2fa2dcada0823cad81304175187651b016109d9f0b062086a6766f8579302dcb
+Deleted: sha256:ec8fceb44e8dd0ff65cc64751e3ff9ed28083d8c6449fa5aed3de618bb42d152
+Deleted: sha256:b156ba987c3952c1de303a5b8821ec599a5f819731741ad4962aa4c5a8ab8ad8
+Deleted: sha256:181177c1c0f7d165e826878844823532c29ea283bab1afd56c0876a3f32391e9
+Deleted: sha256:83ab61e01a19d352903005735ec3f342d090c42e2030dbe7a92e9a37e4fb634b
+Deleted: sha256:4728bb4c5e84304ea730b447b654725ac9907d275469f418949f671d08023133
+Deleted: sha256:bd3a2112cbd5106240aaaae55b55a242702cd3e35669a5b0d75ea3e3fb3fabe9
+Deleted: sha256:79d3c5b247cc7c4b2cfa1739358d8121a00658a59b6c9653f1006ee2858dc0b8
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] slackSend
+Slack Send Pipeline step running, values are - baseUrl: https://devops-zst6876.slack.com/services/hooks/jenkins-ci/, teamDomain: <empty>, channel: , color: #00FF00, botUser: false, tokenCredentialId: bf68cd01-f84b-4c6e-b265-7739bfc65d63
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

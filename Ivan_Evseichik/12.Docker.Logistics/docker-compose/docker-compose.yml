@@ -1,0 +1,35 @@
+version : '3'
+services:
+    web:
+        image : nginx:latest
+        volumes:
+            - ./devops.by/devops.by.conf:/etc/nginx/conf.d/devops.by.conf
+            - ./devops.by/index.html:/usr/share/nginx/html/index.html
+        ports:
+            - 80:80
+    sonarr:
+        image: linuxserver/sonarr
+        container_name: sonarr
+        depends_on:
+            - web
+        volumes:
+            - /path/to/sonarr/config:/config
+            - /path/to/nzbget/downloads:/downloads
+            - /path/to/plex/Shows:/tv
+        environment:
+            - TZ=Europe/Minsk
+        ports:
+            - 8989:8989
+    radarr:
+        image: linuxserver/radarr
+        container_name: radarr
+        depends_on:
+            - web
+        volumes:
+            - /path/to/radarr/config:/config
+            - /path/to/nzbget/downloads:/downloads
+            - /path/to/plex/Movies:/movies
+        environment:
+            - TZ=Europe/Minsk
+        ports:
+            - 7878:7878

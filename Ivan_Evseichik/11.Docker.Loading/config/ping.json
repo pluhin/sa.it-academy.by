@@ -1,0 +1,2 @@
+{"check": {"name": "ping",
+  "args": ["sudo", "ping", "-c2", "ya.ru"], "interval": "60s"}} 
