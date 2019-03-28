@@ -1,0 +1,12 @@
+---
+
+- name: Provision a Jenkins CI server
+  hosts: web-apps
+  become: yes
+  become_method: sudo
+
+  roles:
+    - jenkins
+
+
+
