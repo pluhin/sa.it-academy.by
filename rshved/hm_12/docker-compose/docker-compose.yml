@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  sonar:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - TZ=Europe/Minsk
+    ports:
+      - "8989:8989"
+
+  radar:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - TZ=Europe/Minsk
+    ports:
+      - "7878:7878"
+
+  web:
+    image: httpd
+    container_name: app
+    depends_on:
+      - sonar
+      - radar
+    links:
+      - sonar
+      - radar
+    ports:
+      - "8500:80"
+    volumes:
+     - ./app:/usr/local/apache2/htdocs/
