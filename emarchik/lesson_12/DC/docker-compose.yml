@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  sonar:
+    image: linuxserver/sonarr
+    ports:
+      - "8600:8989"
+
+  radar:
+    image: linuxserver/radarr
+    ports:
+      - "8700:7878"
+
+  web:
+    image: eboraas/apache-php
+    container_name: web_app
+    depends_on:
+      - sonar
+      - radar
+    links:
+      - sonar
+      - radar
+    ports:
+      - "8500:80"
+    volumes:
+     - ./app:/var/www/html/
+  
