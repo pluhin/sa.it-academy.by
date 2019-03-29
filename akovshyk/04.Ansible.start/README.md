@@ -19,30 +19,30 @@
   - configuring ansible inventory
   ```bash
 [ub]
-ub ansible_host=192.168.88.23
+ubuntu ansible_host=192.168.88.23
 [cent]
-cent ansible_host=192.168.88.17
-[all:children]
+centos ansible_host=192.168.88.17
+[test:children]
 ub
 cent
 ```
-- groupevars /etc/ansible/group_vars/all
+- groupevars /etc/ansible/group_vars/test
 ``` bash
- env: all
+ env: test
  ```
-- hostvars /etc/ansible/host_vars/cent
+- hostvars /etc/ansible/host_vars/centos
 ``` bash
 nsible_user: chasey
 ansible_ssh_pass: *****
 ```
-hostvars /etc/ansible/host_vars/ub
+hostvars /etc/ansible/host_vars/ubuntu
 ``` bash
 nsible_user: chasey
 ansible_ssh_pass: *****
 ```
 - ping remoute hosts
 ``` bash
- ansible all -m ping 
+ ansible test -m ping 
  192.168.88.23 | SUCCESS => {
     "changed": false, 
     "ping": "pong"
@@ -54,7 +54,7 @@ ansible_ssh_pass: *****
 ```
 - get hosts hostnames
   ``` bash
-  ansible all -m shell -a "hostname"
+  ansible test -m shell -a "hostname"
   192.168.88.17 | CHANGED | rc=0 >>
   centos
 
