@@ -1,0 +1,5 @@
+---
+- hosts: cen_ser 
+  become: yes
+  roles:
+    - jenkins
