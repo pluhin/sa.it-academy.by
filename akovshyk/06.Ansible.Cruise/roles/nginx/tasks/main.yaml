@@ -1,11 +1,11 @@
 ---
 - name: For Debian
   include: nginx_debian.yaml
-  when: ansible_os_family == 'Debian'
+  when: ansible_distribution  == 'Debian'
 
 - name: For Centos
   include: nginx_centos.yaml
-  when: ansible_os_family == "Centos"
+  when: ansible_distribution  == 'CentOS'
 
 - name: check connection
   wait_for:
@@ -16,8 +16,8 @@
     timeout: 3
 - name: url Check
   uri:
-    uri: http://localhost
+    url: http://localhost
     return_content: yes
-  register: this
+  register: urlcheck
 - debug:
-    msg: "{{ this }}"
+    msg: "{{ urlcheck }}"

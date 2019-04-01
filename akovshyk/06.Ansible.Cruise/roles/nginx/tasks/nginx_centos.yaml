@@ -1,13 +1,18 @@
-ame: yum update all packets
+  - name: yum update all packets
     yum:
       name: '*'
       state: latest
+  - name: epel install 
+    yum:
+      name: epel-release
+      state: present
   - name: nginx installation
     yum:
       name: nginx
       state: present
   - name: nginx start
-      service: nginx
+    service:
+      name: nginx
       state: started
   - name: Copy index.html
     copy:

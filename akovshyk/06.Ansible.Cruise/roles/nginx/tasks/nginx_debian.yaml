@@ -8,7 +8,8 @@
       name: nginx
       state: present
   - name: nginx start
-      service: nginx
+    service:
+      name: nginx
       state: started
   - name: Copy index.html
     copy:
