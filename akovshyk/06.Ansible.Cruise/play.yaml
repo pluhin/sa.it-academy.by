@@ -1,0 +1,5 @@
+---
+hosts: test
+  become: yes
+  become_method: sudo
+  roles: nginx

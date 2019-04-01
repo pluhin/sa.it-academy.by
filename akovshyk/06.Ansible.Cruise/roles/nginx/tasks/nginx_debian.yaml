@@ -1,0 +1,18 @@
+---
+  - name: apt update all packets
+    apt:
+      upgrade: full
+      update_cache: yes
+  - name: nginx installation
+    apt:
+      name: nginx
+      state: present
+  - name: nginx start
+      service: nginx
+      state: started
+  - name: Copy index.html
+    copy:
+      src: index.html
+      dest: "{{ dest_ub }}"
+    notify:
+      - Restart nginx
