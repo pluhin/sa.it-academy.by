@@ -1,0 +1,13 @@
+---
+
+- name: Install jenkins
+  apt:
+    name: jenkins
+    state: latest
+
+- name:  Start jenkins
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+
