@@ -12,3 +12,4 @@ Your Dockerfile and links to your Dockerhub put into folder `11. Docker. Lading`
 
 --
 ![](./img/Docker-Hub-v1.png)
+![](./img/Docker-Hub-v1.1.png)
