@@ -1,10 +1,6 @@
-FROM python:3.7.3-alpine3.9
+FROM rpmfan/sa:1.3  
 MAINTAINER albert
-ARG proxy
-ENV https_proxy=$proxy \
-	LANG=en_US.UTF-8 \
-	LC_ALL=en_US.UTF-8
-COPY src /apps
-WORKDIR /apps
-RUN python -v
-CMD ["sh","/apps/bootstrap.sh"]
+
+COPY . /usr/src/app
+WORKDIR /usr/src/app
+CMD ["python", "api.py"]
