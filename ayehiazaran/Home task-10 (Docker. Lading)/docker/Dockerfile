@@ -6,5 +6,5 @@ ENV https_proxy=$proxy \
 	LC_ALL=en_US.UTF-8
 COPY src /apps
 WORKDIR /apps
-RUN python -V
+RUN python -v
 CMD ["sh","/apps/bootstrap.sh"]
