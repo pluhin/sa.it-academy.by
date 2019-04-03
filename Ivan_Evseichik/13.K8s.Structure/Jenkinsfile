@@ -1,0 +1,102 @@
+pipeline { 
+    agent { node { label 'k8s' } }
+	parameters {
+		booleanParam(name: 'start_minikube', defaultValue: true, description: 'Start minikube with dashboard')
+		booleanParam(name: 'stop_minikube', defaultValue: false, description: 'Stop minikube')
+    }	
+      stages {
+	stage ('Add key for installing VirtualBox') {
+		when {
+                	expression {params.start_minikube == true}
+          		  }
+		steps {
+	          sh "wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add - && wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -"
+			}
+		}
+	stage ('Add repo for VirtualBox') {
+		when {
+                	expression {params.start_minikube == true}
+          		  }
+		steps {
+		  sh "sudo add-apt-repository 'deb http://download.virtualbox.org/virtualbox/debian xenial contrib'"
+			}
+		}
+	stage (' Install kubectl, which you use to interact with the Kubernetes cluster ') {
+		when {
+                	expression {params.start_minikube == true}
+          		  }
+		steps {
+		  sh "curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - && echo 'deb https://apt.kubernetes.io/ kubernetes-xenial main' | sudo tee -a /etc/apt/sources.list.d/kubernetes.list"	
+			}
+		}
+	stage (' Install kubectl ') {
+		when {
+                	expression {params.start_minikube == true}
+          		  }
+		steps {
+		  sh "sudo apt-get update && sudo apt-get install -y kubelet kubeadm kubectl"
+		 	}
+		}
+	stage ('Install VirtualBox to Ubuntu') {
+		when {
+                	expression {params.start_minikube == true}
+          		  }
+                steps {
+                  sh "sudo apt-get install -y virtualbox-5.2"
+                      }
+                }
+        stage ('Curl from remote repo to local minikube') {
+		when {
+                	expression {params.start_minikube == true}
+          		  }
+                steps {
+                  sh '''
+                       curl -Lo  minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
+                        && chmod +x minikube
+                     '''
+                      }
+                }
+        stage ('Copy daemon minikube to /usr/local/bin') {
+		when {
+                	expression {params.start_minikube == true}
+          		  }
+		steps {
+ 		      sh "sudo cp -f minikube /usr/local/bin/ && rm minikube"
+			}
+		}
+        stage ('Run minikube') {
+		when {
+                	expression {params.start_minikube == true}
+          		  }
+                steps {
+                  sh '''
+			sudo minikube start --vm-driver none && kubectl proxy --port=8080 --address='0.0.0.0' --disable-filter=true &
+		      '''
+		      }
+		}
+	stage ('Show dashboard') {
+		when {
+                	expression {params.start_minikube == true}
+          		  }
+		steps {
+                  sh "sudo minikube dashboard --url &"
+		      }
+	}
+	stage ('Stop minikube') {
+		when {
+                	expression {params.stop_minikube == true}
+          		  }
+                steps {
+                  sh "sudo minikube stop && sudo minikube delete"
+		      }
+		}
+	}
+	post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+}	
