@@ -10,5 +10,4 @@
 
 Your Dockerfile and links to your Dockerhub put into folder `11. Docker. Lading` add to your repository, then prepare PR (Pull Request)
 
-
 --
