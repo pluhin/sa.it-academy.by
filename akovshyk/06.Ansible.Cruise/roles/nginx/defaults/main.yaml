@@ -1,0 +1,2 @@
+dest_cent: "/usr/share/nginx/html/"
+dest_ub: "/var/www/html/"
