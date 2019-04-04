@@ -1,0 +1,10 @@
+---
+- name: NGINX. Ubuntu 
+  apt:
+    name: "{{ inst_nginx }}"
+    state: latest
+- name: Nginx. Start
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes

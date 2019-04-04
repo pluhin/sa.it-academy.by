@@ -1,0 +1,18 @@
+---
+apt: https://pkg.jenkins.io/debian-stable
+apt_packages:
+  - mc
+  - jenkins
+  - nano
+  - nginx
+services:
+  - jenkins
+  - nginx
+packages:
+  - openjdk-8-jre-headless
+  - wget
+  - git
+virual_hosts:
+  - { name: "master.jenkins.by" }
+site: master.jenkins.by
+

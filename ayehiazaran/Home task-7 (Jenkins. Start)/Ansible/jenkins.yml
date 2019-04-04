@@ -1,0 +1,7 @@
+---
+- hosts: jenkins-instance
+  remote_user: '{{ login_user }}'
+  sudo: yes
+
+  roles:
+    - jenkins-ci

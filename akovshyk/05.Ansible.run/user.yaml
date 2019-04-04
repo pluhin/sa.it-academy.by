@@ -1,0 +1,39 @@
+---
+- hosts: test
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: create ansibleuser
+    user:
+      name: ansible
+      shell: /bin/bash
+      home: /home/ansible
+      state: present
+  - name: adding ansible user to sudoers
+    lineinfile:
+      dest: /etc/sudoers
+      line: "ansible ALL=(ALL)       NOPASSWD: ALL"
+      validate: 'visudo -cf %s'
+  - name: Set authorized key
+    authorized_key:
+      user: ansible
+      state: present
+      key: "{{ lookup('file', '/home/chasey/.ssh/id_rsa.pub') }}"
+
+  - name: Disable Root Login
+    lineinfile:
+           dest=/etc/ssh/sshd_config
+           regexp='^PermitRootLogin'
+           line="PermitRootLogin no"
+           state=present
+           backup=yes
+    notify:
+      - restart ssh
+  - name: Remove user
+    user:
+      name: ansible
+      state: absent
+
+  handlers:
+    - name: restart ssh
+      service: name=sshd state=restarted

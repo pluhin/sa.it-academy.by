@@ -1,0 +1,8 @@
+---
+- hosts: web-apps 
+  become: yes
+  become_method: sudo
+  roles:
+  - web
+  #vars_files:
+  #  group_vars/all/        

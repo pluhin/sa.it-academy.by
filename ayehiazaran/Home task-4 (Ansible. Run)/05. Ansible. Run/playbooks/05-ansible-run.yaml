@@ -1,0 +1,7 @@
+- hosts: prod
+  gather_facts: True
+  become: yes
+  remote_user: albert
+  sudo: yes
+  roles:
+   - 05-ansible-run

@@ -1,0 +1,22 @@
+---
+inst_pack:
+  - epel-release
+  - wget
+  - java-1.8.0-openjdk
+  - git
+
+
+
+# vh: 
+#  - site01.nginx
+#  - site02.nginx
+
+root_home: "/srv/"
+
+conf_home: "/etc/nginx/conf.d/" 
+
+
+# virual_hosts:
+#  - { name: "site01.nginx", ip: "{{ hostvars[inventory_hostname].ansible_host }}"}
+#  - { name: "site02.nginx", ip: "{{ hostvars[inventory_hostname].ansible_host }}"}
+ 

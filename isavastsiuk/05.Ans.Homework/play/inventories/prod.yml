@@ -1,0 +1,19 @@
+---
+all_hosts:
+  children:
+    labs:
+      vars:
+        name_env: "Test Labs servers"
+      hosts:
+        jump:
+          ansible_user: jump
+          ansible_host: 178.124.206.48
+      children:
+        servers:    
+          hosts:
+            cen_ser:
+              ansible_user: root
+              ansible_host: 192.168.254.50
+            ub_ser:
+              ansible_user: user
+              ansible_host: 192.168.254.51

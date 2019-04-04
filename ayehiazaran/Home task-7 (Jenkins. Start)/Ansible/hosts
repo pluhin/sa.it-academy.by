@@ -1,0 +1,2 @@
+[jenkins-instance]
+centos_01 ansible_host=192.168.190.132

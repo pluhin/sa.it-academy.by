@@ -1,0 +1,14 @@
+---
+- hosts: ec_htp
+  vars:
+    var_01: "Hi"
+  tasks:
+  - name: Print OS/Version; 
+    debug:
+      msg:
+        - "{{ 'IP address           :%s'|format(ansible_default_ipv4.address) }}"
+        - "{{ 'Hostname:            :%s'|format(ansible_hostname) }}"
+        - "{{ 'Operational System   :%s'|format(ansible_distribution) }}"
+        - "{{ 'Version:             :%s'|format(ansible_distribution_version) }}"
+        - Memory: "{{ ansible_memory_mb.real }}"
+        - Mounts: "{% for i in ansible_mounts %}{{ i.mount+'; '}}{% endfor %}"

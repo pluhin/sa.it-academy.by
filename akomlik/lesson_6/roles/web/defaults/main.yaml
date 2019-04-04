@@ -1,0 +1,9 @@
+---
+# Some main variables for role
+
+apt_package:
+  - nginx
+zypper_package:
+  - nginx
+destin_file_suse: "/srv/www/htdocs/"
+destin_file_ub: "/var/www/html/"
