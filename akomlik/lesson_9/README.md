@@ -17,9 +17,9 @@
 ------
 1. Build Pipeline:
 
-![]()
+![](https://github.com/volat1977/sa.it-academy.by/blob/m-sa2-06-19/akomlik/lesson_9/Pipeline_done.png)
 
 
 2. List online hosts:
 
-![]()
+![](https://github.com/volat1977/sa.it-academy.by/blob/m-sa2-06-19/akomlik/lesson_9/nmapscan.png)
