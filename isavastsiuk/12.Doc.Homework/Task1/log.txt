@@ -1,0 +1,172 @@
+Started by user admin
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on slave02 in /home/jenkins/workspace/Docker_f/Docker_build
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Cloning Git)
+[Pipeline] git
+No credentials specified
+Fetching changes from the remote Git repository
+ > git rev-parse --is-inside-work-tree # timeout=10
+ > git config remote.origin.url git@github.com:iggysav/test01.git # timeout=10
+Fetching upstream changes from git@github.com:iggysav/test01.git
+ > git --version # timeout=10
+ > git fetch --tags --progress git@github.com:iggysav/test01.git +refs/heads/*:refs/remotes/origin/*
+Checking out Revision 07ecfc3bdaf970489e76882e8ac35c50a56ebdd1 (refs/remotes/origin/master)
+Commit message: "Test"
+[Pipeline] }
+[Pipeline] // stage
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 07ecfc3bdaf970489e76882e8ac35c50a56ebdd1
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D master # timeout=10
+ > git checkout -b master 07ecfc3bdaf970489e76882e8ac35c50a56ebdd1
+ > git rev-list --no-walk 07ecfc3bdaf970489e76882e8ac35c50a56ebdd1 # timeout=10
+[Pipeline] stage
+[Pipeline] { (Building image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ docker build -t iggysav/test01:19 .
+Sending build context to Docker daemon  63.49kB
+
+Step 1/9 : FROM node:7-onbuild
+# Executing 5 build triggers
+ ---> Using cache
+ ---> Using cache
+ ---> Using cache
+ ---> Using cache
+ ---> aa6375341e7e
+Step 2/9 : LABEL maintainer "igor.savastsiuk@it-academy.by"
+ ---> Running in eccd4fbe6436
+Removing intermediate container eccd4fbe6436
+ ---> 25d470f3dd1c
+Step 3/9 : WORKDIR /usr/src/app
+ ---> Running in 20cc0741eb1e
+Removing intermediate container 20cc0741eb1e
+ ---> e54afdcad9cd
+Step 4/9 : COPY  main.js app/
+ ---> 680e404d49d3
+Step 5/9 : COPY  package.json app/
+ ---> 3bca9b760245
+Step 6/9 : RUN npm install
+ ---> Running in 436cb5e04334
+[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mit worked if it ends with[0m[91m ok
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91musing[0m[91m npm@4.2.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91musing[0m[91m node@v7.10.1
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~preinstall: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlinkStuff[0m[91m test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~install: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~postinstall: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~prepublish: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~prepare: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mok[0m[91m 
+[0mRemoving intermediate container 436cb5e04334
+ ---> dd887178c793
+Step 7/9 : HEALTHCHECK --interval=5s             --timeout=5s             CMD curl -f http://127.0.0.1:8000 || exit 1
+ ---> Running in 8a9ff05a0ef8
+Removing intermediate container 8a9ff05a0ef8
+ ---> 1c5edeeb4979
+Step 8/9 : EXPOSE 8000
+ ---> Running in 03f869141b42
+Removing intermediate container 03f869141b42
+ ---> bd858a63829e
+Step 9/9 : CMD [ "npm", "start" ]
+ ---> Running in 2f29061b83c5
+Removing intermediate container 2f29061b83c5
+ ---> 4a8e45b39cc9
+Successfully built 4a8e45b39cc9
+Successfully tagged iggysav/test01:19
+[Pipeline] dockerFingerprintFrom
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push to DockerHub)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withDockerRegistry
+$ docker login -u iggysav -p ******** https://registry.hub.docker.com
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+[Pipeline] {
+[Pipeline] sh
++ docker tag iggysav/test01:19 registry.hub.docker.com/iggysav/test01:19
+[Pipeline] sh
++ docker push registry.hub.docker.com/iggysav/test01:19
+The push refers to repository [registry.hub.docker.com/iggysav/test01]
+WARNING! Your password will be stored unencrypted in /home/jenkins/workspace/Docker_f/Docker_build@tmp/0622ec20-7a95-44a8-94ae-b5187ad301bf/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+c20cf4ca26ee: Preparing
+50756620428d: Preparing
+9e12fb8ba7bd: Preparing
+9eec5ba11583: Preparing
+970a44aadb44: Preparing
+352e1b90bf5b: Preparing
+2895be281ac1: Preparing
+ab90d83fa34a: Preparing
+8ee318e54723: Preparing
+e6695624484e: Preparing
+da59b99bbd3b: Preparing
+5616a6292c16: Preparing
+f3ed6cb59ab0: Preparing
+654f45ecb7e3: Preparing
+2c40c66f7667: Preparing
+352e1b90bf5b: Waiting
+2895be281ac1: Waiting
+ab90d83fa34a: Waiting
+8ee318e54723: Waiting
+e6695624484e: Waiting
+da59b99bbd3b: Waiting
+5616a6292c16: Waiting
+f3ed6cb59ab0: Waiting
+654f45ecb7e3: Waiting
+2c40c66f7667: Waiting
+970a44aadb44: Layer already exists
+352e1b90bf5b: Layer already exists
+2895be281ac1: Layer already exists
+9e12fb8ba7bd: Pushed
+ab90d83fa34a: Layer already exists
+c20cf4ca26ee: Pushed
+50756620428d: Pushed
+9eec5ba11583: Pushed
+da59b99bbd3b: Layer already exists
+8ee318e54723: Layer already exists
+e6695624484e: Layer already exists
+f3ed6cb59ab0: Layer already exists
+5616a6292c16: Layer already exists
+2c40c66f7667: Layer already exists
+654f45ecb7e3: Layer already exists
+19: digest: sha256:cae96a14886887cddec8a4c38d30dd8bc6cd4372f4cac7c7bad497db38017068 size: 3458
+[Pipeline] }
+[Pipeline] // withDockerRegistry
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Remove Unused docker image)
+[Pipeline] sh
++ docker rmi iggysav/test01:19
+Untagged: iggysav/test01:19
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
