@@ -41,9 +41,7 @@ Include:
 ------
 
 
-Docker-compose file : 
-![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/12.Doc.Homework/Task2/docker-compose.yaml)
-
+[Docker-compose file](https://github.com/iggysav/sa.it-academy.by/tree/m-sa2-06-19/isavastsiuk/12.Doc.Homework/Task2/docker-compose.yaml)
 
 ##### Result:
 ------
@@ -62,10 +60,7 @@ Docker-compose file :
 ###Second version (by Nginx Proxy Manager):
 ------
 
-
-Docker-compose file : 
-![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/12.Doc.Homework/Task2/docker-compose.yaml)
-
+[Docker-compose file](https://github.com/iggysav/sa.it-academy.by/tree/m-sa2-06-19/isavastsiuk/12.Doc.Homework/Task3/docker-compose.yaml)
 
 ##### Result:
 ------
