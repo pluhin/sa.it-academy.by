@@ -6,10 +6,10 @@
 Updated demo script. Now is pushing to DockerHub.
 
 Jenkinsfile : 
-[Jenkinsfile](../Task1/Jenkinsfile)
+[Jenkinsfile](https://github.com/iggysav/sa.it-academy.by/tree/m-sa2-06-19/isavastsiuk/12.Doc.Homework/Task1/Jenkinsfile)
 
 Jenkins log:
-[Jenkins log](../Task1/log.txt)
+[Jenkins log](https://github.com/iggysav/sa.it-academy.by/tree/m-sa2-06-19/isavastsiuk/12.Doc.Homework/Task1/log.txt)
 
 
 ##### Result:
