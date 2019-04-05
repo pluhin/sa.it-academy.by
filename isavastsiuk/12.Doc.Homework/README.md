@@ -6,10 +6,10 @@
 Updated demo script. Now is pushing to DockerHub.
 
 Jenkinsfile : 
-![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/12.Doc.Homework/Task1/Jenkinsfile)
+[Jenkinsfile](../Task1/Jenkinsfile)
 
 Jenkins log:
-![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/12.Doc.Homework/Task1/log.txt)
+[Jenkins log](../Task1/log.txt)
 
 
 ##### Result:
@@ -21,7 +21,7 @@ Jenkins log:
 
 2. DockerHub repo update:
 
-![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/12.Doc.Homework/Pics/push_jen.JPG)
+![](https://github.com/iggysav/sa.it-academy.by/blob/m-sa2-06-19/isavastsiuk/12.Doc.Homework/Pics/push_doc.JPG)
 
 3. Slack Not.:
 
