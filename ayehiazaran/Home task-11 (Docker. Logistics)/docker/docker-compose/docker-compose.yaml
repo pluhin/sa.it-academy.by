@@ -14,7 +14,7 @@ services:
       - "9560:7878"
 
   web_page:
-    image: nginx/nginx:1.15.10
+    image: nginx:1.15.10
     container_name: web_page
     depends_on:
       - sonarr
@@ -25,4 +25,4 @@ services:
     ports:
       - "9500:80"
     volumes:
-    - ./html:/var/www/html/
+    - ./html:/usr/share/nginx/html

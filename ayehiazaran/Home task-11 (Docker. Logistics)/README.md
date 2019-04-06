@@ -16,4 +16,6 @@ Your Dockerfile, docker-compose files, Jenkinsfile and Jenkins output put into f
 --
 ![](./img/docker-logistics-1.png)
 ![](./img/docker-logistics-1.1.png)
-![](./img/Docker-Hub-v1.2.png)
+![](./img/docker-logistics-2.png)
+![](./img/docker-logistics-2.1.png)
+![](./img/docker-logistics-2.2.png)
