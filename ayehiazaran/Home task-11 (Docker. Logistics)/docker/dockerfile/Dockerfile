@@ -1,13 +1,6 @@
-FROM alpine:3.9
-MAINTAINER Albert
+FROM rpmfan/sa:1.3  
+MAINTAINER albert
 
-RUN \
-  apt-get update && \
-  apt-get install -y python python-dev python-pip python-virtualenv && \
-  rm -rf /var/lib/apt/lists/*
-
-WORKDIR /data
-COPY . /data/
-
-EXPOSE 5000
-CMD ["bash"]
+COPY . /usr/src/app
+WORKDIR /usr/src/app
+CMD ["python", "api.py"]
