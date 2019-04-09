@@ -1,0 +1,33 @@
+---
+- hosts: m
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Create new user (use module)
+      user:
+        name: zubik
+        state: present
+        home: /home/zubik
+
+    - name: New user authorisation only by key
+      authorized_key:
+        user: zubik
+        key: "{{item}}"
+        with_file:
+          - /home/zubik/.ssh/id_rsa.pub
+          -
+    - name: "Add to the sudo:nopasswd for upgrade command"
+      lineinfile:
+        dest: "/etc/sudoers"
+        state: "present"
+        line: "zubik ALL=(ALL) NOPASSWD: ALL"
+
+    - name: Remove new user
+      user:
+        name: zubik
+        state: absent
+
+
+
+
+
