@@ -1,5 +1,5 @@
 # Is it ok, that i used AWS instance without using vagrant ?
-
+```bash
     1  sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
     2  sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
     3  sudo yum install jenkins
@@ -16,4 +16,4 @@
    27  ls -l /etc/nginx/conf.d/
    32  sudo vi /etc/nginx/conf.d/jenkins.conf
    34  sudo service nginx restart
-
+```
