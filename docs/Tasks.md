@@ -186,3 +186,27 @@ Your Dockerfile, docker-compose files, Jenkinsfile and Jenkins output put into f
 Your code and printscreen of dachboard put into folder `13. K8s. Structure` add to your repository, then prepare PR (Pull Request)
 
 ## 14. K8s. Deployment
+- Deploy Jenkins server with 2 replicas
+- Add service and Ingress for Jenkins
+- Expose jenkins web UI to external network  
+
+---
+
+## Project plan
+### CI
+Organize the CI platform for development team:
+- Git repository for code application code
+    - branches, README.md
+- Git repository for ansible playbooks
+    - branches, README.md
+- Docker deployment substructure
+    - dockerfile/compouse
+- Docker hub auto-create image
+
+### CD 
+Develop and delivery CD solution for the application:
+- Continuous deployment by webhook and by schedule
+- Group deployment with parameters (version/features/patrly upgrade)
+- Prepare Jenkins file/Pipeline for deployment
+- Organise deployment application as docker for QA team on demand
+- Provide performance testing for your Pipeline
