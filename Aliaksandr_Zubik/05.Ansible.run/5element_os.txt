@@ -1,0 +1,253 @@
+
+PLAY [5element] *********************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************************
+ok: [m]
+ok: [mongo]
+ok: [mkp]
+ok: [api]
+
+TASK [OS/version] *******************************************************************************************************************************************************************************************
+ok: [m] => {
+    "msg": "CentOS"
+}
+ok: [api] => {
+    "msg": "CentOS"
+}
+ok: [mongo] => {
+    "msg": "CentOS"
+}
+ok: [mkp] => {
+    "msg": "CentOS"
+}
+
+TASK [Mount point/capacity/used] ****************************************************************************************************************************************************************************
+ok: [m] => {
+    "msg": [
+        {
+            "block_available": 8868028, 
+            "block_size": 4096, 
+            "block_total": 10029384, 
+            "block_used": 1161356, 
+            "device": "/dev/mapper/centos_fe-root", 
+            "fstype": "ext4", 
+            "inode_available": 2444177, 
+            "inode_total": 2555904, 
+            "inode_used": 111727, 
+            "mount": "/", 
+            "options": "rw,relatime,data=ordered", 
+            "size_available": 36323442688, 
+            "size_total": 41080356864, 
+            "uuid": "6ebdb581-ddbd-4d35-a698-c8d8881df5bc"
+        }, 
+        {
+            "block_available": 199530, 
+            "block_size": 4096, 
+            "block_total": 249830, 
+            "block_used": 50300, 
+            "device": "/dev/sda1", 
+            "fstype": "ext4", 
+            "inode_available": 65195, 
+            "inode_total": 65536, 
+            "inode_used": 341, 
+            "mount": "/boot", 
+            "options": "rw,relatime,data=ordered", 
+            "size_available": 817274880, 
+            "size_total": 1023303680, 
+            "uuid": "fe126d67-711e-442e-ae16-c72fb1bb0404"
+        }
+    ]
+}
+ok: [api] => {
+    "msg": [
+        {
+            "block_available": 2844209, 
+            "block_size": 4096, 
+            "block_total": 10029384, 
+            "block_used": 7185175, 
+            "device": "/dev/mapper/centos_be-root", 
+            "fstype": "ext4", 
+            "inode_available": 2315114, 
+            "inode_total": 2555904, 
+            "inode_used": 240790, 
+            "mount": "/", 
+            "options": "rw,relatime,data=ordered", 
+            "size_available": 11649880064, 
+            "size_total": 41080356864, 
+            "uuid": "773dd03b-2749-48ff-9f1e-0b30a2bae4c4"
+        }, 
+        {
+            "block_available": 199526, 
+            "block_size": 4096, 
+            "block_total": 249830, 
+            "block_used": 50304, 
+            "device": "/dev/sda1", 
+            "fstype": "ext4", 
+            "inode_available": 65195, 
+            "inode_total": 65536, 
+            "inode_used": 341, 
+            "mount": "/boot", 
+            "options": "rw,relatime,data=ordered", 
+            "size_available": 817258496, 
+            "size_total": 1023303680, 
+            "uuid": "1e2d7ff7-b88e-4f8b-ab92-811be0b9d8d3"
+        }
+    ]
+}
+ok: [mongo] => {
+    "msg": [
+        {
+            "block_available": 6842075, 
+            "block_size": 4096, 
+            "block_total": 10029384, 
+            "block_used": 3187309, 
+            "device": "/dev/mapper/centos_db-root", 
+            "fstype": "ext4", 
+            "inode_available": 2489912, 
+            "inode_total": 2555904, 
+            "inode_used": 65992, 
+            "mount": "/", 
+            "options": "rw,relatime,data=ordered", 
+            "size_available": 28025139200, 
+            "size_total": 41080356864, 
+            "uuid": "51e81442-9a29-45c0-aa56-084e70ec2299"
+        }, 
+        {
+            "block_available": 199532, 
+            "block_size": 4096, 
+            "block_total": 249830, 
+            "block_used": 50298, 
+            "device": "/dev/sda1", 
+            "fstype": "ext4", 
+            "inode_available": 65195, 
+            "inode_total": 65536, 
+            "inode_used": 341, 
+            "mount": "/boot", 
+            "options": "rw,relatime,data=ordered", 
+            "size_available": 817283072, 
+            "size_total": 1023303680, 
+            "uuid": "cb9ae45c-5d6f-41bd-ad51-2b031b2e8c4d"
+        }
+    ]
+}
+ok: [mkp] => {
+    "msg": [
+        {
+            "block_available": 8815979, 
+            "block_size": 4096, 
+            "block_total": 10029384, 
+            "block_used": 1213405, 
+            "device": "/dev/mapper/centos_fe-root", 
+            "fstype": "ext4", 
+            "inode_available": 2427931, 
+            "inode_total": 2555904, 
+            "inode_used": 127973, 
+            "mount": "/", 
+            "options": "rw,relatime,data=ordered", 
+            "size_available": 36110249984, 
+            "size_total": 41080356864, 
+            "uuid": "6ebdb581-ddbd-4d35-a698-c8d8881df5bc"
+        }, 
+        {
+            "block_available": 199530, 
+            "block_size": 4096, 
+            "block_total": 249830, 
+            "block_used": 50300, 
+            "device": "/dev/sda1", 
+            "fstype": "ext4", 
+            "inode_available": 65195, 
+            "inode_total": 65536, 
+            "inode_used": 341, 
+            "mount": "/boot", 
+            "options": "rw,relatime,data=ordered", 
+            "size_available": 817274880, 
+            "size_total": 1023303680, 
+            "uuid": "fe126d67-711e-442e-ae16-c72fb1bb0404"
+        }
+    ]
+}
+
+TASK [RAM/capacity/free] ************************************************************************************************************************************************************************************
+ok: [m] => {
+    "msg": {
+        "nocache": {
+            "free": 3354, 
+            "used": 578
+        }, 
+        "real": {
+            "free": 2038, 
+            "total": 3932, 
+            "used": 1894
+        }, 
+        "swap": {
+            "cached": 0, 
+            "free": 0, 
+            "total": 0, 
+            "used": 0
+        }
+    }
+}
+ok: [api] => {
+    "msg": {
+        "nocache": {
+            "free": 2131, 
+            "used": 1801
+        }, 
+        "real": {
+            "free": 1514, 
+            "total": 3932, 
+            "used": 2418
+        }, 
+        "swap": {
+            "cached": 0, 
+            "free": 0, 
+            "total": 0, 
+            "used": 0
+        }
+    }
+}
+ok: [mongo] => {
+    "msg": {
+        "nocache": {
+            "free": 1521, 
+            "used": 2411
+        }, 
+        "real": {
+            "free": 348, 
+            "total": 3932, 
+            "used": 3584
+        }, 
+        "swap": {
+            "cached": 0, 
+            "free": 0, 
+            "total": 0, 
+            "used": 0
+        }
+    }
+}
+ok: [mkp] => {
+    "msg": {
+        "nocache": {
+            "free": 2615, 
+            "used": 1317
+        }, 
+        "real": {
+            "free": 1048, 
+            "total": 3932, 
+            "used": 2884
+        }, 
+        "swap": {
+            "cached": 0, 
+            "free": 0, 
+            "total": 0, 
+            "used": 0
+        }
+    }
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************************
+api                        : ok=4    changed=0    unreachable=0    failed=0   
+m                          : ok=4    changed=0    unreachable=0    failed=0   
+mkp                        : ok=4    changed=0    unreachable=0    failed=0   
+mongo                      : ok=4    changed=0    unreachable=0    failed=0   
+

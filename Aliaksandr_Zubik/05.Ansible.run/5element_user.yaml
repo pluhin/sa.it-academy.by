@@ -12,10 +12,8 @@
     - name: New user authorisation only by key
       authorized_key:
         user: zubik
-        key: "{{item}}"
-        with_file:
-          - /home/zubik/.ssh/id_rsa.pub
-          -
+        key: "{{ lookup('file', '/home/zubik/.ssh/id_rsa.pub') }}"
+        state: present
     - name: "Add to the sudo:nopasswd for upgrade command"
       lineinfile:
         dest: "/etc/sudoers"
