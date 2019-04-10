@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    ports:
+      - "9550:8989"
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    ports:
+      - "9560:7878"
+
+  web_page:
+    image: nginx:1.15.10
+    container_name: web_page
+    depends_on:
+      - sonarr
+      - radarr
+    links:
+      - sonarr
+      - radarr
+    ports:
+      - "9500:80"
+    volumes:
+    - ./html:/usr/share/nginx/html
