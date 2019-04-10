@@ -1,0 +1,16 @@
+---
+- name: Install Nginx
+  package:
+    name: nginx
+    state: latest
+- name: Copy index.html
+  copy:
+    src: index.html
+    dest: "{{ index_home }}"
+- name: Check url
+  uri:
+    url: http://localhost
+    return_content: yes
+  register: this
+- debug:
+    msg: "{{ this }}"
