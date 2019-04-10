@@ -9,5 +9,5 @@
 ![](./img/jenkins-replics.png)
 ![](./img/jenkins-services.png)
 ![](./img/jenkins-services-list.png)
-![](./img/jenkins-ingresses.png)
 ![](./img/jenkins-ui.png)
+![](./img/jenkins-ui-1.png)
