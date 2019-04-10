@@ -1,0 +1,24 @@
+---
+# Task fro install WebServer "Nginx" on Debian OS Family
+
+- name: Update && Upgrade Linux Cache
+  apt:
+    update_cache: yes
+    upgrade: full
+  
+- name: Install Package
+  apt:
+    name: "{{ apt_package }}"
+    state: present
+
+- name: Start Nginx
+  service:
+    name: nginx
+    state: started
+
+- name: Copy index.html on WebServer
+  copy:
+    src: index.html
+    dest: "{{ destin_file_ub }}"
+  notify:
+    - Restart WebServer

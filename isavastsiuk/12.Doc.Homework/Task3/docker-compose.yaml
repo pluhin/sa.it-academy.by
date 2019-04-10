@@ -1,0 +1,56 @@
+version: "3"
+services:
+  app:
+    image: jc21/nginx-proxy-manager:2
+    restart: always
+    ports:
+      - 8000:80
+      - 8100:81
+      - 4430:443
+    volumes:
+      - ./config.json:/app/config/production.json
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    depends_on:
+      - db
+      - sonarr
+    environment:
+    - FORCE_COLOR=1
+  db:
+    image: jc21/mariadb-aria
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "password123"
+      MYSQL_DATABASE: "nginxproxymanager"
+      MYSQL_USER: "nginxproxymanager"
+      MYSQL_PASSWORD: "password123"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /home/user/docker-comp/sonarr/config:/config
+      - /home/user/docker-comp/sonarr/tv:/tv
+      - /home/user/docker-comp/sonarr/downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - ./config:/config
+      - ./movies:/movies
+      - ./downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped

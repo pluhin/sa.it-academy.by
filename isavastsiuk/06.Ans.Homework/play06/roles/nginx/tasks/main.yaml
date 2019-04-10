@@ -1,0 +1,58 @@
+---
+- name: For Debian
+  include: http_ubuntu.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: For Centos
+  include: http_rh.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Make dir for root virt.hosts
+  file:
+    path: "{{ root_home }}{{ item }}"
+    state: directory
+  with_items: "{{ vh }}"
+
+- name: Copy index.html
+  copy:
+    src: index.html
+    dest: "{{ root_home }}{{ item }}/index.html"
+  with_items: "{{ vh }}" 
+
+- name: Copy conf
+  template:
+    src: default.conf
+    dest: "{{ conf_home }}{{ item }}.conf"
+  notify: restart nginx
+  with_items: "{{ vh }}"
+
+- name: Edit hosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+  tags: "hosts"
+
+- name: Check connect
+  wait_for:
+   host: "{{ item }}"
+   port: "80"
+   state: started
+   delay: 0
+   timeout: 3
+  with_items: "{{ vh }}"
+  tags: "check"
+
+- name: Check by url
+  uri:
+    url: "http://{{ item }}"
+    return_content: yes
+  register: this
+  with_items: "{{ vh }}"
+  tags: "check"
+
+- debug:
+    msg: "{{ this }}"
+  tags: "check"
+
+

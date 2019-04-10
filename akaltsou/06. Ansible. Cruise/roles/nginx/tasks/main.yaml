@@ -1,0 +1,29 @@
+---
+- name: For Debian
+  include: nginx_debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: For Centos
+  include: nginx_redhat.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Check connect
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    delay: 0
+    timeout: 3
+- name: Check by url
+  uri:
+    url: http://localhost
+    return_content: yes
+  register: this
+- debug:
+    msg: "{{ this }}"
+
+- name: Template
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes

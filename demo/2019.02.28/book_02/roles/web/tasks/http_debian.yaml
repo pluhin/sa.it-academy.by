@@ -1,0 +1,10 @@
+---
+- name: Apache2. Debian
+  apt:
+    name: "{{ apt_http }}"
+    state: latest
+- name: Apache2. Start
+  service:
+    name: apache2
+    state: started
+    enabled: yes

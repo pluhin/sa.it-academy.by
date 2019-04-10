@@ -1,0 +1,52 @@
+pipeline { 
+    environment {
+    registry = "ifanui/it-academy"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
+    agent { node { label 'coreos' } }
+    parameters {
+        string(name: 'repository_url', defaultValue: 'git@github.com:ifanui/docker.git', description: 'Git hub repository url') 
+	booleanParam(name: 'clean_images', defaultValue: false, description: 'Delete all images after deploy coreos on coreos')
+    }
+    stages {
+	stage (' Clone repository'){
+	     steps {
+                   git url: "${params.repository_url}"
+		}
+	}
+       stage('Building image') {
+      	    steps{
+        script {	
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+
+        stage('Clean images from deploy') {
+            when {
+                expression {params.clean_images == true}
+            }
+            steps {
+                sh "docker rmi $registry:$BUILD_NUMBER"
+            }
+        }
+}
+	post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+}

@@ -1,0 +1,19 @@
+[root@localhost ~]# systemctl status nginx
+● nginx.service - The nginx HTTP and reverse proxy server
+   Loaded: loaded (/usr/lib/systemd/system/nginx.service; disabled; vendor preset: disabled)
+   Active: active (running) since Sat 2019-03-30 06:49:06 UTC; 7min ago
+  Process: 14354 ExecStart=/usr/sbin/nginx (code=exited, status=0/SUCCESS)
+  Process: 14352 ExecStartPre=/usr/sbin/nginx -t (code=exited, status=0/SUCCESS)
+  Process: 14350 ExecStartPre=/usr/bin/rm -f /run/nginx.pid (code=exited, status=0/SUCCESS)
+ Main PID: 14356 (nginx)
+   CGroup: /system.slice/nginx.service
+           ├─14356 nginx: master process /usr/sbin/nginx
+           └─14357 nginx: worker process
+
+Mar 30 06:49:06 localhost.localdomain systemd[1]: Stopped The nginx HTTP and reverse proxy server.
+Mar 30 06:49:06 localhost.localdomain systemd[1]: Starting The nginx HTTP and reverse proxy server...
+Mar 30 06:49:06 localhost.localdomain nginx[14352]: nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+Mar 30 06:49:06 localhost.localdomain nginx[14352]: nginx: configuration file /etc/nginx/nginx.conf test is successful
+Mar 30 06:49:06 localhost.localdomain systemd[1]: Failed to read PID from file /run/nginx.pid: Invalid argument
+Mar 30 06:49:06 localhost.localdomain systemd[1]: Started The nginx HTTP and reverse proxy server.
+

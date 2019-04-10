@@ -1,0 +1,18 @@
+{
+	"data_dir": "/consul/data",
+	"log_level": "INFO",
+ "datacenter": "dev",	
+  "log_level": "DEBUG",
+  "node_name": "consul",
+  "server": true,
+  "enable_script_checks" : true,
+  "bind_addr" : "0.0.0.0",
+  "bootstrap_expect" : 1,
+  "client_addr": "0.0.0.0",
+	"client_addr": "0.0.0.0",
+	"ports": {
+		"dns": 53
+	},
+	"disable_update_check": true
+  
+} 

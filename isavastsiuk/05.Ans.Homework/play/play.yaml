@@ -1,0 +1,28 @@
+---
+- hosts: servers
+  tasks:
+  - name: Get information to Slack about system
+    slack:
+      token: "{{ token }}"
+      channel: "{{ channel }}"
+      msg: '=={{ inventory_hostname }}== OS/Version is: {{ ansible_lsb.description }}'
+      color: good 
+      username: 'webhookbot'
+      icon_emoji: ':ghost:'
+  - name: Get information to Slack about mount
+    slack:
+      token: "{{ token }}"
+      channel: "{{ channel }}"
+      msg: '=={{ inventory_hostname }}== Mount: {{ item.mount }} -  Space availalable: {{ item.size_available|filesizeformat(true) }}'
+      color: good 
+      username: 'webhookbot'
+      icon_emoji: ':ghost:'
+    with_items: "{{ ansible_mounts }}"
+  - name: Get information to Slack about memory
+    slack:
+      token: "{{ token }}"
+      channel: "{{ channel }}"
+      msg: '=={{ inventory_hostname }}== RAM capacity: {{ ansible_memory_mb.real.total }}mb , RAM free: {{ ansible_memory_mb.real.free }}mb'
+      color: good 
+      username: 'webhookbot'
+      icon_emoji: ':ghost:'

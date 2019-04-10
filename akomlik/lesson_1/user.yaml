@@ -1,0 +1,44 @@
+---
+- hosts: ec_htp
+  become: yes 
+  become_method: sudo
+  tasks:
+  - name: create ansible user
+    user: 
+      name: akomlik
+      shell: /bin/bash 
+      home: /home/akomlik
+      state: present
+
+  - name: Set authorized key taken from file
+    authorized_key:
+      user: akomlik
+      state: present
+      key: "{{ lookup('file', '/home/alex/.ssh/id_rsa.pub') }}"
+
+  - name: adding ansible user to sudoers
+    lineinfile: 
+      dest: /etc/sudoers 
+      line: "ansible ALL=(ALL)       NOPASSWD: ALL" 
+      validate: 'visudo -cf %s'
+
+  - name: Disable Root Login
+    lineinfile:
+           dest=/etc/ssh/sshd_config
+           regexp='^PermitRootLogin'
+           line="PermitRootLogin no"
+           state=present
+           backup=yes
+
+  - name: Final sudoers file check
+    shell: mkdir /etc/akomlik && rm -r /etc/akomlik
+
+  - name: Remove user   
+    user:
+      name: akomlik
+      state: absent
+
+
+
+
+

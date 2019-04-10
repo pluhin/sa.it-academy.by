@@ -1,0 +1,31 @@
+---
+- name: "Create service ansible user"
+  hosts: UBUNTU_WS
+  become: yes
+  tasks:
+    - name: "Create ansible user"
+      user:
+        name: ansible
+        shell: /bin/bash
+        home: /home/ansible
+
+    - name: "Add authorized keys for User"
+      authorized_key:
+        user: ansible
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    - name: "Allow user without a password"
+      lineinfile:
+        dest: "/etc/sudoers"
+        state: "present"
+        regexp: "^%ansible"
+        line: "%ansible ALL=(ALL) NOPASSWD: ALL"
+
+- name: Jenkins Playbook
+  hosts: UBUNTU_WS
+  remote_user: ansible
+  gather_facts: false
+  become: yes
+  roles:
+    - jenkins

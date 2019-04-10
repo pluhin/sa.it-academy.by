@@ -1,0 +1,230 @@
+Started by user agarim
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/08.Pepeline
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Clone repository)
+[Pipeline] git
+No credentials specified
+Cloning the remote Git repository
+Cloning repository git@github.com:ZikFred/Jenkins.git
+ > git init /var/lib/jenkins/workspace/08.Pepeline # timeout=10
+Fetching upstream changes from git@github.com:ZikFred/Jenkins.git
+ > git --version # timeout=10
+ > git fetch --tags --progress git@github.com:ZikFred/Jenkins.git +refs/heads/*:refs/remotes/origin/*
+ > git config remote.origin.url git@github.com:ZikFred/Jenkins.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url git@github.com:ZikFred/Jenkins.git # timeout=10
+Fetching upstream changes from git@github.com:ZikFred/Jenkins.git
+ > git fetch --tags --progress git@github.com:ZikFred/Jenkins.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 559bbbe7c09ffc37c86a6fb809445f4ff1ad523a (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 559bbbe7c09ffc37c86a6fb809445f4ff1ad523a
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b master 559bbbe7c09ffc37c86a6fb809445f4ff1ad523a
+Commit message: "Initial commit"
+First time build. Skipping changelog.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Checking repository)
+[Pipeline] sh
++ whoami
+jenkins
++ pwd
+/var/lib/jenkins/workspace/08.Pepeline
++ ls -l
+total 4
+-rw-r--r-- 1 jenkins jenkins 9 мар 18 15:08 README.md
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Create Branch)
+[Pipeline] sh
++ git checkout -b jenkins_branche
+Switched to a new branch 'jenkins_branche'
+[Pipeline] sh
++ git branch
+* jenkins_branche
+  master
+[Pipeline] sh
++ git checkout jenkins_branche
+Already on 'jenkins_branche'
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Packing project)
+[Pipeline] sh
++ tar -zcvf /tmp/1.tar.gz ./
+./
+./README.md
+./.git/
+./.git/HEAD
+./.git/hooks/
+./.git/hooks/pre-receive.sample
+./.git/hooks/pre-push.sample
+./.git/hooks/pre-rebase.sample
+./.git/hooks/pre-applypatch.sample
+./.git/hooks/applypatch-msg.sample
+./.git/hooks/commit-msg.sample
+./.git/hooks/fsmonitor-watchman.sample
+./.git/hooks/update.sample
+./.git/hooks/prepare-commit-msg.sample
+./.git/hooks/pre-commit.sample
+./.git/hooks/post-update.sample
+./.git/config
+./.git/description
+./.git/refs/
+./.git/refs/remotes/
+./.git/refs/remotes/origin/
+./.git/refs/remotes/origin/feature_1
+./.git/refs/remotes/origin/feature_2
+./.git/refs/remotes/origin/master
+./.git/refs/tags/
+./.git/refs/heads/
+./.git/refs/heads/jenkins_branche
+./.git/refs/heads/master
+./.git/objects/
+./.git/objects/2b/
+./.git/objects/2b/36b080c9e68b1db84691cb5751c5001b6b9ffc
+./.git/objects/2b/cf509fca575ea6162883c36cc38a65de5997b9
+./.git/objects/55/
+./.git/objects/55/9bbbe7c09ffc37c86a6fb809445f4ff1ad523a
+./.git/objects/pack/
+./.git/objects/info/
+./.git/index
+./.git/info/
+./.git/info/exclude
+./.git/FETCH_HEAD
+./.git/branches/
+./.git/logs/
+./.git/logs/HEAD
+./.git/logs/refs/
+./.git/logs/refs/remotes/
+./.git/logs/refs/remotes/origin/
+./.git/logs/refs/remotes/origin/feature_1
+./.git/logs/refs/remotes/origin/feature_2
+./.git/logs/refs/remotes/origin/master
+./.git/logs/refs/heads/
+./.git/logs/refs/heads/jenkins_branche
+./.git/logs/refs/heads/master
++ cp /tmp/1.tar.gz ./
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Remove)
+[Pipeline] sh
++ rm -f /tmp/1.tar.gz
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Packing test)
+[Pipeline] sh
++ ls -l
+total 16
+-rw-r--r-- 1 jenkins jenkins 9673 мар 18 15:08 1.tar.gz
+-rw-r--r-- 1 jenkins jenkins    9 мар 18 15:08 README.md
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Git Push)
+[Pipeline] sh
++ git add 1.tar.gz README.md
++ git commit -a -m jenkins_branche
+[jenkins_branche 11005fc] jenkins_branche
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 1.tar.gz
++ git push origin jenkins_branche --force
+remote: 
+remote: Create a pull request for 'jenkins_branche' on GitHub by visiting:        
+remote:      https://github.com/ZikFred/Jenkins/pull/new/jenkins_branche        
+remote: 
+To github.com:ZikFred/Jenkins.git
+ * [new branch]      jenkins_branche -> jenkins_branche
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test)
+[Pipeline] deleteDir
+[Pipeline] git
+No credentials specified
+Cloning the remote Git repository
+Cloning repository git@github.com:ZikFred/Jenkins.git
+ > git init /var/lib/jenkins/workspace/08.Pepeline # timeout=10
+Fetching upstream changes from git@github.com:ZikFred/Jenkins.git
+ > git --version # timeout=10
+ > git fetch --tags --progress git@github.com:ZikFred/Jenkins.git +refs/heads/*:refs/remotes/origin/*
+ > git config remote.origin.url git@github.com:ZikFred/Jenkins.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url git@github.com:ZikFred/Jenkins.git # timeout=10
+Fetching upstream changes from git@github.com:ZikFred/Jenkins.git
+ > git fetch --tags --progress git@github.com:ZikFred/Jenkins.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 559bbbe7c09ffc37c86a6fb809445f4ff1ad523a (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 559bbbe7c09ffc37c86a6fb809445f4ff1ad523a
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b master 559bbbe7c09ffc37c86a6fb809445f4ff1ad523a
+Commit message: "Initial commit"
+[Pipeline] sh
++ git checkout jenkins_branche
+Switched to a new branch 'jenkins_branche'
+Branch 'jenkins_branche' set up to track remote branch 'jenkins_branche' from 'origin'.
+[Pipeline] sh
++ echo Remote and Local branches are:
+Remote and Local branches are:
+[Pipeline] sh
++ git branch -a
+* jenkins_branche
+  master
+  remotes/origin/feature_1
+  remotes/origin/feature_2
+  remotes/origin/jenkins_branche
+  remotes/origin/master
+[Pipeline] sh
++ echo Files in remote jenkins_branche branch:
+Files in remote jenkins_branche branch:
+[Pipeline] sh
++ ls -l
+total 16
+-rw-r--r-- 1 jenkins jenkins 9673 мар 18 15:08 1.tar.gz
+-rw-r--r-- 1 jenkins jenkins    9 мар 18 15:08 README.md
+[Pipeline] sh
++ [[ -f 1.tar.gz ]]
+/var/lib/jenkins/workspace/08.Pepeline@tmp/durable-340f8a11/script.sh: 2: /var/lib/jenkins/workspace/08.Pepeline@tmp/durable-340f8a11/script.sh: [[: not found
++ echo Not found package in jenkins_branche branch
+Not found package in jenkins_branche branch
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Delete branch)
+[Pipeline] sh
++ git checkout master
+Switched to branch 'master'
++ git branch -D jenkins_branche
+Deleted branch jenkins_branche (was 11005fc).
+[Pipeline] sh
++ git push origin --delete jenkins_branche
+To github.com:ZikFred/Jenkins.git
+ - [deleted]         jenkins_branche
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] slackSend
+Slack Send Pipeline step running, values are - baseUrl: https://sa-itacademy-by.slack.com/services/hooks/jenkins-ci/, teamDomain: <empty>, channel: , color: #00FF00, botUser: false, tokenCredentialId: 89ea3bad-c48a-48a8-a2b5-0d503d15fa6c
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

@@ -1,0 +1,29 @@
+{
+  "database": {
+    "engine": "mysql",
+    "host": "db",
+    "name": "nginxproxymanager",
+    "user": "nginxproxymanager",
+    "password": "password123",
+    "port": 3306,
+    "domain_names": [
+      "sonarr222222222222"
+    ],
+    "forward_scheme": "http",
+    "forward_host": "192.168.43.214",
+    "forward_port": 8989,
+    "caching_enabled": true,
+    "block_exploits": true,
+    "allow_websocket_upgrade": true,
+    "access_list_id": 0,
+    "certificate_id": 0,
+    "advanced_config": "",
+    "locations": [],
+    "http2_support": false,
+    "hsts_enabled": false,
+    "hsts_subdomains": false,
+    "ssl_forced": false,
+    "owner_user_id": 1,
+    "meta": {}
+  }
+}

@@ -1,0 +1,13 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+server {
+        server_name {{ site }};
+        location / {
+            proxy_pass http://{{ hostvars[inventory_hostname].ansible_default_ipv4.address }}:8080/;
+            proxy_redirect     off;
+            proxy_set_header   Host             $host;
+            proxy_set_header   X-Real-IP        $remote_addr;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+        }
+}

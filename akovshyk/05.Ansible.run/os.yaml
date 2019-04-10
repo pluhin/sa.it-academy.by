@@ -1,0 +1,12 @@
+---
+- hosts: test
+  tasks:
+  - name: Print OS/version
+    debug:
+      msg: "{{ hostvars[inventory_hostname]. ansible_distribution}}"    
+  - name: Print  mounts
+    debug:
+      msg: "{{ hostvars[inventory_hostname].ansible_mounts}}"
+  - name: Print Memory
+    debug:
+      msg: "{{ hostvars[inventory_hostname].ansible_memory_mb}}"

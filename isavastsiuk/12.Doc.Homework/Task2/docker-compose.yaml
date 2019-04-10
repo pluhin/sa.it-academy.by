@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  web:
+    image: tomcat:latest
+    ports: 
+      - 8000:8080
+    volumes:
+      - ./index.html:/usr/local/tomcat/webapps/ROOT/index.html
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /home/user/docker-comp/sonarr/config:/config
+      - /home/user/docker-comp/sonarr/tv:/tv
+      - /home/user/docker-comp/sonarr/downloads:/downloads
+    ports:
+      - 8989:8989
+    depends_on: 
+      - web
+    restart: unless-stopped
+
+  
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      -  /home/user/docker-comp/radarr/config:/config
+      -  /home/user/docker-comp/radarr/movies:/movies
+      -  /home/user/docker-comp/radarr/downloads:/downloads
+    ports:
+      - 7878:7878
+    depends_on:
+      - web
+    restart: unless-stopped

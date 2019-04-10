@@ -1,0 +1,25 @@
+---
+# tasks file for deploy_nginx
+- name: Setup nginx cent_os
+  include_tasks: cent.yml
+  when: ansible_os_family == "RedHat"
+
+- name: Setup nginx ubuntu
+  include_tasks: ubuntu.yml
+  when: ansible_os_family == "Debian"
+
+- name: Check deployment on Cent OS
+  uri:
+    url: "http://{{ ip_cent }}"
+    return_content: yes
+  register: cent_index
+  failed_when: "'MARINE' not in cent_index.content"
+  when: ansible_os_family == "RedHat"
+
+- name: Check deployment on Ubuntu
+  uri:
+    url: "http://{{ ip_ubuntu }}"
+    return_content: yes
+  register: ubuntu_index
+  failed_when: "'MARINE' not in ubuntu_index.content"
+  when: ansible_os_family == "Debian"

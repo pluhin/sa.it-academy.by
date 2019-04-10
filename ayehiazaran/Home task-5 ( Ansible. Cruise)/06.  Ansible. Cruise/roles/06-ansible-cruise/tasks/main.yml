@@ -1,0 +1,35 @@
+---
+- name:  Debian - nginx installation
+  include_tasks: debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: CentOS - nginx installation
+  include_tasks: centos.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Copy index.html
+  copy:
+    scr: index.html
+    dest: "{{ index_home }}"
+
+- name: Check connect
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    delay: 0
+    timeout: 3
+
+- name: Check url
+  uri:
+    url: http://localhost
+    return_content: yes
+  register:  url
+- debug: 
+    msg: "{{ url }}"
+
+- name: Template
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes

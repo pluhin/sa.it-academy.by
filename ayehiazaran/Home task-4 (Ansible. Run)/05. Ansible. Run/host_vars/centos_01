@@ -1,0 +1,2 @@
+ansible_user: albert
+ansible_ssh_pass: "/home/albert/.ssh/id_rsa"
