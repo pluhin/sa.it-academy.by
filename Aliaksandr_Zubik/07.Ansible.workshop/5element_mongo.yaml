@@ -1,0 +1,11 @@
+---
+- hosts: mongo
+  remote_user: root
+  become: yes
+  become_method: sudo
+  vars:
+    mongodb_ver: 4.0
+    os_family: redhat
+    os_ver: 7
+  roles:
+    - mongo
