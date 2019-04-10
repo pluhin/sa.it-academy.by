@@ -10,4 +10,3 @@ Main purpose of this repository is collaboration of homework  for study groups
 - Slack channels for groups [sa-itacademy-by.slack.com](https://sa-itacademy-by.slack.com), invite only
 - Author's email [pluhin@gmail.com](pluhin@gmail.com)
 
-## CI/CD
