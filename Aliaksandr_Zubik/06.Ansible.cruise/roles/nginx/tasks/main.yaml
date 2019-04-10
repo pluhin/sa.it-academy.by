@@ -6,7 +6,19 @@
 - name: Copy index.html
   copy:
     src: index.html
-    dest: "{{ index_home }}"
+    dest: "/usr/share/nginx/html"
+- name: Start Nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+- name: Check connect
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    delay: 0
+    timeout: 3
 - name: Check url
   uri:
     url: http://localhost
