@@ -1,0 +1,36 @@
+---
+
+- name: install the required packages
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ minikube_dependencies }}"
+
+- name: start services
+  service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
+  with_items:
+    - firewalld
+    - libvirtd
+
+- name: enable autostart for the default network
+  virt_net:
+    autostart: yes
+    name: default
+
+- name: start the default network
+  virt_net:
+    name: default
+    state: active
+
+- name: get kvm2 driver
+  get_url:
+    url: "https://github.com/kubernetes/minikube/releases/download/{{ minikube_version }}/docker-machine-driver-kvm2"
+    dest: "{{ minikube_install_dir }}/docker-machine-driver-kvm2"
+
+- name: chmod kvm driver
+  file:
+    dest: "{{ minikube_install_dir }}/docker-machine-driver-kvm2"
+    mode: 0755

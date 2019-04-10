@@ -1,0 +1,9 @@
+version: '3'  
+
+services:
+  observatory-service:
+    build: ./observatory  
+    volumes:
+      - ./observatory:/usr/src/app 
+    ports:
+      - 5000:5000
