@@ -1,0 +1,44 @@
+version: '2'
+
+services:
+
+### Apache Server Container ##################################
+
+    apache:
+        build: ./apache
+        volumes:
+            - ./../5element:/var/www/html
+            - ./../logs:/var/www/logs
+            - ./apache/date-timezone.conf:/etc/apache2/conf-enabled/date-timezone.conf
+            - ./apache/encoding.conf:/etc/apache2/conf-enabled/encoding.conf
+        ports:
+            - 80:80
+
+### MySQL Container #########################################
+    mysql:
+        build: ./mysql
+        volumes:
+            - mysql:/var/lib/mysql
+        ports:
+            - 3306:3306
+        environment:
+            - MYSQL_ALLOW_EMPTY_PASSWORD=true
+            - MYSQL_USER=
+            - MYSQL_PASSWORD=
+            - MYSQL_DATABASE=
+
+### Redis Container #########################################
+
+    redis:
+        build: ./redis
+        volumes:
+            - redis:/data
+        ports:
+            - "6379:6379"
+
+### Volumes Data Container ##################################
+volumes:
+    mysql:
+        driver: "local"
+    redis:
+        driver: "local"
