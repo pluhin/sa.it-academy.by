@@ -9,4 +9,5 @@ https://cloud.docker.com/repository/docker/volat/lesson_11
 3. Test it
 
 ![](https://github.com/volat1977/sa.it-academy.by/blob/m-sa2-06-19/akomlik/lesson_11/curl_localhost.png)
+
 4. Send/receive API request
