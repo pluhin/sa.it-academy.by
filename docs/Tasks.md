@@ -37,7 +37,7 @@ Initialize local repository on your laptop. Create the following branches:
 - hotfix/we_gonna_die (from master)
     - 2 commits from master + 1 additional
 
-Pay the following situations:
+Play the following situations:
 - Release phase - all commits should be inside master (except hotfix)
 - Hotfix deploy - commit from hotfix/we_gonna_die branch should be in master first, then in another branches too
 
