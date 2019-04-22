@@ -1,4 +1,4 @@
-s it project by training in work with git VCS
+This it project by training in work with git VCS
 
 In this project we learned make:
 
