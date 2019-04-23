@@ -1,0 +1,54 @@
+# Home work #2
+Some description
+## Header
+
+```bash
+
+``` 1  mkdir m-sa2-07-19
+    2  cd m-sa2-07-19/
+    3   mkdir 02.GIT
+    4  cd 02.GIT/
+    5  git init
+    6  ls .git
+    7  git config --global user.name "Alexey"
+    8  git config --global user.email "Kuz9I_08@mail.ru"
+    9  git config --list
+   10  vim file.txt
+   11  git add file.txt
+   12  ls
+   13  git status
+   14  git add .file
+   15  git commit -m "First git demo"
+   16  git log
+   17  vim .file2
+   18  git add .file2
+   19  git commit -m "Second git demo"
+   20  git log
+   21  git checkout dev
+   22  git checkout -b "dev"
+   23  vim .file3
+   24  git add .file3
+   25  git commit -m "third git demo"
+   26  vim .file4
+   27  git add .file4
+   28  git commit -m "fourth git demo"
+   29  git branch
+   30  git checkout -b "features/do_one"
+   31  vim .file5
+   32  git add .file5
+   33  git commit -m "fifth git demo"
+   34  git branch
+   35  git checkout master
+   36  git log
+   37  git checkout -b "hotfix/we_gonna_die"
+   38  vim .file6
+   39  git add .file6
+   40  git commit -m "sixth git demo"
+   41  git log
+   42  gid checkout master
+   43  git checkout master
+   44  git log
+   45  git merge dev features/do_one
+   46  git log
+   47  git merge hotfix/we_gonna_die
+   48  git log
