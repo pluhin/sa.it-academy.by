@@ -1,0 +1,31 @@
+pipeline {
+    environment{
+        registry="volat/lesson_12"
+    }
+    agent any
+    stages {
+        stage('Cloning git'){
+            steps{
+              git 'https://github.com/volat1977/lesson_12.git'
+            }
+        }
+    stage('Build Image') {
+        steps{
+            script {
+              dockerImage = docker.build registry + ":$BUILD_NUMBER"
+            }
+        }
+    }
+    stage('Push Image') {
+        steps{
+            sh 'docker push $registry:$BUILD_NUMBER '
+        }
+    }
+    stage ('Remove Unused docker image') {
+        steps{
+            sh "docker rmi $registry:$BUILD_NUMBER"
+        }
+    }
+  }
+    
+}
