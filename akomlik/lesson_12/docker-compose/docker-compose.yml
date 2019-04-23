@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  sonar:
+    container_name: sonar
+    image: linuxserver/sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    ports:
+      - "8989:8989"
+
+  radar:
+    image: linuxserver/radarr
+    container_name: radar
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+  web:
+    image: eboraas/apache-php
+    container_name: web_app
+    depends_on:
+      - sonar
+      - radar
+    links:
+      - sonar
+      - radar
+    ports:
+      - "8500:80"
+    volumes:
+     - ./src:/var/www/html/
