@@ -1,0 +1,189 @@
+Started by GitHub push by volat1977
+Started by GitHub push by volat1977
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/Automate_task_12_Docker
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Cloning git)
+[Pipeline] git
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/volat1977/lesson_12.git # timeout=10
+Fetching upstream changes from https://github.com/volat1977/lesson_12.git
+ > git --version # timeout=10
+ > git fetch --tags --progress https://github.com/volat1977/lesson_12.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 3850059854da2234cb90c9c83c59e3fc64a74c0b (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 3850059854da2234cb90c9c83c59e3fc64a74c0b
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D master # timeout=10
+ > git checkout -b master 3850059854da2234cb90c9c83c59e3fc64a74c0b
+Commit message: "Merge branch 'master' of github.com:volat1977/lesson_12"
+ > git rev-list --no-walk 0c0fa6a53d683818c585ef4d1f887872a24e33c2 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ docker build -t volat/lesson_12:5 .
+Sending build context to Docker daemon  75.78kB
+
+Step 1/9 : FROM node:7-onbuild
+# Executing 5 build triggers
+ ---> Running in 5082edc7d2b0
+Removing intermediate container 5082edc7d2b0
+ ---> Running in e600ca634d3d
+Removing intermediate container e600ca634d3d
+ ---> Running in b326b7366bb2
+[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mit worked if it ends with[0m[91m ok
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91musing[0m[91m npm@4.2.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91musing[0m[91m node@v7.10.1
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~preinstall: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlinkStuff[0m[91m test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~install: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~postinstall: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~prepublish: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~prepare: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mok[0m[91m 
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mit worked if it ends with[0m[91m ok
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91musing[0m[91m npm@4.2.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91musing[0m[91m node@v7.10.1
+[0m[91mnpm[0m[91m [0m[91mWARN[0m[91m [0m[91musing --force[0m[91m I sure hope you know what you are doing.
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mok[0m[91m 
+[0mRemoving intermediate container b326b7366bb2
+ ---> 768d6666f4f1
+Step 2/9 : LABEL maintainer "komlik.al@gmail.com"
+ ---> Running in c6dc0c84d7ec
+Removing intermediate container c6dc0c84d7ec
+ ---> 1b164cbab822
+Step 3/9 : WORKDIR /usr/src/app
+ ---> Running in f66bdd33e291
+Removing intermediate container f66bdd33e291
+ ---> 17435740aa54
+Step 4/9 : COPY  main.js app/
+ ---> d69426d8b691
+Step 5/9 : COPY  package.json app/
+ ---> 30514321a27c
+Step 6/9 : RUN npm install
+ ---> Running in 5ea035fdbcbe
+[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mit worked if it ends with[0m[91m ok
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91musing[0m[91m npm@4.2.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91musing[0m[91m node@v7.10.1
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~preinstall: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlinkStuff[0m[91m test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~install: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~postinstall: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~prepublish: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mlifecycle[0m[91m test-app@1.0.0~prepare: test-app@1.0.0
+[0m[91mnpm[0m[91m [0m[91minfo[0m[91m [0m[91mok[0m[91m 
+[0mRemoving intermediate container 5ea035fdbcbe
+ ---> a85766323078
+Step 7/9 : HEALTHCHECK --interval=5s             --timeout=5s             CMD curl -f http://127.0.0.1:8000 || exit 1
+ ---> Running in 3419cabbb7f9
+Removing intermediate container 3419cabbb7f9
+ ---> 35c5aee964a2
+Step 8/9 : EXPOSE 8000
+ ---> Running in d5097db02b29
+Removing intermediate container d5097db02b29
+ ---> b00db3225a10
+Step 9/9 : CMD [ "npm", "start" ]
+ ---> Running in a17033a321af
+Removing intermediate container a17033a321af
+ ---> 6367783b0ef9
+Successfully built 6367783b0ef9
+Successfully tagged volat/lesson_12:5
+[Pipeline] dockerFingerprintFrom
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push Image)
+[Pipeline] sh
++ docker push volat/lesson_12:5
+The push refers to repository [docker.io/volat/lesson_12]
+c8111988276d: Preparing
+4a02dab7cfd7: Preparing
+a7e3be354de8: Preparing
+0e1fed0f3f76: Preparing
+a01abb38ffa0: Preparing
+e37dbc16e545: Preparing
+2895be281ac1: Preparing
+ab90d83fa34a: Preparing
+8ee318e54723: Preparing
+e6695624484e: Preparing
+da59b99bbd3b: Preparing
+5616a6292c16: Preparing
+f3ed6cb59ab0: Preparing
+654f45ecb7e3: Preparing
+2c40c66f7667: Preparing
+e37dbc16e545: Waiting
+2895be281ac1: Waiting
+ab90d83fa34a: Waiting
+8ee318e54723: Waiting
+e6695624484e: Waiting
+da59b99bbd3b: Waiting
+5616a6292c16: Waiting
+f3ed6cb59ab0: Waiting
+654f45ecb7e3: Waiting
+2c40c66f7667: Waiting
+4a02dab7cfd7: Pushed
+c8111988276d: Pushed
+a7e3be354de8: Pushed
+a01abb38ffa0: Pushed
+ab90d83fa34a: Layer already exists
+0e1fed0f3f76: Pushed
+2895be281ac1: Layer already exists
+8ee318e54723: Layer already exists
+e6695624484e: Layer already exists
+da59b99bbd3b: Layer already exists
+5616a6292c16: Layer already exists
+f3ed6cb59ab0: Layer already exists
+654f45ecb7e3: Layer already exists
+2c40c66f7667: Layer already exists
+e37dbc16e545: Pushed
+5: digest: sha256:f5bcf9b631df806cd83c614063292c859de2bc0491771ddb440197ac79f67e84 size: 3458
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Remove Unused docker image)
+[Pipeline] sh
++ docker rmi volat/lesson_12:5
+Untagged: volat/lesson_12:5
+Untagged: volat/lesson_12@sha256:f5bcf9b631df806cd83c614063292c859de2bc0491771ddb440197ac79f67e84
+Deleted: sha256:6367783b0ef927aede171e873f6af90c23375f913bab3b5450123be2d920fc54
+Deleted: sha256:b00db3225a10bff15590e2631ccc6c77d162ad33fff4e42de76904112a3d1471
+Deleted: sha256:35c5aee964a22cf18c049bb6fe9f6c62c89f4ae9d35682cda1b3276e46093199
+Deleted: sha256:a857663230782dc7e760b87338d7ab782c433a53edb3b42de615c9391ba2709e
+Deleted: sha256:2960ffff29853e9a3c12c04933c4569a7234705eb4b291ab0cfec7cfe42d59fe
+Deleted: sha256:30514321a27ce7d93598e2bdee7abbb1b6770646311f3aa1018af65b6f5dca9e
+Deleted: sha256:6b9c609bed6a741ad2ca4109894482e6b0be10cbcea152c9bba6c38b6fe99571
+Deleted: sha256:d69426d8b691e2fcd93cc0e51c614923afbff4844c3df5baa7bd1ce14c49e96f
+Deleted: sha256:b40c2dba3e1c9d58ee111f20c23233e2abeccb5405a75794ac5e2d49c3d23414
+Deleted: sha256:17435740aa54956493fa7329983dab4477ef4925d679d1f198189ab49e43a6fd
+Deleted: sha256:1b164cbab822eb2b83fb037289ee6476b714d4bfa718eb5924b8c8d3f34dbfc3
+Deleted: sha256:768d6666f4f1853c98f2eba286a323b1ae6470c84b5829f3402df02bbfa775e8
+Deleted: sha256:5a0a407e52b89b46e966cee4275e5c9ef3a5d800b761a7b51e039ab20464283b
+Deleted: sha256:df7c62a2326b76c53a6fac440d7e1585a2ce7bf719d4a98f09f03e301afd17d8
+Deleted: sha256:034684943acdc7f7d12b9706630021556ef7c9d390ab517ecb2d6c5f5ea79267
+Deleted: sha256:afbca1614b8880923c6e52ebb09848475d3b87ad421ae8073344ec17e53b0aba
+Deleted: sha256:92a4a91a846b7060debaa4f91111992d4f20b690ac253448f955929e0e5900de
+Deleted: sha256:ac3f14489f0894a4dc237ecc2b703c0ae5f19dbf610c94a05dc871d147e77340
+Deleted: sha256:80da1e1afe8be65646224307ebdd7efea744c32cbd40c7746dd9cf94f1719897
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
