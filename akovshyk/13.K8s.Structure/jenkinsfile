@@ -1,0 +1,55 @@
+pipeline { 
+    agent any
+      stages {
+	stage ('Kubectl download') {
+		steps {
+		  sh'''
+		 curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.14.0/bin/linux/amd64/kubectl
+		  '''
+			}
+	    }
+	stage ('installing kubectl') {
+                steps {
+                  sh'''
+                  chmod +x ./kubectl && sudo mv ./kubectl /usr/bin/kubectl
+                    '''    
+                    }
+                }
+                stage ('minikube download') {
+                steps {
+                  sh'''
+                  curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
+  && chmod +x minikube
+                    '''    
+                    }
+                }
+                stage ('minikube install') {
+                steps {
+                  sh'''
+                  sudo cp minikube /usr/bin && rm minikube
+                    '''    
+                    }
+                }
+                stage ('minikube start') {
+                steps {
+                  sh'''
+                  sudo minikube start
+                    '''    
+                    }
+                }
+                stage ('minikubepoxy start') {
+                steps {
+                  sh'''
+                  sudo kubectl proxy --port=8082 --address=0.0.0.0 --disable-filter=true --accept-hosts='^*$' &
+                    '''    
+                    }
+                }
+                stage ('minikube url') {
+                steps {
+                  sh'''
+                  sudo minikube dashboard --url &
+                    '''    
+                    }
+                }
+            }
+        }
