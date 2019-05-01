@@ -1,0 +1,51 @@
+---
+ - hosts: ubu_18
+   become: true
+   vars:
+    - my_password: 'sam'
+   gather_facts: no
+   remote_user: sam
+   
+   tasks:
+    - name: User_part
+      user:
+           name: sam
+           shell: /bin/bash
+           home: /home/sam
+           password: "{{ my_password }}"
+           state: "present"          
+    - name: Test_sudoers_file
+      lineinfile:
+           path: "/etc/sudoers"
+           regexp: "^sam"
+           line: "sam ALL=(ALL:ALL) NOPASSWD:ALL"
+           state: "present"
+ 
+    - name: Upload_ssh_key                
+      authorized_key:
+                  user: sam
+                  state: present
+                  manage_dir: yes
+                  key: "{{ lookup('file', '/home/sam/.ssh/id_rsa.pub') }}"
+
+
+
+
+#- name: Disable Password Authentication
+#     lineinfile:
+#           dest=/etc/ssh/ssh_config
+#           regexp='^PasswordAuthentication'
+#           line="PasswordAuthentication no"
+#           state=present
+#           backup=yes
+#- name: Disable Root Login
+#     lineinfile:
+#           dest=/etc/ssh/ssh_config
+#           regexp='^PermitRootLogin'
+#           line="PermitRootLogin no"
+#           state=present
+#           backup=yes
+#- name: Remove user    
+#    user:
+#      name: sam
+#      state: absent
