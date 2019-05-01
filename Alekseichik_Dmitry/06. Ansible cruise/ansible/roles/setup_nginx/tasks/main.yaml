@@ -12,3 +12,6 @@
   
 - name: Testin HTTP Connect
   include: Check.yaml
+
+- name: Send message in SLACK
+  include: Slacky.yaml
