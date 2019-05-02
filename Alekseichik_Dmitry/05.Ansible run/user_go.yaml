@@ -1,5 +1,9 @@
 ---
+
  - hosts: ubu_18
+=======
+ - hosts: pvt_hosts
+
    become: true
    vars:
     - my_password: 'sam'
@@ -48,4 +52,8 @@
 #- name: Remove user    
 #    user:
 #      name: sam
+
 #      state: absent
+=======
+#      state: absent
+

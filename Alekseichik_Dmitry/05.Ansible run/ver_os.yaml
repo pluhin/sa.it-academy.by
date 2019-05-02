@@ -1,6 +1,12 @@
+
  #become: yes
 ---
 - hosts: ubu18
+
+---
+- hosts: pvt_hosts
+  become: yes
+
   vars:
     var_01: "Hometask 05"
   tasks:
@@ -14,4 +20,8 @@
            - HDD 0 mount point is : "{{ ansible_mounts[0].mount }}"
            - HDD 0 avalible: "{{ ansible_mounts[0].size_available }}" 
            - HDD 0 total : "{{ ansible_mounts[0].size_total }}"
+
            
+=======
+           
+
