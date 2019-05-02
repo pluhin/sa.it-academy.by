@@ -1,0 +1,48 @@
+---
+- name: APT. Update cache
+  apt:
+    update_cache: yes
+
+- name: APT. Install packages
+  apt:
+    name: "{{ apt_redmine_packages }}"
+    state: latest
+
+- name: MySQL. Install and setup
+  block:
+    - template:
+        src: .my.cnf
+        dest: ~/.my.cnf
+        owner: root
+        mode: 0600
+    - service:
+        name: mysql
+        state: started
+        enabled: yes
+  tags:
+  - mysql::setup
+
+- name: MySQL. Create DB
+  mysql_db:
+    name: "{{ app_db_name  }}"
+    encoding: utf8
+  tags:
+  - mysql::setup
+
+- name: MySQL. Create user
+  mysql_user:
+    name: "{{ app_db_user }}"
+    password: "{{app_db_pass}}"
+    priv: "{{ app_db_name  }}.*:ALL"
+  tags:
+  - mysql::setup
+
+- name: Redmine. Clone repo
+  git:
+    repo: "{{ app_repo_name }}"
+    dist: "{{ app_home }}"
+    version: "{{ app_version }}"
+    accept_hostkey: yes
+  tags:
+  - redmine::repo
+
