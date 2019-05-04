@@ -1,0 +1,35 @@
+---
+- hosts: ec_htp
+  become: yes
+  tasks:
+  - name: create user
+    user:
+      name: igor
+      shell: /bin/bash
+      state: present
+      home: /home/igor
+
+  - name: authorized key
+    authorized_key:
+      user: igor
+      key: "{{lookup('file', '/home/vagrant/.ssh/id_rsa.pub')}}"
+      state: present
+
+  - name: add to the sudo:nopasswd
+    lineinfile:
+      dest: /etc/sudoers
+      line: "igor ALL=(ALL) NOPASSWD: ALL"
+      state: "present"
+
+  - name: disable pass auth
+    lineinfile:
+           dest=/etc/ssh/sshd_config
+           regexp='^PermitRootLogin'
+           line="PermitRootLogin no"
+           state=present
+           backup=yes
+
+  - name: remove user
+    user:
+      name: igor
+      state: absent
