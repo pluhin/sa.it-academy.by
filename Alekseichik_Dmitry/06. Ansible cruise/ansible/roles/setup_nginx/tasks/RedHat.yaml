@@ -1,0 +1,18 @@
+---
+- name: nginx_Install_for_RedHat
+  yum:
+    name: "{{ yum_nginx_list }}" 
+    state: latest
+
+- name: nginx_Start Redhat
+  service:  
+    name: nginx     # service name
+    state: started  # state check
+    enabled: yes    # startup check
+
+#- name: Force Fix Centos Firewall HTTP settings
+#  #shell: firewall-cmd --permanent --zone=public --add-service=http
+  
+#  name: Force Fix Centos Firewall HTTPS settings
+#  shell: firewall-cmd --permanent --zone=public --add-service=https
+#  # debug: msg="{{ command_result.stdout }}"
