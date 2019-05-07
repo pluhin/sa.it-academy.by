@@ -1,0 +1,9 @@
+---
+- name: REDMINE_Install_for_Debian
+  apt:
+   name: "{{apt_redmine_list}}" 
+   state: latest
+
+
+
+
