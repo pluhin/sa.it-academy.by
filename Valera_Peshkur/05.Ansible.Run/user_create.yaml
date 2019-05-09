@@ -1,0 +1,34 @@
+---
+- hosts: sa_ub
+  tasks:
+  - name: "Creating user"
+    user:
+      name: "{{ item.name }}"
+      comment: "Managed by Ansible"
+      state: present
+    with_items:
+      - { name: 'testuser' }
+    tags:
+    - user::create
+
+  - name:  authorized key
+    authorized_key:
+      user: testuser
+      key: "{{ lookup('file','/root/.ssh/id_rsa.pub') }}"
+
+  - name: add sudoers privileges
+    lineinfile:
+      dest: "/etc/sudoers"
+      backup: yes
+      state: present
+      regexp: '^testuser ALL=(ALL)'
+      line: 'testuser ALL=(ALL) NOPASSWD: ALL'
+      
+  - name: "Remote user"
+    user:
+      name: "{{ item.name }}"
+      state: absent
+    with_items:
+      - { name: 'testuser' }
+    tags:
+    - user::clear
