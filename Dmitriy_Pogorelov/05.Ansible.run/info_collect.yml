@@ -1,0 +1,24 @@
+---
+- hosts: dev_hosts
+  become: true
+  tasks:
+  - name: Print OS info
+    debug: 
+      msg: 
+          - "Hostname: {{ ansible_hostname }}"
+          - "OS distribution: {{ ansible_distribution }}"
+          - "OS version: {{ ansible_distribution_version }}"  
+           
+  - name: Print mounts info
+    debug:
+      msg:
+          - "{% for m in hostvars[inventory_hostname].ansible_mounts %} 
+             Mount point: {{ m.mount }} 
+             Total size: {{ m.size_total|filesizeformat(True) }}
+             Available size {{ m.size_available|filesizeformat(True) }}
+             {% endfor %}"
+      
+  - name: Print RAM info
+    debug:
+      msg: "Memory: {{ ansible_memory_mb.real }}"
+   
