@@ -4,5 +4,5 @@
 
 #### Home tasks:
 
-- 02. GIT. Local
-
+- 02.GIT.Local
+- 03.GIT.hosting
