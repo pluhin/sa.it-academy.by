@@ -1,0 +1,38 @@
+---
+- name: Jenkins. Add Repo key
+  apt_key:
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+      state: present
+
+
+- name: Jenkins. Add Repo url
+  apt_repository: 
+    repo: 'deb http://pkg.jenkins.io/debian-stable binary/' 
+    state: present 
+    filename: jenkins 
+    update_cache: yes
+
+
+- name: Jenkins. Add Repo key FORCED
+  shell: wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+
+
+- name: Jenkins. Add Repo FORCED
+  shell: sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+  
+
+
+#  trash experiments
+# sudo apt-add-repository
+#sudo apt-add-repository https://pkg.jenkins.io/
+
+#sudo apt install openjdk-8-jdk
+
+#sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+
+
+#wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+#sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+#sudo apt-get update
+#sudo apt-get install jenkins
+#sudo systemctl start jenkins
