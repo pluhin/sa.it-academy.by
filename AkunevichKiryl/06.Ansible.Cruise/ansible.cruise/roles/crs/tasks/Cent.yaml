@@ -1,0 +1,11 @@
+---   
+
+ - name: ALL UPDATE and INSTALL NGINX
+   yum: name='*' name=epel-release name=nginx
+   state: latest;present
+
+    
+ - name: STARTING NGINX FOR CENTOS
+   service:
+     name: nginx
+     state: started
