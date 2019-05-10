@@ -1,0 +1,5 @@
+---
+- hosts: pvt_work
+  become: yes
+  roles:
+  - redmine

@@ -1,0 +1,10 @@
+---
+- name: Apache2. Install
+  apt:
+    name: "{{ apt_httpd_packages }}"
+    state: latest
+- name: Apache2. Enable and start
+  service:
+    name: apache2
+    state: started
+    enabled: yes  
