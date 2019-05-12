@@ -1,0 +1,6 @@
+---
+- name: "Install WebServer"
+  hosts: web_servers
+  become: yes
+  roles:
+    - nginx
