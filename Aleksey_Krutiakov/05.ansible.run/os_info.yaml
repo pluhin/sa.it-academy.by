@@ -1,0 +1,15 @@
+---
+- hosts: all
+  tasks:
+  - name: Print OS/version
+    debug:
+      msg: "{{ hostvars[inventory_hostname].ansible_distribution }} version {{hostvars[inventory_hostname].ansible_distribution_version}}"
+    tags: os
+  - name: Mount point/capacity/used
+    debug:
+      msg: "{{ hostvars[inventory_hostname].ansible_mounts}}"
+    tags: mount
+  - name: RAM/capacity/free
+    debug:
+      msg: "{{ hostvars[inventory_hostname].ansible_memory_mb}}"
+    tags: ram
