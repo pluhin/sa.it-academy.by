@@ -1,0 +1,5 @@
+---
+- hosts: local_machines 
+  become: yes
+  roles:
+  - jenkins

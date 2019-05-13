@@ -1,0 +1,29 @@
+---
+- name: Nginx. Install epel an Centos
+  yum:
+    update_cache: yes
+    name: epel-release 
+    state: latest
+
+- name: Nginx. Install an Centos
+  yum:
+    update_cache: yes
+    name: nginx
+    state: latest
+
+- name: Nginx. Set firewall an Centos
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+
+- name: Nginx. Open Firewall  Port
+  firewalld:
+    port: 80/tcp
+    permanent: true
+    state: enabled
+
+- name: SE Linux. Turn off
+  shell:  setsebool httpd_can_network_connect on
+
+
