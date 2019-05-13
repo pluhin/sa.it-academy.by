@@ -1,0 +1,10 @@
+---
+- name: restart jenkins
+  service:
+    name: jenkins
+    state: restarted
+    enabled: yes
+
+- name: wait jenkins
+  wait_for:
+    timeout: 30
