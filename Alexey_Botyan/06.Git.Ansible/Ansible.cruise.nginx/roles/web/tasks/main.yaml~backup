@@ -1,0 +1,39 @@
+---
+#Check OS and install
+- name: Include Debian deploy
+  include: http_Debian.yaml
+  when: ansible_os_family == 'Debian'
+  tags:
+    - install
+- name: Include Cent deploy
+  include: http_Cent.yaml
+  when: ansible_os_family == 'RedHat'
+  tags:
+    - install
+
+- name: Set fact on Centos 
+  set_fact: 
+    nginx_www_root: '/usr/share/nginx/html'
+  when: ansible_os_family == 'RedHat'
+
+- name: Set fact on Debian
+  set_fact:
+    nginx_www_root: '/var/www/html'
+  when: ansible_os_family == 'Debian'
+
+- name: Setup. index.html 
+  copy:
+    src: index.html
+    dest: "{{ nginx_www_root }}"
+
+- name: Debug variable www_root
+  debug:
+    msg: "{{ nginx_www_root }}"
+  
+#Start service
+- name: Nginx. Enable and start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+ 
