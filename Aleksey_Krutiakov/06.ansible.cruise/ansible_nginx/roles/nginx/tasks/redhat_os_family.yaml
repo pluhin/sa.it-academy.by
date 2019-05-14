@@ -1,0 +1,30 @@
+---
+# Install "Nginx" on CentOS
+
+- name: Install rep
+  yum:
+    name: epel-release
+    state: present
+
+- name: Update && Upgrade CentOS
+  yum:
+    name: "*"
+    state: latest
+    update_cache: yes
+
+- name: Install Package
+  yum:
+    name: "{{ yum_package }}"
+    state: present
+
+- name: Start Nginx
+  service:
+    name: nginx
+    state: started
+
+- name: Copy index.html on WebServer
+  copy:
+    src: index.html
+    dest: "{{ destin_file_cent }}"
+  notify:
+    - Restart WebServer

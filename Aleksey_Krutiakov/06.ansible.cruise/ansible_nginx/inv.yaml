@@ -1,0 +1,10 @@
+all_hosts:
+   children:
+     web_servers:
+        hosts:
+          sa_cent:
+             ansible_user: vagrant
+             ansible_host: 192.168.88.18
+          sa_ub:
+             ansible_user: vagrant
+             ansible_host: 192.168.88.17
