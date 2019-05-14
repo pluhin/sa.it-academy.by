@@ -1,0 +1,19 @@
+---
+all_hosts:
+  children:
+    dev_hosts:
+      vars:
+        env: "dev"
+      hosts:
+        jmp:
+          ansible_host: 172.16.0.12
+          ansible_user: jump
+      children:
+        inside:
+          hosts:
+            ub:
+              ansible_host: 192.168.10.11
+              ansible_user: ub_user
+            cent:
+              ansible_host: 192.168.10.10
+              ansible_user: ce_user

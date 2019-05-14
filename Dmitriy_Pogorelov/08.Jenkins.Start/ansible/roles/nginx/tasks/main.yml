@@ -1,0 +1,36 @@
+- name: install nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: check nginx is running
+  service:
+    name: nginx
+    state: started
+
+- name: add to hosts
+  shell: echo "127.0.0.1    jenkins.local"
+
+- name: add config file
+  copy:
+    src: nginx.conf.j2
+    dest: /etc/nginx/sites-available/jenkins.local
+  
+- name: create link
+  file:
+    src: /etc/nginx/sites-available/jenkins.local
+    dest: /etc/nginx/sites-enabled/jenkins.local
+    state: link
+
+- name: remove nginx default
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /etc/nginx/sites-available/default
+    - /etc/nginx/sites-enabled/default
+  
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted

@@ -1,0 +1,61 @@
+---
+- hosts: inside
+  become: true
+  tasks:
+    - name: Add test_user ansible
+      become: yes
+      user:
+       name: test_user
+       comment: Ansible test user
+       shell: /bin/bash
+       append: yes
+       state: present
+    - name: Add sudo nopasswd
+      become: true
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        insertbefore: '^#includedir'
+        line: 'test_user ALL=(ALL) NOPASSWD: ALL'
+        validate: '/usr/sbin/visudo -cf %s'
+    - name: Allow ssh connect only via key
+      become: true
+      blockinfile:
+        dest: /etc/ssh/sshd_config
+        state: present
+        insertafter: EOF
+        block: |
+            Match User test_user
+              PasswordAuthentication no
+        backup: true
+        validate: "/usr/sbin/sshd -T -f %s"
+    - name: Copy authorized key
+      authorized_key:
+        user: test_user
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+    - name: Restart ssh service on Ubuntu
+      become: true
+      service:
+        name: ssh
+        state: restarted
+      when: ansible_os_family == "Debian"
+    - name: Restart ssh service on CentOS
+      become: true
+      service:
+        name: sshd
+        state: restarted
+      when: ansible_os_family == "RedHat"
+- hosts: localhost
+  tasks:
+    - name: Test playbook actions
+      shell: ssh test_user@{{ item }} 'sudo touch /etc/test_create && ls -ltr /etc/test_create && sudo rm -f /etc/test_create'
+      with_items:
+        - 192.168.10.10
+        - 192.168.10.11
+      register: out
+    - name: Show output
+      debug:
+        msg: "{{ out }}"
+  tags: test  
+      

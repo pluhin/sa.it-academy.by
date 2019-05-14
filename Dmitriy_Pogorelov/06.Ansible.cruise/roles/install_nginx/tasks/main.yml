@@ -1,0 +1,54 @@
+---
+- include: "{{ ansible_os_family }}.yml"
+  static: no
+
+- name: check nginx is running
+  service:
+    name: nginx
+    state: started
+
+
+- name: "add {{ site_fqdn }} to host file"
+  shell: echo "127.0.0.1       {{ item }}" >> /etc/hosts
+  with_items: "{{ site_fqdn }}"
+  tags: 
+  - final::add_hosts
+
+- name: "create directory for virtualhosts "
+  file:
+    path: "{{ nginx_home }}/{{ item }}/html"
+    state: directory
+  with_items: "{{ site_fqdn }}"
+  tags:
+  - final::dir
+
+- name: "add index.html"
+  template:
+    src: index.html
+    dest: "{{ nginx_home }}/{{ item }}/html/index.html"
+  with_items: "{{ site_fqdn }}"
+  tags:
+  - final::index
+
+- name: "add config for each virtualhost"
+  template:
+    src: nginx.conf.j2
+    dest: "/etc/nginx/conf.d/{{ item }}.conf"
+  with_items: "{{ site_fqdn }}"
+  notify: restart_nginx
+  tags:
+  - final::conf
+
+- name: check page
+  uri:
+    url: "http://{{ item }}"
+    return_content: yes
+  register: out
+  with_items: "{{ site_fqdn }}"
+  tags: 
+  - final::check
+
+- debug:
+    msg: "{{ out }}"
+  tags: 
+  - final::check

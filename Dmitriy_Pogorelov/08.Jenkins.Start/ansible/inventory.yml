@@ -1,0 +1,5 @@
+---
+all-hosts:
+  hosts: 
+    jenkins:
+      ansible_host: 192.168.10.15

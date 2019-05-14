@@ -1,0 +1,386 @@
+ansible@ansiblehost:/vagrant/06.Ansible.cruise$ ansible-playbook playbook.yml -i invenory.yml --ask-vault-pass
+Vault password:
+
+PLAY [inside] ***************************************************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************************************
+Wednesday 08 May 2019  22:00:59 +0000 (0:00:00.143)       0:00:00.143 *********
+ok: [cent]
+ok: [ub]
+
+TASK [install_nginx : include] **********************************************************************************************************************
+Wednesday 08 May 2019  22:01:11 +0000 (0:00:11.656)       0:00:11.800 *********
+included: /vagrant/06.Ansible.cruise/roles/install_nginx/tasks/RedHat.yml for cent
+included: /vagrant/06.Ansible.cruise/roles/install_nginx/tasks/Debian.yml for ub
+
+TASK [install_nginx : install epel release] *********************************************************************************************************
+Wednesday 08 May 2019  22:01:11 +0000 (0:00:00.254)       0:00:12.054 *********
+ok: [cent]
+
+TASK [install_nginx : install nginx on CentOS] ******************************************************************************************************
+Wednesday 08 May 2019  22:01:21 +0000 (0:00:09.886)       0:00:21.941 *********
+ok: [cent]
+
+TASK [install_nginx : install nginx on Ubuntu] ******************************************************************************************************
+Wednesday 08 May 2019  22:01:29 +0000 (0:00:08.377)       0:00:30.319 *********
+ok: [ub]
+
+TASK [install_nginx : check nginx is running] *******************************************************************************************************
+Wednesday 08 May 2019  22:01:40 +0000 (0:00:10.580)       0:00:40.899 *********
+ok: [cent]
+ok: [ub]
+
+TASK [install_nginx : add [u'site1.local', u'site2.local'] to host file] ****************************************************************************
+Wednesday 08 May 2019  22:01:51 +0000 (0:00:11.057)       0:00:51.957 *********
+changed: [cent] => (item=site1.local)
+changed: [ub] => (item=site1.local)
+changed: [cent] => (item=site2.local)
+changed: [ub] => (item=site2.local)
+
+TASK [install_nginx : create directory for virtualhosts] ********************************************************************************************
+Wednesday 08 May 2019  22:02:12 +0000 (0:00:21.491)       0:01:13.449 *********
+changed: [cent] => (item=site1.local)
+changed: [ub] => (item=site1.local)
+changed: [cent] => (item=site2.local)
+changed: [ub] => (item=site2.local)
+
+TASK [install_nginx : add index.html] ***************************************************************************************************************
+Wednesday 08 May 2019  22:02:34 +0000 (0:00:21.644)       0:01:35.093 *********
+changed: [cent] => (item=site1.local)
+changed: [ub] => (item=site1.local)
+changed: [cent] => (item=site2.local)
+changed: [ub] => (item=site2.local)
+
+TASK [install_nginx : add config for each virtualhost] **********************************************************************************************
+Wednesday 08 May 2019  22:03:14 +0000 (0:00:39.553)       0:02:14.646 *********
+changed: [cent] => (item=site1.local)
+changed: [ub] => (item=site1.local)
+changed: [cent] => (item=site2.local)
+changed: [ub] => (item=site2.local)
+
+TASK [install_nginx : check page] *******************************************************************************************************************
+Wednesday 08 May 2019  22:03:53 +0000 (0:00:39.288)       0:02:53.935 *********
+ok: [cent] => (item=site1.local)
+ok: [ub] => (item=site1.local)
+ok: [cent] => (item=site2.local)
+ok: [ub] => (item=site2.local)
+
+TASK [install_nginx : debug] ************************************************************************************************************************
+Wednesday 08 May 2019  22:04:15 +0000 (0:00:22.334)       0:03:16.269 *********
+ok: [cent] => {
+    "msg": {
+        "changed": false,
+        "msg": "All items completed",
+        "results": [
+            {
+                "_ansible_ignore_errors": null,
+                "_ansible_item_label": "site1.local",
+                "_ansible_item_result": true,
+                "_ansible_no_log": false,
+                "_ansible_parsed": true,
+                "accept_ranges": "bytes",
+                "changed": false,
+                "connection": "close",
+                "content": "<html>\n   <head>\n       <title>Welcome to site1.local!</title>\n   </head>\n   <body>\n       <h1>This is virtualhost for site1.local on centos!</h1>\n   </body>\n</html>",
+                "content_length": "165",
+                "content_type": "text/html",
+                "cookies": {},
+                "cookies_string": "",
+                "date": "Wed, 08 May 2019 22:04:00 GMT",
+                "etag": "\"5cd35203-a5\"",
+                "failed": false,
+                "invocation": {
+                    "module_args": {
+                        "attributes": null,
+                        "backup": null,
+                        "body": null,
+                        "body_format": "raw",
+                        "client_cert": null,
+                        "client_key": null,
+                        "content": null,
+                        "creates": null,
+                        "delimiter": null,
+                        "dest": null,
+                        "directory_mode": null,
+                        "follow": false,
+                        "follow_redirects": "safe",
+                        "force": false,
+                        "force_basic_auth": false,
+                        "group": null,
+                        "headers": {},
+                        "http_agent": "ansible-httpget",
+                        "method": "GET",
+                        "mode": null,
+                        "owner": null,
+                        "regexp": null,
+                        "remote_src": null,
+                        "removes": null,
+                        "return_content": true,
+                        "selevel": null,
+                        "serole": null,
+                        "setype": null,
+                        "seuser": null,
+                        "src": null,
+                        "status_code": [
+                            200
+                        ],
+                        "timeout": 30,
+                        "unsafe_writes": null,
+                        "url": "http://site1.local",
+                        "url_password": null,
+                        "url_username": null,
+                        "use_proxy": true,
+                        "validate_certs": true
+                    }
+                },
+                "item": "site1.local",
+                "last_modified": "Wed, 08 May 2019 22:02:43 GMT",
+                "msg": "OK (165 bytes)",
+                "redirected": false,
+                "server": "nginx/1.12.2",
+                "status": 200,
+                "url": "http://site1.local"
+            },
+            {
+                "_ansible_ignore_errors": null,
+                "_ansible_item_label": "site2.local",
+                "_ansible_item_result": true,
+                "_ansible_no_log": false,
+                "_ansible_parsed": true,
+                "accept_ranges": "bytes",
+                "changed": false,
+                "connection": "close",
+                "content": "<html>\n   <head>\n       <title>Welcome to site2.local!</title>\n   </head>\n   <body>\n       <h1>This is virtualhost for site2.local on centos!</h1>\n   </body>\n</html>",
+                "content_length": "165",
+                "content_type": "text/html",
+                "cookies": {},
+                "cookies_string": "",
+                "date": "Wed, 08 May 2019 22:04:09 GMT",
+                "etag": "\"5cd35213-a5\"",
+                "failed": false,
+                "invocation": {
+                    "module_args": {
+                        "attributes": null,
+                        "backup": null,
+                        "body": null,
+                        "body_format": "raw",
+                        "client_cert": null,
+                        "client_key": null,
+                        "content": null,
+                        "creates": null,
+                        "delimiter": null,
+                        "dest": null,
+                        "directory_mode": null,
+                        "follow": false,
+                        "follow_redirects": "safe",
+                        "force": false,
+                        "force_basic_auth": false,
+                        "group": null,
+                        "headers": {},
+                        "http_agent": "ansible-httpget",
+                        "method": "GET",
+                        "mode": null,
+                        "owner": null,
+                        "regexp": null,
+                        "remote_src": null,
+                        "removes": null,
+                        "return_content": true,
+                        "selevel": null,
+                        "serole": null,
+                        "setype": null,
+                        "seuser": null,
+                        "src": null,
+                        "status_code": [
+                            200
+                        ],
+                        "timeout": 30,
+                        "unsafe_writes": null,
+                        "url": "http://site2.local",
+                        "url_password": null,
+                        "url_username": null,
+                        "use_proxy": true,
+                        "validate_certs": true
+                    }
+                },
+                "item": "site2.local",
+                "last_modified": "Wed, 08 May 2019 22:02:59 GMT",
+                "msg": "OK (165 bytes)",
+                "redirected": false,
+                "server": "nginx/1.12.2",
+                "status": 200,
+                "url": "http://site2.local"
+            }
+        ]
+    }
+}
+ok: [ub] => {
+    "msg": {
+        "changed": false,
+        "msg": "All items completed",
+        "results": [
+            {
+                "_ansible_ignore_errors": null,
+                "_ansible_item_label": "site1.local",
+                "_ansible_item_result": true,
+                "_ansible_no_log": false,
+                "_ansible_parsed": true,
+                "accept_ranges": "bytes",
+                "changed": false,
+                "connection": "close",
+                "content": "<html>\n   <head>\n       <title>Welcome to site1.local!</title>\n   </head>\n   <body>\n       <h1>This is virtualhost for site1.local on ubuntu!</h1>\n   </body>\n</html>",
+                "content_length": "165",
+                "content_type": "text/html",
+                "cookies": {},
+                "cookies_string": "",
+                "date": "Wed, 08 May 2019 22:04:03 GMT",
+                "etag": "\"5cd35205-a5\"",
+                "failed": false,
+                "invocation": {
+                    "module_args": {
+                        "attributes": null,
+                        "backup": null,
+                        "body": null,
+                        "body_format": "raw",
+                        "client_cert": null,
+                        "client_key": null,
+                        "content": null,
+                        "creates": null,
+                        "delimiter": null,
+                        "dest": null,
+                        "directory_mode": null,
+                        "follow": false,
+                        "follow_redirects": "safe",
+                        "force": false,
+                        "force_basic_auth": false,
+                        "group": null,
+                        "headers": {},
+                        "http_agent": "ansible-httpget",
+                        "method": "GET",
+                        "mode": null,
+                        "owner": null,
+                        "regexp": null,
+                        "remote_src": null,
+                        "removes": null,
+                        "return_content": true,
+                        "selevel": null,
+                        "serole": null,
+                        "setype": null,
+                        "seuser": null,
+                        "src": null,
+                        "status_code": [
+                            200
+                        ],
+                        "timeout": 30,
+                        "unsafe_writes": null,
+                        "url": "http://site1.local",
+                        "url_password": null,
+                        "url_username": null,
+                        "use_proxy": true,
+                        "validate_certs": true
+                    }
+                },
+                "item": "site1.local",
+                "last_modified": "Wed, 08 May 2019 22:02:45 GMT",
+                "msg": "OK (165 bytes)",
+                "redirected": false,
+                "server": "nginx/1.14.0 (Ubuntu)",
+                "status": 200,
+                "url": "http://site1.local"
+            },
+            {
+                "_ansible_ignore_errors": null,
+                "_ansible_item_label": "site2.local",
+                "_ansible_item_result": true,
+                "_ansible_no_log": false,
+                "_ansible_parsed": true,
+                "accept_ranges": "bytes",
+                "changed": false,
+                "connection": "close",
+                "content": "<html>\n   <head>\n       <title>Welcome to site2.local!</title>\n   </head>\n   <body>\n       <h1>This is virtualhost for site2.local on ubuntu!</h1>\n   </body>\n</html>",
+                "content_length": "165",
+                "content_type": "text/html",
+                "cookies": {},
+                "cookies_string": "",
+                "date": "Wed, 08 May 2019 22:04:14 GMT",
+                "etag": "\"5cd3521a-a5\"",
+                "failed": false,
+                "invocation": {
+                    "module_args": {
+                        "attributes": null,
+                        "backup": null,
+                        "body": null,
+                        "body_format": "raw",
+                        "client_cert": null,
+                        "client_key": null,
+                        "content": null,
+                        "creates": null,
+                        "delimiter": null,
+                        "dest": null,
+                        "directory_mode": null,
+                        "follow": false,
+                        "follow_redirects": "safe",
+                        "force": false,
+                        "force_basic_auth": false,
+                        "group": null,
+                        "headers": {},
+                        "http_agent": "ansible-httpget",
+                        "method": "GET",
+                        "mode": null,
+                        "owner": null,
+                        "regexp": null,
+                        "remote_src": null,
+                        "removes": null,
+                        "return_content": true,
+                        "selevel": null,
+                        "serole": null,
+                        "setype": null,
+                        "seuser": null,
+                        "src": null,
+                        "status_code": [
+                            200
+                        ],
+                        "timeout": 30,
+                        "unsafe_writes": null,
+                        "url": "http://site2.local",
+                        "url_password": null,
+                        "url_username": null,
+                        "use_proxy": true,
+                        "validate_certs": true
+                    }
+                },
+                "item": "site2.local",
+                "last_modified": "Wed, 08 May 2019 22:03:06 GMT",
+                "msg": "OK (165 bytes)",
+                "redirected": false,
+                "server": "nginx/1.14.0 (Ubuntu)",
+                "status": 200,
+                "url": "http://site2.local"
+            }
+        ]
+    }
+}
+
+RUNNING HANDLER [install_nginx : restart_nginx] *****************************************************************************************************
+Wednesday 08 May 2019  22:04:15 +0000 (0:00:00.251)       0:03:16.520 *********
+changed: [cent]
+changed: [ub]
+
+PLAY RECAP ******************************************************************************************************************************************
+cent                       : ok=12   changed=5    unreachable=0    failed=0
+ub                         : ok=11   changed=5    unreachable=0    failed=0
+
+Wednesday 08 May 2019  22:04:27 +0000 (0:00:11.961)       0:03:28.482 *********
+===============================================================================
+install_nginx : add index.html -------------------------------------------------------------------------------------------------------------- 39.55s
+install_nginx : add config for each virtualhost --------------------------------------------------------------------------------------------- 39.29s
+install_nginx : check page ------------------------------------------------------------------------------------------------------------------ 22.33s
+install_nginx : create directory for virtualhosts  ------------------------------------------------------------------------------------------ 21.64s
+install_nginx : add [u'site1.local', u'site2.local'] to host file --------------------------------------------------------------------------- 21.49s
+install_nginx : restart_nginx --------------------------------------------------------------------------------------------------------------- 11.96s
+Gathering Facts ----------------------------------------------------------------------------------------------------------------------------- 11.66s
+install_nginx : check nginx is running ------------------------------------------------------------------------------------------------------ 11.06s
+install_nginx : install nginx on Ubuntu ----------------------------------------------------------------------------------------------------- 10.58s
+install_nginx : install epel release --------------------------------------------------------------------------------------------------------- 9.89s
+install_nginx : install nginx on CentOS ------------------------------------------------------------------------------------------------------ 8.38s
+install_nginx : include ---------------------------------------------------------------------------------------------------------------------- 0.25s
+install_nginx : debug ------------------------------------------------------------------------------------------------------------------------ 0.25s
