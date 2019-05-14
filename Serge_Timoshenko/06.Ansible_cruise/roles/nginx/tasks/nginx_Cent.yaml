@@ -1,0 +1,22 @@
+---
+- name: Add epel-release
+  yum:
+    name: epel-release
+    state: latest
+
+
+- name: Nginx install on Cent
+  yum:
+    name: nginx
+    state: latest
+
+- name: Nginx. Start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Copy index on Debian
+  copy:
+    src: index.html
+    dest: "{{ Cent_home }}"
