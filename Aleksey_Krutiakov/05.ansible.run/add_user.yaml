@@ -1,0 +1,21 @@
+---
+ - hosts: sa_ub
+   become: yes 
+   tasks: 
+   - name: Create new user
+     user:
+       name: frenk
+       shell: /bin/bash
+       state: present
+       comment: Managed by ansible
+       home: /home/frenk
+   - name: New user authorisation only by key               
+     authorized_key:
+       user: frenk
+       key: "{{ lookup('file', '/home/frenk/.ssh/id_rsa.pub') }}"
+       state: present
+   - name: NoPasswd
+     lineinfile:
+       dest: "/etc/sudoers"
+       state: present
+       line: 'frenk ALL=(ALL) NOPASSWD: ALL'

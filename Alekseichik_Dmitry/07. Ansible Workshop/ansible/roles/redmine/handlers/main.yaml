@@ -1,0 +1,6 @@
+---
+- name: apache_restart
+  service:
+    name: apache2
+    state: restarted
+    enabled: yes

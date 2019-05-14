@@ -1,0 +1,12 @@
+---
+- name: Jenkins. Install need packages
+  yum:
+    update_cache: yes
+    name: "{{ yum_jenkins_packages }}"
+    state: latest
+
+- name: Jenkins. Install jenkins
+  include: install_jenkins_Centos.yaml
+
+- name: Jenkins. Install nginx
+  include: install_nginx_Centos.yaml
