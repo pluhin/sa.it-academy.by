@@ -1,5 +1,3 @@
-
-
 - hosts: hwk
 
   become: true
@@ -19,16 +17,11 @@
           shell: /bin/bash
           home: /home/{{ user_to_add }}
           password: "{{ password }}"
-          state: "present" 
+          state: present 
    - name: Adding sudoers file
      lineinfile:
           path: "/etc/sudoers"
           regexp: "^{{ user_to_add }}"
           line: " {{ user_to_add }} ALL=(ALL:ALL) NOPASSWD:ALL"
-          state: "present"
-
-
-
-
-
-   
+          validate: 'visudo -cf %s'
+          state: present
