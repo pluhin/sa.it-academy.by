@@ -1,0 +1,10 @@
+web_servers:
+  hosts:
+    sa_cent:
+      ansible_user: test
+      ansible_host: 192.168.0.200
+
+    sa_ub:
+      ansible_user: test
+      ansible_host: 192.168.0.201 
+

@@ -1,0 +1,7 @@
+---
+- name: Show Jenkins initialAdminPassword
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: passwd
+- name: show passwd
+  debug:
+    var: passwd.stdout_lines

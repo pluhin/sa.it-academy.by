@@ -1,0 +1,12 @@
+server {
+   listen 80;
+
+   root {{ nginx_home }}{{ item }}/html;
+   index index.html index.htm;
+
+   server_name {{ item }};
+
+   location / {
+       try_files $uri $uri/ =404;
+   }
+}

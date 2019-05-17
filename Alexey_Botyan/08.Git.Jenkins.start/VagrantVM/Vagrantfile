@@ -1,0 +1,19 @@
+$script = <<-SCRIPT
+sudo runuser -l vagrant -c 'cat /tmp/authorized_keys >> /home/vagrant/.ssh/authorized_keys'
+chown vagrant:vagrant /home/vagrant/.ssh/authorized_keys 
+chmod 600 /home/vagrant/.ssh/authorized_keys
+rm -f /tmp/authorized_keys
+echo "Client done!"
+SCRIPT
+
+
+Vagrant.configure("2") do |config|
+	    config.vm.box = "centos/7"
+            config.vm.define "Jenkins_test"
+	    config.vm.network "public_network", ip: "192.168.0.223"
+            config.vm.provision "file",
+	       source: "authorized_keys",
+	       destination: "/tmp/authorized_keys"
+	    config.vm.provision "shell",
+	       inline: $script
+end

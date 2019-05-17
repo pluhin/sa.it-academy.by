@@ -1,0 +1,9 @@
+---
+# Some main variables for role
+
+apt_package:
+  - nginx
+yum_package:
+  - nginx
+destin_file_cent: "/usr/share/nginx/html/"
+destin_file_ub: "/var/www/html/"

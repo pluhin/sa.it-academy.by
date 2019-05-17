@@ -1,0 +1,124 @@
+ansible@ansiblehost:/vagrant/05.Ansible.start$ ansible-playbook useradd.yml -i invenory.yml --ask-vault-pass
+Vault password:
+
+PLAY [inside] ***************************************************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************************************
+ok: [cent]
+ok: [ub]
+
+TASK [Add test_user ansible] ************************************************************************************************************************
+changed: [cent]
+changed: [ub]
+
+TASK [Add sudo nopasswd] ****************************************************************************************************************************
+changed: [cent]
+changed: [ub]
+
+TASK [Allow ssh connect only via key] ***************************************************************************************************************
+changed: [cent]
+changed: [ub]
+
+TASK [Copy authorized key] **************************************************************************************************************************
+changed: [cent]
+changed: [ub]
+
+TASK [Restart ssh service on Ubuntu] ****************************************************************************************************************
+skipping: [cent]
+changed: [ub]
+
+TASK [Restart ssh service on CentOS] ****************************************************************************************************************
+skipping: [ub]
+changed: [cent]
+
+PLAY [localhost] ************************************************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************************************
+ok: [localhost]
+
+TASK [Test playbook actions] ************************************************************************************************************************
+changed: [localhost] => (item=192.168.10.10)
+changed: [localhost] => (item=192.168.10.11)
+
+TASK [Show output] **********************************************************************************************************************************
+ok: [localhost] => {
+    "msg": {
+        "changed": true,
+        "msg": "All items completed",
+        "results": [
+            {
+                "_ansible_ignore_errors": null,
+                "_ansible_item_label": "192.168.10.10",
+                "_ansible_item_result": true,
+                "_ansible_no_log": false,
+                "_ansible_parsed": true,
+                "changed": true,
+                "cmd": "ssh test_user@192.168.10.10 'sudo touch /etc/test_create && ls -ltr /etc/test_create && sudo rm -f /etc/test_create'",
+                "delta": "0:00:01.702668",
+                "end": "2019-05-07 19:56:37.233429",
+                "failed": false,
+                "invocation": {
+                    "module_args": {
+                        "_raw_params": "ssh test_user@192.168.10.10 'sudo touch /etc/test_create && ls -ltr /etc/test_create && sudo rm -f /etc/test_create'",
+                        "_uses_shell": true,
+                        "argv": null,
+                        "chdir": null,
+                        "creates": null,
+                        "executable": null,
+                        "removes": null,
+                        "stdin": null,
+                        "warn": true
+                    }
+                },
+                "item": "192.168.10.10",
+                "rc": 0,
+                "start": "2019-05-07 19:56:35.530761",
+                "stderr": "",
+                "stderr_lines": [],
+                "stdout": "-rw-r--r--. 1 root root 0 May  6 18:02 /etc/test_create",
+                "stdout_lines": [
+                    "-rw-r--r--. 1 root root 0 May  6 18:02 /etc/test_create"
+                ]
+            },
+            {
+                "_ansible_ignore_errors": null,
+                "_ansible_item_label": "192.168.10.11",
+                "_ansible_item_result": true,
+                "_ansible_no_log": false,
+                "_ansible_parsed": true,
+                "changed": true,
+                "cmd": "ssh test_user@192.168.10.11 'sudo touch /etc/test_create && ls -ltr /etc/test_create && sudo rm -f /etc/test_create'",
+                "delta": "0:00:02.171749",
+                "end": "2019-05-07 19:56:39.650664",
+                "failed": false,
+                "invocation": {
+                    "module_args": {
+                        "_raw_params": "ssh test_user@192.168.10.11 'sudo touch /etc/test_create && ls -ltr /etc/test_create && sudo rm -f /etc/test_create'",
+                        "_uses_shell": true,
+                        "argv": null,
+                        "chdir": null,
+                        "creates": null,
+                        "executable": null,
+                        "removes": null,
+                        "stdin": null,
+                        "warn": true
+                    }
+                },
+                "item": "192.168.10.11",
+                "rc": 0,
+                "start": "2019-05-07 19:56:37.478915",
+                "stderr": "",
+                "stderr_lines": [],
+                "stdout": "-rw-r--r-- 1 root root 0 May  7 19:56 /etc/test_create",
+                "stdout_lines": [
+                    "-rw-r--r-- 1 root root 0 May  7 19:56 /etc/test_create"
+                ]
+            }
+        ]
+    }
+}
+
+PLAY RECAP ******************************************************************************************************************************************
+cent                       : ok=6    changed=5    unreachable=0    failed=0
+localhost                  : ok=3    changed=1    unreachable=0    failed=0
+ub                         : ok=6    changed=5    unreachable=0    failed=0

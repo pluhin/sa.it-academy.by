@@ -1,0 +1,29 @@
+---
+- name: Include Centos deploy
+  include: install_Centos.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Nginx. Add virtual host jenkins.home
+  copy:
+    src: "jenkins.homeenv.conf"
+    dest: "/etc/nginx/conf.d/"
+
+- name: Jenkins. Edit config
+  lineinfile:
+    dest: "/etc/sysconfig/jenkins"
+    backup: yes
+    regexp: "^JENKINS_ARGS"
+    line: JENKINS_ARGS="--httpListenAddress=127.0.0.1"
+
+- name: Jenkins. Enable and restart
+  service:
+    name: jenkins
+    state: restarted
+    enabled: yes
+
+- name: Nginx. Enable and restart
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+

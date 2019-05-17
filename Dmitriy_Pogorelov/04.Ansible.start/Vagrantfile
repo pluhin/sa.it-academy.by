@@ -5,6 +5,12 @@
 Vagrant.configure("2") do |config|
   
   config.ssh.insert_key = false
+  
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "288"]
+    vb.customize ["modifyvm", :id, "--cpus", "1"]
+end
+
 
   config.vm.define "centos7" do |centos7|
     centos7.vm.box = "centos/7"

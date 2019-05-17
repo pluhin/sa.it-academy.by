@@ -1,0 +1,65 @@
+ansible@ansiblehost:/vagrant/05.Ansible.start$ ansible-playbook info_collect.yml -i invenory.yml --ask-vault-pass
+Vault password:
+
+PLAY [dev_hosts] ************************************************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************************************
+ok: [jmp]
+ok: [cent]
+ok: [ub]
+
+TASK [Print OS info] ********************************************************************************************************************************
+ok: [cent] => {
+    "msg": [
+        "Hostname: centos",
+        "OS distribution: CentOS",
+        "OS version: 7.6.1810"
+    ]
+}
+ok: [ub] => {
+    "msg": [
+        "Hostname: ubuntu",
+        "OS distribution: Ubuntu",
+        "OS version: 18.04"
+    ]
+}
+ok: [jmp] => {
+    "msg": [
+        "Hostname: bastion",
+        "OS distribution: Ubuntu",
+        "OS version: 14.04"
+    ]
+}
+
+TASK [Print mounts info] ****************************************************************************************************************************
+ok: [cent] => {
+    "msg": [
+        " Mount point: / Total size: 40.0 GiB Available size 37.0 GiB "
+    ]
+}
+ok: [ub] => {
+    "msg": [
+        " Mount point: / Total size: 9.6 GiB Available size 8.5 GiB "
+    ]
+}
+ok: [jmp] => {
+    "msg": [
+        " Mount point: / Total size: 39.3 GiB Available size 36.1 GiB "
+    ]
+}
+
+TASK [Print RAM info] *******************************************************************************************************************************
+ok: [cent] => {
+    "msg": "Memory: {u'total': 265, u'free': 53, u'used': 212}"
+}
+ok: [ub] => {
+    "msg": "Memory: {u'total': 259, u'free': 28, u'used': 231}"
+}
+ok: [jmp] => {
+    "msg": "Memory: {u'total': 267, u'free': 52, u'used': 215}"
+}
+
+PLAY RECAP ******************************************************************************************************************************************
+cent                       : ok=4    changed=0    unreachable=0    failed=0
+jmp                        : ok=4    changed=0    unreachable=0    failed=0
+ub                         : ok=4    changed=0    unreachable=0    failed=0
