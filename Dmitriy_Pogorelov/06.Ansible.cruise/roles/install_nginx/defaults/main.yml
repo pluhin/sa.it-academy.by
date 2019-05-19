@@ -1,0 +1,6 @@
+---
+site_fqdn:
+  - site1.local
+  - site2.local
+
+nginx_home: "/var/www/"

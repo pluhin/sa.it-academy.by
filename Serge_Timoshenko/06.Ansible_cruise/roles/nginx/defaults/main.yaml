@@ -1,0 +1,5 @@
+---
+Debian_home: "/var/www/html/"
+Cent_home: "/usr/share/nginx/html/"
+
+

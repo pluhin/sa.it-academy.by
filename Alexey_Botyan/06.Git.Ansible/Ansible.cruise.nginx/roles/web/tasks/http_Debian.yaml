@@ -1,0 +1,12 @@
+---
+- name: Nginx. Install on Debian
+  apt:
+    update_cache: yes
+    name: "{{ apt_nginx_packages }}"
+    state: latest
+
+- name: Nginx. Set firewall an Debian 
+  ufw:
+    rule: deny
+    port: 80
+    proto: tcp

@@ -1,0 +1,27 @@
+- hosts: hwk
+
+  become: true
+  vars:
+   
+  gather_facts: no
+  remote_user: test
+   
+  tasks:
+
+   - name: Print variable
+     debug: 
+      msg: "Requesting to add user: {{ user_to_add }}"  
+   - name: Create user {{ user_to_add }}
+     user:
+          name: "{{ user_to_add }}"
+          shell: /bin/bash
+          home: /home/{{ user_to_add }}
+          password: "{{ password }}"
+          state: present 
+   - name: Adding sudoers file
+     lineinfile:
+          path: "/etc/sudoers"
+          regexp: "^{{ user_to_add }}"
+          line: " {{ user_to_add }} ALL=(ALL:ALL) NOPASSWD:ALL"
+          validate: 'visudo -cf %s'
+          state: present

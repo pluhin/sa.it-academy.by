@@ -1,0 +1,11 @@
+---
+yum_nginx_packages:
+  - epel-release
+  - nginx
+
+apt_nginx_packages:
+  - nginx
+
+nginx_site_name:
+  - firstsite.local
+  - secondsite.local

@@ -1,0 +1,18 @@
+---
+- name: Wait for Start Jenkins..Please stand by..
+  pause:
+    seconds: 10
+
+- name: Check Connect
+  uri:
+    url: "http://{{ app_url }}"
+    return_content: yes
+  register: this
+  failed_when: "'jenkins' not in this.content"
+  tags: 
+   - testweb
+  
+- debug:
+    msg: 
+     - "{{ this.url }}"
+     - "{{ this.status }}"
