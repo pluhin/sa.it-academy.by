@@ -1,0 +1,16 @@
+---
+- name: Check Port 80 Status
+  wait_for:
+   host: localhost
+   port: 80
+   state: started
+   delay: 0
+   timeout: 3
+ 
+- name: Check HTTP URL
+  uri: 
+    url: http://localhost
+    return_content: yes
+  register: this
+- debug:
+    msg: "{{ this.content }} | {{ this.status }}"

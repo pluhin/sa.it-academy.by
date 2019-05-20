@@ -1,0 +1,7 @@
+ nginx_deb_packages:
+  - nginx
+
+ nginx_cent_epel:
+  - epel-release
+ nginx_cent_packages:
+  - nginx
