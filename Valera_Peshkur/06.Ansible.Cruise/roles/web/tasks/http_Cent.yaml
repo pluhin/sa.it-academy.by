@@ -1,0 +1,13 @@
+---
+- name: Centos. Install nginx
+  yum:  ##module
+    name: "{{ yum_httpd_packages }}"
+    state: latest
+
+- name: Nginx. Start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+
