@@ -5,4 +5,4 @@ Create Ansible Playbook wit role(s) to install nginx server and two virtual host
 - Create and add index.html files
 - Check deployment
 
-![](https://github.com/thecobolt/sa.it-academy.by/blob/m-sa2-07-19/Igor_Kuzmin/06. Ansible.cruise/Image/InstallNginx.png)
+![](https://github.com/thecobolt/sa.it-academy.by/blob/m-sa2-07-19/Igor_Kuzmin/06.Ansible.cruise/Image/InstallNginx.png)
