@@ -1,0 +1,18 @@
+web_servers:
+  hosts:
+   cent_01:
+   ub_01:
+all_hosts:
+ children:
+      hwk:
+       vars:
+        env: "prod"
+       hosts:
+         cent_01:    
+          ansible_user: jump_sa
+          ansible_host: 192.168.0.249
+         ub_01:
+          ansible_user: jump_sa
+          ansible_host: 192.168.0.158
+       
+
