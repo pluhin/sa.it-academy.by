@@ -1,0 +1,6 @@
+---
+- hosts: web_servers
+  become: yes
+  strategy: free
+  roles:
+  - web 
