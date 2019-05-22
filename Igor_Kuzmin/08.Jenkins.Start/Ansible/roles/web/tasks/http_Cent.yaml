@@ -1,0 +1,29 @@
+---
+- name: Install Prg
+  yum:
+    name: "{{ install_prg }}"
+    state: present 
+- name: Install NGINX on Centos7
+  yum: 
+    name: "{{ yum_cent_packages }}"
+    state: present
+
+#- name: Started and Enable NGINX on Centos7
+#  service:
+#    name: nginx
+#    state: started
+#    enabled: yes
+
+- name: Proxy Nginx for jenkins
+  lineinfile:
+    path: /etc/nginx/nginx.conf
+    regexp: '^        location'
+    insertafter: '^        location'
+    line: "    location / {\n\nproxy_set_header        Host $host:$server_port;\nproxy_set_header        X-Real-IP $remote_addr;\nproxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;\nproxy_set_header        X-Forwarded-Proto $scheme;\nproxy_pass          http://127.0.0.1:8080;\nproxy_read_timeout  90;"
+    state: present
+
+#- name: NGINX. Start. Centos
+#  service:
+#    name: nginx
+#    state: restarted
+#    enabled: yes
