@@ -7,8 +7,8 @@ Create Pipeline using Jenkinsfile. Should be inside:
 - Tests
 - Notification
 
-![](https://github.com/thecobolt/sa.it-academy.by/blob/m-sa2-07-19/10.Jenkins.As.code/image/pip.png)
+![](https://github.com/thecobolt/sa.it-academy.by/blob/m-sa2-07-19/Igor_Kuzmin/10.Jenkins.As.code/image/pip.png)
 
-![](https://github.com/thecobolt/sa.it-academy.by/blob/m-sa2-07-19/10.Jenkins.As.code/image/slack.png)
+![](https://github.com/thecobolt/sa.it-academy.by/blob/m-sa2-07-19/Igor_Kuzmin/10.Jenkins.As.code/image/slack.png)
 
-![](https://github.com/thecobolt/sa.it-academy.by/blob/m-sa2-07-19/10.Jenkins.As.code/image/cons.png)
+![](https://github.com/thecobolt/sa.it-academy.by/blob/m-sa2-07-19/Igor_Kuzmin/10.Jenkins.As.code/image/cons.png)
