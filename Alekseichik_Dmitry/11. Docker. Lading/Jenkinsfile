@@ -1,0 +1,59 @@
+pipeline {
+  environment {
+    registry = "dalekseichik/test"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
+  agent any
+  
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git 'git@github.com:DAlekseichik/Dockertest.git'
+      }
+    }
+    
+
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+
+
+    stage('Run Docker image, check and kill'){
+            steps {
+                sh "echo $registry:$BUILD_NUMBER"
+                sh "docker run -d --name TEMPLAR -p 81:5000 -it $registry:$BUILD_NUMBER"
+                sh "echo Docker runing wait.................."
+                sh "sleep 5"
+                sh "curl http://localhost:81"
+                sh "docker kill TEMPLAR"
+                sh "docker rm TEMPLAR"
+
+            }
+    }        
+
+
+
+
+    stage('Deploy Image') {
+      steps{
+         script {
+            docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry:$BUILD_NUMBER"
+      }
+    }
+    
+  }
+}
