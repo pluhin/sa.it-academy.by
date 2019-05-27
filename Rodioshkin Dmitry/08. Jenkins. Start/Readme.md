@@ -7,4 +7,4 @@ Jenkins environment
 - All files that i used are stored in folder "Files"
 
 Resault of using reverse proxy:
-![](Files/Screenshot_27.jpg)
+![](FIles/Screenshot_27.jpg)
