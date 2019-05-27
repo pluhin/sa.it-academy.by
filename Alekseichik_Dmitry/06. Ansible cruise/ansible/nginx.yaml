@@ -1,5 +1,0 @@
----
-- hosts: home
-  become: yes
-  roles:
-  - setup_nginx

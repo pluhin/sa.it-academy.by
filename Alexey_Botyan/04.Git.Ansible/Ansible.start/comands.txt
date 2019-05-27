@@ -1,6 +1,0 @@
-ansible sa_cent -m shell -a 'hostname; hostname -i | cut -d" " -f2; yum update -y' -b -i ./inv.yaml --ask-vault-pass
-
-ansible sa_ub -m shell -a 'hostname; hostname -i | cut -d" " -f2; apt-get update' -b -i ./inv.yaml --ask-vault-pass
-
-It's WORK!!!!
-ansible education_machines -m shell -a 'hostname; hostname -i | cut -d" " -f2; cat /etc/os-release | grep "ID_LIKE" | grep "fedora" 1>/dev/null; if [ $? -eq 0 ]; then echo "Its Fedora!!!"; yum update -y; else echo "Its Debian!!!"; apt-get update; fi' -b -i ./inv.yaml --ask-vault-pass

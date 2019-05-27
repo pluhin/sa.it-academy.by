@@ -1,3 +1,0 @@
----
-- name: Readmine. FIX /opt/redmine/tmp/
-  shell: chmod -R 777 /opt/redmine/tmp/

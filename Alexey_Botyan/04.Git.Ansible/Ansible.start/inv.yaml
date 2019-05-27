@@ -1,8 +1,0 @@
-all_hosts:
-  children:
-    education_machines:
-      hosts:
-        sa_cent:
-          ansible_host: 192.168.254.50
-        sa_ub:
-          ansible_host: 192.168.254.51
