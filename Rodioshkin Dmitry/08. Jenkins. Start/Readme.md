@@ -6,5 +6,5 @@ Jenkins environment
 - Jenkins was hided behind nginx installed on other VM (ip: 192.168.0.249)
 - All files that i used are stored in folder "Files"
 
-Resault of using reverce proxy:
+Resault of using reverse proxy:
 ![](Files/Screenshot_27.jpg)
