@@ -1,0 +1,8 @@
+---
+apt_nginx_list: #list os target software for Debian
+  - nginx
+  
+yum_nginx_list: #list os target software for RedHat
+  - epel-release
+  - nginx
+

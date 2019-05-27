@@ -1,0 +1,6 @@
+---
+- hosts: cruise
+  become: yes
+  roles:
+  - crs
+...
