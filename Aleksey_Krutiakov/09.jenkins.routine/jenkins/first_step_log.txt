@@ -1,0 +1,9 @@
+Started by user support
+Building in workspace /var/lib/jenkins/workspace/Homework_09/09_Homework.01
+[09_Homework.01] $ ansible ub_01 -m ping -f 5
+ub_01 | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+Triggering a new build of Homework_09 » 09_Homework.02
+Finished: SUCCESS
