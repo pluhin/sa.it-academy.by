@@ -1,0 +1,15 @@
+---
+- name: Setting up default nginx_www. Debian
+  set_fact:
+    nginx_www: '/var/www/html'
+  when: ansible_os_family == "Debian"
+
+- name: Setting up default nginx_www. Centos
+  set_fact:
+    nginx_www: '/usr/share/nginx/html'
+  when: ansible_os_family == "RedHat"
+
+- name: Copy index page to nginx_www
+  copy:
+   src: index.html
+   dest: "{{ nginx_www }}"  

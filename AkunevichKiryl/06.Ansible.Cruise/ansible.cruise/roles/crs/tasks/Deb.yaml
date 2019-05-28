@@ -1,0 +1,11 @@
+---
+
+  - name: FULL UPDATE FOR UBUNTU and INSTALL NGINX
+    apt: name=nginx update_cache=yes
+    state: present
+
+
+  - name: START NGINX FOR UBUNTU
+    service:
+      name: nginx
+      state: started

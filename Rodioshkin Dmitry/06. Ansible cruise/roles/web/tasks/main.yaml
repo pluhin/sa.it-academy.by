@@ -1,0 +1,14 @@
+---
+- name: Include. Debian deploy
+  include: http_Debian.yaml 
+  when: ansible_os_family == 'Debian'
+
+- name: Include. Cent deploy
+  include: http_Centos.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Setup. Index file
+  include: index_page.yaml
+
+- name: test HTTP
+  include: Task_check.yaml

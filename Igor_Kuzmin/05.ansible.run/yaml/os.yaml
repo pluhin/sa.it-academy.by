@@ -1,0 +1,13 @@
+---
+- hosts: ec_htp
+  vars:
+  tasks:
+  - name: OS/Version
+    debug:
+      msg: "{{ ansible_lsb  }} "
+  - name: Mount point/Capacity/Used
+    debug:
+      msg: "{{ ansible_mounts }}"
+  - name: RAM/Capacity/Free
+    debug:
+      msg: "{{ ansible_memory_mb }}"

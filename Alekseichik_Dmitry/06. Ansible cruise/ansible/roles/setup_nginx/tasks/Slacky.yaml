@@ -1,0 +1,23 @@
+---
+  - name: Slack Send Message
+    block:
+    - debug:
+        msg: "status:  {{ this.status }}"
+    - slack:
+       token: TFBPBNB2L/BJ6B14UHE/g2TJoMOveRw6UYsM4t7W7oLr
+       msg: Check passed "{{ this.status }}"
+       channel: 'ansible_test'
+       username: 'Ansible Crazy Cat'
+       icon_url: https://a.slack-edge.com/66f9/img/icons/app-57.png
+       parse: 'full'
+
+    rescue:
+     - name : Send Bad Message
+       slack:
+        token: TFBPBNB2L/BJ6B14UHE/g2TJoMOveRw6UYsM4t7W7oLr
+        msg: Check NOT passed  "{{ this.status }}"
+        channel: 'ansible_test'
+        username: 'Ansible Crazy Cat'
+        icon_url: https://a.slack-edge.com/66f9/img/icons/app-57.png
+        parse: 'full'
+  

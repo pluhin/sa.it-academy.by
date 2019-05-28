@@ -1,0 +1,10 @@
+---
+cruise:
+  hosts:
+    centos: 
+      ansible_user: kir 
+      ansible_host: 192.168.100.12
+    ubuntu:
+      ansible_user: kir
+      ansible_host: 192.168.100.10
+...

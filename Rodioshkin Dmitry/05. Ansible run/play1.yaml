@@ -1,0 +1,21 @@
+- hosts: hwk
+  vars:
+  tasks:
+  - name: Print OS info
+    debug:
+      msg: "OS Version is:{{hostvars[inventory_hostname].ansible_distribution}} | {{ ansible_distribution_version }}"
+    tags:
+      - inventory::check
+      - all_print
+  - name: Print RAM/capacity/free info
+    debug:
+      msg: "Mermory TOTAL:{{hostvars[inventory_hostname].ansible_memory_mb}}"
+    tags:
+      - inventory::check
+      - all_print
+  - name: Mount point/capacity/used
+    debug:
+      msg: "HDD:{{hostvars[inventory_hostname].ansible_mounts}}"
+    tags:
+      - inventory::check
+      - all_print 

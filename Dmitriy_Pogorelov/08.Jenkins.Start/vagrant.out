@@ -1,0 +1,250 @@
+$ vagrant up
+Bringing machine 'jenkins' up with 'virtualbox' provider...
+==> jenkins: Importing base box 'ubuntu/bionic64'...
+==> jenkins: Matching MAC address for NAT networking...
+==> jenkins: Setting the name of the VM: 08JenkinsStart_jenkins_1557747534523_3157
+==> jenkins: Vagrant has detected a configuration issue which exposes a
+==> jenkins: vulnerability with the installed version of VirtualBox. The
+==> jenkins: current guest is configured to use an E1000 NIC type for a
+==> jenkins: network adapter which is vulnerable in this version of VirtualBox.
+==> jenkins: Ensure the guest is trusted to use this configuration or update
+==> jenkins: the NIC type using one of the methods below:
+==> jenkins:
+==> jenkins:   https://www.vagrantup.com/docs/virtualbox/configuration.html#default-nic-type
+==> jenkins:   https://www.vagrantup.com/docs/virtualbox/networking.html#virtualbox-nic-type
+==> jenkins: Clearing any previously set network interfaces...
+==> jenkins: Preparing network interfaces based on configuration...
+    jenkins: Adapter 1: nat
+    jenkins: Adapter 2: hostonly
+==> jenkins: You are trying to forward to privileged ports (ports <= 1024). Most
+==> jenkins: operating systems restrict this to only privileged process (typically
+==> jenkins: processes running as an administrative user). This is a warning in case
+==> jenkins: the port forwarding doesn't work. If any problems occur, please try a
+==> jenkins: port higher than 1024.
+==> jenkins: Forwarding ports...
+    jenkins: 80 (guest) => 80 (host) (adapter 1)
+    jenkins: 22 (guest) => 2222 (host) (adapter 1)
+==> jenkins: Running 'pre-boot' VM customizations...
+==> jenkins: Booting VM...
+==> jenkins: Waiting for machine to boot. This may take a few minutes...
+    jenkins: SSH address: 127.0.0.1:2222
+    jenkins: SSH username: vagrant
+    jenkins: SSH auth method: private key
+    jenkins: Warning: Connection reset. Retrying...
+    jenkins: Warning: Connection aborted. Retrying...
+    jenkins: Warning: Remote connection disconnect. Retrying...
+==> jenkins: Machine booted and ready!
+==> jenkins: Checking for guest additions in VM...
+    jenkins: The guest additions on this VM do not match the installed version of
+    jenkins: VirtualBox! In most cases this is fine, but in rare cases it can
+    jenkins: prevent things such as shared folders from working properly. If you see
+    jenkins: shared folder errors, please make sure the guest additions within the
+    jenkins: virtual machine match the version of VirtualBox you have installed on
+    jenkins: your host and reload your VM.
+    jenkins:
+    jenkins: Guest Additions Version: 5.2.18
+    jenkins: VirtualBox Version: 5.1
+==> jenkins: Setting hostname...
+==> jenkins: Configuring and enabling network interfaces...
+==> jenkins: Configuring proxy for Apt...
+==> jenkins: Configuring proxy environment variables...
+==> jenkins: Configuring proxy for Git...
+==> jenkins: Mounting shared folders...
+    jenkins: /vagrant => C:/Docs/DevOps_course/projects/sa.it-academy.by/Dmitriy_Pogorelov/08.Jenkins.Start
+==> jenkins: Setting time zone to 'Europe/Minsk'...
+==> jenkins: Running provisioner: ansible_local...
+    jenkins: Installing Ansible...
+Vagrant has automatically selected the compatibility mode '2.0'
+according to the Ansible version installed (2.7.10).
+
+Alternatively, the compatibility mode can be specified in your Vagrantfile:
+https://www.vagrantup.com/docs/provisioning/ansible_common.html#compatibility_mode
+    jenkins: Running ansible-playbook...
+
+PLAY [all] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+Monday 13 May 2019  14:40:58 +0300 (0:00:00.080)       0:00:00.080 ************
+ok: [jenkins]
+
+TASK [install_jenkins : install packages] **************************************
+Monday 13 May 2019  14:40:59 +0300 (0:00:01.115)       0:00:01.196 ************
+changed: [jenkins]
+
+TASK [install_jenkins : add Jenkins repo key] **********************************
+Monday 13 May 2019  14:48:49 +0300 (0:07:50.054)       0:07:51.250 ************
+changed: [jenkins]
+
+TASK [install_jenkins : add repo] **********************************************
+Monday 13 May 2019  14:48:51 +0300 (0:00:02.597)       0:07:53.848 ************
+changed: [jenkins]
+
+TASK [install_jenkins : install Jenkins] ***************************************
+Monday 13 May 2019  14:49:00 +0300 (0:00:08.786)       0:08:02.634 ************
+changed: [jenkins]
+
+TASK [install_jenkins : out of install] ****************************************
+Monday 13 May 2019  14:50:08 +0300 (0:01:07.606)       0:09:10.240 ************
+ok: [jenkins] => {
+    "out": {
+        "cache_update_time": 1557748142,
+        "cache_updated": true,
+        "changed": true,
+        "diff": {},
+        "failed": false,
+        "stderr": "",
+        "stderr_lines": [],
+        "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nThe following additional packages will be installed:\n  daemon\nThe following NEW packages will be installed:\n  daemon jenkins\n0 upgraded, 2 newly installed, 0 to remove and 47 not upgraded.\nNeed to get 76.9 MB of archives.\nAfter this operation, 77.7 MB of additional disk space will be used.\nGet:1 http://archive.ubuntu.com/ubuntu bionic/universe amd64 daemon amd64 0.6.4-1build1 [99.5 kB]\nGet:2 https://pkg.jenkins.io/debian binary/ jenkins 2.177 [76.8 MB]\nFetched 76.9 MB in 53s (1452 kB/s)\nSelecting previously unselected package daemon.\r\n(Reading database ... \r(Reading database ... 5%\r(Reading database ... 10%\r(Reading database ... 15%\r(Reading database ... 20%\r(Reading database ... 25%\r(Reading database ... 30%\r(Reading database ... 35%\r(Reading database ... 40%\r(Reading database ... 45%\r(Reading database ... 50%\r(Reading database ... 55%\r(Reading database ... 60%\r(Reading database ... 65%\r(Reading database ... 70%\r(Reading database ... 75%\r(Reading database ... 80%\r(Reading database ... 85%\r(Reading database ... 90%\r(Reading database ... 95%\r(Reading database ... 100%\r(Reading database ... 80958 files and directories currently installed.)\r\nPreparing to unpack .../daemon_0.6.4-1build1_amd64.deb ...\r\nUnpacking daemon (0.6.4-1build1) ...\r\nSelecting previously unselected package jenkins.\r\nPreparing to unpack .../archives/jenkins_2.177_all.deb ...\r\nUnpacking jenkins (2.177) ...\r\nProcessing triggers for ureadahead (0.100.0-20) ...\r\nProcessing triggers for systemd (237-3ubuntu10.20) ...\r\nProcessing triggers for man-db (2.8.3-2ubuntu0.1) ...\r\nSetting up daemon (0.6.4-1build1) ...\r\nSetting up jenkins (2.177) ...\r\nProcessing triggers for ureadahead (0.100.0-20) ...\r\nProcessing triggers for systemd (237-3ubuntu10.20) ...\r\n",
+        "stdout_lines": [
+            "Reading package lists...",
+            "Building dependency tree...",
+            "Reading state information...",
+            "The following additional packages will be installed:",
+            "  daemon",
+            "The following NEW packages will be installed:",
+            "  daemon jenkins",
+            "0 upgraded, 2 newly installed, 0 to remove and 47 not upgraded.",
+            "Need to get 76.9 MB of archives.",
+            "After this operation, 77.7 MB of additional disk space will be used.",
+            "Get:1 http://archive.ubuntu.com/ubuntu bionic/universe amd64 daemon amd64 0.6.4-1build1 [99.5 kB]",
+            "Get:2 https://pkg.jenkins.io/debian binary/ jenkins 2.177 [76.8 MB]",
+            "Fetched 76.9 MB in 53s (1452 kB/s)",
+            "Selecting previously unselected package daemon.",
+            "(Reading database ... ",
+            "(Reading database ... 5%",
+            "(Reading database ... 10%",
+            "(Reading database ... 15%",
+            "(Reading database ... 20%",
+            "(Reading database ... 25%",
+            "(Reading database ... 30%",
+            "(Reading database ... 35%",
+            "(Reading database ... 40%",
+            "(Reading database ... 45%",
+            "(Reading database ... 50%",
+            "(Reading database ... 55%",
+            "(Reading database ... 60%",
+            "(Reading database ... 65%",
+            "(Reading database ... 70%",
+            "(Reading database ... 75%",
+            "(Reading database ... 80%",
+            "(Reading database ... 85%",
+            "(Reading database ... 90%",
+            "(Reading database ... 95%",
+            "(Reading database ... 100%",
+            "(Reading database ... 80958 files and directories currently installed.)",
+            "Preparing to unpack .../daemon_0.6.4-1build1_amd64.deb ...",
+            "Unpacking daemon (0.6.4-1build1) ...",
+            "Selecting previously unselected package jenkins.",
+            "Preparing to unpack .../archives/jenkins_2.177_all.deb ...",
+            "Unpacking jenkins (2.177) ...",
+            "Processing triggers for ureadahead (0.100.0-20) ...",
+            "Processing triggers for systemd (237-3ubuntu10.20) ...",
+            "Processing triggers for man-db (2.8.3-2ubuntu0.1) ...",
+            "Setting up daemon (0.6.4-1build1) ...",
+            "Setting up jenkins (2.177) ...",
+            "Processing triggers for ureadahead (0.100.0-20) ...",
+            "Processing triggers for systemd (237-3ubuntu10.20) ..."
+        ]
+    }
+}
+
+TASK [install_jenkins : wait passwd file] **************************************
+Monday 13 May 2019  14:50:08 +0300 (0:00:00.117)       0:09:10.358 ************
+ok: [jenkins]
+
+TASK [install_jenkins : get Jenkins password] **********************************
+Monday 13 May 2019  14:50:19 +0300 (0:00:10.875)       0:09:21.233 ************
+ok: [jenkins]
+
+TASK [install_jenkins : print init password Jenkins] ***************************
+Monday 13 May 2019  14:50:19 +0300 (0:00:00.530)       0:09:21.764 ************
+ok: [jenkins] => {
+    "passwd.stdout": "4224ba4511264352b625f4d8dbad24c5"
+}
+
+TASK [install_jenkins : send passwd to slack] **********************************
+Monday 13 May 2019  14:50:19 +0300 (0:00:00.097)       0:09:21.862 ************
+ok: [jenkins]
+
+TASK [install_jenkins : skip setup wizard] *************************************
+Monday 13 May 2019  14:50:23 +0300 (0:00:03.562)       0:09:25.424 ************
+changed: [jenkins]
+
+TASK [install_jenkins : restart jenkins] ***************************************
+Monday 13 May 2019  14:50:24 +0300 (0:00:01.180)       0:09:26.605 ************
+changed: [jenkins]
+
+TASK [install_jenkins : wait jenkins] ******************************************
+Monday 13 May 2019  14:50:29 +0300 (0:00:04.840)       0:09:31.445 ************
+ok: [jenkins]
+
+TASK [install_jenkins : fix a defect to disable setup wizard] ******************
+Monday 13 May 2019  14:51:00 +0300 (0:00:30.670)       0:10:02.116 ************
+ok: [jenkins]
+
+TASK [install_jenkins : restart jenkins] ***************************************
+Monday 13 May 2019  14:51:03 +0300 (0:00:02.991)       0:10:05.108 ************
+changed: [jenkins]
+
+TASK [install_jenkins : wait jenkins] ******************************************
+Monday 13 May 2019  14:51:07 +0300 (0:00:04.055)       0:10:09.164 ************
+ok: [jenkins]
+
+TASK [nginx : install nginx] ***************************************************
+Monday 13 May 2019  14:51:37 +0300 (0:00:30.544)       0:10:39.709 ************
+changed: [jenkins]
+
+TASK [nginx : check nginx is running] ******************************************
+Monday 13 May 2019  14:51:49 +0300 (0:00:11.711)       0:10:51.420 ************
+ok: [jenkins]
+
+TASK [nginx : add to hosts] ****************************************************
+Monday 13 May 2019  14:51:49 +0300 (0:00:00.423)       0:10:51.844 ************
+changed: [jenkins]
+
+TASK [nginx : add config file] *************************************************
+Monday 13 May 2019  14:51:50 +0300 (0:00:00.293)       0:10:52.137 ************
+changed: [jenkins]
+
+TASK [nginx : create link] *****************************************************
+Monday 13 May 2019  14:51:51 +0300 (0:00:00.876)       0:10:53.014 ************
+changed: [jenkins]
+
+TASK [nginx : remove nginx default] ********************************************
+Monday 13 May 2019  14:51:51 +0300 (0:00:00.509)       0:10:53.524 ************
+changed: [jenkins] => (item=/etc/nginx/sites-available/default)
+changed: [jenkins] => (item=/etc/nginx/sites-enabled/default)
+
+TASK [nginx : restart nginx] ***************************************************
+Monday 13 May 2019  14:51:52 +0300 (0:00:00.534)       0:10:54.058 ************
+changed: [jenkins]
+
+TASK [send finish notification to slack] ***************************************
+Monday 13 May 2019  14:51:52 +0300 (0:00:00.524)       0:10:54.583 ************
+ok: [jenkins]
+
+PLAY RECAP *********************************************************************
+jenkins                    : ok=24   changed=13   unreachable=0    failed=0
+
+Monday 13 May 2019  14:51:53 +0300 (0:00:01.011)       0:10:55.594 ************
+===============================================================================
+install_jenkins : install packages ------------------------------------ 470.05s
+install_jenkins : install Jenkins -------------------------------------- 67.61s
+install_jenkins : wait jenkins ----------------------------------------- 30.67s
+install_jenkins : wait jenkins ----------------------------------------- 30.54s
+nginx : install nginx -------------------------------------------------- 11.71s
+install_jenkins : wait passwd file ------------------------------------- 10.88s
+install_jenkins : add repo ---------------------------------------------- 8.79s
+install_jenkins : restart jenkins --------------------------------------- 4.84s
+install_jenkins : restart jenkins --------------------------------------- 4.06s
+install_jenkins : send passwd to slack ---------------------------------- 3.56s
+install_jenkins : fix a defect to disable setup wizard ------------------ 2.99s
+install_jenkins : add Jenkins repo key ---------------------------------- 2.60s
+install_jenkins : skip setup wizard ------------------------------------- 1.18s
+Gathering Facts --------------------------------------------------------- 1.12s
+send finish notification to slack --------------------------------------- 1.01s
+nginx : add config file ------------------------------------------------- 0.88s
+nginx : remove nginx default -------------------------------------------- 0.53s
+install_jenkins : get Jenkins password ---------------------------------- 0.53s
+nginx : restart nginx --------------------------------------------------- 0.52s
+nginx : create link ----------------------------------------------------- 0.51s

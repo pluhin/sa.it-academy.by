@@ -1,0 +1,17 @@
+Vagrant.configure(2) do |config|
+
+  config.vm.define "srv1" do |srv1|
+  srv1.vm.box = "debian/stretch64"
+  srv1.vm.define "Jenkins"
+  srv1.vm.box_check_update = false
+  srv1.vm.hostname = "ubuntu"  
+  srv1.vm.network "public_network", ip: "192.168.88.20", bridge: "enp4s0"
+  srv1.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
+  
+    config.vm.provider "virtualbox" do |srv1|
+      srv1.gui = false
+      srv1.memory = "2048"
+      srv1.cpus = 2
+    end
+  end
+end  

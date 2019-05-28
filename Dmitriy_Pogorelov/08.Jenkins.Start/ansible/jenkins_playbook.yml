@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - install_jenkins
+    - nginx
+
+  tasks:
+    - name: send finish notification to slack 
+      slack:
+        token: "TFBPBNB2L/BJF7KFTDF/za5VgK202rSGCxnYrKOHoa1o"
+        username: "Ansible"
+        msg: "Jenkins deployment finished"

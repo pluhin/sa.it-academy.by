@@ -1,0 +1,28 @@
+
+- name: nginix install
+  yum: 
+    name: nginx
+    state: latest
+
+- name: nginx start
+  service: 
+    name: nginx
+    state: started
+    enabled: yes
+
+- name:  Firewall 
+  firewalld:
+    port: 80/tcp
+    permanent: true
+    state: enabled
+
+- name: Configure Nginx 
+  template: 
+    src: jenkins.j2  
+    dest: "/etc/nginx/conf.d/jenkins.conf"
+
+- name: nginx restart
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes

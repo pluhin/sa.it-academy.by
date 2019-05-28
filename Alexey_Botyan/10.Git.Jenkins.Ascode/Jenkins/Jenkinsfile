@@ -1,0 +1,82 @@
+pipeline {
+    agent { label 'node_01' }
+    environment {
+        BUILD = "${env.BUILD_ID}"
+    }
+    parameters {
+        choice(name: 'input_repository_branch', choices: 'master', description: 'Pick the code branch')
+        choice(name: 'output_repository_branch', choices: 'artefacts', description: 'Pick the artefacts branch')
+        string(name: 'repository_url', defaultValue: 'git@github.com:Afinsky/jenkins_as_code.git', description: 'Github repository url')
+    }
+
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                    git branch: "${params.input_repository_branch}", url: "${params.repository_url}"
+                    sh "git branch -a"
+            }
+        }
+
+        stage('Checking repository') {
+            steps {
+                    sh "ls -lR"
+            }
+        }
+
+        stage('Create branch') {
+            steps {
+                sh """
+                git checkout -b "${params.output_repository_branch}"
+                """
+                sh "git branch"
+                sh """
+                   git checkout "${params.output_repository_branch}"
+                   """
+            }
+        }
+
+        stage('Some changes') {
+            steps {
+                sh "mkdir /tmp/build_$BUILD && cp -r ./* /tmp/build_$BUILD"
+                sh "find /tmp/build_$BUILD -type f -print | xargs sed -i 's/(.*)/:/g'"
+                sh "cp -r /tmp/build_$BUILD ./"
+            }
+        }
+
+        stage('Remove') {
+            steps {
+                sh "rm -rf /tmp/build_*"
+            }
+        }
+
+        stage('Packing test') {
+            steps {
+                sh "ls -lR"
+            }
+        }
+
+        stage('Git push') {
+           steps {
+               sh """
+               git add *
+               git commit -a -m "Build id: $BUILD"
+               git push origin "${params.output_repository_branch}" --force
+               """
+           }
+        }
+
+        stage('Clear workspace') {
+            steps {
+                deleteDir()
+            }
+        }
+    }
+    post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+}

@@ -1,0 +1,4 @@
+*.retry
+*.swp
+.gitignore
+.vagrant

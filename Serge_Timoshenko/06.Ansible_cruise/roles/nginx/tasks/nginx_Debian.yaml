@@ -1,0 +1,17 @@
+---
+- name: Install nginx. on Debian
+  apt:
+    name: nginx
+    state: latest
+
+- name: Nginx. Start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+
+- name: Copy index. on Debian
+  copy:
+    src: index.html
+    dest: "{{ Debian_home }}"

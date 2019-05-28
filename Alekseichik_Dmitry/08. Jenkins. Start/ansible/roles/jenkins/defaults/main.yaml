@@ -1,0 +1,9 @@
+---
+apt_jenkins_list: #list of target software for Debian
+  - mc
+  - nginx
+  - git
+  - openjdk-8-jdk
+  - jenkins
+
+app_url: "localhost:8080/login?from="

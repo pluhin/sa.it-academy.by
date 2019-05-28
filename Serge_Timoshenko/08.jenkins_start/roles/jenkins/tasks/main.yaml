@@ -1,0 +1,15 @@
+---
+- name: Install packages for jenkins and nginx
+  yum:
+    name: "{{ packages }}"
+    state: latest
+
+- name: Install genkins
+  include: jenkins.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Install nginx
+  include: nginx.yaml
+  when: ansible_os_family == 'RedHat'
+
+

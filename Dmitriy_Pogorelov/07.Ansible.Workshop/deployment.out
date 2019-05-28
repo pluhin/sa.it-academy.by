@@ -1,0 +1,134 @@
+ansible@ansiblehost:/vagrant/workshop$ ansible-playbook playbook.yaml -i inventory.yaml --ask-vault-pass
+Vault password:
+
+PLAY [redmine] **************************************************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************************************
+Friday 03 May 2019  12:10:48 +0000 (0:00:00.132)       0:00:00.132 ************
+ok: [redmine]
+
+TASK [redmine : atp. update] ************************************************************************************************************************
+Friday 03 May 2019  12:11:01 +0000 (0:00:13.142)       0:00:13.274 ************
+changed: [redmine]
+
+TASK [redmine : apt. install packages] **************************************************************************************************************
+Friday 03 May 2019  12:11:13 +0000 (0:00:12.060)       0:00:25.335 ************
+ok: [redmine]
+
+TASK [redmine : template] ***************************************************************************************************************************
+Friday 03 May 2019  12:11:24 +0000 (0:00:10.882)       0:00:36.218 ************
+ok: [redmine]
+
+TASK [redmine : service] ****************************************************************************************************************************
+Friday 03 May 2019  12:11:42 +0000 (0:00:17.673)       0:00:53.891 ************
+ok: [redmine]
+
+TASK [redmine : mysql. create DB] *******************************************************************************************************************
+Friday 03 May 2019  12:11:53 +0000 (0:00:11.041)       0:01:04.933 ************
+ok: [redmine]
+
+TASK [redmine : MySQL. Create user] *****************************************************************************************************************
+Friday 03 May 2019  12:12:04 +0000 (0:00:10.603)       0:01:15.537 ************
+ok: [redmine]
+
+TASK [redmine : redmine. clone repo] ****************************************************************************************************************
+Friday 03 May 2019  12:12:14 +0000 (0:00:10.381)       0:01:25.919 ************
+changed: [redmine]
+
+TASK [redmine : redmine. change permissions] ********************************************************************************************************
+Friday 03 May 2019  12:12:38 +0000 (0:00:23.533)       0:01:49.452 ************
+changed: [redmine]
+
+TASK [redmine : redmine. DB template] ***************************************************************************************************************
+Friday 03 May 2019  12:12:48 +0000 (0:00:10.624)       0:02:00.076 ************
+changed: [redmine]
+
+TASK [redmine : readmine. setup 01] *****************************************************************************************************************
+Friday 03 May 2019  12:13:08 +0000 (0:00:19.864)       0:02:19.940 ************
+changed: [redmine]
+
+TASK [redmine : session store secret generation] ****************************************************************************************************
+Friday 03 May 2019  12:13:30 +0000 (0:00:21.904)       0:02:41.844 ************
+changed: [redmine]
+
+TASK [redmine : readmine. setup 02] *****************************************************************************************************************
+Friday 03 May 2019  12:13:43 +0000 (0:00:12.972)       0:02:54.818 ************
+changed: [redmine]
+
+TASK [redmine : configuration files for virtualhost] ************************************************************************************************
+Friday 03 May 2019  12:14:07 +0000 (0:00:23.675)       0:03:18.493 ************
+ok: [redmine]
+
+TASK [redmine : Add redmine.my to host file] ********************************************************************************************************
+Friday 03 May 2019  12:14:22 +0000 (0:00:15.857)       0:03:34.351 ************
+changed: [redmine]
+
+TASK [redmine : Test page availability] *************************************************************************************************************
+Friday 03 May 2019  12:14:33 +0000 (0:00:10.072)       0:03:44.423 ************
+ok: [redmine]
+
+TASK [redmine : debug] ******************************************************************************************************************************
+Friday 03 May 2019  12:14:44 +0000 (0:00:11.081)       0:03:55.505 ************
+ok: [redmine] => {
+    "msg": {
+        "cache_control": "max-age=0, private, must-revalidate",
+        "changed": false,
+        "connection": "close",
+        "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"/>\n<title>Redmine</title>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">\n<meta name=\"description\" content=\"Redmine\" />\n<meta name=\"keywords\" content=\"issue,bug,tracker\" />\n<meta name=\"csrf-param\" content=\"authenticity_token\" />\n<meta name=\"csrf-token\" content=\"SVJKyUEr5oPXWbc8bDkd+N3JIrztwa8v2nhB2tYpN4H3v1unZz6IUt11mDRrVUPC5PDYaghEiaPlaT+DHbZTMg==\" />\n<link rel='shortcut icon' href='/favicon.ico?1556835619' />\n<link rel=\"stylesheet\" media=\"all\" href=\"/stylesheets/jquery/jquery-ui-1.11.0.css?1556835619\" />\n<link rel=\"stylesheet\" media=\"all\" href=\"/stylesheets/application.css?1556835620\" />\n<link rel=\"stylesheet\" media=\"all\" href=\"/stylesheets/responsive.css?1556835620\" />\n\n<script src=\"/javascripts/jquery-1.11.1-ui-1.11.0-ujs-4.3.1.js?1556835620\"></script>\n<script src=\"/javascripts/application.js?1556835620\"></script>\n<script src=\"/javascripts/responsive.js?1556835620\"></script>\n<script>\n//<![CDATA[\n$(window).load(function(){ warnLeavingUnsaved('The current page contains unsaved text that will be lost if you leave this page.'); });\n//]]>\n</script>\n\n\n<!-- page specific tags -->\n<link rel=\"alternate\" type=\"application/atom+xml\" title=\"Redmine: Latest news\" href=\"http://redmine.my/news.atom\" />\n<link rel=\"alternate\" type=\"application/atom+xml\" title=\"Redmine: Activity\" href=\"http://redmine.my/activity.atom\" />\n</head>\n<body class=\"controller-welcome action-index avatars-off\">\n\n<div id=\"wrapper\">\n\n<div class=\"flyout-menu js-flyout-menu\">\n\n\n        <div class=\"flyout-menu__search\">\n            <form action=\"/search\" accept-charset=\"UTF-8\" method=\"get\"><input name=\"utf8\" type=\"hidden\" value=\"&#x2713;\" />\n            \n            <label class=\"search-magnifier search-magnifier--flyout\" for=\"flyout-search\">&#9906;</label>\n            <input type=\"text\" name=\"q\" id=\"flyout-search\" class=\"small js-search-input\" placeholder=\"Search\" />\n</form>        </div>\n\n\n\n    <h3>General</h3>\n    <span class=\"js-general-menu\"></span>\n\n    <span class=\"js-sidebar flyout-menu__sidebar\"></span>\n\n    <h3>Profile</h3>\n    <span class=\"js-profile-menu\"></span>\n\n</div>\n\n<div id=\"wrapper2\">\n<div id=\"wrapper3\">\n<div id=\"top-menu\">\n    <div id=\"account\">\n        <ul><li><a class=\"login\" href=\"/login\">Sign in</a></li><li><a class=\"register\" href=\"/account/register\">Register</a></li></ul>    </div>\n    \n    <ul><li><a class=\"home\" href=\"/\">Home</a></li><li><a class=\"projects\" href=\"/projects\">Projects</a></li><li><a class=\"help\" href=\"https://www.redmine.org/guide\">Help</a></li></ul></div>\n\n<div id=\"header\">\n\n    <a href=\"#\" class=\"mobile-toggle-button js-flyout-menu-toggle-button\"></a>\n\n    <div id=\"quick-search\">\n        <form action=\"/search\" accept-charset=\"UTF-8\" method=\"get\"><input name=\"utf8\" type=\"hidden\" value=\"&#x2713;\" />\n        <input type=\"hidden\" name=\"scope\" />\n        \n        <label for='q'>\n          <a accesskey=\"4\" href=\"/search\">Search</a>:\n        </label>\n        <input type=\"text\" name=\"q\" id=\"q\" size=\"20\" class=\"small\" accesskey=\"f\" />\n</form>        <div id=\"project-jump\" class=\"drdn\"><span class=\"drdn-trigger\">Jump to a project...</span><div class=\"drdn-content\"><div class=\"quick-search\"><input type=\"text\" name=\"q\" id=\"projects-quick-search\" value=\"\" class=\"autocomplete\" data-automcomplete-url=\"/projects/autocomplete.js?jump=welcome\" autocomplete=\"off\" /></div><div class=\"drdn-items projects selection\"></div><div class=\"drdn-items all-projects selection\"><a href=\"/projects?jump=welcome\">All Projects</a></div></div></div>\n    </div>\n\n    <h1>Redmine</h1>\n\n</div>\n\n<div id=\"main\" class=\"nosidebar\">\n    <div id=\"sidebar\">\n        \n        \n    </div>\n\n    <div id=\"content\">\n        \n        <h2>Home</h2>\n\n<div class=\"splitcontentleft\">\n  <div class=\"wiki\">\n    \n  </div>\n  \n</div>\n\n<div class=\"splitcontentright\">\n  \n</div>\n\n\n        \n        <div style=\"clear:both;\"></div>\n    </div>\n</div>\n</div>\n\n<div id=\"ajax-indicator\" style=\"display:none;\"><span>Loading...</span></div>\n<div id=\"ajax-modal\" style=\"display:none;\"></div>\n\n<div id=\"footer\">\n  <div class=\"bgl\"><div class=\"bgr\">\n    Powered by <a href=\"https://www.redmine.org/\">Redmine</a> &copy; 2006-2019 Jean-Philippe Lang\n  </div></div>\n</div>\n</div>\n</div>\n\n</body>\n</html>\n",
+        "content_type": "text/html; charset=utf-8",
+        "cookies": {
+            "_redmine_session": "MTFhYW1tTEJDN2pLd2NJTGNaWEFpcitVWVlFR1MxM3h6MHNzNlZXL3JCL1JkQUdDMjMwbjZjeDdYQkxudWNBVHpVdDBMVitZREhZQkE4UDVybmsxZ0NRbFRWZTRpczN6MEExa2pHbnhibVh0dmdRZmpORTVQcG9yUkNWaEkvT2RnZlFJNUJnSlRSWVFOd1U5SnQ3cWo1VDVoeVYzbWdUY09OdzFOUnp1NEp3M09XZlpHTlA0QTFZWVJtb3gyUFpHLS1Sck5lRnhBNndWcXMzV2lqZEVkeGlBPT0%3D--1cad4fe619c25c87d3e4e2c7f5fe713deb82cec6"
+        },
+        "cookies_string": "_redmine_session=MTFhYW1tTEJDN2pLd2NJTGNaWEFpcitVWVlFR1MxM3h6MHNzNlZXL3JCL1JkQUdDMjMwbjZjeDdYQkxudWNBVHpVdDBMVitZREhZQkE4UDVybmsxZ0NRbFRWZTRpczN6MEExa2pHbnhibVh0dmdRZmpORTVQcG9yUkNWaEkvT2RnZlFJNUJnSlRSWVFOd1U5SnQ3cWo1VDVoeVYzbWdUY09OdzFOUnp1NEp3M09XZlpHTlA0QTFZWVJtb3gyUFpHLS1Sck5lRnhBNndWcXMzV2lqZEVkeGlBPT0%3D--1cad4fe619c25c87d3e4e2c7f5fe713deb82cec6",
+        "date": "Fri, 03 May 2019 12:14:42 GMT",
+        "etag": "W/\"8cf579beafb02f9e60fde0fa8f016725\"",
+        "failed": false,
+        "failed_when_result": false,
+        "msg": "OK (unknown bytes)",
+        "redirected": false,
+        "referrer_policy": "strict-origin-when-cross-origin",
+        "server": "Apache/2.4.18 (Ubuntu)",
+        "set_cookie": "_redmine_session=MTFhYW1tTEJDN2pLd2NJTGNaWEFpcitVWVlFR1MxM3h6MHNzNlZXL3JCL1JkQUdDMjMwbjZjeDdYQkxudWNBVHpVdDBMVitZREhZQkE4UDVybmsxZ0NRbFRWZTRpczN6MEExa2pHbnhibVh0dmdRZmpORTVQcG9yUkNWaEkvT2RnZlFJNUJnSlRSWVFOd1U5SnQ3cWo1VDVoeVYzbWdUY09OdzFOUnp1NEp3M09XZlpHTlA0QTFZWVJtb3gyUFpHLS1Sck5lRnhBNndWcXMzV2lqZEVkeGlBPT0%3D--1cad4fe619c25c87d3e4e2c7f5fe713deb82cec6; path=/; HttpOnly",
+        "status": 200,
+        "transfer_encoding": "chunked",
+        "url": "http://redmine.my",
+        "vary": "Accept-Encoding",
+        "x_content_type_options": "nosniff",
+        "x_download_options": "noopen",
+        "x_frame_options": "SAMEORIGIN",
+        "x_permitted_cross_domain_policies": "none",
+        "x_powered_by": "Phusion Passenger 5.0.27",
+        "x_request_id": "835d9a05-388c-4c5c-9ea8-8480c3c8a2eb",
+        "x_runtime": "0.230532",
+        "x_xss_protection": "1; mode=block"
+    }
+}
+
+TASK [redmine : lineinfile] *************************************************************************************************************************
+Friday 03 May 2019  12:14:44 +0000 (0:00:00.149)       0:03:55.654 ************
+changed: [redmine]
+
+PLAY RECAP ******************************************************************************************************************************************
+redmine                    : ok=18   changed=9    unreachable=0    failed=0
+
+Friday 03 May 2019  12:14:54 +0000 (0:00:10.094)       0:04:05.749 ************
+===============================================================================
+redmine : readmine. setup 02 ---------------------------------------------------------------------------------------------------------------- 23.68s
+redmine : redmine. clone repo --------------------------------------------------------------------------------------------------------------- 23.53s
+redmine : readmine. setup 01 ---------------------------------------------------------------------------------------------------------------- 21.90s
+redmine : redmine. DB template -------------------------------------------------------------------------------------------------------------- 19.87s
+redmine : template -------------------------------------------------------------------------------------------------------------------------- 17.67s
+redmine : configuration files for virtualhost ----------------------------------------------------------------------------------------------- 15.86s
+Gathering Facts ----------------------------------------------------------------------------------------------------------------------------- 13.14s
+redmine : session store secret generation --------------------------------------------------------------------------------------------------- 12.97s
+redmine : atp. update ----------------------------------------------------------------------------------------------------------------------- 12.06s
+redmine : Test page availability ------------------------------------------------------------------------------------------------------------ 11.08s
+redmine : service --------------------------------------------------------------------------------------------------------------------------- 11.04s
+redmine : apt. install packages ------------------------------------------------------------------------------------------------------------- 10.88s
+redmine : redmine. change permissions ------------------------------------------------------------------------------------------------------- 10.62s
+redmine : mysql. create DB ------------------------------------------------------------------------------------------------------------------ 10.60s
+redmine : MySQL. Create user ---------------------------------------------------------------------------------------------------------------- 10.38s
+redmine : lineinfile ------------------------------------------------------------------------------------------------------------------------ 10.10s
+redmine : Add redmine.my to host file ------------------------------------------------------------------------------------------------------- 10.07s
+redmine : debug ------------------------------------------------------------------------------------------------------------------------------ 0.15s
+ansible@ansiblehost:/vagrant/workshop$

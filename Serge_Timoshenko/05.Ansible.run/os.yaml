@@ -1,0 +1,12 @@
+---
+- hosts: ec_htp
+  tasks:
+    - name: OS/version
+      debug:
+        msg: "{{ hostvars[inventory_hostname]. ansible_distribution}}"
+    - name: Mount point/capacity/used
+      debug:
+        msg: "{{ hostvars[inventory_hostname].ansible_mounts}}"
+    - name: RAM/capacity/free
+      debug:
+        msg: "{{ hostvars[inventory_hostname].ansible_memory_mb}}"
