@@ -1,5 +1,0 @@
----
-- hosts: redmine
-  become: true
-  roles:
-  - redmine
