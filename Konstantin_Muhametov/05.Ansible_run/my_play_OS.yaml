@@ -1,0 +1,22 @@
+---
+- hosts: ec_htp
+  become: true
+  tasks:
+  - name: OS_version
+    debug:
+      msg:
+      - "{{ ansible_distribution }}"
+      - "{{ ansible_distribution_version }}"
+
+  - name: Mount
+    debug:
+      msg:
+      - Mount point: "{{ ansible_mounts[0].mount }}"
+      - Size available: "{{ ansible_mounts[0].size_available }}"
+      - Total size: "{{ ansible_mounts[0].size_total }}"
+
+  - name: Memory
+    debug:
+      msg:
+      - Memory: "{{ ansible_memory_mb.real }}"
+        

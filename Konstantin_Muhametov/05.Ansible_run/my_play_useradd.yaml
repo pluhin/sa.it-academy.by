@@ -1,0 +1,19 @@
+- hosts: ec_htp
+  become: true
+
+  tasks:
+  - name: User_add
+    user:
+      name: test123
+      shell: /bin/bash
+      password: password
+
+  - name: SSH
+    authorized_key:
+      user: test123
+      key: "{{ lookup('file', '/home/moongs/.ssh/id_rsa.pub') }}"
+
+  - name: Edit sudoers file
+    lineinfile:
+      path: /etc/sudoers
+      line: 'test123 ALL=(ALL) NOPASSWD: ALL'
