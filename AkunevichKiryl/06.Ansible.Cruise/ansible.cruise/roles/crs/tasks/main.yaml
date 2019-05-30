@@ -1,0 +1,45 @@
+---
+- name: Debian deploy
+  include: Deb.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Centos deploy
+  include: Cent.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: COPY INDEX HTML
+  copy:
+    src: index.html 
+    dest: "/var/www/html"
+    mode: 0555
+
+- name: RESTART NGINX
+  service: name=nginx state=restarted
+
+
+- name: TEMPLATE INDEX.J2
+  template:
+    src: index.j2
+    dest: "/var/www/html/index1.html"
+    mode: 0555
+           
+- name: RESTART NGINX
+  service: name=nginx state=restarted
+
+- name: Check NGINX configs
+  shell: "/usr/sbin/nginx -t"
+  register: nginx_config_status
+
+- name: NGINX test status
+  debug:
+    msg: "{{ nginx_config_status }}"
+
+- name: Check status template
+  command: cat /var/www/html/index1.html 
+  register: index1
+
+- name: Template  test status
+  debug:
+    msg: "{{ index1 }}"
+  
+

@@ -1,0 +1,9 @@
+---
+- name: Jenkins_Depend_Install_for_Debian
+  apt:
+   name: "{{apt_jenkins_list}}" 
+   state: present
+
+
+
+

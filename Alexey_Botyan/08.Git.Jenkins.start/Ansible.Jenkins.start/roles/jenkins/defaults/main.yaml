@@ -1,0 +1,4 @@
+yum_jenkins_packages: 
+  - java
+  - git 
+  - wget
