@@ -1,0 +1,127 @@
+pipeline  {
+    agent any
+
+    options {
+        timestamps()
+        ansiColor('xterm')
+    }
+
+    environment {
+        BUILD = "${env.BUILD_ID}"
+    }
+
+    parameters {
+        string(name: 'repo_url', defaultValue: 'git@github.com:dmpogorelov/jenkins.git', description: 'Github repo url')
+        booleanParam(name: 'remove_old', defaultValue: true, description: 'Do you want remove old files?')
+        booleanParam(name: 'create_branch', defaultValue: false, description: 'Do you want create new branch')
+        string(name: 'test_branch', defaultValue: 'new_test_branch', description: 'Please enter name for new branch')
+        //booleanParam(name:'flag', defaultValue:'false', description:'Successfull flag')
+    }
+
+    stages {
+        stage ('Clone git repository') {
+            steps {
+                deleteDir()
+                git url: "${params.repo_url}"
+            }
+        }
+
+        stage ('Check repository') {
+            steps {
+                sh 'ls -ltr'
+            }
+        }
+
+        stage ('Create branch') {
+            when {
+                expression {
+                    params.create_branch == true
+                }
+            }
+            steps {
+                sh """
+                git checkout -b ${params.test_branch}
+                git branch
+                git checkout ${params.test_branch}
+                ls -ltr
+                """
+            }
+        }
+
+        stage ('Remove old builds if need') {
+            when {
+                expression {
+                    params.remove_old == true
+                }
+            }
+            steps {
+                sh "rm -f *.tar.gz"
+            }
+        }
+
+        stage ('Create and pack file') {
+            steps {
+                sh """
+                dd if=/dev/zero of=file_${BUILD}.txt count=1024 bs=1024
+                tar cvzf /tmp/file_${BUILD}.tar.gz ./file_${BUILD}.txt
+                rm -f file_${BUILD}.txt
+                mv /tmp/file_${BUILD}.tar.gz ./
+                """
+            }
+        }
+
+        stage ('Check archive') {
+            steps {
+                sh "tar -tvf file_${BUILD}.tar.gz"
+            }
+        }
+
+        stage ('Push new build to repository') {
+            when {
+                expression {
+                    params.create_branch == true
+                }
+            }
+            steps {
+                sh """
+                git checkout ${params.test_branch}
+                git add --all
+                git commit -m 'add new build ver ${BUILD}'
+                git push origin ${params.test_branch} -f
+                """
+            }
+        }
+
+        stage ('Testing') {
+            steps {
+                deleteDir()
+                sh """
+                echo "Check that folder empty"
+                ls -ltr
+                echo "Download repo"
+                """
+                git url: "${params.repo_url}"
+                sh """
+                echo "Checkout to new branch"
+                git checkout ${params.test_branch}
+                ls -ltr
+                """
+                script {
+                    if (fileExists('file_${BUILD}.tar.gz')) {                    
+                        input message: "Test passed"
+                    }
+                }
+            }
+        }
+    }
+    post {
+        success {
+            slackSend (color: '#00CC00', message: "Job ${env.JOB_NAME} finished successfully. Build: ${env.BUILD_NUMBER}")
+        }
+        failure {
+            slackSend (color: '#FF0000', message: "Job ${env.JOB_NAME} failed. Build: ${env.BUILD_NUMBER}")
+        }
+    }
+
+}
+

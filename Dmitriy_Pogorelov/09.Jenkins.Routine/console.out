@@ -1,0 +1,235 @@
+Started by upstream project "09.Jenkins.Routine/40.Remove_nmap" build number 13
+originally caused by:
+ Started by upstream project "09.Jenkins.Routine/30.Get_hosts" build number 32
+ originally caused by:
+  Started by upstream project "09.Jenkins.Routine/20.Install_nmap" build number 17
+  originally caused by:
+   Started by upstream project "09.Jenkins.Routine/10.Check_host_avaliable" build number 11
+   originally caused by:
+    Started by user Dmitriy Pogorelov
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/09.Jenkins.Routine/50.Console_output
+[50.Console_output] $ /bin/sh -xe /tmp/jenkins11192855550522775023.sh
++ curl http://dmpogorelov:admin@jenkins.local/job/09.Jenkins.Routine/job/10.Check_host_avaliable/11/consoleText
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100  1156  100  1156    0     0   9880      0 --:--:-- --:--:-- --:--:--  9796
+100  1156  100  1156    0     0   9796      0 --:--:-- --:--:-- --:--:--  9796
+Started by user Dmitriy Pogorelov
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/09.Jenkins.Routine/10.Check_host_avaliable
+[10.Check_host_avaliable] $ sshpass ******** ansible 192.168.253.142 -m ping -f 5 -u user -k
+[DEPRECATION WARNING]: Distribution Ubuntu 16.04 on host 192.168.253.142 should
+ use /usr/bin/python3, but is using /usr/bin/python for backward compatibility 
+with prior Ansible releases. A future Ansible release will default to using the
+ discovered platform python for this host. See https://docs.ansible.com/ansible
+/2.8/reference_appendices/interpreter_discovery.html for more information. This
+ feature will be removed in version 2.12. Deprecation warnings can be disabled 
+by setting deprecation_warnings=False in ansible.cfg.
+192.168.253.142 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    }, 
+    "changed": false, 
+    "ping": "pong"
+}
+[10.Check_host_avaliable] $ /bin/sh -xe /tmp/jenkins15932515227940439932.sh
++ echo build_10=11
++ echo job_name_10=10.Check_host_avaliable
+Triggering a new build of 09.Jenkins.Routine » 20.Install_nmap
+Finished: SUCCESS
++ curl http://dmpogorelov:admin@jenkins.local/job/09.Jenkins.Routine/job/20.Install_nmap/17/consoleText
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100  2279  100  2279    0     0  20718      0 --:--:-- --:--:-- --:--:-- 20718
+Started by upstream project "09.Jenkins.Routine/10.Check_host_avaliable" build number 11
+originally caused by:
+ Started by user Dmitriy Pogorelov
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/09.Jenkins.Routine/20.Install_nmap
+[20.Install_nmap] $ /bin/bash /tmp/jenkins9897415847699829025.sh
+Get:1 http://security.ubuntu.com/ubuntu xenial-security InRelease [109 kB]
+Hit:2 http://us.archive.ubuntu.com/ubuntu xenial InRelease
+Get:3 http://us.archive.ubuntu.com/ubuntu xenial-updates InRelease [109 kB]
+Hit:4 http://us.archive.ubuntu.com/ubuntu xenial-backports InRelease
+Fetched 218 kB in 10s (20.0 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  nmap
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+0 upgraded, 1 newly installed, 0 to remove and 105 not upgraded.
+Need to get 0 B/4,638 kB of archives.
+After this operation, 21.3 MB of additional disk space will be used.
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
+Selecting previously unselected package nmap.
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 126227 files and directories currently installed.)
+Preparing to unpack .../nmap_7.01-2ubuntu2_amd64.deb ...
+Unpacking nmap (7.01-2ubuntu2) ...
+Processing triggers for man-db (2.7.5-1) ...
+Setting up nmap (7.01-2ubuntu2) ...
+Triggering a new build of 09.Jenkins.Routine » 30.Get_hosts
+Finished: SUCCESS
++ curl http://dmpogorelov:admin@jenkins.local/job/09.Jenkins.Routine/job/30.Get_hosts/32/consoleText
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100  2677  100  2677    0     0  21942      0 --:--:-- --:--:-- --:--:-- 21942
+Started by upstream project "09.Jenkins.Routine/20.Install_nmap" build number 17
+originally caused by:
+ Started by upstream project "09.Jenkins.Routine/10.Check_host_avaliable" build number 11
+ originally caused by:
+  Started by user Dmitriy Pogorelov
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/09.Jenkins.Routine/30.Get_hosts
+[30.Get_hosts] $ sshpass ******** ansible 192.168.253.142 -m shell -a "nmap -n -sn 192.168.253.0/24 -oG -" -f 5 -u user -k
+[DEPRECATION WARNING]: Distribution Ubuntu 16.04 on host 192.168.253.142 should
+ use /usr/bin/python3, but is using /usr/bin/python for backward compatibility 
+with prior Ansible releases. A future Ansible release will default to using the
+ discovered platform python for this host. See https://docs.ansible.com/ansible
+/2.8/reference_appendices/interpreter_discovery.html for more information. This
+ feature will be removed in version 2.12. Deprecation warnings can be disabled 
+by setting deprecation_warnings=False in ansible.cfg.
+192.168.253.142 | CHANGED | rc=0 >>
+# Nmap 7.01 scan initiated Mon May 27 21:18:12 2019 as: nmap -n -sn -oG - 192.168.253.0/24
+Host: 192.168.253.1 ()	Status: Up
+Host: 192.168.253.5 ()	Status: Up
+Host: 192.168.253.10 ()	Status: Up
+Host: 192.168.253.14 ()	Status: Up
+Host: 192.168.253.20 ()	Status: Up
+Host: 192.168.253.23 ()	Status: Up
+Host: 192.168.253.27 ()	Status: Up
+Host: 192.168.253.31 ()	Status: Up
+Host: 192.168.253.38 ()	Status: Up
+Host: 192.168.253.81 ()	Status: Up
+Host: 192.168.253.112 ()	Status: Up
+Host: 192.168.253.130 ()	Status: Up
+Host: 192.168.253.131 ()	Status: Up
+Host: 192.168.253.132 ()	Status: Up
+Host: 192.168.253.133 ()	Status: Up
+Host: 192.168.253.134 ()	Status: Up
+Host: 192.168.253.135 ()	Status: Up
+Host: 192.168.253.137 ()	Status: Up
+Host: 192.168.253.138 ()	Status: Up
+Host: 192.168.253.139 ()	Status: Up
+Host: 192.168.253.140 ()	Status: Up
+Host: 192.168.253.141 ()	Status: Up
+Host: 192.168.253.142 ()	Status: Up
+Host: 192.168.253.143 ()	Status: Up
+Host: 192.168.253.144 ()	Status: Up
+Host: 192.168.253.145 ()	Status: Up
+Host: 192.168.253.160 ()	Status: Up
+Host: 192.168.253.162 ()	Status: Up
+Host: 192.168.253.179 ()	Status: Up
+Host: 192.168.253.180 ()	Status: Up
+Host: 192.168.253.187 ()	Status: Up
+Host: 192.168.253.210 ()	Status: Up
+Host: 192.168.253.214 ()	Status: Up
+Host: 192.168.253.215 ()	Status: Up
+Host: 192.168.253.231 ()	Status: Up
+# Nmap done at Mon May 27 21:18:17 2019 -- 256 IP addresses (35 hosts up) scanned in 4.64 seconds
+[30.Get_hosts] $ /bin/sh -xe /tmp/jenkins6298565349627631382.sh
++ echo build_30=32
++ echo job_name_30=30.Get_hosts
+Triggering a new build of 09.Jenkins.Routine » 40.Remove_nmap
+Finished: SUCCESS
++ curl http://dmpogorelov:admin@jenkins.local/job/09.Jenkins.Routine/job/40.Remove_nmap/13/consoleText
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100  2667  100  2667    0     0  11205      0 --:--:-- --:--:-- --:--:-- 11205
+Started by upstream project "09.Jenkins.Routine/30.Get_hosts" build number 32
+originally caused by:
+ Started by upstream project "09.Jenkins.Routine/20.Install_nmap" build number 17
+ originally caused by:
+  Started by upstream project "09.Jenkins.Routine/10.Check_host_avaliable" build number 11
+  originally caused by:
+   Started by user Dmitriy Pogorelov
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/09.Jenkins.Routine/40.Remove_nmap
+[40.Remove_nmap] $ sshpass ******** ansible 192.168.253.142 -m shell -a "sudo apt-get remove nmap -y" -f 5 -u user -k
+ [WARNING]: Consider using 'become', 'become_method', and 'become_user' rather
+than running sudo
+[DEPRECATION WARNING]: Distribution Ubuntu 16.04 on host 192.168.253.142 should
+ use /usr/bin/python3, but is using /usr/bin/python for backward compatibility 
+with prior Ansible releases. A future Ansible release will default to using the
+ discovered platform python for this host. See https://docs.ansible.com/ansible
+/2.8/reference_appendices/interpreter_discovery.html for more information. This
+ feature will be removed in version 2.12. Deprecation warnings can be disabled 
+by setting deprecation_warnings=False in ansible.cfg.
+192.168.253.142 | CHANGED | rc=0 >>
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages were automatically installed and are no longer required:
+  libblas-common libblas3 liblinear3 liblua5.2-0 lua-lpeg ndiff python-bs4
+  python-chardet python-html5lib python-lxml python-pkg-resources python-six
+Use 'sudo apt autoremove' to remove them.
+The following packages will be REMOVED:
+  nmap
+0 upgraded, 0 newly installed, 1 to remove and 105 not upgraded.
+After this operation, 21.3 MB disk space will be freed.
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 126959 files and directories currently installed.)
+Removing nmap (7.01-2ubuntu2) ...
+Processing triggers for man-db (2.7.5-1) ...
+[40.Remove_nmap] $ /bin/sh -xe /tmp/jenkins3593773675177521129.sh
++ echo build_40=13
++ echo job_name_40=40.Remove_nmap
+Triggering a new build of 09.Jenkins.Routine » 50.Console_output
+Finished: SUCCESS
+Finished: SUCCESS

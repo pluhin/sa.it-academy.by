@@ -1,0 +1,180 @@
+Started by user Dmitriy Pogorelov
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/10.Jenkins.As.Code
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timestamps
+[Pipeline] {
+[Pipeline] ansiColor
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Clone git repository)
+[Pipeline] deleteDir
+[Pipeline] git
+23:22:52  No credentials specified
+23:22:52  Cloning the remote Git repository
+23:22:52  Cloning repository git@github.com:dmpogorelov/jenkins.git
+23:22:52   > git init /var/lib/jenkins/workspace/10.Jenkins.As.Code # timeout=10
+23:22:52  Fetching upstream changes from git@github.com:dmpogorelov/jenkins.git
+23:22:52   > git --version # timeout=10
+23:22:52   > git fetch --tags --progress git@github.com:dmpogorelov/jenkins.git +refs/heads/*:refs/remotes/origin/*
+23:22:54   > git config remote.origin.url git@github.com:dmpogorelov/jenkins.git # timeout=10
+23:22:54   > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+23:22:54   > git config remote.origin.url git@github.com:dmpogorelov/jenkins.git # timeout=10
+23:22:54  Fetching upstream changes from git@github.com:dmpogorelov/jenkins.git
+23:22:54   > git fetch --tags --progress git@github.com:dmpogorelov/jenkins.git +refs/heads/*:refs/remotes/origin/*
+23:22:55   > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+23:22:55   > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+23:22:55  Checking out Revision 4d85117c4d54f2efc5dac9d269182a4d847c5ed0 (refs/remotes/origin/master)
+23:22:55   > git config core.sparsecheckout # timeout=10
+23:22:55   > git checkout -f 4d85117c4d54f2efc5dac9d269182a4d847c5ed0
+23:22:55   > git branch -a -v --no-abbrev # timeout=10
+23:22:55   > git checkout -b master 4d85117c4d54f2efc5dac9d269182a4d847c5ed0
+23:22:55  Commit message: "add line"
+23:22:55   > git rev-list --no-walk 4d85117c4d54f2efc5dac9d269182a4d847c5ed0 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Check repository)
+[Pipeline] sh
+23:22:56  + ls -ltr
+23:22:56  total 4
+23:22:56  -rw-r--r-- 1 jenkins jenkins 34 May 28 23:22 README.md
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Create branch)
+[Pipeline] sh
+23:22:56  + git checkout -b new_test_branch
+23:22:56  Switched to a new branch 'new_test_branch'
+23:22:56  + git branch
+23:22:56    master
+23:22:56  * new_test_branch
+23:22:56  + git checkout new_test_branch
+23:22:56  Already on 'new_test_branch'
+23:22:56  + ls -ltr
+23:22:56  total 4
+23:22:56  -rw-r--r-- 1 jenkins jenkins 34 May 28 23:22 README.md
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Remove old builds if need)
+[Pipeline] sh
+23:22:56  + rm -f *.tar.gz
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Create and pack file)
+[Pipeline] sh
+23:22:57  + dd if=/dev/zero of=file_46.txt count=1024 bs=1024
+23:22:57  1024+0 records in
+23:22:57  1024+0 records out
+23:22:57  1048576 bytes (1.0 MB, 1.0 MiB) copied, 0.00695143 s, 151 MB/s
+23:22:57  + tar cvzf /tmp/file_46.tar.gz ./file_46.txt
+23:22:57  ./file_46.txt
+23:22:57  + rm -f file_46.txt
+23:22:57  + mv /tmp/file_46.tar.gz ./
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Check archive)
+[Pipeline] sh
+23:22:57  + tar -tvf file_46.tar.gz
+23:22:57  -rw-r--r-- jenkins/jenkins 1048576 2019-05-28 23:22 ./file_46.txt
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push new build to repository)
+[Pipeline] sh
+23:22:58  + git checkout new_test_branch
+23:22:58  Already on 'new_test_branch'
+23:22:58  + git add --all
+23:22:58  + git commit -m add new build ver 46
+23:22:58  [new_test_branch da5611d] add new build ver 46
+23:22:58   Committer: Jenkins <jenkins@jenkins.local>
+23:22:58  Your name and email address were configured automatically based
+23:22:58  on your username and hostname. Please check that they are accurate.
+23:22:58  You can suppress this message by setting them explicitly. Run the
+23:22:58  following command and follow the instructions in your editor to edit
+23:22:58  your configuration file:
+23:22:58  
+23:22:58      git config --global --edit
+23:22:58  
+23:22:58  After doing this, you may fix the identity used for this commit with:
+23:22:58  
+23:22:58      git commit --amend --reset-author
+23:22:58  
+23:22:58   1 file changed, 0 insertions(+), 0 deletions(-)
+23:22:58   create mode 100644 file_46.tar.gz
+23:22:58  + git push origin new_test_branch -f
+23:23:02  To github.com:dmpogorelov/jenkins.git
+23:23:02   + 35496a0...da5611d new_test_branch -> new_test_branch (forced update)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Testing)
+[Pipeline] deleteDir
+[Pipeline] sh
+23:23:02  + echo Check that folder empty
+23:23:02  Check that folder empty
+23:23:02  + ls -ltr
+23:23:02  total 0
+23:23:02  + echo Download repo
+23:23:02  Download repo
+[Pipeline] git
+23:23:02  No credentials specified
+23:23:02  Cloning the remote Git repository
+23:23:02  Cloning repository git@github.com:dmpogorelov/jenkins.git
+23:23:02   > git init /var/lib/jenkins/workspace/10.Jenkins.As.Code # timeout=10
+23:23:02  Fetching upstream changes from git@github.com:dmpogorelov/jenkins.git
+23:23:02   > git --version # timeout=10
+23:23:02   > git fetch --tags --progress git@github.com:dmpogorelov/jenkins.git +refs/heads/*:refs/remotes/origin/*
+23:23:06   > git config remote.origin.url git@github.com:dmpogorelov/jenkins.git # timeout=10
+23:23:06   > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+23:23:06   > git config remote.origin.url git@github.com:dmpogorelov/jenkins.git # timeout=10
+23:23:06  Fetching upstream changes from git@github.com:dmpogorelov/jenkins.git
+23:23:06   > git fetch --tags --progress git@github.com:dmpogorelov/jenkins.git +refs/heads/*:refs/remotes/origin/*
+23:23:09   > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+23:23:09   > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+23:23:09  Checking out Revision 4d85117c4d54f2efc5dac9d269182a4d847c5ed0 (refs/remotes/origin/master)
+23:23:09   > git config core.sparsecheckout # timeout=10
+23:23:09   > git checkout -f 4d85117c4d54f2efc5dac9d269182a4d847c5ed0
+23:23:09   > git branch -a -v --no-abbrev # timeout=10
+23:23:09   > git checkout -b master 4d85117c4d54f2efc5dac9d269182a4d847c5ed0
+23:23:09  Commit message: "add line"
+[Pipeline] sh
+23:23:09  + echo Checkout to new branch
+23:23:09  Checkout to new branch
+23:23:09  + git checkout new_test_branch
+23:23:09  Switched to a new branch 'new_test_branch'
+23:23:09  Branch 'new_test_branch' set up to track remote branch 'new_test_branch' from 'origin'.
+23:23:09  + ls -ltr
+23:23:09  total 8
+23:23:09  -rw-r--r-- 1 jenkins jenkins   34 May 28 23:23 README.md
+23:23:09  -rw-r--r-- 1 jenkins jenkins 1140 May 28 23:23 file_46.tar.gz
+[Pipeline] script
+[Pipeline] {
+[Pipeline] fileExists
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] slackSend
+23:23:09  Slack Send Pipeline step running, values are - baseUrl: https://sa-itacademy-by.slack.com/services/hooks/jenkins-ci/, teamDomain: <empty>, channel: sa_dmpogorelov_tst, color: #00CC00, botUser: false, tokenCredentialId: slack
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // ansiColor
+[Pipeline] }
+[Pipeline] // timestamps
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
