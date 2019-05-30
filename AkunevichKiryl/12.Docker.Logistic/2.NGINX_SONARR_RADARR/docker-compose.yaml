@@ -1,0 +1,51 @@
+version : '3'
+services:
+    docker:
+        image : nginx:latest
+
+        volumes:
+            - ./dock/docker.conf:/etc/nginx/conf.d/docker.conf
+            - ./dock/index.html:/usr/share/nginx/html/index.html
+        ports:
+            - 80:80
+
+
+    sonarr:
+        image: linuxserver/sonarr
+        container_name: sonarr
+
+        depends_on:
+            - docker
+
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/London
+        volumes:
+            - /path/to/sonarr/config:/config
+            - /path/to/nzbget/downloads:/downloads
+            - /path/to/plex/Shows:/tv
+
+        ports:
+            - 8989:8989
+        restart: unless-stopped
+
+    radarr:
+        image: linuxserver/radarr
+        container_name: radarr
+        depends_on:
+            - docker
+
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/London
+        volumes:
+            - /path/to/radarr/config:/config
+            - /path/to/nzbget/downloads:/downloads
+            - /path/to/plex/Movies:/movies
+
+        ports:
+            - 7878:7878
+        restart: unless-stopped
+        
