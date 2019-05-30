@@ -1,0 +1,112 @@
+Started by upstream project "Homework_09/09_Homework.01" build number 2
+originally caused by:
+ Started by user support
+Building in workspace /var/lib/jenkins/workspace/Homework_09/09_Homework.02
+[09_Homework.02] $ ansible-playbook nmap.yaml -f 5
+
+PLAY [ub_01] *******************************************************************
+
+TASK [setup] *******************************************************************
+ok: [ub_01]
+
+TASK [Update] ******************************************************************
+changed: [ub_01]
+
+TASK [Install Nmap] ************************************************************
+changed: [ub_01]
+
+TASK [Nmap scan] ***************************************************************
+changed: [ub_01]
+
+TASK [debug] *******************************************************************
+ok: [ub_01] => {
+    "msg": {
+        "changed": true, 
+        "cmd": "nmap -sP 192.168.253.0/24", 
+        "delta": "0:00:10.376402", 
+        "end": "2019-05-28 23:14:04.421546", 
+        "rc": 0, 
+        "start": "2019-05-28 23:13:54.045144", 
+        "stderr": "", 
+            "Starting Nmap 7.01 ( https://nmap.org ) at 2019-05-28 23:13 +03", 
+            "Nmap scan report for 192.168.253.10", 
+            "Host is up (0.0011s latency).", 
+            "MAC Address: D2:84:7E:EE:4B:B4 (Unknown)", 
+            "Nmap scan report for 192.168.253.81", 
+            "Host is up (0.00098s latency).", 
+            "MAC Address: D2:70:08:FA:4E:09 (Unknown)", 
+            "Nmap scan report for 192.168.253.112", 
+            "Host is up (0.010s latency).", 
+            "MAC Address: 00:0A:F5:00:11:64 (Airgo Networks)", 
+            "Nmap scan report for 192.168.253.130", 
+            "Host is up (-0.097s latency).", 
+            "MAC Address: C6:B6:22:B5:8B:7F (Unknown)", 
+            "Nmap scan report for 192.168.253.131", 
+            "Host is up (-0.097s latency).", 
+            "MAC Address: 82:B4:E3:E1:D1:C3 (Unknown)", 
+            "Nmap scan report for 192.168.253.132", 
+            "Host is up (-0.097s latency).", 
+            "MAC Address: 66:01:54:A7:86:27 (Unknown)", 
+            "Nmap scan report for 192.168.253.133", 
+            "Host is up (-0.097s latency).", 
+            "MAC Address: 22:0D:D0:E0:4B:2A (Unknown)", 
+            "Nmap scan report for 192.168.253.134", 
+            "Host is up (-0.097s latency).", 
+            "MAC Address: 3E:6C:FF:F2:60:8B (Unknown)", 
+            "Nmap scan report for 192.168.253.137", 
+            "Host is up (-0.097s latency).", 
+            "MAC Address: 1E:4F:8C:30:0E:4B (Unknown)", 
+            "Nmap scan report for 192.168.253.138", 
+            "Host is up (-0.097s latency).", 
+            "MAC Address: D2:AA:22:BD:43:FC (Unknown)", 
+            "Nmap scan report for 192.168.253.139", 
+            "Host is up (-0.097s latency).", 
+            "MAC Address: 7A:82:A0:7F:DD:6A (Unknown)", 
+            "Nmap scan report for 192.168.253.140", 
+            "Host is up (-0.097s latency).", 
+            "MAC Address: 12:72:4B:8C:FF:EE (Unknown)", 
+            "Nmap scan report for 192.168.253.141", 
+            "Host is up (-0.097s latency).", 
+            "MAC Address: DE:A7:6B:87:7C:18 (Unknown)", 
+            "Nmap scan report for 192.168.253.142", 
+            "Host is up (-0.097s latency).", 
+            "MAC Address: 56:CC:FC:BF:A0:79 (Unknown)", 
+            "Nmap scan report for 192.168.253.143", 
+            "Host is up (-0.099s latency).", 
+            "MAC Address: 22:36:FF:7D:92:3C (Unknown)", 
+            "Nmap scan report for 192.168.253.144", 
+            "Host is up (0.00064s latency).", 
+            "MAC Address: 42:06:F0:7D:13:05 (Unknown)", 
+            "Nmap scan report for 192.168.253.145", 
+            "Host is up (-0.099s latency).", 
+            "MAC Address: 02:2E:D6:49:EB:E6 (Unknown)", 
+            "Nmap scan report for 192.168.253.160", 
+            "Host is up (0.0011s latency).", 
+            "MAC Address: 92:FF:5A:54:75:F8 (Unknown)", 
+            "Nmap scan report for 192.168.253.162", 
+            "Host is up (-0.100s latency).", 
+            "MAC Address: AC:1F:6B:8E:45:4E (Unknown)", 
+            "Nmap scan report for 192.168.253.179", 
+            "Host is up (-0.098s latency).", 
+            "MAC Address: AC:1F:6B:C5:1D:60 (Unknown)", 
+            "Nmap scan report for 192.168.253.180", 
+            "Host is up (-0.098s latency).", 
+            "MAC Address: AC:1F:6B:BA:B5:82 (Unknown)", 
+            "Nmap scan report for 192.168.253.231", 
+            "Host is up (0.00036s latency).", 
+            "MAC Address: B4:FB:E4:73:2D:B5 (Unknown)", 
+            "Nmap scan report for 192.168.253.135", 
+            "Host is up.", 
+            "Nmap done: 256 IP addresses (23 hosts up) scanned in 10.36 seconds"
+        ], 
+        "warnings": []
+    }
+}
+
+TASK [Remove Nmap] *************************************************************
+changed: [ub_01]
+
+PLAY RECAP *********************************************************************
+ub_01                      : ok=6    changed=4    unreachable=0    failed=0   
+
+Finished: SUCCESS
