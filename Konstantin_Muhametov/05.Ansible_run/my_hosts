@@ -1,0 +1,8 @@
+[cent]
+centos_1 ansible_host=192.168.254.50
+[ub]
+ubuntu_1 ansible_host=192.168.254.51
+
+[ec_htp:children]
+cent
+ub

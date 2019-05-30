@@ -1,0 +1,6 @@
+all_hosts:
+  hosts:
+    jenkins:
+      ansible_user: root
+      ansible_host: 192.168.100.26
+      

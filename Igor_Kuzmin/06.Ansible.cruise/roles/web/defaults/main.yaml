@@ -1,0 +1,7 @@
+---
+yum_cent_packages:
+  - nginx
+apt_ubuntu_packages:
+  - nginx
+
+default_htdocs: "/var/www/html/"

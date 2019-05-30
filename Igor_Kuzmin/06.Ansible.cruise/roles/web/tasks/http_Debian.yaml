@@ -1,0 +1,16 @@
+---
+- name: Install NGINX on Ubuntu18
+  apt:
+    name: "{{ apt_ubuntu_packages }}"
+    state: present
+    
+- name: Started and Enable NGINX Ubuntu18
+  service: 
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Copy index.html on Ubuntu18
+  template:
+    src: index.html
+    dest: /var/www/html/index.html

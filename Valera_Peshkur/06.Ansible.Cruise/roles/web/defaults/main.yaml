@@ -1,0 +1,23 @@
+---
+yum_httpd_packages:
+  - epel-release
+  - nginx
+
+apt_httpd_packages:
+  - nginx
+
+path_for_html: "/usr/share/nginx/html"
+
+var_hosts: "192.168.100.221"
+
+#when: ansible_os_family == 'RedHat'
+
+#path_for_html: "/var/www/html"
+#when: ansible_os_family == 'Debian'
+ 
+
+#default_htdocs: "/var/www/html"
+ 
+#virtual_hosts:
+#  - { name: "local_ubuntu.site", ip: "{{ hostvars[\"sa_ub\"].ansible_host}}"}
+#  - { name: "local_cent.site", ip: "{{ hostvars[\"sa_cent\"].ansible_host}}"}

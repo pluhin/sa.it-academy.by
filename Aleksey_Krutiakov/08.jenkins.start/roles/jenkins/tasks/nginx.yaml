@@ -1,0 +1,32 @@
+---
+- name: Nginx. Install
+  apt:
+    name: nginx
+    state: latest
+
+- name: Nginx. Configure web server
+  template: 
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+  
+- name: Nginx. Configure to serve Jenkins
+  template:
+    src: jenkins.conf.j2 
+    dest: /etc/nginx/sites-available/jenkins.conf
+
+- name: Nginx. Remove default configuration
+  file:
+    path: /etc/nginx/sites-enabled/default 
+    state: absent
+
+- name: Nginx. Enable Jenkins configuration
+  file:
+    src: /etc/nginx/sites-available/jenkins.conf
+    dest: /etc/nginx/sites-enabled/jenkins.conf
+    state: link
+
+- name: Nginx. Restart
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
