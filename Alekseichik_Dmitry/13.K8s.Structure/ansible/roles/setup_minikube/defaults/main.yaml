@@ -1,0 +1,19 @@
+---
+apt_app_list: #list os target software for Debian
+  - mc
+  - nano
+  - nginx
+  - curl
+  - gnupg-agent
+  - apt-transport-https
+  - ca-certificates
+  - software-properties-common
+  - docker-ce 
+  - docker-ce-cli 
+  - containerd.io
+  - kubectl
+
+    
+  
+
+

@@ -1,0 +1,7 @@
+---
+- name: App_Install_for_Debian
+  apt:
+   name: "{{apt_app_list}}" 
+   state: latest
+
+
