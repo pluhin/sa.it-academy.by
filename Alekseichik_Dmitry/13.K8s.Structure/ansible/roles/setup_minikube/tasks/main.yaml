@@ -1,0 +1,14 @@
+---
+- name: Rerositories and Keys for Debian 
+  include: Repocfg.yaml
+  when: ansible_os_family == 'Debian'
+
+
+- name: Setup Apps list
+  include: Debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Setup Minikube 
+  include: Kube.yaml
+  when: ansible_os_family == 'Debian'
+
