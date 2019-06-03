@@ -1,0 +1,20 @@
+- name: Jenkins. SSH Key Generate
+  shell: runuser -l jenkins -c 'echo -e "\n\n\n" | ssh-keygen -t rsa'
+
+# Printing JENKINS SSH keys
+
+- name: Show Jenkins SSH RSA PRIVATE key
+  shell: runuser -l jenkins -c 'cat ~/.ssh/id_rsa'
+  register: sshrsa
+- name: show sshrsa
+  debug:
+    var: sshrsa.stdout_lines
+
+- name: Show Jenkins SSH RSA PUBLIC key
+  shell: runuser -l jenkins -c 'cat ~/.ssh/id_rsa.pub'
+  register: sshrsa
+- name: show sshrsa
+  debug:
+    var: sshrsa.stdout_lines
+
+

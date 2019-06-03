@@ -1,0 +1,85 @@
+---
+#Check OS and install
+- name: Include Debian deploy
+  include: http_Debian.yaml
+  when: ansible_os_family == 'Debian'
+  tags:
+    - install
+- name: Include Cent deploy
+  include: http_Cent.yaml
+  when: ansible_os_family == 'RedHat'
+  tags:
+    - install
+
+- name: Set fact on Centos 
+  set_fact: 
+    nginx_www_root: '/usr/share/nginx/html'
+    nginx_conf_block_directory: 'conf.d'
+  when: ansible_os_family == 'RedHat'
+
+- name: Set fact on Debian
+  set_fact:
+    nginx_www_root: '/var/www/html'
+    nginx_conf_block_directory: 'sites-available'
+  when: ansible_os_family == 'Debian'
+
+- name: Create block conf file
+  file:
+    path: "/etc/nginx/{{ nginx_conf_block_directory }}/{{ item }}"
+    state: touch 
+  with_items: "{{ nginx_site_name }}"
+  tags:
+    - block
+
+- name: Create site dir
+  file:
+    path: "{{ nginx_www_root }}/{{ item }}"
+    state: directory
+  with_items: "{{ nginx_site_name }}"
+
+- name: Setup. index.html
+  copy:
+    src: "index.html"
+    dest: "{{ nginx_www_root }}/{{ item }}"
+  with_items: "{{ nginx_site_name }}"
+
+- name: Template. virtualhost
+  template:
+    src: "virtualhosts.j2"
+#    backup: yes
+    dest: "/etc/nginx/{{ nginx_conf_block_directory }}/{{ item }}"
+  with_items: "{{ nginx_site_name }}"
+
+- name: Rename in sitename.conf on Centos
+  command: mv "/etc/nginx/{{ nginx_conf_block_directory }}/{{ item }}" "/etc/nginx/{{ nginx_conf_block_directory }}/{{ item }}.conf"
+  when: ansible_os_family == 'RedHat'
+  with_items: "{{ nginx_site_name }}"
+
+- name: Clear on Centos
+  file:
+    path: "/etc/nginx/{{ nginx_conf_block_directory }}/{{ item }}" 
+    state: absent
+  when: ansible_os_family == 'RedHat'
+  with_items: "{{ nginx_site_name }}"
+
+- name: Template. index.html
+  template:
+    src: "index.html.j2"
+    dest: "{{ nginx_www_root }}/{{ item }}/index.html"
+#    backup: yes
+  with_items: "{{ nginx_site_name }}"
+
+- name: Symlink for Debian
+  file:
+    src: "/etc/nginx/sites-available/{{ item }}"
+    dest: "/etc/nginx/sites-enabled/{{ item }}"
+    state: link
+  with_items: "{{ nginx_site_name }}"
+  when: ansible_os_family == 'Debian'
+
+#Start service
+- name: Nginx. Enable and start
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes

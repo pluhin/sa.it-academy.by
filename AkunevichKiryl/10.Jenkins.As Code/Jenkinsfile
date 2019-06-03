@@ -1,0 +1,54 @@
+pipeline { 
+    agent any 
+     environment {
+        BUILD = "${env.BUILD_ID}"
+    }
+    
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                git url: 'git@github.com:greedguy1991/sa.it-academy.by.git'
+            }
+        }
+        stage('Checking repository'){
+            steps { 
+                sh "ls -l"
+            }
+        }
+        stage('Edit README') {
+            steps {
+                sh '''
+                echo "BY_Akunevich_Kiryl_AnD_$RANDOM" >> README.md
+                '''
+                
+            }
+        }
+        stage('View README') {
+            steps {
+                sh "cat README.md"
+            }
+        }
+        
+        stage('Packing test') {
+            steps {
+            
+                sh "git add -A"
+                sh "git commit -m 'By Akynevich_kiryl_'"
+                sh "git push --all"
+            }
+            
+            
+        }
+    }    
+post {
+    success {
+        slackSend ( message: "SUCCESSFUL: Job ")
+        }
+        failure {
+            slackSend ( message: "FAILED: Job ")
+        }
+    }     
+        
+        
+    
+}    

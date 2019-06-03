@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+
+#SONAR Server
+  sonar:
+    container_name: sonar
+    image: linuxserver/sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    ports:
+      - "8989:8989"
+    restart: unless-stopped
+
+#RADAR Server
+  radar:
+    image: linuxserver/radarr
+    container_name: radar
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+
+#NGINX webserver 
+  webserver:
+    image: nginx:latest
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8000:80"
+    volumes:
+     - ./www:/usr/share/nginx/html
+    depends_on:
+      - sonar
+      - radar

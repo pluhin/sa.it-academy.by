@@ -1,0 +1,47 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+
+Vagrant.configure("2") do |config|
+  
+  config.ssh.insert_key = false
+  
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "288"]
+    vb.customize ["modifyvm", :id, "--cpus", "1"]
+end
+
+
+  config.vm.define "centos7" do |centos7|
+    centos7.vm.box = "centos/7"
+    centos7.vm.box_check_update = false
+    centos7.vm.network "private_network", ip: "192.168.10.10"
+    centos7.vm.hostname = "centos.local"
+  end
+  
+  config.vm.define "ubuntu" do |ubuntu|
+    ubuntu.vm.box = "ubuntu/bionic64"
+    ubuntu.vm.box_check_update = false
+    ubuntu.vm.network "private_network", ip: "192.168.10.11"
+    ubuntu.vm.hostname = "ubuntu.local"
+  end
+
+  config.vm.define "jump_host" do |jump_host|
+    jump_host.vm.box = "ubuntu/trusty64"
+    jump_host.vm.box_check_update = false
+    jump_host.vm.network "private_network", ip: "192.168.10.12"
+    jump_host.vm.network "private_network", ip: "172.16.0.12"
+    jump_host.vm.hostname = "bastion.local"
+  end
+
+  config.vm.define "ansible_host" do |ansible_host|
+    ansible_host.vm.box = "ubuntu/bionic64"
+    ansible_host.vm.box_check_update = false
+    ansible_host.vm.hostname = "ansiblehost.local"
+    ansible_host.vm.network "private_network", ip: "172.16.0.10"
+    ansible_host.vm.provision "ansible_local" do |ansible|
+      ansible.install_mode = "default"
+      ansible.playbook = "./vagr_playbook.yml"
+    end
+  end
+end

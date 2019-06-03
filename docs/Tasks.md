@@ -37,7 +37,7 @@ Initialize local repository on your laptop. Create the following branches:
 - hotfix/we_gonna_die (from master)
     - 2 commits from master + 1 additional
 
-Pay the following situations:
+Play the following situations:
 - Release phase - all commits should be inside master (except hotfix)
 - Hotfix deploy - commit from hotfix/we_gonna_die branch should be in master first, then in another branches too
 
@@ -165,11 +165,6 @@ Your Dockerfile and links to your Dockerhub put into folder `11. Docker. Lading`
     - Use remote repo as source for build image
     - Make image locally (on Jenkins master/Slave)
     - Push image on Docker Hub
-- Create docker compose file which contains the fiollowing applications:
-    - Web server (with links to the another Web apps)
-    - [sonarr](https://sonarr.tv/)
-    - [radarr](https://radarr.video/)
-    - All settings of thsi applications sould be putted during docker-compouse start from folder of project
 
 - Create docker compose file which contains the following applications:
     - Web server (with links to the another Web apps)

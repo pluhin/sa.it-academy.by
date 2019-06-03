@@ -1,0 +1,15 @@
+---
+- name: Nginx. Install packages an Centos
+  yum:
+    update_cache: yes
+    name: "{{ yum_nginx_packages }}"
+    state: latest
+
+- name: Nginx. Set firewall an Centos
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+
+- name: Nginx. Restart firewall on Centos
+  shell: firewall-cmd --reload

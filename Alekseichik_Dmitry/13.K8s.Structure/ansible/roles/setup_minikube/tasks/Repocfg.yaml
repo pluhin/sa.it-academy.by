@@ -1,0 +1,28 @@
+---
+
+- name: Configure Key Google Cloud
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Configure Key Docker
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+
+- name: Configure Repositories Kubernetes
+  apt_repository: 
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main 
+    state: present 
+    filename: kubectl
+    update_cache: yes
+
+- name:    Add Docker APT repository
+  apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable
+      state: present
+
+
+
+

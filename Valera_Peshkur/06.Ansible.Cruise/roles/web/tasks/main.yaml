@@ -1,0 +1,49 @@
+---
+- name: Include Debian deploy
+  include: http_Debian.yaml
+  when: ansible_os_family == 'Debian'
+  tags:
+  - install::nginx
+
+- name: Include Cent deploy
+  include: http_Cent.yaml
+  when: ansible_os_family == 'RedHat'
+  tags:
+  - install::nginx
+
+- name: Setup. index.html
+  copy: 
+    src: index.html
+    dest: "{{ path_for_html }}"
+  tags:
+  - add::html
+
+- name: Testing. wait for
+  wait_for: ##module touch link for port
+    host: "{{ var_hosts }}"
+    port: "80"
+    state: started ##access port
+    timeout: 3 ##if answer more 3 second: task==false
+  register: wait
+  tags:
+  - test::all
+  - test::wait
+
+- name: Testing. curl
+  uri:
+    url: http://192.168.100.220 ##download content
+    return_content: yes ##content - yes?
+  register: this ##var this
+  tags:
+  - test::all
+  - test::curl
+
+- debug:
+    msg: "{{ item }}"
+  with_items:
+  - "{{ this }}"
+  - "{{ wait }}"
+  tags:
+  - test::all
+  - test::wait
+  - test::curl

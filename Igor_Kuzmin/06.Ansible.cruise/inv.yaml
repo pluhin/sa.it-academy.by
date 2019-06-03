@@ -1,0 +1,18 @@
+web_servers:
+  children:
+    ec_htp:
+
+all_hosts:
+  children:
+    ec_htp:
+      vars:
+        name_env: "ec_htp"
+      hosts:
+        ubuntu:
+          ansible_user: vagrant
+          ansible_host: 192.168.1.222         
+        # ansible_host: 10.100.0.212   
+        cent:
+          ansible_user: vagrant
+          ansible_host: 192.168.1.223
+        # ansible_host: 10.100.0.211

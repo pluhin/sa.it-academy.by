@@ -1,0 +1,28 @@
+---
+- name: Ensure Jenkins Repository is Installed
+  yum_repository:
+    name: jenkins
+    state: present
+    description: Official Jenkins Yum Repo
+    baseurl: http://pkg.jenkins.io/redhat
+    gpgkey: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+    gpgcheck: no 
+    enabled: yes
+
+- name: Ensure Jenkins is Installed
+  yum :
+    name: jenkins
+    update_cache: yes
+    state: present
+
+- name: Enable and Start the Jenkins Service
+  service:
+    name: jenkins
+    enabled: yes
+    state: started
+
+- name: Jenkins. Open Firewall Port
+  firewalld:
+    port: 8080/tcp
+    permanent: true
+    state: enabled

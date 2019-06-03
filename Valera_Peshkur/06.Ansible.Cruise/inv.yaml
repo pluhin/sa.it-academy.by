@@ -1,0 +1,19 @@
+web_servers:
+  hosts:
+    sacentvag:
+    saubvag:
+all_hosts:
+  children:
+    vag_hosts:
+      vars:
+        env: "prod"
+      hosts:
+        sacentvag:
+          ansible_user: vagrant
+          ansible_host: 192.168.100.221
+        saubvag: 
+          ansible_user: vagrant
+          ansible_host: 192.168.100.220
+
+          
+

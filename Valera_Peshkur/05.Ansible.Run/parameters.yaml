@@ -1,0 +1,23 @@
+---
+- hosts: ec_htp
+  tasks:
+  - name: Print facts
+    debug:
+      msg: "{{ ansible_facts }}"
+    tags:
+    - print::facts
+  - name: Print os/version
+    debug:
+      msg: "OS/ver: {{ ansible_facts.distribution }}/{{ansible_facts.distribution_version}}"
+    tags:
+    - print::os/version
+  - name: Print mount
+    debug:
+      msg: "{{ ansible_facts.mounts[1] }}"
+    tags:
+    - print::mount
+  - name: Print RAM
+    debug:
+      msg: "Total: {{ ansible_facts.memtotal_mb }}Mb, Free: {{ansible_facts.memfree_mb}}Mb"
+    tags:
+    - print::ram

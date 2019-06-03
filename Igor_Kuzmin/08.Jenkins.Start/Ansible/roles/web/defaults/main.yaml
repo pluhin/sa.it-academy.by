@@ -1,0 +1,9 @@
+---
+yum_cent_packages:
+  - nginx
+  
+install_prg:
+  - git
+  - epel-release
+  - java-1.8.0-openjdk
+  - wget

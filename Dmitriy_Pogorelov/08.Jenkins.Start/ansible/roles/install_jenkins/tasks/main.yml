@@ -1,0 +1,69 @@
+---
+- name: install packages
+  apt:
+    name:
+      - wget
+      - default-jdk
+    update_cache: yes
+    state: present
+
+- name: add Jenkins repo key
+  apt_key:
+    url: http://pkg.jenkins-ci.org/debian/jenkins.io.key
+    state: present
+
+- name: add repo
+  apt_repository:
+    repo: deb https://pkg.jenkins.io/debian binary/
+    state: present
+
+- name: install Jenkins
+  apt:
+    name: jenkins
+    update_cache: yes
+    state: present
+  register: out
+  
+- name: out of install
+  debug:
+    var: out  
+
+- name: wait passwd file
+  wait_for:
+    path: /var/lib/jenkins/secrets/initialAdminPassword
+
+- name: get Jenkins password
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: passwd
+
+- name: print init password Jenkins
+  debug:
+    var: passwd.stdout
+
+- name: send passwd to slack
+  slack:
+    token: "TFBPBNB2L/BJF7KFTDF/za5VgK202rSGCxnYrKOHoa1o"
+    username: "Ansible"
+    msg: "Admin password is {{ passwd.stdout }}"
+
+- name: skip setup wizard
+  lineinfile:
+    dest: /etc/default/jenkins
+    regexp: ^JAVA_ARGS=
+    line: JAVA_ARGS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"
+  
+- include: restart.yml
+
+- name: fix a defect to disable setup wizard
+  jenkins_script:
+    script: |
+      import static jenkins.model.Jenkins.instance as jenkins
+      import jenkins.install.InstallState
+      if (!jenkins.installState.isSetupComplete()) {
+        InstallState.INITIAL_SETUP_COMPLETED.initializeState()
+      }
+    user: "admin"
+    password: "{{ passwd.stdout }}"
+
+- include: restart.yml

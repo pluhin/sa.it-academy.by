@@ -1,0 +1,34 @@
+
+- name: add repo 
+  get_url:
+    url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+
+- name: add key 
+  rpm_key:
+    state: present
+    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+- name: install jenkins
+  yum:
+    name: jenkins
+    state: latest
+
+- name: start jenkins
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+
+- name: Wait for the file 
+  wait_for:
+    path: /var/lib/jenkins/secrets/initialAdminPassword
+
+- name: pass
+  shell: "cat /var/lib/jenkins/secrets/initialAdminPassword"
+  register: pass
+
+- name:  pass for jenkins
+  debug:
+          msg: "{{ pass.stdout}}" 
+
