@@ -125,11 +125,12 @@ services:
 ```
 
 $ docker ps
+```
 CONTAINER ID        IMAGE                COMMAND                  CREATED             STATUS              PORTS                    NAMES
 58b4279b0ae9        linuxserver/radarr   "/init"                  About an hour ago   Up 31 seconds       0.0.0.0:8002->7878/tcp   radarr
 2a2c084712ac        linuxserver/sonarr   "/init"                  About an hour ago   Up 32 seconds       0.0.0.0:8001->8989/tcp   sonarr
 ea184f8b9ec4        nginx:latest         "nginx -g 'daemon of…"   About an hour ago   Up 33 seconds       0.0.0.0:82->80/tcp       nginx
-
+```
 
 ##### Screen web:
 
