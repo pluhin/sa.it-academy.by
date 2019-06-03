@@ -1,0 +1,5 @@
+---
+- hosts: my_servers
+  become: true
+  roles:
+  - nginx_install
