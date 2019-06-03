@@ -1,0 +1,63 @@
+## 09.Jenkins.Routine
+
+1. nmapout.txt
+```
+Nmap scan report for 192.168.253.10
+Host is up (0.00090s latency).
+Nmap scan report for 192.168.253.81
+Host is up (0.0024s latency).
+Nmap scan report for 192.168.253.112
+Host is up (0.062s latency).
+Nmap scan report for 192.168.253.130
+Host is up (0.00042s latency).
+Nmap scan report for 192.168.253.131
+Host is up (0.00045s latency).
+Nmap scan report for 192.168.253.132
+Host is up (0.00037s latency).
+Nmap scan report for 192.168.253.133
+Host is up (0.00038s latency).
+Nmap scan report for 192.168.253.134
+Host is up (0.00036s latency).
+Nmap scan report for 192.168.253.135
+Host is up (0.00075s latency).
+Nmap scan report for 192.168.253.137
+Host is up (0.00071s latency).
+Nmap scan report for 192.168.253.138
+Host is up (0.00073s latency).
+Nmap scan report for 192.168.253.139
+Host is up (0.00072s latency).
+Nmap scan report for 192.168.253.140
+Host is up (0.00036s latency).
+Nmap scan report for 192.168.253.141
+Host is up (0.000076s latency).
+Nmap scan report for 192.168.253.142
+Host is up (0.00062s latency).
+Nmap scan report for 192.168.253.143
+Host is up (0.00060s latency).
+Nmap scan report for 192.168.253.144
+Host is up (0.00058s latency).
+Nmap scan report for 192.168.253.145
+Host is up (0.00057s latency).
+Nmap scan report for 192.168.253.156
+Host is up (0.016s latency).
+Nmap scan report for 192.168.253.160
+Host is up (0.0031s latency).
+Nmap scan report for 192.168.253.162
+Host is up (0.0031s latency).
+Nmap scan report for 192.168.253.179
+Host is up (0.0028s latency).
+Nmap scan report for 192.168.253.180
+Host is up (0.0028s latency).
+Nmap scan report for 192.168.253.205
+Host is up (0.0047s latency).
+Nmap scan report for 192.168.253.231
+Host is up (0.0016s latency).
+Nmap scan report for 192.168.253.234
+Host is up (0.084s latency).
+Nmap scan report for 192.168.253.235
+Host is up (0.0035s latency).
+Nmap scan report for 192.168.253.245
+Host is up (0.0065s latency).
+Nmap scan report for 192.168.253.246
+Host is up (0.011s latency).
+```

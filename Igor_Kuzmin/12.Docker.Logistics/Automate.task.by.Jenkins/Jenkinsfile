@@ -1,0 +1,50 @@
+pipeline {
+    environment {
+        registry = "thecobolt/kzmn_python_app"
+        registryCredential = 'dockerhub'
+    }
+    agent any
+    stages {
+        stage('Cloning Git') {
+            steps {
+               git 'git@github.com:thecobolt/kzmn_python_app.git' 
+            }
+        }
+        stage('Checking repository'){
+            steps { 
+                    sh "ls -l"
+            }
+        }
+        stage('Building image') {
+            steps {
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    
+                }
+            }
+        }
+        stage('Push to DockerHub') {
+            steps {
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push()
+                    }
+                }
+                
+            }
+        }
+        stage('Remove Unused docker image') {
+            steps {
+                sh "docker rmi $registry:$BUILD_NUMBER"
+            }
+        }
+    }
+    post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+}

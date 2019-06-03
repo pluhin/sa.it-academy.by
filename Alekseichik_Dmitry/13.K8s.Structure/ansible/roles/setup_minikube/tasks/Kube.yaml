@@ -1,0 +1,16 @@
+---
+- name: Download Minikube binary to TMP
+  get_url:
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    dest: /tmp/minikube
+
+- name: Set Minikube Binary Run status
+  shell: chmod +x /tmp/minikube
+
+- name: Move Minikube Binary to usr-local-bin
+  shell: mv /tmp/minikube /usr/local/bin
+   
+
+
+  
+
