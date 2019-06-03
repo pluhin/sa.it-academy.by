@@ -1,0 +1,5 @@
+---
+- hosts: vagrantos
+  become: yes
+  roles:
+  - setup_minikube

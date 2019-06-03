@@ -1,0 +1,17 @@
+jenkins@jenkins:~/doc/html$ docker-compose up -d
+Creating network "doc_default" with the default driver
+Creating nginx ... done
+Creating radarr ... done
+Creating sonarr ... done
+jenkins@jenkins:~/doc/html$ docker-compose ps
+ Name          Command          State           Ports
+--------------------------------------------------------------
+nginx    nginx -g daemon off;   Up      0.0.0.0:8000->80/tcp
+radarr   /init                  Up      0.0.0.0:8020->7878/tcp
+sonarr   /init                  Up      0.0.0.0:8010->8989/tcp
+jenkins@jenkins:~/doc/html$ docker-compose images
+Container       Repository        Tag       Image Id      Size
+---------------------------------------------------------------
+nginx       nginx                latest   53f3fd8007f7   104 MB
+radarr      linuxserver/radarr   latest   62b90a8c4d0b   532 MB
+sonarr      linuxserver/sonarr   latest   26183bfceb06   576 MB
