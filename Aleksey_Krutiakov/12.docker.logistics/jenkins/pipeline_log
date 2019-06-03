@@ -1,0 +1,113 @@
+Started by user support
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/Homework_09/Dockers/30.Buildimage
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Cloning Git)
+[Pipeline] git
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/frenk-24/test_ita # timeout=10
+Fetching upstream changes from https://github.com/frenk-24/test_ita
+ > git --version # timeout=10
+ > git fetch --tags --progress https://github.com/frenk-24/test_ita +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 05a806cc01d944a8fb519364cc72dabc91a2cc69 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 05a806cc01d944a8fb519364cc72dabc91a2cc69
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D master # timeout=10
+ > git checkout -b master 05a806cc01d944a8fb519364cc72dabc91a2cc69
+Commit message: "First #2"
+ > git rev-list --no-walk 05a806cc01d944a8fb519364cc72dabc91a2cc69 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Building image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ docker build -t frenk24/test_ita:15 .
+Sending build context to Docker daemon  60.93kB
+
+Step 1/6 : FROM alpine:latest
+ ---> 055936d39205
+Step 2/6 : RUN apk update     && apk upgrade     && apk add --update python py-pip
+ ---> Using cache
+ ---> 88a423824fff
+Step 3/6 : RUN pip install Flask
+ ---> Using cache
+ ---> de844c4cba0b
+Step 4/6 : EXPOSE  8080
+ ---> Using cache
+ ---> 52e9ce62cc5f
+Step 5/6 : COPY test.py /src/test.py
+ ---> Using cache
+ ---> c712496e1028
+Step 6/6 : CMD ["python", "/src/test.py", "-p 8080"]
+ ---> Using cache
+ ---> 107a392b23c1
+Successfully built 107a392b23c1
+Successfully tagged frenk24/test_ita:15
+[Pipeline] dockerFingerprintFrom
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy Image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withDockerRegistry
+$ docker login -u frenk24 -p ******** https://index.docker.io/v1/
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+WARNING! Your password will be stored unencrypted in /var/lib/jenkins/workspace/Homework_09/Dockers/30.Buildimage@tmp/995c6eaf-424d-47dc-a9fd-2c44d4a88393/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[Pipeline] {
+[Pipeline] sh
++ docker tag frenk24/test_ita:15 frenk24/test_ita:15
+[Pipeline] sh
++ docker push frenk24/test_ita:15
+The push refers to repository [docker.io/frenk24/test_ita]
+89c5b54fca30: Preparing
+883c14217b34: Preparing
+a2dd1c25f52a: Preparing
+f1b5933fe4b5: Preparing
+89c5b54fca30: Pushed
+f1b5933fe4b5: Pushed
+883c14217b34: Pushed
+a2dd1c25f52a: Pushed
+15: digest: sha256:f8bb2f499bb45a3f9d29ca32ff30a4c32e5e14b9a9d67bc25258bd9947b0f03c size: 1158
+[Pipeline] }
+[Pipeline] // withDockerRegistry
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Remove Unused docker image)
+[Pipeline] sh
++ docker rmi frenk24/test_ita:15
+Untagged: frenk24/test_ita:15
+Untagged: frenk24/test_ita@sha256:f8bb2f499bb45a3f9d29ca32ff30a4c32e5e14b9a9d67bc25258bd9947b0f03c
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
