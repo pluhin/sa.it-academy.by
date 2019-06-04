@@ -1,0 +1,22 @@
+---
+- name: Install NGINX on Ubuntu
+  apt:
+    name: nginx
+    state: latest
+
+- name: Start NGINX on Ubuntu
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Copy index1.html on Ubuntu
+  copy:
+    src: index1.html
+    dest: "{{ ubuntu_www_home }}"
+    
+- name: Copy template on Ubuntu
+  template:
+    src: index.j2
+    dest: "{{ ubuntu_www_start_page }}"
+    mode: 0555

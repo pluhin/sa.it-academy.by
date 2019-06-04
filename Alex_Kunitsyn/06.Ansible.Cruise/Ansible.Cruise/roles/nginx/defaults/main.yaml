@@ -1,0 +1,8 @@
+---
+
+cent_www_home: "/usr/share/nginx/html/"
+cent_www_start_page: "/usr/share/nginx/html/index.html"
+
+ubuntu_www_home: "/var/www/html/"
+ubuntu_www_start_page: "/var/www/html/index.html"
+
