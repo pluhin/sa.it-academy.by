@@ -1,0 +1,10 @@
+---
+apt_nginx_packages:
+  - nginx
+
+yum_nginx_packages:
+  - nginx
+
+epel_release:
+  - epel-release
+
