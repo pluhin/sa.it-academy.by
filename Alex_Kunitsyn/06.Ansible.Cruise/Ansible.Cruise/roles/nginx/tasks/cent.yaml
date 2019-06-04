@@ -1,0 +1,35 @@
+---
+- name: Install Epel on Centos
+  yum:
+    name: epel-release
+    state: latest
+
+- name: Install NGINX on Centos
+  yum:
+    name: nginx
+    state: latest
+
+- name: Start NGINX on Centos
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Copy index1.html on Centos
+  copy:
+    src: index1.html
+    dest: "{{ cent_www_home }}"
+
+- name: Copy template on Centos
+  template:
+    src: index.j2
+    dest: "{{ cent_www_start_page }}"
+    mode: 0555
+
+- name: Open HTTP in firewall on Centos
+  firewalld:
+    zone: public
+    service: http
+    permanent: true
+    state: enabled
+    immediate: yes

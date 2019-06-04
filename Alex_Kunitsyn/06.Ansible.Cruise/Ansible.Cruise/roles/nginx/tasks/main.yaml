@@ -1,0 +1,24 @@
+- name: Debian NGINX install
+  include: ubuntu.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: RedHat NGINX install
+  include: cent.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Check port 80
+  wait_for:
+   host: localhost
+   port: 80
+   state: started
+   delay: 0
+   timeout: 3
+
+- name: Check HTTP url
+  uri:
+    url: http://localhost
+    return_content: yes
+  register: Check_result
+
+- debug:
+    msg: "{{ Check_result }}"
