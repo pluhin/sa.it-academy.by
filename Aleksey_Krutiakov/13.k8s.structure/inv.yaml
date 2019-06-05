@@ -1,0 +1,9 @@
+all_hosts:
+   children:
+     minikube:
+        hosts:
+          host_01:
+             ansible_user: vagrant
+             ansible_ssh_pass: vagrant
+             ansible_host: 192.168.88.23
+

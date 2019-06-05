@@ -1,0 +1,9 @@
+---
+apt_kubectl:
+  - apt-transport-https
+  - kubectl
+
+apt_docker:
+  - software-properties-common
+  - ca-certificates
+  - docker-ce
