@@ -1,0 +1,61 @@
+---
+# This role install Minikube on Ubuntu 16.04
+
+- name: Kubectl. Add an Apt signing key 
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Kubectl. Add repo
+  apt_repository:
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+
+- name: Kubectl. Update cache
+  apt:
+    update_cache: yes
+
+- name: Kubectl. Install Kubectl
+  apt:
+    name: "{{ apt_kubectl }}"
+    state: present
+ 
+- name: Docker. Add an Apt signing key 
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Docker. Add repo
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu/ xenial stable
+    state: present
+
+- name: Docker. Update cache
+  apt:
+    update_cache: yes
+
+- name: Docker. Install Docker
+  apt:
+    name: "{{ apt_docker }}"
+    state: present
+
+- name: Docker. Access
+  shell: usermod -aG docker vagrant
+  args:
+    executable: /bin/bash
+
+- name: Minikube. Downloading
+  get_url:
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    dest: /usr/local/bin/minikube
+
+- name: Minikube. Access
+  shell: chmod +x /usr/local/bin/minikube
+
+- name: Minikube. Setting up and starting
+  shell: |
+    sudo minikube start  --vm-driver none
+    sudo kubectl proxy --address='0.0.0.0' --disable-filter=true &
+    sudo minikube dashboard --url &
+  args:
+    executable: /bin/bash
