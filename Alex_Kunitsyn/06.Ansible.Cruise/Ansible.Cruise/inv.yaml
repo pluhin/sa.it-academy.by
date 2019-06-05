@@ -1,0 +1,10 @@
+web_servers:
+  hosts:
+    sa_ub:
+      ansible_user: userok2
+      ansible_host: 192.168.111.200
+
+    sa_cent:
+      ansible_user: userok2
+      ansible_host: 192.168.111.201 
+

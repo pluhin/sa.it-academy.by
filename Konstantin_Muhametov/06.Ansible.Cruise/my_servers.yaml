@@ -1,0 +1,12 @@
+all_hosts:
+  children:
+    my_servers:
+        hosts:
+          ubuntu_001:
+            ansible_host: 10.0.2.15
+            ansible_user: moongs
+            ansible_ssh_pass: k689pxtbae
+          centos_001:
+            ansible_host: 10.0.2.10
+            ansible_user: moongs
+            ansible_ssh_pass: k689pxtbae

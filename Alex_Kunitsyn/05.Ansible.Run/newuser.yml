@@ -1,0 +1,38 @@
+---
+ 
+- hosts: test 
+  become: yes
+  gather_facts: no
+  
+  vars:
+    username: "testuser400"
+  
+  tasks:
+  
+  - name: Add new user
+    user:
+      name: "{{username}}"
+      state: present
+      #password: '123'
+    
+  - name: Clear sudoers file
+    lineinfile:
+      path: /etc/sudoers
+      state: absent
+      regexp: '^testuser400'
+
+  - name: Change sudoers file
+    lineinfile:
+      path: /etc/sudoers
+      state: present
+      regexp: '^ '
+      line: '{{username}} ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -cf %s'                                                               
+
+  - name: Upload key
+    authorized_key:
+      user: "{{username}}"
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+      state: present
+      manage_dir: yes
+      

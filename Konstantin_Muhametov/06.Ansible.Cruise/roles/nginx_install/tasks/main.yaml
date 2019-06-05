@@ -1,0 +1,58 @@
+---
+- name: Include Debian
+  include: nginx_Debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include Centos
+  include: nginx_Centos.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Copy. index.html Centos
+  copy:
+    src: index.html
+    dest: /usr/share/nginx/html/
+  when: ansible_os_family == 'RedHat'
+
+- name: Copy. index.html Debian
+  copy:
+    src: index.html
+    dest: /var/www/html/
+  when: ansible_os_family == 'Debian'
+
+- name: Testing. wait for
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: wait
+  tags:
+  - test::all
+  - test::wait
+
+- name: Testing. curl
+  uri:
+    url: http://localhost
+    return_content: yes
+  register: this
+  tags:
+  - test::all
+  - test::curl
+
+- debug:
+    msg: "{{ item }}"
+  with_items:
+  - "{{ this }}"
+  - "{{ wait }}"
+  tags:
+  - test::all
+  - test::wait 
+  - test::curl
+
+- name: Template. hosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+  tags:
+  - template::hosts  

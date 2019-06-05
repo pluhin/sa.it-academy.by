@@ -1,0 +1,12 @@
+---
+- name: Nginx.Debian Install
+  apt:
+   name: "{{ apt_nginx_packages }}"
+   state: latest
+ 
+- name: Nginx.Debian Enable and start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+

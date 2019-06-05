@@ -1,0 +1,23 @@
+---
+- name: Epel. Centos Install
+  yum:
+    name: "{{ epel_release }}"
+    state: latest
+    
+- name: Nginx.Centos Install
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: latest
+
+- name: Nginx.Centos Enable and start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Firewall. Stop and disable
+  service:
+    name: firewalld
+    state: stopped
+    enabled: no
+
