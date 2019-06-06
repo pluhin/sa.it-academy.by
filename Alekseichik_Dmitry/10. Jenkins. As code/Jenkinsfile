@@ -1,0 +1,146 @@
+pipeline { 
+    agent any
+    parameters {
+        string(name: 'arcs_branch', defaultValue: 'My_Arcs', description: 'Achive Branch')
+        string(name: 'master_branch', defaultValue: 'master', description: 'Master Branch')
+        string(name: 'repo_url', defaultValue: 'git@github.com:DAlekseichik/Mygit.git', description: 'MyGit repository')
+    } 
+
+    stages {
+       stage('Clone repository master') { 
+            steps { 
+                git url: "${params.repo_url}", branch: "${params.master_branch}"
+            }
+        }
+
+
+       stage('Checking downloaded repository'){
+            steps { 
+                sh "ls -l"
+            }
+        }
+
+       stage('Adding some new data with timestamp') {
+            steps {
+                sh '''
+                daystamp=$(date '+%d.%m.%Y_%H-%M-%S')
+                
+                echo SAVING daystamp VAR to file and renew it
+                echo $daystamp > /tmp/daystamp
+                daystamp=$(cat /tmp/daystamp)
+
+                echo WRITING SOME NEW DATA to somedata.txt
+                echo "TODAY is: $daystamp" >> ./data/somedata.txt
+                '''
+            }
+        }
+
+
+
+       stage('Packing Data to Arcs dir') {
+            steps {
+                sh '''
+                daystamp=$(cat /tmp/daystamp)
+                echo "$daystamp"
+                echo "IT IS A GOOD DAY TO DIE!"
+                tar -zcvf ./arcs/${daystamp}.tar.gz  ./data
+                '''
+
+                // debug copy to tmp part
+                sh '''
+                daystamp=$(cat /tmp/daystamp)
+                echo "$daystamp"
+                echo "IT IS A GOOD DAY TO DIE!"
+                cp ./arcs/${daystamp}.tar.gz /tmp
+                '''  
+                // clear all          
+                //deleteDir()
+            }
+        }
+
+//       stage('Delete Arcs branch 1') {
+//           steps {
+//                   sh "git checkout master && git branch -D ${params.arcs_branch}"
+//                   sh "git push origin --delete ${params.arcs_branch}"
+//           }
+//       }
+
+
+       stage('Create Arcs Branch'){
+            steps {
+                sh "git checkout -b ${params.arcs_branch}"
+                sh "git branch"
+                sh "git checkout ${params.arcs_branch}"
+                sh "echo ${params.arcs_branch}"
+            }
+        }        
+
+
+       stage('Push Arcs Branch to GITHUB'){
+            steps {
+                sh "git checkout ${params.arcs_branch}"
+                sh "git add --all"
+                sh "git commit -m ${params.arcs_branch}"         
+                sh "git push origin ${params.arcs_branch}"  
+               }
+        }
+
+// #!/bin/bash
+
+
+
+
+       stage('Clear All Master') {
+            steps {
+                sh "ls -l ./arcs"
+                // clear all          
+                deleteDir()
+
+        
+            }
+        }
+
+       stage('Clone repository branch My_Arcs') { 
+            steps { 
+                git url: "${params.repo_url}", branch: "${params.arcs_branch}"
+                sh "ls -l ./arcs"
+            }
+        }
+
+       stage('Check GZ file in My_Arcs') { 
+            steps { 
+                sh "ls -l ./arcs"
+            }
+        }
+
+       stage('Delete Arcs branch') {
+            steps {
+                    sh "git checkout master && git branch -D ${params.arcs_branch}"
+                    sh "git push origin --delete ${params.arcs_branch}"
+            }
+        }
+
+       stage('Clear All Final') {
+            steps {
+                sh "ls -l ./arcs"
+                // clear all          
+                deleteDir()
+
+        
+            }
+        }
+
+    }
+    
+    //Slack notification 
+       post {
+          success {
+              slackSend (color: '#00FF00', message: "success: Task '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+           }
+           failure {
+              slackSend (color: '#FF0000', message: "failure: Task '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+           }
+    }
+
+
+}

@@ -1,0 +1,43 @@
+---
+
+- name: Install Nginx & Packages
+  include: nginx.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: APT. Add repo
+  shell: |
+    wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+    sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/> /etc/apt/sources.list.d/jenkins.list'
+  args:
+    executable: /bin/bash
+
+- name: APT. Update cache
+  apt:
+    update_cache: yes
+
+- name: JRE. Install
+  apt:
+    name: default-jre
+    state: latest
+
+
+- name: Jenkins. Install
+  apt:
+    name: jenkins
+    state: latest
+
+- name: Jenkins. Wait for the file 
+  wait_for:
+    path: /var/lib/jenkins/secrets/initialAdminPassword
+
+
+- name: Jenkins. Cat pass jenkins
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: pass
+
+- name: Jenkins. Display pass
+  debug:
+    msg: "Password for initial jenkins is: {{ pass.stdout }}" 
+
+
+

@@ -1,0 +1,16 @@
+---
+- name: Install NGINX on Centos7
+  yum: 
+    name: "{{ yum_cent_packages }}"
+    state: present
+
+- name: Started and Enable NGINX on Centos7
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Copy index.html on Centos7
+  template:
+    src: index.html
+    dest: /usr/share/nginx/html/index.html
