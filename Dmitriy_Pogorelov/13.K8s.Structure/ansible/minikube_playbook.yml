@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - install_minikube
+
+  tasks:
+    - name: get time
+      debug:
+        var: ansible_date_time
+    - name: send finish notification to slack 
+      slack:
+        token: "TFBPBNB2L/BJF7KFTDF/za5VgK202rSGCxnYrKOHoa1o"
+        username: "Ansible"
+        msg: "Minikube deployment finished at {{ ansible_date_time.date }} {{ ansible_date_time.time }}"
