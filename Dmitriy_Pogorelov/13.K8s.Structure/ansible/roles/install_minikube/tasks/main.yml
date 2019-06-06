@@ -1,0 +1,85 @@
+---
+- name: install packages
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - socat
+    update_cache: yes
+    state: present
+
+- name: add Docker & kuberctl repo key
+  apt_key:
+    url: "{{ item }}"
+    state: present
+  with_items:
+   - https://download.docker.com/linux/ubuntu/gpg
+   - https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+- name: add repo for Docker
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  with_items:
+   - "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+   - "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+
+- name: install Docker and kuberctl
+  apt:
+    name: 
+      - docker-ce
+      - kubectl
+    update_cache: yes
+    state: present
+  register: out
+  
+- name: sudo for user
+  shell: usermod -aG docker vagrant
+
+- name: download minikube
+  get_url: 
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    dest: /tmp/minikube
+    mode: 0770
+
+- name: copy minikube to bin
+  shell: cp /tmp/minikube /usr/local/bin && rm /tmp/minikube
+
+- name: add dns
+  lineinfile:
+    dest: /etc/resolv.conf
+    line: nameserver 8.8.8.8
+    state: present
+    insertafter: '^nameserver'
+
+- name: run minikube
+  shell: |
+    sudo minikube start --vm-driver none 
+    sudo chown -R vagrant /home/vagrant/.kube /home/vagrant/.minikube
+    sudo kubectl cluster-info
+    sudo kubectl proxy --address='0.0.0.0' --disable-filter=true &
+    sudo minikube dashboard --url &
+  become: false
+  register: out
+  
+
+- name: check minikube
+  debug:
+    var: out
+
+
+- name: wait k8s
+  wait_for:
+    timeout: 180
+
+- name: check page avaliable
+  uri:
+    url: http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/http:kubernetes-dashboard:/proxy/#!/overview?namespace=default
+    return_content: yes
+  register: page
+
+- name: check 
+  debug:
+    var: page
