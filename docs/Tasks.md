@@ -189,13 +189,10 @@ Your code and printscreen of dachboard put into folder `13. K8s. Structure` add 
 ---
 
 ## Project plan
-<<<<<<< HEAD
 ### Common
 - Create your project scheme
 - Choice your application for deployment (as example can be any from this list od [CMS](https://en.wikipedia.org/wiki/List_of_content_management_systems))
 - Demo shouldn't be not longer than 10 mins
-=======
->>>>>>> ae21c87... add project (#88)
 ### CI
 Organize the CI platform for development team:
 - Git repository for code application code
@@ -207,18 +204,9 @@ Organize the CI platform for development team:
 - Docker hub auto-create image
 
 ### CD 
-<<<<<<< HEAD
 Develop and delivery CD solution for your application:
 - Continuous deployment by webhook and(or) by schedule
 - Group deployment with parameters (version/features/patrly upgrade)
 - Prepare Jenkinsfile/Pipeline for deployment
 - Organise deployment application as docker for QA team on demand
 - Provide performance testing for your Pipeline
-=======
-Develop and delivery CD solution for the application:
-- Continuous deployment by webhook and by schedule
-- Group deployment with parameters (version/features/patrly upgrade)
-- Prepare Jenkins file/Pipeline for deployment
-- Organise deployment application as docker for QA team on demand
-- Provide performance testing for your Pipeline
->>>>>>> ae21c87... add project (#88)
