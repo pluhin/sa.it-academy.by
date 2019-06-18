@@ -1,3 +1,4 @@
+```
 1. **mkdir 02.GIT.Local**
 2. **cd 02.GIT.Local/**
 3. **git init**
@@ -35,3 +36,4 @@
 35. **git merge dev**
 36. **git merge features/do_one**
 37. **git merge hotfix/we_gonna_die**
+```
