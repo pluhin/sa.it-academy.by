@@ -1,0 +1,18 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "cen01" do |cen01|
+    cen01.vm.box = "centos/7"
+    cen01.vm.hostname = "cen01"
+    cen01.vm.network "private_network", bridge: "eth1", ip: "10.0.0.200"
+  end
+
+  config.vm.define "deb01" do |deb01|
+    deb01.vm.box = "debian/jessie64"
+    deb01.vm.hostname = "deb01"
+    deb01.vm.network "private_network", bridge: "eth1", ip: "10.0.0.201"
+  end
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 512
+    v.cpus = 1
+  end
+ 
+end

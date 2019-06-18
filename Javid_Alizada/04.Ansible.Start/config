@@ -1,0 +1,5 @@
+Host	Bastion
+	   User jump_sa
+	   HostName 178.124.206.48
+Host 	192.168.254.*
+	   ProxyJump Bastion
