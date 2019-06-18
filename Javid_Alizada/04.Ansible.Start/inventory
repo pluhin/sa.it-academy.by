@@ -1,0 +1,15 @@
+[bastion_host]
+jump_host	ansible_host=178.124.206.48 ansible_user='{{ user }}'
+
+[sa_centos]
+cen01	ansible_host=192.168.254.50
+#ansible_user='{{ user }}'
+
+[sa_ubuntu]
+ub01	ansible_host=192.168.254.51
+#ansible_user='{{ user }}'
+
+[sa_all:children]
+sa_centos
+sa_ubuntu
+
