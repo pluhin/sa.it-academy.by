@@ -1,5 +1,5 @@
-1. **mkdir 02.GIT.Local
-2. **cd 02.GIT.Local/
+1. **mkdir 02.GIT.Local**
+2. **cd 02.GIT.Local/**
 3. **git init
 4. **git config --global user.name "Javid Alizada"
 5. **git config --global user.email "javid.alizade@hotmail.com"
