@@ -1,0 +1,38 @@
+---
+- hosts: webservers
+  gather_facts: false
+  strategy: free
+  vars:
+    var_01: "Hi"
+    var_02: true
+    var_03: 42
+  tasks:
+  - name: Print variables 
+    debug:
+      msg: "{{ var_01 }} | {{ var_02 }} | {{ var_03 }}"
+    tags:
+      - short_facts
+  - name: Print facts 
+    debug:
+      msg: "{{ ansible_mounts[0].block_available }}"
+    tags:
+      - facts_check
+      - all_print
+  - name: Print facts 
+    debug:
+      msg: "{{ ansible_facts }}"
+    tags:
+      - facts_check
+      - all_print
+  - name: Print facts 
+    debug:
+      msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+    tags:
+      - short_facts
+
+  - name: Print inventory 
+    debug:
+      msg: "{{ hostvars[inventory_hostname].ansible_host }}"
+    tags:
+      - inventory::check
+      - all_print

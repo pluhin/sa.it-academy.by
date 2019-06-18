@@ -1,0 +1,15 @@
+---
+- hosts: webservers
+  tasks:
+  - name: Print variable
+    debug:
+      msg: "You requested user {{ user_to_add }}"
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      comment: Managed by ansible
+      state: present
+  - name: Removing user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      state: absent   
