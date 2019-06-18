@@ -1,4 +1,4 @@
-```1. **mkdir 02.GIT.Local**
+1. **mkdir 02.GIT.Local**
 2. **cd 02.GIT.Local/**
 3. **git init**
 4. **git config --global user.name "Javid Alizada"**
@@ -34,4 +34,4 @@
 34. **git checkout master**
 35. **git merge dev**
 36. **git merge features/do_one**
-37. **git merge hotfix/we_gonna_die**```
+37. **git merge hotfix/we_gonna_die**
