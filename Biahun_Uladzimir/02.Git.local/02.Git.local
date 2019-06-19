@@ -1,4 +1,4 @@
-git init
+       git init
   803  git config --global user.name "Biahun_Uladzimir"
   804  git config --global user.email "begun74@gmail.com"
   805  git config --global user.email "Biahun Uladzimir"
