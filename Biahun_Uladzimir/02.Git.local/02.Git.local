@@ -1,0 +1,67 @@
+git init
+  803  git config --global user.name "Biahun_Uladzimir"
+  804  git config --global user.email "begun74@gmail.com"
+  805  git config --global user.email "Biahun Uladzimir"
+  806  ls -ll
+  807  nano master.txt
+  808  git add master.txt
+  809  git commit "=== 1 commit master"
+  810  git commit -a -m "=== 1 commit master"
+  811  git status
+  812  nano master.txt
+  813  git status
+  814  git commit -a -m "=== 2 commit master"
+  815  git status
+  816  mc
+  817  git checkout -b dev
+  818  git checkout master
+  819  nano master.txt
+  820  git commit -a -m "=== 3 commit master"
+  821  nano master.txt
+  822  git status
+  823  git commit -a -m "=== 4 commit master"
+  824  git log --oneline --decorate --graph --all
+  825  git log --oneline
+  826  git checkout master
+  827  git checkout dev
+  828  nano dev.txt
+  829  nano master.txt
+  830  git checkout master
+  831  nano master.txt
+  832  git checkout master
+  833  git checkout dev
+  834  nano master.txt
+  835  nano dev.txt
+  836  git status
+  837  git add dev.txt
+  838  git status
+  839  git commit -a -m "=== 5 commit dev"
+  840  git status
+  841  git log --oneline
+  842  nano dev.txt
+  843  git commit -a -m "=== 6 commit dev"
+  844  git log --oneline
+  845  git checkout master
+  846  git log --oneline
+  847  gitk
+  848  mc
+  849  git checkout dev
+  850  mc
+  851  git checkout dev
+  852  git checkout -b features/do_one
+  853  git log --oneline
+  854  git log --oneline --decorate --graph --all
+  855  git checkout master
+  856  nano features_do_one.txt
+  857  git status
+  858  git add features_do_one.txt
+  859  mc
+  860  git branch -v
+  861  mc
+  862  git checkout dev
+  863  mc
+  864  git checkout features/do_one
+  865  mc
+  866  rm features_do_one.txt
+  867  git checkout master
+
