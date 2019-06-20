@@ -193,6 +193,7 @@ Your code and printscreen of dachboard put into folder `13. K8s. Structure` add 
 - Create your project scheme
 - Choice your application for deployment (as example can be any from this list od [CMS](https://en.wikipedia.org/wiki/List_of_content_management_systems))
 - Demo shouldn't be not longer than 10 mins
+
 ### CI
 Organize the CI platform for development team:
 - Git repository for code application code
@@ -210,3 +211,4 @@ Develop and delivery CD solution for your application:
 - Prepare Jenkinsfile/Pipeline for deployment
 - Organise deployment application as docker for QA team on demand
 - Provide performance testing for your Pipeline
+
