@@ -1,113 +1,165 @@
 ```bash
 
-    1  cd d:
-    2  cd DevOPS/
-    3  ls
-    4  cd m-sa2-08-19/
-    5  ls
-    6  cd 02.Git/
-    7  git init
-    8  git config --global user.name "Vladimir Rekun"
-    9  git status
-   10  git config --global user.email "wladimirre@gmail.com"
-   11  git status
-   12  git config user.email "wladimirre@gmail.com"
-   13  git config user.name "Vladimir Rekun"
-   14  nano .git/config
-   15  git config list
-   16  git config --list
-   17  date.exe
-   18  date > 1.txt
-   19  date >> 1.txt
-   20  date >> 1.txt
-   21  date >> 1.txt
-   22  cat 1.txt
-   23  git add 1.txt
-   24  git commit -m "text first"
-   25  ps
-   26  ps > 1.txt
-   27  cat 1.txt
-   28  git add 1.txt
-   29  git commit -m "chandge file second commit"
-   30  git log --online
-   31  git log --oneline
-   32  ls -l
-   33  git checkout 1.txt
-   34  git branch -a
-   35  git branch DEV
-   36  git branch -a
-   37  git log --oneline
-   38  df -h
-   39  df -h > dev.txt
-   40  git add dev.txt
-   41  git commit -m "first dev branch"
-   42  top
-   43  ps -aux >> dev.txt
-   44  ps -aux >> dev.txt
-   45  ps >> dev.txt
-   46  cat dev.txt
-   47  git add dev.txt
-   48  git commit -m "scnddev brnch"
-   49  git log --oneline
-   50  git checkout DEV
-   51  git log --oneline
-   52  ps > dev1.txt
-   53  git add dev1.txt
-   54  git commit -m "fix wrong branch(("
-   55  df >> dev1.txt
-   56  git log --graph --all -decorate
-   57  git log --graph --all --decorate
-   58  git log --oneline
-   59  ps >> dev1.txt
-   60  git add dev1.txt
-   61  git commit -m "scnd fix br dev"
-   62  git log --oneline
-   63  git checkout -b "features/do_one"
-   64  cat 1.txt > d0_0ne.txt
-   65  cat dev1.txt >> d0_0ne.txt
-   66  git add d0_0ne.txt
-   67  git commit -m "1 features/do_one"
-   68  git checkout master
-   69  git checkout -b "hotfix/we_goonna_die"
-   70  sendmail
-   71  sendmail.dll
-   72  cat dev.txt > die.txt
-   73  ps >> die.txt
-   74  df -h >> die.txt
-   75  top
-   76  gtop
-   77  htop
-   78  yum
-   79  apt
-   80  git add die.txt
-   81  git commit -m "die br"
-   82  git log --oneline
-   83  git branch
-   84  git checkout master
-   85  git branch
-   86  git merge
-   87  git merge hotfix/we_goonna_die
-   88  git merge DEV
-   89  git merge DEV
-   90  git merge features/do_one
-   91  git log --oneline
-   92  git merge hotfix/we_goonna_die
-   93  git merge DEV
-   94  git merge master
-   95  history
-   96  git rebase -i master
-   97  git rebase -i HEAD~4
-   98  git log --oneline
-   99  git checkout master
-  100  git merge hotfix/we_goonna_die
-  101  git checkout DEV
-  102  git merge hotfix/we_goonna_die
-  103  git remote show
-  104  git remote show origin
-  105  git pull https://github.com/wladimirre/sa.it-academy.by.git
-  106  git log --oneline
-  107  history
-
+## i think, i did'nt exactly wright of homework, but i tryed... 
+```bash
+  394  git config --global user.user "Vladimir Rekun"
+  395  git config --global user.email "wladimirre@gmail.com"
+  396  git config list
+  397  git config --list
+  398  cd
+  399  cd d:
+  400  cd DevOPS/
+  401  ls
+  402  mkdir.exe 02.GIT.Local
+  403  cd 02.GIT.Local/
+  404  date > file.txt
+  405  git status
+  406  nano.exe .gitignor
+  407  git status
+  408  nano.exe .gitignor
+  409  git status
+  410  nano.exe .gitignor
+  411  git status
+  412  git status
+  413  cd ../
+  414  git status
+  415  git commit -m "init commit"
+  416  git add 02.GIT.Local/
+  417  git commit -m "init commit"
+  418  cd 02.GIT.Local/
+  419  ls
+  420  git log --oneline
+  421  git branch
+  422  git branch -a
+  423  git branch -r
+  424  git checkout -b second
+  425  git checkout master
+  426  git checkout second
+  427  ps > second.txt
+  428  git add second.txt
+  429  git commit -m "second file"
+  430  git checkout master
+  431  git log --oneline
+  432  git merge second
+  433  git log --oneline
+  434  git log --graph --all --decorate
+  435  ls
+  436  date >> second.txt
+  437  date >> second.txt
+  438  date >> second.txt
+  439  date >> second.txt
+  440  date >> second.txt
+  441  ps >> second.txt
+  442  ps >> second.txt
+  443  ps >> second.txt
+  444  git add --all
+  445  git commit -m "second 2"
+  446  git checkout second
+  447  git log --oneline
+  448  git rebase master
+  449  git log --oneline
+  450  git rebase master -i
+  451  git checkout master
+  452  date >> file.txt
+  453  date >> file.txt
+  454  date >> file.txt
+  455  date >> file.txt
+  456  date >> file.txt
+  457  date >> file.txt
+  458  date >> file.txt
+  459  git add --all
+  460  git commit -m "conflicts"
+  461  git checkout second
+  462  nano.exe file.txt
+  463  git add file.txt
+  464  git commit -m "conflicts2"
+  465  git rebase -i master
+  466  nano.exe file.txt
+  467  nano.exe file.txt
+  468  git add file.txt
+  469  git rebase --continue
+  470  git log --oneline
+  471  git rebase -i HEAD~4
+  472  git log --oneline
+  473  git config
+  474  ls
+  475  git checkout master
+  476  date > 1.txt
+  477  git init
+  478  date > 1.txt
+  479  git add 1.txt
+  480  git commit -m "1 commit"
+  481  date >> 1.txt
+  482  date >> 1.txt
+  483  git add 1.txt
+  484  git commit -m "2 commit"
+  485  git checkout -b dev
+  486   git log --graph --all --decorate
+  487  ps >> 1.txt
+  488  git add 1.txt
+  489  git commit -m "1 commit dev"
+  490   git log --graph --all --decorate
+  491  ps >> 1.txt
+  492  git add 1.txt
+  493  git commit -m "2 commit dev"
+  494  git checkout -b features/do_one
+  495  date >> 1.txt
+  496  git add 1.txt
+  497  git commit -m "1 commit features/do_one"
+  498   git log --graph --all --decorate
+  499  git checkout master
+  500  git checkout -b hotfix/we_gonna_die
+  501  date.exe >> 1.txt
+  502  ps >> 1.txt
+  503  git add 1.txt
+  504  git commit -m "1 commit hotfix/we_gonna_die"
+  505   git log --graph --all --decorate
+  506  git status
+  507  git log --oneline
+  508  git add 1.txt
+  509  git checkout dev
+  510  git merge features/do_one --no-ff
+  511  git log --oneline
+  512  git log --oneline
+  513  git checkout master
+  514  git merge dev
+  515  git log --oneline
+  516   git log --graph --all --decorate
+  517  git rebase master
+  518  git log --oneline
+  519  git checkout dev
+  520  git rebase master
+  521  git checkout features/do_one
+  522  git rebase master
+  523  git rebase master -i
+  524  git status
+  525  git log --oneline
+  526  git checkout hotfix/we_gonna_die
+  527  git rebase master -i
+  528  git checkout master
+  529  git merge master
+  530  git log --oneline
+  531  git checkout master
+  532  git merge master -i
+  533  git checkout dev
+  534  git merge hotfix/we_gonna_die --no-ff
+  535  git merge --abort
+  536  git checkout dev
+  537  git rebase hotfix/we_gonna_die --no-ff
+  538  git rebase hotfix/we_gonna_die  -i
+  539  git rebase --continue
+  540  git add 1.txt
+  541  git commit -m "fatal"
+  542  git rebase --continue
+  543  git checkout dev
+  544  git merge hotfix/we_gonna_die --no-ff
+  545  git status
+  546  git log --oneline
+  547  git checkout master
+  548  git merge dev --no-ff
+  549  git log --oneline
+  550  history
+``` 
 
 
 
