@@ -6,5 +6,5 @@
 	This project is the first step of a learning git.
 
 	* A
-	- B
-	+ C
+	..- B
+	..+ C
