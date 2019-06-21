@@ -9,4 +9,4 @@
 	..- B
 	..+ C
 
-	[https://github.com/begun74/sa.it-academy.by/tree/m-sa2-08-19/Biahun_Uladzimir/02.Git.local)
+	[Project on github.com](https://github.com/begun74/sa.it-academy.by/tree/m-sa2-08-19/Biahun_Uladzimir/02.Git.local)
