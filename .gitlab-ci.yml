@@ -8,6 +8,6 @@ job:Apache2_deploy:
   script:
     - apt-get update -yqq
     - apt-get install apache2 curl -yqq
-    - systemctl start apache2
+    - service apache2 start
     - apache2ctl configtest
     - curl http://localhost
