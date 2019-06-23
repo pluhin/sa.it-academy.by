@@ -1,4 +1,5 @@
-# 02 Git.Local
+## 02 Git.Local
+```bash
    27  cd A.Zabalotski
    28  mkdir 02.Git
    29  cd 02.Git
@@ -81,4 +82,5 @@
   107  git add merge.txt
   108  git commit -m "MERGE"
   109  history
+```
 
