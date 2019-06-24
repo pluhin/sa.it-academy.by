@@ -1,6 +1,4 @@
 ```bash
-
-## i think, i did'nt exactly wright of homework, but i tryed... 
   394  git config --global user.user "Vladimir Rekun"
   395  git config --global user.email "wladimirre@gmail.com"
   396  git config list
@@ -159,10 +157,3 @@
   549  git log --oneline
   550  history
 ``` 
-
-
-
-
-
-```
-
