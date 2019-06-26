@@ -1,0 +1,12 @@
+[localhost]
+127.0.0.1	ansible_connection=local
+
+[sa_centos]
+cen01
+
+[sa_debian]
+deb01
+
+[sa_all:children]
+sa_centos
+sa_debian

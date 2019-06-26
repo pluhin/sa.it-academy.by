@@ -1,0 +1,2 @@
+ansible_host: 10.0.0.200
+ansible_ssh_private_key_file: /home/javid_alizada/DevOps_Traning/vagrant_project/ansible_box/.vagrant/machines/cen01/virtualbox/private_key
