@@ -2,15 +2,13 @@
  - hosts: laba5hosts
    become: yes 
    gather_facts: no
-   vars:
-    - user_pass: 'Qwerty1'
    tasks:
    - name: new user
      user:
        name: ansible
        shell: /bin/bash
        home: /home/ansible
-       password: "{{ user_pass }}"
+       password: "{{ ansible_user_pass | password_hash('sha512') }}"
        state: present
        comment: Ansible user
    - name: authorisation key
