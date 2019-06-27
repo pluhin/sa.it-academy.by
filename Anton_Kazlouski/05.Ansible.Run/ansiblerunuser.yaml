@@ -1,0 +1,33 @@
+---
+ - hosts: laba5hosts
+   become: yes 
+   gather_facts: no
+   vars:
+    - user_pass: 'Qwerty1'
+   tasks:
+   - name: new user
+     user:
+       name: ansible
+       shell: /bin/bash
+       home: /home/ansible
+       password: "{{ user_pass }}"
+       state: present
+       comment: Ansible user
+   - name: authorisation key
+     authorized_key:
+       user: ansible
+       manage_dir: yes
+       key: "{{ lookup('file', '/etc/ssh/id_rsa.pub') }}"
+       state: present
+   - name: sudo:nopasswd
+     lineinfile:
+       dest: "/etc/sudoers"
+       regexp: "^ansible"
+       line: 'ansible ALL=(ALL) NOPASSWD: ALL'
+       validate: 'visudo -cf %s'
+       state: present
+   - name: Remove the user ansible
+     user:
+       name: ansible
+       state: absent
+       remove: yes
