@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  vars:
+    ansible_connection: local
+    liks_to_tests:
+      - {url: google.com, port: 80}
+      - {url: google.com, port: 4413}
+  tasks:
+  - name: Connectivity checks
+    block:
+      - name: Check connection
+        wait_for:
+          host: "{{ item.url }}"
+          port: "{{ item.port }}"
+          timeout: 3
+        register: out
+        with_items: "{{ liks_to_tests }}"
+    rescue:
+      - name: Send notification
+        slack:
+          token: TFBPBNB2L/BJ6B14UHE/g2TJoMOveRw6UYsM4t7W7oLr
+          msg: 'Checks: failed'
+          channel: '#ansible_test'
+          username: 'Ansible sender'
+          icon_url: https://agardner.net/wp-content/uploads/2018/08/ansible-logo.png
+          parse: 'full'
