@@ -1,0 +1,13 @@
+image: ubuntu
+
+stages:
+  - build
+
+job:Apache2_deploy:
+  stage: build
+  script:
+    - apt-get update -yqq
+    - apt-get install apache2 curl -yqq
+    - service apache2 start
+    - apache2ctl configtest
+    - curl http://localhost
