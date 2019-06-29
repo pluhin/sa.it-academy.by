@@ -1,0 +1,20 @@
+---
+- hosts: cent
+  tasks:
+  - name: Print OS/version
+    debug:
+      msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+    tags:
+      - OS
+
+  - name: Print mount point/available/total 
+    debug:
+      msg: "{{ ansible_mounts[0].mount }} | {{ ansible_mounts[0].size_available }} | {{ ansible_mounts[0].size_total }}"
+    tags:
+      - mount
+  
+  - name: Print RAM/capacity/free
+    debug: 
+      msg: "{{ ansible_memory_mb.real }}"
+    tags:
+      - ram 
