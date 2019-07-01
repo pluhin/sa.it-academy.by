@@ -1,0 +1,59 @@
+---
+# Variable setup.
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yaml"
+
+- name: Include Ubuntu deploy
+  include: nginx_ubuntu.yaml
+  when: ansible_distribution == 'Ubuntu'
+
+- name: vhost1.com addition
+  become: yes
+  become_method: sudo
+  lineinfile:
+    dest: "/etc/hosts"
+    regexp: '.*vhost1.com$'
+    line: '127.0.0.1	vhost1.com'
+    state: present
+
+- name: vhost2.com addition
+  become: yes
+  become_method: sudo
+  lineinfile:
+    dest: "/etc/hosts"
+    regexp: '.*vhost2.com$'
+    line: '127.0.0.1	vhost2.com'
+    state: present
+
+- name: Check connect
+  wait_for:
+    host: localhost
+    port: 80
+    state: started
+    delay: 0
+    timeout: 3
+
+- name: Check base url
+  uri:
+    url: http://localhost
+    return_content: yes
+  register: base_url
+
+- name: Check vhost1_url
+  uri:
+    url: http://vhost1.com
+    return_content: yes
+  register: vhost1_url
+
+- name: Check vhost2 url
+  uri:
+    url: http://vhost2.com
+    return_content: yes
+  register: vhost2_url
+
+- debug:
+    msg: 
+      - Localhost: "{{ base_url }}"
+      - Virtual host 1: "{{ vhost1_url }}"
+      - Virtual host 2: "{{ vhost2_url }}"
+
