@@ -1,0 +1,63 @@
+---
+# Install nginx.
+#- name: Upgrade all packages to the latest version
+#  apt:
+#    name: "*"
+#    state: latest
+
+- name: Install nginx on Ubuntu.
+  apt:
+    name: nginx
+    state: latest
+
+- name: Start nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+# Nginx setup.
+- name: Ensure nginx_vhost_path exists.
+  file:
+    path: "{{ nginx_vhost_path }}"
+    state: directory
+
+- name: Copy index.html 
+  copy:
+    src: index.html
+    dest: "{{ nginx_home }}"
+
+- name: Create vhosts directory if it does not exist
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: '0755'
+    recurse: yes
+  with_items:
+    - { path: '{{ nginx_virtual_host_1_home }}' }
+    - { path: '{{ nginx_virtual_host_2_home }}' }
+
+- name: Create vhosts default file index.html 
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}/index.html"
+  with_items:
+    - { src: '{{ nginx_vhost1_index_html }}', dest: '{{ nginx_virtual_host_1_home }}' }
+    - { src: '{{ nginx_vhost2_index_html }}', dest: '{{ nginx_virtual_host_2_home }}' }
+
+- name: Copy nginx configuration in place
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  with_items:
+    - { src: '{{ nginx_conf_template1 }}', dest: '{{ nginx_vhost_path }}' }
+    - { src: '{{ nginx_conf_template1 }}', dest: '{{ nginx_vhost_available_path }}' }
+    - { src: '{{ nginx_conf_template2 }}', dest: '{{ nginx_vhost_path }}' }
+    - { src: '{{ nginx_conf_template2 }}', dest: '{{ nginx_vhost_available_path }}' }
+
+# Restart nginx
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted

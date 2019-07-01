@@ -1,0 +1,6 @@
+---
+nginx_conf_template1: "vhost1.com.conf"
+nginx_conf_template2: "vhost2.com.conf"
+
+nginx_vhost1_index_html: "index_virtual_host_1.html"
+nginx_vhost2_index_html: "index_virtual_host_2.html"
