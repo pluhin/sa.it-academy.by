@@ -1,0 +1,46 @@
+---
+- name: Create playbook for execute tasks
+  hosts: sa_all
+  become: true
+  tasks:
+    
+    - name: get managed node OS version with setup module
+      debug:
+        msg: '{{ ansible_os_family }}' 
+
+    - name: get managed node mount points, capacity and usage
+      debug:
+        msg: '{{ ansible_mounts }}'
+
+    - name: get managed node memory usage
+      debug:
+        msg: '{{ ansible_memory_mb }}'
+
+
+- name: Generate KeyPair
+  hosts: localhost
+  tasks:
+
+    - name: generate keyair
+      openssh_keypair:
+        path: /home/javid_alizada/DevOps_Traning/vagrant_project/ansible_box/{{ sa_user_name }}_rsa
+        type: rsa
+
+
+- name: New task vreate User on Managed nodes
+  hosts: sa_all
+  become: true
+  tasks:
+
+    - name: Create User and set password
+      user:
+        name: '{{ sa_user_name }}'
+        comment: '{{ sa_comment }}'
+        state: present
+        password: '{{ sa_user_pass }}'
+
+    - name: Copy generated keys to the managed nodes
+      authorized_key: 
+        user: javid_alizada
+        key: "{{ lookup('file', '/home/javid_alizada/DevOps_Traning/vagrant_project/ansible_box/javid_alizada_rsa.pub') }}"
+        state: present

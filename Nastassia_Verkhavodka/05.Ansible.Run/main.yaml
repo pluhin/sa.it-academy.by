@@ -1,0 +1,7 @@
+virtualbox:
+  vars:
+    full_name: "Hosts on VirtualBox"
+  hosts:
+    ubuntu:
+      ansible_user: nastassia
+      ansible_host: 10.0.2.5

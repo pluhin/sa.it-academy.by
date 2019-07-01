@@ -1,0 +1,23 @@
+- hosts: virtualbox
+  become: yes
+  vars:
+    user_password: 'userpass'
+  tasks:
+  - name: Print variable
+    debug:
+      msg: "You requested user {{ user_to_add }}"
+  - name: Add a user named {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      shell: /bin/bash
+      home: /home/{{ user_to_add }}
+      password: "{{ user_password }}"
+  - name: Add {{ user_to_add }} user to the sudoers
+    copy:
+      dest: "/etc/sudoers.d/{{ user_to_add }}"
+      content: "{{ user_to_add }} ALL=(ALL)  NOPASSWD: ALL"
+  - name: Deploy SSH key
+    authorized_key:
+      user={{ user_to_add }}
+      key="{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
+      state=present
