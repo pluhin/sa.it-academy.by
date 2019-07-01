@@ -1,0 +1,27 @@
+---
+- hosts: ubuntu
+  become: yes
+  vars:
+    user_to_add: povyshev
+  tasks:
+  - name: Create user
+    user:
+      name: "{{ user_to_add }}"
+      comment: Ansible user
+      state: present
+      shell: /bin/bash
+      password: 'devops'
+      home: /home/{{ user_to_add }}
+
+  - name: SSH key authorization
+    authorized_key:
+      user: "{{ user_to_add }}"
+      state: present
+      key: "{{ lookup('file', '/home/apovyshev/.ssh/id_rsa.pub') }}"
+
+  - name: Add to the sudo:nopasswd
+    lineinfile:
+      dest: "/etc/sudoers"
+      state: "present"
+      regexp: "^povyshev"
+      line: "povyshev ALL=(ALL) NOPASSWD: ALL"

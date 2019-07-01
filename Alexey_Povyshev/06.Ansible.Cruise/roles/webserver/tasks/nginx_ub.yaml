@@ -1,0 +1,17 @@
+---
+- name: Nginx. Debian
+  apt:
+    name: "{{ install_nginx }}"
+    state: latest
+
+- name: Nginx. Start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Allow ufw (80,443) for Ngnix.
+  ufw:
+    rule: allow
+    name: Nginx Full
+
