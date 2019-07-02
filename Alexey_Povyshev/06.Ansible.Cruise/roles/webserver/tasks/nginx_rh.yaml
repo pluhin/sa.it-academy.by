@@ -1,0 +1,24 @@
+---
+- name: Epel-release. Install
+  yum: 
+    name: "{{ yum_epel }}"
+    state: latest 
+
+- name:  Nginx. Install
+  yum:
+    name: "{{ install_nginx }}"
+    state: latest
+
+- name: Nginx. Start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Open HTTP on Centos
+  firewalld:
+    zone: public
+    service: http
+    permanent: true
+    state: enabled
+    immediate: yes

@@ -1,0 +1,14 @@
+---
+- name: Copy HTML for Debian
+  copy:
+    src: index.html
+    dest: "{{ html_root_cent }}"
+  when: ansible_os_family == 'Debian'
+
+- name: Copy HTML for RedHat
+  copy:
+    src: index.html
+    dest: "{{ html_root_ub }}"
+  when: ansible_os_family == 'RedHat'
+
+

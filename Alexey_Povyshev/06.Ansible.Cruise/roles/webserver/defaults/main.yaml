@@ -1,0 +1,11 @@
+---
+install_nginx:
+  - nginx
+yum_epel:
+  - epel-release
+html_root_cent: "/usr/share/nginx/html/"
+html_root_ub: "/var/www/html/"
+virual_hosts:
+  - { name: "nginx_ubuntu.com", ip: "{{ hostvars[\"ubuntu\"].ansible_host }}"}
+  - { name: "nginx_centos.com", ip: "{{ hostvars[\"centos\"].ansible_host }}"}
+
