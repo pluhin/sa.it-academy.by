@@ -18,8 +18,11 @@ app_db_name: "redmine"
 app_db_user: "redmine"
 app_db_pass: "redmine"
 # vars file for redmine
+<<<<<<< HEAD
 app_repo: "https://github.com/redmine/redmine.git"
 app_home: /opt/redmine
 app_version: 4.0-stable
 app_lang: "ru"
 app_fqdn: "redmine.example.com"
+=======
+>>>>>>> 7cba9800946d0b201b5334fd10acc42ec7cab007

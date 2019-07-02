@@ -37,6 +37,7 @@
     name: "{{ app_db_user }}" 
     password: "{{ app_db_pass }}"
     priv: "{{ app_db_name }}.*:ALL"
+<<<<<<< HEAD
   tags:
     - done
 
@@ -59,3 +60,5 @@
     path: "{{ app_home }}/tmp"
     mode: 777
     recurse: yes
+=======
+>>>>>>> 7cba9800946d0b201b5334fd10acc42ec7cab007
