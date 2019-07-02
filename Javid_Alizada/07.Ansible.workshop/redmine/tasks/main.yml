@@ -26,11 +26,36 @@
   tags:
     - done
 
-- mysql_db:
+- name: MySQL DB
+  mysql_db:
     name: "{{ app_db_name }}"
     encoding: utf8
-
-- mysql_user:
+  tags:
+    - done
+- name: Create MySQL DB
+  mysql_user:
     name: "{{ app_db_user }}" 
     password: "{{ app_db_pass }}"
     priv: "{{ app_db_name }}.*:ALL"
+  tags:
+    - done
+
+- name: Readmine. Clone repository
+  git: 
+    repo: "{{ app_repo }}" 
+    dest: "{{ app_home }}" 
+    version: '{{ app_version }}' 
+    accept_hostkey: yes
+
+- name: Redmine. Change permissions
+  file:
+    path: "{{ app_home }}/public"
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: Redmine. Change permissions
+  file:
+    path: "{{ app_home }}/tmp"
+    mode: 777
+    recurse: yes
