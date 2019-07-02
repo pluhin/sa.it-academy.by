@@ -21,8 +21,8 @@
     tags:
       - all_print
 
-  - name: Print facts
-    debug:
-      msg: "{{ ansible_mounts[0].size_total }}"
-    tags:
-      - all_print
+#  - name: Print facts
+#    debug:
+#      msg: "{{ ansible_mounts[0].size_total }}"
+#    tags:
+#      - all_print
