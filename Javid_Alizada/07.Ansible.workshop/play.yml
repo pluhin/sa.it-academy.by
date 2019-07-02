@@ -1,0 +1,6 @@
+---
+- name: RedMine workshop
+  become: true
+  hosts: node01
+  roles:
+    - redmine
