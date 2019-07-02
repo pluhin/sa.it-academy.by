@@ -2,5 +2,6 @@
 - name: RedMine workshop
   become: true
   hosts: node01
+  gather_facts: no
   roles:
     - redmine
