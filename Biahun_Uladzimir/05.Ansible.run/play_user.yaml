@@ -19,7 +19,7 @@
       user: ansible_user
       manage_dir: yes
       state: present
-      key: "{{ lookup('file', './keys/id_rsa_ansible.pub') }}"
+      key: "{{ lookup('file', '/home/user/.ssh/keys/id_rsa_ansible.pub') }}"
 
   - name: Add user {{ user_to_add }} to sudo
     lineinfile:
