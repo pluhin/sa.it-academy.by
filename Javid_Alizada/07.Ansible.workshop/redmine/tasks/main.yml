@@ -1,0 +1,4 @@
+---
+- name: APT | update repo cach
+  apt:
+    update_cache: yes
