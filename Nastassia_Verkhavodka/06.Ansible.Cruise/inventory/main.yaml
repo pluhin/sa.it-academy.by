@@ -1,0 +1,9 @@
+---
+webservers:
+  hosts:
+    ubuntu:
+      ansible_user: nastassia
+      ansible_host: 10.0.2.5
+    centos:
+      ansible_user: nastassia
+      ansible_host: 10.0.2.15
