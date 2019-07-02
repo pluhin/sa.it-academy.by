@@ -1,0 +1,5 @@
+---
+- name: APT. Update repository cache
+  apt: 
+    update_cache: yes
+
