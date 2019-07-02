@@ -1,0 +1,31 @@
+---
+- hosts: virtualbox
+  gather_facts: true
+#  strategy: free	# async runtime
+  tasks:
+
+  - name: Print variables
+    debug:
+      msg: "You requested user {{ user_to_add }}"
+
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      comment: Managed by ansible
+      state: present
+
+  - name: Set authorized key taken from file
+    authorized_key:
+      user: ansible_user
+      manage_dir: yes
+      state: present
+      key: "{{ lookup('file', './keys/id_rsa_ansible.pub') }}"
+
+  - name: Add user {{ user_to_add }} to sudo
+    lineinfile:
+      path: /etc/sudoers.d/{{ user_to_add }}
+      line: '{{ user_to_add }} ALL=(ALL) NOPASSWD: ALL'
+      state: present
+      mode: 0440
+      create: yes
+      validate: 'visudo -cf %s'

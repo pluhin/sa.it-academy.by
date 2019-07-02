@@ -1,0 +1,28 @@
+---
+- hosts: virtualbox
+  gather_facts: true
+#    strategy: free
+  become: true
+  vars:
+    var_01: "Hi"
+    var_02: true
+    var_03: 42
+  tasks:
+
+  - name: OS/version
+    debug:
+      msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+    tags:
+      - all_print
+
+  - name: Mounts
+    debug:
+     msg: Device - "{{ ansible_mounts[0].mount }}" Total size - "{{ ansible_mounts[0].size_total }}" Total RAM - {{ ansible_memory_mb.real.total }}Mb, free - {{ ansible_memory_mb.real.free }}Mb
+    tags:
+      - all_print
+
+  - name: Print facts
+    debug:
+      msg: "{{ ansible_mounts[0].size_total }}"
+    tags:
+      - all_print
