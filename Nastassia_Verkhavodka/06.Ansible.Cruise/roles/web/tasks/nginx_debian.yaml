@@ -1,0 +1,42 @@
+---
+- name: Nginx install packages Debian
+  apt:
+    name: "{{ apt_nginx_packages }}"
+    state: present
+#  tags:
+#   - done
+
+- name: Nginx enable and start Debian
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+#  tags:
+#   - done
+
+
+- name: Copy first page Debian
+  copy:
+    src: index.html
+    dest: "{{ default_home_debian }}"
+  tags:
+    - copy_files
+#   - done
+
+#- name: Create root directories for virtualhosts static files
+# file:
+#   path: '/var/www/{{ item.name }}/html'
+#   state: directory
+# with_items:
+#   - "{{ virtual_hosts }}"
+# tags:
+#   - done
+
+#- name: Copy first page
+# copy:
+#   src: index.html
+#   dest: '/var/www/{{ item.name }}/html'
+# with_items:
+#   - "{{ virtual_hosts }}"
+# tags:
+#   - copy_files

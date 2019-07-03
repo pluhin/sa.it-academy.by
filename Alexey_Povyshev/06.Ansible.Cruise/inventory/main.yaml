@@ -1,0 +1,12 @@
+---
+work:
+  vars:
+    full_name: "Hosts for Ansible work"
+  hosts:
+    centos:
+      ansible_user: povyshev
+      ansible_host: 192.168.100.10
+    ubuntu:
+      ansible_user: povyshev
+      ansible_host: 192.168.100.9
+
