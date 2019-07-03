@@ -1,0 +1,25 @@
+---
+- hosts: home-ub
+  become: yes
+  tasks:
+     - name: Add a new user named {{ test_user }}
+       user:
+          name: "{{ test_user }}"
+          shell: /bin/bash
+          home: /home/{{ test_user }}
+          password: "{{ test_password }}"
+     - name: Add user to the sudoers
+       copy:
+          dest: "/etc/sudoers.d/{{ test_user }}"
+          content: "{{ test_user }} ALL=(ALL)  NOPASSWD: ALL"
+     - name: Deploy SSH Key
+       authorized_key: user={{ test_user }}
+                     key="{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
+                     state=present
+     - name: Disable Password Authentication
+       lineinfile:
+           dest=/etc/ssh/sshd_config
+           regexp='^PasswordAuthentication'
+           line="PasswordAuthentication no"
+           state=present
+           backup=yes
