@@ -1,0 +1,27 @@
+---
+yum_epel_release_package:
+  - epel-release
+yum_nginx_packages:
+  - nginx
+
+apt_nginx_packages:
+  - nginx
+
+
+default_home: "/usr/share/ngx"
+
+
+site1_home: "/usr/share/nginx/site1"
+site2_home: "/usr/share/nginx/site2"
+
+
+site1_conf: "/etc/nginx/conf.d/site1.conf"
+site2_conf: "/etc/nginx/conf.d/site2.conf"
+
+site1: "site1"
+site2: "site2"
+
+virtual_hosts:
+  - {name: "local_ubuntu.site Debian.site1 Debian.site2", ip: "{{ hostvars[\"ubuntu_virt\"].ansible_host }}"}
+  - {name: "local_centos.site RedHat.site1 RedHat.site2", ip: "{{ hostvars[\"centos_virt\"].ansible_host }}"}
+
