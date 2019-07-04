@@ -8,3 +8,9 @@
 * Create and add index.html files
 * Check deployment
 
+####  Sites:
+* http://Debian.site1 
+* http://Debian.site2
+
+* http://RedHat.site1
+* http://RedHat.site2
