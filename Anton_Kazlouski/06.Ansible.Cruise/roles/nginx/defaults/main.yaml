@@ -4,3 +4,18 @@ nginx_conf_template2: "vhost2.com.conf"
 
 nginx_vhost1_index_html: "index_virtual_host_1.html"
 nginx_vhost2_index_html: "index_virtual_host_2.html"
+
+nginx_localhost_name: "localhost"
+nginx_vhost1_name: "vhost1.com"
+nginx_vhost2_name: "vhost2.com"
+
+localhost_path: "http://localhost"
+vhost1_path: "http://vhost1.com"
+vhost2_patn: "http://vhost2.com"
+
+hosts_vhost1_regexp: ".*vhost1.com$"
+hosts_vhost2_regexp: ".*vhost2.com$"
+
+hosts_vhost1_line: "127.0.0.1	vhost1.com"
+hosts_vhost2_line: "127.0.0.1	vhost2.com"
+
