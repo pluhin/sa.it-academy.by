@@ -1,8 +1,5 @@
 ---
-- hosts: localhost
+- hosts: ansible_cruise_servers
   become: yes
-  strategy: free
-  vars:
-    - ansible_connection: local
   roles:
     - nginx

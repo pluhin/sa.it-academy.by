@@ -1,8 +1,8 @@
 nginx_home: "/usr/share/nginx/html"
 nginx_virtual_host_1_home: "/var/www/vhost1.com/html/"
 nginx_virtual_host_2_home: "/var/www/vhost2.com/html/"
-nginx_vhost_path: /etc/nginx/sites-enabled
-nginx_vhost_available_path: /etc/nginx/sites-available
+nginx_vhost_path: /etc/nginx/conf.d
 
-
-
+yum_httpd_packages:
+  - epel-release
+  - nginx

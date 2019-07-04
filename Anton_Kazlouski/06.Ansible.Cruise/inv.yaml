@@ -1,0 +1,17 @@
+ansible_cruise_servers:
+  hosts:
+    vagrant_ubuntu:
+    vagrant_centos:
+vagrant_hosts:
+  children:
+    vag_hosts:
+      vars:
+        env: "prod"
+      hosts:
+        vagrant_ubuntu:
+          ansible_user: vagrant
+          ansible_ssh_pass: vagrant
+          ansible_host: 192.168.56.121
+        vagrant_centos: 
+          ansible_user: vagrant
+          ansible_host: 192.168.56.122
