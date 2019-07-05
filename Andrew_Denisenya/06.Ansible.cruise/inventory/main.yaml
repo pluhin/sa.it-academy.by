@@ -1,0 +1,24 @@
+---
+home-ub:
+  hosts:
+    vm1:
+#    vm2:
+home-cent-os:
+       hosts:
+         vm3:
+
+all_hosts:
+  children:
+    home_vms:
+      vars:
+        full_name: "Home VMs"
+      hosts:
+        vm1:
+          ansible_user: root
+          ansible_host: 192.168.10.117
+#        vm2:
+#          ansible_user: root
+#          ansible_host: 192.168.10.118
+        vm3:
+          ansible_user: root
+          ansible_host: 192.168.10.119

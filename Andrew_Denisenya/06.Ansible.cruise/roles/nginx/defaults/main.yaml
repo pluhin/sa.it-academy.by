@@ -1,0 +1,13 @@
+---
+yum_http_packages:
+  - yum-utils
+  - nginx
+
+apt_http_packages:
+  - nginx  
+
+homepage_redhat: "/usr/share/nginx/html/"
+homepage_debian: "/var/www/html/"
+virtual_hosts:
+  - { name: "local_ubuntu-nginx.site", ip: "{{ hostvars[\"vm1\"].ansible_host }}"}
+  - { name: "local_redhat-nginx.site", ip: "{{ hostvars[\"vm3\"].ansible_host }}"}

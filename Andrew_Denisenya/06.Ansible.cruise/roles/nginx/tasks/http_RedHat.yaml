@@ -1,0 +1,21 @@
+---
+- name: Configure repo-file for nginx RedHat
+  copy:
+    src: nginx.repo
+    dest: /etc/yum.repos.d/nginx.repo
+
+- name: NGINX Install packages
+  yum:
+    name: "{{ yum_http_packages }}"
+    state: present
+
+- name: NGINX Enable and start servce
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Copy first page RedHat
+  copy:
+    src: index.html
+    dest: "{{ homepage_redhat }}"
