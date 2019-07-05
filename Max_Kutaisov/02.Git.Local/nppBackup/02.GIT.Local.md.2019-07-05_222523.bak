@@ -61,7 +61,7 @@ git log --oneline
 git checkout features/do_one
 git rebase hotfix/we_gonna_die
 git log --oneline
-cd sa.it-academy.by
+cd /d/REPOSITORIES/trenonby/sa.it-academy.by
 mkdir Max_Kutaisov
 cd Max_Kutaisov
 mkdir 02.Git.Local

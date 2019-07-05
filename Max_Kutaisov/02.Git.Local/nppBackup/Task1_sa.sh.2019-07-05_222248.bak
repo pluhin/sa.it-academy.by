@@ -1,7 +1,8 @@
 #!/bin/bash
 # переходи в папку куда клонируем репозиторий
-git clone https://github.com/trenonby/sa.it-academy.by.git
-cd sa.it-academy.by
+cd /d/REPOSITORIES/trenonby/
+git clone --branch="m-sa2-08-19" https://github.com/trenonby/sa.it-academy.by.git
+cd /d/REPOSITORIES/trenonby/sa.it-academy.by
 # проверяем настройки конфигурации - указываем свои
 git config --list
 git config user.name "Max_Kutaisov"
@@ -95,7 +96,7 @@ git checkout features/do_one
 git rebase hotfix/we_gonna_die
 git log --oneline > /d/tasks_files/features_log_2_rebase_hotfix.txt
 # создаем папку и переходи в папку
-cd sa.it-academy.by
+cd /d/REPOSITORIES/trenonby/sa.it-academy.by
 mkdir Max_Kutaisov
 cd Max_Kutaisov
 mkdir 02.Git.Local
@@ -106,7 +107,7 @@ echo "history" > 02.GIT.Local.md
 # переход в нужную branch
 git checkout m-sa2-08-19
 # добавляем изменения
-cd sa.it-academy.by
+cd /d/REPOSITORIES/trenonby/sa.it-academy.by
 git add Max_Kutaisov
 git commit -m "Task_1 02.Git.Local Max_Kutaisov"
 # фиксация изменений

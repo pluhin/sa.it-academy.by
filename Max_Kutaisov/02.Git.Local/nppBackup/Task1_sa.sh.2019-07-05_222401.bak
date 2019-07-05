@@ -95,7 +95,7 @@ git checkout features/do_one
 git rebase hotfix/we_gonna_die
 git log --oneline > /d/tasks_files/features_log_2_rebase_hotfix.txt
 # создаем папку и переходи в папку
-cd sa.it-academy.by
+cd /d/REPOSITORIES/trenonby/sa.it-academy.by
 mkdir Max_Kutaisov
 cd Max_Kutaisov
 mkdir 02.Git.Local
