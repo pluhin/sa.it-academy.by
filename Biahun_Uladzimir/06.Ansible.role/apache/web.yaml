@@ -1,0 +1,6 @@
+---
+- hosts: virtualbox
+  become: yes
+  roles:
+    - web
+

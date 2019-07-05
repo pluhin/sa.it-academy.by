@@ -1,0 +1,17 @@
+---
+- name: HTTPD. Install packages
+  yum: 
+    name: "{{ yum_http_packages }}"
+    state: present
+
+- name: HTTPD. Remove welcome file
+  file: 
+    path: "/etc/httpd/conf.d/welcome.conf"
+    state: absent
+
+- name: HTTPD. Install packages
+  service: 
+    name: httpd
+    state: started
+    enabled: yes
+

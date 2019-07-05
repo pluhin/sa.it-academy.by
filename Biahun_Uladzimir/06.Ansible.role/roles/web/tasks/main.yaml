@@ -1,0 +1,19 @@
+---
+- name: Include deploy for Debian system
+  include: nginx_debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat system
+  include: nginx_redhat.yaml
+  when: ansible_os_family == 'RedHat'
+
+
+
+
+- name: Temlates
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    backup: yes
+  tags:
+    - template

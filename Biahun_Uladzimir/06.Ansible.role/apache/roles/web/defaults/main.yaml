@@ -1,0 +1,14 @@
+---
+yum_http_packages:
+  - httpd
+
+apt_http_packages:
+  - apache2
+
+default_home: "/var/www/html"
+default_index: "/var/www/html/index.html"
+
+virtual_hosts:
+  - {name: "local_ubuntu.site", ip: "{{ hostvars[\"ubuntu_virt\"].ansible_host }}"}
+  - {name: "local_centos.site", ip: "{{ hostvars[\"centos_virt\"].ansible_host }}"}
+

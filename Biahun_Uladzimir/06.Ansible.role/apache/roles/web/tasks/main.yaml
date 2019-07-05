@@ -1,0 +1,32 @@
+---
+- name: Include deploy for Debian system
+  include: http_debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat system
+  include: http_redhat.yaml
+  when: ansible_os_family == 'RedHat'
+
+  #- name: Copy first page
+  #  copy:
+  #    src: index.html
+  #    dest: "{{ default_home }}"
+  #  tags:
+  #   - copy_files
+  #
+- name: Copy first page template
+  template:
+    src: index.j2
+    dest: "{{ default_index }}"
+    backup: yes
+    #  become: yes
+  tags:
+   - copy_index
+
+- name: Temlates
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    backup: yes
+  tags:
+    - template
