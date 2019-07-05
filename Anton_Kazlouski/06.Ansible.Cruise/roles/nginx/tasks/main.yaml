@@ -1,0 +1,55 @@
+---
+# Variable setup.
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yaml"
+
+- name: Include Ubuntu deploy
+  include: nginx_ubuntu.yaml
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Include RedHat deploy
+  include: nginx_centos.yaml
+  when: ansible_os_family == 'RedHat'
+
+#- name: vhost1.com addition
+#  become: yes
+#  become_method: sudo
+#  lineinfile:
+#    dest: "/etc/hosts"
+#    regexp: '.*vhost1.com$'
+#    line: '127.0.0.1	vhost1.com'
+#    state: present
+
+- name: vhosts addition
+  become: yes
+  become_method: sudo
+  lineinfile:
+    dest: "/etc/hosts"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - { regexp: '{{ hosts_vhost1_regexp }}', line: "{{ hosts_vhost1_line }}" }
+    - { regexp: '{{ hosts_vhost2_regexp }}', line: "{{ hosts_vhost2_line }}" }
+
+- name: Check connect
+  wait_for:
+    host: "localhost"
+    port: 80
+    state: started
+    delay: 0
+    timeout: 3
+
+- name: Check base url
+  uri:
+    url: "{{ item.url }}"
+    return_content: yes
+  register: "base_url"
+  with_items:
+    - { url: "{{ localhost_path }}" }
+    - { url: "{{ vhost1_path }}" }
+    - { url: "{{ vhost2_patn }}" }
+
+- debug:
+    msg: "{{ base_url }}"
+
