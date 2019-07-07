@@ -1,0 +1,9 @@
+---
+websrvr:
+  hosts:
+    ubuntu:
+      ansible_user: dev
+      ansible_host: 192.168.100.22
+    centos:
+      ansible_user: devops
+      ansible_host: 192.168.100.23

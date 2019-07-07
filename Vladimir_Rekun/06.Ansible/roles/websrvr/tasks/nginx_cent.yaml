@@ -1,0 +1,23 @@
+---
+- name: nginx RedHat
+  copy:
+    src: nginx.repo
+    dest: /etc/yum.repos.d/nginx.repo
+
+- name: Nginx. Install
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+
+- name: Nginx. Enable
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Copy index
+  copy:
+    src: index.html
+    dest: "{{ default_home_redhat }}"
+  tags:
+    - copy_files
