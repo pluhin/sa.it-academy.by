@@ -1,0 +1,12 @@
+---
+hosts:
+   node2:
+
+all_redmine:
+  children:
+    ec_htp:
+      vars:
+        full_name: "Educational Center of HTP"
+      hosts:
+        node2:
+          ansible_host: 10.13.210.53
