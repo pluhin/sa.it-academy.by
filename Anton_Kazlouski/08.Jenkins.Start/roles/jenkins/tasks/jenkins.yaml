@@ -1,0 +1,45 @@
+---
+- name: add repo 
+  get_url:
+    url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+
+- name: add key 
+  rpm_key:
+    state: present
+    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+- name: install jenkins
+  yum:
+    name: jenkins
+    update_cache: yes
+    state: latest
+
+- name: Enable service jenkins, and not touch the state
+  service:
+    name: jenkins
+    enabled: yes
+
+- name: start jenkins
+  service:
+    name: jenkins
+    state: started
+
+- name: Jenkins. Open Firewall Port
+  firewalld:
+    port: 8080/tcp
+    permanent: true
+    state: enabled
+
+- name: Wait for the file 
+  wait_for:
+    path: /var/lib/jenkins/secrets/initialAdminPassword
+
+- name: pass
+  shell: "cat /var/lib/jenkins/secrets/initialAdminPassword"
+  register: pass
+
+- name:  pass for jenkins
+  debug:
+    msg: "{{ pass.stdout}}" 
+
