@@ -1,0 +1,7 @@
+---
+# Webserver deployemnt
+- hosts: all
+  become: yes
+#  gather_facts: no
+  roles:
+    - nginx-jenkins

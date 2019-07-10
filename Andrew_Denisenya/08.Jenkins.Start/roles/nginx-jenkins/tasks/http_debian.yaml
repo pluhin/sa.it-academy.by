@@ -1,0 +1,61 @@
+---
+- name: Add a new user named {{ jenkins_user }}
+  user:
+     name: "{{ jenkins_user }}"
+     shell: /bin/bash
+     home: /home/{{ jenkins_user }}
+     generate_ssh_key: yes
+     ssh_key_bits: 2048
+     ssh_key_file: .ssh/id_rsa
+
+- fetch:
+    src: /home/{{ jenkins_user }}/.ssh/id_rsa
+    dest: /tmp/ssh-{{ inventory_hostname }}/id_rsa
+    flat: yes
+
+- fetch:
+    src: /home/{{ jenkins_user }}/.ssh/id_rsa.pub
+    dest: /tmp/ssh-{{ inventory_hostname }}/id_rsa.pub
+    flat: yes
+
+- fetch:
+    src: /var/lib/jenkins/secrets/initialAdminPassword
+    dest: /tmp/ssh-{{ inventory_hostname }}/initialAdminPassword
+    flat: yes
+
+- name: Add an Apt signing key
+  apt_key:
+    url: https://pkg.jenkins.io/debian/jenkins.io.key
+    state: present
+
+- name: Configure repo-file for jenkins for Debian
+  copy:
+    src: jenkins.list
+    dest: /etc/apt/sources.list.d/jenkins.list
+
+- name: APT. Update repository cache
+  apt: 
+    update_cache: yes
+
+- name: NGINX+Jenkins Install packages
+  apt:
+    name: "{{ apt_http_packages }}"
+    state: present
+
+- name: Copy config NGINX
+  copy:
+    src: default
+    dest: /etc/nginx/sites-available/default
+
+- name: NGINX Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Jenkins Enable and start service
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+
