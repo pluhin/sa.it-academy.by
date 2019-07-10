@@ -1,0 +1,20 @@
+webservers:
+  hosts:
+    sa_cent:
+    ubuntu:
+
+all_hosts:
+  children:
+    htp:
+      vars:
+        full_name: "Edu Center of Park"
+      hosts:
+        bastion:
+          ansible_user: jump_sa
+          ansible_host: 178.124.206.48
+        sa_cent:
+          ansible_user: root
+          ansible_host: 192.168.254.50
+        ubuntu:
+          ansible_user: user
+          ansible_host: 192.168.254.51

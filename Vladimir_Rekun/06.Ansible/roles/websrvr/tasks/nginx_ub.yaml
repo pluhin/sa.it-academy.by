@@ -1,0 +1,19 @@
+---
+- name: Nginx install ubuntu
+  apt:
+    name: "{{ apt_nginx_packages }}"
+    state: present
+
+- name: Nginx enable
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+
+- name: Copy index
+  copy:
+    src: index.html
+    dest: "{{ default_home_debian }}"
+  tags:
+    - copy_files

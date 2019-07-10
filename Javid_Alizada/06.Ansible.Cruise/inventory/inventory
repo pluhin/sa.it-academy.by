@@ -1,0 +1,9 @@
+[sa_centos]
+cen01
+
+[sa_debian]
+deb01
+
+[sa_all:children]
+sa_centos
+sa_debian
