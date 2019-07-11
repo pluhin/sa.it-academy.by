@@ -1,0 +1,30 @@
+---
+
+site_jn_name: "jenkins.local"
+
+site_jn_home: "/usr/share/nginx"
+
+site_jn_conf: "jenkins.local.conf"
+
+conf_dir: "/etc/nginx/conf.d"
+
+
+#----- For Centos
+yum_epel_release_package:
+  - epel-release
+
+yum_nginx_packages:
+  - nginx
+
+redhat_jdk: "java-1.8.0-openjdk"
+
+
+#----- For Debian
+apt_nginx_packages:
+  - nginx
+
+debian_jdk: "default-jre"
+
+
+
+
