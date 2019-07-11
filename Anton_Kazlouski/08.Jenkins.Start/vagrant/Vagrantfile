@@ -1,0 +1,9 @@
+Vagrant.configure("2") do |config|
+  if Vagrant.has_plugin?("vagrant-timezone")
+      config.timezone.value = "Europe/Minsk"
+  end
+  config.vm.box = "centos/7"
+  config.vm.hostname = "jenkins"
+  config.vm.define "jenkins"
+  config.vm.network "private_network", ip: "192.168.56.200"
+end

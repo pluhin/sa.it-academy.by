@@ -1,0 +1,56 @@
+---
+- name: install nginx
+  become: yes
+  yum:
+    name: nginx
+    state: latest
+    update_cache: true
+
+- name: ensure nginx is installed
+  service: 
+    name: nginx 
+    state: stopped
+
+- name:  firewall
+  firewalld:
+    port: 80/tcp
+    permanent: true
+    state: enabled
+
+- name: remove nginx default
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items:
+    - { path: "{{ nginx_sites_available_path }}" }
+    - { path: "{{ nginx_sites_enabled_path }}" }
+
+- name: Create virtual hosts directory if it does not exist
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: '0755'
+    recurse: yes
+  with_items:
+    - { path: "{{ nginx_sites_available_path }}" }
+    - { path: "{{ nginx_sites_enabled_path }}" }
+
+- name: add config file
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  with_items:
+    - { src: '{{ nginx_conf_template }}', dest: "/etc/nginx/nginx.conf" }
+    - { src: '{{ app_conf_template }}', dest: "{{ app_conf_nginx_path }}" }
+  
+- name: create link
+  file:
+    src: "{{ app_conf_nginx_path }}"
+    dest: "{{ app_conf_nginx_enabled_path }}"
+    state: link
+
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
