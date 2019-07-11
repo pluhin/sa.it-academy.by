@@ -1,6 +1,6 @@
 ## 08. Jenkins. Start
 
-#### Deploy Jenkins use home environment
+#### Deploy Jenkins use home environment.
 
 *   Setup Vagrant file
 *   Install Jenkins
