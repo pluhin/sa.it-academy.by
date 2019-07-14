@@ -1,0 +1,14 @@
+---
+virtualbox:
+  hosts:
+    jenkins_virt:
+
+all_hosts:
+  children:
+    ec_htp:
+      vars:
+        full_name: "Educational Center of HTP"
+      hosts:
+        jenkins_virt:
+          ansible_user: vagrant
+          ansible_connection: local

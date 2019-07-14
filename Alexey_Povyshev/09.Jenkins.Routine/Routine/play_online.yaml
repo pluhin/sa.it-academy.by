@@ -1,0 +1,6 @@
+---
+- hosts: ubuntu
+  tasks:
+  - name: Check all online hosts
+    shell: nmap -sP 192.168.254.0/24 > /tmp/nmap_output.txt
+      

@@ -1,0 +1,7 @@
+- name: install prerequisites
+  become: yes
+  yum:
+    name: "{{ install_packages }}"
+    state: latest
+    update_cache: true
+

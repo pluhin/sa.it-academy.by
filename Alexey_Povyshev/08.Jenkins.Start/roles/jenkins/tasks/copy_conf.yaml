@@ -1,0 +1,6 @@
+- name: Copy conf file for Jenkins
+  copy:
+    src: jenkins.local.conf
+    dest: "/etc/nginx/conf.d/"
+  notify:
+    - Restart Nginx
