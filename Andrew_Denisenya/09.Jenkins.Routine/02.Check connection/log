@@ -1,0 +1,12 @@
+Started by upstream project "[8mha:////4DUrl+LXx8fB9mO6gXFd9wFlQdd8HSPtN3CUWNjIKYqtAAAAqR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzJEgZl/az8JH0DQz0/X8cAGNszQNe5KDUlNa8kMzGnWB8AlOII+NgAAAA=[0m01.NMAP/01.IP-Credentials" build number [8mha:////4BYlRN8yE8Ilt0Pi7VLnuKNqDQp4EXszzJy+xzH6r+J5AAAAqR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLQIwSBhX9rPwkfQNDPT9fxwAY2zNA17koNSU1ryQzMadY3wwAdc6EUNkAAAA=[0m6
+originally caused by:
+ Started by user [8mha:////4Dg2qfXbt2Tcjxwii86xFjBE66ocqq1ahejlE4TupMRTAAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAyBEgZu/dLi1CL9xJTczDwAS4B5WsAAAAA=[0mAndrew Denisenya
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/01.NMAP/02.Check connection
+[02.Check connection] $ ansible localhost -m ping -f 5 --output=/tmp/02.Check-conn
+[0;32mlocalhost | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}[0m
+Triggering a new build of [8mha:////4FnRhjoztgDFxZ8/L2KuV/Q3hT2a6B+gBajECJZx725DAAAAqB+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzJEgZl/az8JH0DQz0/X8cACNtYzzOvuCQxJ0fVyAAsCgAh5GXh2AAAAA==[0m01.NMAP » 03.Install NMAP
+Finished: SUCCESS
