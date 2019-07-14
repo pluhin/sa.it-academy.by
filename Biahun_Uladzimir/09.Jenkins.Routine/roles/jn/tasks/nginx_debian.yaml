@@ -1,0 +1,52 @@
+---
+- name: Nginx. Install packages
+  apt:
+    name: "{{ apt_nginx_packages }}"
+    state: present
+  tags:
+   - done
+
+- name: Create directory for jenkins
+  file:
+    path: "{{ site_jn_home }}/{{ site_jn_name }}"
+    state: directory
+  tags:
+   - done
+
+- name: Create directory for conf
+  file:
+    path: "{{ conf_dir }}"
+    state: directory
+  tags:
+   - done
+
+- name: Copy site_jn_conf to to conf.d
+  template:
+    src: site_jn_conf.j2
+    dest: "{{ conf_dir }}/{{ site_jn_conf }}"
+    backup: yes
+  tags:
+   - copy_conf
+
+
+- name: install openjdk
+  yum:
+    name: java-1.8.0-openjdk
+    state: present
+  tags:
+   - jdk8    
+#- name: Copy index page template site2
+#  template:
+#    src: index_site2.j2
+#    dest: "{{ default_home }}/{{ ansible_os_family }}.site2/index.html"
+#    backup: yes
+#    #  become: yes
+#  tags:
+#   - copy_index_s2
+
+- name: Nginx. Restart packages
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+
