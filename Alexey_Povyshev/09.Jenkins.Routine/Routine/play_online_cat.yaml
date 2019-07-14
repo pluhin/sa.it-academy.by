@@ -1,0 +1,9 @@
+---
+- hosts: ubuntu
+  tasks:
+  - name: Print all online hosts
+    command: cat /tmp/nmap_output.txt
+    register: output
+
+  - debug: 
+      msg: "{{ output.stdout_lines }}"

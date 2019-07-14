@@ -1,0 +1,10 @@
+---
+- hosts: ubuntu
+  tasks:
+  - name: Nmap remove
+    become: yes
+    apt:
+      name: nmap
+      state: absent
+
+
