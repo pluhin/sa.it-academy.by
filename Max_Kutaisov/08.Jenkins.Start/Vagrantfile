@@ -1,0 +1,10 @@
+Vagrant.configure("2") do |config|
+  # image OS
+  config.vm.box = "bento/ubuntu-18.04"
+  config.vm.box_version = "201812.27.0"
+  config.vm.synced_folder "code/", "/var/www/html", nfs: true
+  # setting network - set IP
+  config.vm.network "private_network", ip: "192.168.1.100"
+  # start bash script
+  config.vm.provision :shell, :path => "bootstrap.sh"
+end
