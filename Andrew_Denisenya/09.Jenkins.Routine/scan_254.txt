@@ -1,0 +1,1156 @@
+# Nmap 7.01 scan initiated Sun Jul 14 21:13:43 2019 as: /usr/bin/nmap -P0 -oN /tmp/scan_254.txt 192.168.254.0/24
+Nmap scan report for 192.168.254.0
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.0 are filtered
+
+Nmap scan report for 192.168.254.1
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.1 are filtered
+
+Nmap scan report for 192.168.254.2
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.2 are filtered
+
+Nmap scan report for 192.168.254.3
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.3 are filtered
+
+Nmap scan report for 192.168.254.4
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.4 are filtered
+
+Nmap scan report for 192.168.254.5
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.5 are filtered
+
+Nmap scan report for 192.168.254.6
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.6 are filtered
+
+Nmap scan report for 192.168.254.7
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.7 are filtered
+
+Nmap scan report for 192.168.254.8
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.8 are filtered
+
+Nmap scan report for 192.168.254.9
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.9 are filtered
+
+Nmap scan report for 192.168.254.10
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.10 are filtered
+
+Nmap scan report for 192.168.254.11
+Host is up (0.0013s latency).
+Not shown: 997 filtered ports
+PORT     STATE  SERVICE
+22/tcp   open   ssh
+80/tcp   open   http
+8080/tcp closed http-proxy
+
+Nmap scan report for 192.168.254.12
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.12 are filtered
+
+Nmap scan report for 192.168.254.13
+Host is up (0.00050s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.254.14
+Host is up (2.7s latency).
+All 1000 scanned ports on 192.168.254.14 are filtered
+
+Nmap scan report for 192.168.254.15
+Host is up (1.3s latency).
+All 1000 scanned ports on 192.168.254.15 are filtered
+
+Nmap scan report for 192.168.254.16
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.16 are filtered
+
+Nmap scan report for 192.168.254.17
+Host is up (0.00081s latency).
+All 1000 scanned ports on 192.168.254.17 are filtered
+
+Nmap scan report for 192.168.254.18
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.18 are filtered
+
+Nmap scan report for 192.168.254.19
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.19 are filtered
+
+Nmap scan report for 192.168.254.20
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.20 are filtered
+
+Nmap scan report for 192.168.254.21
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.21 are filtered
+
+Nmap scan report for 192.168.254.22
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.22 are filtered
+
+Nmap scan report for 192.168.254.23
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.23 are filtered
+
+Nmap scan report for 192.168.254.24
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.24 are filtered
+
+Nmap scan report for 192.168.254.25
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.25 are filtered
+
+Nmap scan report for 192.168.254.26
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.26 are filtered
+
+Nmap scan report for 192.168.254.27
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.27 are filtered
+
+Nmap scan report for 192.168.254.28
+Host is up (0.00052s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.254.29
+Host is up (0.00050s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.254.30
+Host is up (0.00022s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.254.31
+Host is up (0.00056s latency).
+Not shown: 997 closed ports
+PORT    STATE SERVICE
+22/tcp  open  ssh
+80/tcp  open  http
+443/tcp open  https
+
+Nmap scan report for 192.168.254.32
+Host is up (0.00034s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.254.33
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.33 are filtered
+
+Nmap scan report for 192.168.254.34
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.34 are filtered
+
+Nmap scan report for 192.168.254.35
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.35 are filtered
+
+Nmap scan report for 192.168.254.36
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.36 are filtered
+
+Nmap scan report for 192.168.254.37
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.37 are filtered
+
+Nmap scan report for 192.168.254.38
+Host is up (1.7s latency).
+All 1000 scanned ports on 192.168.254.38 are filtered
+
+Nmap scan report for 192.168.254.39
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.39 are filtered
+
+Nmap scan report for 192.168.254.40
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.40 are filtered
+
+Nmap scan report for 192.168.254.41
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.41 are filtered
+
+Nmap scan report for 192.168.254.42
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.42 are filtered
+
+Nmap scan report for 192.168.254.43
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.43 are filtered
+
+Nmap scan report for 192.168.254.44
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.44 are filtered
+
+Nmap scan report for 192.168.254.45
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.45 are filtered
+
+Nmap scan report for 192.168.254.46
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.46 are filtered
+
+Nmap scan report for 192.168.254.47
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.47 are filtered
+
+Nmap scan report for 192.168.254.48
+Host is up (0.086s latency).
+Not shown: 998 closed ports
+PORT     STATE SERVICE
+80/tcp   open  http
+8080/tcp open  http-proxy
+
+Nmap scan report for 192.168.254.49
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.49 are filtered
+
+Nmap scan report for 192.168.254.50
+Host is up (0.0012s latency).
+Not shown: 999 filtered ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.254.51
+Host is up (0.00055s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.254.52
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.52 are filtered
+
+Nmap scan report for 192.168.254.53
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.53 are filtered
+
+Nmap scan report for 192.168.254.54
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.54 are filtered
+
+Nmap scan report for 192.168.254.55
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.55 are filtered
+
+Nmap scan report for 192.168.254.56
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.56 are filtered
+
+Nmap scan report for 192.168.254.57
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.57 are filtered
+
+Nmap scan report for 192.168.254.58
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.58 are filtered
+
+Nmap scan report for 192.168.254.59
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.59 are filtered
+
+Nmap scan report for 192.168.254.60
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.60 are filtered
+
+Nmap scan report for 192.168.254.61
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.61 are filtered
+
+Nmap scan report for 192.168.254.62
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.62 are filtered
+
+Nmap scan report for 192.168.254.63
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.63 are filtered
+
+Nmap scan report for 192.168.254.64
+Host is up (2.2s latency).
+All 1000 scanned ports on 192.168.254.64 are filtered
+
+Nmap scan report for 192.168.254.65
+Host is up (1.3s latency).
+All 1000 scanned ports on 192.168.254.65 are filtered
+
+Nmap scan report for 192.168.254.66
+Host is up (2.7s latency).
+All 1000 scanned ports on 192.168.254.66 are filtered
+
+Nmap scan report for 192.168.254.67
+Host is up (2.4s latency).
+All 1000 scanned ports on 192.168.254.67 are filtered
+
+Nmap scan report for 192.168.254.68
+Host is up (2.6s latency).
+All 1000 scanned ports on 192.168.254.68 are filtered
+
+Nmap scan report for 192.168.254.69
+Host is up (2.4s latency).
+All 1000 scanned ports on 192.168.254.69 are filtered
+
+Nmap scan report for 192.168.254.70
+Host is up (2.7s latency).
+All 1000 scanned ports on 192.168.254.70 are filtered
+
+Nmap scan report for 192.168.254.71
+Host is up (2.3s latency).
+All 1000 scanned ports on 192.168.254.71 are filtered
+
+Nmap scan report for 192.168.254.72
+Host is up (1.2s latency).
+All 1000 scanned ports on 192.168.254.72 are filtered
+
+Nmap scan report for 192.168.254.73
+Host is up (2.4s latency).
+All 1000 scanned ports on 192.168.254.73 are filtered
+
+Nmap scan report for 192.168.254.74
+Host is up (2.6s latency).
+All 1000 scanned ports on 192.168.254.74 are filtered
+
+Nmap scan report for 192.168.254.75
+Host is up (1.4s latency).
+All 1000 scanned ports on 192.168.254.75 are filtered
+
+Nmap scan report for 192.168.254.76
+Host is up (1.3s latency).
+All 1000 scanned ports on 192.168.254.76 are filtered
+
+Nmap scan report for 192.168.254.77
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.77 are filtered
+
+Nmap scan report for 192.168.254.78
+Host is up (2.7s latency).
+All 1000 scanned ports on 192.168.254.78 are filtered
+
+Nmap scan report for 192.168.254.79
+Host is up (2.7s latency).
+All 1000 scanned ports on 192.168.254.79 are filtered
+
+Nmap scan report for 192.168.254.80
+Host is up (2.5s latency).
+All 1000 scanned ports on 192.168.254.80 are filtered
+
+Nmap scan report for 192.168.254.81
+Host is up (2.4s latency).
+All 1000 scanned ports on 192.168.254.81 are filtered
+
+Nmap scan report for 192.168.254.82
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.82 are filtered
+
+Nmap scan report for 192.168.254.83
+Host is up (2.4s latency).
+All 1000 scanned ports on 192.168.254.83 are filtered
+
+Nmap scan report for 192.168.254.84
+Host is up (0.38s latency).
+All 1000 scanned ports on 192.168.254.84 are filtered
+
+Nmap scan report for 192.168.254.85
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.85 are filtered
+
+Nmap scan report for 192.168.254.86
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.86 are filtered
+
+Nmap scan report for 192.168.254.87
+Host is up (2.4s latency).
+All 1000 scanned ports on 192.168.254.87 are filtered
+
+Nmap scan report for 192.168.254.88
+Host is up.
+All 1000 scanned ports on 192.168.254.88 are filtered
+
+Nmap scan report for 192.168.254.89
+Host is up (1.1s latency).
+All 1000 scanned ports on 192.168.254.89 are filtered
+
+Nmap scan report for 192.168.254.90
+Host is up (1.2s latency).
+All 1000 scanned ports on 192.168.254.90 are filtered
+
+Nmap scan report for 192.168.254.91
+Host is up (2.7s latency).
+All 1000 scanned ports on 192.168.254.91 are filtered
+
+Nmap scan report for 192.168.254.92
+Host is up (2.6s latency).
+All 1000 scanned ports on 192.168.254.92 are filtered
+
+Nmap scan report for 192.168.254.93
+Host is up (2.7s latency).
+All 1000 scanned ports on 192.168.254.93 are filtered
+
+Nmap scan report for 192.168.254.94
+Host is up (1.4s latency).
+All 1000 scanned ports on 192.168.254.94 are filtered
+
+Nmap scan report for 192.168.254.95
+Host is up (1.4s latency).
+All 1000 scanned ports on 192.168.254.95 are filtered
+
+Nmap scan report for 192.168.254.96
+Host is up (2.4s latency).
+All 1000 scanned ports on 192.168.254.96 are filtered
+
+Nmap scan report for 192.168.254.97
+Host is up (2.7s latency).
+All 1000 scanned ports on 192.168.254.97 are filtered
+
+Nmap scan report for 192.168.254.98
+Host is up (2.7s latency).
+All 1000 scanned ports on 192.168.254.98 are filtered
+
+Nmap scan report for 192.168.254.99
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.99 are filtered
+
+Nmap scan report for 192.168.254.100
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.100 are filtered
+
+Nmap scan report for 192.168.254.101
+Host is up (2.7s latency).
+All 1000 scanned ports on 192.168.254.101 are filtered
+
+Nmap scan report for 192.168.254.102
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.102 are filtered
+
+Nmap scan report for 192.168.254.103
+Host is up (2.3s latency).
+All 1000 scanned ports on 192.168.254.103 are filtered
+
+Nmap scan report for 192.168.254.104
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.104 are filtered
+
+Nmap scan report for 192.168.254.105
+Host is up (2.6s latency).
+All 1000 scanned ports on 192.168.254.105 are filtered
+
+Nmap scan report for 192.168.254.106
+Host is up (2.5s latency).
+All 1000 scanned ports on 192.168.254.106 are filtered
+
+Nmap scan report for 192.168.254.107
+Host is up (2.2s latency).
+All 1000 scanned ports on 192.168.254.107 are filtered
+
+Nmap scan report for 192.168.254.108
+Host is up (2.4s latency).
+All 1000 scanned ports on 192.168.254.108 are filtered
+
+Nmap scan report for 192.168.254.109
+Host is up (2.6s latency).
+All 1000 scanned ports on 192.168.254.109 are filtered
+
+Nmap scan report for 192.168.254.110
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.110 are filtered
+
+Nmap scan report for 192.168.254.111
+Host is up (2.7s latency).
+All 1000 scanned ports on 192.168.254.111 are filtered
+
+Nmap scan report for 192.168.254.112
+Host is up (2.7s latency).
+All 1000 scanned ports on 192.168.254.112 are filtered
+
+Nmap scan report for 192.168.254.113
+Host is up (2.3s latency).
+All 1000 scanned ports on 192.168.254.113 are filtered
+
+Nmap scan report for 192.168.254.114
+Host is up (2.5s latency).
+All 1000 scanned ports on 192.168.254.114 are filtered
+
+Nmap scan report for 192.168.254.115
+Host is up (1.1s latency).
+All 1000 scanned ports on 192.168.254.115 are filtered
+
+Nmap scan report for 192.168.254.116
+Host is up (1.3s latency).
+All 1000 scanned ports on 192.168.254.116 are filtered
+
+Nmap scan report for 192.168.254.117
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.117 are filtered
+
+Nmap scan report for 192.168.254.118
+Host is up (0.51s latency).
+All 1000 scanned ports on 192.168.254.118 are filtered
+
+Nmap scan report for 192.168.254.119
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.119 are filtered
+
+Nmap scan report for 192.168.254.120
+Host is up (2.4s latency).
+All 1000 scanned ports on 192.168.254.120 are filtered
+
+Nmap scan report for 192.168.254.121
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.121 are filtered
+
+Nmap scan report for 192.168.254.122
+Host is up (2.6s latency).
+All 1000 scanned ports on 192.168.254.122 are filtered
+
+Nmap scan report for 192.168.254.123
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.123 are filtered
+
+Nmap scan report for 192.168.254.124
+Host is up (2.4s latency).
+All 1000 scanned ports on 192.168.254.124 are filtered
+
+Nmap scan report for 192.168.254.125
+Host is up (2.6s latency).
+All 1000 scanned ports on 192.168.254.125 are filtered
+
+Nmap scan report for 192.168.254.126
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.126 are filtered
+
+Nmap scan report for 192.168.254.127
+Host is up (2.5s latency).
+All 1000 scanned ports on 192.168.254.127 are filtered
+
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+Nmap scan report for 192.168.254.128
+Host is up (0.017s latency).
+All 1000 scanned ports on 192.168.254.128 are filtered
+
+Nmap scan report for 192.168.254.129
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.129 are filtered
+
+Nmap scan report for 192.168.254.130
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.130 are filtered
+
+Nmap scan report for 192.168.254.131
+Host is up (0.0048s latency).
+Not shown: 996 filtered ports
+PORT     STATE SERVICE
+902/tcp  open  iss-realsecure
+912/tcp  open  apex-mesh
+3306/tcp open  mysql
+5357/tcp open  wsdapi
+
+Nmap scan report for 192.168.254.132
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.132 are filtered
+
+Nmap scan report for 192.168.254.133
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.133 are filtered
+
+Nmap scan report for 192.168.254.134
+Host is up (4.7s latency).
+All 1000 scanned ports on 192.168.254.134 are closed (881) or filtered (119)
+
+Nmap scan report for 192.168.254.135
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.135 are filtered
+
+Nmap scan report for 192.168.254.136
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.136 are filtered
+
+Nmap scan report for 192.168.254.137
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.137 are filtered
+
+Nmap scan report for 192.168.254.138
+Host is up (2.6s latency).
+All 1000 scanned ports on 192.168.254.138 are filtered
+
+Nmap scan report for 192.168.254.139
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.139 are filtered
+
+Nmap scan report for 192.168.254.140
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.140 are filtered
+
+Nmap scan report for 192.168.254.141
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.141 are filtered
+
+Nmap scan report for 192.168.254.142
+Host is up (2.6s latency).
+All 1000 scanned ports on 192.168.254.142 are filtered
+
+Nmap scan report for 192.168.254.143
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.143 are filtered
+
+Nmap scan report for 192.168.254.144
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.144 are filtered
+
+Nmap scan report for 192.168.254.145
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.145 are filtered
+
+Nmap scan report for 192.168.254.146
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.146 are filtered
+
+Nmap scan report for 192.168.254.147
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.147 are filtered
+
+Nmap scan report for 192.168.254.148
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.148 are filtered
+
+Nmap scan report for 192.168.254.149
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.149 are filtered
+
+Nmap scan report for 192.168.254.150
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.150 are filtered
+
+Nmap scan report for 192.168.254.151
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.151 are filtered
+
+Nmap scan report for 192.168.254.152
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.152 are filtered
+
+Nmap scan report for 192.168.254.153
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.153 are filtered
+
+Nmap scan report for 192.168.254.154
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.154 are filtered
+
+Nmap scan report for 192.168.254.155
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.155 are filtered
+
+Nmap scan report for 192.168.254.156
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.156 are filtered
+
+Nmap scan report for 192.168.254.157
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.157 are filtered
+
+Nmap scan report for 192.168.254.158
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.158 are filtered
+
+Nmap scan report for 192.168.254.159
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.159 are filtered
+
+Nmap scan report for 192.168.254.160
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.160 are filtered
+
+Nmap scan report for 192.168.254.161
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.161 are filtered
+
+Nmap scan report for 192.168.254.162
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.162 are filtered
+
+Nmap scan report for 192.168.254.163
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.163 are filtered
+
+Nmap scan report for 192.168.254.164
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.164 are filtered
+
+Nmap scan report for 192.168.254.165
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.165 are filtered
+
+Nmap scan report for 192.168.254.166
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.166 are filtered
+
+Nmap scan report for 192.168.254.167
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.167 are filtered
+
+Nmap scan report for 192.168.254.168
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.168 are filtered
+
+Nmap scan report for 192.168.254.169
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.169 are filtered
+
+Nmap scan report for 192.168.254.170
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.170 are filtered
+
+Nmap scan report for 192.168.254.171
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.171 are filtered
+
+Nmap scan report for 192.168.254.172
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.172 are filtered
+
+Nmap scan report for 192.168.254.173
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.173 are filtered
+
+Nmap scan report for 192.168.254.174
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.174 are filtered
+
+Nmap scan report for 192.168.254.175
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.175 are filtered
+
+Nmap scan report for 192.168.254.176
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.176 are filtered
+
+Nmap scan report for 192.168.254.177
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.177 are filtered
+
+Nmap scan report for 192.168.254.178
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.178 are filtered
+
+Nmap scan report for 192.168.254.179
+Host is up (0.0028s latency).
+Not shown: 993 filtered ports
+PORT     STATE SERVICE
+135/tcp  open  msrpc
+139/tcp  open  netbios-ssn
+445/tcp  open  microsoft-ds
+1042/tcp open  afrog
+2869/tcp open  icslap
+5357/tcp open  wsdapi
+7070/tcp open  realserver
+
+Nmap scan report for 192.168.254.180
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.180 are filtered
+
+Nmap scan report for 192.168.254.181
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.181 are filtered
+
+Nmap scan report for 192.168.254.182
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.182 are filtered
+
+Nmap scan report for 192.168.254.183
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.183 are filtered
+
+Nmap scan report for 192.168.254.184
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.184 are filtered
+
+Nmap scan report for 192.168.254.185
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.185 are filtered
+
+Nmap scan report for 192.168.254.186
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.186 are filtered
+
+Nmap scan report for 192.168.254.187
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.187 are filtered
+
+Nmap scan report for 192.168.254.188
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.188 are filtered
+
+Nmap scan report for 192.168.254.189
+Host is up (3.0s latency).
+All 1000 scanned ports on 192.168.254.189 are filtered
+
+Nmap scan report for 192.168.254.190
+Host is up (2.9s latency).
+All 1000 scanned ports on 192.168.254.190 are filtered
+
+Nmap scan report for 192.168.254.191
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.191 are filtered
+
+Nmap scan report for 192.168.254.192
+Host is up (0.14s latency).
+All 1000 scanned ports on 192.168.254.192 are filtered
+
+Nmap scan report for 192.168.254.193
+Host is up (2.8s latency).
+All 1000 scanned ports on 192.168.254.193 are filtered
+
+Nmap scan report for 192.168.254.194
+Host is up (2.3s latency).
+All 1000 scanned ports on 192.168.254.194 are filtered
+
+Nmap scan report for 192.168.254.195
+Host is up (2.7s latency).
+All 1000 scanned ports on 192.168.254.195 are filtered
+
+Nmap scan report for 192.168.254.196
+Host is up (2.4s latency).
+All 1000 scanned ports on 192.168.254.196 are filtered
+
+Nmap scan report for 192.168.254.197
+Host is up (1.4s latency).
+All 1000 scanned ports on 192.168.254.197 are filtered
+
+Nmap scan report for 192.168.254.198
+Host is up (2.6s latency).
+All 1000 scanned ports on 192.168.254.198 are filtered
+
+Nmap scan report for 192.168.254.199
+Host is up (2.6s latency).
+All 1000 scanned ports on 192.168.254.199 are filtered
+
+Nmap scan report for 192.168.254.200
+Host is up (1.8s latency).
+All 1000 scanned ports on 192.168.254.200 are filtered
+
+Nmap scan report for 192.168.254.201
+Host is up (2.1s latency).
+All 1000 scanned ports on 192.168.254.201 are filtered
+
+Nmap scan report for 192.168.254.202
+Host is up (1.5s latency).
+All 1000 scanned ports on 192.168.254.202 are filtered
+
+Nmap scan report for 192.168.254.203
+Host is up (0.14s latency).
+All 1000 scanned ports on 192.168.254.203 are filtered
+
+Nmap scan report for 192.168.254.204
+Host is up (0.14s latency).
+All 1000 scanned ports on 192.168.254.204 are filtered
+
+Nmap scan report for 192.168.254.205
+Host is up (0.14s latency).
+All 1000 scanned ports on 192.168.254.205 are filtered
+
+Nmap scan report for 192.168.254.206
+Host is up (0.14s latency).
+All 1000 scanned ports on 192.168.254.206 are filtered
+
+Nmap scan report for 192.168.254.207
+Host is up (0.14s latency).
+All 1000 scanned ports on 192.168.254.207 are filtered
+
+Nmap scan report for 192.168.254.208
+Host is up (0.14s latency).
+All 1000 scanned ports on 192.168.254.208 are filtered
+
+Nmap scan report for 192.168.254.209
+Host is up (0.062s latency).
+All 1000 scanned ports on 192.168.254.209 are filtered
+
+Nmap scan report for 192.168.254.210
+Host is up (0.10s latency).
+All 1000 scanned ports on 192.168.254.210 are filtered
+
+Nmap scan report for 192.168.254.211
+Host is up (0.13s latency).
+All 1000 scanned ports on 192.168.254.211 are filtered
+
+Nmap scan report for 192.168.254.212
+Host is up (0.14s latency).
+All 1000 scanned ports on 192.168.254.212 are filtered
+
+Nmap scan report for 192.168.254.213
+Host is up (0.12s latency).
+All 1000 scanned ports on 192.168.254.213 are filtered
+
+Nmap scan report for 192.168.254.214
+Host is up (0.086s latency).
+All 1000 scanned ports on 192.168.254.214 are filtered
+
+Nmap scan report for 192.168.254.215
+Host is up (0.14s latency).
+All 1000 scanned ports on 192.168.254.215 are filtered
+
+Nmap scan report for 192.168.254.216
+Host is up (0.14s latency).
+All 1000 scanned ports on 192.168.254.216 are filtered
+
+Nmap scan report for 192.168.254.217
+Host is up (0.14s latency).
+All 1000 scanned ports on 192.168.254.217 are filtered
+
+Nmap scan report for 192.168.254.218
+Host is up (0.095s latency).
+All 1000 scanned ports on 192.168.254.218 are filtered
+
+Nmap scan report for 192.168.254.219
+Host is up (0.090s latency).
+All 1000 scanned ports on 192.168.254.219 are filtered
+
+Nmap scan report for 192.168.254.220
+Host is up (0.13s latency).
+All 1000 scanned ports on 192.168.254.220 are filtered
+
+Nmap scan report for 192.168.254.221
+Host is up (0.13s latency).
+All 1000 scanned ports on 192.168.254.221 are filtered
+
+Nmap scan report for 192.168.254.222
+Host is up (0.15s latency).
+All 1000 scanned ports on 192.168.254.222 are filtered
+
+Nmap scan report for 192.168.254.223
+Host is up (0.14s latency).
+All 1000 scanned ports on 192.168.254.223 are filtered
+
+Nmap scan report for 192.168.254.224
+Host is up (0.00025s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+8080/tcp open  http-proxy
+
+Nmap scan report for 192.168.254.225
+Host is up (0.00039s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.254.226
+Host is up (0.00021s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+8080/tcp open  http-proxy
+
+Nmap scan report for 192.168.254.227
+Host is up (0.00039s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.254.228
+Host is up (0.00043s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.254.229
+Host is up (0.00037s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.254.230
+Host is up (0.00027s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.254.231
+Host is up (0.00033s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.254.232
+Host is up (0.00035s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.254.233
+Host is up (0.00055s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.254.234
+Host is up (0.00036s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.254.235
+Host is up (0.00052s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.254.236
+Host is up (0.00067s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.254.237
+Host is up (0.00045s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.254.238
+Host is up (2.4s latency).
+All 1000 scanned ports on 192.168.254.238 are filtered
+
+Nmap scan report for 192.168.254.239
+Host is up (2.7s latency).
+All 1000 scanned ports on 192.168.254.239 are filtered
+
+Nmap scan report for 192.168.254.240
+Host is up (0.00030s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.254.241
+Host is up (1.6s latency).
+All 1000 scanned ports on 192.168.254.241 are filtered
+
+Nmap scan report for 192.168.254.242
+Host is up (0.094s latency).
+All 1000 scanned ports on 192.168.254.242 are filtered
+
+Nmap scan report for 192.168.254.243
+Host is up (0.0032s latency).
+All 1000 scanned ports on 192.168.254.243 are filtered
+
+Nmap scan report for 192.168.254.244
+Host is up (0.0030s latency).
+All 1000 scanned ports on 192.168.254.244 are filtered
+
+Nmap scan report for 192.168.254.245
+Host is up (0.093s latency).
+All 1000 scanned ports on 192.168.254.245 are filtered
+
+Nmap scan report for 192.168.254.246
+Host is up (0.093s latency).
+All 1000 scanned ports on 192.168.254.246 are filtered
+
+Nmap scan report for 192.168.254.247
+Host is up (0.093s latency).
+All 1000 scanned ports on 192.168.254.247 are filtered
+
+Nmap scan report for 192.168.254.248
+Host is up (0.097s latency).
+All 1000 scanned ports on 192.168.254.248 are filtered
+
+Nmap scan report for 192.168.254.249
+Host is up (2.3s latency).
+All 1000 scanned ports on 192.168.254.249 are filtered
+
+Nmap scan report for 192.168.254.250
+Host is up (0.12s latency).
+All 1000 scanned ports on 192.168.254.250 are filtered
+
+Nmap scan report for 192.168.254.251
+Host is up (0.11s latency).
+All 1000 scanned ports on 192.168.254.251 are filtered
+
+Nmap scan report for 192.168.254.252
+Host is up (0.12s latency).
+All 1000 scanned ports on 192.168.254.252 are filtered
+
+Nmap scan report for 192.168.254.253
+Host is up (0.12s latency).
+All 1000 scanned ports on 192.168.254.253 are filtered
+
+Nmap scan report for 192.168.254.254
+Host is up (0.11s latency).
+All 1000 scanned ports on 192.168.254.254 are filtered
+
+Nmap scan report for 192.168.254.255
+Host is up (0.13s latency).
+All 1000 scanned ports on 192.168.254.255 are filtered
+
+# Nmap done at Sun Jul 14 22:19:13 2019 -- 256 IP addresses (256 hosts up) scanned in 3930.36 seconds

@@ -1,0 +1,27 @@
+Started by upstream project "[8mha:////4BRy6xKGw3W9zVhsZKhwQPfwbiyeT/mtnR2hDUs8lSZLAAAAqx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzxEgZl/az8JH0DQz0/X8cACNtELzg5MU/VyCAvtaQ8vyhbHwDnUnvt2AAAAA==[0m01.NMAP/04.Scan network" build number [8mha:////4COUHEXo+sWIA/XOCBxeMbdJnDAPda9G2Ha6s3LS2C8bAAAAqx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLQIwSBhX9rPwkfQNDPT9fxwAI20QvODkxT9XIIC+1pDy/KFvfGAAjif3G2QAAAA==[0m3
+originally caused by:
+ Started by upstream project "[8mha:////4MoGNK9XRJFqZerqG7OumZSS1I0rqIi6YHZT/6bJaubxAAAAqB+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzxEgZl/az8JH0DQz0/X8cACNtYzzOvuCQxJ0fVyAAsCgAdjPmE2AAAAA==[0m01.NMAP/03.Install NMAP" build number [8mha:////4J2ug6vN6eK5sGEmaP3WINljQ8ens5W0nVCxaltlhyifAAAAqh+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAymEgZV/az8JH0DQz0/X8cACNtYzzOvuCQxJ0fVyAAsamgKAPEQ3/XaAAAA[0m15
+ originally caused by:
+  Started by upstream project "[8mha:////4KS2dJG0rbmfvk1bABhPh+InYZBr06uCLQysSGfX3wCjAAAArh+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzpEgZ1/az8JH0DQz0/X8cACNtIzzkjNTlb1cgAaEReanJJZn6ePgDgdc0J3AAAAA==[0m01.NMAP/02.Check connection" build number [8mha:////4DOgjfxg6Ih7dBpcSpd+juOiasgBIpoEu19YVtj4HGt6AAAAsB+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAymEgZN/az8JH0DQz0/X8cACNtIzzkjNTlb1cgAaEReanJJZn6evqEhABGSG1feAAAA[0m11
+  originally caused by:
+   Started by upstream project "[8mha:////4DUrl+LXx8fB9mO6gXFd9wFlQdd8HSPtN3CUWNjIKYqtAAAAqR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzJEgZl/az8JH0DQz0/X8cAGNszQNe5KDUlNa8kMzGnWB8AlOII+NgAAAA=[0m01.NMAP/01.IP-Credentials" build number [8mha:////4BYlRN8yE8Ilt0Pi7VLnuKNqDQp4EXszzJy+xzH6r+J5AAAAqR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLQIwSBhX9rPwkfQNDPT9fxwAY2zNA17koNSU1ryQzMadY3wwAdc6EUNkAAAA=[0m6
+   originally caused by:
+    Started by user [8mha:////4Dg2qfXbt2Tcjxwii86xFjBE66ocqq1ahejlE4TupMRTAAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAyBEgZu/dLi1CL9xJTczDwAS4B5WsAAAAA=[0mAndrew Denisenya
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/01.NMAP/05.Remove NMAP
+[05.Remove NMAP] $ /bin/bash /tmp/jenkins2674427377083206966.sh
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages were automatically installed and are no longer required:
+  libblas-common libblas3 liblinear3 liblua5.2-0 lua-lpeg ndiff python-bs4
+  python-chardet python-html5lib python-lxml
+Use 'sudo apt autoremove' to remove them.
+The following packages will be REMOVED:
+  nmap
+0 upgraded, 0 newly installed, 1 to remove and 3 not upgraded.
+After this operation, 21.3 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 129064 files and directories currently installed.)
+Removing nmap (7.01-2ubuntu2) ...
+Processing triggers for man-db (2.7.5-1) ...
+Finished: SUCCESS
