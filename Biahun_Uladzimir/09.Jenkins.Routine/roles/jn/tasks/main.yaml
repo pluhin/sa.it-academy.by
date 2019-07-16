@@ -1,0 +1,25 @@
+---
+- name: Include deploy for Debian system
+  include: nginx_debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat system
+  include: nginx_redhat.yaml
+  when: ansible_os_family == 'RedHat'
+
+
+
+#- name: "Add {{ site_jn_name }} to host file"
+#  shell: echo "10.13.210.52       {{ site_jn_name }}" >> /etc/hosts
+#  tags:
+#    - hosts
+
+
+
+#- name: Edit /etc/hosts with template
+#  template:
+#    src: hosts.j2
+#    dest: /etc/hosts
+#    backup: yes
+#  tags:
+#    - template

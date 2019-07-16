@@ -1,0 +1,34 @@
+---
+- name: Copy Repository File To Hosts
+  copy:
+    src: files/nginx.repo
+    dest: /etc/yum.repos.d/nginx.repo
+  when: ansible_distribution == "CentOS"
+
+- name: Compy script to Debian host that install needed repository
+  copy:
+    src: files/nginx_repo_script.sh
+    dest: "/root/nginx_repo_scripts.sh"
+  when: ansible_distribution == "Debian"
+
+- name: Run Repo script on debian host
+  command: bash /root/nginx_repo_scripts.sh
+  when: ansible_distribution == "Debian"
+
+- name: Install Nginx on centos
+  yum:
+    name: "{{ sa_nginx_package }}"
+    state: latest
+  when: ansible_distribution == "CentOS"
+
+- name: Install Nginx on debian
+  apt:
+    name: "{{ sa_nginx_package }}"
+    state: latest
+  when: ansible_distribution == "Debian"
+
+- name: Copy INdex HTML files
+  template:
+    src: "index.html.j2"
+    dest: "/usr/share/nginx/html/index.html"
+  notify: restart-nginx

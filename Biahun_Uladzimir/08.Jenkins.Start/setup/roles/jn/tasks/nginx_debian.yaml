@@ -1,0 +1,104 @@
+---
+- name: Nginx. Install package
+  apt:
+    name: "{{ apt_nginx_packages }}"
+    state: latest
+  tags:
+   - 1
+
+- name: Create directory for jenkins
+  file:
+    path: "{{ site_jn_home }}/{{ site_jn_name }}"
+    state: directory
+  tags:
+   - done
+
+- name: Create directory for conf
+  file:
+    path: "{{ conf_dir }}"
+    state: directory
+  tags:
+   - done
+
+- name: Copy site_jn_conf to to conf.d
+  template:
+    src: site_jn_conf.j2
+    dest: "{{ conf_dir }}/{{ site_jn_conf }}"
+    backup: yes
+  tags:
+   - done
+
+
+- name: Install Java
+  apt:
+    name: "{{ debian_jdk }}"
+    state: present
+  tags:
+   - done    
+
+- name: Install wget
+  apt:
+    name: wget
+    state: present     
+  tags:
+   - act
+
+
+- name: Ensure the jenkins apt repository key is installed
+  apt_key: 
+    url: https://pkg.jenkins.io/debian-stable/jenkins.io.key 
+    state: present
+
+- name: Ensure the repository is configured
+  apt_repository: 
+    repo: 'deb https://pkg.jenkins.io/debian-stable binary/' 
+    state: present
+
+- name: install jenkins
+  apt:
+    name: jenkins
+    state: present
+  tags:
+   - act
+
+- name: start jenkins
+  systemd:
+    name: jenkins
+    state: started    
+  tags:
+   - act
+
+- name: enable jenkins
+  systemd:
+    name: jenkins
+    enabled: true
+  tags:
+   - act
+
+- name: Waiting for 30 seconds and continue
+  wait_for: timeout=30
+  delegate_to: localhost
+  tags:
+   - act
+
+- name: Initialize password jenkin
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+  tags:
+   - act
+
+- name: Print password jenkins
+  debug:
+    var: result.stdout     
+  tags:
+   - act
+
+- name: Nginx. Restart packages
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+  tags:
+   - done
+

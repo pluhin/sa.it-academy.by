@@ -1,0 +1,6 @@
+---
+all-hosts:
+  hosts:  
+    jenkins:
+      ansible_user: vagrant
+      ansible_host: 172.20.10.10

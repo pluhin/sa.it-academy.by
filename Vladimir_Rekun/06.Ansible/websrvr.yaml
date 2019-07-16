@@ -1,0 +1,7 @@
+---
+#web deploy
+- hosts: websrvr
+  become: yes
+  roles:
+    - websrvr
+
