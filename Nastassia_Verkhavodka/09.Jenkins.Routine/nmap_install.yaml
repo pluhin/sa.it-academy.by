@@ -1,0 +1,8 @@
+---
+- hosts: webservers
+  tasks:
+  - name: Installing nmap
+    become: yes
+    apt:
+      name: nmap
+      state: present
