@@ -1,0 +1,8 @@
+---
+- hosts: webservers
+  tasks:
+  - name: Uninstalling nmap
+    become: yes
+    apt:
+      name: nmap
+      state: absent
