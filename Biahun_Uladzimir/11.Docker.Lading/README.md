@@ -6,7 +6,7 @@
 * Test it
 * Send/receive API request
 
-### Run docker run -p 80:80 my_flask:v1.1
+### Run docker run -p 80:80 begun74/my_flask:v1.1
 ### URLs
 #### /persons
 #### /person/{0,1}
