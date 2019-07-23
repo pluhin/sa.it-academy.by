@@ -1,0 +1,19 @@
+---
+- hosts: all
+  vars:
+    name_user: ansible_user
+  become: yes
+  become_method: sudo  
+
+  tasks:  
+  
+  - name: delete user
+    user:
+      name: "{{ name_user }}"
+      state: absent
+      remove: yes
+
+  - name: delete user in sudo
+    file:
+      path: /etc/sudoers.d/{{ name_user }}
+      state: absent
