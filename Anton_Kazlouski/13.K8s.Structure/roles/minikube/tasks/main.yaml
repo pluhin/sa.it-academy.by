@@ -1,0 +1,65 @@
+---
+# This role install Minikube
+- name: install packages
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - socat
+    update_cache: yes
+    state: present
+
+- name: add Docker & kuberctl repo key
+  apt_key:
+    url: "{{ item }}"
+    state: present
+  with_items:
+   - https://download.docker.com/linux/ubuntu/gpg
+   - https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+- name: add repo for Docker
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  with_items:
+   - "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+   - "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+
+- name: install Docker and kuberctl
+  apt:
+    name: 
+      - docker-ce
+      - kubectl
+    update_cache: yes
+    state: present
+  register: out
+  
+- name: sudo for user
+  shell: usermod -aG docker vagrant
+
+- name: Install minikube
+  shell: 
+    curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+  become: false
+  register: out
+
+- name: check 
+  debug:
+    var: out
+
+- name: run minikube
+  shell: |
+    sudo minikube start --vm-driver none 
+    sudo chown -R vagrant /home/vagrant/.kube /home/vagrant/.minikube
+    sudo kubectl cluster-info
+    sudo kubectl proxy --address='0.0.0.0' --disable-filter=true &
+    sudo minikube dashboard --url &
+  become: false
+  register: out
+  
+- name: check minikube
+  debug:
+    var: out
+
