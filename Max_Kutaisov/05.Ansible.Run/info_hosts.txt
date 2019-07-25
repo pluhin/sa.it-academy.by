@@ -1,0 +1,12 @@
+ 1 OS Distribution: Ubuntu 
+ 2 OS version: 18.04 
+ 3 OS date: 2019-07-19 
+ 4 OS mounts point: [{u'block_used': 1225492, u'uuid': u'5eea373d-db36-4ce2-8c71-12ce544e8559', u'size_total': 66355564544, u'block_total': 16200089, u'mount': u'/', u'block_available': 14974597, u'size_available': 61335949312, u'fstype': u'ext4', u'inode_total': 4136960, u'options': u'rw,relatime,errors=remount-ro,data=ordered', u'device': u'/dev/mapper/vagrant--vg-root', u'inode_used': 45534, u'block_size': 4096, u'inode_available': 4091426}] 
+ 5 OS ansible_memory_mb.real: {u'total': 985, u'used': 332, u'free': 653} 
+ ========================================================== 
+ 1 OS Distribution: CentOS 
+ 2 OS version: 7.6 
+ 3 OS date: 2019-07-18 
+ 4 OS mounts point: [{u'block_used': 796742, u'uuid': u'8ac075e3-1124-4bb6-bef7-a6811bf8b870', u'size_total': 42927656960, u'block_total': 10480385, u'mount': u'/', u'block_available': 9683643, u'size_available': 39664201728, u'fstype': u'xfs', u'inode_total': 20971008, u'options': u'rw,seclabel,relatime,attr2,inode64,noquota', u'device': u'/dev/sda1', u'inode_used': 30917, u'block_size': 4096, u'inode_available': 20940091}] 
+ 5 OS ansible_memory_mb.real: {u'total': 487, u'used': 190, u'free': 297} 
+ ========================================================== 

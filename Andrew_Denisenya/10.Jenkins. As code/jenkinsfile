@@ -1,0 +1,35 @@
+pipeline { 
+    agent any 
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                git url: 'git://github.com/Barracuda09/satpi.git'
+            }
+        }
+        stage('Checking repository'){
+            steps { 
+                sh "ls -l"
+            }
+        }
+        stage('Make project') {
+            steps {
+                sh "make"
+            }
+        }
+        stage('Packing test') {
+            steps {
+                sh '''
+                   ls -l | grep satpi
+                   '''
+            }
+        }
+    }
+    post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+}

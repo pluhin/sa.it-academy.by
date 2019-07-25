@@ -1,0 +1,24 @@
+---
+- hosts: all
+  vars:
+    name_user: ansible_user
+  become: yes 
+
+  tasks:  
+  - name: create user
+    user: 
+      name: "{{ name_user }}"
+      shell: /bin/bash 
+      home: /home/{{name_user}}
+  
+  - name: user to sudo
+    copy:
+      dest: "/etc/sudoers.d/{{ name_user }}"
+      content: "{{ name_user }} ALL=(ALL)  NOPASSWD: ALL"
+
+  - name: Deploy SSH Key
+    authorized_key: 
+      user: "{{name_user}}"
+      key: "{{ lookup('file', '/home/vagrant/.ssh/id_rsa.pub') }}"
+      state: present
+

@@ -1,0 +1,77 @@
+Started by user Andrew Denisenya
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/02. Jenkins.As Code
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Clone repository)
+[Pipeline] git
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://github.com/Barracuda09/satpi.git # timeout=10
+Fetching upstream changes from git://github.com/Barracuda09/satpi.git
+ > git --version # timeout=10
+ > git fetch --tags --progress git://github.com/Barracuda09/satpi.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision d5e15ec945ff888f967b45b5c92b47c475f26633 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f d5e15ec945ff888f967b45b5c92b47c475f26633
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D master # timeout=10
+ > git checkout -b master d5e15ec945ff888f967b45b5c92b47c475f26633
+Commit message: "Fix transformation M3U file reading by removing CR from URI"
+ > git rev-list --no-walk d5e15ec945ff888f967b45b5c92b47c475f26633 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Checking repository)
+[Pipeline] sh
++ ls -l
+total 1264
+-rw-r--r-- 1 jenkins jenkins    154 Jul 21 23:35 CONTRIBUTING.md
+-rw-r--r-- 1 jenkins jenkins  11150 Jul 21 23:35 doxygen
+-rw-r--r-- 1 jenkins jenkins    521 Jul 21 23:35 env.sh
+drwxr-xr-x 2 jenkins jenkins   4096 Jul 21 23:35 gprof-helper
+-rw-r--r-- 1 jenkins jenkins  18027 Jul 21 23:35 LICENSE
+-rwxr-xr-x 1 jenkins jenkins   7656 Jul 21 23:35 Makefile
+-rw-r--r-- 1 jenkins jenkins   1520 Jul 21 23:35 mapping.m3u
+drwxr-xr-x 8 jenkins jenkins   4096 Jul 23 14:09 obj
+-rw-r--r-- 1 jenkins jenkins   4729 Jul 21 23:35 README.md
+-rwxr-xr-x 1 jenkins jenkins 762416 Jul 23 14:09 satpi
+-rw-r--r-- 1 jenkins jenkins   5553 Jul 21 23:35 SatPI.plantuml
+-rw-r--r-- 1 jenkins jenkins 258823 Jul 21 23:35 SatPI.png
+-rw-r--r-- 1 jenkins jenkins 102475 Jul 21 23:35 SatPI.svg
+-rw-r--r-- 1 jenkins jenkins  71146 Jul 21 23:35 SatPI.uncrustify
+drwxr-xr-x 9 jenkins jenkins   4096 Jul 22 20:45 src
+drwxr-xr-x 3 jenkins jenkins   4096 Jul 21 23:35 web
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Make project)
+[Pipeline] sh
++ make
+g++ -c -I ./src -std=c++11 -Wall -Wextra -Winit-self -pthread  -O2 -s -DNDEBUG src/Version.cpp -o obj/Version.o
+g++ obj/Version.o obj/InterfaceAttr.o obj/HttpServer.o obj/HttpcServer.o obj/Log.o obj/Properties.o obj/RtspServer.o obj/Satpi.o obj/Stream.o obj/StreamClient.o obj/StreamManager.o obj/StringConverter.o obj/base/M3UParser.o obj/base/Thread.o obj/base/ThreadBase.o obj/base/TimeCounter.o obj/base/XMLSaveSupport.o obj/base/XMLSupport.o obj/input/DeviceData.o obj/input/Transformation.o obj/input/dvb/Frontend.o obj/input/dvb/FrontendData.o obj/input/dvb/delivery/DiSEqc.o obj/input/dvb/delivery/DiSEqcEN50494.o obj/input/dvb/delivery/DiSEqcEN50607.o obj/input/dvb/delivery/DiSEqcSwitch.o obj/input/dvb/delivery/DVBC.o obj/input/dvb/delivery/DVBS.o obj/input/dvb/delivery/DVBT.o obj/input/dvb/delivery/Lnb.o obj/input/file/TSReader.o obj/input/file/TSReaderData.o obj/input/stream/Streamer.o obj/mpegts/Filter.o obj/mpegts/PacketBuffer.o obj/mpegts/PAT.o obj/mpegts/PidTable.o obj/mpegts/PMT.o obj/mpegts/SDT.o obj/mpegts/TableData.o obj/output/StreamThreadBase.o obj/output/StreamThreadHttp.o obj/output/StreamThreadRtcpBase.o obj/output/StreamThreadRtcp.o obj/output/StreamThreadRtcpTcp.o obj/output/StreamThreadRtp.o obj/output/StreamThreadRtpTcp.o obj/output/StreamThreadTSWriter.o obj/socket/HttpcSocket.o obj/socket/TcpSocket.o obj/socket/SocketAttr.o obj/socket/UdpSocket.o obj/upnp/ssdp/Server.o -o satpi -pthread -lrt
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Packing test)
+[Pipeline] sh
++ grep satpi
++ ls -l
+-rwxr-xr-x 1 jenkins jenkins 762416 Jul 23 15:06 satpi
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] slackSend
+Slack Send Pipeline step running, values are - baseUrl: <empty>, teamDomain: sa-itacademy-by, channel: , color: #00FF00, botUser: false, tokenCredentialId: b19e0b8f-a2d1-46ff-8d57-ec68a7f850b3, iconEmoji <empty>, username <empty>
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
