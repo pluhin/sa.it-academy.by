@@ -1,0 +1,6 @@
+---
+- name: "Install Minikube"
+  hosts: host_01
+  become: yes
+  roles:
+    - minikube
