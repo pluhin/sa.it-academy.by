@@ -1,0 +1,149 @@
+
+# 05.Ansible.Run
+
+### Inventory file
+
+```bash
+[centos]
+192.168.1.53
+[ubuntu]
+192.168.1.40
+[vm:children]
+centos
+ubuntu
+[vm:vars]
+ansible_user=root
+
+```
+
+### OS facts
+```bash
+kit@kit-ThinkPad-L380-Yoga:/opt/ans$ ansible-playbook ans.run.yml 
+
+PLAY [vm] **********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [192.168.1.40]
+ok: [192.168.1.53]
+
+TASK [Print facts] *************************************************************
+ok: [192.168.1.53] => {
+    "msg": [
+        {
+            "Hostname": "localhost"
+        }, 
+        {
+            "OS/ver": "CentOS/7.6.1810"
+        }, 
+        {
+            "Mount point": "/"
+        }, 
+        {
+            "Mount point capasity": "6641680384"
+        }, 
+        {
+            "Mount point size avalible": "5279932416"
+        }, 
+        {
+            "RAM capasity": {
+                "nocache": {
+                    "free": 778, 
+                    "used": 213
+                }, 
+                "real": {
+                    "free": 366, 
+                    "total": 991, 
+                    "used": 625
+                }, 
+                "swap": {
+                    "cached": 0, 
+                    "free": 819, 
+                    "total": 819, 
+                    "used": 0
+                }
+            }
+        }, 
+        {
+            "RAM free": "366"
+        }
+    ]
+}
+ok: [192.168.1.40] => {
+    "msg": [
+        {
+            "Hostname": "kit"
+        }, 
+        {
+            "OS/ver": "Ubuntu/18.04"
+        }, 
+        {
+            "Mount point": "/"
+        }, 
+        {
+            "Mount point capasity": "10498625536"
+        }, 
+        {
+            "Mount point size avalible": "5729185792"
+        }, 
+        {
+            "RAM capasity": {
+                "nocache": {
+                    "free": 798, 
+                    "used": 187
+                }, 
+                "real": {
+                    "free": 216, 
+                    "total": 985, 
+                    "used": 769
+                }, 
+                "swap": {
+                    "cached": 0, 
+                    "free": 1969, 
+                    "total": 1969, 
+                    "used": 0
+                }
+            }
+        }, 
+        {
+            "RAM free": "216"
+        }
+    ]
+}
+
+PLAY RECAP *********************************************************************
+192.168.1.40               : ok=2    changed=0    unreachable=0    failed=0   
+192.168.1.53               : ok=2    changed=0    unreachable=0    failed=0   
+
+
+```
+
+
+
+### ADD user
+```bash
+kit@kit-ThinkPad-L380-Yoga:/opt/ans$ ansible-playbook ans.run.user.yml 
+
+PLAY [vm] **********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [192.168.1.40]
+ok: [192.168.1.53]
+
+TASK [Add user] ****************************************************************
+ok: [192.168.1.40]
+changed: [192.168.1.53]
+
+TASK [add sudo privileges] *****************************************************
+ok: [192.168.1.40]
+changed: [192.168.1.53]
+
+TASK [add ssh key] *************************************************************
+ok: [192.168.1.40]
+changed: [192.168.1.53]
+
+PLAY RECAP *********************************************************************
+192.168.1.40               : ok=4    changed=0    unreachable=0    failed=0   
+192.168.1.53               : ok=4    changed=3    unreachable=0    failed=0   
+
+
+```
