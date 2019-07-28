@@ -1,0 +1,13 @@
+---
+-  hosts: vm
+   tasks:
+    - name: Print facts
+      debug:
+        msg:
+          - Hostname: "{{ ansible_hostname }}"
+          - OS/ver: "{{ ansible_distribution }}/{{ ansible_distribution_version }}"
+          - Mount point: "{{ ansible_mounts[0].mount }}"
+          - Mount point capasity: "{{ ansible_mounts[0].size_total }}"
+          - Mount point size avalible: "{{ ansible_mounts[0].size_available }}" 
+          - RAM capasity: "{{ hostvars[inventory_hostname].ansible_memory_mb }}"
+          - RAM free: "{{ hostvars[inventory_hostname].ansible_memfree_mb }}"
