@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  web:
+    image: nginx
+    container_name: web_server
+    ports:
+      - "8100:80"
+    volumes:
+      - ./nginx:/usr/share/nginx/html
+
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    restart: unless-stopped
+    depends_on:
+      - web
+    volumes:
+      - /path/to/sonarr/config:/config
+      - /path/to/nzbget/downloads:/downloads
+      - /path/to/plex/Shows:/tv
+    environment:
+      - TZ=Europe/Moscow
+    ports:
+      - "8989:8989"
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    restart: unless-stopped
+    depends_on:
+      - web
+    volumes:
+      - /path/to/radarr/config:/config
+      - /path/to/nzbget/downloads:/downloads
+      - /path/to/plex/Movies:/movies
+    environment:
+      - TZ=Europe/Moscow
+    ports:
+      - "7878:7878"
