@@ -1,0 +1,64 @@
+---
+- name: Install Jenkins
+  hosts: centos
+  gather_facts: false
+  become: yes
+  become_method: sudo
+  tags: [jenkins]
+
+  tasks:
+    - name: Add nginx
+      copy:
+        src: nginx.repo
+        dest: /etc/yum.repos.d/
+      become: yes
+    - name: Update
+      yum:
+        name: "*"
+        update_cache: yes
+    - name: Install dependencies
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - java-1.8.0-openjdk
+        - git
+        - wget
+    - name: Install nginx
+      yum:
+        name: nginx
+        state: present
+    - name: Configure nginx
+      copy:
+        src: nginx.conf
+        dest: /etc/nginx/nginx.conf
+      become: yes
+    - name: Enable access SEelinux
+      command: "setenforce Permissive"
+      become: yes
+    - name: Start nginx
+      service:
+        name: nginx
+        state: started
+      become: yes
+    - name: Allow port 8080
+      shell: iptables -I INPUT -p tcp --dport 8081 -m state --state NEW,ESTABLISHED -j ACCEPT
+    - name: Download jenkins repo
+      command: wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    - name: Import Jenkins CI key
+      rpm_key:
+        key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+        state: present
+    - name: Install Jenkins
+      yum:
+        name: "jenkins"
+        state: present
+    - name: Start the server
+      service:
+        name: jenkins
+        state: started
+    - name: Get Admin Password
+      become: yes
+      become_method: sudo
+      shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+      
