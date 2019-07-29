@@ -1,0 +1,13 @@
+[balancer]
+balancer ansible_host=192.168.43.68
+
+[web]
+nginx1 ansible_host=192.168.43.91
+nginx2 ansible_host=192.168.43.141
+
+[env:children]
+balancer
+web
+
+[env:vars]
+ansible_user=root
