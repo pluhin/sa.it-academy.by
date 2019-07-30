@@ -1,0 +1,9 @@
+---
+- hosts: node01
+  tasks:
+  - name: Nmap remove
+    become: yes
+    apt:
+      name: nmap
+      state: absent
+

@@ -1,0 +1,8 @@
+---
+- hosts: node01 
+  tasks:
+  - name: Nmap install
+    become: yes
+    apt:
+      name: nmap
+      state: present

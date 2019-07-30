@@ -1,0 +1,5 @@
+---
+- hosts: node01
+  tasks:
+  - name: Check all online hosts
+    shell: nmap -sP 192.168.254.0/24 > /tmp/1.txt
