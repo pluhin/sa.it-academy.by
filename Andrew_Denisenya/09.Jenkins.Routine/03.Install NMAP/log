@@ -1,0 +1,31 @@
+Started by upstream project "[8mha:////4KS2dJG0rbmfvk1bABhPh+InYZBr06uCLQysSGfX3wCjAAAArh+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzpEgZ1/az8JH0DQz0/X8cACNtIzzkjNTlb1cgAaEReanJJZn6ePgDgdc0J3AAAAA==[0m01.NMAP/02.Check connection" build number [8mha:////4DOgjfxg6Ih7dBpcSpd+juOiasgBIpoEu19YVtj4HGt6AAAAsB+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAymEgZN/az8JH0DQz0/X8cACNtIzzkjNTlb1cgAaEReanJJZn6evqEhABGSG1feAAAA[0m11
+originally caused by:
+ Started by upstream project "[8mha:////4DUrl+LXx8fB9mO6gXFd9wFlQdd8HSPtN3CUWNjIKYqtAAAAqR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzJEgZl/az8JH0DQz0/X8cAGNszQNe5KDUlNa8kMzGnWB8AlOII+NgAAAA=[0m01.NMAP/01.IP-Credentials" build number [8mha:////4BYlRN8yE8Ilt0Pi7VLnuKNqDQp4EXszzJy+xzH6r+J5AAAAqR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLQIwSBhX9rPwkfQNDPT9fxwAY2zNA17koNSU1ryQzMadY3wwAdc6EUNkAAAA=[0m6
+ originally caused by:
+  Started by user [8mha:////4Dg2qfXbt2Tcjxwii86xFjBE66ocqq1ahejlE4TupMRTAAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAyBEgZu/dLi1CL9xJTczDwAS4B5WsAAAAA=[0mAndrew Denisenya
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/01.NMAP/03.Install NMAP
+[03.Install NMAP] $ /bin/bash /tmp/jenkins8726728223488464651.sh
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  nmap
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
+0 upgraded, 1 newly installed, 0 to remove and 3 not upgraded.
+Need to get 0 B/4,638 kB of archives.
+After this operation, 21.3 MB of additional disk space will be used.
+Selecting previously unselected package nmap.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 128332 files and directories currently installed.)
+Preparing to unpack .../nmap_7.01-2ubuntu2_amd64.deb ...
+Unpacking nmap (7.01-2ubuntu2) ...
+Processing triggers for man-db (2.7.5-1) ...
+Setting up nmap (7.01-2ubuntu2) ...
+Triggering a new build of [8mha:////4FXEENa/+p1xZttekYYEDa2h+OHjPbrwijIbxtkLXBDkAAAAqx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzJEgZl/az8JH0DQz0/X8cACNtELzg5MU/VyCAvtaQ8vyhbHwDbOueI2AAAAA==[0m01.NMAP » 04.Scan network
+Finished: SUCCESS

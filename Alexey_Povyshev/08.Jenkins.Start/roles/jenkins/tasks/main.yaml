@@ -1,0 +1,25 @@
+---
+- name: Install Nginx
+  include: nginx.yaml
+
+- name: Hide Jenkins behind Nginx
+  include: copy_conf.yaml 
+ 
+- name: Jenkins. Edit config
+  lineinfile:
+    dest: "/etc/sysconfig/jenkins"
+    backup: yes
+    regexp: "^JENKINS_ARGS"
+    line: JENKINS_ARGS="--httpListenAddress=127.0.0.1"
+
+- name: Restart Jenkins 
+  service:
+    name: jenkins
+    state: restarted
+
+
+- name: Creating hostname
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes

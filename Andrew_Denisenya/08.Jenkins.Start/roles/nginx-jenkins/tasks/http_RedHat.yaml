@@ -1,0 +1,87 @@
+---
+- name: Configure repo-file for nginx RedHat
+  copy:
+    src: nginx.repo
+    dest: /etc/yum.repos.d/nginx.repo
+
+- name: Configure repo-file for jenkins RedHat
+  copy:
+    src: jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+
+- rpm_key:
+    state: present
+    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+- name: Add a new user named {{ jenkins_user }}
+  user:
+     name: "{{ jenkins_user }}"
+     shell: /bin/bash
+     home: /home/{{ jenkins_user }}
+     generate_ssh_key: yes
+     ssh_key_bits: 2048
+     ssh_key_file: .ssh/id_rsa
+
+- fetch:
+    src: /home/{{ jenkins_user }}/.ssh/id_rsa
+    dest: /tmp/ssh-{{ inventory_hostname }}/id_rsa
+    flat: yes
+
+- fetch:
+    src: /home/{{ jenkins_user }}/.ssh/id_rsa.pub
+    dest: /tmp/ssh-{{ inventory_hostname }}/id_rsa.pub
+    flat: yes
+
+- fetch:
+    src: /var/lib/jenkins/secrets/initialAdminPassword
+    dest: /tmp/ssh-{{ inventory_hostname }}/initialAdminPassword
+    flat: yes
+
+
+- name: NGINX+Jenkins Install packages
+  yum:
+    name: "{{ yum_http_packages }}"
+    state: present
+
+- name: Copy config NGINX
+  copy:
+    src: default.conf
+    dest: /etc/nginx/conf.d/default.conf
+
+- name: NGINX Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Jenkins Enable and start service
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+
+- firewalld:
+    service: jenkins
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- firewalld:
+    service: http
+    permanent: yes
+    zone: public
+    immediate: yes
+    state: enabled
+
+- firewalld:
+    port: 8080/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+
+#- name: Set httpd_can_network_connect flag on and keep it persistent across reboots
+#  seboolean:
+#    name: httpd_can_network_connect
+#    state: yes
+#    persistent: yes

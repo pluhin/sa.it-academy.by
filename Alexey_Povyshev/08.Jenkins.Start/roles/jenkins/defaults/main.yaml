@@ -1,0 +1,7 @@
+---
+install_nginx:
+  - nginx
+yum_epel:
+  - epel-release
+virual_hosts:
+  - { name: "jenkins.local", ip: "{{ hostvars[\"jenkins\"].ansible_host }}"}

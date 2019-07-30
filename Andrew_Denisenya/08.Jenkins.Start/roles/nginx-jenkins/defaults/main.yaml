@@ -1,0 +1,16 @@
+---
+yum_http_packages:
+  - yum-utils
+  - nginx
+  - wget
+  - java
+  - jenkins
+
+apt_http_packages:
+  - nginx
+  - openjdk-8-jre
+  - jenkins
+
+homepage_redhat: "/usr/share/nginx/html/"
+homepage_debian: "/var/www/html/"
+jenkins_user: "jenkins"

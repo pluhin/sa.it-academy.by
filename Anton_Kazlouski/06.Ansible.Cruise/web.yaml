@@ -1,0 +1,5 @@
+---
+- hosts: ansible_cruise_servers
+  become: yes
+  roles:
+    - nginx

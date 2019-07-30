@@ -1,0 +1,5 @@
+- name: Nginx Deploy role
+  hosts: sa_all
+  become: yes
+  roles:
+    - nginx

@@ -1,0 +1,18 @@
+---
+virtualbox:
+  hosts:
+     centos_virt:
+     ubuntu_virt:
+
+all_hosts:
+  children:
+    ec_htp:
+      vars:
+        full_name: "Educational Center of HTP"
+      hosts:
+        centos_virt:
+          ansible_user: test_user
+          ansible_host: 10.13.210.58
+        ubuntu_virt:
+          ansible_user: test_user  
+          ansible_host: 10.13.210.57

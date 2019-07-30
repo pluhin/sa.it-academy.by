@@ -1,0 +1,156 @@
+```
+Started by user Alexey Povyshev
+Replayed #5
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/12.Docker.Loading
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Cloning Git)
+[Pipeline] git
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git@github.com:apovyshev/DevOps_github.git # timeout=10
+Fetching upstream changes from git@github.com:apovyshev/DevOps_github.git
+ > git --version # timeout=10
+ > git fetch --tags --progress git@github.com:apovyshev/DevOps_github.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 05052eb0fa847a82881b9804e745dd982ef3ea86 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 05052eb0fa847a82881b9804e745dd982ef3ea86
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D master # timeout=10
+ > git checkout -b master 05052eb0fa847a82881b9804e745dd982ef3ea86
+Commit message: "Update pip 2"
+ > git rev-list --no-walk 745827c04bd586a1e86842afd7487bdc7dae1897 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Building image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ docker build -t apovyshev/devops_docker:6 .
+Sending build context to Docker daemon  128.5kB
+
+Step 1/7 : FROM python:2.7-slim
+ ---> 5caa018c2dc0
+Step 2/7 : WORKDIR /app
+ ---> Using cache
+ ---> 020c44a3e046
+Step 3/7 : COPY . /app
+ ---> 64a932eb0523
+Step 4/7 : RUN pip install --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --trusted-host pypi.org -r requirements.txt
+ ---> Running in b45117aa93cb
+[91mDEPRECATION: Python 2.7 will reach the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 won't be maintained after that date. A future version of pip will drop support for Python 2.7.
+[0mCollecting Flask (from -r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/9b/93/628509b8d5dc749656a9641f4caf13540e2cdec85276964ff8f43bbb1d3b/Flask-1.1.1-py2.py3-none-any.whl (94kB)
+Collecting Redis (from -r requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/ac/a7/cff10cc5f1180834a3ed564d148fb4329c989cbb1f2e196fc9a10fa07072/redis-3.2.1-py2.py3-none-any.whl (65kB)
+Collecting click>=5.1 (from Flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/fa/37/45185cb5abbc30d7257104c434fe0b07e5a195a6847506c074527aa599ec/Click-7.0-py2.py3-none-any.whl (81kB)
+Collecting Werkzeug>=0.15 (from Flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/d1/ab/d3bed6b92042622d24decc7aadc8877badf18aeca1571045840ad4956d3f/Werkzeug-0.15.5-py2.py3-none-any.whl (328kB)
+Collecting itsdangerous>=0.24 (from Flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
+Collecting Jinja2>=2.10.1 (from Flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/1d/e7/fd8b501e7a6dfe492a433deb7b9d833d39ca74916fa8bc63dd1a4947a671/Jinja2-2.10.1-py2.py3-none-any.whl (124kB)
+Collecting MarkupSafe>=0.23 (from Jinja2>=2.10.1->Flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/fb/40/f3adb7cf24a8012813c5edb20329eb22d5d8e2a0ecf73d21d6b85865da11/MarkupSafe-1.1.1-cp27-cp27mu-manylinux1_x86_64.whl
+Installing collected packages: click, Werkzeug, itsdangerous, MarkupSafe, Jinja2, Flask, Redis
+Successfully installed Flask-1.1.1 Jinja2-2.10.1 MarkupSafe-1.1.1 Redis-3.2.1 Werkzeug-0.15.5 click-7.0 itsdangerous-1.1.0
+[91mWARNING: You are using pip version 19.1.1, however version 19.2.1 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+[0mRemoving intermediate container b45117aa93cb
+ ---> c10483142b53
+Step 5/7 : EXPOSE 80
+ ---> Running in 6d8b3e8bb676
+Removing intermediate container 6d8b3e8bb676
+ ---> 673045f34106
+Step 6/7 : ENV NAME World
+ ---> Running in ac9f7269bb1d
+Removing intermediate container ac9f7269bb1d
+ ---> b941905a1f8b
+Step 7/7 : CMD ["python", "app.py"]
+ ---> Running in d2de9e5b0c50
+Removing intermediate container d2de9e5b0c50
+ ---> 9a399343cd8d
+Successfully built 9a399343cd8d
+Successfully tagged apovyshev/devops_docker:6
+[Pipeline] dockerFingerprintFrom
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy Image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withDockerRegistry
+$ docker login -u apovyshev -p ******** https://index.docker.io/v1/
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+WARNING! Your password will be stored unencrypted in /var/lib/jenkins/workspace/12.Docker.Loading@tmp/1f015aa4-ba2a-4511-a106-bc74699cafc8/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[Pipeline] {
+[Pipeline] sh
++ docker tag apovyshev/devops_docker:6 apovyshev/devops_docker:6
+[Pipeline] sh
++ docker push apovyshev/devops_docker:6
+The push refers to repository [docker.io/apovyshev/devops_docker]
+a10d8d8367bd: Preparing
+dc0305ca665f: Preparing
+ade68aa7bdd1: Preparing
+63d42cb10c64: Preparing
+32d47307f796: Preparing
+c86aa07d5fdb: Preparing
+d8a33133e477: Preparing
+c86aa07d5fdb: Waiting
+d8a33133e477: Waiting
+32d47307f796: Layer already exists
+63d42cb10c64: Layer already exists
+ade68aa7bdd1: Layer already exists
+c86aa07d5fdb: Layer already exists
+d8a33133e477: Layer already exists
+dc0305ca665f: Pushed
+a10d8d8367bd: Pushed
+6: digest: sha256:36579eb0a2e60391ab13a40dbad0e8922a6efbb1d0e942565d565155179c2a97 size: 1790
+[Pipeline] }
+[Pipeline] // withDockerRegistry
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Remove Unused docker image)
+[Pipeline] sh
++ docker rmi apovyshev/devops_docker:6
+Untagged: apovyshev/devops_docker:6
+Untagged: apovyshev/devops_docker@sha256:36579eb0a2e60391ab13a40dbad0e8922a6efbb1d0e942565d565155179c2a97
+Deleted: sha256:9a399343cd8d22c957ef72a9285474fa1295167d8e19e01fcfc915b1cbf91630
+Deleted: sha256:b941905a1f8b79da4bee3138da177ff9783ab08fd52a1723b782dd7093d17385
+Deleted: sha256:673045f34106b5a82fc75d5c3508ac2b8db9601ea7224c61f5700168338eec1a
+Deleted: sha256:c10483142b53a2a563348f538fddba866064feefef4f0e8c65bfcd6fcad31396
+Deleted: sha256:555db7908f5b82a4f8e5fb61a4901b23d4101bc0022283aa34232f9ec20edaf1
+Deleted: sha256:64a932eb0523d1e7e2b974533bcfc934b118be2443e63f05b7dfd6ac799d9c05
+Deleted: sha256:154d5834ea9ed18be0fe8ace7d83da34486dbf6541c6af7d283a4513976508bb
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+```

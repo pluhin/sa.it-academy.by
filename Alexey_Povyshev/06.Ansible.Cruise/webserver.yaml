@@ -1,0 +1,7 @@
+---
+# Webserver deployemnt
+- hosts: work
+  become: yes
+  roles:
+  - webserver
+                 

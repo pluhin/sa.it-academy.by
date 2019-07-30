@@ -1,0 +1,26 @@
+---
+- name: Epel-release. Install
+  yum: 
+    name: "{{ yum_epel }}"
+    state: latest 
+
+- name:  Nginx. Install
+  yum:
+    name: "{{ install_nginx }}"
+    state: latest
+
+- name: Nginx. Start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+
+- name: Open HTTP firewall
+  firewalld:
+    service: http
+    permanent: true
+    state: enabled
+
+- name: SE Linux. Turn off 
+  shell: setsebool -P httpd_can_network_connect true    

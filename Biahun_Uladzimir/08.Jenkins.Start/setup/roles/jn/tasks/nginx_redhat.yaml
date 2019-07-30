@@ -1,0 +1,114 @@
+---
+- name: Epel-release. Install package
+  yum:
+    name: "{{ yum_epel_release_package }}"
+    state: present
+  tags:
+   - done
+
+- name: Nginx. Install package
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: latest
+  tags:
+   - done
+
+
+- name: Create nginx directory for jenkins
+  file:
+    path: "{{ site_jn_home }}/{{ site_jn_name }}"
+    state: directory
+  tags:
+   - done
+
+- name: Create nginx directory for conf
+  file:
+    path: "{{ conf_dir }}"
+    state: directory
+  tags:
+   - done
+
+- name: Copy site_jn_conf to to conf.d
+  template:
+    src: site_jn_conf.j2
+    dest: "{{ conf_dir }}/{{ site_jn_conf }}"
+    backup: yes
+  tags:
+   - copy_conf
+
+- name: Install Java
+  yum:
+    name: "{{ redhat_jdk }}"
+    state: present
+  tags:
+   - act
+
+- name: Install wget
+  yum:
+    name: wget
+    state: present     
+  tags:
+   - act
+
+- name: Download jenkins.repo
+  get_url:
+    url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+  tags:
+   - act
+
+- name: Import jenkins key
+  rpm_key:
+    state: present
+    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+  tags:
+   - act
+
+- name: Install jenkins
+  yum:
+    name: jenkins
+    state: present
+  tags:
+   - act
+
+- name: Start jenkins
+  systemd:
+    name: jenkins
+    state: started    
+  tags:
+   - act
+
+
+
+- name: Enable jenkins
+  systemd:
+    name: jenkins
+    enabled: true
+  tags:
+   - act
+
+- name: Waiting for 30 seconds and continue
+  wait_for: timeout=30
+  delegate_to: localhost
+  tags:
+   - act
+
+- name: Initialize password jenkin
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+  tags:
+   - act
+
+- name: Print password jenkins
+  debug:
+    var: result.stdout     
+  tags:
+   - act
+
+- name: Nginx. Restart packages
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+

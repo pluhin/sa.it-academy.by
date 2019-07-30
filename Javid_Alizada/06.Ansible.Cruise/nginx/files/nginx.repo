@@ -1,0 +1,5 @@
+[nginx_repo]
+name = "Nginx Repo"
+baseurl = "http://nginx.org/packages/centos/7/$basearch" 
+enabled = 1
+gpgcheck = 0

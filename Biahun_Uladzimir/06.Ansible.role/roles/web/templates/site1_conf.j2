@@ -1,0 +1,10 @@
+server {
+        listen 80;
+
+        server_name {{ ansible_os_family }}.site1;
+
+        root {{ default_home }}/{{ ansible_os_family }}.site1;
+        index index.html index.htm;
+
+}
+

@@ -1,0 +1,27 @@
+install_packages:
+  - yum-utils
+  - epel-release
+  - java
+  - git
+  - wget
+
+app_conf_template: "jenkins.conf"
+nginx_conf_template: "default.conf.j2"
+
+app_conf_nginx_path: "/etc/nginx/sites-available/jenkins.conf"
+app_conf_nginx_enabled_path: "/etc/nginx/sites-enabled/jenkins.conf"
+
+nginx_sites_available_path: "/etc/nginx/sites-available/"
+nginx_sites_enabled_path: "/etc/nginx/sites-enabled/"
+
+vhost_path: "http://jenkins"
+localhost_path: "http://127.0.0.1"
+
+hosts_vhost_regexp: ".*jenkins$"
+hosts_vhost_line: "127.0.0.1	jenkins"
+
+http_standard_port: 80
+server_name: jenkins
+
+
+

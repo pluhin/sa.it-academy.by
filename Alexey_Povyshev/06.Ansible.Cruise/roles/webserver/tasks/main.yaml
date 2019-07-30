@@ -1,0 +1,20 @@
+---
+- name: Deploy for Debian systems
+  include: nginx_ub.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Deploy for RedHat systems
+  include: nginx_rh.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Copy HTML
+  include: copy_html.yaml
+
+- name: test
+  include: test.yaml
+
+- name: Template
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes

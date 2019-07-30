@@ -1,0 +1,23 @@
+---
+- hosts: home-ub
+  tasks:
+  - name: Print facts 
+    debug:
+      msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+    tags:
+      - facts_os
+  - name: Print facts 
+    debug:
+      msg: "{{ ansible_mounts[0].device }} | {{ ansible_mounts[0].fstype}} | {{ ansible_mounts[0].size_total}} | {{ ansible_mounts[0].size_available}}"
+    tags:
+      - facts_mount
+  - name: Print facts 
+    debug:
+      msg: "{{ ansible_memtotal_mb }} | {{ ansible_memfree_mb }}"
+    tags:
+      - facts_ram
+  - name: Print facts 
+    debug:
+      msg: "{{ ansible_facts }}"
+    tags:
+      - all_facts

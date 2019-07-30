@@ -29,14 +29,14 @@ Install the following applications:
 ## 02. GIT. Local
 Initialize local repository on your laptop. Create the following branches:
 
-- master (init) 
-    - 2 commits
-- dev (from master) 
-    - 2 commits from master + 2 additional 
+- master (init)
+  - 2 commits
+- dev (from master)
+  - 2 commits from master + 2 additional 
 - features/do_one (from dev)
-    - 2 commits from master + 2 additional  form dev + 1 additional
+  - 2 commits from master + 2 additional  form dev + 1 additional
 - hotfix/we_gonna_die (from master)
-    - 2 commits from master + 1 additional
+  - 2 commits from master + 1 additional
 
 Play the following situations:
 - Release phase - all commits should be inside master (except hotfix)
@@ -58,49 +58,55 @@ Github/Gitlab/Bitbucket
 All your repository urls put into files `03.GIT.Hosting.md` and add to your repository, then prepare PR (Pull Request)
 
 Gitlab CE deployment
+
 - Deploy Gitlab
 - Setup access and email notification
 - Create project
 - Check difference between EE and CE
 - Send me invitation by Gitlab notificator 
 
-## 04. Ansible start
+##04.Ansible start
 Deploy Ansible on any your localhost (Ubuntu/CentOS)
+
 - Setup existing local user to run commands without password 
-    - apt/yum upgrade
+  - apt/yum upgrade
 - Run command for upgrade locally using ansible add-hoc commands
 
 Connect to the remote host
+
 - Using Vagrant deploy two host
-    - Ubuntu 18.04
-    - CentOS 7.5
+  - Ubuntu 18.04
+  - CentOS 7.5
 - Setup hosts for connection without password
 - Allow ansible user upgrade system
-    - Create new user
-    - Apply sudo rules for its
+  - Create new user
+  - Apply sudo rules for its
 - Using ansible need to do
-    - Connect to the hosts
-    - Print out host names and IP
-    - Upgrade packages
+  - Connect to the hosts
+  - Print out host names and IP
+  - Upgrade packages
 - Create own inventory with all variables and hierarchie 
 
 Output all your ansible commands (and commands also) put into `04.Ansible.start.md` and add to your repository, then prepare PR (Pull Request)
 
-## 05. Ansible run 
+## 05. Ansible run
+
 - Create playbook to print out remote host parameters
-    - OS/version
-    - Mount point/capacity/used
-    - RAM/capacity/free
+  - OS/version
+  - Mount point/capacity/used
+  - RAM/capacity/free
 - Playbook for the ansible user
-    - Create new user (use module)
-    - New user authorisation only by key
-    - Add to the sudo:nopasswd for upgrade command
-    - Implement test of that
+  - Create new user (use module)
+  - New user authorisation only by key
+  - Add to the sudo:nopasswd for upgrade command
+  - Implement test of that
 
 All your playbooks put into folder `05.Ansible run` and create file `05.Ansible run.md` with description of your ansible code (What it does, examples of command/parametrs) and add to your repository, then prepare PR (Pull Request)
 
 ## 06. Ansible cruise
-Create Ansible Playbook wit role(s) to install nginx server and two virtual hosts for its. Playbook should meet the following requirements:
+
+Create Ansible Playbook with role(s) to install nginx server and two virtual hosts for its. Playbook should meet the following requirements:
+
 - Depends from OS
 - Setup ngnix for two virtualhosts using templates 
 - Create and add index.html files

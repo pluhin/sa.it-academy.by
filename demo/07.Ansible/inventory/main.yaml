@@ -1,0 +1,36 @@
+all_redmine:
+  hosts:
+    node01:
+      ansible_host: 192.168.253.10
+    node02:
+      ansible_host: 192.168.254.224
+    node03:
+      ansible_host: 192.168.254.225
+    node04:
+      ansible_host: 192.168.254.226
+    node05:
+      ansible_host: 192.168.254.227
+    node06:
+      ansible_host: 192.168.254.228
+    node07:
+      ansible_host: 192.168.254.229
+    node08:
+      ansible_host: 192.168.254.230
+    node09:
+      ansible_host: 192.168.254.231
+    node10:
+      ansible_host: 192.168.254.232
+    node11:
+      ansible_host: 192.168.254.233
+    node12:
+      ansible_host: 192.168.254.234
+    node13:
+      ansible_host: 192.168.254.235
+    node14:
+      ansible_host: 192.168.254.236
+    node15:
+      ansible_host: 192.168.254.237
+    node16:
+      ansible_host: 192.168.254.238
+    node17:
+      ansible_host: 192.168.254.239

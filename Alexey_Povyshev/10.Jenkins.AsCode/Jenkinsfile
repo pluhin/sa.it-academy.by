@@ -1,0 +1,70 @@
+pipeline {
+    agent any
+    environment {
+        NEW_BRANCH = "preprod"
+        BUILD = "${env.BUILD_ID}"
+    }
+    parameters {
+        choice(name: 'repository_branch', choices: ['master', 'dev', 'features/do_one', 'hotfix/we_gonna_die'], description: 'Pick the branch')
+        string(name: 'repository_url', defaultValue: 'git@github.com:apovyshev/DevOps_github.git', description: 'Github repository url')
+    }
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                    deleteDir()
+                    git branch: "${params.repository_branch}", url: "${params.repository_url}"
+            }
+        }
+        stage('Checking repository'){
+            steps {
+                sh 'git branch' 
+                sh "ls -l"
+            }
+        }
+        stage('Create new branch') { 
+            steps { 
+                sh 'git checkout -b $NEW_BRANCH'
+                sh 'git branch'
+                sh 'git push origin $NEW_BRANCH'
+            }
+        }
+        stage('Operations with files') { 
+            steps { 
+                sh '''
+                    echo "The $BUILD artifact" > $BUILD_artifact.txt
+                   '''
+                sh 'tar -cvzf $BUILD.tar.gz $BUILD_artifact.txt'
+            }
+        }
+        stage('Packing test') {
+            steps {
+                sh "ls -l"
+            }
+        }
+        stage('Push changes') { 
+            steps { 
+                sh 'git add --all'
+                sh '''
+                    git commit -m "Add artifacts $BUILD"
+                   '''
+                sh 'git push -f origin $NEW_BRANCH'
+            }
+        }
+        stage('Test') { 
+            steps { 
+                    sh 'echo "Remote branches are:"'
+                    sh 'git branch -r'
+                    sh 'echo "Local branches are:"'
+                    sh 'git branch'
+            }
+        }
+    }
+    post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+}

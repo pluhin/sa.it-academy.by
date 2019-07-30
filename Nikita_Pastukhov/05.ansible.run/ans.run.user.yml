@@ -1,0 +1,26 @@
+---
+- hosts: vm
+  vars:
+    user: kit3
+  become: yes 
+
+  tasks:  
+  - name: Add user
+    user: 
+      name: "{{ user }}"
+      shell: /bin/bash 
+      home: /home/{{user}}
+  
+  - name: add sudo privileges
+    copy:
+      dest: "/etc/sudoers.d/{{ user }}"
+      content: "{{ user }} ALL=(ALL)  NOPASSWD: ALL"
+
+  - name: add ssh key
+    authorized_key: 
+      user: "{{user}}"
+      key: "{{ lookup('file', '/home/kit/.ssh/id_rsa.pub') }}"
+      state: present
+  - name: test ssh connections
+    command: ssh {{user}}@{{ ansible_hostname }} 'echo success'
+    state: present

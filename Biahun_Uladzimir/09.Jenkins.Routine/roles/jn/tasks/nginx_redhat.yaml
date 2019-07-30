@@ -1,0 +1,123 @@
+---
+- name: Epel-release. Install packages
+  yum:
+    name: "{{ yum_epel_release_package }}"
+    state: present
+  tags:
+   - done
+
+- name: Nginx. Install packages
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: latest
+  tags:
+   - done
+
+
+- name: Create nginx directory for jenkins
+  file:
+    path: "{{ site_jn_home }}/{{ site_jn_name }}"
+    state: directory
+  tags:
+   - done
+
+- name: Create nginx directory for conf
+  file:
+    path: "{{ conf_dir }}"
+    state: directory
+  tags:
+   - done
+
+- name: Copy site_jn_conf to to conf.d
+  template:
+    src: site_jn_conf.j2
+    dest: "{{ conf_dir }}/{{ site_jn_conf }}"
+    backup: yes
+  tags:
+   - copy_conf
+
+- name: Install openjdk
+  yum:
+    name: "{{ jdk }}"
+    state: present
+  tags:
+   - act
+
+- name: install wget
+  yum:
+    name: wget
+    state: present     
+  tags:
+   - act
+
+- name: download jenkins.repo
+  get_url:
+    url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+  tags:
+   - act
+
+- name: import jenkins key
+  rpm_key:
+    state: present
+    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+  tags:
+   - act
+
+- name: install jenkins
+  yum:
+    name: jenkins
+    state: present
+  tags:
+   - act
+
+- name: start jenkins
+  systemd:
+    name: jenkins
+    state: started    
+  tags:
+   - act
+
+
+
+- name: enable jenkins
+  systemd:
+    name: jenkins
+    enabled: true
+  tags:
+   - act
+
+- name: sleep for 30 seconds and continue with play
+  wait_for: timeout=30
+  delegate_to: localhost
+  tags:
+   - act
+
+- name: init password jenkin
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+  tags:
+   - act
+
+- name: print init password jenkins
+  debug:
+    var: result.stdout     
+  tags:
+   - act
+
+#- name: Copy index page template site2
+#  template:
+#    src: index_site2.j2
+#    dest: "{{ default_home }}/{{ ansible_os_family }}.site2/index.html"
+#    backup: yes
+#    #  become: yes
+#  tags:
+#   - copy_index_s2
+
+- name: Nginx. Restart packages
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+

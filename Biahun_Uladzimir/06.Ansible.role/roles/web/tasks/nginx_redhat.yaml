@@ -1,0 +1,74 @@
+---
+
+- name: Epel-release. Install packages
+  yum:
+    name: "{{ yum_epel_release_package }}"
+    state: present
+
+- name: Nginx. Install packages
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: latest
+
+
+- name: Create directory for site1
+  file:
+    path: "{{ default_home }}/{{ ansible_os_family }}.site1"
+    state: directory
+  tags:
+   - site1_home
+
+- name: Create directory for site2
+  file:
+    path: "{{ default_home }}/{{ ansible_os_family }}.site2"
+    state: directory
+  tags:
+   - site1_home
+
+- name: Create directory for conf
+  file:
+    path: /etc/nginx/conf.d
+    state: directory
+  tags:
+   - site1_home
+
+- name: Copy site1_conf to to conf.d
+  template:
+    src: site1_conf.j2
+    dest: "{{ site1_conf }}"
+    backup: yes
+  tags:
+   - copy_conf
+- name: Copy site2_conf to to conf.d
+  template:
+    src: site2_conf.j2
+    dest: "{{ site2_conf }}"
+    backup: yes
+  tags:
+   - copy_conf
+
+
+- name: Copy index page template site1
+  template:
+    src: index_site1.j2
+    dest: "{{ default_home }}/{{ ansible_os_family }}.site1/index.html"
+    backup: yes
+    #  become: yes
+  tags:
+   - copy_index_s1
+
+- name: Copy index page template site2
+  template:
+    src: index_site2.j2
+    dest: "{{ default_home }}/{{ ansible_os_family }}.site2/index.html"
+    backup: yes
+    #  become: yes
+  tags:
+   - copy_index_s2
+    
+- name: Nginx. Start packages
+  service: 
+    name: nginx
+    state: restarted
+    enabled: yes
+
