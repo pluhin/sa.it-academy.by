@@ -1,0 +1,27 @@
+---
+  - name: Add Nginx Repository
+    copy: src=nginx.repo dest=/etc/yum.repos.d/ owner=root group=root
+    register: nginx_repo
+  - name: Enable access SEelinux
+    command: "setenforce Permissive"
+    become: yes
+  - name: Install Nginx
+    yum: pkg=nginx state=latest
+    when: nginx_repo|success
+    register: nginxinstalled
+    notify:
+      - nginx start
+
+  - name: Add NGINX cofig
+    when: nginxinstalled|success
+    template: src=nginx.conf dest=/etc/nginx/nginx.conf owner=nginx group=nginx
+
+  - name: Add proxy
+    when: nginxinstalled|success
+    copy: src=proxy.conf dest=/etc/nginx/ owner=nginx group=nginx
+  - name: start 
+    command: echo start nginx
+    notify: nginx restart
+
+  - name: Allow port "{{ port }}"
+    shell: iptables -I INPUT -p tcp --dport {{ port }} -m state --state NEW,ESTABLISHED -j ACCEPT
