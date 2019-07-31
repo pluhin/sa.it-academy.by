@@ -1,0 +1,9 @@
+---
+- hosts: node01
+  tasks:
+  - name: show
+    command: cat /tmp/1.txt
+    register: output
+
+  - debug: 
+      msg: "{{ output.stdout_lines }}"
