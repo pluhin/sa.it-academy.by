@@ -1,0 +1,2 @@
+[mini]
+192.168.1.36 ansible_user=vagrant 
