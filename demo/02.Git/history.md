@@ -1,4 +1,4 @@
-# History 
+# History
 ```bash
  1475  cd tmp
  1476  ls
@@ -78,8 +78,3 @@
  1550  git rebase -i HEAD~2
  1551  git rebase -i HEAD~1
 ```
-
-- list
-- list
-  - list 
-  - list
