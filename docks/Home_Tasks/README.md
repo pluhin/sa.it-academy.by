@@ -13,7 +13,8 @@
 9. On WebUI (github) make PR (Pull Request) into main fork and branch <YOR_GROUP_BRANCH> from your fork and your <YOR_GROUP_BRANCH>
 10. Wait for review
 
-> Usefull link: https://sites.google.com/site/feexpr/Downhome/git
+> - Usefull link: https://sites.google.com/site/feexpr/Downhome/git
+> - *(Additional task)* - are optional tasks, you can ignotre them
 
 ## 01. CI/CD
 
@@ -70,17 +71,41 @@ Github/Gitlab/Bitbucket
 - Create slack/email integration push/commit events
 - Automate pushing your commits to all git hostings (bash/python/go.. scripts)
 
-All your repository urls put into files `03.GIT.Hosting.md` and add to your repository, then prepare PR (Pull Request)
+Create folder `03.GIT.Hosting`, all your repository urls put into files `03.GIT.Hosting/03.GIT.Hosting.md` and add to your repository, then prepare PR (Pull Request)
 
-Gitlab CE deployment
+Gitlab CE deployment *(Additional task)*
 
 - Deploy Gitlab
 - Setup access and email notification
 - Create project
 - Check difference between EE and CE
-- Send me invitation by Gitlab notificator 
+- Send me invitation by Gitlab notificator
 
-## 04. Ansible start
+## 04. Infrastructure. Vagrant. LXC
+
+### Vagrant
+
+- Install Vagrant
+- Create VB guests:
+  - Alpine. Latest
+  - CentOS7. Latest
+- Create user: vagrant, pass: vagrant with NOPASSWD
+- Install: vim, git, wget, curl
+- Push boxes to Vagrant cloud
+
+### LXC
+
+- Install LXC
+- Create privileged containers
+  - Cent0S.Latest
+  - Debian.Latest
+- Set RAM limit to 512MB
+- Set HDD limit to 10GB
+- Create user insider with NOPASSWD
+
+Create folder `04.Infrastructure.Vagrant.LXC`, all your urls to vagrant boxes in vagrant cloud, Vagrantfiles itself and config files for LXC with commands how-to run, put into file `04.Infrastructure.Vagrant.LXC.md`, then prepare PR (Pull Request)
+
+## 05. Ansible start
 
 Deploy Ansible on any your localhost (Ubuntu/CentOS)
 
@@ -105,7 +130,7 @@ Connect to the remote host
 
 Output all your ansible commands (and commands also) put into `04.Ansible.start.md` and add to your repository, then prepare PR (Pull Request)
 
-## 05. Ansible run
+## 06. Ansible run
 
 - Create playbook to print out remote host parameters
   - OS/version
@@ -146,7 +171,7 @@ Deploy Jenkins use home environment
 - Install Jenkins
 - Default settings setup (like access/plugins)
 - Hide Jenkins behind the web server (Apapche, Ngnix)
-- (*Additional*)Implement Ansible role for that 
+- (*Additional*)Implement Ansible role for that
 
 Your Vagrant file and settings steps with configuration files for Web server put into folder `08. Jenkins. Start` add to your repository, then prepare PR (Pull Request)
 
