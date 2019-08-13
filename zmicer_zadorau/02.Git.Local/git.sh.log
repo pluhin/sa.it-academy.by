@@ -1,0 +1,42 @@
+pankrys@ubuntu:~/project/automaker-homework-to-git/12$ git log --color --all --oneline --graph
+* c62ce66 features commit #1
+* ceede6c dev commit #2
+* 7bf0ca0 dev commit #1
+| * dc10f1a hotfix
+|/
+* b1d6c00 master commit #2
+* 10a105b master commit #1
+pankrys@ubuntu:~/project/automaker-homework-to-git/12$ git checkout dev
+Переключено на ветку «dev»
+pankrys@ubuntu:~/project/automaker-homework-to-git/12$ git log --color --all --oneline --graph
+* c62ce66 features commit #1
+* ceede6c dev commit #2
+* 7bf0ca0 dev commit #1
+| * dc10f1a hotfix
+|/
+* b1d6c00 master commit #2
+* 10a105b master commit #1
+pankrys@ubuntu:~/project/automaker-homework-to-git/12$ git log --color --oneline --graph
+* ceede6c dev commit #2
+* 7bf0ca0 dev commit #1
+* b1d6c00 master commit #2
+* 10a105b master commit #1
+pankrys@ubuntu:~/project/automaker-homework-to-git/12$ git checkout master
+Переключено на ветку «master»
+pankrys@ubuntu:~/project/automaker-homework-to-git/12$ git log --color --oneline --graph
+* b1d6c00 master commit #2
+* 10a105b master commit #1
+pankrys@ubuntu:~/project/automaker-homework-to-git/12$ git checkout features/do_one
+Переключено на ветку «features/do_one»
+pankrys@ubuntu:~/project/automaker-homework-to-git/12$ git log --color --oneline --graph
+* c62ce66 features commit #1
+* ceede6c dev commit #2
+* 7bf0ca0 dev commit #1
+* b1d6c00 master commit #2
+* 10a105b master commit #1
+pankrys@ubuntu:~/project/automaker-homework-to-git/12$ git checkout hotfix/we_gonna_die
+Переключено на ветку «hotfix/we_gonna_die»
+pankrys@ubuntu:~/project/automaker-homework-to-git/12$ git log --color --oneline --graph
+* dc10f1a hotfix
+* b1d6c00 master commit #2
+* 10a105b master commit #1
