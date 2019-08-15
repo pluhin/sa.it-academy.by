@@ -1,3 +1,7 @@
+Print all branches
+
+```
+
 pi@u18sdevops1:~/it-study/02.Git.Local$ git checkout master
 Переключено на ветку «master»
 
@@ -32,3 +36,4 @@ e2bcfd1 Init master
 
 pi@u18sdevops1:~/it-study/02.Git.Local$
 
+```
