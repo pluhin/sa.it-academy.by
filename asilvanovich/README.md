@@ -15,6 +15,7 @@ Then all the commits from features/do_one and dev branches were merged into mast
 ## 03.GIT.Hosting 
 Three remote repositories were created on BitBucket, GitLab and GitHub. Public SSH key was added to all the hostings to push code without manual password input. Also, Slack notifications for GitHub changes were configured.  
 Script push.sh was created to automate push operations to all the mentioned hostings.  
+<<<<<<< HEAD
 Additionally GitLab CE was deployed on the local machine.  
 
 ## 04.Infrastructure.Vagrant.LXC  
@@ -36,3 +37,6 @@ The second playbook was created with these features:
 - Create new user (use module)
 - New user authorisation only by key
 - Add to the sudo:nopasswd for upgrade command
+=======
+Additionally GitLab CE was deployed on the local machine.
+>>>>>>> 03.GIT.Hosting (#320)
