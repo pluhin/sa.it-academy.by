@@ -66,7 +66,7 @@ Github/Gitlab/Bitbucket
 
 - Create remote empty repositories
 - Add ssh key(s)
-- Synchronise with with your local repository from previous task
+- Synchronise with your local repository from previous task
 - Add project into remote repositories each all, one by one
 - Create slack/email integration push/commit events
 - Automate pushing your commits to all git hostings (bash/python/go.. scripts)
