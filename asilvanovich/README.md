@@ -15,4 +15,10 @@ Then all the commits from features/do_one and dev branches were merged into mast
 ## 03.GIT.Hosting 
 Three remote repositories were created on BitBucket, GitLab and GitHub. Public SSH key was added to all the hostings to push code without manual password input. Also, Slack notifications for GitHub changes were configured.  
 Script push.sh was created to automate push operations to all the mentioned hostings.  
-Additionally GitLab CE was deployed on the local machine.
+Additionally GitLab CE was deployed on the local machine.  
+
+## 04.Infrastructure.Vagrant.LXC  
+Two virtual machines with CenOS and Alpine OSs were created using Vagrant. I created a script that automatically detects system type and installs vim, git, wget, curl, lxc and lxc-templates packages. This script was used in Vagrantfile (it can be found inside of the 04.Infrastructure.Vagrant.LXC folder). Additionally vagrant user was granted NOPASSWD privelegies in the sudoers file.  
+On the vagrant-created CentOS I tested Linux container. I created Debian and Centos containers from provided templates and limited RAM usage to 512Mb on each of them by modifying a configuration file.
+
+
