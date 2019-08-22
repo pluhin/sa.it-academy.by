@@ -1,0 +1,27 @@
+$install = <<-SCRIPT
+#!/usr/bin/env bash
+
+#assign a distribution name to a variable
+release=$(cat /etc/os-release | grep -o -e "Alpine" -e "CentOS" | uniq)
+
+#install required packages based on the OS
+case $release in
+        Alpine)
+        sudo apk add -y lxc lxc-templates vim git wget curl
+        ;;
+        CentOS)
+        sudo yum install -y lxc lxc-templates vim git wget curl
+        ;;
+        *)
+        echo "Linux distribution is not Alpine or CentOS"
+        ;;
+esac
+exit
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/centos7"
+  config.vm.define "Vagrant_CentOS"
+  config.vm.provision "shell",
+        inline: $install
+end
