@@ -55,3 +55,8 @@ ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
 
 
 
+new:
+* ansible -i inv.yaml test -m shell -a 'cat /etc/hostname'
+* ansible -i inv.yaml centos -m shell -a 'yum install net-tools -y' -b
+* ansible -i inv.yaml test -m shell -a 'ip addr |grep inet' -b
+
