@@ -3,7 +3,7 @@
 =====================================
 
 * sudo apt-get install lxc lxc-templates
-* cd ~/project/~/project/sa.it-academy.by/zmicer_zadorau/04.Infrastructure.Vagrant.LXC/
+* cd ~/project/sa.it-academy.by/zmicer_zadorau/04.Infrastructure.Vagrant.LXC/
 * mkdir lxc
 * vim lxc.conf
 ```conf
