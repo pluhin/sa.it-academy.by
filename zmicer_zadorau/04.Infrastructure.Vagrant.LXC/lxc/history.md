@@ -1,10 +1,10 @@
 04. Infrastructure. Vagrant. LXC
 =====================================
 
-sudo apt-get install lxc lxc-templates
-cd ~/project/~/project/sa.it-academy.by/zmicer_zadorau/04.Infrastructure.Vagrant.LXC/
-mkdir lxc
-vim lxc.conf
+* sudo apt-get install lxc lxc-templates
+* cd ~/project/sa.it-academy.by/zmicer_zadorau/04.Infrastructure.Vagrant.LXC/
+* mkdir lxc
+* vim lxc.conf
 ```conf
 #Common section
 lxc.cgroup.memory.limit_in_bytes = 512M
