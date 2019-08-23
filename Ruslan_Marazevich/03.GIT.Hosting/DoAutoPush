@@ -1,0 +1,5 @@
+git fetch main
+git rebase main/m-sa2-09-19
+git push origin +m-sa2-09-19
+git push gitlab +m-sa2-09-19
+git push bitbucket +m-sa2-09-19
