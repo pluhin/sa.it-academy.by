@@ -24,3 +24,5 @@ sudo lxc-attach lxc_debian
 >%sudo ALL=(ALL) NOPASSWD: ALL
 >exit
 
+
+
