@@ -1,0 +1,335 @@
+ansible -i inv.yaml test -m shell -a 'cat /etc/hostname' -b >output.log
+==========
+ubu1 | SUCCESS | rc=0 >>
+ubuntu-xenial
+centos | SUCCESS | rc=0 >>
+localhost.localdomain
+
+ansible -i inv.yaml test -m shell -a 'ip addr |grep inet' -b >>output.log
+===========
+ubu1 | SUCCESS | rc=0 >>
+    inet 127.0.0.1/8 scope host lo
+    inet6 ::1/128 scope host
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global enp0s3
+    inet6 fe80::42:45ff:fed1:d336/64 scope link
+    inet 192.168.113.100/24 brd 192.168.113.255 scope global enp0s8
+    inet6 fe80::a00:27ff:fe1c:409d/64 scope link
+centos | SUCCESS | rc=0 >>
+    inet 127.0.0.1/8 scope host lo
+    inet6 ::1/128 scope host
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global noprefixroute dynamic eth0
+    inet6 fe80::5054:ff:fe8a:fee6/64 scope link
+    inet 192.168.113.101/24 brd 192.168.113.255 scope global noprefixroute eth1
+    inet6 fe80::a00:27ff:fe12:586f/64 scope link
+
+
+ansible -i inv.yaml ubu1 -m shell -a 'apt upgrade -y' -b >>output.log
+===========
+ubu1 | SUCCESS | rc=0 >>
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+The following packages will be upgraded:
+  btrfs-tools
+1 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Need to get 521 kB of archives.
+After this operation, 0 B of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu xenial-updates/main amd64 btrfs-tools amd64 4.4-1ubuntu1.1 [521 kB]
+Fetched 521 kB in 0s (1251 kB/s)
+(Reading database ... 55046 files and directories currently installed.)
+Preparing to unpack .../btrfs-tools_4.4-1ubuntu1.1_amd64.deb ...
+Unpacking btrfs-tools (4.4-1ubuntu1.1) over (4.4-1ubuntu1) ...
+Processing triggers for libc-bin (2.23-0ubuntu11) ...
+Processing triggers for man-db (2.7.5-1) ...
+Setting up btrfs-tools (4.4-1ubuntu1.1) ...
+update-initramfs: deferring update (trigger activated)
+Processing triggers for libc-bin (2.23-0ubuntu11) ...
+Processing triggers for initramfs-tools (0.122ubuntu8.14) ...
+update-initramfs: Generating /boot/initrd.img-4.4.0-159-generic
+W: mdadm: /etc/mdadm/mdadm.conf defines no arrays.
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+ansible -i inv.yaml centos -m shell -a 'yum upgrade -y' -b >>output.log
+==========
+centos | SUCCESS | rc=0 >>
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.datacenter.by
+ * extras: mirror.datacenter.by
+ * updates: mirror.datacenter.by
+Resolving Dependencies
+--> Running transaction check
+---> Package bind-libs-lite.x86_64 32:9.9.4-73.el7_6 will be updated
+---> Package bind-libs-lite.x86_64 32:9.9.4-74.el7_6.2 will be an update
+---> Package bind-license.noarch 32:9.9.4-73.el7_6 will be updated
+---> Package bind-license.noarch 32:9.9.4-74.el7_6.2 will be an update
+---> Package curl.x86_64 0:7.29.0-51.el7 will be updated
+---> Package curl.x86_64 0:7.29.0-51.el7_6.3 will be an update
+---> Package device-mapper.x86_64 7:1.02.149-10.el7_6.7 will be updated
+---> Package device-mapper.x86_64 7:1.02.149-10.el7_6.8 will be an update
+---> Package device-mapper-libs.x86_64 7:1.02.149-10.el7_6.7 will be updated
+---> Package device-mapper-libs.x86_64 7:1.02.149-10.el7_6.8 will be an update
+---> Package glib2.x86_64 0:2.56.1-2.el7 will be updated
+---> Package glib2.x86_64 0:2.56.1-4.el7_6 will be an update
+---> Package glibc.x86_64 0:2.17-260.el7_6.5 will be updated
+---> Package glibc.x86_64 0:2.17-260.el7_6.6 will be an update
+---> Package glibc-common.x86_64 0:2.17-260.el7_6.5 will be updated
+---> Package glibc-common.x86_64 0:2.17-260.el7_6.6 will be an update
+---> Package kernel.x86_64 0:3.10.0-957.27.2.el7 will be installed
+---> Package kernel-tools.x86_64 0:3.10.0-957.12.2.el7 will be updated
+---> Package kernel-tools.x86_64 0:3.10.0-957.27.2.el7 will be an update
+---> Package kernel-tools-libs.x86_64 0:3.10.0-957.12.2.el7 will be updated
+---> Package kernel-tools-libs.x86_64 0:3.10.0-957.27.2.el7 will be an update
+---> Package libcurl.x86_64 0:7.29.0-51.el7 will be updated
+---> Package libcurl.x86_64 0:7.29.0-51.el7_6.3 will be an update
+---> Package libssh2.x86_64 0:1.4.3-12.el7_6.2 will be updated
+---> Package libssh2.x86_64 0:1.4.3-12.el7_6.3 will be an update
+---> Package libteam.x86_64 0:1.27-5.el7 will be updated
+---> Package libteam.x86_64 0:1.27-6.el7_6.1 will be an update
+---> Package libwbclient.x86_64 0:4.8.3-4.el7 will be updated
+---> Package libwbclient.x86_64 0:4.8.3-6.el7_6 will be an update
+---> Package python.x86_64 0:2.7.5-77.el7_6 will be updated
+---> Package python.x86_64 0:2.7.5-80.el7_6 will be an update
+---> Package python-libs.x86_64 0:2.7.5-77.el7_6 will be updated
+---> Package python-libs.x86_64 0:2.7.5-80.el7_6 will be an update
+---> Package python-perf.x86_64 0:3.10.0-957.12.2.el7 will be updated
+---> Package python-perf.x86_64 0:3.10.0-957.27.2.el7 will be an update
+---> Package samba-client-libs.x86_64 0:4.8.3-4.el7 will be updated
+---> Package samba-client-libs.x86_64 0:4.8.3-6.el7_6 will be an update
+---> Package samba-common.noarch 0:4.8.3-4.el7 will be updated
+---> Package samba-common.noarch 0:4.8.3-6.el7_6 will be an update
+---> Package samba-common-libs.x86_64 0:4.8.3-4.el7 will be updated
+---> Package samba-common-libs.x86_64 0:4.8.3-6.el7_6 will be an update
+---> Package selinux-policy.noarch 0:3.13.1-229.el7_6.12 will be updated
+---> Package selinux-policy.noarch 0:3.13.1-229.el7_6.15 will be an update
+---> Package selinux-policy-targeted.noarch 0:3.13.1-229.el7_6.12 will be updated
+---> Package selinux-policy-targeted.noarch 0:3.13.1-229.el7_6.15 will be an update
+---> Package systemd.x86_64 0:219-62.el7_6.6 will be updated
+---> Package systemd.x86_64 0:219-62.el7_6.9 will be an update
+---> Package systemd-libs.x86_64 0:219-62.el7_6.6 will be updated
+---> Package systemd-libs.x86_64 0:219-62.el7_6.9 will be an update
+---> Package systemd-sysv.x86_64 0:219-62.el7_6.6 will be updated
+---> Package systemd-sysv.x86_64 0:219-62.el7_6.9 will be an update
+---> Package teamd.x86_64 0:1.27-5.el7 will be updated
+---> Package teamd.x86_64 0:1.27-6.el7_6.1 will be an update
+---> Package tuned.noarch 0:2.10.0-6.el7_6.3 will be updated
+---> Package tuned.noarch 0:2.10.0-6.el7_6.4 will be an update
+---> Package tzdata.noarch 0:2019a-1.el7 will be updated
+---> Package tzdata.noarch 0:2019b-1.el7 will be an update
+---> Package vim-minimal.x86_64 2:7.4.160-5.el7 will be updated
+---> Package vim-minimal.x86_64 2:7.4.160-6.el7_6 will be an update
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package                    Arch      Version                  Repository  Size
+================================================================================
+Installing:
+ kernel                     x86_64    3.10.0-957.27.2.el7      updates     48 M
+Updating:
+ bind-libs-lite             x86_64    32:9.9.4-74.el7_6.2      updates    742 k
+ bind-license               noarch    32:9.9.4-74.el7_6.2      updates     87 k
+ curl                       x86_64    7.29.0-51.el7_6.3        updates    269 k
+ device-mapper              x86_64    7:1.02.149-10.el7_6.8    updates    293 k
+ device-mapper-libs         x86_64    7:1.02.149-10.el7_6.8    updates    321 k
+ glib2                      x86_64    2.56.1-4.el7_6           updates    2.5 M
+ glibc                      x86_64    2.17-260.el7_6.6         updates    3.7 M
+ glibc-common               x86_64    2.17-260.el7_6.6         updates     12 M
+ kernel-tools               x86_64    3.10.0-957.27.2.el7      updates    7.2 M
+ kernel-tools-libs          x86_64    3.10.0-957.27.2.el7      updates    7.1 M
+ libcurl                    x86_64    7.29.0-51.el7_6.3        updates    222 k
+ libssh2                    x86_64    1.4.3-12.el7_6.3         updates    135 k
+ libteam                    x86_64    1.27-6.el7_6.1           updates     48 k
+ libwbclient                x86_64    4.8.3-6.el7_6            updates    109 k
+ python                     x86_64    2.7.5-80.el7_6           updates     95 k
+ python-libs                x86_64    2.7.5-80.el7_6           updates    5.6 M
+ python-perf                x86_64    3.10.0-957.27.2.el7      updates    7.1 M
+ samba-client-libs          x86_64    4.8.3-6.el7_6            updates    4.8 M
+ samba-common               noarch    4.8.3-6.el7_6            updates    206 k
+ samba-common-libs          x86_64    4.8.3-6.el7_6            updates    164 k
+ selinux-policy             noarch    3.13.1-229.el7_6.15      updates    484 k
+ selinux-policy-targeted    noarch    3.13.1-229.el7_6.15      updates    6.9 M
+ systemd                    x86_64    219-62.el7_6.9           updates    5.1 M
+ systemd-libs               x86_64    219-62.el7_6.9           updates    408 k
+ systemd-sysv               x86_64    219-62.el7_6.9           updates     84 k
+ teamd                      x86_64    1.27-6.el7_6.1           updates    113 k
+ tuned                      noarch    2.10.0-6.el7_6.4         updates    254 k
+ tzdata                     noarch    2019b-1.el7              updates    491 k
+ vim-minimal                x86_64    2:7.4.160-6.el7_6        updates    437 k
+
+Transaction Summary
+================================================================================
+Install   1 Package
+Upgrade  29 Packages
+
+Total download size: 115 M
+Downloading packages:
+Delta RPMs reduced 25 M of updates to 4.3 M (82% saved)
+Finishing delta rebuilds of 7 package(s) (19 M)
+Some delta RPMs failed to download or rebuild. Retrying..
+--------------------------------------------------------------------------------
+Total                                              5.3 MB/s | 102 MB  00:19
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Updating   : tzdata-2019b-1.el7.noarch                                   1/59
+  Updating   : glibc-common-2.17-260.el7_6.6.x86_64                        2/59
+  Updating   : glibc-2.17-260.el7_6.6.x86_64                               3/59
+  Updating   : systemd-libs-219-62.el7_6.9.x86_64                          4/59
+  Updating   : python-libs-2.7.5-80.el7_6.x86_64                           5/59
+  Updating   : python-2.7.5-80.el7_6.x86_64                                6/59
+  Updating   : python-perf-3.10.0-957.27.2.el7.x86_64                      7/59
+  Updating   : libteam-1.27-6.el7_6.1.x86_64                               8/59
+  Updating   : kernel-tools-libs-3.10.0-957.27.2.el7.x86_64                9/59
+  Updating   : libssh2-1.4.3-12.el7_6.3.x86_64                            10/59
+  Updating   : libcurl-7.29.0-51.el7_6.3.x86_64                           11/59
+  Updating   : systemd-219-62.el7_6.9.x86_64                              12/59
+  Updating   : samba-common-4.8.3-6.el7_6.noarch                          13/59
+  Updating   : libwbclient-4.8.3-6.el7_6.x86_64                           14/59
+  Updating   : samba-client-libs-4.8.3-6.el7_6.x86_64                     15/59
+  Updating   : samba-common-libs-4.8.3-6.el7_6.x86_64                     16/59
+  Updating   : 7:device-mapper-libs-1.02.149-10.el7_6.8.x86_64            17/59
+  Updating   : 7:device-mapper-1.02.149-10.el7_6.8.x86_64                 18/59
+  Updating   : 32:bind-license-9.9.4-74.el7_6.2.noarch                    19/59
+  Updating   : selinux-policy-3.13.1-229.el7_6.15.noarch                  20/59
+  Updating   : selinux-policy-targeted-3.13.1-229.el7_6.15.noarch         21/59
+  Updating   : 32:bind-libs-lite-9.9.4-74.el7_6.2.x86_64                  22/59
+  Updating   : tuned-2.10.0-6.el7_6.4.noarch                              23/59
+  Updating   : systemd-sysv-219-62.el7_6.9.x86_64                         24/59
+  Updating   : curl-7.29.0-51.el7_6.3.x86_64                              25/59
+  Updating   : kernel-tools-3.10.0-957.27.2.el7.x86_64                    26/59
+  Updating   : teamd-1.27-6.el7_6.1.x86_64                                27/59
+  Updating   : glib2-2.56.1-4.el7_6.x86_64                                28/59
+  Updating   : 2:vim-minimal-7.4.160-6.el7_6.x86_64                       29/59
+  Installing : kernel-3.10.0-957.27.2.el7.x86_64                          30/59
+  Cleanup    : tuned-2.10.0-6.el7_6.3.noarch                              31/59
+  Cleanup    : libwbclient-4.8.3-4.el7.x86_64                             32/59
+  Cleanup    : samba-client-libs-4.8.3-4.el7.x86_64                       33/59
+  Cleanup    : samba-common-libs-4.8.3-4.el7.x86_64                       34/59
+  Cleanup    : 7:device-mapper-1.02.149-10.el7_6.7.x86_64                 35/59
+  Cleanup    : 7:device-mapper-libs-1.02.149-10.el7_6.7.x86_64            36/59
+  Cleanup    : python-perf-3.10.0-957.12.2.el7.x86_64                     37/59
+  Cleanup    : kernel-tools-3.10.0-957.12.2.el7.x86_64                    38/59
+  Cleanup    : teamd-1.27-5.el7.x86_64                                    39/59
+  Cleanup    : 32:bind-libs-lite-9.9.4-73.el7_6.x86_64                    40/59
+  Cleanup    : curl-7.29.0-51.el7.x86_64                                  41/59
+  Cleanup    : systemd-sysv-219-62.el7_6.6.x86_64                         42/59
+  Cleanup    : samba-common-4.8.3-4.el7.noarch                            43/59
+  Cleanup    : selinux-policy-targeted-3.13.1-229.el7_6.12.noarch         44/59
+  Cleanup    : systemd-219-62.el7_6.6.x86_64                              45/59
+  Cleanup    : python-2.7.5-77.el7_6.x86_64                               46/59
+  Cleanup    : libcurl-7.29.0-51.el7.x86_64                               47/59
+  Cleanup    : libssh2-1.4.3-12.el7_6.2.x86_64                            48/59
+  Cleanup    : python-libs-2.7.5-77.el7_6.x86_64                          49/59
+  Cleanup    : systemd-libs-219-62.el7_6.6.x86_64                         50/59
+  Cleanup    : libteam-1.27-5.el7.x86_64                                  51/59
+  Cleanup    : kernel-tools-libs-3.10.0-957.12.2.el7.x86_64               52/59
+  Cleanup    : 2:vim-minimal-7.4.160-5.el7.x86_64                         53/59
+  Cleanup    : glib2-2.56.1-2.el7.x86_64                                  54/59
+  Cleanup    : selinux-policy-3.13.1-229.el7_6.12.noarch                  55/59
+  Cleanup    : 32:bind-license-9.9.4-73.el7_6.noarch                      56/59
+  Cleanup    : glibc-common-2.17-260.el7_6.5.x86_64                       57/59
+  Cleanup    : glibc-2.17-260.el7_6.5.x86_64                              58/59
+  Cleanup    : tzdata-2019a-1.el7.noarch                                  59/59
+  Verifying  : tuned-2.10.0-6.el7_6.4.noarch                               1/59
+  Verifying  : glib2-2.56.1-4.el7_6.x86_64                                 2/59
+  Verifying  : curl-7.29.0-51.el7_6.3.x86_64                               3/59
+  Verifying  : samba-common-libs-4.8.3-6.el7_6.x86_64                      4/59
+  Verifying  : libteam-1.27-6.el7_6.1.x86_64                               5/59
+  Verifying  : kernel-tools-libs-3.10.0-957.27.2.el7.x86_64                6/59
+  Verifying  : glibc-2.17-260.el7_6.6.x86_64                               7/59
+  Verifying  : 7:device-mapper-libs-1.02.149-10.el7_6.8.x86_64             8/59
+  Verifying  : python-perf-3.10.0-957.27.2.el7.x86_64                      9/59
+  Verifying  : 32:bind-libs-lite-9.9.4-74.el7_6.2.x86_64                  10/59
+  Verifying  : selinux-policy-3.13.1-229.el7_6.15.noarch                  11/59
+  Verifying  : python-2.7.5-80.el7_6.x86_64                               12/59
+  Verifying  : teamd-1.27-6.el7_6.1.x86_64                                13/59
+  Verifying  : samba-client-libs-4.8.3-6.el7_6.x86_64                     14/59
+  Verifying  : systemd-sysv-219-62.el7_6.9.x86_64                         15/59
+  Verifying  : libssh2-1.4.3-12.el7_6.3.x86_64                            16/59
+  Verifying  : systemd-219-62.el7_6.9.x86_64                              17/59
+  Verifying  : kernel-tools-3.10.0-957.27.2.el7.x86_64                    18/59
+  Verifying  : selinux-policy-targeted-3.13.1-229.el7_6.15.noarch         19/59
+  Verifying  : libwbclient-4.8.3-6.el7_6.x86_64                           20/59
+  Verifying  : 32:bind-license-9.9.4-74.el7_6.2.noarch                    21/59
+  Verifying  : systemd-libs-219-62.el7_6.9.x86_64                         22/59
+  Verifying  : python-libs-2.7.5-80.el7_6.x86_64                          23/59
+  Verifying  : samba-common-4.8.3-6.el7_6.noarch                          24/59
+  Verifying  : libcurl-7.29.0-51.el7_6.3.x86_64                           25/59
+  Verifying  : tzdata-2019b-1.el7.noarch                                  26/59
+  Verifying  : 7:device-mapper-1.02.149-10.el7_6.8.x86_64                 27/59
+  Verifying  : 2:vim-minimal-7.4.160-6.el7_6.x86_64                       28/59
+  Verifying  : kernel-3.10.0-957.27.2.el7.x86_64                          29/59
+  Verifying  : glibc-common-2.17-260.el7_6.6.x86_64                       30/59
+  Verifying  : samba-common-4.8.3-4.el7.noarch                            31/59
+  Verifying  : 32:bind-license-9.9.4-73.el7_6.noarch                      32/59
+  Verifying  : libssh2-1.4.3-12.el7_6.2.x86_64                            33/59
+  Verifying  : libteam-1.27-5.el7.x86_64                                  34/59
+  Verifying  : kernel-tools-3.10.0-957.12.2.el7.x86_64                    35/59
+  Verifying  : curl-7.29.0-51.el7.x86_64                                  36/59
+  Verifying  : teamd-1.27-5.el7.x86_64                                    37/59
+  Verifying  : tzdata-2019a-1.el7.noarch                                  38/59
+  Verifying  : glib2-2.56.1-2.el7.x86_64                                  39/59
+  Verifying  : systemd-sysv-219-62.el7_6.6.x86_64                         40/59
+  Verifying  : systemd-libs-219-62.el7_6.6.x86_64                         41/59
+  Verifying  : 32:bind-libs-lite-9.9.4-73.el7_6.x86_64                    42/59
+  Verifying  : glibc-2.17-260.el7_6.5.x86_64                              43/59
+  Verifying  : selinux-policy-targeted-3.13.1-229.el7_6.12.noarch         44/59
+  Verifying  : selinux-policy-3.13.1-229.el7_6.12.noarch                  45/59
+  Verifying  : glibc-common-2.17-260.el7_6.5.x86_64                       46/59
+  Verifying  : samba-client-libs-4.8.3-4.el7.x86_64                       47/59
+  Verifying  : libwbclient-4.8.3-4.el7.x86_64                             48/59
+  Verifying  : 7:device-mapper-libs-1.02.149-10.el7_6.7.x86_64            49/59
+  Verifying  : kernel-tools-libs-3.10.0-957.12.2.el7.x86_64               50/59
+  Verifying  : python-2.7.5-77.el7_6.x86_64                               51/59
+  Verifying  : python-libs-2.7.5-77.el7_6.x86_64                          52/59
+  Verifying  : libcurl-7.29.0-51.el7.x86_64                               53/59
+  Verifying  : python-perf-3.10.0-957.12.2.el7.x86_64                     54/59
+  Verifying  : tuned-2.10.0-6.el7_6.3.noarch                              55/59
+  Verifying  : samba-common-libs-4.8.3-4.el7.x86_64                       56/59
+  Verifying  : 2:vim-minimal-7.4.160-5.el7.x86_64                         57/59
+  Verifying  : systemd-219-62.el7_6.6.x86_64                              58/59
+  Verifying  : 7:device-mapper-1.02.149-10.el7_6.7.x86_64                 59/59
+
+Installed:
+  kernel.x86_64 0:3.10.0-957.27.2.el7
+
+Updated:
+  bind-libs-lite.x86_64 32:9.9.4-74.el7_6.2
+  bind-license.noarch 32:9.9.4-74.el7_6.2
+  curl.x86_64 0:7.29.0-51.el7_6.3
+  device-mapper.x86_64 7:1.02.149-10.el7_6.8
+  device-mapper-libs.x86_64 7:1.02.149-10.el7_6.8
+  glib2.x86_64 0:2.56.1-4.el7_6
+  glibc.x86_64 0:2.17-260.el7_6.6
+  glibc-common.x86_64 0:2.17-260.el7_6.6
+  kernel-tools.x86_64 0:3.10.0-957.27.2.el7
+  kernel-tools-libs.x86_64 0:3.10.0-957.27.2.el7
+  libcurl.x86_64 0:7.29.0-51.el7_6.3
+  libssh2.x86_64 0:1.4.3-12.el7_6.3
+  libteam.x86_64 0:1.27-6.el7_6.1
+  libwbclient.x86_64 0:4.8.3-6.el7_6
+  python.x86_64 0:2.7.5-80.el7_6
+  python-libs.x86_64 0:2.7.5-80.el7_6
+  python-perf.x86_64 0:3.10.0-957.27.2.el7
+  samba-client-libs.x86_64 0:4.8.3-6.el7_6
+  samba-common.noarch 0:4.8.3-6.el7_6
+  samba-common-libs.x86_64 0:4.8.3-6.el7_6
+  selinux-policy.noarch 0:3.13.1-229.el7_6.15
+  selinux-policy-targeted.noarch 0:3.13.1-229.el7_6.15
+  systemd.x86_64 0:219-62.el7_6.9
+  systemd-libs.x86_64 0:219-62.el7_6.9
+  systemd-sysv.x86_64 0:219-62.el7_6.9
+  teamd.x86_64 0:1.27-6.el7_6.1
+  tuned.noarch 0:2.10.0-6.el7_6.4
+  tzdata.noarch 0:2019b-1.el7
+  vim-minimal.x86_64 2:7.4.160-6.el7_6
+
+Complete!/usr/share/locale/fur/LC_MESSAGES/glib20.mo: No such file or directory
+cannot reconstruct rpm from disk files
+/usr/share/locale/de/LC_MESSAGES/systemd.mo: No such file or directory
+cannot reconstruct rpm from disk files
