@@ -27,5 +27,3 @@ sudo visudo
 %sudo ALL=(ALL) NOPASSWD: ALL
 exit
 ```
-
-
