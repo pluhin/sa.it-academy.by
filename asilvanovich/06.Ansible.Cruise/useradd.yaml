@@ -1,0 +1,20 @@
+- hosts: webservers
+  become: yes
+  tasks:
+  - name: Create user
+    user:
+      name: "{{user_to_add}}"
+      comment: "Managed by ansible"
+      state: present
+      create_home: yes
+  - name: key authorization
+    authorized_key:
+      user: "{{ user_to_add }}"
+      manage_dir: yes
+      key: "{{lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub')}}"
+  - name: give the created user NOPASSWD rights
+    blockinfile:
+      path: "/etc/sudoers.d/{{ user_to_add }}"
+      create: yes
+      block: |
+        {{user_to_add}} ALL=(ALL)  NOPASSWD: ALL
