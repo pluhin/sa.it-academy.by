@@ -1,4 +1,5 @@
 04. Infrastructure. Vagrant. LXC
+
 =====================================
 
 * sudo apt-get install lxc lxc-templates
@@ -26,4 +27,8 @@ sudo useradd -G sudo -p 123test test
 sudo visudo
 %sudo ALL=(ALL) NOPASSWD: ALL
 exit
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> origin/m-sa2-09-19
