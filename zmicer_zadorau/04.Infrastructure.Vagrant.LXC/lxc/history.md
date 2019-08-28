@@ -1,4 +1,5 @@
 04. Infrastructure. Vagrant. LXC
+
 =====================================
 
 * sudo apt-get install lxc lxc-templates
