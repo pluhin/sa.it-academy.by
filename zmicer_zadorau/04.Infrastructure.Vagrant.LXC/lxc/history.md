@@ -28,7 +28,11 @@ sudo visudo
 %sudo ALL=(ALL) NOPASSWD: ALL
 exit
 <<<<<<< HEAD
+<<<<<<< HEAD
 ```
 =======
 ```
 >>>>>>> origin/m-sa2-09-19
+=======
+```
+>>>>>>> ee5780b75ab73e0ce94d8eb403019d0b02094a81
