@@ -25,3 +25,14 @@ On the vagrant-created CentOS I tested Linux container. I created Debian and Cen
 ## 05.Ansible.Start
 For a first task Ansible was deployed on the local machine. Information about local machine was added to the /etc/ansible/hosts to perform an upgrade of packages locally with an ansible ad-hoc command.  
 A second task required a connection to remote hosts using bastion machine. I used machines that were deployed in ED of HTP to complete this task. A public key of my local machine was transferred to the bastion host first, then a new user was created and granted a NOPASSWD rights on the remote Ubuntu and CentOS machines. Finally, the  public key of my local machine was transferred to the remote hosts, which allowed passwordless authentication with the Ansible. Then I got info about hostname and IP addresses of the remote hosts. Additionally packages were updated and upgraded on them.
+
+
+## 06.Ansible.Cruise  
+In this task practiced with the YAML syntaxis. First, I created an ansible inventory file in yaml format. Then I created 2 playbooks. The first one was created to query system paremeters:  
+- OS/version
+- Mount point/capacity/used
+- RAM/capacity/free  
+The second playbook was created with these features:  
+- Create new user (use module)
+- New user authorisation only by key
+- Add to the sudo:nopasswd for upgrade command
