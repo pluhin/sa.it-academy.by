@@ -142,9 +142,9 @@ Output all your ansible commands (and commands also) put into `04.Ansible.start.
   - Add to the sudo:nopasswd for upgrade command
   - Implement test of that
 
-All your playbooks put into folder `05.Ansible run` and create file `05.Ansible run.md` with description of your ansible code (What it does, examples of command/parametrs) and add to your repository, then prepare PR (Pull Request)
+All your playbooks put into folder `06.Ansible run` and create file `06.Ansible run.md` with description of your ansible code (What it does, examples of command/parametrs) and add to your repository, then prepare PR (Pull Request)
 
-## 06. Ansible cruise
+## 07. Ansible cruise
 
 Create Ansible Playbook with role(s) to install nginx server and two virtual hosts for its. Playbook should meet the following requirements:
 
@@ -153,9 +153,22 @@ Create Ansible Playbook with role(s) to install nginx server and two virtual hos
 - Create and add index.html files
 - Check deployment
 
-Your playbook put into folder `06.Ansible cruise` and create file `06.Ansible cruise.md` with description of your ansible roles (What it does, examples of command/parametrs) and add to your repository, then prepare PR (Pull Request)
+Your playbook put into folder `07.Ansible cruise` and create file `07.Ansible cruise.md` with description of your ansible roles (What it does, examples of command/parametrs) and add to your repository, then prepare PR (Pull Request)
 
-## 07. Ansible Workshop
+## 08. Ansible. Spinup
+
+Implement testing role:
+
+- Check if we have SUDO with NOPASSWD
+- Checks to public repository (debian/centos and pip)
+- Check if we have connection to docker hub registry (return content check)
+- Check if we have enough RAM/HDD (you can create thresholds by yourself)
+
+Add molecule test for that
+
+Your playbook/role put into folder `08.Ansible.Spinup` and create file `08.Ansible.Spinup.md` with description) and add to your repository, then prepare PR (Pull Request)
+
+## 09. Ansible Workshop
 
 - Finsh deployment of application
 - Create a project with your initals in application
@@ -163,7 +176,7 @@ Your playbook put into folder `06.Ansible cruise` and create file `06.Ansible cr
 - Add this printscreen to your repostitory in to folder 07.Ansible Workshop
 - Create PR
 
-## 08. Jenkins. Start
+## 10. Jenkins. Start
 
 Deploy Jenkins use home environment
 
@@ -173,9 +186,9 @@ Deploy Jenkins use home environment
 - Hide Jenkins behind the web server (Apapche, Ngnix)
 - (*Additional*)Implement Ansible role for that
 
-Your Vagrant file and settings steps with configuration files for Web server put into folder `08. Jenkins. Start` add to your repository, then prepare PR (Pull Request)
+Your Vagrant file and settings steps with configuration files for Web server put into folder `10. Jenkins. Start` add to your repository, then prepare PR (Pull Request)
 
-## 09. Jenkins. Routine 
+## 11. Jenkins. Routine
 
 Implement the following Pipeline:
 
@@ -186,9 +199,9 @@ Implement the following Pipeline:
 - Remove nmap
 - Print list of collected/online hosts
 
-Output of your Jenkins task put into folder `09. Jenkins. Routine` add to your repository, then prepare PR (Pull Request)
+Output of your Jenkins task put into folder `11. Jenkins. Routine` add to your repository, then prepare PR (Pull Request)
 
-## 10. Jenkins. As code
+## 12. Jenkins. As code
 
 Create Pipeline using Jenkinsfile. Should be inside:
 
@@ -198,9 +211,9 @@ Create Pipeline using Jenkinsfile. Should be inside:
 - Tests
 - Notification
 
-Your Jenkins file put into folder `10. Jenkins. As code` add to your repository, then prepare PR (Pull Request)
+Your Jenkins file put into folder `12. Jenkins. As code` add to your repository, then prepare PR (Pull Request)
 
-## 11. Docker. Lading
+## 13. Docker. Lading
 
 - Create a Docker file of any Python application
   - As example: any API listener 
@@ -208,9 +221,9 @@ Your Jenkins file put into folder `10. Jenkins. As code` add to your repository,
 - Test it
   - Send/receive API request
 
-Your Dockerfile and links to your Dockerhub put into folder `11. Docker. Lading` add to your repository, then prepare PR (Pull Request)
+Your Dockerfile and links to your Dockerhub put into folder `13. Docker. Lading` add to your repository, then prepare PR (Pull Request)
 
-## 12. Docker. Logistics
+## 14. Docker. Logistics
 
 - Automate task **11. Docker. Lading** by Jenkins
   - Use remote repo as source for build image
@@ -223,16 +236,16 @@ Your Dockerfile and links to your Dockerhub put into folder `11. Docker. Lading`
   - [radarr](https://radarr.video/)
   - All settings of this applications should be added during docker-compose start from folder of project
 
-Your Dockerfile, docker-compose files, Jenkinsfile and Jenkins output put into folder `12. Docker. Logistics` add to your repository, then prepare PR (Pull Request)
+Your Dockerfile, docker-compose files, Jenkinsfile and Jenkins output put into folder `14. Docker. Logistics` add to your repository, then prepare PR (Pull Request)
 
-## 13. K8s. Structure
+## 15. K8s. Structure
 
 - Install minikube on your bare/virtual host
 - Provide access to the dashboard from your workstation
 - Automate it (bash/ansible/Jenkinsfile) 
-Your code and printscreen of dachboard put into folder `13. K8s. Structure` add to your repository, then prepare PR (Pull Request)
+Your code and printscreen of dachboard put into folder `15. K8s. Structure` add to your repository, then prepare PR (Pull Request)
 
-## 14. K8s. Deployment
+## 16. K8s. Deployment
 
 - Deploy Jenkins server with 2 replicas
 - Add service and Ingress for Jenkins
