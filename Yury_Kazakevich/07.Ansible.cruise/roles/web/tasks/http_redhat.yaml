@@ -1,0 +1,24 @@
+---
+- name: Copy nginx repo
+  copy:
+    src: nginx.repo
+    dest: /etc/yum.repos.d/nginx.repo
+  when: ansible_os_family == 'RedHat'
+  tags:
+    - copy::nginxrepo
+    
+- name: NGINX. Install packages
+  yum:
+    name: "{{ yum_web_packages }}"
+    state: present
+
+- name: NGINX. Remove welcome file
+  file:
+    path: "/etc/nginx/conf.d/welcome.conf"
+    state: absent
+
+- name: NGINX. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
