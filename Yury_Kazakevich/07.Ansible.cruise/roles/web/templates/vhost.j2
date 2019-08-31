@@ -1,0 +1,14 @@
+### {{ ansible_managed }}
+{% if virtual_hosts is defined %}
+{% for var in virtual_hosts %}   
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root "{{ default_home }}";
+        server_name {{ var.name }};
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+{% endfor %}
+{% endif %}
