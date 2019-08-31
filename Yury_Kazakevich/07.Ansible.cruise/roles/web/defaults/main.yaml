@@ -3,15 +3,18 @@ yum_web_packages:
   - yum-utils
   
 apt_web_packages:
-  - curl 
-  - gnupg2 
-  - ca-certificates 
+  - curl
+  - gnupg2
+  - ca-certificates
   - lsb-release
   - nginx
+  
 
-default_home: "/var/www/html/"
+default_home: "/var/www/html/vh1"
+default_home2: "/var/www/html/vh2"
 nginx_cfg: "/etc/nginx/conf.d"
 
 virtual_hosts:
-  - { name: "local_ubuntu.site", ip: "{{ hostvars[\"h1_ubuntu\"].ansible_host }}" }
-  - { name: "local_cent7.site", ip: "{{ hostvars[\"h1-cent7\"].ansible_host }}" }
+  - { name: "h1-cent7.site", ip: "{{ hostvars[\"h1-cent7\"].ansible_host }}" }
+  - { name: "h2-ubuntu.site", ip: "{{ hostvars[\"h2-ubuntu\"].ansible_host }}" }
+

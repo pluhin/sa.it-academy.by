@@ -4,6 +4,7 @@
 
 <h1>Welcome to the board, comrates!</h1>
 <p>Finally we are here!</p>
-
+<p>Host: "{{ hostvars[inventory_hostname].ansible_hostname }}.site"</p>
+<p><b>GL&HF!</b></p>
 </body>
 </html>

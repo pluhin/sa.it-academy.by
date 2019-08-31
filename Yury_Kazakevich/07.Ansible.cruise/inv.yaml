@@ -7,15 +7,15 @@ yk_all:
                 redhats:
                     hosts:
                         h1-cent7:
-                            ansible_host: 192.168.111.209
+                            ansible_host: 192.168.111.213
                         ans-cent7:
                             ansible_host: 127.0.0.1
                 ubuntus:
                     hosts:
-                        h1_ubuntu:
-                            ansible_host: 192.168.111.202
+                        h2-ubuntu:
+                            ansible_host: 192.168.111.206
                 webservers:  
                     hosts:
                         h1-cent7:
-                        h1_ubuntu:
+                        h2-ubuntu:
                             

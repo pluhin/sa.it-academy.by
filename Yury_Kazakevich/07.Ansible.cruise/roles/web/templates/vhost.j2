@@ -1,14 +1,20 @@
 ### {{ ansible_managed }}
-{% if virtual_hosts is defined %}
-{% for var in virtual_hosts %}   
 server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-        root "{{ default_home }}";
-        server_name {{ var.name }};
+        listen 80; 
+        server_name "{{ hostvars[inventory_hostname].ansible_hostname }}.site";
         location / {
-                try_files $uri $uri/ =404;
+			root "{{ default_home }}";
+			index  index.html
+            try_files $uri $uri/ =404;
         }
 }
-{% endfor %}
-{% endif %}
+
+server {
+        listen 80; 
+        server_name "{{ hostvars[inventory_hostname].ansible_hostname }}.site2";
+        location / {
+			root "{{ default_home2 }}";
+			index  index.html
+            try_files $uri $uri/ =404;
+        }
+}
