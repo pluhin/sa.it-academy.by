@@ -1,0 +1,74 @@
+---
+- name: Install Nginx Web Server on RedHat Family
+  yum:
+    name=nginx
+    state=latest
+  when:
+    ansible_os_family == "RedHat"
+  notify:
+    - nginx systemd
+
+- name: Install Nginx Web Server on Debian Family
+  apt:
+    name=nginx
+    state=latest
+  when:
+    ansible_os_family == "Debian"
+  notify:
+    - nginx systemd
+
+
+- name: Create index.html on RedHat Family
+  copy:
+   src: index.html
+   dest: "{{ default_home1 }}/index.html"
+   backup: yes
+  when:
+    ansible_os_family == "RedHat"
+  become: yes
+  tags:
+    - create_index
+
+- name: Create index.html on Debian Family
+  copy:
+   src: index.html
+   dest: "{{ default_home2 }}/index.html"
+   backup: yes
+  when:
+    ansible_os_family == "Debian"
+  become: yes
+  tags:
+    - create_index
+
+- name: Template for etc/hosts
+  template:
+   src: hosts.j2
+   dest: "/etc/hosts"
+   backup: yes
+  become: yes
+  tags:
+    - host_conf
+
+
+- name: Check telnet site
+  wait_for:
+   host: localhost
+   port: 80
+   state: started
+   timeout: 10
+  tags:
+    - test_port
+
+- name: Check content site
+  uri:
+   url: http://localhost
+   return_content: yes
+  register: this
+  failed_when : "'hell' not in this.content"
+  tags:
+    - test_page
+
+- debug:
+    msg: "{{ this.status }}"
+  tags:
+   - test_page
