@@ -1,0 +1,19 @@
+all_hosts:
+  children:
+    ec_htp:
+      vars:
+        full_name: "Educational Center of HTP"
+      hosts:
+        jump:
+          ansible_user: jump_sa
+          ansible_host: 178.124.206.48
+        sa_cent:
+          ansible_user: sidarovich
+          ansible_host: 192.168.254.50
+        sa_ubuntu:
+          ansible_user: sidarovich
+          ansible_host: 192.168.254.51
+webservers:
+  hosts:
+    sa_cent:
+    sa_ubuntu:
