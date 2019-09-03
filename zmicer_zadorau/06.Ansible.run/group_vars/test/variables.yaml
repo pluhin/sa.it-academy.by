@@ -1,0 +1,4 @@
+---
+full_name: "testmashime"
+ansible_ssh_user: vagrant
+

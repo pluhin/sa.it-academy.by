@@ -1,0 +1,29 @@
+---
+- hosts: test
+  become: yes
+  vars:
+    user_to_add: Smith
+    user_password: 'SuperPass!@#'
+  tasks:
+  - name: Create user
+    debug: 
+      msg: "You requested user {{ user_to_add }}"
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      comment: Manged by ansible
+      state: present
+      password: "{{ user_password}}"
+  - name: Add user {{ user_to_add }} to sudoers
+    lineinfile: 
+      dest: "/etc/sudoers"
+      state: "present"
+      regexp: "{{user_to_add}}"
+      line: "{{user_to_add}} ALL=(ALL) NOPASSWD: ALL"
+  - name: Ssh key auth
+    authorized_key:
+        user: "{{ user_to_add }}"
+        key: "{{ lookup ('file', '/home/pankrys/.ssh/id_rsa.pub') }}"
+        state: present
+    tags:
+      - ssh
