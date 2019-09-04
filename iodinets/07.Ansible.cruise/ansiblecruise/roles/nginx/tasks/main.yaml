@@ -1,7 +1,7 @@
 ---
 - name: Install Nginx Web Server on RedHat Family
   yum:
-    name=nginx
+    name: nginx
     state=latest
   when:
     ansible_os_family == "RedHat"
@@ -10,7 +10,7 @@
 
 - name: Install Nginx Web Server on Debian Family
   apt:
-    name=nginx
+    name: nginx
     state=latest
   when:
     ansible_os_family == "Debian"
@@ -48,6 +48,15 @@
   become: yes
   tags:
     - host_conf
+
+- name: virtual host configure
+  template:
+    src: vhost.j2
+    dest: "{{ nginx_cfg }}/vhost_{{ hostvars[inventory_hostname].ansible_hostname }}.conf"
+    backup: no
+  become: yes
+  tags:
+    - vhost_cfg
 
 
 - name: Check telnet site
