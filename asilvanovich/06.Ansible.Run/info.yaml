@@ -1,8 +1,5 @@
 ---
 - hosts : webservers
-  vars:
-    var_01: "Hi"
-    var_02: true
   tasks:
   - name: check distribution
     debug:
