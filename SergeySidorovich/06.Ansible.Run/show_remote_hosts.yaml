@@ -1,0 +1,19 @@
+- hosts: webservers
+  become: true
+  strategy: free
+  tasks:
+  - name: OS version
+    debug:
+      msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+    tags:
+      - os_version
+  - name: mount point and capacity
+    debug:
+      msg: "{{ ansible_mounts }}"
+    tags:
+      - mount
+  - name: RAM usage
+    debug:
+      msg: "{{ ansible_memory_mb }}"
+    tags:
+      - memory
