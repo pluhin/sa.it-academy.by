@@ -1,0 +1,22 @@
+---
+- hosts: webservers
+#  gather_facts: false
+#  strategy: free
+  vars:
+    var1: "Hi"
+    var2: true
+    var3: 42
+  tasks:
+  - name: Print OS and RAM info
+    debug:
+      msg: " {{ ansible_distribution }} | {{ansible_distribution_version}}
+          |  Total RAM is: {{ ansible_memtotal_mb.real }}Mb
+          |  Free RAM is: {{ ansible_memfree_mb.real }}Mb"
+    tags: all_print
+
+  - name: Print HDD mount size
+    debug:
+     msg: "Mount point: {{item.mount}} | Total size: {{item.size_total}} | Free size: {{item.size_available}}"
+    loop: "{{ ansible_mounts }}"
+    tags: size
+

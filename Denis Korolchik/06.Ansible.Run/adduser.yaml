@@ -1,0 +1,34 @@
+        - hosts: webservers
+          tasks:
+
+          - name: Enter new user
+            debug:
+              msg: "Enter user name {{ user_to_add }}"
+
+          - name: Creating user {{ user_to_add }}
+            user:
+              name: "{{ user_to_add }}"
+              comment: "Managed by ansible"
+              state: present
+
+          - name: New SSH user 
+            authorized_key:
+              user: "{{ user_to_add }}"
+              state: present
+              key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+          - name: New user -  nopasswd 
+            shell: "echo '{{ user_to_add }} ALL=(ALL:ALL) NOPASSWD: ALL' | sudo EDITOR='tee -a' visudo"
+            tags: newUserNP
+
+          - name: Check permission for update Ubuntu
+            command: "sudo apt update"
+            when: 
+               - ansible_facts['distribution'] == "Ubuntu"
+
+          - name: Check permission for update CentOS
+            command: "sudo yum update"
+            when:
+               - ansible_facts['distribution'] == "CentOS"
+
+            tags: checkCE 
