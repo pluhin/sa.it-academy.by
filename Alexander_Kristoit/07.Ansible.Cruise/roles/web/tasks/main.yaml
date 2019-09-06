@@ -1,0 +1,89 @@
+---
+- name: Include deploy for Ubuntu systems
+  include: nginx_ubuntu.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for CentOS systems
+  include: nginx_centos.yaml
+  when: ansible_os_family == 'RedHat'
+
+
+- name: Create directory for Virtual Hosts
+  file:
+    path: "{{ default_home }}/{{ item }}.{{ ansible_hostname }}/html"
+    state: directory
+  with_items: "{{ site }}"
+  tags:
+  - m_dir
+
+- name: Create index.html page for Virtual Hosts from template
+  template:
+    src: index.html
+    dest: "{{ default_home }}/{{ item }}.{{ ansible_hostname }}/html/index.html"
+  with_items: "{{ site }}"
+  tags:
+  - m_index
+
+- name: Create config files for Virtual Hosts from template
+  become: yes
+  become_method: sudo 
+  template:
+    src: nginx.conf.j2
+    dest: "{{ default_conf }}/{{ item }}.{{ ansible_hostname }}.conf"
+  with_items: "{{ site }}"
+  tags:
+  - m_conf
+
+- name: Restart Nginx service
+  service:
+    name: nginx
+    state: restarted
+
+- name: Modify /etc/hosts files
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+  become: yes
+  tags:
+    - template
+
+- name: Test 1. Check connection to Localhost
+  wait_for:
+    host: localhost
+    port: "80"
+    state: started
+    timeout: 3
+  tags:
+    - t_1
+
+- name: Test 2. Check connection to sites
+  wait_for:
+    host: "{{ item }}.{{ ansible_hostname }}"
+    port: "80"
+    state: started
+    timeout: 3
+  with_items: "{{ site }}"
+  tags:
+  - t_2
+
+- name: Test 3. Check content all sites
+  uri:
+    url: "http://{{ item.url }}"
+    return_content: yes
+  register: this
+  tags:
+    - t_3
+  with_items:
+    - { url: "site1.{{ ansible_hostname }}" }
+    - { url: "site2.{{ ansible_hostname }}" }
+- debug:
+    msg: "{{ this }}"
+  tags:
+    - t_3 
+
+#- name: Print inventory 
+#  debug:
+#    msg: "{{ hostvars[inventory_hostname] }}"
+#  tags:
+#      - inventory

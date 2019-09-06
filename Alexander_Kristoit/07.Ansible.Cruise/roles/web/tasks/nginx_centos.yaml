@@ -1,0 +1,16 @@
+---
+- name: Install epel release on CentOS (needs for install Nginx)
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install Nginx on CentOS
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+
+- name: Enable and start Nginx service on CentOS
+  service:
+    name: nginx
+    state: started
+    enabled: yes
