@@ -1,0 +1,46 @@
+---
+- name: Install nginx for Debian systems
+  include: nginx_deb.yaml
+  when: ansible_os_family == 'Debian'
+  notify:
+    - restart nginx
+
+- name: Install nginx for Alpine systems
+  include: nginx_alp.yaml
+  when: ansible_os_family == 'Alpine'
+  notify:
+    - restart nginx
+
+- name: Copy first page
+  template:
+    src: "{{ item.src }}" 
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "index_silva.j2", dest: "{{ default_home_silva }}/index.html"}
+    - { src: "index_test.j2", dest: "{{ default_home_test }}/index.html"}
+  notify:
+    - restart nginx
+  tags:
+    - index
+
+
+- name: template for virtual hosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+  become: yes
+
+- name: Check silva web-sites 
+  uri:
+    url: "http://silva_{{ ansible_distribution|lower }}.site"
+    return_content: yes
+  register: page
+  failed_when: "'silva' not in page.content"
+
+- name: Check test web-sites
+  uri:
+    url: "http://test_{{ ansible_distribution|lower }}.site"
+    return_content: yes
+  register: this
+  failed_when: "'test' not in this.content"

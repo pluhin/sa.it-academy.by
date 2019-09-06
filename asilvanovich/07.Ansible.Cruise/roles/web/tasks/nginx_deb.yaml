@@ -1,0 +1,37 @@
+---
+- name: Install nginx package
+  apt:
+    name: "{{ apt_nginx_packages }}" 
+    state: present
+
+- name: Delete default config file
+  file:
+    path: "/etc/nginx/sites-available/defaul.conf"
+    state: absent
+
+- name: Configure nginx virtual hosts parameters
+  template:
+    src: "server.j2"
+    dest: "/etc/nginx/sites-available/server.conf"
+
+- name: Create a symbolic link
+  file:
+    src: "/etc/nginx/sites-available/server.conf"
+    dest: "/etc/nginx/sites-enabled/server.conf"
+    state: link
+
+- name: create home directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ default_home_silva }}"
+    - "{{ default_home_test }}"
+
+- name: Start nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+
