@@ -1,0 +1,21 @@
+---
+- hosts: test
+  tasks: 
+  - name: Print os 
+    debug:
+      msg: "OS/version is {{ ansible_distribution }} | {{ ansible_distribution_version }}"
+    tags:
+      - os
+      - inventory
+  - name: Print mount 
+    debug:
+      msg: "Mount point/cap/used is {{ ansible_mounts }} "
+    tags: 
+      - mount
+      - inventory
+  - name: Print ram
+    debug:
+      msg: "RAM/capacity/free is {{ ansible_memory_mb.real }}"
+    tags:
+      - ram
+      - inventory

@@ -1,0 +1,20 @@
+- hosts: yk_all
+  become: yes
+  gather_facts: False
+  tasks:
+  - name: Print variable
+    debug:
+      msg: "You requested user {{ user_to_add }}"
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      comment: "Managed by ansible"
+      state: present
+  - name: New user authorization only by key
+    authorized_key:
+      user: "{{ user_to_add }}"
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+  - name: Add {{ user_to_add }} to the sudo nopasswd for update command
+    copy:
+      dest: "/etc/sudoers.d/{{ user_to_add }}"
+      content: "{{ user_to_add }} ALL=(ALL)  NOPASSWD: ALL"
