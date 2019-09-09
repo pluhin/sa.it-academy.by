@@ -1,0 +1,21 @@
+y-ll:
+    vars:
+        ansible_user: "vagrant"
+
+    children:
+        linuxhosts:
+            children:
+                redhats:
+                    hosts:
+                        h1-cent7:
+                            ansible_host: 192.168.1.198
+                        ans-cent7:
+                            ansible_host: 127.0.0.1
+                ubuntus:
+                    hosts:
+                        h2-ubuntu:
+                            ansible_host: 192.168.1.197
+                webservers:
+                    hosts:
+                        h1-cent7:
+                        h2-ubuntu:
