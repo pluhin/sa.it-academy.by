@@ -1,0 +1,18 @@
+---
+- hosts : webservers
+  tasks:
+  - name: check distribution
+    debug:
+      msg: "{{ hostvars[inventory_hostname].ansible_distribution }},  {{hostvars[inventory_hostname].ansible_distribution_version}}"
+    tags:
+      - os_release
+  - name: check mount point and capacity
+    debug:
+      msg: "{{ansible_mounts}}"
+    tags:
+      - mount
+  - name: check RAM
+    debug:
+      msg: "Total amount of RAM: {{ansible_memtotal_mb}}, Free RAM:  {{ansible_memfree_mb}}"
+    tags: 
+      - ram

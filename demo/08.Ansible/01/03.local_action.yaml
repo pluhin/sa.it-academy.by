@@ -1,0 +1,23 @@
+---
+- hosts: webservers
+  gather_facts: False
+  vars: 
+    ports: 
+      - 80
+      - 22
+  tasks:
+  - name: Local action
+    run_once: true
+    local_action: command hostname
+    register: out
+  - debug:
+      msg: "{{ out.stdout_lines }}"
+  - name: Check connection
+    wait_for:
+      host: "{{ hostvars[item.1].ansible_host }}"
+      port: "{{ item.0 }}"
+      timeout: 3
+    register: out
+    with_together:
+    - "{{ ports }}"
+    - "{{ groups['webservers'] }}"

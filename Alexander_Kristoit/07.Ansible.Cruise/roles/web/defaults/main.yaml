@@ -1,0 +1,17 @@
+---
+yum_nginx_packages:
+  - nginx
+
+apt_nginx_packages:
+  - nginx
+
+default_home: "/usr/share/nginx"
+default_conf: "/etc/nginx/conf.d"
+
+site:
+  - site1
+  - site2
+
+virtual_hosts:
+  - { name: "site1.lab-ubuntu01 site2.lab-ubuntu01", ip: "{{ hostvars[\"lab-ubuntu01\"].ansible_host }}"}
+  - { name: "site1.lab-centos01 site2.lab-centos01", ip: "{{ hostvars[\"lab-centos01\"].ansible_host }}"}

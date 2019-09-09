@@ -1,0 +1,69 @@
+127.0.0.1 | SUCCESS | rc=0 >>
+Сущ:1 http://by.archive.ubuntu.com/ubuntu bionic InRelease
+Сущ:2 http://by.archive.ubuntu.com/ubuntu bionic-security InRelease
+Сущ:3 http://by.archive.ubuntu.com/ubuntu bionic-updates InRelease
+Сущ:4 http://by.archive.ubuntu.com/ubuntu bionic-proposed InRelease
+Сущ:5 http://by.archive.ubuntu.com/ubuntu bionic-backports InRelease
+Сущ:6 http://repo.yandex.ru/yandex-browser/deb beta InRelease
+Сущ:7 http://archive.canonical.com bionic InRelease
+Сущ:8 http://ppa.launchpad.net/morphis/anbox-support/ubuntu xenial InRelease
+Сущ:9 https://download.sublimetext.com apt/stable/ InRelease
+Чтение списков пакетов…
+Построение дерева зависимостей…
+Чтение информации о состоянии…
+Может быть обновлено 6 пакетов. Запустите «apt list --upgradable» для их показа.
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+127.0.0.1 | FAILED | rc=1 >>
+Чтение списков пакетов…
+Построение дерева зависимостей…
+Чтение информации о состоянии…
+Расчёт обновлений…
+Следующие пакеты будут обновлены:
+  libgif7 libldap-2.4-2 libldap-common libnet-ssleay-perl libopenjp2-7
+  libzstd1
+Обновлено 6 пакетов, установлено 0 новых пакетов, для удаления отмечено 0 пакетов, и 0 пакетов не обновлено.
+Необходимо скачать 820 kB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 2.048 B.
+Хотите продолжить? [Д/н] Прервано.
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.non-zero return code
+127.0.0.1 | SUCCESS | rc=0 >>
+Чтение списков пакетов…
+Построение дерева зависимостей…
+Чтение информации о состоянии…
+Расчёт обновлений…
+Следующие пакеты будут обновлены:
+  libgif7 libldap-2.4-2 libldap-common libnet-ssleay-perl libopenjp2-7
+  libzstd1
+Обновлено 6 пакетов, установлено 0 новых пакетов, для удаления отмечено 0 пакетов, и 0 пакетов не обновлено.
+Необходимо скачать 820 kB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 2.048 B.
+Пол:1 http://by.archive.ubuntu.com/ubuntu bionic-security/main amd64 libzstd1 amd64 1.3.3+dfsg-2ubuntu1.1 [189 kB]
+Пол:2 http://by.archive.ubuntu.com/ubuntu bionic-security/main amd64 libgif7 amd64 5.1.4-2ubuntu0.1 [30,9 kB]
+Пол:3 http://by.archive.ubuntu.com/ubuntu bionic-proposed/main amd64 libldap-common all 2.4.45+dfsg-1ubuntu1.4 [16,9 kB]
+Пол:4 http://by.archive.ubuntu.com/ubuntu bionic-proposed/main amd64 libldap-2.4-2 amd64 2.4.45+dfsg-1ubuntu1.4 [155 kB]
+Пол:5 http://by.archive.ubuntu.com/ubuntu bionic-security/main amd64 libnet-ssleay-perl amd64 1.84-1ubuntu0.2 [283 kB]
+Пол:6 http://by.archive.ubuntu.com/ubuntu bionic-security/universe amd64 libopenjp2-7 amd64 2.3.0-2build0.18.04.1 [145 kB]
+Получено 820 kB за 0с (6.983 kB/s)
+(Чтение базы данных … (Чтение базы данных … 5%(Чтение базы данных … 10%(Чтение базы данных … 15%(Чтение базы данных … 20%(Чтение базы данных … 25%(Чтение базы данных … 30%(Чтение базы данных … 35%(Чтение базы данных … 40%(Чтение базы данных … 45%(Чтение базы данных … 50%(Чтение базы данных … 55%(Чтение базы данных … 60%(Чтение базы данных … 65%(Чтение базы данных … 70%(Чтение базы данных … 75%(Чтение базы данных … 80%(Чтение базы данных … 85%(Чтение базы данных … 90%(Чтение базы данных … 95%(Чтение базы данных … 100%(Чтение базы данных … на данный момент установлено 277533 файла и каталога.)
+Подготовка к распаковке …/libzstd1_1.3.3+dfsg-2ubuntu1.1_amd64.deb …
+Распаковывается libzstd1:amd64 (1.3.3+dfsg-2ubuntu1.1) на замену (1.3.3+dfsg-2ubuntu1) …
+Настраивается пакет libzstd1:amd64 (1.3.3+dfsg-2ubuntu1.1) …
+(Чтение базы данных … (Чтение базы данных … 5%(Чтение базы данных … 10%(Чтение базы данных … 15%(Чтение базы данных … 20%(Чтение базы данных … 25%(Чтение базы данных … 30%(Чтение базы данных … 35%(Чтение базы данных … 40%(Чтение базы данных … 45%(Чтение базы данных … 50%(Чтение базы данных … 55%(Чтение базы данных … 60%(Чтение базы данных … 65%(Чтение базы данных … 70%(Чтение базы данных … 75%(Чтение базы данных … 80%(Чтение базы данных … 85%(Чтение базы данных … 90%(Чтение базы данных … 95%(Чтение базы данных … 100%(Чтение базы данных … на данный момент установлено 277533 файла и каталога.)
+Подготовка к распаковке …/libgif7_5.1.4-2ubuntu0.1_amd64.deb …
+Распаковывается libgif7:amd64 (5.1.4-2ubuntu0.1) на замену (5.1.4-2) …
+Подготовка к распаковке …/libldap-common_2.4.45+dfsg-1ubuntu1.4_all.deb …
+Распаковывается libldap-common (2.4.45+dfsg-1ubuntu1.4) на замену (2.4.45+dfsg-1ubuntu1.3) …
+Подготовка к распаковке …/libldap-2.4-2_2.4.45+dfsg-1ubuntu1.4_amd64.deb …
+Распаковывается libldap-2.4-2:amd64 (2.4.45+dfsg-1ubuntu1.4) на замену (2.4.45+dfsg-1ubuntu1.3) …
+Подготовка к распаковке …/libnet-ssleay-perl_1.84-1ubuntu0.2_amd64.deb …
+Распаковывается libnet-ssleay-perl (1.84-1ubuntu0.2) на замену (1.84-1ubuntu0.1) …
+Подготовка к распаковке …/libopenjp2-7_2.3.0-2build0.18.04.1_amd64.deb …
+Распаковывается libopenjp2-7:amd64 (2.3.0-2build0.18.04.1) на замену (2.3.0-1) …
+Настраивается пакет libopenjp2-7:amd64 (2.3.0-2build0.18.04.1) …
+Настраивается пакет libnet-ssleay-perl (1.84-1ubuntu0.2) …
+Настраивается пакет libldap-common (2.4.45+dfsg-1ubuntu1.4) …
+Настраивается пакет libgif7:amd64 (5.1.4-2ubuntu0.1) …
+Настраивается пакет libldap-2.4-2:amd64 (2.4.45+dfsg-1ubuntu1.4) …
+Обрабатываются триггеры для libc-bin (2.27-3ubuntu1) …
+Обрабатываются триггеры для man-db (2.8.3-2ubuntu0.1) …
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.

@@ -1,0 +1,14 @@
+apt_nginx_packages:
+  - nginx
+
+apk_nginx_packages:
+  - nginx
+
+default_home_test: "/var/www/test"
+default_home_silva: "/var/www/silva"
+
+virtual_hosts: 
+  - { name: "test_ubuntu.site", ip: "{{ hostvars[\"ubuntu\"].ansible_host }}"}
+  - { name: "silva_ubuntu.site", ip: "{{ hostvars[\"ubuntu\"].ansible_host }}"}
+  - { name: "test_alpine.site", ip: "{{ hostvars[\"alpine\"].ansible_host }}"}
+  - { name: "silva_alpine.site", ip: "{{ hostvars[\"alpine\"].ansible_host }}"}

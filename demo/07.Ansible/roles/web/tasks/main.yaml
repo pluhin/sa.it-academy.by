@@ -1,0 +1,44 @@
+- name: Include deploy for Debian systems
+  include: http_debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include: http_RedHat.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Copy first page
+  copy:
+    src: index.html
+    dest: "{{ default_home }}"
+  tags:
+    - copy::files
+
+- name: Check content sites
+  uri:
+    url: http://localhost
+    return_content: yes
+  register: this
+  failed_when: "'comrates' not in this.content "
+  tags:
+    - test
+- debug:
+    msg: "{{ this.status }}"
+  tags:
+    - test
+
+- name: Check connection to Localhost
+  wait_for:
+    host: localhost
+    port: 80
+    state: started
+  tags:
+    - test2
+
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+  become: yes
+  tags:
+    - template
