@@ -1,0 +1,50 @@
+- name: Include deploy for Debian systems
+  include: nginx_cent7.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Include deploy for RedHat systems
+  include: nginx_ubuntu.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Templates for nginx 2x virtual host
+  template:
+    src: "vhost.j2"
+    dest: "/etc/nginx/conf.d/vhost.conf"
+    backup: yes
+  become: yes
+  tags:
+    - nginx_vh
+
+- name: Copy file for virt site
+  copy: src="{{ item.src }}" dest="{{ item.dest }}"
+  with_items:
+    - { src: 'index.html', dest: "{{ home }}" }
+    - { src: 'index.html', dest: "{{ home2 }}" }
+  tags:
+    - copy::files
+
+- name: Templates for hosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+  become: yes
+  tags:
+    - hosts_tmp
+
+- name: Nginx. Restart servce
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+
+- name: Chck
+  uri:
+    url: http://{{item.name}}
+    return_content: yes
+  register: this
+  failed_when: "'HEllo World' not in this.content "
+  with_items: "{{ virtual_hosts }}"
+  tags:
+    - chk
+
