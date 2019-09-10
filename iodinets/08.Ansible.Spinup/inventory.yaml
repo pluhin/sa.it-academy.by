@@ -1,0 +1,16 @@
+---
+all_hosts:
+  children:
+    local_host:
+       hosts:
+        test_cent:
+           ansible_user: root
+           ansible_host: 192.168.200.3
+        test_ubuntu:
+           ansible_user: root
+           ansible_host: 192.168.200.4
+    webservers:
+        hosts:
+         test_cent:
+         test_ubuntu:
+      
