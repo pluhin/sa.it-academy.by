@@ -1,0 +1,15 @@
+ 660  sudo apt-get install lxc lxc-templates
+  661  sudo lxc-create  -t download -f lxc1.conf -n cent7 -- --dist centos --release 7 --arch amd64
+  662  sudo lxc-create  -t download -f lxc1.conf -n lxc_centos -- --dist centos --release 7 --arch amd64
+  663  sudo lxc-start -n lxc_centos
+  664  sudo lxc-attach -n lxc_centos
+  665  sudo lxc-create  -t download -f lxc2.conf -n lxc_debian -- --dist debian --release buster --arch amd64
+  666  sudo lxc-start -n lxc_debian
+  667  sudo lxc-attach -n lxc_debian
+  668  sudo lxc-destroy -n lxc_centos
+  669  sudo lxc-stop -n lxc_centos
+  670  sudo lxc-destroy -n lxc_centos
+  671  sudo lxc-stop -n lxc_debian
+  672  sudo lxc-destroy -n lxc_debian
+  673  history
+
