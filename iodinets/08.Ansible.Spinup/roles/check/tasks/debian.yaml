@@ -1,0 +1,9 @@
+---
+- name: Check public repository deb basesd system
+  shell: "grep -Erh ^deb /etc/apt/sources.list*"
+  register: rep
+  changed_when: False
+
+- name: output deb public repository
+  debug:
+    msg: "{{ rep.stdout_lines }}"

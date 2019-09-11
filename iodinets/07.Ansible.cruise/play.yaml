@@ -1,0 +1,25 @@
+---
+- hosts: test_cent
+  become:
+    true
+  become_method:
+    su
+  become_user:
+    root
+  remote_user:
+    ansible
+  roles:
+   - epel
+   - nginx
+
+- hosts: test_ubuntu
+  become:
+    true
+  become_method:
+    sudo
+  become_user:
+    root
+  remote_user:
+    ansible
+  roles:
+   - nginx
