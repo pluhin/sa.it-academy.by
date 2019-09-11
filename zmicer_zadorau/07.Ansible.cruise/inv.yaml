@@ -20,6 +20,9 @@ all_hosts:
         sa_ubuntu:
           ansible_host: 192.168.254.51
           ansible_user: user
+        pk_pc:
+          ansible_user: pankrys
+          ansible_host: 192.168.31.13
     local:
       hosts:
         localhost:
