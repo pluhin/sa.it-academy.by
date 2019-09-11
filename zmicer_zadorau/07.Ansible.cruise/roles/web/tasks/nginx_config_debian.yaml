@@ -1,0 +1,25 @@
+---
+- name: Add virtual domains in NGINX for Deb
+  copy:
+    src: files/{{ item }}/{{ item }}
+    dest: /etc/nginx/sites-available/
+  when:
+    ansible_os_family == "Debian"
+  loop:
+    - "{{ s1 }}"
+    - "{{ s2 }}"
+  tags:
+    - config
+  notify:
+    - nginx restart
+- name: link
+  file:
+    src: /etc/nginx/sites-available/{{ item }}
+    dest: /etc/nginx/sites-enabled/{{ item }}
+    state: link
+  when:
+    ansible_os_family == "Debian"
+  loop:
+    - "{{ s1 }}"
+    - "{{ s2 }}"
+#  run_once: true

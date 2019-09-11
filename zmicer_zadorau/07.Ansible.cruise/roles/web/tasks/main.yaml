@@ -1,0 +1,54 @@
+---
+- name: Include deploy for debian
+  include: nginx_debian.yaml
+  when: ansible_os_family == 'Debian'
+- name: Include deploy for centos
+  include: nginx_redhat.yaml
+  when: ansible_os_family == 'RedHat'
+- name: create dirs
+  file:
+    path: "/var/www/{{ item }}/html"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ s1 }}"
+    - "{{ s2 }}"
+  tags:
+    - folder
+- name: copy pages
+  copy:
+    src: "{{ item }}/index.html"
+    dest: "{{ default_home }}/{{ item }}/html"
+  loop:
+    - "{{ s1 }}"
+    - "{{ s2 }}"
+  tags:
+    - content
+- name: Replace nginx.conf
+  template:
+    src: "templates/nginx.conf"
+    dest: "/etc/nginx/nginx.conf"
+- name: Include config for debian
+  include: nginx_config_debian.yaml
+  when: ansible_os_family == 'Debian'
+- name: Include config for centos
+  include: nginx_config_redhat.yaml
+  when: ansible_os_family == 'RedHat'
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+  become: yes
+  tags:
+    - template
+- name: check content
+  uri:
+    url: "http://{{ item.1 }}.{{ item.0 }}"
+    return_content: yes
+  register: this
+  failed_when:
+  - '"is working" not in this.content'
+  with_together:
+  - ['test.com','example.com']
+  - ['centos','ubuntu']
