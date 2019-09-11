@@ -1,0 +1,26 @@
+---
+- name: Check dockerhub
+  uri:
+     url: https://hub.docker.com/_/registry
+     status_code: 200,401
+  retries: 30
+  delay: 5
+  register: result
+  until: result.failed is defined
+  changed_when: False
+
+- name: Print output docker hub registry
+  debug:
+    msg: "{{ result.status }}"
+
+- name: Check pip repository
+  shell: "pip download --no-cache-dir --verbose foo | grep ^Found"
+  args:
+    executable: /bin/bash
+  register: pip_out
+  ignore_errors: yes
+  changed_when: false
+
+- name: print pip repository
+  debug:
+    msg: "{{ pip_out.stdout_lines }}"
