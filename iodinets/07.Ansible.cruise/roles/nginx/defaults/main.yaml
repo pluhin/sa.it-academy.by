@@ -1,0 +1,8 @@
+---
+default_home1: "/usr/share/nginx/html"
+default_home2: "/var/www/html"
+nginx_cfg: "/etc/nginx/conf.d"
+
+virtual_hosts:
+  - { name: "test_ubuntu.site", ip: "{{ hostvars[\"test_ubuntu\"].ansible_host }}"}
+  - { name: "test_cent.site", ip: "{{ hostvars[\"test_cent\"].ansible_host }}"}

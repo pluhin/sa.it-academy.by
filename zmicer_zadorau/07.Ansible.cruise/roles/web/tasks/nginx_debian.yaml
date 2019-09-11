@@ -1,0 +1,8 @@
+---
+- name: Nginx. Install packages
+  apt:
+    force_apt_get: yes
+    name: nginx
+    state: present
+  notify:
+    - nginx systemd

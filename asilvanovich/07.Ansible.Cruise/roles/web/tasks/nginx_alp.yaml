@@ -1,0 +1,29 @@
+- name: Install nginx package
+  apk:
+    name: "{{ apk_nginx_packages }}"
+    state: present
+    update_cache: yes
+
+- name: Delete default config file.
+  file: 
+    path: "/etc/nginx/conf.d/defaul.conf"
+    state: absent
+
+- name: configure nginx virtual hosts parameters
+  template:
+    src: "server.j2" 
+    dest: "/etc/nginx/conf.d/server.conf"
+
+- name: create home directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ default_home_silva }}"
+    - "{{ default_home_test }}"
+
+- name: Start nginx service
+  service:
+    name: nginx
+    state: started
+    enabled: yes

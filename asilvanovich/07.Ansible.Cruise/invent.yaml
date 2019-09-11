@@ -1,0 +1,8 @@
+internal:
+  hosts:
+    ubuntu:
+      ansible_user: silva
+      ansible_host: 10.1.1.2
+    alpine:
+      ansible_user: silva
+      ansible_host: 20.1.1.2

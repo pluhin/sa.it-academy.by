@@ -1,0 +1,78 @@
+- name: Include deploy for Debian systems
+  include: http_debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include: http_redhat.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Creates directory
+  file:
+    path: "{{ default_home }}"
+    state: directory
+    
+- name: Creates directory
+  file:
+    path: "{{ default_home2 }}"
+    state: directory
+    
+- name: Create index page
+  template:
+    src: index.2j
+    dest: "{{ default_home }}/index.html"
+    backup: no
+  tags:
+    - template_inx
+    
+- name: Create index page2
+  template:
+    src: index.2j
+    dest: "{{ default_home2 }}/index.html"
+    backup: no
+  tags:
+    - template_inx2
+    
+- name: TemplatesCFG
+  template:
+    src: vhost.j2
+    dest: "{{ nginx_cfg }}/vhost_{{ hostvars[inventory_hostname].ansible_hostname }}.conf"
+    backup: no
+  become: yes
+  tags:
+    - template_cfg
+
+- name: TemplateHosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: no
+  become: yes
+  tags:
+    - template_hosts
+ 
+- name: NGINX. Restart service
+  service:
+    name: nginx
+    state: restarted
+    
+- name: "Check connection to site"
+  wait_for:
+    host: "{{ hostvars[inventory_hostname].ansible_hostname }}.site"
+    port: 80
+    state: started
+    timeout: 7
+  tags:
+    - test_tcp
+
+- name: Check content sites
+  uri:
+    url: "http://{{ hostvars[inventory_hostname].ansible_hostname }}.site"
+    return_content: yes 
+  register: this
+  failed_when: "'comrates' not in this.content "
+  tags:
+    - test_page
+- debug:
+    msg: "{{ this.status }}"
+  tags:
+    - test_code
