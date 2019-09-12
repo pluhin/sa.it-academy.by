@@ -45,3 +45,14 @@ In this task I practiced with the roles in Ansible. I deployed two virtual machi
 - Setup ngnix for two virtualhosts using templates 
 - Create and add index.html files
 - Check deployment
+
+
+## 08.Ansible.Spinup
+In this task I created a testing role to check the following:
+
+- Check if we have SUDO with NOPASSWD
+- Checks to public repository (debian/centos and pip)
+- Check if we have connection to docker hub registry (return content check)
+- Check if we have enough RAM/HDD (you can create thresholds by yourself)  
+All related tasks was tested using molecule.
+
