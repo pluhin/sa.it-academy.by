@@ -1,0 +1,12 @@
+default_home: "/var/www/"
+
+s1: "test.com"
+s2: "example.com"
+
+virtual_hosts:
+  - { name: "ubuntu.{{s1}}", ip: "{{ hostvars[\"ubu1\"].ansible_host }}"}
+  - { name: "ubuntu.{{s2}}", ip: "{{ hostvars[\"ubu1\"].ansible_host }}"}
+  - { name: "centos.{{s1}}", ip: "{{ hostvars[\"centos\"].ansible_host }}"}
+  - { name: "centos.{{s2}}", ip: "{{ hostvars[\"centos\"].ansible_host }}"}
+
+nginx_user: vagrant

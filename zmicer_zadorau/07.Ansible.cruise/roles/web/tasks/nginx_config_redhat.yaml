@@ -1,0 +1,14 @@
+---
+- name: Add virtual domains in NGINX for RedHat
+  copy:
+    src: "files/{{ item }}/{{ item }}"
+    dest: "/etc/nginx/conf.d/{{ item }}.conf"
+  when:
+    ansible_os_family == "RedHat"
+  loop:
+    - "{{ s1 }}"
+    - "{{ s2 }}"
+  tags:
+    - config
+  notify:
+    - nginx restart

@@ -1,0 +1,17 @@
+yum_http_packages:
+  - nginx
+
+apt_http_packages:
+  - nginx
+
+home: "/var/www/html/tst1/"
+home2: "/var/www/html/tst2/"
+
+site1: tst1
+site2: tst2
+
+virtual_hosts:
+  - { name: "ce7.{{ site1 }}", ip: "{{ hostvars[\"ub\"].ansible_host }}"}
+  - { name: "ce7.{{ site2 }}", ip: "{{ hostvars[\"ub\"].ansible_host }}"}
+  - { name: "ub18.{{ site1 }}", ip: "{{ hostvars[\"ce7\"].ansible_host }}"}
+  - { name: "ub18.{{ site2 }}", ip: "{{ hostvars[\"ce7\"].ansible_host }}"}

@@ -1,7 +1,0 @@
----
-- name: Check a connection to alpine and pip reps
-  uri:
-    url: "{{ item }}"
-  with_items:
-    - "{{ alpine_rep }}"
-    - "{{ pip_rep }}"

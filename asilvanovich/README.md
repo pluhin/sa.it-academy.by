@@ -55,4 +55,3 @@ In this task I created a testing role to check the following:
 - Check if we have connection to docker hub registry (return content check)
 - Check if we have enough RAM/HDD (you can create thresholds by yourself)  
 All related tasks was tested using molecule.
-

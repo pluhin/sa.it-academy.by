@@ -1,0 +1,33 @@
+farm_all:
+  children:
+    local_stand:
+      vars:
+        full_name: "Local Education Stand"
+      hosts:
+        masterubuntu:
+          ansible_host: 192.168.100.250
+        vg_ubuntu:
+          ansible_host: 192.168.100.11
+        vg_centos:
+          ansible_host: 192.168.100.12
+    remote_stand:
+      vars:
+        full_name: "Remote Education Stand"
+      hosts:
+        jump:
+          ansible_user: jump_sa
+          ansible_host: 178.124.206.48
+        sa_cent:
+          ansible_user: root
+          ansible_host: 192.168.254.50
+        sa_ubuntu:
+          ansible_user: user
+          ansible_host: 192.168.254.51
+    vg:
+      hosts:
+        vg_ubuntu:
+        vg_centos:
+
+
+
+

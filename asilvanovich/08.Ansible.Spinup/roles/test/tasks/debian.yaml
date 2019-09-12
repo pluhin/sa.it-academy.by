@@ -1,7 +1,0 @@
----
-- name: Check a connection to ubuntu reps
-  uri:
-    url: "{{ item }}"
-  with_items:
-    - "{{ debian_rep }}"
-    - "{{ pip_rep }}"
