@@ -1,0 +1,19 @@
+---
+- hosts : vg
+  become: true
+  tasks:
+  - name: OS/version
+    debug:
+      msg: "{{ hostvars[inventory_hostname].ansible_distribution }},  {{hostvars[inventory_hostname].ansible_distribution_version}}"
+    tags:
+      - version
+  - name: Print Mount point/capacity/used
+    debug:
+      msg: "{{ hostvars[inventory_hostname].ansible_mounts }}"
+    tags:
+      - mount
+  - name: RAM/capacity/free
+    debug:
+      msg: "Total amount of RAM: {{ansible_memtotal_mb}}, Free RAM:  {{ansible_memfree_mb}}"
+    tags: 
+      - ram

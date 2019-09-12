@@ -1,0 +1,17 @@
+yum_nginx_packages:
+  - nginx
+  
+apt_nginx_packages:
+  - nginx
+
+default_home1: "/var/www/html/site1/"
+default_home2: "/var/www/html/site2/"
+
+nginx_cfg: "/etc/nginx/conf.d"
+
+name_site1: site1
+name_site2: site2
+
+virtual_hosts:
+  - { name: "{{ hostvars[inventory_hostname].ansible_hostname }}.{{ name_site1 }}", ip: "{{ hostvars[inventory_hostname].ansible_host }}"}
+  - { name: "{{ hostvars[inventory_hostname].ansible_hostname }}.{{ name_site2 }}", ip: "{{ hostvars[inventory_hostname].ansible_host }}"}
