@@ -1,0 +1,47 @@
+```bash	
+master@u18sst:~/ansible$ ansible-playbook manage_new_user.yaml -e "username=gresse" -i hosts.yaml --ask-vault-pass
+Vault password:
+
+PLAY [vg] *****************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************************************************************************************
+ok: [vg_ubuntu]
+ok: [vg_centos]
+
+TASK [Create user] ********************************************************************************************************************************************************************************************
+changed: [vg_ubuntu]
+changed: [vg_centos]
+
+TASK [ssh key auth] *******************************************************************************************************************************************************************************************
+changed: [vg_ubuntu]
+changed: [vg_centos]
+
+TASK [sudo with NOPASSWD] *************************************************************************************************************************************************************************************
+changed: [vg_ubuntu]
+changed: [vg_centos]
+
+PLAY RECAP ****************************************************************************************************************************************************************************************************
+vg_centos                  : ok=4    changed=3    unreachable=0    failed=0
+vg_ubuntu                  : ok=4    changed=3    unreachable=0    failed=0
+```
+
+### Test results
+```bash
+master@u18sst:~/ansible$ ssh gresse@192.168.100.11
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+gresse@ubuntu1804:~$ sudo reboot now
+Connection to 192.168.100.11 closed by remote host.
+Connection to 192.168.100.11 closed.
+master@u18sst:~/ansible$ ssh gresse@192.168.100.12
+[gresse@centos7 ~]$ sudo reboot now
+Connection to 192.168.100.12 closed by remote host.
+Connection to 192.168.100.12 closed.
+master@u18sst:~/ansible$
+```

@@ -1,0 +1,21 @@
+- hosts: vg
+  become: yes
+  tasks:
+  - name: Create user
+    user:
+      name: "{{ username }}"
+      comment: "From ansible"
+      state: present
+      create_home: yes
+      shell: "/bin/bash"
+  - name: ssh key auth
+    authorized_key:
+      user: "{{ username }}"
+      manage_dir: yes
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+      state: present
+  - name: sudo with NOPASSWD
+    copy:
+      content: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
+      dest: "/etc/sudoers.d/{{ username }}"
+
