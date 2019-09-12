@@ -1,0 +1,33 @@
+---
+local_farm:
+  hosts:
+    masterubuntu:
+      ansible_host: 192.168.100.250
+    db_vg_ubuntu:
+      ansible_host: 192.168.100.11
+    db_vg_centos:
+      ansible_host: 192.168.100.12
+    web_vg_ubuntu:
+      ansible_host: 192.168.100.21
+    web_vg_centos:
+      ansible_host: 192.168.100.22
+hyperserver:
+  vars:
+    ansible_user: master
+  hosts:
+    masterubuntu
+webservers:
+  vars:
+    ansible_user: vagrant
+  hosts:
+    web_vg_ubuntu:
+    web_vg_centos:
+database:
+  vars:
+    ansible_user: vagrant
+  hosts:
+    db_vg_ubuntu:
+    db_vg_centos:
+
+
+
