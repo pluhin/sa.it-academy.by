@@ -1,0 +1,105 @@
+### Test Sysinfo scripts
+```bash
+master@u18sst:~/ansible$ ansible-playbook remote_host_parameters.yaml -i hosts.yaml --ask-vault-pass
+Vault password:
+
+PLAY [vg] **********************************************************************************************************
+
+TASK [Gathering Facts] *********************************************************************************************
+ok: [vg_centos]
+ok: [vg_ubuntu]
+
+TASK [OS/version] **************************************************************************************************
+ok: [vg_ubuntu] => {
+    "msg": "Ubuntu,  18.04"
+}
+ok: [vg_centos] => {
+    "msg": "CentOS,  7.6.1810"
+}
+
+TASK [Print Mount point/capacity/used] *****************************************************************************
+ok: [vg_ubuntu] => {
+    "msg": [
+        {
+            "block_available": 6617864,
+            "block_size": 4096,
+            "block_total": 7608815,
+            "block_used": 990951,
+            "device": "/dev/sda3",
+            "fstype": "ext4",
+            "inode_available": 1827396,
+            "inode_total": 1941504,
+            "inode_used": 114108,
+            "mount": "/",
+            "options": "rw,relatime,errors=remount-ro,data=ordered",
+            "size_available": 27106770944,
+            "size_total": 31165706240,
+            "uuid": "88d0b97e-c960-4a39-afec-0276c44e01f5"
+        },
+        {
+            "block_available": 299473,
+            "block_size": 1024,
+            "block_total": 474712,
+            "block_used": 175239,
+            "device": "/dev/sda1",
+            "fstype": "ext4",
+            "inode_available": 124615,
+            "inode_total": 124928,
+            "inode_used": 313,
+            "mount": "/boot",
+            "options": "rw,relatime,data=ordered",
+            "size_available": 306660352,
+            "size_total": 486105088,
+            "uuid": "82262a10-3633-4eff-9122-638a47c24c96"
+        }
+    ]
+}
+ok: [vg_centos] => {
+    "msg": [
+        {
+            "block_available": 7279903,
+            "block_size": 4096,
+            "block_total": 7596417,
+            "block_used": 316514,
+            "device": "/dev/mapper/centos_centos7-root",
+            "fstype": "xfs",
+            "inode_available": 15145957,
+            "inode_total": 15200256,
+            "inode_used": 54299,
+            "mount": "/",
+            "options": "rw,seclabel,relatime,attr2,inode64,noquota",
+            "size_available": 29818482688,
+            "size_total": 31114924032,
+            "uuid": "d98e9580-2abd-4390-9362-7c12d8c94c87"
+        },
+        {
+            "block_available": 227173,
+            "block_size": 4096,
+            "block_total": 259584,
+            "block_used": 32411,
+            "device": "/dev/sda1",
+            "fstype": "xfs",
+            "inode_available": 523996,
+            "inode_total": 524288,
+            "inode_used": 292,
+            "mount": "/boot",
+            "options": "rw,seclabel,relatime,attr2,inode64,noquota",
+            "size_available": 930500608,
+            "size_total": 1063256064,
+            "uuid": "76dc3e0c-eb33-4c54-922b-64c417907f85"
+        }
+    ]
+}
+
+TASK [RAM/capacity/free] *******************************************************************************************
+ok: [vg_ubuntu] => {
+    "msg": "Total amount of RAM: 1993, Free RAM:  1702"
+}
+ok: [vg_centos] => {
+    "msg": "Total amount of RAM: 1838, Free RAM:  1440"
+}
+
+PLAY RECAP *********************************************************************************************************
+vg_centos                  : ok=4    changed=0    unreachable=0    failed=0
+vg_ubuntu                  : ok=4    changed=0    unreachable=0    failed=0
+```
