@@ -1,0 +1,46 @@
+- name: Include deploy for RedHat systems
+  include: jenk_redhat.yaml
+  when: ansible_os_family == 'RedHat'
+   
+- name: Creates directory
+  file:
+    path: "{{ default_home }}"
+    state: directory
+  tags:
+    - nginx
+    
+- name: Create index page
+  template:
+    src: index.2j
+    dest: "{{ default_home }}/index.html"
+    backup: no
+  tags:
+    - template_inx
+    - nginx
+      
+- name: TemplatesCFG
+  template:
+    src: vhost.j2
+    dest: "{{ nginx_cfg }}/vhost_{{ hostvars[inventory_hostname].ansible_hostname }}.conf"
+    backup: no
+  become: yes
+  tags:
+    - template_cfg
+    - nginx
+    
+- name: TemplateHosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: no
+  become: yes
+  tags:
+    - template_hosts
+    
+- name: NGINX. Restart service
+  service:
+    name: nginx
+    state: restarted
+  become: yes
+  tags:
+    - nginx
