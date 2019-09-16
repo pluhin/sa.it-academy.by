@@ -1,7 +1,7 @@
 ### {{ ansible_managed }}
 server {
         listen 8999; 
-        server_name "{{ hostvars[inventory_hostname].ansible_hostname }}.besmart.local";
+        server_name "{{ hostvars[inventory_hostname].ansible_hostname }}";
         location / {
 			root "{{ default_home }}";
 			index  index.html
@@ -11,7 +11,7 @@ server {
 
 server {
     listen 8000;
-    server_name j-{{ hostvars[inventory_hostname].ansible_hostname }}.besmart.local;
+    server_name j-{{ hostvars[inventory_hostname].ansible_hostname }};
      
     location / {
       proxy_set_header        Host $host:$server_port;
@@ -23,12 +23,12 @@ server {
       proxy_pass          http://127.0.0.1:8080;
       proxy_read_timeout  90;
  
-      proxy_redirect      http://127.0.0.1:8080 https://j-{{ hostvars[inventory_hostname].ansible_hostname }}.besmart.local;
+      proxy_redirect      http://127.0.0.1:8080 https://j-{{ hostvars[inventory_hostname].ansible_hostname }};
   
       # Required for new HTTP-based CLI
       proxy_http_version 1.1;
       proxy_request_buffering off;
       # workaround for https://issues.jenkins-ci.org/browse/JENKINS-45651
-      add_header 'X-SSH-Endpoint' 'j-{{ hostvars[inventory_hostname].ansible_hostname }}.besmart.local:50022' always;
+      add_header 'X-SSH-Endpoint' 'j-{{ hostvars[inventory_hostname].ansible_hostname }}:50022' always;
     }
 }
