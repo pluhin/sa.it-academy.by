@@ -1,0 +1,3 @@
+distro: $(sed -n 's/^distroverpkg=//p' /etc/yum.conf)
+releasever: $(rpm -q --qf "%{version}" -f /etc/$distro)
+basearch: $(rpm -q --qf "%{arch}" -f /etc/$distro)

@@ -1,0 +1,44 @@
+---
+  - name: Make sure we have user with sudo and NOPASSWD
+    command: cat /etc/sudoers.d/NewTestUserKri2
+    register: usr
+    ignore_errors: yes
+    changed_when: False
+
+  - name: Check user permission
+    debug:
+      msg: "{{ usr.stdout }}"
+
+  - name: Ubuntu system repository
+    include: ubuntu.yaml
+    when: ansible_os_family == 'Debian'
+
+  - name: CentOS system repository
+    include: centos.yaml
+    when: ansible_os_family == 'RedHat'
+
+  - name: Chek for available disk space
+    assert:
+      that:
+        - not {{ item.mount == '/' and ( item.size_available < item.size_total - ( item.size_total|float * 0.8 ) ) }}
+    with_items: "{{ ansible_mounts }}"
+    ignore_errors: yes
+    register: disk_free
+
+  - name: Available disk space
+    debug:
+      msg: "{{ disk_free }}"
+
+  - name: Alarm not free disk space
+    debug:
+      msg: "!Alarm! Not availebel free disk space"
+    when: disk_free|failed
+
+  - name: Check for available memory
+    debug:
+      msg: "Total RAM is {{ ansible_memory_mb.real.total }}"
+
+  - name: Alarm check memory free
+    debug:
+      msg: "!Alarm! Not enough RAM"
+    when: ansible_memory_mb <= 256

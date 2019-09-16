@@ -1,0 +1,61 @@
+---
+- name: Copy nginx repo
+  copy:
+    src: nginx.repo
+    dest: /etc/yum.repos.d/nginx.repo
+  when: ansible_os_family == 'RedHat'
+  tags:
+    - copy::nginxrepo
+    
+- name: NGINX. Install packages
+  yum:
+    name: "{{ yum_web_packages }}"
+    state: present
+
+- name: NGINX. Remove welcome file
+  file:
+    path: "/etc/nginx/conf.d/default.conf"
+    state: absent
+
+- name: NGINX. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Install yum
+  yum:
+    name:
+      - wget
+      - java-1.8.0-openjdk
+
+- name: Download jenkins.repo
+  get_url:
+    url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+
+- name: Import Jenkins Key
+  rpm_key:
+    state: present
+    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+- name: Install Jenkins
+  yum:
+    name: jenkins
+    state: present
+
+- name: Start & Enable Jenkins
+  systemd:
+    name: jenkins
+    state: started
+    enabled: true
+
+- name: Get init password Jenkins
+  shell: |
+    cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+
+- name: Print init password Jenkins
+  debug:
+    var: result.stdout
