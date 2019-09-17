@@ -1,0 +1,13 @@
+---
+- name: Check public repository CentOS system
+  shell: >
+    set -o pipefail && \
+    grep -Erhv '^#' /etc/yum.repos.d/* | grep http
+  args:
+    executable: /bin/sh
+  register: rep
+  changed_when: False
+
+- name: Output public repository CentOS system
+  debug:
+    msg: "{{ rep.stdout_lines }}"

@@ -1,0 +1,6 @@
+---
+yk_all:
+  hosts:
+    redmine:
+      ansible_user: ansi
+      ansible_host: 192.168.111.202

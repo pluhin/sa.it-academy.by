@@ -1,0 +1,9 @@
+---
+- name: Check public repository Ubuntu system
+  shell: "grep -Erh ^deb /etc/apt/sources.list*"
+  register: rep
+  changed_when: False
+
+- name: Output public repository Ubuntu system
+  debug:
+    msg: "{{ rep.stdout_lines }}"

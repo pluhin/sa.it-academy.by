@@ -1,0 +1,11 @@
+apt_nginx_packages:
+  - nginx
+
+apk_nginx_packages:
+  - nginx
+
+default_home: "/var/www/html/"
+
+virtual_hosts: 
+  - { name: "test_ubuntu.site", ip: "{{ hostvars[\"ubuntu_sid\"].ansible_host }}"}
+  - { name: "test_alpine.site", ip: "{{ hostvars[\"alpine_sid\"].ansible_host }}"}
