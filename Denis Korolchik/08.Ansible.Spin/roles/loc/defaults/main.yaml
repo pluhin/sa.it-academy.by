@@ -1,0 +1,9 @@
+mem_limit: 500
+disk_limit: 40000
+sudoers: "jus"
+urls:
+  - http://mirror.datacenter.by/pub/CentOS/
+  - https://pypi.org/
+  - http://ftp.no.debian.org/debian/
+urls_content:
+  - https://hub.docker.com/
