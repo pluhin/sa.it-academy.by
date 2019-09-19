@@ -1,0 +1,27 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+	config.vm.box = "centos/7"
+	config.vm.define "h3jenk1"
+	config.vm.box_check_update = false
+	config.vm.network "public_network", bridge: "en1: LAN"
+	sudoerstxt = "ansi    ALL=\(ALL:ALL\) NOPASSWD: ALL"
+	ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+	ansi_host_pk = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCZ0ClXECyz0xaFiO9Gym201eYa2IWMguEAO39aM8TEpo8ZSiu0ON9SdDlfcFlE21tY2fc9qsaMro/UAfhulMGicXPPRfstl/0cVqOBLQ6Ol8+y2im1n8y40HD7qxxPvqbjJuBKBhOi2xQbLNJu7xj74S6XBzP0WBAdO6Y5c5Eg+kGHUhlQbYEnO07T8rEq5bFS8yVmzILqmYLTbSRu6nCgkTfcjoyKxUN8Lx6JvEn+5ZiiV4s6v/bmoiWIB8D/ZV43plJ+SjCWa3Jb4TaMDsPb4GWVfkmO+x+Q1/RQqAb2MPxGetDtTDGnoKpMc+iUN+k5BQl2BrAyi28DJxZHajJIS8n5Sl2ULg2qIgrvBcnp845XAeM0WtxvcrMzd+vY/6rp5w/FFV7jueSlXj5gVN5fOmP4PjKg1P4lmCqWseirCL9dB7q26ZWDHl8YyNfMh7gAEriPByUfiy+RFcUZXs16Kw11aqnPoIQDSeBNa5xWK4TDL1TcIdULiTCnIwjZ/6BeN5bFNu/8zqWQe06jJbesFICSH8WRKNHr6Wbtsd03ofzY0liEc2U3ocMzjY953nPRpg0hZrB5WHhuoibUBHbJY+ddKEyLL1musihOaWBxZWcj4saMmjfBZrea/sXttGcLFW2rx4PRrW4n56REe6Gxfx1AiufmeWbGemfPUU4mrQ== ansi@ans-cent7"
+	config.vm.provision 'shell', inline: 'sudo hostname h3jenk1'
+	config.vm.provision 'shell', inline: 'useradd ansi -d /home/ansi'
+	config.vm.provision 'shell', inline: 'mkdir -p /home/ansi/.ssh'
+    config.vm.provision 'shell', inline: 'mkdir -p /root/.ssh'
+    config.vm.provision 'shell', inline: "echo #{ssh_pub_key} >> /root/.ssh/authorized_keys"
+    config.vm.provision 'shell', inline: "echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys"
+	config.vm.provision 'shell', inline: "sudo echo \"#{sudoerstxt}\" >> /etc/sudoers"
+	config.vm.provision 'shell', inline: "sudo cp -f /home/vagrant/.ssh/authorized_keys /home/ansi/.ssh/authorized_keys"
+	config.vm.provision 'shell', inline: "sudo chown -R ansi:ansi /home/ansi/"
+	config.vm.provision 'shell', inline: "echo #{ansi_host_pk} >> /home/ansi/.ssh/authorized_keys"
+	config.vm.provision 'shell', inline: "sudo chmod 700 /home/ansi/.ssh"
+	config.vm.provision 'shell', inline: "sudo chmod 600 /home/ansi/.ssh/authorized_keys",
+	privileged: false
+	config.vm.provider :virtualbox do |vb|
+		vb.name = "h3jenk1"		
+    end
+end

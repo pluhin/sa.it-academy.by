@@ -1,0 +1,17 @@
+---
+all_hosts:
+  children:
+    home_lab:
+      vars:
+        full_name: "Local home_lab"
+      hosts:
+        lab-centos01:
+          ansible_user: kristoit
+          ansible_host: 192.168.1.201
+        lab-ubuntu01:
+          ansible_user: kristoit
+          ansible_host: 192.168.1.202
+    webservers:
+      hosts:
+        lab-centos01:
+        lab-ubuntu01:     

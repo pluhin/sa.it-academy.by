@@ -1,0 +1,97 @@
+---
+- name: Find all files in /etc/sudoers.d
+  find:
+    paths: "/etc/sudoers.d/"
+  register: sudoersd
+  tags:
+    - user
+
+- name: Find sudoers file
+  find:
+    paths: "/etc/"
+    patterns: 'sudoers'
+  register: sudoers
+  tags:
+    - user
+
+- name: Ensure that user has NOPASSWD rights
+  lineinfile:
+    path: "{{ item.path }}"
+    regexp: "{{ user }}.*NOPASSWD"
+    state: absent
+  with_items:
+    - "{{ sudoers.files }}"
+    - "{{ sudoersd.files }}"
+  check_mode: yes
+  register: nopasswd
+  tags:
+    - user
+
+- name: print that user has NOPASSWD rights
+  debug:
+    msg: "User {{ user }} has NOPASSWD rights "
+  when: "nopasswd is changed"
+  tags:
+    - user
+
+- name: print that user doesn't have NOPASSWD rights
+  debug:
+    msg: "User {{ user }} doeasn't have NOPASSWD rights "
+  when: "not nopasswd is changed"
+  tags:
+    - user
+
+- name: Check remote repos on Ubuntu
+  uri:
+    url: "{{ item }}"
+  with_items:
+    - "{{ debian_rep }}"
+    - "{{ pip_rep }}"
+  when: ansible_os_family == 'Debian'
+  tags:
+    - repo
+
+- name: Check remote repos on Alpine
+  uri:
+    url: "{{ item }}"
+  with_items:
+    - "{{ alpine_rep }}"
+    - "{{ pip_rep }}"
+  when: ansible_os_family == 'Alpine'
+  tags:
+    - repo
+
+- name: Check a connection to the docker registry
+  uri:
+    url: "https://hub.docker.com/_/registry"
+    return_content: yes
+  register: docker
+  tags:
+    - docker
+
+- name: Print a docker registry page content
+  debug:
+    msg: "{{ docker.content }}"
+  tags:
+    - docker
+
+- name: Check a RAM limitation
+  assert:
+    that:
+      - "{{ ansible_memtotal_mb }} > {{ needed_RAM }}"
+    fail_msg: "Not enough RAM. Only {{ ansible_memtotal_mb }} is available, but {{ needed_RAM }} is needed."
+    success_msg: "You have enough RAM to run X application"
+  ignore_errors: yes
+  tags:
+    - req
+
+- name: Check if HDD space is more than 70%
+  assert:
+    that:
+      - "{{ item.size_available > (item.size_total|float * 0.2 ) }}"
+    fail_msg: "Free disk space is less than 20%, please clean it up."
+    success_msg: "Available disk space is more than 80%, OK."
+  with_items: "{{ ansible_mounts }}"
+  ignore_errors: yes
+  tags:
+    - req

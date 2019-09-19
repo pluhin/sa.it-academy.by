@@ -1,0 +1,27 @@
+---
+- name: Ensure dependencies are installed.
+  package:
+    name:
+      - curl
+      - libselinux-python
+      - initscripts
+      - java-1.8.0-openjdk
+
+- name: Download jenkins repo
+  command: curl http://pkg.jenkins-ci.org/redhat/jenkins.repo -o /etc/yum.repos.d/jenkins.repo
+
+- name: Import Jenkins CI key
+  rpm_key:
+    key: http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+    state: present
+
+- name: Install Jenkins
+  yum:
+    name: jenkins
+    state: latest
+
+- name: Allow port 8080
+  shell: iptables -I INPUT -p tcp --dport 8080 -m state --state NEW,ESTABLISHED -j ACCEPT
+  notify: restart jenkins
+
+
