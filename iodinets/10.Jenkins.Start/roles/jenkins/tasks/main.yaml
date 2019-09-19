@@ -1,0 +1,41 @@
+---
+# Setup/install tasks.
+- include_tasks: setup-redhat.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Turn off Jenkins setup wizard
+  lineinfile:
+    dest: /etc/sysconfig/jenkins
+    regexp: '^JENKINS_JAVA_OPTIONS='
+    line: 'JENKINS_JAVA_OPTIONS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'
+  notify: restart jenkins
+  tags:
+   - jenkins_sc
+
+- name: Create initialization scripts directory
+  file:
+    path: "{{ jenkins_home }}/init.groovy.d"
+    state: directory
+    owner: "{{ jenkins_process_user }}"
+    group: "{{ jenkins_process_group }}"
+    mode: 0775
+  tags:
+   - jenkins_sc
+
+- name: Add initialization script to setup basic security
+  template:
+#    src: basic-security.j2
+    src: security.j2
+#    dest: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
+    dest: "{{ jenkins_home }}/init.groovy.d/security.groovy"
+  notify: restart jenkins
+  tags:
+   - jenkins_sc
+
+- name: Remove Jenkins initialization script file
+  file:
+#    path: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
+    path: "{{ jenkins_home }}/init.groovy.d/security.groovy"
+    state: absent
+  tags:
+   - jenkins_sc
