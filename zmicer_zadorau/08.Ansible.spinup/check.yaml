@@ -1,0 +1,10 @@
+---
+- hosts: test
+  become: yes
+  roles:
+    - check
+
+- hosts: localhost
+  become: yes
+  roles: 
+    - checklocal 

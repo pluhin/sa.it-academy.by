@@ -1,0 +1,9 @@
+---
+- name: grep apt
+  shell: "grep -Erh ^deb /etc/apt/sources.list"
+  register: repo
+  changed_when: False
+
+- name: print apt
+  debug: 
+    msg: "{{ repo }}"  
