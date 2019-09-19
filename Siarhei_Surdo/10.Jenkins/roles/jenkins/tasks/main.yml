@@ -1,0 +1,26 @@
+---
+
+- name: Install packages and dependencies
+  apt: 
+    name: "{{ item }}"
+    update_cache: "{{ update_apt_cache }}" 
+    state: present
+  with_items:
+    - openjdk-8-jdk
+    - mc
+
+- name: Add the Jenkins public key to the apt repo
+  apt_key: 
+    url: https://pkg.jenkins.io/debian/jenkins.io.key
+    state: present
+
+- name: Add Jenkins apt repo to the sources list
+  apt_repository: 
+    repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
+    update_cache: "{{ update_apt_cache }}"
+    state: present
+
+- name: Install Jenkins server
+  apt: 
+    name: jenkins 
+    state: present
