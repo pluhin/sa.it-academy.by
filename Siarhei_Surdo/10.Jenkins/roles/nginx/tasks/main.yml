@@ -1,0 +1,33 @@
+---
+- name: Install Nginx
+  apt: 
+    name: nginx 
+    update_cache: "{{ update_apt_cache }}"
+    state: present
+  tags: packages
+
+- name: Create the Nginx configuration file
+  template: 
+    src: "{{ application_name }}.j2"
+    dest: "/etc/nginx/sites-available/{{ application_name }}"
+    backup: yes
+  notify: reload nginx
+
+- name: Ensure that the default site is disabled
+  file: 
+    path: /etc/nginx/sites-enabled/default 
+    state: absent
+  notify: reload nginx
+
+- name: Ensure that the application site is enabled
+  file: 
+    src: "/etc/nginx/sites-available/{{ application_name }}"
+    dest: "/etc/nginx/sites-enabled/{{ application_name }}"
+    state: link
+  notify: reload nginx
+
+- name: Ensure Nginx service is started
+  service: 
+    name: nginx 
+    state: started 
+    enabled: yes

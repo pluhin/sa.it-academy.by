@@ -55,3 +55,10 @@ In this task I created a testing role to check the following:
 - Check if we have connection to docker hub registry (return content check)
 - Check if we have enough RAM/HDD (you can create thresholds by yourself)  
 All related tasks was tested using molecule.
+
+## 09.Ansible.Workshop  
+During the webinar Redmine was deployed on a remote host. My hometask was to do the following:  
+- Create a project with your initals in application
+- Create printscreen of your project in application
+- Add this printscreen to your repostitory in to folder 09.Ansible Workshop  
+Screens that prrove successful connection can be found in 09.Ansible.Workshop folder.

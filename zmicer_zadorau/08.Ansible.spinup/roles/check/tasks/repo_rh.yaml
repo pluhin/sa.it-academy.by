@@ -1,0 +1,8 @@
+---
+- name: Check repo
+  shell: "grep -Erhv '^#' /etc/yum.repos.d/* | grep http"
+  register: repo
+  changed_when: False
+- name: out repo
+  debug:
+    msg: "{{ repo.stdout_lines }}"
