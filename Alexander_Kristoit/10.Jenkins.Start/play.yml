@@ -1,0 +1,8 @@
+---
+- name: Installing and configuring Nginx and Jenkins on host lab-jenkins01
+  hosts: all
+  become: yes
+  become_method: sudo
+
+  roles:
+    - ngnix&jenkins
