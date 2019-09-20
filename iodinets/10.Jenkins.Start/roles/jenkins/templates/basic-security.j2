@@ -1,0 +1,26 @@
+!#groovy
+
+import java.util.logging.Level
+import java.util.logging.Logger
+import hudson.security.*
+import jenkins.model.*
+
+def instance = Jenkins.getInstance()
+def logger = Logger.getLogger(Jenkins.class.getName())
+
+logger.log(Level.INFO, "Ensuring that local user '{{ jenkins_admin_username }}' is created.")
+
+if (!instance.isUseSecurity()) {
+    logger.log(Level.INFO, "Creating local admin user '{{ jenkins_admin_username }}'.")
+
+    def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
+    strategy.setAllowAnonymousRead(false)
+
+    def hudsonRealm = new HudsonPrivateSecurityRealm(false)
+    hudsonRealm.createAccount("{{ jenkins_admin_username }}", "{{ jenkins_admin_password }}")
+
+    instance.setSecurityRealm(hudsonRealm)
+    instance.setAuthorizationStrategy(strategy)
+    instance.save()
+}
+

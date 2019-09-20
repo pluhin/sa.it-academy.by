@@ -1,0 +1,7 @@
+---
+# Webserver deployemnt
+- hosts: localhost
+  become: yes
+  roles:
+    #- { name: web, tags: ['web'], when: }
+    - localtest

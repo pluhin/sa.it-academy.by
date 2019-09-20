@@ -1,0 +1,169 @@
+
+PLAY [test] **********************************************************************************************************************************************************
+
+TASK [Gathering Facts] ***********************************************************************************************************************************************
+ok: [centos]
+ok: [ubu1]
+
+TASK [check : Ensure sudo] *******************************************************************************************************************************************
+ok: [ubu1]
+ok: [centos]
+
+TASK [check : debug] *************************************************************************************************************************************************
+ok: [ubu1] => {
+    "msg": "vagrant is sudoers"
+}
+ok: [centos] => {
+    "msg": "vagrant is sudoers"
+}
+
+TASK [check : grep apt] **********************************************************************************************************************************************
+skipping: [centos]
+ok: [ubu1]
+
+TASK [check : print apt] *********************************************************************************************************************************************
+ok: [ubu1] => {
+    "msg": {
+        "changed": false,
+        "cmd": "grep -Erh ^deb /etc/apt/sources.list",
+        "delta": "0:00:00.004195",
+        "end": "2019-09-12 15:00:52.352018",
+        "failed": false,
+        "rc": 0,
+        "start": "2019-09-12 15:00:52.347823",
+        "stderr": "",
+        "stderr_lines": [],
+        "stdout": "deb http://archive.ubuntu.com/ubuntu xenial main restricted\ndeb http://archive.ubuntu.com/ubuntu xenial-updates main restricted\ndeb http://archive.ubuntu.com/ubuntu xenial universe\ndeb http://archive.ubuntu.com/ubuntu xenial-updates universe\ndeb http://archive.ubuntu.com/ubuntu xenial multiverse\ndeb http://archive.ubuntu.com/ubuntu xenial-updates multiverse\ndeb http://archive.ubuntu.com/ubuntu xenial-backports main restricted universe multiverse\ndeb http://security.ubuntu.com/ubuntu xenial-security main restricted\ndeb http://security.ubuntu.com/ubuntu xenial-security universe\ndeb http://security.ubuntu.com/ubuntu xenial-security multiverse",
+        "stdout_lines": [
+            "deb http://archive.ubuntu.com/ubuntu xenial main restricted",
+            "deb http://archive.ubuntu.com/ubuntu xenial-updates main restricted",
+            "deb http://archive.ubuntu.com/ubuntu xenial universe",
+            "deb http://archive.ubuntu.com/ubuntu xenial-updates universe",
+            "deb http://archive.ubuntu.com/ubuntu xenial multiverse",
+            "deb http://archive.ubuntu.com/ubuntu xenial-updates multiverse",
+            "deb http://archive.ubuntu.com/ubuntu xenial-backports main restricted universe multiverse",
+            "deb http://security.ubuntu.com/ubuntu xenial-security main restricted",
+            "deb http://security.ubuntu.com/ubuntu xenial-security universe",
+            "deb http://security.ubuntu.com/ubuntu xenial-security multiverse"
+        ]
+    }
+}
+skipping: [centos]
+
+TASK [check : Check repo] ********************************************************************************************************************************************
+skipping: [ubu1]
+ok: [centos]
+
+TASK [check : out repo] **********************************************************************************************************************************************
+skipping: [ubu1]
+ok: [centos] => {
+    "msg": [
+        "mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os&infra=$infra",
+        "mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=updates&infra=$infra",
+        "mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=extras&infra=$infra",
+        "mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=centosplus&infra=$infra",
+        "baseurl=http://mirror.centos.org/centos/$releasever/cr/$basearch/",
+        "baseurl=http://debuginfo.centos.org/7/$basearch/",
+        "baseurl=http://vault.centos.org/centos/$releasever/os/Source/",
+        "baseurl=http://vault.centos.org/centos/$releasever/updates/Source/",
+        "baseurl=http://vault.centos.org/centos/$releasever/extras/Source/",
+        "baseurl=http://vault.centos.org/centos/$releasever/centosplus/Source/",
+        "baseurl=http://vault.centos.org/7.0.1406/os/$basearch/",
+        "baseurl=http://vault.centos.org/7.0.1406/updates/$basearch/",
+        "baseurl=http://vault.centos.org/7.0.1406/extras/$basearch/",
+        "baseurl=http://vault.centos.org/7.0.1406/centosplus/$basearch/",
+        "baseurl=http://vault.centos.org/7.0.1406/fasttrack/$basearch/",
+        "baseurl=http://vault.centos.org/7.1.1503/os/$basearch/",
+        "baseurl=http://vault.centos.org/7.1.1503/updates/$basearch/",
+        "baseurl=http://vault.centos.org/7.1.1503/extras/$basearch/",
+        "baseurl=http://vault.centos.org/7.1.1503/centosplus/$basearch/",
+        "baseurl=http://vault.centos.org/7.1.1503/fasttrack/$basearch/",
+        "baseurl=http://vault.centos.org/7.2.1511/os/$basearch/",
+        "baseurl=http://vault.centos.org/7.2.1511/updates/$basearch/",
+        "baseurl=http://vault.centos.org/7.2.1511/extras/$basearch/",
+        "baseurl=http://vault.centos.org/7.2.1511/centosplus/$basearch/",
+        "baseurl=http://vault.centos.org/7.2.1511/fasttrack/$basearch/",
+        "baseurl=http://vault.centos.org/7.3.1611/os/$basearch/",
+        "baseurl=http://vault.centos.org/7.3.1611/updates/$basearch/",
+        "baseurl=http://vault.centos.org/7.3.1611/extras/$basearch/",
+        "baseurl=http://vault.centos.org/7.3.1611/centosplus/$basearch/",
+        "baseurl=http://vault.centos.org/7.3.1611/fasttrack/$basearch/",
+        "baseurl=http://vault.centos.org/7.4.1708/os/$basearch/",
+        "baseurl=http://vault.centos.org/7.4.1708/updates/$basearch/",
+        "baseurl=http://vault.centos.org/7.4.1708/extras/$basearch/",
+        "baseurl=http://vault.centos.org/7.4.1708/centosplus/$basearch/",
+        "baseurl=http://vault.centos.org/7.4.1708/fasttrack/$basearch/",
+        "baseurl=http://vault.centos.org/7.5.1804/os/$basearch/",
+        "baseurl=http://vault.centos.org/7.5.1804/updates/$basearch/",
+        "baseurl=http://vault.centos.org/7.5.1804/extras/$basearch/",
+        "baseurl=http://vault.centos.org/7.5.1804/centosplus/$basearch/",
+        "baseurl=http://vault.centos.org/7.5.1804/fasttrack/$basearch/",
+        "mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=fasttrack&infra=$infra",
+        "baseurl = http://nginx.org/packages/centos/7/x86_64/"
+    ]
+}
+
+TASK [check : disk space] ********************************************************************************************************************************************
+ok: [ubu1] => {
+    "msg": "Mount point /dev/sda1 ubuntu-xenial is 8.40047836303711 gb"
+}
+ok: [centos] => {
+    "msg": "Mount point /dev/sda1 localhost is 37.10771560668945 gb"
+}
+
+TASK [check : alarm hdd] *********************************************************************************************************************************************
+ok: [ubu1] => {
+    "changed": false,
+    "msg": "Capcity /dev/sda1 ubuntu-xenial is ok"
+}
+ok: [centos] => {
+    "changed": false,
+    "msg": "Capcity /dev/sda1 localhost is ok"
+}
+
+TASK [check : check ram] *********************************************************************************************************************************************
+ok: [ubu1] => {
+    "msg": "total RAM ubuntu-xenial is 557"
+}
+ok: [centos] => {
+    "msg": "total RAM localhost is 279"
+}
+
+TASK [check : alarm hdd] *********************************************************************************************************************************************
+ok: [ubu1] => {
+    "changed": false,
+    "msg": "Memory ubuntu-xenial is ok"
+}
+ok: [centos] => {
+    "changed": false,
+    "msg": "Memory localhost is ok"
+}
+
+PLAY [localhost] *****************************************************************************************************************************************************
+
+TASK [Gathering Facts] ***********************************************************************************************************************************************
+ok: [localhost]
+
+TASK [checklocal : Check docker repo] ********************************************************************************************************************************
+ok: [localhost]
+
+TASK [checklocal : Print docker repo] ********************************************************************************************************************************
+ok: [localhost] => {
+    "msg": "https://hub.docker.com/_/registry is OK (3635 bytes)"
+}
+
+TASK [checklocal : Check pip repo] ***********************************************************************************************************************************
+ok: [localhost]
+
+TASK [checklocal : print pip repo] ***********************************************************************************************************************************
+ok: [localhost] => {
+    "msg": [
+        "  https://pypi.org:443 \"GET /simple/0/ HTTP/1.1\" 200 294"
+    ]
+}
+
+PLAY RECAP ***********************************************************************************************************************************************************
+centos                     : ok=9    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+localhost                  : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubu1                       : ok=9    changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+

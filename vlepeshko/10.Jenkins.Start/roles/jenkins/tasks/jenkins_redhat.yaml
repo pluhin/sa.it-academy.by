@@ -1,0 +1,51 @@
+---
+- name: Install EPEL Repo
+  yum:
+    name: epel-release
+    state: present
+- name: Nginx. Install packages
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+- name: Copy conf file for Jenkins
+  copy:
+    src: jenkins_defaults.conf
+    dest: "/etc/nginx/conf.d/"
+- name: Nginx. Enable and start servce
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+- name: SE Linux. Turn off 
+  shell: setsebool -P httpd_can_network_connect true
+- name: Install yum
+  yum:
+    name:
+      - wget
+      - java-1.8.0-openjdk
+- name: Download jenkins.repo
+  get_url:
+    url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+- name: Import Jenkins Key
+  rpm_key:
+    state: present
+    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+- name: Install Jenkins
+  yum:
+    name: jenkins
+    state: present
+- name: Start & Enable Jenkins
+  systemd:
+    name: jenkins
+    state: started
+    enabled: true
+- name: Sleep for 30 seconds and continue with play
+  wait_for: timeout=30
+- name: Get init password Jenkins
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+- name: Print init password Jenkins
+  debug:
+    var: result.stdout

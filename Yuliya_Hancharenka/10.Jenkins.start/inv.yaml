@@ -1,20 +1,25 @@
-yk_all:
+yh_all:
     vars:
-        ansible_user: "ansi"
+        ansible_user: "vagrant"
     children:      
         linuxhosts:
             children:
                 redhats:
                     hosts:
                         h1cent7:
-                            ansible_host: 192.168.111.213
+                            ansible_host: 192.168.1.198
                         anscent7:
                             ansible_host: 127.0.0.1
+                        jenkins:
+                            ansible_host: 192.168.1.57
                 ubuntus:
                     hosts:
                         h2ubuntu:
-                            ansible_host: 192.168.111.202
+                            ansible_host: 192.168.1.197
                 webservers:  
                     hosts:
                         h1cent7:
                         h2ubuntu:
+                jenkins:
+                    hosts:
+                        jenkins:

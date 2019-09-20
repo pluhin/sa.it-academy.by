@@ -1,0 +1,23 @@
+---
+- name: Check public repos for RH
+  shell: grep -Erh ^deb /etc/apt/sources.list | awk {'print $2'} | uniq
+  register: repo
+  changed_when: False
+- name: output public Deb repos
+  debug:
+    msg: "{{ repo.stdout_lines }}"
+- name: Urls check
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+    timeout: 3
+  register: out_uri
+  with_items: "{{ repo.stdout_lines }}"
+- name: Print output
+  debug:
+    msg: "Url {{ output.status }}"
+  loop: "{{ out_uri.results }}"
+  loop_control:
+    loop_var: output
+    label: "{{ output.url }} - {{ output.status }}"
+    pause: 3

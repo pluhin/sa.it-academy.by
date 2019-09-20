@@ -1,0 +1,9 @@
+---
+all_hosts:
+  children:
+    localhost:
+      hosts:
+        jenkins:
+          ansible_user: panda
+#          ansible_host: 192.168.1.50
+          ansible_host: 172.27.0.50

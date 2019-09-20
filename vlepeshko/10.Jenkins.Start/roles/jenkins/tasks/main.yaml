@@ -1,0 +1,22 @@
+- name: Include deploy for RedHat systems
+  include: jenkins_redhat.yaml
+  when: ansible_os_family == 'RedHat'
+- name: Creates directory Centos
+  file:
+    path: "{{ default_home }}"
+    state: directory
+- name: Copy HTML for RedHat
+  copy:
+    src: index.html
+    dest: "{{ default_home }}"
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+  become: yes
+  tags:
+    - templates
+- name: restart server
+  reboot:
+
