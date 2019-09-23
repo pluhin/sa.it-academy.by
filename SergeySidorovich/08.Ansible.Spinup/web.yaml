@@ -1,0 +1,5 @@
+---
+- hosts: all hosts
+  become: yes
+  roles:
+    - check
