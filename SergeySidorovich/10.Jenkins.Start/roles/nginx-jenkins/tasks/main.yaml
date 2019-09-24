@@ -1,0 +1,10 @@
+---
+- name: Include deploy for Debian systems
+  include: conf.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
