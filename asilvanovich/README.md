@@ -62,3 +62,7 @@ During the webinar Redmine was deployed on a remote host. My hometask was to do 
 - Create printscreen of your project in application
 - Add this printscreen to your repostitory in to folder 09.Ansible Workshop  
 Screens that prrove successful connection can be found in 09.Ansible.Workshop folder.
+
+## 10.Jenkins.Start  
+This task required to deploy Jenkins that is hidden behind Nginx using Vagrant and Ansible as a provisioner option.  
+Jenkins and Nginx were installed using Ansible roles and then Jenkins was accessed and configured for use. 
