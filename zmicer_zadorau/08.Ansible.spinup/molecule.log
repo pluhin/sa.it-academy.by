@@ -1,0 +1,167 @@
+--> [36mValidating schema /home/pankrys/project/sa.it-academy.by/zmicer_zadorau/08.Ansible.spinup/molecule/default/molecule.yml.[0m
+[32mValidation completed successfully.[0m
+--> [36mTest matrix[0m
+    
+└── default
+    ├── lint
+    ├── dependency
+    ├── cleanup
+    ├── destroy
+    ├── syntax
+    ├── create
+    ├── prepare
+    ├── converge
+    ├── idempotence
+    ├── side_effect
+    ├── verify
+    ├── cleanup
+    └── destroy
+    
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'lint'[0m
+--> [36mExecuting Yamllint on files found in /home/pankrys/project/sa.it-academy.by/zmicer_zadorau/08.Ansible.spinup/...[0m
+[32mLint completed successfully.[0m
+--> [36mExecuting Flake8 on files found in /home/pankrys/project/sa.it-academy.by/zmicer_zadorau/08.Ansible.spinup/molecule/default/tests/...[0m
+[32mLint completed successfully.[0m
+--> [36mExecuting Ansible Lint on /home/pankrys/project/sa.it-academy.by/zmicer_zadorau/08.Ansible.spinup/molecule/default/playbook.yml...[0m
+[32mLint completed successfully.[0m
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'dependency'[0m
+[33mSkipping, missing the requirements file.[0m
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'cleanup'[0m
+[33mSkipping, cleanup playbook not configured.[0m
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'destroy'[0m
+--> [36mSanity checks: 'docker'[0m
+    
+    PLAY [Destroy] *****************************************************************
+    
+    TASK [Destroy molecule instance(s)] ********************************************
+    [0;33mchanged: [localhost] => (item=instance)[0m
+    [0;33mchanged: [localhost] => (item=instance2)[0m
+    
+    TASK [Wait for instance(s) deletion to complete] *******************************
+    [0;32mok: [localhost] => (item=None)[0m
+    [0;32mok: [localhost] => (item=None)[0m
+    [0;32mok: [localhost][0m
+    
+    TASK [Delete docker network(s)] ************************************************
+    
+    PLAY RECAP *********************************************************************
+    [0;33mlocalhost[0m                  : [0;32mok=2   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0
+    
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'syntax'[0m
+--> [36mSanity checks: 'docker'[0m
+    
+    playbook: /home/pankrys/project/sa.it-academy.by/zmicer_zadorau/08.Ansible.spinup/molecule/default/playbook.yml
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'create'[0m
+    
+    PLAY [Create] ******************************************************************
+    
+    TASK [Log into a Docker registry] **********************************************
+    [0;36mskipping: [localhost] => (item=None) [0m
+    [0;36mskipping: [localhost] => (item=None) [0m
+    
+    TASK [Create Dockerfiles from image names] *************************************
+    [0;33mchanged: [localhost] => (item=None)[0m
+    [0;33mchanged: [localhost] => (item=None)[0m
+    [0;33mchanged: [localhost][0m
+    
+    TASK [Determine which docker image info module to use] *************************
+    [0;32mok: [localhost][0m
+    
+    TASK [Discover local Docker images] ********************************************
+    [0;32mok: [localhost] => (item=None)[0m
+    [0;32mok: [localhost] => (item=None)[0m
+    [0;32mok: [localhost][0m
+    
+    TASK [Build an Ansible compatible image (new)] *********************************
+    [0;32mok: [localhost] => (item=molecule_local/centos:7)[0m
+    [0;32mok: [localhost] => (item=molecule_local/ubuntu:16.04)[0m
+    
+    TASK [Build an Ansible compatible image (old)] *********************************
+    [0;36mskipping: [localhost] => (item=molecule_local/centos:7) [0m
+    [0;36mskipping: [localhost] => (item=molecule_local/ubuntu:16.04) [0m
+    
+    TASK [Create docker network(s)] ************************************************
+    
+    TASK [Determine the CMD directives] ********************************************
+    [0;32mok: [localhost] => (item=None)[0m
+    [0;32mok: [localhost] => (item=None)[0m
+    [0;32mok: [localhost][0m
+    
+    TASK [Create molecule instance(s)] *********************************************
+    [0;33mchanged: [localhost] => (item=instance)[0m
+    [0;33mchanged: [localhost] => (item=instance2)[0m
+    
+    TASK [Wait for instance(s) creation to complete] *******************************
+    [1;30mFAILED - RETRYING: Wait for instance(s) creation to complete (300 retries left).[0m
+    [0;33mchanged: [localhost] => (item=None)[0m
+    [0;33mchanged: [localhost] => (item=None)[0m
+    [0;33mchanged: [localhost][0m
+    
+    PLAY RECAP *********************************************************************
+    [0;33mlocalhost[0m                  : [0;32mok=7   [0m [0;33mchanged=3   [0m unreachable=0    failed=0    [0;36mskipped=3   [0m rescued=0    ignored=0
+    
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'prepare'[0m
+[33mSkipping, prepare playbook not configured.[0m
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'converge'[0m
+    
+    PLAY [Converge] ****************************************************************
+    
+    TASK [Gathering Facts] *********************************************************
+    [0;32mok: [instance2][0m
+    [0;32mok: [instance][0m
+    
+    PLAY RECAP *********************************************************************
+    [0;32minstance[0m                   : [0;32mok=1   [0m changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+    [0;32minstance2[0m                  : [0;32mok=1   [0m changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+    
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'idempotence'[0m
+[32mIdempotence completed successfully.[0m
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'side_effect'[0m
+[33mSkipping, side effect playbook not configured.[0m
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'verify'[0m
+--> [36mExecuting Testinfra tests found in /home/pankrys/project/sa.it-academy.by/zmicer_zadorau/08.Ansible.spinup/molecule/default/tests/...[0m
+    [1m============================= test session starts ==============================[0m
+    platform linux -- Python 3.6.8, pytest-5.1.2, py-1.8.0, pluggy-0.12.0
+    rootdir: /home/pankrys/project/sa.it-academy.by/zmicer_zadorau/08.Ansible.spinup/molecule/default
+    plugins: testinfra-3.1.0
+    [1mcollecting ... [0m[1mcollecting 2 items                                                             [0m[1mcollected 2 items                                                              [0m
+    
+    tests/test_default.py [32m.[0m[32m.[0m[36m                                                 [100%][0m
+    
+    [32m[1m============================== 2 passed in 5.06s ===============================[0m
+[32mVerifier completed successfully.[0m
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'cleanup'[0m
+[33mSkipping, cleanup playbook not configured.[0m
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'destroy'[0m
+    
+    PLAY [Destroy] *****************************************************************
+    
+    TASK [Destroy molecule instance(s)] ********************************************
+    [0;33mchanged: [localhost] => (item=instance)[0m
+    [0;33mchanged: [localhost] => (item=instance2)[0m
+    
+    TASK [Wait for instance(s) deletion to complete] *******************************
+    [1;30mFAILED - RETRYING: Wait for instance(s) deletion to complete (300 retries left).[0m
+    [0;33mchanged: [localhost] => (item=None)[0m
+    [0;33mchanged: [localhost] => (item=None)[0m
+    [0;33mchanged: [localhost][0m
+    
+    TASK [Delete docker network(s)] ************************************************
+    
+    PLAY RECAP *********************************************************************
+    [0;33mlocalhost[0m                  : [0;32mok=2   [0m [0;33mchanged=2   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0
+    
+--> [36mPruning extra files from scenario ephemeral directory[0m

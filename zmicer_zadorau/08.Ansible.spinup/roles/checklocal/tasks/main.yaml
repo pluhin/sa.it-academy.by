@@ -1,0 +1,31 @@
+---
+- name: Check docker repo
+  uri:
+     url: https://hub.docker.com/_/registry
+     status_code: 200,401
+  retries: 5
+  delay: 5
+  register: dock
+  until: dock.failed is defined
+  changed_when: False
+  tags:
+    - local
+- name: Print docker repo
+  debug:
+    msg: "{{ dock.url }} is {{ dock.msg }}"
+  tags:
+    - local
+- name: Check pip repo
+  shell: "pip download --no-cache-dir --verbose 0 | grep 200"
+  args:
+    executable: /bin/bash
+  register: pip
+  ignore_errors: yes
+  changed_when: false
+  tags:
+    - local
+- name: print pip repo
+  debug:
+    msg: "{{ pip.stdout_lines }}"
+  tags:
+    - local

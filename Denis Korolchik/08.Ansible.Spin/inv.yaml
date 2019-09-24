@@ -1,0 +1,19 @@
+all_hosts:
+  children:
+    htp:
+      vars:
+        full_name: "Educational Center of HTP"
+      hosts:
+#        jmp:
+#          ansible_user: jump_sa
+#          ansible_host: 178.124.206.48
+        ce7:
+          ansible_user: jus
+          ansible_host: 192.168.100.10
+        ub:
+          ansible_user: jus
+          ansible_host: 192.168.100.11
+my:
+  hosts:
+    ub:
+    ce7:

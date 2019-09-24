@@ -1,0 +1,12 @@
+---
+
+- name: Provision a Jenkins CI server
+  hosts: jenkins
+  become: yes
+  vars:
+    - update_apt_cache: yes
+    - application_name: jenkins
+
+  roles:
+    - jenkins
+    - nginx
