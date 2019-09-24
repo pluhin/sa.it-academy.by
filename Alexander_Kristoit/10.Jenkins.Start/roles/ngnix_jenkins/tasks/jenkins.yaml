@@ -1,0 +1,34 @@
+---
+- name: Add Jenkins repo & Import Jenkins Key 
+  shell: |
+    wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+    sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/> /etc/apt/sources.list.d/jenkins.list'
+  args:
+    executable: /bin/bash
+
+- name: APT. Update cache
+  apt:
+    update_cache: yes
+              
+- name: Jenkins. Install packages
+  apt:
+    name: jenkins
+    state: present
+
+- name: Jenkins. Enable and start service 
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+                
+- name: Jenkins. Wait for the file 
+  wait_for:
+    path: /var/lib/jenkins/secrets/initialAdminPassword
+             
+- name: Jenkins. Cat password Jenkins
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: password
+
+- name: Jenkins. Display password Jenkins
+  debug:
+    msg: "Password for initial Jenkins is: {{ password.stdout }}" 
