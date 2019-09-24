@@ -5,4 +5,4 @@
   become_method: sudo
 
   roles:
-    - ngnix&jenkins
+    - ngnix_jenkins

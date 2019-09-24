@@ -24,7 +24,7 @@ all_hosts:
         lab-ubuntu01:
           ansible_user: kristoit
           ansible_host: 192.168.1.202
-	lab-jenkins01:
+        lab-jenkins01:
           ansible_user: vagrant
           ansible_host: 192.168.1.203
 
