@@ -1,0 +1,9 @@
+---
+- name: check ubuntu rep
+  shell: "grep -Erh ^deb /etc/apt/sources.list*"
+  register: rep
+  changed_when: False
+
+- name: output ubuntu
+  debug:
+    msg: "{{ rep.stdout_lines }}"
