@@ -1,0 +1,38 @@
+---
+- name: Install nginx package
+  apt:
+    name: "{{ apt_nginx_packages }}" 
+    state: present
+
+- name: Delete default server file
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/etc/nginx/sites-available/default"
+    - "/etc/nginx/sites-enabled/default"
+
+- name: Configure nginx as reverse proxy for jenkins
+  copy:
+    src: "jenkins.conf"
+    dest: "/etc/nginx/sites-available/jenkins.conf"
+
+- name: Create a symbolic link
+  file:
+    src: "/etc/nginx/sites-available/jenkins.conf"
+    dest: "/etc/nginx/sites-enabled/jenkins.conf"
+    state: link
+
+- name: Start nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: template for virtual hosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+  become: yes
+

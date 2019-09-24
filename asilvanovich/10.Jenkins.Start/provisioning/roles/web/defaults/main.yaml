@@ -1,0 +1,5 @@
+apt_nginx_packages:
+  - nginx
+
+virtual_hosts: 
+  - { name: "jenkins.site", ip: "{{ hostvars[\"jenkins\"].ansible_eth1.ipv4.address }}"}
