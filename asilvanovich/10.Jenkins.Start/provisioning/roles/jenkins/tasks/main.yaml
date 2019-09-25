@@ -1,0 +1,57 @@
+---
+- name: add Jenkins key
+  apt_key:
+    url: "https://pkg.jenkins.io/debian/jenkins.io.key"
+    state: present
+
+- name: add Jenkins repo
+  lineinfile:
+    path: "/etc/apt/sources.list.d/jenkins.list"
+    line: "deb http://pkg.jenkins.io/debian-stable binary/"
+    create: yes
+
+- name: install resolvconf
+  apt:
+    name: "resolvconf"
+    state: present
+
+- name: add DNS server to resolvconf 
+  lineinfile:
+    path: "/etc/resolvconf/resolv.conf.d/head"
+    line: "nameserver 8.8.8.8"
+  notify:
+    - restart resolvconf
+
+- name: update and install openjdk-8-jdk
+  apt:
+    name: "openjdk-8-jdk"
+    update_cache: yes
+    state: present
+    force_apt_get: yes
+
+- name: update and install jenkins
+  apt:
+    name: "jenkins"
+    update_cache: yes
+    state: present
+    force_apt_get: yes
+
+- name: ensure that Jenkins is listening to 127.0.0.1
+  lineinfile:
+    path: "/etc/default/jenkins"
+    regexp: "^JENKINS_ARGS="
+    line: 'JENKINS_ARGS="--webroot=/var/cache/$NAME/war --httpPort=$HTTP_PORT --httpListenAddress=127.0.0.1"'
+  notify:
+    - restart jenkins
+
+- name: sleep for 20 seconds and continue with play
+  wait_for:
+    timeout: 20
+
+- name: check initial admin password
+  command: "cat /var/lib/jenkins/secrets/initialAdminPassword"
+  register: password
+
+- name: Print initial admin password
+  debug:
+    msg: "your initial admin password is {{ password.stdout }}"
