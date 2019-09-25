@@ -1,0 +1,5 @@
+---
+apt_packages:
+  - wget
+  - nginx
+  - default-jre
