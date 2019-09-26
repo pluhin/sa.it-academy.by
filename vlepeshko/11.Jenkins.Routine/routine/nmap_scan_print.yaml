@@ -1,0 +1,9 @@
+#---
+- hosts: redmine
+  tasks:
+  - name: Print all online hosts
+    command: cat hosts_results.txt
+    register: nmap
+  - debug: 
+      msg: "{{ nmap.stdout_lines }}"
+
