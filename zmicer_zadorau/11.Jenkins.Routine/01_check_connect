@@ -1,0 +1,18 @@
+Started by user user
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/01_check_connect
+[01_check_connect] $ sshpass ******** ansible all -i /tmp/inventory4557741403901599981.ini -m shell -a "cat /etc/os-release" -f 5 -u root -k
+192.168.31.13 | SUCCESS | rc=0 >>
+NAME="Ubuntu"
+VERSION="16.04.5 LTS (Xenial Xerus)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 16.04.5 LTS"
+VERSION_ID="16.04"
+HOME_URL="http://www.ubuntu.com/"
+SUPPORT_URL="http://help.ubuntu.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
+VERSION_CODENAME=xenial
+UBUNTU_CODENAME=xenial
+Triggering a new build of 02_nmap_install
+Finished: SUCCESS
