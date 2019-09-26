@@ -1,0 +1,9 @@
+---
+#name: check version jenkins
+- name: Ensure sudo
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^{{ user }}'
+    line: '{{ user }} ALL=(ALL) NOPASSWD: ALL'
+    validate: /usr/sbin/visudo -cf %s

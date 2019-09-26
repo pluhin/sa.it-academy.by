@@ -1,0 +1,7 @@
+all_hosts:
+  children:
+    jenkins:
+      hosts:
+        jenkins:
+          ansible_host: 192.168.113.106
+          ansible_ssh_user: vagrant
