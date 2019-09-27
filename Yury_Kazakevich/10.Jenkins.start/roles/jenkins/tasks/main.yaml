@@ -54,7 +54,7 @@
     state: restarted
   become: yes
   tags:
-    - nginx
+    - nginx-restart
     
 #- name: "Check connection to site"
 #  wait_for:
