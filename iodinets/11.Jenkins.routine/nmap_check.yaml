@@ -1,0 +1,11 @@
+---
+- hosts: workshop
+
+  tasks:
+  - name: check all host
+    command: nmap -sP 192.168.31.1/24
+    register: output
+
+  - name: output result
+    debug:
+      msg: "{{ output.stdout_lines }}"
