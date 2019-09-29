@@ -1,0 +1,10 @@
+---
+- hosts: workshop
+
+  tasks:
+  - name: Install Nmap
+    become: true
+    apt:
+      name: nmap
+      update_cache: yes
+      state: latest
