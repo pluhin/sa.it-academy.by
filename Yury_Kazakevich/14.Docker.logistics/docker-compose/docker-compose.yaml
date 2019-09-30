@@ -1,0 +1,27 @@
+---
+version: '3'
+
+services:
+  nginx_web:
+    image: nginx:alpine
+    container_name: nginx_web
+    volumes:
+      - ./www:/var/www/html/
+      - ./conf.d:/etc/nginx/conf.d
+    ports:
+      - "8989:8989"
+    networks:
+      - app-network
+      
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    ports:
+      - "7878:7878"
+    networks:
+      - app-network
+      
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
