@@ -1,0 +1,9 @@
+- hosts: it
+  tasks:
+  - name: Newtwork scan
+    shell: "nmap -sP 192.168.31.0/24 > 2.txt"
+  - name: Print hosts
+    command: cat 2.txt
+    register: nmap
+  - debug: 
+      msg: "{{ nmap.stdout_lines }}"
