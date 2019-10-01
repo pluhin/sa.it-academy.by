@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+    environment {
+        BUILD = "${env.BUILD_ID}"
+            }
+    parameters {
+    	  choice(name: 'exst_branches', choices: ['m-sa2-09-19', 'master'], description: 'Pick the branch')
+    	  string(name: 'commit_msg', defaultValue: 'disk usage file added', description: 'your commit message')
+    	  string(name: 'new_branch_name', defaultValue: 'new_branch', description: 'your new branch name')
+        string(name: 'repository_url', defaultValue: 'git@github.com:asilvanovich/test_silvanovich.git', description: 'Github repository url')
+        booleanParam(name: 'do_clean', defaultValue: true, description: 'Whether to clean files from the branch or not')
+    }
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                    git url: "${params.repository_url}", branch: "${params.exst_branches}"
+            }
+        }
+        stage('Create a new branch'){
+            steps { 
+                sh "git checkout -b ${params.new_branch_name}"
+            }
+        }
+        stage('Add additional file') {
+            steps {
+                sh "du -h --max-depth=1 > disk_usage.txt"
+            }
+        }
+        stage('Push new branch to the rep') {
+            steps {
+                sh """
+                    git add .
+                    git commit -m "${params.commit_msg}"
+                    git push origin "${params.new_branch_name}"
+                """
+            }
+        }
+        stage('Chech if new branch is created') {
+            steps {
+                sh "git ls-remote"
+            }
+        post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
+            }
+        }
+    }
+  }
+}
