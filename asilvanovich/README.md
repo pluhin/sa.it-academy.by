@@ -66,3 +66,23 @@ Screens that prrove successful connection can be found in 09.Ansible.Workshop fo
 ## 10.Jenkins.Start  
 This task required to deploy Jenkins that is hidden behind Nginx using Vagrant and Ansible as a provisioner option.  
 Jenkins and Nginx were installed using Ansible roles and then Jenkins was accessed and configured for use. 
+
+## 11.Jenkins.Routine  
+This task had the following requirements:  
+- Parameters: host IP and credentials  
+- Check connection to the host
+- Install/upgrade nmap
+- Checks all online hosts
+- Remove nmap
+- Print list of collected/online hosts  
+I decided to use ansible ad-hoc commands to complete it, so I changed parameter to HOST that ansible commande will use. Results can be found in 11.Jenkins.Routine folder.
+
+## 12.Jenkins.AsCode
+This task required to create pipeline using Jenkinsfile that will contain:  
+- Work with repo
+- Work with files
+- Publish artifacts
+- Tests
+- Notification
+
+My pipeline did the following task: download a specified branch, create a new branch based on the downloaded one, add a disk usage of the branch's folders, then push the new branch to the repo and finally check if new branch is successfully added. Also Slack notifications was implemented for this pipeline.
