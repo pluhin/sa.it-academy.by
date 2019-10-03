@@ -1,0 +1,11 @@
+- name: restart jenkins
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+
+- name: restart resolvconf
+  service:
+    name: resolvconf
+    state: restarted
+    enabled: yes

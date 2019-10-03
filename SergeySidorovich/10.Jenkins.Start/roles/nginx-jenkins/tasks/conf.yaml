@@ -1,0 +1,38 @@
+---
+- name: Add new user
+  user:
+     name: "{{ jenkins_user }}"
+     shell: /bin/bash
+     home: /home/{{ jenkins_user }}
+
+- name: Create file for jenkins
+  copy:
+    src: jenkins.list
+    dest: /etc/apt/sources.list.d/jenkins.list
+
+- name: Update repository cache
+  apt: 
+    update_cache: yes
+
+- name: Install packages Nginx and Jenkins
+  apt:
+    name: "{{ apt_http_packages }}"
+    state: present
+
+- name: Copy config nginx
+  copy:
+    src: default
+    dest: /etc/nginx/sites-available/default
+
+- name: Start nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Start jenkins
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+

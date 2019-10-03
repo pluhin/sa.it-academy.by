@@ -1,0 +1,52 @@
+- name: Include deploy for Debian systems
+  include: nginx_debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include: nginx_RedHat.yaml
+  when: ansible_os_family == 'RedHat'
+- name: Creates directory ubuntu
+  file:
+    path: "{{ default_home_ubuntu }}"
+    state: directory
+- name: Creates directory Centos
+  file:
+    path: "{{ default_home_centos }}"
+    state: directory
+- name: Copy HTML for Debian
+  copy:
+    src: index.html
+    dest: "{{ default_home_ubuntu }}"
+  when: ansible_os_family == 'Debian'
+- name: Copy HTML for RedHat
+  copy:
+    src: index.html
+    dest: "{{ default_home_centos }}"
+  when: ansible_os_family == 'RedHat'
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+  become: yes
+  tags:
+    - template
+- name: Test1.Check connection to Localhost
+  wait_for:
+    host: localhost
+    port: 80
+    state: started
+  tags:
+    - test1
+- name: Test2.Check content sites
+  uri:
+    url: http://localhost
+    return_content: yes
+  register: this
+  failed_when: "'comrates' not in this.content "
+  tags:
+    - test
+- debug:
+    msg: "{{ this.status }}"
+  tags:
+    - test2

@@ -45,3 +45,54 @@ In this task I practiced with the roles in Ansible. I deployed two virtual machi
 - Setup ngnix for two virtualhosts using templates 
 - Create and add index.html files
 - Check deployment
+
+
+## 08.Ansible.Spinup
+In this task I created a testing role to check the following:
+
+- Check if we have SUDO with NOPASSWD
+- Checks to public repository (debian/centos and pip)
+- Check if we have connection to docker hub registry (return content check)
+- Check if we have enough RAM/HDD (you can create thresholds by yourself)  
+All related tasks was tested using molecule.
+
+## 09.Ansible.Workshop  
+During the webinar Redmine was deployed on a remote host. My hometask was to do the following:  
+- Create a project with your initals in application
+- Create printscreen of your project in application
+- Add this printscreen to your repostitory in to folder 09.Ansible Workshop  
+Screens that prrove successful connection can be found in 09.Ansible.Workshop folder.
+
+## 10.Jenkins.Start  
+This task required to deploy Jenkins that is hidden behind Nginx using Vagrant and Ansible as a provisioner option.  
+Jenkins and Nginx were installed using Ansible roles and then Jenkins was accessed and configured for use. 
+
+## 11.Jenkins.Routine  
+This task had the following requirements:  
+- Parameters: host IP and credentials  
+- Check connection to the host
+- Install/upgrade nmap
+- Checks all online hosts
+- Remove nmap
+- Print list of collected/online hosts  
+I decided to use ansible ad-hoc commands to complete it, so I changed parameter to HOST that ansible commande will use. Results can be found in 11.Jenkins.Routine folder.
+
+## 12.Jenkins.AsCode
+This task required to create pipeline using Jenkinsfile that will contain:  
+- Work with repo
+- Work with files
+- Publish artifacts
+- Tests
+- Notification
+
+My pipeline did the following task: download a specified branch, create a new branch based on the downloaded one, add a disk usage of the branch's folders, then push the new branch to the repo and finally check if new branch is successfully added. Also Slack notifications was implemented for this pipeline.
+
+## 13.Docker.Lading  
+This task required me to work with Docker and do the following:  
+- Create a Docker file of any Python application
+- As example: any API listener 
+- Add automated build for that image Docker hub
+- Test it
+- Send/receive API request  
+I created a simple web-page using pythin flask module. My web-site listened on port 5000, and was deployed on a container that was deployed on a VM, so to access it from my local machine I used a 3-way port translation.  
+Also, Dockerhub was linked with my GitHub profile to automatically biuld docker images from Dockerfiles in my repo.

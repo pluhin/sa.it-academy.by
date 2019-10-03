@@ -1,0 +1,33 @@
+Vagrant.configure("2") do |config|
+        config.vm.box = "centos/7"
+	config.vm.define "jenkis"
+	config.vm.box_check_update = false
+        config.vbguest.auto_update = false
+#        config.vm.network "public_network", ip: "192.168.1.50", bridge: "wlp3s0"
+        config.vm.network "public_network", ip: "172.27.0.50", bridge: "wlp3s0"
+        config.vm.provision "shell", path: "disable-ipv6.sh"         
+	sudoerstxt = "panda    ALL=\(ALL:ALL\) NOPASSWD: ALL"
+	sudoerstxt = "panda    ALL=\(ALL:ALL\) NOPASSWD: ALL"
+	ssh_pub_key = File.readlines("#{Dir.home}/.ssh/myjumpH_rsa.pub").first.strip
+	panda_host_pk = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCSq2+OF3Mv0R+3tAghfQP0V86kslLS6EYgnZgcnBRHIpI4Z0Neh7zzYgtfksO/2bTzBrxOxM8HL44Owz+714xrXBHGF+mBy6e4RzWxF8Uzb9QGswPJ+jaQETuakhETNXCMfAX8MXiq8r34cpdNeN/aju6hcFRm89aRL9OLjUmBJiLDBl5cE/r20fxVtdbwfVhIQ69WyYOV6Bofz+oCQRo2gsWMmx1T/bJReoV4h89TrHBkryVjvjOreHn8tUXh/fKiVzAEqATxq27Z4WRO+UAOhgH70e6J/FvUQl7RKq6lyQ5krpnbcwhjcz+5P1tNZyqa64AI3wni1PnF2M/z88t9J/3powDTt0mnqcKYeHNeG30bBBYxQYsK1eiFiEkZeEk5+ZtzRGfg7Rm1p14Xd7RLGrYC9NEkK7Lpn9UQAc0OM3GCPxf3qrz68NLD4kUZDlNHYhcHopkyIrMdhoRvaW22KPAcoweRbFlLto+opjS/OENmHaSIoe7gxfg+OEQaNrrgWU+R3Z57/mxj7wJqIgHs5JmuH2Bl6J1ULJfyWC5fFIFTgdmN0/CkRoRk6S/KCIkSi9RxEca5AvuObA8rY9D/0iqq3sJRWJXJddpM21jG8U26SA/UuXQN3rUdaqzXNwx3SCya/4pFYaEKVk9qQ5A8plHyWIOpfX3NkHT/mzpmIQ== formyjumphost"
+	config.vm.provision 'shell', inline: 'sudo hostname jenkis'
+	config.vm.provision 'shell', inline: 'useradd panda -d /home/panda'
+	config.vm.provision 'shell', inline: 'mkdir -p /home/panda/.ssh'
+    config.vm.provision 'shell', inline: 'mkdir -p /root/.ssh'
+    config.vm.provision 'shell', inline: "echo #{ssh_pub_key} >> /root/.ssh/authorized_keys"
+    config.vm.provision 'shell', inline: "echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys"
+	config.vm.provision 'shell', inline: "sudo echo \"#{sudoerstxt}\" >> /etc/sudoers"
+	config.vm.provision 'shell', inline: "sudo cp -f /home/vagrant/.ssh/authorized_keys /home/panda/.ssh/authorized_keys"
+	config.vm.provision 'shell', inline: "sudo chown -R panda:panda /home/panda/"
+	config.vm.provision 'shell', inline: "echo #{panda_host_pk} >> /home/panda/.ssh/authorized_keys"
+	config.vm.provision 'shell', inline: "sudo chmod 700 /home/panda/.ssh"
+	config.vm.provision 'shell', inline: "sudo chmod 600 /home/panda/.ssh/authorized_keys",
+	privileged: false
+	config.vm.provider :virtualbox do |vb|
+		vb.name = "jenkis"
+    end
+        config.vm.provision "ansible" do |ansible|
+        ansible.playbook = "play.yaml"
+        ansible.become = true
+    end
+end

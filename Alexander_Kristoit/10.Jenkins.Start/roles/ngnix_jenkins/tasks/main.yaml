@@ -1,0 +1,13 @@
+---
+- name: Install packages for Ubuntu system
+  apt:
+    name: "{{ apt_packages }}"
+    state: present
+
+- name: Install Nginx
+  include: nginx.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Install Jenkins
+  include: jenkins.yaml
+  when: ansible_os_family == 'Debian'

@@ -1,0 +1,82 @@
+- name: Include deploy for RedHat systems
+  include: jenk_redhat.yaml
+  when: ansible_os_family == 'RedHat'
+
+# Disable SELinux
+- selinux:
+    state: disabled
+  tags:
+    - never
+    
+- name: Unconditionally reboot the machine with all defaults
+  reboot:
+  tags:
+    - never
+    
+- name: Creates directory
+  file:
+    path: "{{ default_home }}"
+    state: directory
+  tags:
+    - nginx
+    
+- name: Create index page
+  template:
+    src: index.2j
+    dest: "{{ default_home }}/index.html"
+    backup: no
+  tags:
+    - template_inx
+    - nginx
+      
+- name: TemplatesCFG
+  template:
+    src: vhost.j2
+    dest: "{{ nginx_cfg }}/vhost_{{ hostvars[inventory_hostname].ansible_hostname }}.conf"
+    backup: no
+  become: yes
+  tags:
+    - template_cfg
+    - nginx
+    
+- name: TemplateHosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: no
+  become: yes
+  tags:
+    - template_hosts
+    
+- name: NGINX. Restart service
+  service:
+    name: nginx
+    state: restarted
+  become: yes
+  tags:
+    - nginx-restart
+    
+#- name: "Check connection to site"
+#  wait_for:
+#    host: "{{ hostvars[inventory_hostname].ansible_hostname }}.besmart.local"
+#    port: 8000
+#    state: started
+#    timeout: 7
+#  tags:
+#    - test_tcp
+#    - nginx
+
+#- name: Check content sites
+#  uri:
+#    url: "http://{{ hostvars[inventory_hostname].ansible_hostname }}.site"
+#    return_content: yes 
+#  register: this
+#  failed_when: "'comrates' not in this.content "
+#  tags:
+#    - test_page
+#    - nginx
+#- debug:
+#    msg: "{{ this.status }}"
+#  tags:
+#    - test_code
+#    - nginx

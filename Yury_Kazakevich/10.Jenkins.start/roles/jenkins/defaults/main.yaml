@@ -1,0 +1,7 @@
+yum_web_packages:
+  - nginx
+  - yum-utils
+  
+
+default_home: "/var/www/html/jenkins"
+nginx_cfg: "/etc/nginx/conf.d"
