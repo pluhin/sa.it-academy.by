@@ -1,4 +1,5 @@
 #!/bin/bash
+<<<<<<< HEAD
 
 echo 'Enter message for your commit:'
 read commitMsg
@@ -6,6 +7,8 @@ read commitMsg
 git add --all
 git commit -m "$commitMsg"
 
+=======
+>>>>>>> slack notification test #18
 git fetch main
 git rebase main/m-sa2-09-19
 
