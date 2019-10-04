@@ -1,0 +1,11 @@
+## Tasks for install python3.
+
+- name: Check for Python
+  raw: test -e /usr/bin/python
+  changed_when: false
+  failed_when: false
+  register: check_python
+
+- name: Install Python
+  raw: test -e /usr/bin/apt && (apt -y update && apt install -y python-minimal) || (yum -y install python libselinux-python)
+  when: check_python.rc != 0
