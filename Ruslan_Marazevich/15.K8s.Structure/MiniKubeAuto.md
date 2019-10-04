@@ -1,4 +1,4 @@
-`code`
+```sh
 apt install docker.io
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube
 sudo mkdir -p /usr/local/bin/
@@ -9,4 +9,4 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 sudo minikube start --vm-driver=none
 sudo minikube dashboard
 sudo kubectl proxy --address='0.0.0.0' --disable-filter=true
-``
+```
