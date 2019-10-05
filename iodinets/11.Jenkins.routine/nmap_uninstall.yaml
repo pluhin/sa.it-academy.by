@@ -1,0 +1,8 @@
+---
+- hosts: workshop
+
+  tasks:
+  - name: uninstall nmap
+    apt:
+      pkg: nmap
+      state: absent

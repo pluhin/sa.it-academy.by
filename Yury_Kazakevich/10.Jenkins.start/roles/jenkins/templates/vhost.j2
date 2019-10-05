@@ -1,15 +1,5 @@
 ### {{ ansible_managed }}
 server {
-        listen 8999; 
-        server_name "{{ hostvars[inventory_hostname].ansible_hostname }}.besmart.local";
-        location / {
-			root "{{ default_home }}";
-			index  index.html
-            try_files $uri $uri/ =404;
-        }
-}
-
-server {
     listen 8000;
     server_name j-{{ hostvars[inventory_hostname].ansible_hostname }}.besmart.local;
      
@@ -18,7 +8,7 @@ server {
       proxy_set_header        X-Real-IP $remote_addr;
       proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_set_header        X-Forwarded-Proto $scheme;
- 
+	  proxy_connect_timeout       120;
       # Fix the "It appears that your reverse proxy set up is broken" error.
       proxy_pass          http://127.0.0.1:8080;
       proxy_read_timeout  90;
