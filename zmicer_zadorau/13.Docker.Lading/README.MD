@@ -40,7 +40,12 @@ if __name__ == "__main__":
 ### Add automated build for that image Docker hub
 
 [link to docker hub](https://cloud.docker.com/repository/docker/pankrys/api/builds)
+<<<<<<< HEAD
 ![image]docker.png
+=======
+
+![image](https://github.com/pankrys/sa.it-academy.by/blob/m-sa2-09-19/zmicer_zadorau/13.Docker.Lading/docker.png)
+>>>>>>> 5cb0327ce487d640e8211a07bd2ba9b07c3a9cd7
 
 ### Test it
 
