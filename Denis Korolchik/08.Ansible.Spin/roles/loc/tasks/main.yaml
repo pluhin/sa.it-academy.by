@@ -1,0 +1,40 @@
+  - name: Check repo URL
+    uri:
+      url: "{{ item }}"
+      return_content: no
+    with_items: "{{ urls }}"
+
+  - name: Url content
+    uri:
+      url: "{{ item }}"
+      return_content: yes
+    register: out_uri
+    with_items: "{{ urls_content }}"
+
+  - name: Print output content
+    debug:
+      msg: "Url {{ output.status }}"
+    loop: "{{ out_uri.results }}"
+    loop_control:
+      loop_var: output
+      label: "{{ output.status }}"
+
+  - name: Check SUDO
+    lineinfile:
+      path: /etc/sudoers
+      state: present
+      regexp: '^{{ sudoers }}'
+      line: '{{ sudoers }} ALL=(ALL) NOPASSWD:ALL'
+      validate: 'visudo -cf %s'
+
+  - name: Mem size
+    debug:
+      msg:  "Warning!! free memory not enough! {{ ansible_memfree_mb.real }}Mb"
+    when: ansible_memfree_mb.real<=mem_limit
+
+  - name: Disk size
+    debug:
+     msg: "Not enogh freee space {{ (item.size_available * 0.000001) | round(0,'common') }} Mb"
+    loop: "{{ ansible_mounts }}"
+    when: item.mount == '/' and {{ (item.size_available * 0.000001) | round(0,'common') }} <= disk_limit
+    tags: size

@@ -1,0 +1,38 @@
+---
+- name: Ensure sudo
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^{{ user }}'
+    line: '{{ user }} ALL=(ALL) NOPASSWD: ALL'
+    validate: /usr/sbin/visudo -cf %s
+- debug:
+    msg: "{{ user }} is sudoers"
+- name: check repo debian
+  include: repo_deb.yaml
+  when: ansible_os_family == 'Debian'
+- name: check repo redhat
+  include: repo_rh.yaml
+  when: ansible_os_family == 'RedHat'
+- name: disk space
+  debug:
+    msg: "Mount point {{ hostvars[inventory_hostname].ansible_mounts[0].device  }} {{ ansible_hostname }} is {{ hostvars[inventory_hostname].ansible_mounts[0].size_available/1024/1024/1024 }} gb"
+  tags:
+    - hdd
+    - hdd1
+- name: alarm hdd
+  assert:
+    that:  
+    - "{{ hostvars[inventory_hostname].ansible_mounts[0].size_available/1024/1024/1024 }} >= {{ hostvars[inventory_hostname].ansible_mounts[0].size_total/1024/1024/1024/10 }}"
+    fail_msg: "Capcity {{ hostvars[inventory_hostname].ansible_mounts[0].device  }} {{ ansible_hostname }} less 10%"
+    success_msg: "Capcity {{ hostvars[inventory_hostname].ansible_mounts[0].device  }} {{ ansible_hostname }} is ok"
+- name: check ram
+  debug:
+    msg: "total RAM {{ ansible_hostname }} is {{ ansible_memory_mb.real.free }}"
+   #msg: "total RAM is {{ ansible_memory_mb.real.total }}"
+- name: alarm hdd 
+  assert:
+    that:  
+    - "{{ ansible_memory_mb.real.free }} >= {{ ansible_memory_mb.real.total/10 }}"
+    fail_msg: "Memory {{ ansible_hostname }} less 10%"
+    success_msg: "Memory {{ ansible_hostname }} is ok"

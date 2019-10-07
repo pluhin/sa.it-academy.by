@@ -12,6 +12,7 @@
 - name: Add the Jenkins public key to the apt repo
   apt_key: 
     url: http://pkg.jenkins.io/debian-stable/jenkins.io.key
+
     state: present
 
 - name: Add Jenkins apt repo to the sources list

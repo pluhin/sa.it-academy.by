@@ -1,0 +1,6 @@
+---
+- hosts: jenkins
+  become: true
+  roles:
+    - jenkins
+    - nginx

@@ -1,0 +1,76 @@
+pipeline {
+    agent any
+    environment {
+        NEW_BRANCH = "new_branch_jenkins"
+    }
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                    deleteDir()
+                    git(
+                    url: 'git@github.com:1volkman1/testpipeline.git',
+                    credentialsId: 'github'
+                )
+            }
+        }
+        stage('Create branch') { 
+            steps { 
+                    sshagent (credentials: ['github'])  {
+                    sh """
+                        git checkout -b $NEW_BRANCH
+                        git branch
+                        git push origin $NEW_BRANCH
+                    """
+                    }
+            }
+        }
+        
+        stage('Add file and view directory') { 
+            steps { 
+                    sh """
+                       touch test.file.txt
+                       tar -cvzf test.file.tar.gz test.file.txt
+                       ls -l
+                    """   
+            }
+        }
+        stage('Push changes') { 
+            steps { 
+                sshagent (credentials: ['github']){
+                sh """
+                    git add --all
+                    git commit -m "Add new files"
+                    git push -f origin $NEW_BRANCH
+                """
+                }
+            }
+
+        }
+        stage('Delete branch') { 
+            steps {
+                sshagent (credentials: ['github']){
+                    sh ('git checkout master && git branch -D $NEW_BRANCH')
+                    sh ('git push origin --delete $NEW_BRANCH')
+                }
+            }
+        }
+        stage('Test') { 
+            steps { 
+                    sh """
+                       echo "Remote branches are:"
+                       git branch -r
+                       echo "Local branches are:"
+                       git branch
+                    """
+            }
+        }
+    }
+    post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+}

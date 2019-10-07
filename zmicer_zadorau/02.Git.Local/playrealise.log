@@ -1,0 +1,19 @@
+pankrys@ubuntu:~/project/automaker-homework-to-git/12$ git merge features/do_one
+Обновление b1d6c00..c62ce66
+Fast-forward
+ dev0.txt     | 1 +
+ dev1.txt     | 1 +
+ features.txt | 1 +
+ file2.txt    | 1 +
+ 4 files changed, 4 insertions(+)
+ create mode 100644 dev0.txt
+ create mode 100644 dev1.txt
+ create mode 100644 features.txt
+ create mode 100644 file2.txt
+ 
+ pankrys@ubuntu:~/project/automaker-homework-to-git/12$ git log --color --oneline --graph
+* c62ce66 features commit #1
+* ceede6c dev commit #2
+* 7bf0ca0 dev commit #1
+* b1d6c00 master commit #2
+* 10a105b master commit #1

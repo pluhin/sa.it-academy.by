@@ -1,0 +1,8 @@
+---
+# Webserver deployemnt
+- hosts: webservers
+  become: yes
+  gather_facts: False
+  roles:
+    #- { name: web, tags: ['web'], when: }
+    - web

@@ -8,5 +8,5 @@
     - application_name: jenkins
 
   roles:
-#    - jenkins
+    - jenkins
     - nginx

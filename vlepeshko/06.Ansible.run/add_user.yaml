@@ -1,0 +1,19 @@
+- hosts: webservers
+  become: yes
+  tasks:
+  - name: Print variable
+    debug:
+      msg: "You requested user {{ user_to_add }}"
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      comment: "Managed by ansible"
+      state: present
+  - name: Set authorized key for user copying it from current user
+    authorized_key:
+      user: "{{ user_to_add }}"
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+  - name: sudo without password for wheel group
+    copy:
+      content: "{{ user_to_add }} ALL=(ALL:ALL) NOPASSWD:ALL"
+      dest: "/etc/sudoers.d/{{ user_to_add }}"

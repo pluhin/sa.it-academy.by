@@ -1,0 +1,25 @@
+yk_all:
+    vars:
+        ansible_user: "ansi"
+    children:      
+        linuxhosts:
+            children:
+                redhats:
+                    hosts:
+                        h1cent7:
+                            ansible_host: 192.168.111.213
+                        anscent7:
+                            ansible_host: 127.0.0.1
+                        h3jenk1:
+                            ansible_host: 192.168.111.205
+                ubuntus:
+                    hosts:
+                        h2ubuntu:
+                            ansible_host: 192.168.111.204
+                webservers:  
+                    hosts:
+                        h1cent7:
+                        h2ubuntu:
+                jenkins:
+                    hosts:
+                        h3jenk1:

@@ -1,0 +1,130 @@
+Started by upstream project "02_nmap_install" build number 4
+originally caused by:
+ Started by upstream project "01_check_connect" build number 5
+ originally caused by:
+  Started by user user
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/03_check_online
+[03_check_online] $ sshpass ******** ansible all -i /tmp/inventory6245166297008588703.ini -m shell -a "nmap -A onliner.by && nmap -A tut.by && nmap aol.com
+" -f 5 -u root -k
+[0;32m192.168.31.13 | SUCCESS | rc=0 >>[0m
+[0;32m[0m
+[0;32mStarting Nmap 7.01 ( https://nmap.org ) at 2019-09-23 15:04 UTC[0m
+[0;32mNmap scan report for onliner.by (178.124.129.14)[0m
+[0;32mHost is up (0.0013s latency).[0m
+[0;32mOther addresses for onliner.by (not scanned): 178.124.129.12 178.124.129.16[0m
+[0;32mNot shown: 997 filtered ports[0m
+[0;32mPORT    STATE SERVICE  VERSION[0m
+[0;32m22/tcp  open  ssh      OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)[0m
+[0;32m| ssh-hostkey: [0m
+[0;32m|   2048 0d:74:e2:a8:75:8b:9e:d8:19:ef:3c:41:aa:53:b8:7a (RSA)[0m
+[0;32m|_  256 e3:5e:16:57:0c:c6:74:7d:2c:e1:19:af:df:fb:40:cc (ECDSA)[0m
+[0;32m80/tcp  open  http     nginx[0m
+[0;32m|_http-title: Did not follow redirect to https://www.onliner.by/[0m
+[0;32m443/tcp open  ssl/http nginx[0m
+[0;32m| http-robots.txt: 1 disallowed entry [0m
+[0;32m|_/[0m
+[0;32m|_http-server-header: nginx[0m
+[0;32m| http-title: Onliner[0m
+[0;32m|_Requested resource was https://www.onliner.by/[0m
+[0;32m| ssl-cert: Subject: commonName=*.onliner.by[0m
+[0;32m| Not valid before: 2017-02-10T00:00:00[0m
+[0;32m|_Not valid after:  2020-02-12T23:59:59[0m
+[0;32m|_ssl-date: TLS randomness does not represent time[0m
+[0;32m| tls-nextprotoneg: [0m
+[0;32m|_  http/1.1[0m
+[0;32mWarning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port[0m
+[0;32mDevice type: general purpose[0m
+[0;32mRunning: Linux 3.X|4.X[0m
+[0;32mOS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4[0m
+[0;32mOS details: Linux 3.2 - 4.0[0m
+[0;32mNetwork Distance: 8 hops[0m
+[0;32mService Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel[0m
+[0;32m[0m
+[0;32mTRACEROUTE (using port 443/tcp)[0m
+[0;32mHOP RTT     ADDRESS[0m
+[0;32m1   0.41 ms 192.168.37.1[0m
+[0;32m2   0.90 ms 178.172.195.1[0m
+[0;32m3   3.48 ms 178.172.192.129[0m
+[0;32m4   1.81 ms 178.124.168.5.belpak.by (178.124.168.5)[0m
+[0;32m5   7.10 ms 178.124.168.234.belpak.by (178.124.168.234)[0m
+[0;32m6   1.40 ms 93.84.125.189[0m
+[0;32m7   1.07 ms 178.124.134.165[0m
+[0;32m8   1.02 ms onliner.by (178.124.129.14)[0m
+[0;32m[0m
+[0;32mOS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .[0m
+[0;32mNmap done: 1 IP address (1 host up) scanned in 39.68 seconds[0m
+[0;32m[0m
+[0;32mStarting Nmap 7.01 ( https://nmap.org ) at 2019-09-23 15:05 UTC[0m
+[0;32mNmap scan report for tut.by (178.172.160.2)[0m
+[0;32mHost is up (0.0016s latency).[0m
+[0;32mOther addresses for tut.by (not scanned): 178.172.160.4 178.172.160.3 178.172.160.5 2a0a:7d80::b 2a0a:7d80::a 2a0a:7d80::c 2a0a:7d80::d[0m
+[0;32mrDNS record for 178.172.160.2: 178-172-160-2.hosterby.com[0m
+[0;32mNot shown: 960 closed ports, 38 filtered ports[0m
+[0;32mPORT    STATE SERVICE  VERSION[0m
+[0;32m80/tcp  open  http     nginx[0m
+[0;32m|_http-server-header: nginx[0m
+[0;32m|_http-title: Did not follow redirect to https://www.tut.by[0m
+[0;32m443/tcp open  ssl/http nginx[0m
+[0;32m|_http-server-header: nginx[0m
+[0;32m| http-title: 400 Bad Request[0m
+[0;32m|_Requested resource was https://www.tut.by[0m
+[0;32m| ssl-cert: Subject: commonName=www.tut.by/organizationName=TUT BY MEDIA, LLC/countryName=BY[0m
+[0;32m| Not valid before: 2018-11-05T00:00:00[0m
+[0;32m|_Not valid after:  2020-01-04T12:00:00[0m
+[0;32m|_ssl-date: TLS randomness does not represent time[0m
+[0;32m| tls-nextprotoneg: [0m
+[0;32m|   h2[0m
+[0;32m|_  http/1.1[0m
+[0;32mDevice type: general purpose|storage-misc|media device|WAP|webcam|broadband router[0m
+[0;32mRunning (JUST GUESSING): Linux 3.X|4.X|2.6.X (97%), HP embedded (93%), Infomir embedded (92%), Ubiquiti embedded (92%), Tandberg embedded (91%), Asus embedded (91%)[0m
+[0;32mOS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:2.6 cpe:/h:hp:p2000_g3 cpe:/h:infomir:mag-250 cpe:/o:linux:linux_kernel:2.6.32 cpe:/h:ubnt:airmax_nanostation cpe:/h:asus:rt-ac66u[0m
+[0;32mAggressive OS guesses: Linux 3.10 - 3.19 (97%), Linux 3.2 - 4.0 (97%), Linux 2.6.32 - 3.13 (96%), Linux 3.18 (95%), Linux 2.6.22 - 2.6.36 (94%), Linux 3.10 (94%), Linux 2.6.32 - 3.10 (93%), HP P2000 G3 NAS device (93%), Linux 2.6.18 (93%), Linux 2.6.26 - 2.6.35 (93%)[0m
+[0;32mNo exact OS matches for host (test conditions non-ideal).[0m
+[0;32mNetwork Distance: 8 hops[0m
+[0;32m[0m
+[0;32mTRACEROUTE (using port 25/tcp)[0m
+[0;32mHOP RTT     ADDRESS[0m
+[0;32m1   0.36 ms 192.168.37.1[0m
+[0;32m2   4.21 ms 178.172.195.1[0m
+[0;32m3   2.66 ms 178.172.192.129[0m
+[0;32m4   1.88 ms 178.124.168.5.belpak.by (178.124.168.5)[0m
+[0;32m5   2.75 ms 178.124.168.234.belpak.by (178.124.168.234)[0m
+[0;32m6   1.33 ms 93.84.125.189[0m
+[0;32m7   0.96 ms 178.124.134.165[0m
+[0;32m8   0.86 ms 178-172-160-2.hosterby.com (178.172.160.2)[0m
+[0;32m[0m
+[0;32mOS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .[0m
+[0;32mNmap done: 1 IP address (1 host up) scanned in 25.65 seconds[0m
+[0;32m[0m
+[0;32mStarting Nmap 7.01 ( https://nmap.org ) at 2019-09-23 15:05 UTC[0m
+[0;32mNmap scan report for aol.com (124.108.115.87)[0m
+[0;32mHost is up (0.28s latency).[0m
+[0;32mOther addresses for aol.com (not scanned): 66.218.87.12 106.10.218.150 188.125.72.165 67.195.231.10[0m
+[0;32mrDNS record for 124.108.115.87: w2.src4.vip.tw1.yahoo.com[0m
+[0;32mNot shown: 998 filtered ports[0m
+[0;32mPORT    STATE SERVICE[0m
+[0;32m80/tcp  open  http[0m
+[0;32m443/tcp open  https[0m
+[0;32m[0m
+[0;32mNmap done: 1 IP address (1 host up) scanned in 19.25 seconds[0m
+[0;32m[0m
+[03_check_online] $ sshpass ******** ansible all -i /tmp/inventory217533979535672187.ini -m copy -a src=/root/out
+dest=/tmp/
+remote_src=yes -f 5 -u root -k
+192.168.31.13 | SUCCESS => {
+    "changed": false,
+    "checksum": "b1dea5d16ded6618d252d2f685b8d49dca619517",
+    "dest": "/tmp/out",
+    "gid": 0,
+    "group": "root",
+    "md5sum": "f3bbf3376912ff166977acaae62bf55b",
+    "mode": "0644",
+    "owner": "root",
+    "size": 4027,
+    "src": "/root/out",
+    "state": "file",
+    "uid": 0
+}
+Triggering a new build of 04_del_nmap
+Finished: SUCCESS

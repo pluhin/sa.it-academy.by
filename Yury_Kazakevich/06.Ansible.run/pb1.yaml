@@ -1,0 +1,19 @@
+- hosts: yk_all
+  become: true
+  strategy: free
+  tasks:
+  - name: Print host dist
+    debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+    tags:
+        - dist
+  - name: Print host mounts
+    debug:
+        msg: "{{ ansible_mounts }}"
+    tags:
+        - mounts
+  - name: Print host mem
+    debug:
+        msg: "{{ ansible_memory_mb }}"
+    tags:
+        - mem

@@ -1,0 +1,54 @@
+Started by upstream project "01_check_connect" build number 5
+originally caused by:
+ Started by user user
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/02_nmap_install
+[02_nmap_install] $ sshpass ******** ansible all -i /tmp/inventory6225382397997874145.ini -m apt -a name=nmap
+state=latest -f 5 -u root -k
+192.168.31.13 | SUCCESS => {
+    "cache_update_time": 1568223867,
+    "cache_updated": false,
+    "changed": true,
+    "stderr": "",
+    "stderr_lines": [],
+    "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nThe following NEW packages will be installed:\n  nmap\n0 upgraded, 1 newly installed, 0 to remove and 112 not upgraded.\nNeed to get 0 B/4638 kB of archives.\nAfter this operation, 21.3 MB of additional disk space will be used.\nSelecting previously unselected package nmap.\r\n(Reading database ... \r(Reading database ... 5%\r(Reading database ... 10%\r(Reading database ... 15%\r(Reading database ... 20%\r(Reading database ... 25%\r(Reading database ... 30%\r(Reading database ... 35%\r(Reading database ... 40%\r(Reading database ... 45%\r(Reading database ... 50%\r(Reading database ... 55%\r(Reading database ... 60%\r(Reading database ... 65%\r(Reading database ... 70%\r(Reading database ... 75%\r(Reading database ... 80%\r(Reading database ... 85%\r(Reading database ... 90%\r(Reading database ... 95%\r(Reading database ... 100%\r(Reading database ... 51797 files and directories currently installed.)\r\nPreparing to unpack .../nmap_7.01-2ubuntu2_amd64.deb ...\r\nUnpacking nmap (7.01-2ubuntu2) ...\r\nProcessing triggers for man-db (2.7.5-1) ...\r\nSetting up nmap (7.01-2ubuntu2) ...\r\n",
+    "stdout_lines": [
+        "Reading package lists...",
+        "Building dependency tree...",
+        "Reading state information...",
+        "The following NEW packages will be installed:",
+        "  nmap",
+        "0 upgraded, 1 newly installed, 0 to remove and 112 not upgraded.",
+        "Need to get 0 B/4638 kB of archives.",
+        "After this operation, 21.3 MB of additional disk space will be used.",
+        "Selecting previously unselected package nmap.",
+        "(Reading database ... ",
+        "(Reading database ... 5%",
+        "(Reading database ... 10%",
+        "(Reading database ... 15%",
+        "(Reading database ... 20%",
+        "(Reading database ... 25%",
+        "(Reading database ... 30%",
+        "(Reading database ... 35%",
+        "(Reading database ... 40%",
+        "(Reading database ... 45%",
+        "(Reading database ... 50%",
+        "(Reading database ... 55%",
+        "(Reading database ... 60%",
+        "(Reading database ... 65%",
+        "(Reading database ... 70%",
+        "(Reading database ... 75%", 
+        "(Reading database ... 80%",
+        "(Reading database ... 85%",
+        "(Reading database ... 90%",
+        "(Reading database ... 95%",
+        "(Reading database ... 100%",
+        "(Reading database ... 51797 files and directories currently installed.)",
+        "Preparing to unpack .../nmap_7.01-2ubuntu2_amd64.deb ...",
+        "Unpacking nmap (7.01-2ubuntu2) ...",
+        "Processing triggers for man-db (2.7.5-1) ...",
+        "Setting up nmap (7.01-2ubuntu2) ..."
+    ]
+}
+Triggering a new build of 03_check_online
+Finished: SUCCESS

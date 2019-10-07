@@ -1,0 +1,18 @@
+all_hosts:
+  children:
+    r_host:
+      hosts:
+        r_cent:
+          ansible_user: root
+          ansible_host: 192.168.254.50
+        r_ubuntu:
+          ansible_user: user
+          ansible_host: 192.168.254.51
+    local_host:
+       hosts:
+        test_cent:
+           ansible_user: root
+           ansible_host: 192.168.200.3
+        test_ubuntu:
+           ansible_user: root
+           ansible_host: 192.168.200.4      

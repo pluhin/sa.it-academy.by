@@ -1,0 +1,12 @@
+Vagrant.configure("2") do |config|
+    config.vm.box = "centos/7"
+    config.vm.hostname = "Jenkins2"
+    config.vm.network "public_network",  bridge: "Realtek RTL8821CE 802.11ac PCIe Adapter"
+    config.vm.provider "virtualbox" do |v|
+      v.name = "Jenkins2"
+      v.memory = 2048
+      v.cpus   = 1
+      v.gui = false
+    config.vm.provision :shell, :path => "bootstrap.sh"
+   end 
+end

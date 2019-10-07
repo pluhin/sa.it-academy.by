@@ -1,0 +1,22 @@
+ server {
+        listen 80;
+        listen [::]:80;
+	root {{ default_home_silva}};
+	index index.html index.htm;
+        server_name "silva_{{ ansible_distribution|lower }}.site";
+        location / {
+ 	try_files $uri $uri/ =404;
+        }
+}
+
+server {
+        listen 80;
+        listen [::]:80;
+        root {{ default_home_test}};
+        index index.html index.htm;
+        server_name "test_{{ ansible_distribution|lower }}.site";
+        location / {
+        try_files $uri $uri/ =404;
+        }
+}
+
