@@ -1,0 +1,12 @@
+---
+
+minikube_dependencies:
+  - virtualbox
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - software-properties-common
+
+minikube_install_dir: /usr/local/bin
+minikube_version: latest
+kubectl_version: v1.16.1
