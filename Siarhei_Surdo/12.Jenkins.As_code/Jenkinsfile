@@ -1,0 +1,42 @@
+pipeline {
+	agent any
+    environment {
+        NEW_BRANCH = "test_b"
+		SOURCE_BRANCH = "master"
+		EMAIL = "esserg@github.com"
+		NAME = "esserg"
+    }
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                    deleteDir()
+                    git url: 'https://github.com/Esserg/test_repo.git',
+					branch: "${env.SOURCE_BRANCH}"
+            }
+        }
+        stage('Create new branch') { 
+            steps { 
+                    sh """
+						git config user.email $EMAIL
+						git config user.name $NAME
+                        git checkout -b $NEW_BRANCH
+                    """
+            }
+        }        
+        stage('Work with files. Create file and pack it') { 
+            steps { 
+                    sh 'git branch -a > file.txt'
+                    sh "ls -l >> file.txt"
+					sh 'tar -cvzf file.tar.gz file.txt'
+            }
+        }
+    }
+    post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+}
