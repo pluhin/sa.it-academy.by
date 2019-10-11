@@ -1,0 +1,19 @@
+- hosts: webservers
+  become: yes
+  tasks:
+  - name: print variable
+    debug:
+      msg: "user to add {{ user_to_add }}"
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+    #  comment: "Managed by ansible"
+      state: present
+  - name: add user key
+    authorized_key:
+      user: "{{ user_to_add }}"
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+  - name: add nopasswd
+    copy:
+      dest: "/etc/sudoers.d/{{ user_to_add }}"
+      content: "{{ user_to_add }} ALL=(ALL)  NOPASSWD: ALL"

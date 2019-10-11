@@ -1,0 +1,19 @@
+- hosts: webservers
+  become: true
+#  strategy: free
+  tasks:
+  - name: OC vercion
+    debug:
+      msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+    tags:
+      - os
+  - name: Mount point
+    debug:
+      msg: "{{ ansible_mounts }}"
+    tags:
+      - mount
+  - name: Memory
+    debug:
+      msg: "{{ ansible_memory_mb }}"
+    tags:
+      - mem
