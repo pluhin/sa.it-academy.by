@@ -1,0 +1,26 @@
+all_hosts:
+         children:
+           linuxhosts:
+             vars:
+               full_name: "MyVBox"
+             hosts:
+               centos7.latest:
+                 ansible_user: ansbl
+                 ansible_host: 192.168.56.50
+               ubuntu.latest:
+                  ansible_user: ansbl
+                  ansible_host: 192.168.56.51
+               second:   
+                  ansible_user: user
+                  ansible_host: 192.168.56.103
+
+ubuntu_hosts:
+        hosts:
+                ubuntu.latest:
+                second:
+                        
+centos_hosts:
+        hosts:
+                centos7.ltest:
+
+
