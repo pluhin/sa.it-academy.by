@@ -96,3 +96,7 @@ This task required me to work with Docker and do the following:
 - Send/receive API request  
 I created a simple web-page using pythin flask module. My web-site listened on port 5000, and was deployed on a container that was deployed on a VM, so to access it from my local machine I used a 3-way port translation.  
 Also, Dockerhub was linked with my GitHub profile to automatically biuld docker images from Dockerfiles in my repo.
+
+## 15.K8s.Structure  
+In this task I had to automate minikube deployment and provide access to a dashboard webpage. It was done by using Vagrantfile that can be found inside of the 15.K8s.Structure folder.
+
