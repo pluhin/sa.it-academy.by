@@ -1,0 +1,7 @@
+---
+
+- name: install the required packages
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ minikube_dependencies }}"

@@ -1,0 +1,7 @@
+---
+- name: Install Python on Ubuntu
+  hosts: all
+  become: yes
+  gather_facts: false
+  roles:
+    - python3

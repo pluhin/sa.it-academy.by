@@ -1,0 +1,11 @@
+---
+
+- name: Provision a Minicube server
+  hosts: hyperservers
+  become: yes
+  vars:
+    - update_apt_cache: yes
+    - application_name: minicube
+
+  roles:
+    - minikube

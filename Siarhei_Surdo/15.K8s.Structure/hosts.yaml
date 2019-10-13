@@ -3,16 +3,9 @@ local_farm:
   hosts:
     masterubuntu:
       ansible_host: 192.168.100.250
-    jenkins_local:
-      ansible_host: 192.168.100.30
-hyperserver:
+hyperservers:
   vars:
     ansible_user: master
   hosts:
     masterubuntu
-jenkins:
-  vars:
-    ansible_user: vagrant
-  hosts:
-    jenkins_local
 
