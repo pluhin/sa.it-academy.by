@@ -1,0 +1,19 @@
+- hosts: linuxhosts 
+  become: yes
+  tasks:
+  - name: print variable
+    debug:
+      msg: "You requested user {{ username_to_add }}"
+  - name: creating user {{ username_to_add }}
+    user:
+      name: "{{ username_to_add }}"
+      comment: "Creted by Ansbl"
+      state: present
+  - name: ssh authoriztion by key
+    authorized_key:
+      user: "{{ username_to_add }}"
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+  - name: sudo without password
+    copy:
+      content: "{{ username_to_add }} ALL=(ALL:ALL) NOPASSWD:ALL"
+      dest: "/etc/sudoers.d/{{ username_to_add }}"

@@ -1,0 +1,18 @@
+---
+- hosts: linuxhosts 
+  tasks:
+  - name: Print OS/version 
+    debug:
+       msg: "{{ ansible_distribution }}|{{ ansible_distribution_version }}"
+    tags:
+     - os_ver
+  - name: Print Mount point/capacity/used
+    debug:
+      msg: "{{ansible_mounts}}"
+    tags:
+    - mntpoints
+  - name: Print RAM/capacity/free
+    debug:
+      msg: "{{ansible_memory_mb}}"
+    tags:
+    - mem

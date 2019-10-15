@@ -1,0 +1,64 @@
+---
+- name: Check SUDO
+  lineinfile:
+   path: /etc/sudoers
+   state: present
+   regexp: '^{{ user }}'
+   line: '{{ user }} ALL=(ALL) NOPASSWD:ALL'
+  tags:
+    -sudo
+
+- name: Check reps on Ubuntu
+  uri:
+    url: "{{ item }}"
+  with_items:
+    - "{{ deb_rep }}"
+    - "{{ pip_rep }}"
+  when: ansible_os_family == 'Debian'
+  tags:
+    - rep
+
+- name: Check reps on CentOS7
+  uri:
+    url: "{{ item }}"
+  with_items:
+    - "{{ rh_rep }}"
+    - "{{ pip_rep }}"
+  when: ansible_os_family == 'RedHat'
+  tags:
+    - rep
+
+- name: Check connect to the docker reg
+  uri:
+    url: "https://hub.docker.com/_/registry"
+    return_content: yes
+  register: dockerpage
+  tags:
+    - docker
+
+- name: Printing docker reg page content
+  debug:
+    msg: "{{ dockerpage.content }}"
+  tags:
+    - docker
+
+- name: Check RAM
+  assert:
+    that:
+      - "{{ ansible_memtotal_mb }} > {{ needed_RAM }}"
+    fail_msg: "Not enough RAM. {{ ansible_memtotal_mb }} is available, but we need {{ needed_RAM }} ."
+    success_msg: "You have enough RAM"
+  ignore_errors: yes
+  tags:
+    - ram
+
+- name: Check HDD
+  assert:
+    that:
+      - "{{ item.size_available > (item.size_total|float * 0.1 ) }}"
+    fail_msg: "Free disk space is less than 10%, please clean it up."
+    success_msg: "Available disk space is more than 90%, OK."
+  with_items: "{{ ansible_mounts }}"
+  ignore_errors: yes
+  tags:
+    - hdd

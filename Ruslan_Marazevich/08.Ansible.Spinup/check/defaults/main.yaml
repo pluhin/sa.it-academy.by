@@ -1,0 +1,15 @@
+---
+user: "ansbl"
+
+deb_rep:
+  - 'http://ftp.debian.org/debian/'
+  - 'http://ftp.us.debian.org/debian/'
+
+rh_rep:
+  - 'http://mirror.datacenter.by/pub/CentOS/'
+  - 'http://ftp.byfly.by/pub/CentOS/'
+
+pip_rep:
+  - 'https://pypi.org/'
+
+needed_RAM: "512"
