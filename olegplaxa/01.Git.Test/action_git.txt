@@ -1,0 +1,10 @@
+git clone git@github.com:OlegPlaxa/sa.it-academy.by.git
+git checkout sa.it-academy.by/m-sa2-10-19
+git checkout m-sa2-10-19
+git branch
+mkdir olegplaxa
+ll
+cd olegplaxa/
+mkdir 01.Git.Test
+cd 01.Git.Test/
+vim action_git.txt
