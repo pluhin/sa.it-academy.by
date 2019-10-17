@@ -126,9 +126,9 @@ Connect to the remote host
   - Connect to the hosts
   - Print out host names and IP
   - Upgrade packages
-- Create own inventory with all variables and hierarchie 
+- Create own inventory with all variables and hierarchie
 
-Output all your ansible commands (and commands also) put into `04.Ansible.start.md` and add to your repository, then prepare PR (Pull Request)
+Output all your ansible commands (and commands also) put into `05.Ansible.start.md` and add to your repository, then prepare PR (Pull Request)
 
 ## 06. Ansible run
 
@@ -257,28 +257,42 @@ Your code and printscreen of dachboard put into folder `15. K8s. Structure` add 
 
 ### Common
 
-- Create your project scheme
-- Choice your application for deployment (as example can be any from this list od [CMS](https://en.wikipedia.org/wiki/List_of_content_management_systems))
-- Demo shouldn't be not longer than 10 mins
+Project demo should contain:
+
+- scheme of flow/pipelines
+- repository of your code (pipeline)
+- working pipeline
+- demo shouldn't be not longer than 10 mins
+
+Application requirements:
+
+- Versioning
+- DB inside
+- User data
+
+> As example can be any from this list od [CMS](https://en.wikipedia.org/wiki/List_of_content_management_systems)
 
 ### CI
 
-Organize the CI platform for development team:
+Organize CI:
 
-- Git repository for code application code
+- Git repository for application
   - branches, README.md
-- Git repository for ansible playbooks
+- Git repository for pipeline code
   - branches, README.md
-- Docker deployment substructure
-  - dockerfile/compouse
-- Docker hub auto-create image
+- Push/merge/commit reaction
+  - Code validation
+  - Container deployment/image build
+  - Any kind of tests
 
 ### CD
 
 Develop and delivery CD solution for your application:
 
-- Continuous deployment by webhook and(or) by schedule
-- Group deployment with parameters (version/features/patrly upgrade)
-- Prepare Jenkinsfile/Pipeline for deployment
-- Organise deployment application as docker for QA team on demand
-- Provide performance testing for your Pipeline
+Piplines:
+
+- Green deployment
+- Upgrade (keep user data)
+- Rollback if deployment failed
+- Notification
+- Performance testing for your Pipeline
