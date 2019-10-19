@@ -1,4 +1,3 @@
-```ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -108,5 +107,3 @@ config.vm.define "ubuntu" do |ubuntu|
    end
 
 end
-
-```
