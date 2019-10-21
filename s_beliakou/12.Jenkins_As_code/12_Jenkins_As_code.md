@@ -4,7 +4,7 @@ Jenkins output
 
  
 ```
-tarted by user S_Beliakou
+Started by user S_Beliakou
 Running in Durability level: MAX_SURVIVABILITY
 [Pipeline] Start of Pipeline
 [Pipeline] node
