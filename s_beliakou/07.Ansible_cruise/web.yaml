@@ -1,6 +1,5 @@
 ---
 - hosts: webservers
   become: yes
-  gather_facts: True
   roles:
-    - web
+    - web  
