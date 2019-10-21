@@ -1,0 +1,42 @@
+pipeline { agent any environment { NEW_BRANCH = "branch_jenkins"
+    }
+    stages { stage('Clone repository') { steps { deleteDir() git( url: 
+                    'git@github.com:spooky1010/project.git', credentialsId: 'git_pass'
+                )
+            }
+        }
+        
+    stage('Add') { steps {
+        
+                    sh """ pwd git branch git checkout -b $NEW_BRANCH git branch git push origin $NEW_BRANCH
+                       
+                       
+                    """
+            }
+        }
+    stage('2') { steps { sh """ echo "st 2" touch index11.txt ls -l """
+            }
+        }    
+      stage('add commit 3') { steps { sh """ echo "st 3" git add --all git commit -m "add index file" git 
+                       push -f origin $NEW_BRANCH
+                       
+                    """
+            }
+        }   
+        
+      stage('delete branch 4') { steps { sh """ echo "delete branch 4" git checkout master && git branch -D 
+                       $NEW_BRANCH git push origin --delete $NEW_BRANCH
+                    """
+            }
+        }  
+        
+        stage('test') { steps { sh """ echo "st 5 test" git branch -r
+                      
+                    """
+            }
+        } 
+        
+        
+    }
+    
+}
