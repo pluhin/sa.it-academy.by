@@ -1,0 +1,18 @@
+[0m[1;31m                          ./+o+-      [0m[1;31m andrei[0m[1m@[0m[0m[1;31mandrei-Aspire-V3-571G[0m
+[0m[1;37m                  yyyyy- [0m[1;31m-yyyyyy+     [0m[1;31m OS:[0m Ubuntu 18.04 bionic[0m
+[0m[1;37m               [0m[1;37m://+//////[0m[1;31m-yyyyyyo     [0m[1;31m Kernel:[0m x86_64 Linux 4.15.0-29-generic[0m
+[0m[1;33m           .++ [0m[1;37m.:/++++++/-[0m[1;31m.+sss/`     [0m[1;31m Uptime:[0m 4h 51m[0m
+[0m[1;33m         .:++o:  [0m[1;37m/++++++++/:--:/-     [0m[1;31m Packages:[0m 1688[0m
+[0m[1;33m        o:+o+:++.[0m[1;37m`..```.-/oo+++++/    [0m[1;31m Shell:[0m bash[0m
+[0m[1;33m       .:+o:+o/.[0m[1;37m          `+sssoo+/   [0m[1;31m Resolution:[0m 1366x768[0m
+[0m[1;37m  .++/+:[0m[1;33m+oo+o:`[0m[1;37m             /sssooo.  [0m[1;31m DE:[0m XFCE[0m
+[0m[1;37m /+++//+:[0m[1;33m`oo+o[0m[1;37m               /::--:.  [0m[1;31m WM:[0m Xfwm4[0m
+[0m[1;37m \+/+o+++[0m[1;33m`o++o[0m[1;31m               ++////.  [0m[1;31m WM Theme:[0m Greybird[0m
+[0m[1;37m  .++.o+[0m[1;33m++oo+:`[0m[1;31m             /dddhhh.  [0m[1;31m GTK Theme:[0m Greybird [GTK2][0m
+[0m[1;33m       .+.o+oo:.[0m[1;31m          `oddhhhh+   [0m[1;31m Icon Theme:[0m elementary-xfce-darker[0m
+[0m[1;33m        \+.++o+o`[0m[1;31m`-````.:ohdhhhhh+    [0m[1;31m Font:[0m Noto Sans 9[0m
+[0m[1;33m         `:o+++ [0m[1;31m`ohhhhhhhhyo++os:     [0m[1;31m CPU:[0m Intel Core i5-3230M @ 4x 3.2GHz [57.0°C][0m
+[0m[1;33m           .o:[0m[1;31m`.syhhhhhhh/[0m[1;33m.oo++o`     [0m[1;31m GPU:[0m Mesa DRI Intel(R) Ivybridge Mobile [0m
+[0m[1;31m               /osyyyyyyo[0m[1;33m++ooo+++/    [0m[1;31m RAM:[0m 2226MiB / 7797MiB[0m
+[0m[1;31m                   ````` [0m[1;33m+oo+++o\:    [0m
+[0m[1;33m                          `oo++.      [0m
