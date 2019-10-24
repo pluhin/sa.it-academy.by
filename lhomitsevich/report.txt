@@ -1,0 +1,497 @@
+Leonid&Aleksandra@Homln MINGW64 /e/WORK
+$ mkdir mkdir m-sa2-10-19
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK
+$ ^C
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK
+$ mkdir m-sa2-10-19
+mkdir: cannot create directory ‘m-sa2-10-19’: File exists
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK
+$ mkdir m-sa2-10-19
+mkdir: cannot create directory ‘m-sa2-10-19’: File exists
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK
+$ sudo mkdir m-sa2-10-19
+bash: sudo: command not found
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK
+$ mkdir m-sa2-10-19
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK
+$ cd m-sa2-10-19/
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19
+$ mkdir lhomitsevich
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19
+$ git init
+Initialized empty Git repository in E:/WORK/m-sa2-10-19/.git/
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git config --list
+core.symlinks=false
+core.autocrlf=true
+core.fscache=true
+color.diff=auto
+color.status=auto
+color.branch=auto
+color.interactive=true
+help.format=html
+rebase.autosquash=true
+http.sslcainfo=C:/Program Files/Git/mingw64/ssl/certs/ca-bundle.crt
+http.sslbackend=openssl
+diff.astextplain.textconv=astextplain
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge --skip -- %f
+filter.lfs.process=git-lfs filter-process --skip
+filter.lfs.required=true
+credential.helper=manager
+core.editor="C:\\Program Files (x86)\\Notepad++\\notepad++.exe" -multiInst -notabbar -nosession -noPlugin
+user.user=LEONID HOMITSEVICH
+user.email=homln@tut.by
+core.repositoryformatversion=0
+core.filemode=false
+core.bare=false
+core.logallrefupdates=true
+core.symlinks=false
+core.ignorecase=true
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git config --global user.name "Homln"
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git config --list
+core.symlinks=false
+core.autocrlf=true
+core.fscache=true
+color.diff=auto
+color.status=auto
+color.branch=auto
+color.interactive=true
+help.format=html
+rebase.autosquash=true
+http.sslcainfo=C:/Program Files/Git/mingw64/ssl/certs/ca-bundle.crt
+http.sslbackend=openssl
+diff.astextplain.textconv=astextplain
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge --skip -- %f
+filter.lfs.process=git-lfs filter-process --skip
+filter.lfs.required=true
+credential.helper=manager
+core.editor="C:\\Program Files (x86)\\Notepad++\\notepad++.exe" -multiInst -notabbar -nosession -noPlugin
+user.user=LEONID HOMITSEVICH
+user.email=homln@tut.by
+user.name=Homln
+core.repositoryformatversion=0
+core.filemode=false
+core.bare=false
+core.logallrefupdates=true
+core.symlinks=false
+core.ignorecase=true
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git status
+On branch master
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ vi gitignore
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        gitignore
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+        my work.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+        lhomitsevich/
+        my work.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git add
+.gitignore   my work.txt
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git add --all
+warning: LF will be replaced by CRLF in .gitignore.
+The file will have its original line endings in your working directory
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   .gitignore
+        new file:   my work.txt
+
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git commit -m "one commit"
+[master (root-commit) f9bd1a7] one commit
+ 2 files changed, 2 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 my work.txt
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git commit -m "two commit master"
+On branch master
+nothing to commit, working tree clean
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git log --oneline
+f9bd1a7 (HEAD -> master) one commit
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git add --all
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ dir
+lhomitsevich  my\ work.txt  tmp
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git commit -m "dissapear commit"
+On branch master
+nothing to commit, working tree clean
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git commit -m "dissapear commit"
+On branch master
+Changes not staged for commit:
+        modified:   my work.txt
+
+no changes added to commit
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git log --online
+fatal: unrecognized argument: --online
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git log
+HEAD     master
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git log master
+HEAD     master
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git log master
+HEAD     master
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git log master
+commit f9bd1a7eeefe6497fa049e336169d9fbd72f64f5 (HEAD -> master)
+Author: Homln <homln@tut.by>
+Date:   Thu Oct 24 18:37:13 2019 +0300
+
+    one commit
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git log master  --online
+fatal: unrecognized argument: --online
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git log master
+commit f9bd1a7eeefe6497fa049e336169d9fbd72f64f5 (HEAD -> master)
+Author: Homln <homln@tut.by>
+Date:   Thu Oct 24 18:37:13 2019 +0300
+
+    one commit
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git commit --amend -a
+[master af24d88] one commit master
+ Date: Thu Oct 24 18:37:13 2019 +0300
+ 2 files changed, 3 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 my work.txt
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git log --online
+fatal: unrecognized argument: --online
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git log
+HEAD     master
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git log
+commit af24d881abf5e321ca1665aadbc0571c43160bc5 (HEAD -> master)
+Author: Homln <homln@tut.by>
+Date:   Thu Oct 24 18:37:13 2019 +0300
+
+    one commit master
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ date >my
+.git/         .gitignore    lhomitsevich/ my work.txt   tmp/
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ date >my
+.git/         .gitignore    lhomitsevich/ my work.txt   tmp/
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ date >my work.txt
+date: invalid date ‘work.txt’
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ date > my work.txt
+date: invalid date ‘work.txt’
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ date> my work.txt
+date: invalid date ‘work.txt’
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ vi work.txt
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ date > work.txt
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git commit -m "dissaper commit"
+On branch master
+Untracked files:
+        my
+        work.txt
+
+nothing added to commit but untracked files present
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git log
+HEAD     master
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git log master
+commit af24d881abf5e321ca1665aadbc0571c43160bc5 (HEAD -> master)
+Author: Homln <homln@tut.by>
+Date:   Thu Oct 24 18:37:13 2019 +0300
+
+    one commit master
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git commit --amend -a
+[master 18d12d7] one commit master
+ Date: Thu Oct 24 18:37:13 2019 +0300
+ 2 files changed, 3 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 my work.txt
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git add -all
+error: did you mean `--all` (with two dashes ?)
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git add --all
+warning: LF will be replaced by CRLF in work.txt.
+The file will have its original line endings in your working directory
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git add --allgit commit -m "dissaper commit two"
+error: unknown option `allgit'
+usage: git add [<options>] [--] <pathspec>...
+
+    -n, --dry-run         dry run
+    -v, --verbose         be verbose
+
+    -i, --interactive     interactive picking
+    -p, --patch[=<patch-mode>]
+                          select hunks interactively
+    -e, --edit            edit current diff and apply
+    -f, --force           allow adding otherwise ignored files
+    -u, --update          update tracked files
+    --renormalize         renormalize EOL of tracked files (implies -u)
+    -N, --intent-to-add   record only the fact that the path will be added later
+    -A, --all             add changes from all tracked and untracked files
+    --ignore-removal      ignore paths removed in the working tree (same as --no-all)
+    --refresh             don't add, only refresh the index
+    --ignore-errors       just skip files which cannot be added because of errors
+    --ignore-missing      check if - even missing - files are ignored in dry run
+    --chmod (+|-)x        override the executable bit of the listed files
+
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git commit -m "dissaper commit two"
+[master cce13be] dissaper commit two
+ 2 files changed, 1 insertion(+)
+ create mode 100644 my
+ create mode 100644 work.txt
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git log master
+commit cce13bee2ff10dad2f4d481adee11530b108d38f (HEAD -> master)
+Author: Homln <homln@tut.by>
+Date:   Thu Oct 24 19:09:12 2019 +0300
+
+    dissaper commit two
+
+commit 18d12d778686a3fdc57f6c853c4129fa7c53f865
+Author: Homln <homln@tut.by>
+Date:   Thu Oct 24 18:37:13 2019 +0300
+
+    one commit master
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git checkaut -b "dev"
+git: 'checkaut' is not a git command. See 'git --help'.
+
+The most similar command is
+        checkout
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git che
+checkout      cherry        cherry-pick
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git checkout
+HEAD     master
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git checkout -b "dev"
+Switched to a new branch 'dev'
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (dev)
+$ git branch
+* dev
+  master
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (dev)
+$ date > features.txt
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (dev)
+$ git add --all
+warning: LF will be replaced by CRLF in features.txt.
+The file will have its original line endings in your working directory
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (dev)
+$ git commit -m "Commit to the one dev"
+[dev 3596af6] Commit to the one dev
+ 1 file changed, 1 insertion(+)
+ create mode 100644 features.txt
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (dev)
+$ date > date.txt
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (dev)
+$ git commit -m "Commit to the one dev"
+On branch dev
+Untracked files:
+        date.txt
+
+nothing added to commit but untracked files present
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (dev)
+$ git add --all
+warning: LF will be replaced by CRLF in date.txt.
+The file will have its original line endings in your working directory
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (dev)
+$ git commit -m "Commit to the one dtwo"
+[dev 64ad8e3] Commit to the one dtwo
+ 1 file changed, 1 insertion(+)
+ create mode 100644 date.txt
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (dev)
+$ git che
+checkout      cherry        cherry-pick
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (dev)
+$ git che
+checkout      cherry        cherry-pick
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (dev)
+$ git checkout -b features
+Switched to a new branch 'features'
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (features)
+$ date > help.txt
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (features)
+$ git add --all
+warning: LF will be replaced by CRLF in help.txt.
+The file will have its original line endings in your working directory
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (features)
+$ git commit -m "Commit to the one features"
+[features 626a58b] Commit to the one features
+ 1 file changed, 1 insertion(+)
+ create mode 100644 help.txt
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (features)
+$ git che
+checkout      cherry        cherry-pick
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (features)
+$ git checkout master
+Switched to branch 'master'
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (master)
+$ git checkout -b hotfix
+Switched to a new branch 'hotfix'
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (hotfix)
+$ date > time.txt
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (hotfix)
+$ git add --all
+warning: LF will be replaced by CRLF in time.txt.
+The file will have its original line endings in your working directory
+
+Leonid&Aleksandra@Homln MINGW64 /e/WORK/m-sa2-10-19 (hotfix)
+$ git commit -m "Commit to the one hotfix"
+[hotfix 4cb429e] Commit to the one hotfix
+ 1 file changed, 1 insertion(+)
+ create mode 100644 time.txt
