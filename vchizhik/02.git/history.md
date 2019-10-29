@@ -1,6 +1,6 @@
- 500 git clone https://github.com/Vchizhik/sa.it-academy.by.git
- 501  cd /e/workbox/sa.it-academy.by/
- 502  git init
+500 git clone https://github.com/Vchizhik/sa.it-academy.by.git
+501  cd /e/workbox/sa.it-academy.by/
+502  git init
   
   503  mkdir vchizhik
   
