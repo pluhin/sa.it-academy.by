@@ -1,4 +1,5 @@
-    1  пше сдщту 
+```
+1  пше сдщту 
     2  git clone https://github.com/Homln/sa.it-academy.by.git
     3  git branch -a
     4  cd sa.it-academy.by/
@@ -7,7 +8,7 @@
     7  git init
     8  git checkout m-sa2-10-19 
     9  mkdir lhomitsevich
-    ```
+    
    10  cd lhomitsevich/
    11  mkdir 02.git.local
    12  vi readme.md
@@ -59,3 +60,4 @@
    58  git commit -m "My first commit hotfix/we_gonna_die"
    59  git checkout m-sa2-10-19 
    60  history >> history.md
+```
