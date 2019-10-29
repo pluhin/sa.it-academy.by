@@ -7,6 +7,7 @@
     7  git init
     8  git checkout m-sa2-10-19 
     9  mkdir lhomitsevich
+    ```
    10  cd lhomitsevich/
    11  mkdir 02.git.local
    12  vi readme.md
