@@ -49,8 +49,6 @@
 544  git log --oneline
 545  history
   
----
-  
 8d817db m_11542b7e (HEAD -> master) Merge branch 'hotfix/we_gonna_die' 
 08d4d3a (hotfix/we_gonna_die) h_1
 ee08b53 (features/do_one) f_1
@@ -58,8 +56,6 @@ ee08b53 (features/do_one) f_1
 3922020 d_1
 0d061d6 m_2
 8d817db m_1
-
----
 
 $ git log --oneline
 81857d8 (HEAD -> features/do_one) Merge branch 'hotfix/we_gonna_die' into features/do_one
@@ -69,8 +65,6 @@ ee08b53 f_1
 3922020 d_1
 0d061d6 m_2
 8d817db m_1
-
----
 
 $ git log --oneline
 1542b7e (HEAD -> master) Merge branch 'hotfix/we_gonna_die'
