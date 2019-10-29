@@ -87,7 +87,7 @@ Gitlab CE deployment *(Additional task)*
 
 - Install Vagrant
 - Create VB guests:
-  - Alpine. Latest
+  - Debian. Latest
   - CentOS7. Latest
 - Create user: vagrant, pass: vagrant with NOPASSWD
 - Install: vim, git, wget, curl
@@ -100,7 +100,6 @@ Gitlab CE deployment *(Additional task)*
   - Cent0S.Latest
   - Debian.Latest
 - Set RAM limit to 512MB
-- Set HDD limit to 10GB
 - Create user insider with NOPASSWD
 
 Create folder `04.Infrastructure.Vagrant.LXC`, all your urls to vagrant boxes in vagrant cloud, Vagrantfiles itself and config files for LXC with commands how-to run, put into file `04.Infrastructure.Vagrant.LXC.md`, then prepare PR (Pull Request)
