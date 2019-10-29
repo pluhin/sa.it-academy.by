@@ -87,7 +87,7 @@ Gitlab CE deployment *(Additional task)*
 
 - Install Vagrant
 - Create VB guests:
-  - Alpine. Latest
+  - Debian. Latest
   - CentOS7. Latest
 - Create user: vagrant, pass: vagrant with NOPASSWD
 - Install: vim, git, wget, curl
@@ -100,7 +100,6 @@ Gitlab CE deployment *(Additional task)*
   - Cent0S.Latest
   - Debian.Latest
 - Set RAM limit to 512MB
-- Set HDD limit to 10GB
 - Create user insider with NOPASSWD
 
 Create folder `04.Infrastructure.Vagrant.LXC`, all your urls to vagrant boxes in vagrant cloud, Vagrantfiles itself and config files for LXC with commands how-to run, put into file `04.Infrastructure.Vagrant.LXC.md`, then prepare PR (Pull Request)
@@ -225,7 +224,7 @@ Your Dockerfile and links to your Dockerhub put into folder `13. Docker. Lading`
 
 ## 14. Docker. Logistics
 
-- Automate task **11. Docker. Lading** by Jenkins
+- Automate task **13. Docker. Lading** by Jenkins
   - Use remote repo as source for build image
   - Make image locally (on Jenkins master/Slave)
   - Push image on Docker Hub
@@ -242,8 +241,8 @@ Your Dockerfile, docker-compose files, Jenkinsfile and Jenkins output put into f
 
 - Install minikube on your bare/virtual host
 - Provide access to the dashboard from your workstation
-- Automate it (bash/ansible/Jenkinsfile) 
-Your code and printscreen of dachboard put into folder `15. K8s. Structure` add to your repository, then prepare PR (Pull Request)
+- Automate it (bash/ansible/Jenkinsfile)
+Your code and printscreen of dashboard put into folder `15. K8s. Structure` add to your repository, then prepare PR (Pull Request)
 
 ## 16. K8s. Deployment
 
