@@ -1,7 +1,7 @@
 ## Chizhik Victor
 
 ## History
-
+```
 500 git clone https://github.com/Vchizhik/sa.it-academy.by.git
 501  cd /e/workbox/sa.it-academy.by/
 502  git init
@@ -74,7 +74,7 @@ ee08b53 f_1
 3922020 d_1
 0d061d6 m_2
 8d817db m_1
-
+```
   
   
 
