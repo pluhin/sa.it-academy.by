@@ -94,7 +94,8 @@ history
 * Outputs
 1. Master.
 
--initial
+- initial
+```bash
 esolonin@srv-home:/m-sa2-10-19$ git status
 On branch master
 
@@ -136,8 +137,9 @@ nothing to commit, working tree clean
 esolonin@srv-home:/m-sa2-10-19$ git log --oneline
 68bb111 (HEAD -> master) Second_commit_in_master
 a64be17 First_commit_in_master
-
--With dev\features commits
+```
+- With dev\features commits
+```bash
 esolonin@srv-home:/m-sa2-10-19$ git checkout master
 Switched to branch 'master'
 esolonin@srv-home:/m-sa2-10-19$ git log --oneline
@@ -156,8 +158,9 @@ esolonin@srv-home:/m-sa2-10-19$ git log --oneline
 e62395a First commit in dev
 68bb111 Second_commit_in_master
 a64be17 First_commit_in_master
-
--With hotfix commit
+```
+- With hotfix commit
+```bash
 esolonin@srv-home:/m-sa2-10-19$ git cherry-pick 89a34f0
 [master 00767fe] first commit in hotfix
  Date: Mon Oct 28 20:10:42 2019 +0000
@@ -169,11 +172,12 @@ esolonin@srv-home:/m-sa2-10-19$ git log --oneline
 e62395a First commit in dev
 68bb111 Second_commit_in_master
 a64be17 First_commit_in_master
-
+```
 ***
 2. Dev
 
--initial
+- initial
+```bash
 esolonin@srv-home:/m-sa2-10-19$ git checkout -b "dev"
 Switched to a new branch 'dev'
 esolonin@srv-home:/m-sa2-10-19$ git branch
@@ -206,8 +210,9 @@ esolonin@srv-home:/m-sa2-10-19$ git log --oneline
 e62395a First commit in dev
 68bb111 (master) Second_commit_in_master
 a64be17 First_commit_in_master
-
--With features branch commits
+```
+- With features branch commits
+```bash
 esolonin@srv-home:/m-sa2-10-19$ git checkout dev
 Switched to branch 'dev'
 esolonin@srv-home:/m-sa2-10-19$ git branch
@@ -232,8 +237,9 @@ esolonin@srv-home:/m-sa2-10-19$ git log --oneline
 e62395a First commit in dev
 68bb111 (master) Second_commit_in_master
 a64be17 First_commit_in_master
-
--Rebased with hotfix
+```
+- Rebased with hotfix
+```bash
 esolonin@srv-home:/m-sa2-10-19$ git checkout dev
 Switched to branch 'dev'
 esolonin@srv-home:/m-sa2-10-19$ git log --oneline
@@ -257,11 +263,12 @@ esolonin@srv-home:/m-sa2-10-19$ git log --oneline
 e62395a First commit in dev
 68bb111 Second_commit_in_master
 a64be17 First_commit_in_master
-
+```
 ***
 3. Features/do_one
 
--initial
+- initial
+```bash
 esolonin@srv-home:/m-sa2-10-19$ git checkout -b "features/do_one"
 Switched to a new branch 'features/do_one'
 esolonin@srv-home:/m-sa2-10-19$ git branch
@@ -286,8 +293,9 @@ esolonin@srv-home:/m-sa2-10-19$ git log --oneline
 e62395a First commit in dev
 68bb111 (master) Second_commit_in_master
 a64be17 First_commit_in_master
-
--Rebased with hotfix
+```
+- Rebased with hotfix
+```bash
 esolonin@srv-home:/m-sa2-10-19$ git checkout features/do_one
 Switched to branch 'features/do_one'
 esolonin@srv-home:/m-sa2-10-19$ git rebase dev
@@ -300,11 +308,12 @@ esolonin@srv-home:/m-sa2-10-19$ git log --oneline
 e62395a First commit in dev
 68bb111 Second_commit_in_master
 a64be17 First_commit_in_master
-
+```
 ***
 4. Hotfix/we_gonna_die
 
--initial
+- initial
+```bash
 esolonin@srv-home:/m-sa2-10-19$ git checkout -b "hotfix/we_gonna_die"
 Switched to a new branch 'hotfix/we_gonna_die'
 esolonin@srv-home:/m-sa2-10-19$ git status
@@ -327,5 +336,5 @@ esolonin@srv-home:/m-sa2-10-19$ git add --all
 esolonin@srv-home:/m-sa2-10-19$ git commit -m "first commit in hotfix"
 [hotfix/we_gonna_die 89a34f0] first commit in hotfix
  1 file changed, 2 insertions(+)
-
+```
  
