@@ -1,5 +1,5 @@
 ```
-1  пше сдщту 
+    1  git clon  
     2  git clone https://github.com/Homln/sa.it-academy.by.git
     3  git branch -a
     4  cd sa.it-academy.by/
