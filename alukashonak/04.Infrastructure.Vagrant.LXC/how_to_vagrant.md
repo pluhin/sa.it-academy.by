@@ -8,9 +8,10 @@ echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/dont-prompt-$
 `Апдейт и установка софта`
 
 ```
-sudo apt update && sudo apt install vim git wget curl -y ##Debian
-sudo yum update && sudo yum install vim git wget curl -y ##CentOS7
-
+## Debian
+sudo apt update && sudo apt install vim git wget curl -y
+## CentOS7
+sudo yum update && sudo yum install vim git wget curl -y
 ```
 
 
