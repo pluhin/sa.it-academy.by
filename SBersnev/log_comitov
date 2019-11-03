@@ -1,0 +1,42 @@
+commit c17e53de1aac6ba36aa52c345321199766356f54
+Merge: 41c8427 d734fb3
+Author: Bersnev Sergey <bersnev@tut.by>
+Date:   Mon Oct 28 01:47:16 2019 +0300
+
+    Merge branch 'hotfix/we_gonna_die'
+
+commit d734fb3895f5e74693372a3a2ba9f630fbbd62b8
+Author: Bersnev Sergey <bersnev@tut.by>
+Date:   Mon Oct 28 01:19:16 2019 +0300
+
+    add music
+
+commit 41c8427f771a432dd2c118d336308e48717af477
+Author: Bersnev Sergey <bersnev@tut.by>
+Date:   Mon Oct 28 01:16:03 2019 +0300
+
+    last brenches
+
+commit 5c8c63a293524f280191943e8dbb7b7bb0fd5b75
+Author: Bersnev Sergey <bersnev@tut.by>
+Date:   Mon Oct 28 01:13:01 2019 +0300
+
+    add date file
+
+commit 4c7a4fdb3cc279ee74a5ae1b433897ecf768d9a9
+Author: Bersnev Sergey <bersnev@tut.by>
+Date:   Mon Oct 28 01:11:48 2019 +0300
+
+    news
+
+commit d81238e4adae33e82e34375327187407d9f5cc1c
+Author: Bersnev Sergey <bersnev@tut.by>
+Date:   Mon Oct 28 01:10:05 2019 +0300
+
+    add spam
+
+commit 6f008585035efae12597f5f82ca3253ea8c35a36
+Author: Bersnev Sergey <bersnev@tut.by>
+Date:   Sun Oct 27 23:41:26 2019 +0300
+
+    test commit
