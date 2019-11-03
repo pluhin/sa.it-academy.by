@@ -1,0 +1,13 @@
+[echtp_internal:children]
+cent
+ubuntu
+
+[jump]
+178.124.206.48 ansible_user=jump_sa 
+
+[cent]
+centos_01 ansible_host=192.168.254.50
+
+[ubuntu]
+ubuntu_01 ansible_host=192.168.254.51 ansible_user=user
+
