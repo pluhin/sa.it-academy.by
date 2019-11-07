@@ -7,24 +7,28 @@
   include: http_RedHat.yaml
   when: ansible_os_family == 'RedHat'
 
-  #- name: Remove Index file
-  #file:
-  #  path: "{{ default_home }}/index.html"
-  #  state: absent
+- name: Remove Index file
+  file:
+    path: "{{ default_home }}/index.html"
+    state: absent
   
 - name: Copy first page
   copy:
     src: index.html
     dest: "{{ default_home }}"
-  notify:
-    - restart httpd  
+  notify: 
+    - restart apache
+
+- meta: flush_handlers  
 
 - name: Check file
   shell: |
     cat /etc/os-release | egrep "^NAME" | cut -d'"' -f 2
   register: out
-  #  notify:
-  #  - print out
+  notify:
+    - print out
+
+- meta: flush_handlers  
 
 - name: Check connection to Localhost
   wait_for:
