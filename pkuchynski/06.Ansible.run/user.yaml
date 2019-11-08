@@ -1,0 +1,16 @@
+---
+- hosts: r_servers
+  become: yes
+  tasks:
+  - name: Create user pawelk
+    user:
+      name: "pawelk"
+      state: present
+  - name: Copy authorized key 
+    authorized_key:
+      user: "pawelk"
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+  - name: Add sudo NOPASSWD for user
+    copy:
+      content: "pawelk ALL=(ALL:ALL) NOPASSWD:ALL"
+      dest: "/etc/sudoers.d/pawelk"
