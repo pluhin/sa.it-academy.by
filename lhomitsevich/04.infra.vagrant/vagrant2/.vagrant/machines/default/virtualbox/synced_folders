@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"D:/work/04/sa.it-academy.by/lhomitsevich/04.infra.vagrant/vagrant2","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
