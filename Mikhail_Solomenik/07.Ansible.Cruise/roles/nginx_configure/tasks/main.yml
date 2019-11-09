@@ -1,0 +1,4 @@
+---
+- name: Deploy
+  become: True
+  import_tasks: add_site.yml

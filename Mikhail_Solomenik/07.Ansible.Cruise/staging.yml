@@ -1,0 +1,13 @@
+---
+all:
+  hosts:
+    centos01:
+      ansible_host: 185.141.61.33
+    ubuntu01:
+      ansible_host: 94.156.35.165
+
+  children:
+    webservers:
+      hosts:
+        centos01:
+        ubuntu01:

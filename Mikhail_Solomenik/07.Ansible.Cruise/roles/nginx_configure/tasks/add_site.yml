@@ -1,0 +1,54 @@
+---
+- name: Creates sites directory
+  file:
+    path: /var/www/html
+    state: directory
+
+- name: Synchronization html directory
+  synchronize:
+    src: files/html/
+    dest: /var/www/html/
+
+- name: Creates Nginx config directories
+  with_items:
+  - /etc/nginx/sites-available/
+  - /etc/nginx/sites-enabled/
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: nginx
+    group: nginx
+
+- name: Update nginx.conf
+  notify:
+    - restart nginx
+  template: 
+    src: templates/nginx/nginx.conf.j2
+    dest: "/etc/nginx/nginx.conf"
+    owner: nginx
+    group: nginx
+
+- name: Create sites configs
+  notify:
+    - restart nginx
+  with_items: "{{ sites }}"
+  template: 
+    src: templates/nginx/nginx_sites.j2
+    dest: "/etc/nginx/sites-available/{{item}}"
+    owner: nginx
+    group: nginx
+
+# - name: Disable Nginx configs
+#   with_items: "{{ sites }}"
+#   file: 
+#     path: "/etc/nginx/sites-enabled/{{item}}"
+#     state: absent
+
+- name: Enable Nginx configs
+  with_items: "{{ sites }}"
+  notify:
+     - restart nginx
+  file:
+    src: "/etc/nginx/sites-available/{{item}}"
+    dest: "/etc/nginx/sites-enabled/{{item}}"
+    state: link
