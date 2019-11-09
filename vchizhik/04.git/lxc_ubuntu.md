@@ -15,7 +15,7 @@ lxc.net.0.hwaddr = 00:16:3e:xx:xx:xx
 
 ## Start
 ```
-lxc-create -t download -f config.conf -n ubuntu19 -- --dist centos --release 7 --arch amd64
+lxc-create -t download -f config.conf -n ubuntu19 -- --dist ubuntu --release 7 --arch amd64
 lxc-start -n ubuntu19
 cat bootstrap.sh | chroot /var/lib/lxc/ubuntu19/rootfs /bin/bash
 ```
