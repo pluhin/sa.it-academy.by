@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Victor Chizhik
 ## Vagrantfile
 
