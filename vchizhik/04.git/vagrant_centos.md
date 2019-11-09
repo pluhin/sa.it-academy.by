@@ -1,5 +1,7 @@
 # Victor Chizhik
 ## Vagrantfile
+
+***
 ```
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -66,6 +68,6 @@ Vagrant.configure("2") do |config|
      SHELL
 end
 ```
-
+***
 ## Vagrant box
 [Centos](https://app.vagrantup.com/vchizhik/boxes/centos)
