@@ -1,6 +1,7 @@
 # Victor Chizhik
 
 ## Vagrantfile
+***
 ```
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -77,7 +78,7 @@ Vagrant.configure("2") do |config|
  SHELL
 end
 ```
-
+***
 ##Vagrant box
 
 [ubuntu](https://app.vagrantup.com/vchizhik/boxes/ubuntubox)
