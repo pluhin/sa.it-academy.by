@@ -1,6 +1,5 @@
 # Victor Chizhik
 ## Vagrantfile
-
 ```
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
