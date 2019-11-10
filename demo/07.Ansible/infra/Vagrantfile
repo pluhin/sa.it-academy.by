@@ -1,0 +1,32 @@
+$script = <<-SCRIPT
+sudo runuser -l vagrant -c 'echo -e "\n\n\n" | ssh-keygen -t rsa'
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.define "cent_01" do |cent01|
+    cent01.vm.box = "centos/7"
+    cent01.vm.define "cent_01"
+    cent01.vm.network "public_network", ip: "192.168.1.201",  bridge: "eno1"
+    cent01.vm.provision "shell",
+        inline: $script
+    cent01.vm.provision "file", 
+        source: "authorized_keys", 
+        destination: "/home/vagrant/.ssh/authorized_keys"
+  end
+  config.vm.define "cent_02" do |cent02|
+    cent02.vm.box = "centos/7"
+    cent02.vm.define "cent_02"
+    cent02.vm.network "public_network", ip: "192.168.1.202",  bridge: "eno1"
+    cent02.vm.provision "shell",
+        inline: $script
+    cent02.vm.provision "file",
+        source: "authorized_keys",
+        destination: "/home/vagrant/.ssh/authorized_keys"
+ end
+ config.vm.define "ub" do |ub|
+    ub.vm.box = "bento/ubuntu-16.04"
+    ub.vm.define "ub_01"
+    ub.vm.network "public_network", ip: "192.168.1.203",  bridge: "eno1"
+ end
+end
+
