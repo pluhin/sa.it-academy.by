@@ -1,0 +1,16 @@
+---
+- hosts: webservers
+  become: yes
+  tasks:
+  - name: Create user mzhdanko
+    user:
+      name: "mzhdanko"
+      state: present
+  - name: Copy ssh-key
+    authorized_key:
+      user: "mzhdanko"
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+  - name: Add sudo, NOPASSWD for user
+    copy:
+      content: "mzhdanko ALL=(ALL:ALL) NOPASSWD:ALL"
+      dest: "/etc/sudoers.d/mzhdanko"
