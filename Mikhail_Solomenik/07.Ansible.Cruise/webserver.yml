@@ -1,0 +1,8 @@
+---
+- hosts: webservers
+  # strategy: free
+  roles:
+    - nginx_install
+    - nginx_configure
+    - nginx_tests
+
