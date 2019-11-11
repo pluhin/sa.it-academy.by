@@ -1,0 +1,17 @@
+all_srv:
+  vars:
+    ansible_user: ansu
+  hosts:
+    hq:
+      ansible_host: 192.168.6.9
+    slave1:
+      ansible_host: 192.168.6.10
+    slave2:
+      ansible_host: 192.168.6.11
+master:
+  hosts:
+    hq:
+slaves:
+  hosts:
+    slave1:
+    slave2:
