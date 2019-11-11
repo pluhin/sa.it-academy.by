@@ -1,0 +1,12 @@
+---
+yum_nginx_packages:
+  - nginx
+
+apt_nginx_packages:
+  - nginx
+
+default_home_debian: "/var/www/html/"
+default_home_redhat: "/usr/share/nginx/html/"
+virtual_hosts:
+  - { name: "centos_nginx.site", ip: "{{ hostvars[\"slave1\"].ansible_host }}"}
+  - { name: "ubuntu_nginx.site", ip: "{{ hostvars[\"slave2\"].ansible_host }}"}
