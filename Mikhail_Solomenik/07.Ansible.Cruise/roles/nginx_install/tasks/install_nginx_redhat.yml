@@ -1,0 +1,35 @@
+---
+- name: Install depends
+  yum:
+    name: yum-utils,rsync
+    state: present
+
+- name: Add Nginx stable repository
+  yum_repository:
+    name: Nginx-Stable
+    description: Nginx stable
+    baseurl: http://nginx.org/packages/centos/$releasever/$basearch/
+    gpgcheck: yes
+    enabled: yes
+    gpgkey: https://nginx.org/keys/nginx_signing.key
+
+- name: Add Nginx mainline repository
+  yum_repository:
+    name: Nginx-Mainline
+    description: Nginx mainline
+    baseurl: http://nginx.org/packages/mainline/centos/$releasever/$basearch/
+    gpgcheck: yes
+    enabled: no
+    gpgkey: https://nginx.org/keys/nginx_signing.key
+
+- name: Add Nginx mainline repository
+  yum:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Start Nginx
+  service:
+      name: nginx
+      state: started
+      enabled: yes
