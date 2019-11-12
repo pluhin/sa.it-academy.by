@@ -1,0 +1,40 @@
+---
+- hosts: proxmox_main
+  gather_facts: no
+  vars:
+    start_counter: "{{ start_from_jenkins }}"
+    finish_counter: "{{ finish_from_jenkins }}"
+    ip_start: 192.168.200.
+    gw: 192.168.37.1
+    os_template:
+      - { name: 'ubuntu', template: 'local:vztmpl/ubuntu-16.04-standard_16.04.5-1_amd64.tar.gz' }
+      - { name: 'centos', template: 'local:vztmpl/centos-7-default_20190926_amd64.tar.xz' }
+    settings:
+      cores: 4
+      memory: 3072
+      swap: 2048
+      disk: 10
+      pass: QwertY_13
+  tasks:
+    - name: Create hosts
+      proxmox:
+        vmid: "300{{ item }}"
+        node: 'proxmox'
+        api_host: localhost
+        api_user: '{{ p5x_user }}'
+        api_password: '{{ p5x_pass }}'
+        hostname: "sa-{{ os_template[0].name if item % 2 == 0 else os_template[1].name }}-{{ item }}"
+        password: '{{ settings.pass }}'
+        ostemplate: "{{ os_template[0].template if item % 2 == 0 else os_template[1].template }}"
+        netif: '{"net0":"name=eth0,gw={{ gw }},ip={{ ip_start }}{{ item }}/16,bridge=vmbr0"}'
+        cores: "{{ settings.cores }}"
+        storage: local-lvm
+        memory: "{{ settings.memory }}"
+        swap: "{{ settings.swap }}"
+        disk: "{{ settings.disk }}"
+        pool: 'SA'
+        onboot: yes
+        force: yes
+      loop: "{{ range(start_counter|int, finish_counter|int + 1 )|list }}"
+      tags:
+        - create

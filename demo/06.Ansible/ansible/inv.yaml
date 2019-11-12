@@ -1,0 +1,19 @@
+webservers:
+  hosts:
+    cent_01:
+    ub_01:
+
+localhosts:
+  children:
+    linux_hosts:
+      vars:
+        ansible_user: vagrant
+      hosts:
+        cent_01:
+          ansible_host: 192.168.1.201
+        cent_02:
+          ansible_host: 192.168.1.202
+        ub_01:
+          ansible_host: 192.168.1.203
+
+

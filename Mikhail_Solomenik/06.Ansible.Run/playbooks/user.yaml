@@ -1,0 +1,54 @@
+---
+- hosts: all
+  become: True
+  strategy: free
+  vars:
+    user: ansible
+
+  tasks:
+  - name: Create user
+    vars:
+      sudoGroup: "{{ 'sudo' if ansible_distribution == 'Ubuntu' else 'wheel' }}"
+    user:
+      shell: /bin/bash
+      name: "{{user}}"
+      groups: "{{sudoGroup}}"
+
+  - name: Add keys
+    authorized_key:
+      user: "{{ user }}"
+      key: "{{ lookup('file', ansible_ssh_private_key_file+'.pub') }}"
+
+  - name: Give ansible user sudo privilege
+    lineinfile:
+      dest: "/etc/sudoers"
+      state: "present"
+      regexp: "^{{ user }}"
+      line: "{{ user }} ALL=(ALL) NOPASSWD:ALL"
+
+  - name: Disable password login for user
+    lineinfile:
+      dest: "/etc/ssh/sshd_config"
+      state: "present"
+      regexp: "^PasswordAuthentication"
+      line: "PasswordAuthentication no"
+    register: securelogin
+
+  - name: Restart sshd if `PasswordAuthentication` changed
+    when: securelogin.changed
+    service: 
+      name: sshd
+      state: restarted
+
+  - name: Update Ubuntu
+    when: ansible_distribution == "Ubuntu"
+    apt:
+      force_apt_get: True
+      upgrade: full
+      update_cache: yes
+
+  - name: Update CentOS
+    when: ansible_distribution == "CentOS"
+    yum:
+      name: '*'
+      state: latest
