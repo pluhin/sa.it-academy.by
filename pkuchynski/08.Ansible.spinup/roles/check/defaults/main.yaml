@@ -1,0 +1,16 @@
+user: "vagrant"
+
+centos_repos:
+  - 'http://rpms.remirepo.net/enterprise/'
+  - 'http://centos.mirror.liquidtelecom.com/'
+  - 'http://repos-jnb.psychz.net/centos/'
+
+debian_repos:
+  - 'http://ftp2.de.debian.org/debian/'
+  - 'http://ftp.au.debian.org/debian/'
+
+pip_repo:
+  - 'https://pypi.org/'
+
+RAM_min: "256"
+HDD_min: "50000000000"
