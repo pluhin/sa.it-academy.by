@@ -1,0 +1,6 @@
+---
+- hosts: sa_hosts
+  become: yes
+  roles:
+    - nginx
+    
