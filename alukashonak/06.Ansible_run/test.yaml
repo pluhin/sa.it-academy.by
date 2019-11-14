@@ -1,0 +1,28 @@
+---
+- hosts: webservers
+  vars:
+    var_01: "Hi"
+    var_02: true
+    var_03: 42
+    array:
+      - first
+      - second
+    dic:
+      - {name: some, test: test }
+      - {name: some1, test: test1 }
+  tasks:
+    - name: Print host vars
+      debug:
+        msg: "{{ hostvars[inventory_hostname].ansible_host }},{{ ansible_user }}"
+      tags:
+        - inv: check
+        - all_print
+    - name: Print vars
+      debug:
+        msg: "Var01 is {{ var_01 }}, dic[0] is: {{ item.name }}"
+      tags:
+        - vars_print
+      loop: "{{ dic }}"
+    - name: Print all inventory
+      debug:
+       msg:
