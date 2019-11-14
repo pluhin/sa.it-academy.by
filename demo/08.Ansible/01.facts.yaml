@@ -1,0 +1,22 @@
+---
+- hosts: cent_01
+  tasks:
+  - name: Set fact 01
+    set_fact:
+      message_from_jump: "we've been on Jump"
+      cacheable: yes
+  -  name: Print fact from Jump
+     debug:
+       msg: "Fact from Jump is {{ ansible_facts.message_from_jump }}"
+
+- hosts: cent_02
+  tasks:
+  - name: Print fact from Jump
+    debug:
+      msg: "Fact from Jump is {{ hostvars['cent_01'].message_from_jump }}"
+  - name:
+    set_fact:
+      test_fact: "{{ lookup('env', 'vault_pass') | default('secret_vault_pass', true) }}"
+  - name: Print fact from Jumps
+    debug:
+      msg: "Vault pass is {{ test_fact }}"

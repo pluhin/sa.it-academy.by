@@ -1,0 +1,24 @@
+---
+localhosts:
+  children:
+    linux_hosts:
+      hosts:
+        centos_103:
+          ansible_user: mel
+          ansible_host: 192.168.56.103
+        ubuntu_102:
+          ansible_user: mel
+          ansible_host: 192.168.56.102
+          
+sa_hosts:
+  children:
+    sa_linux_hosts:
+      hosts:
+        centos_23:
+          ansible_user: ansible_user
+          ansible_host: 192.168.200.23
+        ubuntu_24:
+          ansible_user: ansible_user
+          ansible_host: 192.168.200.24
+      
+
