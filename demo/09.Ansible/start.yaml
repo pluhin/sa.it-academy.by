@@ -1,4 +1,4 @@
-- hosts: redmine_01
+- hosts: all
   become: true
   roles:
     - redmine
