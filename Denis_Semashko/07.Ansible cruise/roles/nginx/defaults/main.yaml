@@ -1,0 +1,10 @@
+---
+virtual_domains:
+  - "vhost_01.local"
+  - "vhost_02.local"
+
+virtual_hosts:
+  - { name: "vhost_01.local", ip: "{{ hostvars[\"centos_01\"].ansible_host }}"}
+  - { name: "vhost_02.local", ip: "{{ hostvars[\"centos_01\"].ansible_host }}"}
+  - { name: "vhost_01.local", ip: "{{ hostvars[\"ubuntu_01\"].ansible_host }}"}
+  - { name: "vhost_02.local", ip: "{{ hostvars[\"ubuntu_01\"].ansible_host }}"}
