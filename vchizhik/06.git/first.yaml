@@ -1,0 +1,13 @@
+--- 
+- hosts: allhost
+  become: yes
+  tasks:
+    - name: System info
+      vars:  
+       msg: |
+         - "{{ ansible_distribution }}" | "{{ ansible_distribution_version }}"
+         - "{{ ansible_mounts.size_total }}"
+         - "RAM: total:{{ ansible_memory_mb.real.total }}" | "free: {{ ansible_memory_mb.real.free }}"
+      debug:
+        msg: "{{ msg.split('\n') }}"      
+              
