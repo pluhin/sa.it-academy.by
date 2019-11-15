@@ -1,0 +1,16 @@
+---
+- hosts: ubuntu
+  become: yes
+  tasks:
+      - name: Create new user
+        user:
+            name: "insider"
+            state: present
+      - name: Copy ssh key
+        authorized_key:
+            user: "insider"
+            key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+      - name: Add sudo, NOPASSWD for insider
+        copy:
+            content: "insidr ALL=(ALL) NOPASSWD: ALL"
+            dest: "/etc/sudoers.d/insider"

@@ -1,0 +1,18 @@
+---
+- hosts: all
+  tasks:
+    - name: OS version
+      debug:
+        msg: "{{ ansible_distribution }} {{ ansible_distribution_major_version }}"
+
+    - name: Mount Point
+      debug: 
+        msg: "{{ item.device }} size: {{item.size_total}} avalible: {{item.size_available}}"
+      with_items: "{{ ansible_mounts }}"
+      loop_control:
+        label: "{{ item.device }}"
+
+    - name: Memory
+      debug: 
+        msg: "Total: {{ ansible_memtotal_mb }} Free: {{ansible_memfree_mb}}"
+        
