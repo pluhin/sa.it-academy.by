@@ -1,0 +1,18 @@
+centos:
+  hosts:
+    centos_01:
+
+ubuntu:
+  hosts:
+    ubuntu_01:
+
+localhost:
+  children:
+    linux_hosts:
+      vars:
+        ansible_user: vagrant
+      hosts:
+        centos_01:
+          ansible_host: 192.168.43.125
+        ubuntu_01:
+          ansible_host: 192.168.43.138
