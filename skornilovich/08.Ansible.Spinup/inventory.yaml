@@ -1,0 +1,17 @@
+all_srv:
+  vars:
+    ansible_ssh_private_key_file: ~/.ssh/temp_id
+  hosts:
+    hq:
+      ansible_host: 192.168.6.9
+      ansible_user: ansu
+    hqwithpassword:
+      ansible_host: 192.168.6.9
+      ansible_user: nextuser
+      ansible_become_pass: nextuser
+    slave1:
+      ansible_host: 192.168.6.10
+      ansible_user: ansu
+    slave2:
+      ansible_host: 192.168.6.11
+      ansible_user: ansu
