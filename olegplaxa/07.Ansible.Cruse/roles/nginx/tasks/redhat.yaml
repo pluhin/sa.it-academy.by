@@ -1,0 +1,20 @@
+- name: Centos.Nginx.Prepare
+  yum:
+    name: yum-utils
+    update_cache: yes
+    state: present
+
+- name: Centos.Nginx.Repository 
+  yum_repository:
+    name: nginx-stable
+    description: nginx stable repo
+    baseurl: http://nginx.org/packages/centos/$releasever/$basearch/
+    gpgcheck: yes
+    enabled: yes
+    gpgkey: https://nginx.org/keys/nginx_signing.key
+
+- name: Centos.Nginx.Install
+  yum:
+    name: nginx
+    update_cache: yes
+    state: present
