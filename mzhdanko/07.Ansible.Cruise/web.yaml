@@ -1,0 +1,5 @@
+---
+- hosts: webservers
+  become: true
+  roles:
+    - nginx

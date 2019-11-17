@@ -1,0 +1,77 @@
+---
+- name: Install Nginx on Ubuntu
+  include: debian.yaml
+  when: ansible_os_family == "Debian"
+
+- name: Install Nginx on CentOS
+  include: redhat.yaml
+  when: ansible_os_family == "RedHat"
+
+- name: Start.Nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Create directory "/var/www/example/"
+  file:
+    path: "/var/www/example/"
+    state: directory
+
+- name: Add virtualhost file
+  template:
+    src: default.conf.j2
+    dest: "/etc/nginx/conf.d/default.conf"
+  notify:
+
+- name: Copy first page
+  copy:
+    src: index.html
+    dest: "/var/www/example/"
+  notify:
+    - restart nginx
+
+- name: Templates Install
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    backup: yes
+
+- name: Check connection to Localhost
+  wait_for:
+    host: localhost
+    port: 80
+    state: started
+  tags:
+    - checks
+
+- name: Check content sites
+  uri:
+    url: http://localhost
+    return_content: yes
+  register: this
+  failed_when: "'world' not in this.content "
+  tags:
+    - checks
+- debug:
+    msg: "{{ this.status }}"
+  tags:
+    - checks
+
+- name: Check sites
+  uri:
+    url: "http://{{item.name}}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: out
+  tags:
+    - checks
+
+- name: Print out content
+  debug:
+    msg: "{{item.content}}"
+  loop: "{{out.results}}"
+  loop_control:
+    label: "{{ item.content }}"
+  tags:
+    - checks
