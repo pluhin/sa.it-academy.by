@@ -1,0 +1,16 @@
+---
+ - name: Add EPEL Repo
+   yum:
+     name: epel-release
+     state: present
+
+ - name: Nginx installation for RHEL-based os
+   package:
+     name: nginx
+     state: latest
+
+ - name: Nginx. Enable and start service
+   service:
+     name: nginx
+     state: started
+     enabled: yes

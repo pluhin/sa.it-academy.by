@@ -1,0 +1,55 @@
+---
+- name: Include deploy for Debian systems
+  include: nginx_debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include: nginx_redhat.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Enable and start service nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Create virtualhosts
+  template:
+    src: "templates/nginx_vhost.conf.j2"
+    dest: "/etc/nginx/conf.d/{{ item }}.conf"
+  loop: "{{ virtual_domains }}"
+  notify:
+    - reload nginx
+
+- meta: flush_handlers
+
+- name: Create home directory for site
+  file:
+    path: /var/www/{{ item }}
+    state: directory
+  loop: "{{ virtual_domains }}"
+
+- name: Copy first page on the virtualhost1
+  copy:
+    src: index-host1.html
+    dest: "/var/www/vhost_01.local/index.html"
+
+- name: Copy first page on the virtualhost2
+  copy:
+    src: index-host2.html
+    dest: "/var/www/vhost_02.local/index.html"
+
+- name: Create hosts file
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+
+- name: Checking the availability of virtual host sites
+  uri:
+    url: "http://{{ item }}"
+    return_content: yes
+    status_code: 200
+  register: webpage
+  failed_when: "'HOST' not in webpage.content"
+  loop: "{{ virtual_domains }}"

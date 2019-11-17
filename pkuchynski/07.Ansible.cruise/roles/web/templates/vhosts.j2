@@ -1,0 +1,14 @@
+server {
+    listen 80;
+    server_name "{{ hostvars[inventory_hostname].ansible_hostname }}.site";
+
+    root "{{ default_home }}";
+
+    access_log /var/log/nginx/{{inventory_hostname}}/{{inventory_hostname}}-access.log;
+    error_log  /var/log/nginx/{{inventory_hostname}}/{{inventory_hostname}}-error.log;
+
+    location /
+
+    { autoindex {{autoindex_enable|default('off')}}; }
+}
+

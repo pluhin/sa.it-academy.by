@@ -1,0 +1,12 @@
+centos_repos:
+  - 'http://ftp.byfly.by/pub/CentOS/'
+  - 'http://mirror.datacenter.by/pub/CentOS/'
+  - 'http://centos.mirror.omnilance.com/'
+ubuntu_repos:
+  - 'http://by.archive.ubuntu.com/ubuntu'
+  - 'http://mirror.datacenter.by/ubuntu/'
+  - 'http://ftp.byfly.by/ubuntu/'
+pip_repo:
+  - 'https://pypi.org/'
+ram_min: "256"
+hdd_min: "400000000"

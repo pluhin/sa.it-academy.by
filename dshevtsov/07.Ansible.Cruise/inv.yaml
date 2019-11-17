@@ -1,0 +1,13 @@
+localhosts:
+  children:
+   linux_hosts:
+    vars:
+      ansible_user: ansible
+    hosts:
+     centos:
+       ansible_host: 192.168.1.219
+       hostname: cent.dot.local 
+     ubuntu:
+       ansible_host: 192.168.1.133
+       hostname: ubuntu.dot.local 
+
