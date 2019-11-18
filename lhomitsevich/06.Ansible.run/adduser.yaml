@@ -1,0 +1,16 @@
+---
+- hosts: linux
+  become: yes
+  tasks:
+  - name: AddUsers
+    user:
+      name: "leo"
+      state: present
+  - name: Copy ssh
+    authorized_key:
+      user: "leo"
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+  - name: Add sudo, NOPASSWD for user
+    copy:
+      content: "leo ALL=(ALL:ALL) NOPASSWD:ALL"
+      dest: "/etc/sudoers.d/leo"
