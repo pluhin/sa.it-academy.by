@@ -1,0 +1,71 @@
+--> [36mValidating schema /home/mel1/08_Ansible_spinup/roles/check_role/molecule/default/molecule.yml.[0m
+[32mValidation completed successfully.[0m
+--> [36mTest matrix[0m
+    
+└── default
+    ├── lint
+    ├── dependency
+    ├── cleanup
+    ├── destroy
+    ├── syntax
+    ├── create
+    ├── prepare
+    ├── converge
+    ├── idempotence
+    ├── side_effect
+    ├── verify
+    ├── cleanup
+    └── destroy
+    
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'lint'[0m
+--> [36mExecuting Yamllint on files found in /home/mel1/08_Ansible_spinup/roles/check_role/...[0m
+[32mLint completed successfully.[0m
+--> [36mExecuting Flake8 on files found in /home/mel1/08_Ansible_spinup/roles/check_role/molecule/default/tests/...[0m
+[32mLint completed successfully.[0m
+--> [36mExecuting Ansible Lint on /home/mel1/08_Ansible_spinup/roles/check_role/molecule/default/playbook.yml...[0m
+    [1;31m[301][0m [0;31mCommands should not change things if nothing needs doing[0m
+    [0;34m/home/mel1/08_Ansible_spinup/roles/check_role/tasks/check_Debian.yaml[0m:[0;36m1[0m
+    [0;35mTask/Handler: Check repo Debian[0m
+    
+    [1;31m[301][0m [0;31mCommands should not change things if nothing needs doing[0m
+    [0;34m/home/mel1/08_Ansible_spinup/roles/check_role/tasks/check_RedHat.yaml[0m:[0;36m1[0m
+    [0;35mTask/Handler: Check repo RedHat[0m
+    
+    [1;31m[303][0m [0;31myum used in place of yum module[0m
+    [0;34m/home/mel1/08_Ansible_spinup/roles/check_role/tasks/check_RedHat.yaml[0m:[0;36m1[0m
+    [0;35mTask/Handler: Check repo RedHat[0m
+    
+    [1;31m[301][0m [0;31mCommands should not change things if nothing needs doing[0m
+    [0;34m/home/mel1/08_Ansible_spinup/roles/check_role/tasks/main.yaml[0m:[0;36m10[0m
+    [0;35mTask/Handler: Check SUDO[0m
+    
+    [1;31m[306][0m [0;31mShells that use pipes should set the pipefail option[0m
+    [0;34m/home/mel1/08_Ansible_spinup/roles/check_role/tasks/main.yaml[0m:[0;36m10[0m
+    [0;35mTask/Handler: Check SUDO[0m
+    
+[33mAn error occurred during the test sequence action: 'lint'. Cleaning up.[0m
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'cleanup'[0m
+[33mSkipping, cleanup playbook not configured.[0m
+--> [36mScenario: 'default'[0m
+--> [36mAction: 'destroy'[0m
+--> [36mSanity checks: 'docker'[0m
+    
+    PLAY [Destroy] *****************************************************************
+    
+    TASK [Destroy molecule instance(s)] ********************************************
+    [0;33mchanged: [localhost] => (item=instance_centos)[0m
+    [0;33mchanged: [localhost] => (item=instance_ubuntu)[0m
+    
+    TASK [Wait for instance(s) deletion to complete] *******************************
+    [0;32mok: [localhost] => (item=None)[0m
+    [0;32mok: [localhost] => (item=None)[0m
+    [0;32mok: [localhost][0m
+    
+    TASK [Delete docker network(s)] ************************************************
+    
+    PLAY RECAP *********************************************************************
+    [0;33mlocalhost[0m                  : [0;32mok=2   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0
+    
+--> [36mPruning extra files from scenario ephemeral directory[0m
