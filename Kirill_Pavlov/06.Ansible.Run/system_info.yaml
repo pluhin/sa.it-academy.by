@@ -1,0 +1,24 @@
+---
+- hosts: remote_hosts
+  become: true
+  tasks:
+    - name: OS/version
+      debug:
+        msg: "{{ ansible_distribution }} {{ ansible_distribution_version }} {{ ansible_architecture }}"
+      tags:
+        - all
+        - os-version
+    - name: Mount point/capacity/used
+      debug:
+        msg: "Mount point: '{{ item.mount }}' Total_space: {{ item.size_total//1024//1024 }}Mb Used_space: {{ (item.size_total-item.size_available)//1024//1024 }}Mb"
+      with_items: "{{ ansible_mounts }}"
+      tags:
+        - all
+        - disk
+    - name: RAM/capacity/free
+      debug:
+        msg: "Total_memory:{{ ansible_memory_mb.real.total }} Free_memory: {{ ansible_memory_mb.real.free }}"
+      tags:
+        - all
+        - memory
+...

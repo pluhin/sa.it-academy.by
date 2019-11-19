@@ -1,0 +1,17 @@
+---
+- name: Add epel-release repo for CentOS
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install nginx for CentOS
+  yum:
+    name: nginx
+    state: present
+
+- name: Replace nginx.conf in CentOS
+  vars:
+    nginx_user: nginx
+  template:
+    src: "templates/nginx.conf.j2"
+    dest: "/etc/nginx/nginx.conf"

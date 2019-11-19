@@ -1,0 +1,30 @@
+---
+- hosts: remote_hosts
+  become: true
+  tasks:
+    - name: Create user "ansible"
+      user:
+        name: ansible
+        state: present
+
+    - name: Add ssh key from ansible host to ansible user
+      authorized_key:
+        user: ansible
+        state: present
+        key: "{{ lookup('file','~/.ssh/id_rsa.pub') }}"
+
+    - name: Get sudoers privileges whithout password
+      lineinfile: 
+        path: /etc/sudoers
+        state: present
+        regexp: '^ansible'
+        line: "ansible ALL=(ALL) NOPASSWD: ALL"
+
+    - name: Update CentOS system 
+      shell: sudo -u ansible sudo yum -y update
+      when: ansible_distribution == "CentOS"
+
+    - name: Update Ubuntu system
+      shell: sudo -u ansible sudo apt-get update && sudo apt-get -y dist-upgrade
+      when: ansible_distribution == "Ubuntu"
+...

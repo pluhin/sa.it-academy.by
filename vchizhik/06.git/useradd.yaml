@@ -1,0 +1,15 @@
+--- 
+- hosts: allhost
+  become: yes
+  tasks:
+     - name: adduser
+       user:
+            name: "ansible"
+     - name: copy-ssh
+       authorized_key:
+            user: "ansible"
+            key: "{{ lookup('file','/home/ansible/.ssh/id_rsa.pub') }}"
+     - name: NOPASSWD for USER
+       lineinfile:
+            path: /etc/sudoers
+            line: ansible ALL=NOPASSWD:ALL
