@@ -1,0 +1,45 @@
+---
+- name: For Debian
+  include: check_Debian.yaml
+  when: ansible_os_family == "Debian"
+
+- name: For Centos
+  include: check_RedHat.yaml
+  when: ansible_os_family == "RedHat"
+
+- name: Check SUDO
+  shell: sudo -l -U mel|tail -n 3
+  register: sudo_out
+
+- name: Print SUDO
+  debug:
+    msg: "{{ sudo_out.stdout }}"
+
+- name: Check content hub.docker.com
+  uri:
+    url: "https://hub.docker.com/repository/docker/olegarh/olegarh_pl"
+    return_content: yes
+  register: out_docker
+  tags:
+    - docker
+
+- name: Print content hub.docker.com
+  debug:
+    msg: "{{ out_docker.content }}"
+  tags:
+    - docker
+
+- name: Check disk space
+  assert:
+    that:
+      - not {{ item.mount == '/' and ( item.size_available//1000 < 5000) }}
+    fail_msg: "ERROR: Not enough memory. Need: 500M . Disk has: {{ item.size_available//1000 }}M"
+    quiet: true
+  loop: "{{ ansible_mounts }}"
+
+- name: Check RAM
+  assert:
+    that:
+      - not {{ ansible_memory_mb.real.total < 500 }}
+    fail_msg: "ERROR: Not enough RAM memory. Need: 500"
+    quiet: true

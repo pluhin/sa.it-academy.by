@@ -1,0 +1,6 @@
+---
+- hosts: localhosts
+  become: yes
+  roles:
+    - check_role
+    
