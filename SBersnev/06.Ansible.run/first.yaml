@@ -1,0 +1,22 @@
+---
+- hosts: allhosts
+  gather_facts: true
+  #strategy: free
+  vars:
+    var_01: "test"
+  tasks:
+  - name: OS/version
+    debug:
+      msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+    tags:
+      - os_version
+  - name: Mount point/capacity/used
+    debug:
+      msg: "{{ ansible_mounts }}"
+    tags:
+      - vm_hdd
+  - name: RAM
+    debug:
+      msg: "{{ ansible_memory_mb.real }}"
+    tags:
+      - vm_ram

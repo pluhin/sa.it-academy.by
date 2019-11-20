@@ -1,0 +1,19 @@
+--- 
+- hosts: localhosts
+  become: yes
+  tasks:
+     - name: Create user 'ab456'
+       user:
+            name: ab456
+            create_home: yes
+     - name: Preparing ssh connnection
+       authorized_key:
+            user: ab456
+            key: "{{ lookup('file','/home/ab456/.ssh/id_rsa.pub') }}"
+     - name: Grants sudoers privileges with NOPASSWD for user ab456
+       lineinfile:
+            path: /etc/sudoers
+            line: ab456 ALL=NOPASSWD:ALL
+            
+            
+ 

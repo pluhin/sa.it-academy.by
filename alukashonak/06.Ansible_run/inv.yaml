@@ -1,0 +1,11 @@
+all_hosts:
+  children:
+    linux_hosts:
+      vars:
+        ansible_user: andrei
+      hosts:
+        ubuntu_20:
+          ansible_host: 192.168.200.20
+webservers:
+  hosts:
+    ubuntu_20:

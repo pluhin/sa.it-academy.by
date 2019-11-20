@@ -1,0 +1,18 @@
+---
+- hosts: webservers
+  tasks:
+  - name: OS/version
+    debug:
+      msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }} | {{ ansible_architecture }}"
+    tags:
+      - os-version
+  - name: Mount point/capacity/used
+    debug:
+      msg: "{{ ansible_mounts }}"
+    tags:
+      - mount
+  - name: RAM/capacity/free
+    debug:
+      msg: "{{ ansible_memory_mb }}"
+    tags:
+      - memory
