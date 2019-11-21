@@ -1,7 +1,7 @@
 #!/bin/sh
 cat lists.list |  while read output
 do
-    ping -c 1 "$output" > /dev/null
+    ping -c 2 "$output" > /dev/null
     if [ $? -eq 0 ]; then
     echo "Site $output is up" 
     else
