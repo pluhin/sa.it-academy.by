@@ -1,0 +1,11 @@
+sa_hosts:
+  children:
+    sa_linux_hosts:
+      hosts:
+        centos_19:
+          ansible_user: andrei
+          ansible_host: 192.168.201.19
+        ubuntu_20:
+          ansible_user: andrei
+          ansible_host: 192.168.200.20
+

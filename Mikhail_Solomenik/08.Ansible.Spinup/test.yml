@@ -1,0 +1,5 @@
+---
+- hosts: webservers
+  # strategy: free
+  roles:
+    - tests
