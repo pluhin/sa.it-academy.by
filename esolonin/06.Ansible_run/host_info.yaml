@@ -1,0 +1,22 @@
+---
+- hosts: remote_hosts  
+  tasks:
+    - name: OS and Version info
+      debug:
+        msg: "Device OS is {{ hostvars[inventory_hostname].ansible_distribution }} with version {{ hostvars[inventory_hostname].ansible_distribution_version }}. "
+
+    - name: RAM Info
+      debug:
+         msg: "Device RAM Info is:
+               Total: {{ hostvars[inventory_hostname].ansible_memory_mb.real.total }} 
+               Used: {{ hostvars[inventory_hostname].ansible_memory_mb.real.used }}
+               Free: {{ hostvars[inventory_hostname].ansible_memory_mb.real.free }}"
+
+    - name: Mount Info collect
+      shell: 
+        cmd: df -h
+      register: out
+    
+    - name: Mount Info print
+      debug:
+        msg: "{{ out.stdout_lines }}" 
