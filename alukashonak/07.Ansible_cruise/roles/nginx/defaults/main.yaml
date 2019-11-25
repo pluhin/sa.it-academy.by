@@ -1,0 +1,14 @@
+---
+index_home: "/var/www/"
+
+conf_home: "/etc/nginx/conf.d/"
+
+virtual_hosts:
+  - {
+      name: "centos19.site",
+      ip: '{{ hostvars["centos_19"].ansible_host }}',
+    }
+  - {
+      name: "ubuntu20.site",
+      ip: '{{ hostvars["ubuntu_20"].ansible_host }}',
+    }
