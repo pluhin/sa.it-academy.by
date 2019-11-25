@@ -1,0 +1,11 @@
+---
+all:
+  hosts:
+    centos01:
+      ansible_host: 185.141.61.33
+      ansible_user: root
+
+  children:
+    jenkins:
+      hosts:
+        centos01:
