@@ -1,0 +1,91 @@
+### config Vagrant
+```
+ 1390  nano Vagrantfile
+```
+## Alpine
+```
+Vagrant.configure("2") do |config|
+  config.vm.box = "alpine/alpine64"
+end
+```
+
+```
+ 1391  vagrant up
+ 1392  vagrant ssh
+```
+inside machine:
+```
+sudo su
+apk add wget
+apk add git
+apk add vim
+exit
+exit
+```
+##Centos
+```
+Vagrant.configure("2") do |config|
+  config.vm.box = "centos/7"
+end
+```
+sudo su
+yum update -y
+yum install vim git wget curl
+exit
+exit
+```
+URL's and pushing to cloud:
+```
+vagrant cloud publish --release geefuze/alpine-sa-it 1.0 virtualbox alpine-sa-it.box
+URL: [Alpine] (https://app.vagrantup.com/geefuze/boxes/alpine-sa-it)
+vagrant cloud publish --release geefuze/centos-sa-it 1.0 virtualbox centos-sa-it.box
+URL: [Alpine] (https://app.vagrantup.com/geefuze/boxes/alpine-sa-it)
+
+
+###LXC
+
+##Debian
+
+```
+lxc-create --config config.conf --template download --name debian-privileged -- --dist debian --release stretch --arch amd64
+lxc-start --name debian-privileged
+lxc-attach --name debian-privileged
+```
+```
+apt-get install sudo
+useradd -m -p nopassword
+usermod -aG sudo nopassword
+sudo nopassword ALL=(ALL:ALL) NOPASSWD: ALL
+```
+#Config
+```
+lxc.uts.name = debian
+lxc.arch = amd64
+lxc.cgroup.cpuset.cpus = 0,1
+lxc.cgroup.cpu.shares = 100
+lxc.cgroup.memory.limit_in_bytes = 512M
+
+```
+##Centos
+```
+lxc-create --config config.conf --template download --name centos-privileged -- --dist centos --release 7 --arch amd64
+lxc-start --name centos-privileged
+lxc-attach --name centos-privileged
+```
+yum install sudo
+apt-get install sudo
+useradd -m -p nopassword
+usermod -aG sudo nopassword
+sudo nopassword ALL=(ALL:ALL) NOPASSWD: ALL
+```
+#config.conf
+```
+lxc.uts.name = centos
+# lxc.cgroup.memory.limit_in_bytes = 512М
+lxc.net.0.type                   = veth
+lxc.net.0.flags                  = up
+lxc.net.0.link                   = lxcbr0
+lxc.net.0.ipv4.address           = 192.168.0.12/22
+lxc.net.0.ipv4.gateway           = 192.168.0.1
+lxc.net.0.hwaddr                 = 00:01:F1:F5:A3:2A
+```
