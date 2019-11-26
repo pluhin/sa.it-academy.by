@@ -1,0 +1,21 @@
+---
+- name: Install default packages
+  yum:
+    name: "{{ yum_http_packages }}"
+    state: present
+
+- name: Add nginx repository
+  yum_repository:
+    name: nginx
+    description: nginx stable repo
+    baseurl: http://nginx.org/packages/centos/$releasever/$basearch/
+    gpgcheck: yes
+    enabled: yes
+    gpgkey: https://nginx.org/keys/nginx_signing.key
+
+- name: Install nginx on Centos
+  yum:
+    name: nginx
+    update_cache: yes
+    state: present
+...
