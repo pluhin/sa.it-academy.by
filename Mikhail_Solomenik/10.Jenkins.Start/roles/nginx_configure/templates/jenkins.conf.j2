@@ -1,0 +1,17 @@
+upstream jenkins {
+	keepalive    32;
+	server       127.0.0.1:8080;
+}
+
+server {
+	listen       8081;
+	server_name  localhost;
+
+	access_log   /var/log/nginx/jenkins/access.log;
+	error_log    /var/log/nginx/jenkins/error.log;
+
+	location / {
+		proxy_pass  http://jenkins;
+	}
+
+}

@@ -1,0 +1,86 @@
+---
+- name: Include deploy for RedHat systems
+  include: http_redhat.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Include deploy for Ubuntu systems
+  include: http_ubuntu.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Remove default index file
+  file:
+    path: "{{ default_home }}/index.html"
+    state: absent
+
+- name: Remove default hostfile
+  file:
+    path: "/etc/nginx/conf.d/default.conf"
+    state: absent
+
+- name: Nginx start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Add new virtualhost
+  template:
+    src: site.conf.j2
+    dest: "/etc/nginx/conf.d/default.conf"
+  notify:
+    - Nginx restart
+
+- name: force all notified handlers to run at this point, not waiting for normal sync points
+  meta: flush_handlers
+
+#- name: Nginx restart
+#  service:
+#    name: nginx
+#    state: restarted
+
+- name: Copy index page
+  copy:
+    src: index.html
+    dest: "{{ default_home }}"
+
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+
+- name: Check connection to localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+  notify:
+    - print out
+  tags:
+    - test
+
+- name: Check content to the sites
+  uri:
+    url: http://localhost
+    return_content: yes
+  register: out
+  failed_when: "'comrates' not in out.content"
+  notify:
+    - print out
+  tags:
+    - test
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  register: out
+  failed_when: "'comrates' not in out.content"
+  notify:
+    - print out
+  loop: "{{ virtual_hosts }}"
+  tags:
+    - test
+...
