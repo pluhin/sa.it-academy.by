@@ -30,10 +30,13 @@
   notify:
     - Nginx restart
 
-- name: Nginx restart
-  service:
-    name: nginx
-    state: restarted
+- name: force all notified handlers to run at this point, not waiting for normal sync points
+  meta: flush_handlers
+
+#- name: Nginx restart
+#  service:
+#    name: nginx
+#    state: restarted
 
 - name: Copy index page
   copy:
