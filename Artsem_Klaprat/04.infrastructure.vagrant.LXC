@@ -1,4 +1,6 @@
-### config Vagrant
+# 04.infrastructure.vargrant.LXC
+
+### Config Vagrant
 ```
  1390  nano Vagrantfile
 ```
@@ -22,7 +24,7 @@ apk add vim
 exit
 exit
 ```
-##Centos
+## Centos
 ```
 Vagrant.configure("2") do |config|
   config.vm.box = "centos/7"
@@ -42,9 +44,9 @@ vagrant cloud publish --release geefuze/centos-sa-it 1.0 virtualbox centos-sa-it
 URL: [Alpine] (https://app.vagrantup.com/geefuze/boxes/alpine-sa-it)
 
 
-###LXC
+##LXC
 
-##Debian
+###Debian
 
 ```
 lxc-create --config config.conf --template download --name debian-privileged -- --dist debian --release stretch --arch amd64
@@ -57,7 +59,7 @@ useradd -m -p nopassword
 usermod -aG sudo nopassword
 sudo nopassword ALL=(ALL:ALL) NOPASSWD: ALL
 ```
-#Config
+###config.conf
 ```
 lxc.uts.name = debian
 lxc.arch = amd64
@@ -66,7 +68,7 @@ lxc.cgroup.cpu.shares = 100
 lxc.cgroup.memory.limit_in_bytes = 512M
 
 ```
-##Centos
+###Centos
 ```
 lxc-create --config config.conf --template download --name centos-privileged -- --dist centos --release 7 --arch amd64
 lxc-start --name centos-privileged
@@ -78,7 +80,7 @@ useradd -m -p nopassword
 usermod -aG sudo nopassword
 sudo nopassword ALL=(ALL:ALL) NOPASSWD: ALL
 ```
-#config.conf
+###config.conf
 ```
 lxc.uts.name = centos
 # lxc.cgroup.memory.limit_in_bytes = 512М
