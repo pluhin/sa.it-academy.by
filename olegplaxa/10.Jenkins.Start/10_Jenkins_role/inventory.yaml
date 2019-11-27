@@ -1,0 +1,11 @@
+---
+sa_hosts:
+  hosts:
+    centos_23:
+      ansible_user: ansible_user
+      ansible_host: 192.168.200.23
+      jenkins_role: "master"
+    ubuntu_24:
+      ansible_user: ansible_user
+      ansible_host: 192.168.200.24
+      jenkins_role: "node"

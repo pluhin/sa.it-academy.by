@@ -1,0 +1,46 @@
+---
+- name: Create user 'jenkins'
+  user:
+    name: jenkins
+    comment: Jenkins user
+    create_home: yes
+    home: /var/lib/jenkins
+    generate_ssh_key: yes
+  tags:
+    - user
+
+- name: Install dependencies for jenkins on "RedHat"
+  yum:
+    name:
+      - java
+      - git
+    update_cache: yes
+    state: present
+  when: ansible_os_family == "RedHat"
+  tags:
+    - java
+
+- name: Install dependencies for jenkins on "Debian"
+  apt:
+    name:
+      - default-jre
+      - git
+    update_cache: yes
+    state: present
+  when: ansible_os_family == "Debian"
+  tags:
+    - java
+
+- name: Install Jenkins
+  include: master.yaml
+  when: jenkins_role == "master"
+
+
+- name: Copy ssh key from master to slave node.
+  copy:
+    src: /tmp/jenkins_pub_key/centos_23/var/lib/jenkins/.ssh/id_rsa.pub
+    dest: /var/lib/jenkins/.ssh/authorized_keys
+    owner: jenkins
+    group: jenkins
+    mode: '0644'
+  when: jenkins_role == "node"

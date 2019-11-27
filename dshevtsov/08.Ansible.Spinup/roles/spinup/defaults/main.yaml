@@ -1,0 +1,17 @@
+---
+#Debian repositories
+debian_repo:
+  - 'http://ftp.debian.org/debian/'
+  - 'http://ftp.us.debian.org/debian/'
+
+#RHEL repositories
+rhel_repo:
+  - 'http://mirror.datacenter.by/pub/CentOS/'
+  - 'http://ftp.byfly.by/pub/CentOS/'
+
+#PyPI repositories
+pypi_repo:
+  - 'https://pypi.org/'
+
+#RAM threshold
+threshold: "768"
