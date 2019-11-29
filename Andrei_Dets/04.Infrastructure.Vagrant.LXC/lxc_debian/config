@@ -1,0 +1,26 @@
+# Template used to create this container: /usr/share/lxc/templates/lxc-download
+# Parameters passed to the template: --dist debian --release bullseye --arch amd64
+# Template script checksum (SHA-1): 273c51343604eb85f7e294c8da0a5eb769d648f3
+# For additional config options, please look at lxc.container.conf(5)
+
+# Uncomment the following line to support nesting containers:
+#lxc.include = /usr/share/lxc/config/nesting.conf
+# (Be aware this has security implications)
+
+
+# Distribution configuration
+lxc.include = /usr/share/lxc/config/common.conf
+lxc.arch = linux64
+
+# Container specific configuration
+lxc.rootfs.path = dir:/var/lib/lxc/TestsDebian/rootfs
+lxc.uts.name = TestsDebian
+lxc.cgroup.memory.limit_in_bytes = 512M
+
+# Network configuration
+lxc.net.0.type = veth
+lxc.net.0.link = lxcbr0
+lxc.net.0.flags = up
+#lxc.net.0.ipv4 = 10.0.3.3/24
+#lxc.net.0.ipv4.gateway = 10.0.1.1
+lxc.net.0.hwaddr = 00:16:3e:2e:87:d5
