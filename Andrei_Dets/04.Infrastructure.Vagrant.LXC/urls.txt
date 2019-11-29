@@ -1,0 +1,3 @@
+'''
+https://app.vagrantup.com/minedy/boxes/debianTest
+https://app.vagrantup.com/minedy/boxes/centosTest
