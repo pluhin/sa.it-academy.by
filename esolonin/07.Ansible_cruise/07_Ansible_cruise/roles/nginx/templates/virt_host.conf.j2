@@ -1,0 +1,17 @@
+server {
+    listen 80;
+
+    server_name  {{ item }} www.{{ item }};
+
+    root /var/www/{{ item }};
+
+    index index.html;
+
+    location / {
+           try_files $uri $uri/ =404;
+    }
+
+
+    access_log /var/log/nginx/{{ item }}_access_log;
+    error_log /var/log/nginx/{{ item }}_error_log;
+}
