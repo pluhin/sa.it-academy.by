@@ -1,0 +1,22 @@
+---
+apt_http_packages:
+  - vim
+  - curl
+  - gnupg2
+  - ca-certificates
+  - lsb-release
+
+yum_http_packages:
+  - epel-release
+  - vim
+  - yum-utils
+
+default_home: "/var/www/html/"
+
+site_centos: "local_centos.site"
+site_ubuntu: "local_ubuntu.site"
+
+virtual_hosts:
+  - { name: "{{ site_centos }}", ip: "{{ hostvars[\"centos\"].ansible_host }}"}
+  - { name: "{{ site_ubuntu }}", ip: "{{ hostvars[\"ubuntu\"].ansible_host }}"}
+...

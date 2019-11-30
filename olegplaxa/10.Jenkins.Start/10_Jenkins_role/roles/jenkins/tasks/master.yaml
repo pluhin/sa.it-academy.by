@@ -1,0 +1,70 @@
+- name: Set Jenkins Repository
+  yum_repository:
+    name: Jenkins-stable
+    description: Jenkins-stable
+    baseurl: http://pkg.jenkins.io/redhat-stable
+    gpgcheck: yes
+    enabled: yes
+    gpgkey: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+
+- name: Jenkins.Install
+  yum:
+    name: jenkins
+    update_cache: yes
+    state: present
+
+
+- name: Jenkins start
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+
+
+- name: Check file with initialAdminPassword
+  stat:
+    path: /var/lib/jenkins/secrets/initialAdminPassword
+  register: stat_result
+  until: stat_result.stat.exists == True
+  retries: 5
+  delay: 5
+  tags:
+    - read
+
+
+- name: Read initialAdminPassword
+  command: cat /var/lib/jenkins/secrets/initialAdminPassword
+  become: yes
+  register: out
+  tags:
+    - read
+
+
+- name: Output initialAdminPassword
+  debug:
+    msg: "{{ out.stdout }}"
+  tags:
+    - read
+
+- name: Store ssh key into /tmp/jenkins_pub_key
+  fetch:
+    src: /var/lib/jenkins/.ssh/id_rsa.pub
+    dest: /tmp/jenkins_pub_key
+  tags:
+    - ssh_key
+
+- name: Check.Content
+  uri:
+    url: "http://{{ hostvars[\"centos_23\"].ansible_host }}:8080"
+    return_content: yes
+    status_code: 200,403
+  register: out
+  tags:
+    - check
+
+- name: Print.Out.Content
+  debug:
+    msg: "{{ out.content }}"
+  tags:
+    - check
