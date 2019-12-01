@@ -1,0 +1,11 @@
+all_hosts:
+  children:
+    linux_hosts:
+      vars:
+        ansible_user: vagrant
+      hosts:  
+        cent_01:
+          ansible_host: 192.168.33.10
+webservers:
+  hosts:
+    cent_01:

@@ -1,0 +1,72 @@
+---
+- name: Install EPEL Repo
+  yum:
+    name=epel-release
+    state=present
+  when:
+    ansible_os_family == "RedHat"
+
+- name: Install Nginx Web Server on RedHat Family
+  yum:
+    name=nginx
+    state=latest
+  when:
+    ansible_os_family == "RedHat"
+  notify:
+    - nginx systemd
+
+- name: Install Nginx Web Server on Debian Family
+  apt:
+    name=nginx
+    state=latest
+  when:
+    ansible_os_family == "Debian"
+  notify:
+    - nginx systemd
+
+- name: Create directory
+  file:
+    path: "{{ default_home }}"
+    state: directory
+
+- name: Copy nginx.conf for RedHat
+  become: yes
+  copy: src="nginx.conf" dest="/etc/nginx/nginx.conf"
+    
+- name: Copy index.html
+  copy: src="index.html" dest="{{ default_home}}/index.html"
+  notify: nginx systemd
+
+- name: Templates for configure hosts
+  become: yes
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: no
+
+- name: Templates for configure virtual host
+  become: yes
+  template:
+    src: "vhosts.j2"
+    dest: "/etc/nginx/conf.d/vhost.conf"
+  notify: nginx systemd
+  tags:
+    - template_vhosts
+
+- name: Check connect
+  wait_for:
+    host: "{{ hostvars[inventory_hostname].ansible_hostname }}.site"
+    port: 80
+    state: started
+    timeout: 5
+  tags:
+    - check_connect
+
+- name: Check content sites
+  uri:
+    url: "http://{{ hostvars[inventory_hostname].ansible_hostname }}.site"
+    return_content: yes 
+  register: this
+  failed_when: "'Hi' not in this.content"
+  tags:
+    - check_site_page

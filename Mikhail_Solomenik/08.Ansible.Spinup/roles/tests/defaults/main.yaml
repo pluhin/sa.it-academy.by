@@ -1,0 +1,15 @@
+---
+ubuntu_repos:
+  - http://archive.canonical.com/ubuntu/
+  - http://security.ubuntu.com/ubuntu/
+  - http://by.archive.ubuntu.com/ubuntu/
+
+centos_repos:
+  - http://mirror.centos.org/centos/7/
+
+pip_repo:  https://pypi.org
+
+docker_registry: https://registry.hub.docker.com/v2/
+
+min_ram: 256
+min_hdd: 1000

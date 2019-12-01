@@ -1,0 +1,8 @@
+---
+ansible_ssh_private_key_file: /home/binbrayer/Projects/Courses/.ssh/elegantsignal_rsa
+ansible_user: insider
+default_home: "var/www/html"
+
+sites:
+  - alfa.local
+  - beta.local

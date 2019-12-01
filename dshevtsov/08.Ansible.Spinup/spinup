@@ -1,0 +1,5 @@
+---
+- hosts: localhosts
+  become: yes
+  roles:
+    - spinup

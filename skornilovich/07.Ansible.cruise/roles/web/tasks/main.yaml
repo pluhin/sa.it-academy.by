@@ -1,0 +1,27 @@
+---
+- name: include deploy for Debian systems
+  include: nginx_debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: include deploy for RedHat systems
+  include: nginx_redhat.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: template
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+
+- name: check connection to localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+
+- name: check site content
+  uri:
+    url: http://localhost
+    return_content: yes
+  register: this

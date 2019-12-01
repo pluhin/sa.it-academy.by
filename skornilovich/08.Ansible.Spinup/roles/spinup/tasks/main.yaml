@@ -1,0 +1,50 @@
+---
+- name: Check if we have SUDO with NOPASSWD
+  block:
+    - name: Check if we have SUDO with NOPASSWD
+      command: sudo -n true
+    - debug:
+        msg: 'SUDO with NOPASSWD'
+  rescue:
+    - debug:
+        msg: 'SUDO without NOPASSWD'
+
+- name: Check connection to public repository on CentOS
+  uri:
+    url: "{{ item }}"
+  with_items:
+    - "{{ centos_repos }}"
+    - "{{ pip_repo }}"
+  when: ansible_os_family == 'RedHat'
+
+- name: Check connection to public repository on Ubuntu
+  uri:
+    url: "{{ item }}"
+  with_items:
+    - "{{ ubuntu_repos }}"
+    - "{{ pip_repo }}"
+  when: ansible_os_family == 'Debian'
+
+- name: Check connection to docker hub registry
+  uri:
+    url: "https://hub.docker.com/_/registry"
+    return_content: yes
+  register: docker
+
+- name: Docker registry page return content status
+  debug:
+    msg: "{{ docker.status }}"
+
+- name: Check RAM
+  assert:
+    that:
+      - ansible_memtotal_mb > {{ ram_min }}
+    msg: "Not enough memory! Available - {{ ansible_memtotal_mb }}, needed - {{ ram_min }}"
+
+- name: Check HDD
+  assert:
+    that:
+      - item.size_available > {{ hdd_min }}
+    msg: "Free disk space {{ item.size_available }} needed {{ hdd_min }}"
+  with_items: "{{ ansible_mounts }}"
+  when: item.mount == '/'

@@ -1,0 +1,35 @@
+---
+- name: Update cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install depends
+  apt:
+    name: curl, gnupg2, ca-certificates, lsb-release
+    state: present
+
+- name: Add Nginx key
+  apt_key:
+    url: https://nginx.org/keys/nginx_signing.key
+    id: ABF5BD827BD9BF62
+    state: present
+
+- name: Add Nginx repository 
+  notify: update apt cache
+  apt_repository:
+    repo: "deb http://nginx.org/packages/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} nginx"
+    filename: nginx
+    state: present
+    update_cache: no
+
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Start Nginx
+  service:
+      name: nginx
+      state: started
+      enabled: yes

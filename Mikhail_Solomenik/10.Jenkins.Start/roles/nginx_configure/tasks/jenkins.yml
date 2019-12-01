@@ -1,0 +1,37 @@
+---
+- name: Creates Nginx config directories
+  with_items:
+    - /etc/nginx/sites-available/
+    - /etc/nginx/sites-enabled/
+    - /var/log/nginx/jenkins/
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: nginx
+    group: nginx
+
+- name: Update nginx.conf
+  notify:
+    - restart nginx
+  template:
+    src: templates/nginx.conf.j2
+    dest: "/etc/nginx/nginx.conf"
+    owner: nginx
+    group: nginx
+
+- name: Create sites configs
+  notify:
+    - restart nginx
+  template:
+    src: templates/jenkins.conf.j2
+    dest: "/etc/nginx/sites-available/jenkins.conf"
+    owner: nginx
+    group: nginx
+
+- name: Enable Nginx configs
+  notify:
+    - restart nginx
+  file:
+    src: "/etc/nginx/sites-available/jenkins.conf"
+    dest: "/etc/nginx/sites-enabled/jenkins.conf"
+    state: link
