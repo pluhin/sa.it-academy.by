@@ -1,0 +1,4 @@
+---
+- name: Configure Nginx
+  become: True
+  import_tasks: jenkins.yml

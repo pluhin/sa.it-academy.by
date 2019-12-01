@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/tyto/Documents/m-sa2-10-19/10/jenkins_master","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
