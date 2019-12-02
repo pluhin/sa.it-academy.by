@@ -14,6 +14,13 @@
     owner: "1000"
     group: "1000"
 
+- name: create Dockerfile
+  template:
+    src: templates/Dockerfile.j2
+    dest: /home/jenkins/Dockerfile
+    owner: jenkins
+    group: jenkins
+
 - name: create docker-compose.yml
   template:
     src: templates/docker-compose.yml.j2
@@ -37,6 +44,14 @@
     - name: Start jenkins
       docker_compose:
         project_src: /home/jenkins
-      register: output
+        recreate: always
+      register: output  
+    - name: Prune everything
+      docker_prune:
+        # containers: yes
+        images: yes
+        networks: yes
+        volumes: yes
+        builder_cache: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3
