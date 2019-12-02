@@ -1,0 +1,53 @@
+---
+- name: Check sudoers
+  lineinfile:
+   path: /etc/sudoers
+   state: present
+   regexp: '^{{ ansible_user }}'
+   line: '{{ ansible_user }} ALL=NOPASSWD:ALL'
+
+- name: Checks to public repository (for Debian-based os)
+  uri:
+    url: "{{ item }}"
+  with_items:
+    - "{{ debian_repo }}"
+    - "{{ pypi_repo }}"
+  when: ansible_os_family == 'Debian'
+
+- name: Checks to public repository (for RHEL-based OS)
+  uri:
+    url: "{{ item }}"
+  with_items:
+    - "{{ rhel_repo }}"
+    - "{{ pypi_repo }}"
+  when: ansible_os_family == 'RedHat'
+
+- name: Check connection to the docker hub
+  uri:
+    url: "https://hub.docker.com/_/registry"
+    return_content: yes
+  register: dockehub
+
+- name: Docker HUB content
+  debug:
+    msg: "{{ dockehub.content }}"
+
+- name: RAM Threshold Notifications
+  assert:
+    that:
+      - "{{ ansible_memtotal_mb }} > {{ threshold }}"
+    fail_msg: "Attention! The threshold for free memory has been reached. {{ ansible_memtotal_mb }} is available. Threshold: {{ threshold }} ."
+    success_msg: "All OK"
+  ignore_errors: yes
+
+- name: HDD Thresold Notifications
+  assert:
+    that:
+      - not {{ item.mount == '/' and ( item.size_available < item.size_total - ( item.size_total|float * 0.8 ) ) }}
+  with_items: "{{ ansible_mounts }}"
+  ignore_errors: yes
+  register: disk_free
+
+- name: Print disk info
+  debug:
+    msg: "{{ disk_free }}"

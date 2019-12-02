@@ -1,0 +1,73 @@
+---
+- name: Install EPEL Repo
+  yum:
+    name=epel-release
+    state=present
+  when:
+    ansible_os_family == "RedHat"
+
+- name: Install Nginx Web Server on RedHat Family
+  yum:
+    name=nginx
+    state=latest
+  when:
+    ansible_os_family == "RedHat"
+  notify:
+    - nginx restart
+
+- name: Copy nginx.conf for RedHat
+  become: yes
+  copy: src="nginx.conf" dest="/etc/nginx/nginx.conf"
+    
+- name: Copy jenkins.conf
+  become: yes
+  copy: src="jenkins.conf" dest="/etc/nginx/conf.d"
+
+- name: Setsebool
+  become: yes
+  shell: setsebool -P httpd_can_network_connect 1
+
+- name: Start Nginx
+  systemd:
+    name: nginx
+    state: started
+    enabled: true  
+
+- name: Install jenkins.repo
+  get_url:
+    url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+
+- name: Install Java
+  yum:
+    name:
+      - java-1.8.0-openjdk
+
+- name: Import Key
+  rpm_key:
+    state: present
+    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+- name: Install Jenkins
+  yum:
+    name: jenkins
+    state: present
+
+- name: Start Jenkins
+  systemd:
+    name: jenkins
+    state: started
+    enabled: true
+
+- name: Sleep 60
+  wait_for: timeout=60
+
+- name: Get init password Jenkins
+  shell: |
+    cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+
+- name: Print init password Jenkins
+  debug:
+    var: result.stdout

@@ -1,0 +1,58 @@
+1. развернул ubuntu 18.04 в vagrant т.к Canonical и ubuntu спонсируют проект
+sudo -i
+apt update
+sudo apt-get install lxc lxc-templates systemd-services cgroup-bin bridge-utils debootstrap
+sudo /usr/share/lxc/templates/lxc-download -l |grep debian
+sudo lxc-create -t download -n TestsDebian -- --dist debian --release bullseye --arch amd64
+sudo lxc-create -t download -n TestCentos -- --dist centos --release 7 --arch amd64
+========================================
+2.конфиги тут и только из под root
+vagrant@ubuntu-bionic:~$ sudo -i
+root@ubuntu-bionic:~# cd  /var/lib/lxc/
+root@ubuntu-bionic:/var/lib/lxc# ls -la
+total 16
+drwx------  4 root root 4096 Nov 28 11:20 .
+drwxr-xr-x 36 root root 4096 Nov 27 21:17 ..
+drwxrwx---  3 root root 4096 Nov 28 11:21 TestCentos
+drwxrwx---  3 root root 4096 Nov 28 11:15 TestsDebian
+root@ubuntu-bionic:/var/lib/lxc#
+===============================================
+3.ограничения: добавим lxc.cgroup.memory.limit_in_bytes = 512M
+cd TestCentos/
+vim config
+cd TestsDebian/
+vim config
+====================================
+4.пользователь 
+генерим ключ
+sudo apt install ssh
+ssh-keygen
+
+Для Centos создаем
+useradd insider
+passwd insider
+usermod -aG wheel insider
+yum install sudo
+visudo(правим)
+sudo yum -y install openssh-server openssh-clients
+chkconfig sshd on
+service sshd start
+exit
+exit
+ssh-copy-id -i /home/vagrant/.ssh/id_rsa insider@10.0.3.55
+vagrant@ubuntu-bionic:/usr/share$ ssh insider@10.0.3.55
+Last login: Thu Nov 28 14:54:41 2019
+[insider@TestCentos ~]$
+
+Debian
+useradd insider
+passwd insider
+usermod -aG sudo insider
+=================================
+5.запуск-стоп
+lxc-start -n TestCentos
+lxc-stop -n TestCentos
+внутрь
+lxc-attatch -n TestsDebian
+lxc-attatch -n TestCentos
+
