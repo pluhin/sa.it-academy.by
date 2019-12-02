@@ -1,0 +1,46 @@
+---
+- name: nginx deploy for CentOS systems
+  include: nginx_centos.yaml
+  when: ansible_distribution == 'CentOS'
+
+- name: nginx deploy for Ubuntu systems
+  include: nginx_ubuntu.yaml
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Create home directory
+  file:
+    path: /var/www/{{ item }}
+    state: directory
+  loop: "{{ virtual_hosts }}"
+
+- name: Copy index file
+  copy:
+    src: index_{{ item }}.html
+    dest: "{{ default_home }}/{{ item }}/index.html"
+  loop: "{{ virtual_hosts }}"
+
+- name: Modify host file
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+
+- name: Create virtual host config
+  template:
+    src: "virt_host.conf.j2"
+    dest: "/etc/nginx/conf.d/{{ item }}.conf"
+  loop: "{{ virtual_hosts }}"
+  notify:
+    - restart nginx
+
+- meta: flush_handlers
+
+- name: connection check
+  uri:
+    url: "http://{{ item }}"
+    return_content: yes
+  register: webpage
+  failed_when: "'Welcome to host' not in webpage.content"  
+  loop: "{{ virtual_hosts }}"  
+
+

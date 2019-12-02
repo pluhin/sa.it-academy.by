@@ -1,0 +1,12 @@
+---
+hosts:
+    children:
+      remote_hosts:
+        vars:
+          ansible_user: ansible
+
+        hosts:
+          host1:
+            ansible_host: 192.168.200.31
+          host2:
+            ansible_host: 192.168.200.32

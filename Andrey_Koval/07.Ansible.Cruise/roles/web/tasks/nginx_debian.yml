@@ -1,0 +1,20 @@
+---
+- name: ubuntu - update apt cache
+  apt:
+    update_cache: yes
+
+- name: ubuntu - install nginx packages
+  apt:
+    name: "{{ apt_nginx_packages }}"
+    state: present
+
+- name: ubuntu - copy html page
+  copy:
+    src: index.html
+    dest: "{{ default_home_debian }}"
+
+- name: ubuntu - enable and start nginx service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
