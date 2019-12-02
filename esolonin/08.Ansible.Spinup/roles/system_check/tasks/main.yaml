@@ -1,0 +1,63 @@
+---
+- name: Sudo with nopasswd check
+  block:
+    - name: Check command
+      shell:
+        cmd: sudo -n date
+      changed_when: false
+      register: result
+      failed_when: " 'sudo: a password is required' in result.stderr_lines "
+    - name: print result
+      debug:
+        msg: '{{ result.stdout_lines }} - user has sudo rights with NOPASSWD'
+  rescue:
+    - name: Error message
+      debug:
+        msg: 'User has no sudo rights with NOPASSWD'
+
+- name: Checks to public repository CentOS
+  uri:
+    url: "{{ item }}"
+  with_items:
+    - "{{ centos_repos }}"
+    - "{{ pip_repo }}"
+  when: ansible_distribution == 'CentOS'
+
+
+- name: Checks to public repository Ubuntu
+  uri:
+    url: "{{ item }}"
+  with_items:
+    - "{{ ubuntu_repos }}"
+    - "{{ pip_repo }}"
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Check connection to docker hub registry
+  uri:
+    url: "{{ docker_hub }}"
+    return_content: yes
+  register: site
+  failed_when: site.status != 200
+
+
+- name: print docker content
+  debug:
+    msg:  " {{ site.content }} "
+
+- name: Check HardDisk usage
+  shell:
+    cmd: df -h / | egrep -ow [0-9]*\% | cut -f 1 -d '%'
+  register: hdd
+  changed_when: false
+  ignore_errors: yes
+  failed_when: hdd.stdout_lines|int > hdd_threshold|int
+
+- name: print result hdd
+  debug:
+    msg:  " {{ hdd.stdout_lines }} "
+
+- name: Print used memory
+  debug:
+    msg: "Memory Used: {{ hostvars[inventory_hostname].ansible_memory_mb.real.used }}"
+  ignore_errors: yes
+  failed_when: hostvars[inventory_hostname].ansible_memory_mb.real.used|int > ram_threshold|int
