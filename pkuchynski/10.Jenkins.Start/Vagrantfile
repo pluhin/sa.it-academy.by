@@ -1,0 +1,8 @@
+Vagrant.configure("2") do |config|
+    config.vm.box = "centos/7"
+    config.vm.define "Jenkins"
+    config.vm.network "public_network", ip: "192.168.100.201",  bridge: "wlo1"
+    config.vm.provision "file", source: "~/it-ac/vagrant/vagrant_jenkins/nginx.conf", destination: "/tmp/nginx.conf"
+    config.vm.provision "file", source: "~/it-ac/vagrant/vagrant_jenkins/jenkins.conf", destination: "/tmp/jenkins.conf"
+    config.vm.provision :shell, :path => "bootstrap.sh"
+end
