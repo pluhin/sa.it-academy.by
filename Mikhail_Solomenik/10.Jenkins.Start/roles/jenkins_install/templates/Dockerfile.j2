@@ -1,0 +1,7 @@
+FROM jenkins/jenkins:2.206
+USER root
+RUN apt update
+RUN apt install -y ansible
+RUN apt install -y sshpass
+RUN echo "    StrictHostKeyChecking no" >> /etc/ssh/ssh_config
+USER jenkins

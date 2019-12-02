@@ -1,0 +1,16 @@
+- name: Check repo RedHat
+  shell: |
+    yum -v repolist enabled
+    grep Repo-baseurl
+    awk '{print $3}'
+  register: out_r
+
+- name: Print repo RedHat
+  debug:
+    msg: "{{ out_r.stdout_lines }}"
+
+- name: Check Access to repo RedHat
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  loop: "{{ out_r.stdout_lines }}"

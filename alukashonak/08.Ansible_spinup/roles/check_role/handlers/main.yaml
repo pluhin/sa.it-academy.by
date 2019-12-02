@@ -1,0 +1,9 @@
+- name: restart_apache
+  service:
+    name: "{{ 'apache2' if (ansible_os_family == 'Debian') else 'httpd' }}"
+    state: restarted
+    enabled: yes
+
+- name: print_out
+  debug:
+    msg: "{{ out.stdout_lines }}"
