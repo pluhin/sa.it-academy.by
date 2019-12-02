@@ -1,0 +1,5 @@
+---
+- hosts: sa_hosts
+  become: yes
+  roles:
+    - check_role

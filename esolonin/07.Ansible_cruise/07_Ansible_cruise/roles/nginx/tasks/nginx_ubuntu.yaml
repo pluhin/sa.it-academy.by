@@ -1,0 +1,11 @@
+---
+- name: install the latest version of Nginx
+  apt:
+    name: "{{ package_to_install }}"
+    state: latest
+
+- name: Nginx. Enable and start servce
+  service:
+    name: "{{ package_to_install }}"
+    state: started
+    enabled: yes
