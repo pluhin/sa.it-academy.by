@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 ---
 - hosts: webservers
   become: yes
   roles:
     - nginx
+=======
+---
+- hosts: all
+  become: true
+  roles:
+    - nginx
+>>>>>>> Homework 07.Ansible.Cruise and 10.Jenkins.Start
