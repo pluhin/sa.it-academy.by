@@ -6,7 +6,7 @@ pipeline {
         stage('Build Docker image') {
             steps {
                 script {
-                    def customImage = docker.build("elegantsignal/spring-echo-example:latest")
+                    def customImage = docker.build("$env.DOCKER_IMAGE")
                     customImage.inside {
                         sh 'echo "Test from docker"'
                     }
@@ -17,8 +17,8 @@ pipeline {
         stage('Build maven project') { 
             agent {
                 docker {
-                    image "elegantsignal/spring-echo-example:latest"
-                    args '-v /home/jenkins/jenkins_home/workspace/spring-echo-example:/home/maven/app'
+                    image "$env.DOCKER_IMAGE"
+                    args "-v $env.PROJECT_ROOT:/home/maven/app"
                     reuseNode true
                 }
             }
@@ -38,15 +38,15 @@ pipeline {
         stage('Run test container') {
             steps {
                 script {
-                    sh '''
+                    sh """
 docker run -it -d --rm \
     --name spring-echo-example-run \
-    -v /home/jenkins/jenkins_home/workspace/spring-echo-example:/home/maven/app \
+    -v $env.PROJECT_ROOT:/home/maven/app \
     -p 3333:8080 \
     --network=jenkins_default \
-    elegantsignal/spring-echo-example:latest \
+    $env.DOCKER_IMAGE \
     java -jar ./target/spring-echo-example-1.0.0.jar
-'''
+"""
                 }
             }
         }
