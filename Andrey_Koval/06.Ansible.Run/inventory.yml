@@ -1,0 +1,12 @@
+all:
+    vars:
+        ansible_user: ansible_user
+    hosts:
+        centos_11:
+            ansible_host: 192.168.200.11
+        ubuntu_12:
+            ansible_host: 192.168.200.12
+slaves:
+    hosts:
+        centos_11:
+        ubuntu_12:

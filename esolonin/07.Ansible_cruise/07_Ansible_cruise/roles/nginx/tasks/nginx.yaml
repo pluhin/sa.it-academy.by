@@ -1,0 +1,4 @@
+---
+- hosts: remote_hosts  
+  roles:
+    - nginx

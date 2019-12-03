@@ -1,0 +1,13 @@
+---
+- name: nginx restart
+  systemd:
+    name: nginx
+    enabled: yes
+    state: started
+
+- name: jenkins restart
+  systemd:
+    name: nginx
+    enabled: yes
+    state: started
+
