@@ -1,0 +1,5 @@
+listen_http: 80
+listen_https: 443
+nginx_user: www-data
+worker_processes: auto
+worker_connections: 512

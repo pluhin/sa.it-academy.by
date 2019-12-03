@@ -1,0 +1,16 @@
+---
+ - name: Add Repository
+   yum:
+     name: epel-release
+     state: present
+
+ - name: Install nginx
+   package:
+     name: nginx
+     state: latest
+
+ - name: Start nginx
+   service:
+     name: nginx
+     state: started
+     enabled: yes
