@@ -1,0 +1,20 @@
+### Warning managed by Ansible
+server {
+        listen 80; 
+        server_name "{{ hostvars[inventory_hostname].ansible_hostname }}.{{ site1 }}";
+        location / {
+	    root "{{ home }}";
+	    index  index.html
+            try_files $uri $uri/ =404;
+        }
+}
+
+server {
+        listen 80; 
+        server_name "{{ hostvars[inventory_hostname].ansible_hostname }}.{{ site2 }}";
+        location / {
+	    root "{{ home2 }}";
+	    index  index.html
+            try_files $uri $uri/ =404;
+        }
+}

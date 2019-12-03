@@ -1,0 +1,40 @@
+---
+- name: Check run sudo without password
+  command: sudo -n true
+  register: result
+  changed_when: false
+  failed_when: result | failed
+
+- name: Check connection to repository CentOS
+  uri:
+    url: "{{ item }}"
+  with_items: "{{ centos_repos }}"
+  when: ansible_os_family == 'RedHat'
+
+- name: Check connection to repository Ubuntu
+  uri:
+    url: "{{ item }}"
+  with_items: "{{ ubuntu_repos }}"
+  when: ansible_os_family == 'Debian'
+
+- name: Check connection to repository pip
+  uri:
+    url: "{{ pip_repos }}"
+
+- name: Check connection to docker hub registry
+  uri:
+    url: "{{ docker_hub_registry }}"
+    return_content: yes
+  register: out
+  failed_when: out.status != 200
+
+- name: Checking the availability of required RAM memory
+  fail:
+  when: ansible_memtotal_mb < min_ram|int
+
+- name: Checking the availability of the HDD capacity
+  fail:
+  when: (item.mount == '/') and ((item.size_available / 1073741824) | round(1, 'common')) < min_hdd|int
+  with_items: "{{ ansible_mounts }}"
+  tags:
+    - hddtest
