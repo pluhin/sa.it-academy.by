@@ -36,6 +36,6 @@
     url: "http://{{ hostname }}"
     return_content: yes
   register: index
-  failed_when: "'Ansible' not in index.content"
+  failed_when: "'Homework' not in index.content"
 - debug:
     msg: "{{ index.status }}"
