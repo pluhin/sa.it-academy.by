@@ -1,0 +1,30 @@
+---
+all_hosts:
+  children:
+    ec_htp:
+      vars:
+        full_name: "Educational Center of HTP"
+      hosts:
+        jump:
+          ansible_user: jump_sa
+          ansible_host: 178.124.206.48
+        sa_centos:
+          ansible_user: root
+          ansible_host: 192.168.200.3
+        sa_ubuntu:
+          ansible_user: user
+          ansible_host: 192.168.200.4
+    webservers:
+       hosts:
+        ce7:
+          ansible_user: root
+          ansible_host: 192.168.56.101
+        ub:
+          ansible_user: bersnev
+          ansible_host: 192.168.56.102
+          ansible_ssh_pass: bersnev 
+        ub2:
+          ansible_user: vagrant
+          ansible_host: 192.168.56.103
+          ansible_ssh_pass: vagrant 
+
