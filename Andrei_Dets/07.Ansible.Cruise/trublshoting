@@ -1,0 +1,22 @@
+ansible -m ping -i inv.yaml    не отработает
+
+ansible -m ping test             будет работать если в файле  sudo vim /etc/ansible/hosts будет
+
+[test]
+
+ubuntu ansible_host=192.168.100.201
+
+centos ansible_host=192.168.100.202
+
+ansible -m ping ubuntu  аналогично
+
+ansible -m ping ubuntu аналогично
+
+ansible -m ping ubuntu  -u vagrant аналогично
+
+
+если нет python
+
+если в
+
+/etc/ssh/sshd_config не разрешена автроизация по публичным ключам или паролю
