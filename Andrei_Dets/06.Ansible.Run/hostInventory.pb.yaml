@@ -1,0 +1,12 @@
+---
+- hosts: experimental
+  tasks:
+    - name: gathering OS/version
+      debug:
+        msg: "{{ ansible_distribution }}/{{ ansible_distribution_version}}"
+    - name: gathering Mount point/capacity/used
+      debug:
+        msg: "{{ansible_mounts}}"
+    - name: gathering RAM/capacity/free
+      debug:
+        msg: "{{ansible_memory_mb}}"   
