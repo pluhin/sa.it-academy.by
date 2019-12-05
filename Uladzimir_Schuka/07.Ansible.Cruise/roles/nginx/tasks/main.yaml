@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Homework 07. Ansible cruise Uladzimir Schuka
 ---
 - name: Install Nginx on Ubuntu
   include: ubuntu.yaml
@@ -55,6 +58,7 @@
     - check
 
 
+<<<<<<< HEAD
 =======
 ---
 - name: Nginx installation for Ubuntu                                 
@@ -98,3 +102,5 @@
 - debug:
     msg: "{{ index.status }}"
 >>>>>>> Homework 07.Ansible.Cruise and 10.Jenkins.Start
+=======
+>>>>>>> Homework 07. Ansible cruise Uladzimir Schuka

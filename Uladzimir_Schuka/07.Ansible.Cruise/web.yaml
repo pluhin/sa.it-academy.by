@@ -1,9 +1,13 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Homework 07. Ansible cruise Uladzimir Schuka
 ---
 - hosts: webservers
   become: yes
   roles:
     - nginx
+<<<<<<< HEAD
 =======
 ---
 - hosts: all
@@ -11,3 +15,5 @@
   roles:
     - nginx
 >>>>>>> Homework 07.Ansible.Cruise and 10.Jenkins.Start
+=======
+>>>>>>> Homework 07. Ansible cruise Uladzimir Schuka
