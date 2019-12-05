@@ -1,11 +1,22 @@
----
-- name: Install nginx
-  package:
-    name: nginx
-    state: latest
+- name: Install utils
+  apt:
+    name: iotop,atop,htop,python3,curl,ca-certificates,gnupg2,lsb-release
+    update_cache: yes
+    state: present
 
-- name: Start service
-  service:
+- name: Add key
+  apt_key:
+    url: https://ftp-master.debian.org/keys/archive-key-6.0.asc
+    state: present
+
+- name: 
+  apt_repository:
+    repo: "deb http://nginx.org/packages/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} nginx"
+    update_cache: yes
+    state: present
+
+- name: Install nginx Ubuntu
+  apt:
     name: nginx
-    state: started
-    enabled: yes
+    update_cache: yes
+    state: present

@@ -1,5 +1,5 @@
 ---
-- hosts: all
-  become: true
+- hosts: webservers
+  become: yes
   roles:
     - nginx

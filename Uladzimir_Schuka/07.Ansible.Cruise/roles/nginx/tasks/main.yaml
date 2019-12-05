@@ -1,41 +1,56 @@
 ---
-- name: Nginx installation for Ubuntu                                 
-  import_tasks: ubuntu.yaml
-  when: ansible_os_family == 'Debian'
-  
-- name: Install Nginx for CentOS
-  import_tasks: centos.yaml
-  when: ansible_os_family == 'RedHat'
+- name: Install Nginx on Ubuntu
+  include: ubuntu.yaml
+  when: ansible_os_family == "Debian"
 
+- name: Install Nginx on CentOS
+  include: centos.yaml
+  when: ansible_os_family == "RedHat"
 
-- name: Copy Index page
+- name: Start.Nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Create home "/var/www/"
+  file:
+    path: "{{ index_home }}"
+    state: directory
+
+- name: Copy index.html
   copy:
-     src: index.html
-     dest: "/var/www/"
+    src: index.html
+    dest: "{{ index_home }}"
 
 - name: Copy nginx config
-  template:
-     src: "templates/nginx.conf"
-     dest: "/etc/nginx/nginx.conf"
-
-- name: Add config site
-  template:
-     src: "templates/nginx_vhost.conf"
-     dest: "/etc/nginx/conf.d/"
+  copy:
+    src: nginx.j2
+    dest: "{{ conf_home }}"
   notify:
-     - NGINX reload
+    - restart_nginx
 
-- name: Check connections to hosts
+- name: Check connection
   wait_for:
-    host: localhost
-    port: 80
+    host: "localhost"
+    port: "80"
     state: started
+    delay: 0
+    timeout: 3
 
-- name: Check page content
-  uri: 
-    url: "http://{{ hostname }}"
+- name: Install hosts
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    backup: yes
+
+- name: Test Site
+  uri:
+    url: "http://{{item.name}}"
     return_content: yes
-  register: index
-  failed_when: "'Homework' not in index.content"
-- debug:
-    msg: "{{ index.status }}"
+  loop: "{{ virtual_hosts }}"
+  register: out
+  tags:
+    - check
+
+
