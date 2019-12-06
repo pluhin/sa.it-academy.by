@@ -1,0 +1,14 @@
+experimental:
+  hosts:
+    cent_01:
+    ubuntu_01:
+localhosts:
+  children:
+    linux_hosts:
+      hosts:
+        cent_01:
+          ansible_host: 192.168.100.202
+        cent_02:
+          ansible_host: 192.168.100.203
+        ubuntu_01:
+          ansible_host: 192.168.100.201

@@ -1,0 +1,20 @@
+---
+- hosts: experimental
+  vars:
+    newUserName: insider
+  become: yes
+  tasks:
+    - name: create new user
+      user:
+        name: "{{ newUserName }}"
+        shell: /bin/bash
+        state: present
+    - name: copy ssh pub.key
+      authorized_key:
+        user: "{{newUserName}}"
+        key: "{{ lookup('file', '/home/vagrant/.ssh/id_rsa.pub') }}"
+    - name: Add sudo, NOPASSWD for user
+      copy:
+        content: "{{ newUserName }}  ALL=(ALL:ALL) NOPASSWD:ALL"
+        dest: "/etc/sudoers.d/{{newUserName}}"     
+    
