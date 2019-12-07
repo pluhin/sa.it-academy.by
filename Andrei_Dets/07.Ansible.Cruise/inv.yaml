@@ -1,0 +1,6 @@
+experimental:
+  hosts:
+    cent_01:
+      ansible_host: 192.168.56.202
+    ubuntu_01:
+      ansible_host: 192.168.56.201

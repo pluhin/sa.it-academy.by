@@ -1,0 +1,21 @@
+---
+#- name: Apache2. Remove packages
+#  apt:
+#    name: "{{ apt_nginx_packages }}"
+#    state: absent
+
+- name: ubuntu - nginx install packages
+  apt:
+    name: "{{ apt_nginx_packages }}"
+    state: present
+
+- name: ubuntu - copy html page
+  copy:
+    src: index.html
+    dest: "{{ default_home_debian }}"
+
+- name: ubuntu - nginx. Enable and start servce
+  service:
+    name: nginx
+    state: started
+    enabled: yes

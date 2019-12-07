@@ -1,0 +1,11 @@
+my_hosts:
+  children:
+    all_serv:      
+      vars:
+        ansible_user: vagrant
+      hosts:
+        centos_7:
+          ansible_host: 192.168.100.202
+r_servers:
+  hosts:
+    centos_7:

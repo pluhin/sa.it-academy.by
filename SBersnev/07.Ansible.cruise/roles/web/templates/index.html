@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Welcome to {{ item }}!</title>
+    </head>
+    <body>
+        <h1>This is virtualhost for {{ item }} on {{ ansible_hostname }}!</h1>
+    </body>
+    <body>
+        Server OS version : {{ ansible_distribution }} | {{ ansible_distribution_version }}<br> 
+        Server IP: {{ ansible_all_ipv4_addresses }} <br>
+    </body>
+</html>
