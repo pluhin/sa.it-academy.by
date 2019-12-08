@@ -1,0 +1,19 @@
+---
+centos_repos:
+  - 'http://mirror.datacenter.by/pub/CentOS'
+  - 'http://mirror.yandex.ru/centos'
+  - 'http://centos2.hti.pl'
+  - 'http://mirror.atlanticmetro.net/centos'
+
+ubuntu_repos:
+  - 'http://mirror.yandex.ru/ubuntu'
+  - 'http://ftp.byfly.by/ubuntu'
+  - 'http://mirror.linux-ia64.org/ubuntu'
+  - 'http://ftp.icm.edu.pl/pub/Linux/ubuntu'
+
+pip_repos: "https://pypi.org"
+
+docker_hub_registry: "https://hub.docker.com/_/registry"
+
+min_ram: "256"
+min_hdd: "20"
