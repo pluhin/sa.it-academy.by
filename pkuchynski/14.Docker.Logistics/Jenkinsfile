@@ -1,0 +1,48 @@
+pipeline {
+
+    environment {
+		registry = "pawelk82/testpipeline"
+		registryCredential = 'dockerhub'
+	}
+	agent any
+
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                    git 'git@github.com:pawelk82/testpipeline.git'
+            }
+        }
+
+        stage('Building image') {
+            steps {
+              script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+              }
+            }
+        }
+
+        stage('Deploy Image') {
+            steps{
+              script {
+                docker.withRegistry( '', registryCredential ) {
+                  dockerImage.push()
+              }
+            }
+          }
+        }
+
+        stage('Remove Unused docker image') {
+          steps{
+            sh "docker rmi $registry:$BUILD_NUMBER"
+          }
+        }
+    }
+    post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+}
