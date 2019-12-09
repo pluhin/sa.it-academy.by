@@ -1,0 +1,34 @@
+---
+version: "3.3"
+services:
+  nginx:
+   image: nginx:latest
+   container_name: nginx
+   ports:
+     - "8082:80"
+   volumes:
+     - ./html:/usr/share/nginx/html
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    depends_on:
+      - nginx
+    environment:
+      - PUID=1000
+      - PGID=1000
+    ports:
+      - "8083:8989"
+    restart: unless-stopped
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    depends_on:
+      - nginx
+    environment:
+      - PUID=1000
+      - PGID=1000
+    ports:
+     - "8084:7878"
+    restart: unless-stopped
