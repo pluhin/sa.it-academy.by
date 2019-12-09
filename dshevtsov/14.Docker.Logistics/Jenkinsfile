@@ -1,0 +1,48 @@
+pipeline {
+
+    environment {
+		registry = "ab456/echoserv"
+		registryCredential = 'dockerhub'
+	}
+    agent any
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                    git url:'git@github.com:Dmitry-Shevtsov/13.Docker.Lading.git',
+                    credentialsId: 'Jenkins_GIT'
+            }
+        }
+
+        stage('Building image') {
+            steps {
+              script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+              }
+            }
+        }
+
+        stage('Deploy Image') {
+            steps{
+              script {
+                docker.withRegistry( '', registryCredential ) {
+                  dockerImage.push()
+              }
+            }
+          }
+        }
+
+        stage('Remove Unused docker image') {
+          steps{
+            sh "docker rmi $registry:$BUILD_NUMBER"
+          }
+        }
+    }
+    post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+}
