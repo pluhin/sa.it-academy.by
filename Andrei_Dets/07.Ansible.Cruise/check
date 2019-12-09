@@ -1,0 +1,37 @@
+- name: Check file
+  shell: |
+    cat /etc/os-release | egrep "^NAME" | cut -d'"' -f 2
+  register: out
+  notify:
+    - print out
+
+- meta: flush_handlers  
+
+- name: Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: Check content to the sites
+  uri:
+    url: http://localhost
+    return_content: yes
+  register: out
+  #failed_when: "'pirates' not in out.content"
+
+  #- debug:
+  #  msg: "{{out.status}}"  
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes  
+  loop: "{{ virtual_hosts }}"
