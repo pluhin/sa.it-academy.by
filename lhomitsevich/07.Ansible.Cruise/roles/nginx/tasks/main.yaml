@@ -1,0 +1,41 @@
+---
+- name: Nginx installation for RedHat-based os
+  import_tasks: nginx4rhel.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Nginx installation for Debian-based os                                 
+  import_tasks: nginx4deb.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Copy Index page
+  copy:
+     src: index.html
+     dest: "/var/www/{{ hostname }}/"
+
+- name: Replace NGINX config
+  template:
+     src=templates/nginx.conf
+     dest=/etc/nginx/nginx.conf
+
+- name: Add NGINX virtualhost config
+  template:
+     src=templates/nginx_vhost.conf
+     dest=/etc/nginx/conf.d/{{ hostname }}.conf
+  notify:
+     - NGINX reload
+
+- name: Check connections to hosts
+  wait_for:
+    host: localhost
+    port: 80
+    state: started
+
+- name: Check page content
+  uri: 
+    url: "http://{{ hostname }}"
+    return_content: yes
+  register: index
+  failed_when: "'Ansible' not in index.content"
+- debug:
+    msg: "{{ index.status }}"
+
