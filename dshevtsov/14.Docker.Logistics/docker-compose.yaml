@@ -1,0 +1,35 @@
+---
+version: '3.7'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "8000:80"
+    volumes:
+    - ./html:/usr/share/nginx/html
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    depends_on: 
+      - nginx
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Minsk
+    ports:
+      - 8010:8989
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    depends_on: 
+      - nginx
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Minsk
+    ports:
+      - 8020:7878
