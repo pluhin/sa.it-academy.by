@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+    environment {
+        BUILD = "${env.BUILD_ID}"
+    }
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                    git branch: "master", url: "git@github.com:maksim-zhdanko/drowblr.git"            }
+        }
+        stage('Checking repository'){
+            steps { 
+                    sh "ls -l"
+            }
+        }
+        stage('Add new file') {
+            steps {
+                sh '''
+                    touch Newfile.txt
+                    date >> Newfile.txt
+                '''
+            }
+        }
+        stage('Push changes') { 
+            steps {
+                  sh 'git config --global user.name "Maksim Zhdanko"'
+                  sh 'git config --global user.email maskim.zhdanko@activecloud.com'
+                  sh 'git add --all'
+                  sh '''
+                     git commit -m "Add new files"
+                     '''
+                  sh 'git push -f origin'
+                }
+        }
+        stage('Test files') {
+            steps {
+                sh "ls -l"
+            }
+        }
+    }
+    post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+}
