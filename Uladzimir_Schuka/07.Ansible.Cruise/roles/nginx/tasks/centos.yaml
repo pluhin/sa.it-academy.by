@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Homework 07. Ansible cruise Uladzimir Schuka
 - name: Centos update repo
   yum:
     name: yum-utils
@@ -22,24 +18,3 @@
     name: nginx
     update_cache: yes
     state: present
-<<<<<<< HEAD
-=======
----
- - name: Add Repository
-   yum:
-     name: epel-release
-     state: present
-
- - name: Install nginx
-   package:
-     name: nginx
-     state: latest
-
- - name: Start nginx
-   service:
-     name: nginx
-     state: started
-     enabled: yes
->>>>>>> Homework 07.Ansible.Cruise and 10.Jenkins.Start
-=======
->>>>>>> Homework 07. Ansible cruise Uladzimir Schuka

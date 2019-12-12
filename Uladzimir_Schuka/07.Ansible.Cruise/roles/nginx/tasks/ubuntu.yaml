@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Homework 07. Ansible cruise Uladzimir Schuka
 - name: Install utils
   apt:
     name: iotop,atop,htop,python3,curl,ca-certificates,gnupg2,lsb-release
@@ -24,19 +20,3 @@
     name: nginx
     update_cache: yes
     state: present
-<<<<<<< HEAD
-=======
----
-- name: Install nginx
-  package:
-    name: nginx
-    state: latest
-
-- name: Start service
-  service:
-    name: nginx
-    state: started
-    enabled: yes
->>>>>>> Homework 07.Ansible.Cruise and 10.Jenkins.Start
-=======
->>>>>>> Homework 07. Ansible cruise Uladzimir Schuka

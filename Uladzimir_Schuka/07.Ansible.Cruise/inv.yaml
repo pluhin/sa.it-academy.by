@@ -2,8 +2,6 @@ all:
   hosts:
       ubuntu_01:
         ansible_host: 192.168.222.151
-<<<<<<< HEAD
-<<<<<<< HEAD
       centos_01:
         ansible_host: 192.168.222.141
       
@@ -12,28 +10,4 @@ webservers:
     ubuntu_01:
     centos_01:
 
-=======
-      ubuntu_02:
-        ansible_host: 192.168.222.152
-      ubuntu_03:
-        ansible_host: 192.168.222.153
-      ubuntu_04:
-        ansible_host: 192.168.200.42
-=======
->>>>>>> Homework 07. Ansible cruise Uladzimir Schuka
-      centos_01:
-        ansible_host: 192.168.222.141
-      
-webservers:
-  hosts:
-    ubuntu_01:
-    centos_01:
-<<<<<<< HEAD
-    centos_02:
-    centos_03:
-    centos_04:
->>>>>>> Homework 07.Ansible.Cruise and 10.Jenkins.Start
-=======
-
->>>>>>> Homework 07. Ansible cruise Uladzimir Schuka
     
