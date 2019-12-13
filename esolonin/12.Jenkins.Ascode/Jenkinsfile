@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+    environment {
+        BUILD = "${env.BUILD_ID}"
+    }
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                    git branch: "master", url: "git@github.com:evgeniy-so/Jenkins_as_code.git"            }
+        }
+        stage('Checking repository'){
+            steps { 
+                    sh "ls -la"
+            }
+        }
+        stage('Add date file') {
+            steps {
+                sh '''
+                    touch test1.txt
+                    date >> test1.txt
+                    cat /etc/os-release >> test1.txt
+                '''
+            }
+        }
+        stage('Push changes') { 
+            steps  {
+                  sh """
+                    git config --global user.name "Evgheni Solonin"
+                    git config --global user.email e.solonin@home.by
+                    git add --all
+                    git commit -m "Add new files"
+                    git push -f origin master
+                  """
+                }
+        }
+        stage('Test files') {
+            steps {
+                sh "ls -la"
+            }
+        }
+    
+    }
+    post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+}
