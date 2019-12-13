@@ -1,0 +1,18 @@
+- name: Ubuntu.Nginx.Prepare
+  apt:
+    name: curl,gnupg2,ca-certificates,lsb-release
+    update_cache: yes
+    state: present
+
+- name: Ubuntu.Nginx.Repository
+  apt_repository:
+    repo: "deb http://nginx.org/packages/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} nginx"
+    update_cache: yes
+    state: present
+
+- name: Ubuntu.Nginx.Install
+  apt:
+    name: nginx
+    update_cache: yes
+    state: present
+    allow_unauthenticated: yes
