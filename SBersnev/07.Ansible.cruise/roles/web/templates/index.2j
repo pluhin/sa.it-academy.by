@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>test</h1>
+<p>my text</p>
+<p>Host: "{{ hostvars[inventory_hostname].ansible_hostname }}.site"</p>
+<p><b>end</b></p>
+</body>
+</html>

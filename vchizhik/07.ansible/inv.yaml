@@ -1,0 +1,12 @@
+linux_hosts:
+  vars:
+    ansible_ssh_user: proba
+  hosts:
+    ubuntu:
+    ansible_host: "192.168.56.101"
+    centos:
+    ansible_host: "192.168.56.102"
+webservers:
+  hosts:
+    centos:
+    ubuntu:

@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+    environment {
+        BUILD = "${env.BUILD_ID}"
+    }
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                    git branch: "m-sa2-10-19", url: "git@github.com:Dmitry-Shevtsov/test.git"            }
+        }
+        stage('Checking repo'){
+            steps { 
+                    sh "ls -l"
+            }
+        }
+        stage('Adding date file') {
+            steps {
+                sh 'git checkout m-sa2-10-19'
+                sh 'mkdir -p dshevtsov/12.Jenkins.As_Code'
+                sh 'echo "12.Jenkins. As Code. Test page" > dshevtsov/12.Jenkins.As_Code/code.html'
+            }
+        }
+        stage('Push changes') { 
+            steps {
+                  sh 'git config --global user.name "Dmitry Shevtsov"'
+                  sh 'git config --global user.email dshevtsov@jenkins.local'
+                  sh 'git add --all'
+                  sh '''
+                     git commit -m "Add new files"
+                     '''
+                  sh 'git push -f origin'
+                }
+        }
+        stage('Testing step') {
+            steps {
+                sh 'curl https://github.com/Dmitry-Shevtsov/test/blob/m-sa2-10-19/dshevtsov/12.Jenkins.As_Code/code.html | grep Test'
+            }
+        }
+    
+    }
+     post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+
+}

@@ -1,0 +1,30 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+     - ./nginx:/usr/share/nginx/html
+    ports:
+    - 9997:80
+    - 4443:443
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Minsk
+      - UMASK_SET=022
+    ports:
+      - 9998:8989
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Minsk
+      - UMASK_SET=022
+    ports:
+      - 9999:7878

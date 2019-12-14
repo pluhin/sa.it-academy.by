@@ -1,0 +1,17 @@
+---
+centos_repos:
+  - 'http://mirror.datacenter.by/pub/CentOS'
+  - 'http://ftp.byfly.by/pub/CentOS/'
+
+ubuntu_repos:
+  - 'http://mirror.yandex.ru/ubuntu'
+  - 'http://ftp.byfly.by/ubuntu'
+
+pip_repo:
+  - 'https://pypi.org'
+
+docker_hub: 'https://hub.docker.com/_/registry'
+
+hdd_threshold: '50'
+
+ram_threshold: '1024'

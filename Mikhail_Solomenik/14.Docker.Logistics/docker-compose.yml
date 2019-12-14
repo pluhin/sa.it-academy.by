@@ -1,0 +1,25 @@
+---
+version: "3"
+services:
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    restart: unless-stopped
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    restart: unless-stopped
+
+  nginx:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - sonarr
+      - radarr
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "81:81"
+      - "82:82"
