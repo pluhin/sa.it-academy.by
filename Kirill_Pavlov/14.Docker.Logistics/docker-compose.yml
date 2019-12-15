@@ -1,0 +1,33 @@
+version: "3"
+services:
+  web:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+     - ./sonarr-radarr.conf:/etc/nginx/conf.d/default.conf
+    ports:
+     - "80:80"
+    command: /bin/bash -c "exec nginx -g 'daemon off;'"
+    restart: unless-stopped
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    volumes:
+     - ./sonarr-config.xml:/config/config.xml
+    ports:
+      - "8989:8989"
+    environment:
+      - TZ=Europe/Minsk
+    restart: unless-stopped
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    volumes:
+     - ./radarr-config.xml:/config/config.xml
+    ports:
+      - "7878:7878"
+    environment:
+      - TZ=Europe/Minsk
+    restart: unless-stopped
