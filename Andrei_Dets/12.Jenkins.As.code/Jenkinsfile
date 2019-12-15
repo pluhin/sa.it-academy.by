@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+    environment {
+        NEW_BRANCH = "new_branch"
+    }
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                    deleteDir()
+                    git(
+                        url: 'git@github.com:Minedy/jenkins.git',
+                        credentialsId: 'Github_my',
+                        branch: "master"
+                        )
+            }
+        }
+        stage('Ask system ip') { 
+            steps { 
+                    sh """
+                    ping -c 4 localhost > ping.txt
+                    """
+            }
+        }
+        stage('Git commit') { 
+            steps { 
+                
+                sshagent(['Github_my']) 
+                    {
+                        sh """
+                            git add --all
+                            git commit -am "ping.txt added"
+                            git push --set-upstream origin master
+                            git push origin
+                            """
+                    }
+                }
+            }
+        stage('Testing') {
+                steps {
+                    sh "cat ping.txt"
+                }
+            }
+    }
+    post {
+        success {
+            slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+        failure {
+            slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+    }
+}
+
