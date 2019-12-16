@@ -1,0 +1,15 @@
+server {
+       listen 80;
+	server_name swn.by www.swn.by;
+   location /.well-known/acme-challenge {
+    root /etc/letsencrypt/challenges;   
+   }
+     location / {
+        default_type "text/plain";
+        root        /var/www/html;
+    }
+
+
+ }
+ 
+    
