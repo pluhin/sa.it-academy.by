@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+    environment {
+        BUILD = "${env.BUILD_ID}"
+    }
+    stages {
+        stage('Clone repository') { 
+            steps { 
+                    git branch: "m-sa2-10-19", url: "https://github.com/Homln/test.git"            }
+        }
+        stage('Checking repo'){
+            steps { 
+                    sh "ls -l"
+            }
+        }
+        stage('Adding date file') {
+            steps {
+                sh 'git checkout m-sa2-10-19'
+                sh 'mkdir -p lhomitsevich/12.Jenkins.As_Code'
+                sh 'echo "12.Jenkins. As Code. Test page" > lhomitsevich/12.Jenkins.As_Code/code.html'
+            }
+        }
+        stage('Push changes') { 
+            steps {
+                  sh 'git config --global user.name "LEONID HOMITSEVICH"'
+                  sh 'git config --global user.email homln@tut.by'
+                  sh 'git config --global push.default simple'
+                  sh 'git add --all'
+                  sh '''
+                     git commit -m "Add new files"
+                     '''
+                  sh 'git push --set-upstream origin m-sa2-10-19'
+                  
+                }
+        }
+        stage('Testing step') {
+            steps {
+                sh 'curl https://github.com/homln/test/m-sa2-10-19/lhomitsevich/12.Jenkins.As_Code/code.html | grep Test'
+            }
+        }
+    
+    }
+     post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+
+}

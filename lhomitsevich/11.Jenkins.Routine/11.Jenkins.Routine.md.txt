@@ -1,0 +1,159 @@
+## 11.Jenkins.Routine.md
+
+```
+comand add nedes
+sudo chmod -R 777 /var/lib/jenkins 
+```
+
+### List of tasks
+```
+1. Check connection to the hosts
+2. Install nmap
+3. Checks all online hosts
+4. Remove nmap
+
+```
+### 1st task output (Check connection to the hosts)
+```
+Started by user Homitsevich
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/11_Jenkins_Routine/1Set
+[1Set] $ /bin/bash /tmp/jenkins1710031368147836321.sh
+Linux leo3 3.10.0-1062.9.1.el7.x86_64 #1 SMP Fri Dec 6 15:49:49 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=54 time=28.9 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=54 time=28.9 ms
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 28.911/28.949/28.988/0.174 ms
+Finished: SUCCESS
+```
+
+### 2st task Install nmap
+```
+Started by user Homitsevich
+Running as SYSTEM
+Building on master in workspace /var/lib/jenkins/workspace/11_Jenkins_Routine/2 Set
+[2 Set] $ /bin/bash /tmp/jenkins2405714097793892034.sh
++ sudo yum install nmap -y
+Загружены модули: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirror.datacenter.by
+ * epel: mirror.datacenter.by
+ * extras: mirror.datacenter.by
+ * nux-dextop: li.nux.ro
+ * updates: mirror.datacenter.by
+Разрешение зависимостей
+--> Проверка сценария
+---> Пакет nmap.x86_64 2:6.40-19.el7 помечен для установки
+--> Проверка зависимостей окончена
+
+Зависимости определены
+
+================================================================================
+ Package        Архитектура      Версия                    Репозиторий    Размер
+================================================================================
+Установка:
+ nmap           x86_64           2:6.40-19.el7             base           3.9 M
+
+Итого за операцию
+================================================================================
+Установить  1 пакет
+
+Объем загрузки: 3.9 M
+Объем изменений: 16 M
+Downloading packages:
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Установка   : 2:nmap-6.40-19.el7.x86_64                                   1/1 
+  Проверка    : 2:nmap-6.40-19.el7.x86_64                                   1/1 
+
+Установлено:
+  nmap.x86_64 2:6.40-19.el7                                                     
+
+Выполнено!
+Finished: SUCCESS
+```
+
+### 3st task output (Checks all online hosts)
+```
+Started by user Homitsevich
+Running as SYSTEM
+Building on master in workspace /var/lib/jenkins/workspace/11_Jenkins_Routine/3 st
+[3 st] $ /bin/bash /tmp/jenkins1148462442601826290.sh
++ nmap -A 192.168.100.30
+
+Starting Nmap 6.40 ( http://nmap.org ) at 2019-12-16 22:17 +03
+Nmap scan report for 192.168.100.30
+Host is up (0.0012s latency).
+Not shown: 995 closed ports
+PORT     STATE SERVICE       VERSION
+22/tcp   open  ssh           OpenSSH 7.4 (protocol 2.0)
+| ssh-hostkey: 2048 f7:6b:29:00:cf:5f:6b:82:2a:f9:4c:be:66:15:68:ed (RSA)
+|_256 f4:59:cb:25:5a:40:ae:fe:3c:5a:6d:6a:25:f8:28:24 (ECDSA)
+80/tcp   open  http          nginx 1.16.1
+|_http-methods: No Allow or Public header in OPTIONS response (status code 405)
+|_http-title: Welcome to CentOS
+111/tcp  open  rpcbind       2-4 (RPC #100000)
+| rpcinfo: 
+|   program version   port/proto  service
+|   100000  2,3,4        111/tcp  rpcbind
+|_  100000  2,3,4        111/udp  rpcbind
+3389/tcp open  ms-wbt-server Microsoft Terminal Service
+8080/tcp open  tcpwrapped
+|_http-methods: No Allow or Public header in OPTIONS response (status code 403)
+| http-robots.txt: 1 disallowed entry 
+|_/
+|_http-title: Site doesn't have a title (text/html;charset=utf-8).
+Service Info: OS: Windows
+
+Service detection performed. Please report any incorrect results at http://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 16.41 seconds
+Finished: SUCCESS
+```
+
+### 4st task output (Remove nmap)
+```
+Started by user Homitsevich
+Running as SYSTEM
+Building on master in workspace /var/lib/jenkins/workspace/11_Jenkins_Routine/4 set
+[4 set] $ /bin/bash /tmp/jenkins3898981046203719500.sh
++ sudo yum remove nmap -y
+Загружены модули: fastestmirror, langpacks
+Разрешение зависимостей
+--> Проверка сценария
+---> Пакет nmap.x86_64 2:6.40-19.el7 помечен для удаления
+--> Проверка зависимостей окончена
+
+Зависимости определены
+
+================================================================================
+ Package        Архитектура      Версия                   Репозиторий     Размер
+================================================================================
+Удаление:
+ nmap           x86_64           2:6.40-19.el7            @base            16 M
+
+Итого за операцию
+================================================================================
+Удалить  1 пакет
+
+Объем изменений: 16 M
+Downloading packages:
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Удаление    : 2:nmap-6.40-19.el7.x86_64                                   1/1 
+  Проверка    : 2:nmap-6.40-19.el7.x86_64                                   1/1 
+
+Удалено:
+  nmap.x86_64 2:6.40-19.el7                                                     
+
+Выполнено!
+Finished: SUCCESS
+```
+### Build Pipeline view
+
+![](./11_Jenkins.png "Pipeline")
