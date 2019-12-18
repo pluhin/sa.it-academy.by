@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  nginx:
+    restart: always
+    image: nginx:latest
+    hostname: man.swn.by man1.swn.by jenkins.swn.by chef.swn.by gitlab.swn.by radarr.swn.by sonarr.swn.by swn.by
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./letsencrypt/live:/etc/letsencrypt
+      - ./config:/etc/nginx    
+      - ./www:/var/www/html
+    environment:
+      - LE_RENEW_HOOK=docker kill -s HUP @CONTAINER_NAME@
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./letsencrypt/live:/etc/letsencrypt
+    command: ["renew"]
