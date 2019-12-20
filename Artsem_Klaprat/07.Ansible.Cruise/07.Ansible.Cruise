@@ -1,0 +1,39 @@
+# 07.Ansible.Cruise
+## Create inventory
+```
+all_hosts:
+servers:
+  vars:
+    full_name: "servers"
+  hosts:
+    centos01:
+      ansible_user: sysadmin
+      ansible_host: 192.168.0.248
+    ubuntu01:
+      ansible_user: sysadmin
+      ansible_host: 192.168.0.249
+webservers:
+  hosts:
+    centos-1:
+    ubuntu-1:
+```
+
+## Servers Status
+```
+ansible servers -m ping -i inv.yaml                                                         
+ 
+ubuntu-1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+centos-1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+```

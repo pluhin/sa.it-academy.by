@@ -1,0 +1,7 @@
+---
+- hosts: servers
+  become: yes
+  gather_facts: True
+  roles:
+    #- { name: web, tags: ['web'], when: }
+    - web

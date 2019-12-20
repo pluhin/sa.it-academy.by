@@ -1,0 +1,14 @@
+---
+- name: Reps
+  yum:
+    name: epel-release
+    state: present
+- name: Install packages
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+- name: start servce
+  service:
+    name: nginx
+    state: started
+    enabled: yes
