@@ -1,0 +1,15 @@
+all_hosts:
+servers:
+  vars:
+    full_name: "servers"
+  hosts:
+    centos01:
+      ansible_user: sysadmin
+      ansible_host: 192.168.0.248
+    ubuntu01:
+      ansible_user: sysadmin
+      ansible_host: 192.168.0.249
+webservers:
+  hosts:
+    centos-1:
+    ubuntu-1:

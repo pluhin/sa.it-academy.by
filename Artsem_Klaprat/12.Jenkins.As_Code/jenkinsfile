@@ -1,0 +1,71 @@
+pipeline {
+    agent any
+    environment {
+        NEW_BRANCH = "remote"
+		SOURCE_BRANCH = "m-sa2-10-19"
+		EMAIL = "artsem.klaprat@rozum.com"
+		NAME = "artsem.klaprat"
+    }
+    stages {
+        stage('Cloning rep') { 
+            steps { 
+                    deleteDir()
+                    git url: 'git@dev.rozum.com:artsem.klaprat/sa.it-academy.by.git',
+					branch: "${env.SOURCE_BRANCH}"
+            }
+        }
+        stage('New branch') { 
+            steps { 
+                    sh """
+						git config user.email $EMAIL
+						git config user.name $NAME
+                        git checkout -b $NEW_BRANCH
+                        git branch
+                        git push origin $NEW_BRANCH
+                    """
+            }
+        }
+        
+        stage('Creating common.txt') { 
+            steps { 
+                    sh 'touch common.txt'
+					sh 'git branch -a > common.txt'
+                    sh "ls -l >> common.txt"
+					sh 'tar -cvzf f.tar.gz common.txt'
+            }
+        }
+        stage('Pushing changes to origin') { 
+            steps { 
+                sh 'git add --all'
+                sh '''
+                    git commit -m "Adding files"
+                   '''
+                sh 'git push -f origin $NEW_BRANCH'
+            }
+
+        }
+        stage('New branch removing') { 
+            steps { 
+                    sh 'git checkout master' 
+                    sh 'git branch -D $NEW_BRANCH'
+                    sh 'git push origin --delete $NEW_BRANCH'
+            }
+        }
+        stage('Testing') { 
+            steps { 
+                    sh 'echo "Remote branches are:"'
+                    sh 'git branch -r'
+                    sh 'echo "Local branches list:"'
+                    sh 'git branch'
+            }
+        }
+    }
+    post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL COMPLETED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "NOT COMPLETED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
+}
