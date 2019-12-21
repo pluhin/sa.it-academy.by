@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  #become: true
+  roles:
+    - system_check

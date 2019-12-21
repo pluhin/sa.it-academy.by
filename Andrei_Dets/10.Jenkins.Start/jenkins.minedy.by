@@ -1,0 +1,17 @@
+server {
+
+    server_name jenkins.minedy.by;
+
+location /.well-known/acme-challenge {
+    root /etc/letsencrypt/challenges;
+   }
+
+
+location / {
+        proxy_pass http://192.168.222.200:8080;
+       proxy_set_header   X-Real-IP $remote_addr;
+                proxy_set_header   Host $http_host;
+                proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+           }
+
+    }

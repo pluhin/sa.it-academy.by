@@ -1,0 +1,16 @@
+---
+- hosts: slaves
+  become: yes
+  tasks:
+      - name: Create new user
+        user:
+            name: "tmpuser"
+            state: present
+      - name: Copy ssh key
+        authorized_key:
+            user: "tmpuser"
+            key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+      - name: Enable NOPASSWD for user
+        copy:
+            content: "tmpuser ALL=(ALL) NOPASSWD: ALL"
+            dest: "/etc/sudoers.d/tmpuser"

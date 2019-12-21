@@ -1,0 +1,5 @@
+---
+- name: Install Docker on CentOS
+  become: True
+  import_tasks: docker_centos.yml
+  when: ansible_os_family == "RedHat"

@@ -1,0 +1,7 @@
+---
+- hosts: jenkins
+  roles:
+    - docker_install
+    - jenkins_install
+    - nginx_install
+    - nginx_configure

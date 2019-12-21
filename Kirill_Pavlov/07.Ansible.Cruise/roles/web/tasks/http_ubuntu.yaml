@@ -1,0 +1,23 @@
+---
+- name: apt | update repository cache
+  apt:
+    update_cache: yes
+
+- name: Install packages
+  apt:
+    name: "{{ apt_http_packages }}"
+    state: latest
+
+- name: Add nginx repository
+  apt_repository:
+    repo: "deb http://nginx.org/packages/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} nginx"
+    update_cache: yes
+    state: present
+
+- name: Install nginx on Ubuntu
+  apt:
+    name: nginx
+    update_cache: yes
+    state: present
+    allow_unauthenticated: yes
+...

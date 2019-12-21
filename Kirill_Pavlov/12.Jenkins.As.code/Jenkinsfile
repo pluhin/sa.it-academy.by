@@ -1,0 +1,74 @@
+pipeline {
+    agent any
+    environment {
+        BUILD = "${env.BUILD_ID}"
+    }
+    parameters {
+        booleanParam(name: 'clear_work_space', defaultValue: true, description: 'Are you want clean work space?' )
+        booleanParam(name: 'new_branch', defaultValue: true, description: 'Are you need new branch?' )
+    }
+    stages {
+        stage('Clone reposytory') {
+            steps {
+                git url: 'git@github.com:pk-active/02.Git.Local.git'
+            }
+        }    
+        stage('Check repository') {
+            steps {
+                sh 'ls -lah'
+            }
+        }
+        stage('Create branch') {
+            when {
+                expression {params.new_branch == true}
+            }
+            steps {
+                sh """
+                    git checkout -b branch_$BUILD
+                    git branch
+                """
+            }
+        }
+        stage('Add new file') {
+            steps {
+                sh """
+                    echo "`date +%F`" > current_date_"$BUILD".txt
+                    cat current_date_"$BUILD".txt
+                """
+            }
+        }
+        stage('Git commit and push') {
+            steps {
+                sh """
+                    git config --global user.name "Kirill Pavlov"
+                    git config --global user.email kirill.pavlov@activecloud.com
+                    git config --global push.default matching
+                    git add --all
+                    git commit -m "Commit build $BUILD"
+                    git push -f origin --all
+                """
+            }
+        }
+        stage('Detele work directory') {
+            when {
+                expression {params.clear_work_space == true}
+            }
+            steps {
+                deleteDir()
+            }
+        }
+        stage('Test directory') {
+            steps {
+                sh 'ls -lah'
+            }
+        }
+    }
+    post {
+        success {
+            slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+        failure {
+            slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+    }
+}

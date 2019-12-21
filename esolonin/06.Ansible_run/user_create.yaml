@@ -1,0 +1,23 @@
+---
+- hosts: remote_hosts
+  become: True
+  vars:
+    user: user1
+
+  tasks:
+    - name: User create
+      user:
+        name: "{{user}}"
+        state: present
+
+    - name: Key add
+      authorized_key:
+        user: "{{ user }}"
+        key: "{{ lookup('file', 'public_key.txt') }}"
+
+    - name: Privilege add
+      copy:
+        content: "{{ user }} ALL=(ALL:ALL) NOPASSWD:ALL"
+        dest: "/etc/sudoers.d/{{ user }}"
+
+

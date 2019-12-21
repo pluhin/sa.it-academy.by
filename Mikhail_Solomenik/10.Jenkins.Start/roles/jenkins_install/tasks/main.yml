@@ -1,0 +1,57 @@
+- name: Add Jenkins
+  user:
+    name: jenkins
+    shell: /bin/bash
+    groups: docker
+    append: yes
+    createhome: yes
+
+- name: Create Jenkins datadir
+  file:
+    path: /home/jenkins/jenkins_home
+    state: directory
+    mode: "0755"
+    owner: "1000"
+    group: "1000"
+
+- name: create Dockerfile
+  template:
+    src: templates/Dockerfile.j2
+    dest: /home/jenkins/Dockerfile
+    owner: jenkins
+    group: jenkins
+
+- name: create docker-compose.yml
+  template:
+    src: templates/docker-compose.yml.j2
+    dest: /home/jenkins/docker-compose.yml
+    owner: jenkins
+    group: jenkins
+
+- name: create .dockerignore
+  template:
+    src: templates/.dockerignore.j2
+    dest: /home/jenkins/.dockerignore
+    owner: jenkins
+    group: jenkins
+
+- name: Start Jenkins
+  block:
+    - name: Stop jenkins
+      docker_compose:
+        project_src: /home/jenkins
+        state: absent
+    - name: Start jenkins
+      docker_compose:
+        project_src: /home/jenkins
+        recreate: always
+      register: output  
+    - name: Prune everything
+      docker_prune:
+        # containers: yes
+        images: yes
+        networks: yes
+        volumes: yes
+        builder_cache: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3

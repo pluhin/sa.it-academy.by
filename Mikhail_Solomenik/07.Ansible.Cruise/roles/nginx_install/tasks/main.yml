@@ -1,0 +1,10 @@
+---
+- name: Install Nginx on Debian based systems
+  become: True
+  import_tasks: install_nginx_debian.yml
+  when: ansible_os_family == "Debian"
+
+- name: Install Nginx on CentOS based systems
+  become: True
+  import_tasks: install_nginx_redhat.yml
+  when: ansible_os_family == "RedHat"

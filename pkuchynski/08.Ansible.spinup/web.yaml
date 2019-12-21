@@ -1,0 +1,6 @@
+---
+- hosts: r_servers
+  become: yes
+  gather_facts: True
+  roles:
+    - check

@@ -1,0 +1,6 @@
+---
+- hosts: all_srv
+  become: no
+  gather_facts: True
+  roles:
+    - spinup

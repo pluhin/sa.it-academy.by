@@ -1,0 +1,12 @@
+linux:
+  children:
+   linux_hosts:
+    vars:
+      ansible_user: leonid
+    hosts:
+     centos_leo1:
+       ansible_host: 192.168.100.28
+     ubuntu_1:
+       ansible_host: 192.168.100.39
+     centos_leo2:
+       ansible_host: 192.168.100.29

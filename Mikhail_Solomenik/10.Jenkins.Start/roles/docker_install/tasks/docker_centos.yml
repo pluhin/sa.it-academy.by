@@ -1,0 +1,57 @@
+---
+- name: Install Docker depends
+  yum:
+    name: yum-utils, device-mapper-persistent-data, lvm2
+    state: present
+
+# TODO:
+# - name: Add Docker stable repository
+#   yum_repository:
+#     name: Docker-Stable
+#     description: Docker stable
+#     baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+#     gpgkey: https://download.docker.com/linux/centos/gpg
+#     gpgcheck: yes
+#     state: absent
+
+- name: Add Docker stable repository
+  shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+- name: Install Docker
+  yum:
+    name: docker-ce, docker-ce-cli, containerd.io
+    state: present
+
+- name: Start Docker service
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add "docker" group
+  group:
+    name: docker
+    state: present
+
+- name: Allow to run Docker from other Docker containers
+  file:
+    path: /var/run/docker.sock
+    mode: '0666'
+
+- name: Install Docker Compose depends
+  yum:
+    name: python3-pip, python3-devel
+    state: present
+
+- pip:
+    name:
+      - docker-compose
+      - docker
+    state: present
+    executable: pip3
+
+- name: Create Docker Compose symbolic link
+  file:
+    src: /usr/local/bin/docker-compose
+    dest: /usr/bin/docker-compose
+    state: link

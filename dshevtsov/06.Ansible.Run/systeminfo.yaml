@@ -1,0 +1,17 @@
+--- 
+- hosts: localhosts
+  become: yes
+  tasks:
+    - name: System info
+      vars:     
+       msg: | 
+         - "OS:{{ansible_distribution}} {{ansible_distribution_version}}|{{ansible_distribution_release}}|{{ansible_architecture}}|Kernel:{{ansible_kernel}}"
+         - "Disk Usadge: 
+            {% for item in ansible_mounts %}
+            Mount point: {{ item.mount }} | capacity:{{item.size_total//1000000}}MB | used:"{{item.size_total//1000000 - item.size_available//1000000}}MB";
+            {% endfor %}"
+         - "RAM Usadge: capacity:{{ansible_memtotal_mb}}MB | free:{{ansible_memory_mb.real.free}}MB"
+      debug:
+       msg: "{{ msg.split('\n') }}"
+
+
