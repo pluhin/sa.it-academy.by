@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 986bf6188ba6f6a619b7447dc0aab24882a1de76 Vitali Haranin <vitaly-vitaly@outlook.com> 1577127698 +0300	commit (initial): First Master commit
+986bf6188ba6f6a619b7447dc0aab24882a1de76 a7587200a4e3304215fcbcdbe8a5a0f5342ae1ca Vitali Haranin <vitaly-vitaly@outlook.com> 1577127817 +0300	commit: Second Master commit
+a7587200a4e3304215fcbcdbe8a5a0f5342ae1ca bc7f12a7499d413d9694f14e281a7d74c57a8bb2 Vitali Haranin <vitaly-vitaly@outlook.com> 1577129374 +0300	merge features/do_one: Fast-forward
+bc7f12a7499d413d9694f14e281a7d74c57a8bb2 3afa28004958cbc4d2b220d07cbf32366db08062 Vitali Haranin <vitaly-vitaly@outlook.com> 1577129619 +0300	cherry-pick: First hotfix/we_gonna_die commit
