@@ -1,0 +1,43 @@
+commit 6acbcaf9ce5da1ed7b6a7c5649b3996bcc989767
+Merge: 746d228 ff39713
+Author: Valeryi Charnyshou <1824981@gmail.com>
+Date:   Wed Dec 25 12:07:47 2019 +0000
+
+    Release phase 1 - all commits should be inside master.
+    Merge branch 'features/do_one' into hotfix/we_gonna_die
+
+commit 746d2280b7a89ad762822b3aa6236bff1ff2518b
+Author: Valeryi Charnyshou <1824981@gmail.com>
+Date:   Mon Dec 23 09:30:19 2019 +0000
+
+    hotfix.txt was created
+
+commit ff397133cf5dd2cab7a17d3495dab10ff75278d6
+Author: Valeryi Charnyshou <1824981@gmail.com>
+Date:   Mon Dec 23 09:27:58 2019 +0000
+
+    hello.world was created
+
+commit c525fa4637741ed2e5acba7d0d154f386589b49c
+Author: Valeryi Charnyshou <1824981@gmail.com>
+Date:   Mon Dec 23 09:16:29 2019 +0000
+
+    system.release was edited
+
+commit 1fde2a02bd53410fd3b9244faa23a3cb35b9915b
+Author: Valeryi Charnyshou <1824981@gmail.com>
+Date:   Mon Dec 23 09:13:25 2019 +0000
+
+    Added system.release
+
+commit 81ac1ddbfd9054e1d7c298afdaeaa0d8137001a6
+Author: Valeryi Charnyshou <1824981@gmail.com>
+Date:   Mon Dec 23 08:58:36 2019 +0000
+
+    The first.file was edited
+
+commit 452523fb6f7c8e1030f50eb8268045db7faa1425
+Author: Valeryi Charnyshou <1824981@gmail.com>
+Date:   Mon Dec 23 08:55:44 2019 +0000
+
+    The first.file was created
