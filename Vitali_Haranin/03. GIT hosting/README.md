@@ -1,22 +1,34 @@
 # 03. GIT hosting
+
 ## Links to remote repositories:
+
 * [bitbucket.org](https://bitbucket.org/vitalik-vitalic/m-sa2-11-19/src/master/)
 * [gitlab.com](https://gitlab.com/vitalik-vitalic/m-sa2-11-19)
 * [github.com](https://github.com/vitalik-vitalic/m-sa2-11-19)
 
 ## SSH keys:
 
-<img src="images/ssh-key-gitlab.PNG" width="50%" height="50%" alt="ssh1">
-<img src="images/ssh-key-github.PNG" width="50%" height="50%" alt="ssh2">
+<img src="Images/bitbucket-slack.PNG" width="50%" height="50%">
+
+<img src="Images/ssh-key-github.PNG" width="50%" height="50%">
+
 
 ## Slack integration:
+
 ### bitbucket
-<img src="images/bitbucket-slack.PNG" width="50%" height="50%" alt="slack1">
+
+<img src="Images/bitbucket-slack.PNG" width="50%" height="50%">
+
 ### github
-<img src="images/github-slack.PNG" width="50%" height="50%" alt="slack2">
+
+<img src="Images/github-slack.PNG" width="50%" height="50%">
+
 ### gitlab
-<img src="images/gitlab-slack.PNG" width="50%" height="50%" alt="slack3">
+
+<img src="Images/gitlab-slack.PNG" width="50%" height="50%">
+
 ## Script:
+
 ```bash
 #!  /bin/bash 
 git push bb
@@ -24,10 +36,15 @@ git push github
 git push gitlab
 ```
 # Additional task
-<img src="images/gitlab-local.PNG" width="70%" height="70%" alt="gitlab">
+
+<img src="Images/gitlab-local.PNG" width="70%" height="70%">
+
 ## Invitation to the project using GitLab notification
-<img src="images/gitlabinvitation.PNG" width="50%" height="50%" alt="invitationlink">
+
+<img src="Images/gitlabinvitation.PNG" width="50%" height="50%">
+
 ## Check difference between EE and CE
+
 | Differences        | CE           | EE  |
 | ------------- |:-------------:| -----:|
 | All the features of the CE      | * | * |
