@@ -1,4 +1,4 @@
-# Log of Features branch
+# Log of features branch
 
 ```features branch
 5d96aa6 Features commit
