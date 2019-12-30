@@ -1,3 +1,6 @@
+# Log of master branch
+
+```master branch
 5efbc7d Features commit
 5d0f8ff File created
 8dee462 File deleted
