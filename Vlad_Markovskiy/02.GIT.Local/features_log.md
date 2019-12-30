@@ -1,3 +1,6 @@
+# Log of Features branch
+
+```features branch
 5d96aa6 Features commit
 1fa84f7 File created
 7cf0ba3 File deleted
