@@ -1,5 +1,5 @@
  # HISTORY
- ``` Terminal
+ ``` bash
  1299  mkdir Devops
  1300  ls
  1301  cd Devops/
@@ -80,3 +80,4 @@
  1376  git log --oneline 
  1377  touch history
  1378  history > history
+```
