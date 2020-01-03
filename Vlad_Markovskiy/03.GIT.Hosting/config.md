@@ -1,6 +1,6 @@
 # Git config
 
-```config list
+```bash
 core.repositoryformatversion=0
 core.filemode=true
 core.bare=false
@@ -22,7 +22,7 @@ branch.features/do_one.merge=refs/heads/features/do_one
 ```
 
 # Url`s
- ## Github: git@github.com:markvladosski/Local.git
- ## GitLab: git@gitlab.com:Malkich/local.git
+ ## Github: https://github.com/markvladosski/Local
+ ## GitLab: https://gitlab.com/Malkich/local
  ## BitBucket: https://Malkich@bitbucket.org/Malkich/local.git
  
