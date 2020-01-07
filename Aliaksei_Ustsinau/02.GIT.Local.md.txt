@@ -1,0 +1,96 @@
+''' 
+  136  git init
+  137  git config user.name "Aliaksei Ustsinau"
+  138  git config user.email "ustsinau.a@gmail.com"
+  139  date > file.txt
+  140  git add --all
+  141  git commit -m "first on master"
+  142  date >> file.txt
+  143  git add --all
+  144  git commit -m "second on master"
+  145  git checkout -b "dev"
+  146  date >> file.txt
+  147  git add --all
+  148  git commit -m "first on dev"
+  149  date >> file.txt
+  150  git add --all
+  151  git commit -m "second on dev"
+  152  git checkout -b "features/do_one"
+  153  date >> file.txt
+  154    123  git add --all
+  155  git add --all
+  156  git commit -m "first on features"
+  157  git checkout "master"
+  158  git status
+  159  git log --oneline
+  160  git checkout -b "hotfix/we_gonna_die"
+  161  date >> file.txt
+  162  git add --all
+  163  git commit -m "first on hotfix"
+  164  git checkout "master"
+  165  git checkout "dev"
+  166  git merge features/do_one
+  167  git checkout "master"
+  168  git merge dev
+  169  git statis
+  170  git status
+  171  git cherry-pick 57f1869]
+  172  git cherry-pick 57f1869
+  173  git checkout "hotfix/we_gonna_die"
+  174  vim file.txt
+  175  vim file.txt
+  176  git add --all
+  177  git commit -m "hotfix test"
+  178  vim file.txt
+  179  git log --oneline
+  180  git checkout "dev"
+  181  git log --oneline
+  182  git checkout "features/do_one"
+  183  git log --oneline
+  184  git checkout "hotfix/we_gonna_die"
+  185  git log --oneline
+  186  history
+'''
+1@DESKTOP-8S1B6Q3 MINGW64 /d/GIT2 (master)
+$ git log --oneline
+d6ee1c3 (HEAD -> master) hotfix test
+3c3f8c8 (features/do_one, dev) first on features
+417bebe second on dev
+47bf2cf first on dev
+e877ea4 second on master
+d998d91 first on master
+
+1@DESKTOP-8S1B6Q3 MINGW64 /d/GIT2 (master)
+$ git checkout "dev"
+Switched to branch 'dev'
+
+1@DESKTOP-8S1B6Q3 MINGW64 /d/GIT2 (dev)
+$ git log --oneline
+3c3f8c8 (HEAD -> dev, features/do_one) first on features
+417bebe second on dev
+47bf2cf first on dev
+e877ea4 second on master
+d998d91 first on master
+
+1@DESKTOP-8S1B6Q3 MINGW64 /d/GIT2 (dev)
+$ git checkout "features/do_one"
+Switched to branch 'features/do_one'
+
+1@DESKTOP-8S1B6Q3 MINGW64 /d/GIT2 (features/do_one)
+$ git log --oneline
+3c3f8c8 (HEAD -> features/do_one, dev) first on features
+417bebe second on dev
+47bf2cf first on dev
+e877ea4 second on master
+d998d91 first on master
+
+1@DESKTOP-8S1B6Q3 MINGW64 /d/GIT2 (features/do_one)
+$ git checkout "hotfix/we_gonna_die"
+Switched to branch 'hotfix/we_gonna_die'
+
+1@DESKTOP-8S1B6Q3 MINGW64 /d/GIT2 (hotfix/we_gonna_die)
+$ git log --oneline
+57f1869 (HEAD -> hotfix/we_gonna_die) first on hotfix
+e877ea4 second on master
+d998d91 first on master
+
