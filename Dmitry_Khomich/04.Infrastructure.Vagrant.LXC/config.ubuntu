@@ -1,0 +1,25 @@
+# Template used to create this container: /usr/share/lxc/templates/lxc-download
+# Parameters passed to the template: -d ubuntu -r bionic -a amd64
+# Template script checksum (SHA-1): 71ca3f1977bd49263d5ee94e6d083a406c3d06da
+# For additional config options, please look at lxc.container.conf(5)
+
+# Uncomment the following line to support nesting containers:
+#lxc.include = /usr/share/lxc/config/nesting.conf
+# (Be aware this has security implications)
+
+
+# Distribution configuration
+lxc.include = /usr/share/lxc/config/ubuntu.common.conf
+lxc.arch = linux64
+
+# Container specific configuration
+#lxc.cgroup.memory.limit_in_bytes = 512М
+lxc.rootfs = /var/lib/lxc/ub01/rootfs
+lxc.rootfs.backend = dir
+lxc.utsname = ub01
+
+# Network configuration
+lxc.network.type = veth
+lxc.network.link = lxcbr0
+lxc.network.flags = up
+lxc.network.hwaddr = 00:16:3e:20:55:c0

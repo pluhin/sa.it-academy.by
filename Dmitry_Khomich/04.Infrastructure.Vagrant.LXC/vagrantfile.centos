@@ -1,0 +1,7 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/centos-7.2"
+   config.vm.provider "virtualbox" do |vb|
+     vb.gui = false
+     vb.memory = "512"
+   end
+end
