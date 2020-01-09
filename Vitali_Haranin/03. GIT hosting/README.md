@@ -1,11 +1,18 @@
 # 03. GIT hosting
+<<<<<<< HEAD
 ## Links to remote repositories:
+=======
+
+## Links to remote repositories:
+
+>>>>>>> remotes/up/m-sa2-11-19
 * [bitbucket.org](https://bitbucket.org/vitalik-vitalic/m-sa2-11-19/src/master/)
 * [gitlab.com](https://gitlab.com/vitalik-vitalic/m-sa2-11-19)
 * [github.com](https://github.com/vitalik-vitalic/m-sa2-11-19)
 
 ## SSH keys:
 
+<<<<<<< HEAD
 <img src="images/ssh-key-gitlab.PNG" width="50%" height="50%" alt="ssh1">
 <img src="images/ssh-key-github.PNG" width="50%" height="50%" alt="ssh2">
 
@@ -17,6 +24,29 @@
 ### gitlab
 <img src="images/gitlab-slack.PNG" width="50%" height="50%" alt="slack3">
 ## Script:
+=======
+<img src="Images/bitbucket-slack.PNG" width="50%" height="50%">
+
+<img src="Images/ssh-key-github.PNG" width="50%" height="50%">
+
+
+## Slack integration:
+
+### bitbucket
+
+<img src="Images/bitbucket-slack.PNG" width="50%" height="50%">
+
+### github
+
+<img src="Images/github-slack.PNG" width="50%" height="50%">
+
+### gitlab
+
+<img src="Images/gitlab-slack.PNG" width="50%" height="50%">
+
+## Script:
+
+>>>>>>> remotes/up/m-sa2-11-19
 ```bash
 #!  /bin/bash 
 git push bb
@@ -24,10 +54,22 @@ git push github
 git push gitlab
 ```
 # Additional task
+<<<<<<< HEAD
 <img src="images/gitlab-local.PNG" width="70%" height="70%" alt="gitlab">
 ## Invitation to the project using GitLab notification
 <img src="images/gitlabinvitation.PNG" width="50%" height="50%" alt="invitationlink">
 ## Check difference between EE and CE
+=======
+
+<img src="Images/gitlab-local.PNG" width="70%" height="70%">
+
+## Invitation to the project using GitLab notification
+
+<img src="Images/gitlabinvitation.PNG" width="50%" height="50%">
+
+## Check difference between EE and CE
+
+>>>>>>> remotes/up/m-sa2-11-19
 | Differences        | CE           | EE  |
 | ------------- |:-------------:| -----:|
 | All the features of the CE      | * | * |
@@ -46,4 +88,8 @@ git push gitlab
 | The omnibus package supports the configuration of an external PostgreSQL database |     |    * |
 | The omnibus package supports the configuration of an external MySQL database |     |    * |
 | The omnibus package supports log forwarding |     |    * |
+<<<<<<< HEAD
 | An admin can e-mail all users of a project, group, or the entire server |     |    * |
+=======
+| An admin can e-mail all users of a project, group, or the entire server |     |    * |
+>>>>>>> remotes/up/m-sa2-11-19

@@ -1,3 +1,5 @@
+
+```bash
 #git log master
 commit 6c04503a7e0534ed0cc62832accfb38999f6c0c0
 Author: John Doe <johndoe@example.com>
@@ -126,3 +128,4 @@ Date:   Tue Dec 24 05:52:00 2019 +0300
 commit d352d8a2aabc9c37d7a799e61a8e3ffc5e24b1bf
 Author: John Doe <johndoe@example.com>
 Date:   Tue Dec 24 05:51:05 2019 +0300
+```
