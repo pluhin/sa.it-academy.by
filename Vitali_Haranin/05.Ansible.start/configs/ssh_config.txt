@@ -1,0 +1,6 @@
+#Home demo ansible
+Host home_bastion
+        User vagrant
+        HostName 10.0.0.11
+Host 10.0.0.1*
+        ProxyJump home_bastion
