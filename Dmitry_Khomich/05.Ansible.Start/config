@@ -1,0 +1,7 @@
+Host bastion
+    HostName 192.168.10.40
+    User vagrant
+  
+Host 10.20.30.*
+    User vagrant
+    ProxyCommand ssh -W %h:%p bastion 
