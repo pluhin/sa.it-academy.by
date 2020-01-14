@@ -1,4 +1,4 @@
-''' 
+``` bash
   136  git init
   137  git config user.name "Aliaksei Ustsinau"
   138  git config user.email "ustsinau.a@gmail.com"
@@ -50,7 +50,7 @@
   184  git checkout "hotfix/we_gonna_die"
   185  git log --oneline
   186  history
-'''
+```
 1@DESKTOP-8S1B6Q3 MINGW64 /d/GIT2 (master)
 $ git log --oneline
 d6ee1c3 (HEAD -> master) hotfix test
