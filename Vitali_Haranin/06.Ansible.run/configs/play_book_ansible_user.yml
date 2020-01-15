@@ -34,7 +34,7 @@
         line: "%ansuser ALL=(ALL) NOPASSWD{{':'}} ALL"
         validate: 'visudo -cf %s'
         state: present
-    - name: Run a command as the apache user
+    - name: Run a command as the ansuser user
       command: sudo cat /etc/passwd
       become: true
       become_user: ansuser
