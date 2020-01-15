@@ -1,0 +1,44 @@
+---
+- name: Create a dedicated remote management user
+  hosts: internal
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Create a now basic user
+      user:
+        name: 'ansuser'
+        password: $1$SomeSalt$bwourovCr3LVj5E33b8XT1
+        # python -c 'import crypt; print crypt.crypt("ansuser", "$1$SomeSalt$")'
+        # A hash for generic password.
+        append: yes
+        #groups: sudo
+        shell: /bin/bash
+        state: present
+    - name: Create the user folder to host the SSH key
+      file:
+        path: /home/ansuser/.ssh
+        state: directory
+        mode: 0700
+        owner: ansuser
+
+    - name: Copy server public SSH key to the newly created folder
+      copy:
+        src: /home/vagrant/.ssh/id_rsa.pub
+        dest: /home/ansuser/.ssh/authorized_keys
+        mode: 0600
+        owner: ansuser
+    - name: Configure user to work without a password
+      lineinfile:
+        dest: /etc/sudoers
+        regexp: '^%ansuser\s'
+        line: "%ansuser ALL=(ALL) NOPASSWD{{':'}} ALL"
+        validate: 'visudo -cf %s'
+        state: present
+    - name: Run a command as the apache user
+      command: sudo cat /etc/passwd
+      become: true
+      become_user: ansuser
+      register: output
+    - name: Print output
+      debug:
+        msg: "{{ output.stdout }}"
