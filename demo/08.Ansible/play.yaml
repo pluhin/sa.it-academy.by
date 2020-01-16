@@ -1,0 +1,89 @@
+---
+- hosts: jump
+  tasks:
+    - name: Set fact 01
+      set_fact:
+        message_from_jump: "we've been on Jump"
+        cacheable: yes
+    - name: Print fact from Jump
+      debug:
+        msg: "Fact from Jump is {{ ansible_facts.message_from_jump }}"
+
+- hosts: infra
+  tasks:
+  - name: Print fact from Jump
+    debug:
+      msg: "Fact from Jump is {{ hostvars['bastion'].message_from_jump }}"
+  - name:
+    set_fact:
+      test_fact: "{{ lookup('env', 'vault_pass') | default('secret_vault_pass', true) }}"
+  - name: Print fact from Jumps
+    debug:
+      msg: "Vault pass is {{ test_fact }}"
+############################################
+- hosts: localhost
+  gather_facts: False
+  vars:
+    connection: local
+    liks_to_tests:
+      - {url: google.com, port: 801}
+      - {url: google.com, port: 443}
+    urls:
+      - https://google.com
+      - https://tut.by
+      - https://onliner.by
+  tasks:
+  - name: Connectivity checks
+    block:
+      - name: Check connection
+        wait_for:
+          host: "{{ item.url }}"
+          port: "{{ item.port }}"
+          timeout: 3
+        register: out
+        with_items: "{{ liks_to_tests }}"
+    rescue:
+      - name: Send notification
+        slack:
+          token: TFBPBNB2L/BMTL3TNCW/waufgtFOvrplDUMr89jknmMZ
+          msg: 'Checks: failed'
+          channel: '#ansible_test'
+          username: 'Ansible sender'
+          icon_url: https://agardner.net/wp-content/uploads/2018/08/ansible-logo.png
+          parse: 'full'
+  - uri:
+      url: "{{ item }}"
+      return_content: yes
+    register: out_uri
+    with_items: "{{ urls }}"
+  - name: Print output
+    debug:
+      msg: "Url {{ output.status }}"
+    loop: "{{ out_uri.results }}"
+    loop_control:
+      loop_var: output
+      label: "{{ output.status }}"
+      pause: 3
+
+- hosts: infra
+  gather_facts: False
+  vars:
+    ports:
+      - 80
+      - 22
+  tasks:
+  - name: Local action
+    run_once: true
+    local_action: command hostname
+    register: out
+  - debug:
+      msg: "{{ out.stdout_lines }}"
+  - name: Check connection
+    wait_for:
+      host: "{{ hostvars[item.1].ansible_host }}"
+      port: "{{ item.0 }}"
+      timeout: 3
+    register: out
+    with_together:
+    - "{{ ports }}"
+    - "{{ groups['infra'] }}"
