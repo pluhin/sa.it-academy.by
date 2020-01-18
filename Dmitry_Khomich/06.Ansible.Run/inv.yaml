@@ -1,0 +1,28 @@
+---
+
+jump:
+  hosts:
+    bastion:
+      ansible_host: 192.168.10.40
+
+infra:
+  children:
+    internal:
+      hosts:
+        ubuntu: 
+          ansible_host: 10.20.30.20
+        centos:
+          ansible_host: 10.20.30.21
+   
+ubuntu_hosts:
+  hosts:
+    bastion:
+      ansible_host: 192.168.10.40
+    ubuntu:
+      ansible_host: 10.20.30.20
+
+centos_hosts:
+  hosts:
+    centos: 
+      ansible_hosts: 10.20.30.21
+
