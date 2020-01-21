@@ -1,0 +1,13 @@
+---
+apt_http_packages:
+  - nginx
+  - vim
+  - git
+yum_http_packages:
+  - git
+  - vim
+  - nginx
+
+ubuntu_home: "/var/www/html/"
+
+centos_home: "/usr/share/nginx/html/"
