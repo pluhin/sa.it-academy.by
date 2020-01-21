@@ -1,0 +1,60 @@
+---
+- name: Include deploy for Debian systems
+  include: nginx_debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include: nginx_RedHat.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Copy nginx config file
+  template:
+    src: /home/homework07/roles/web/templates/epel-nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    backup: yes
+    #owner: bin
+    #group: wheel
+    #mode: 0600
+
+- name: Template index file RedHat
+  template:
+    src: /home/homework07/roles/web/templates/index.html.j2
+    dest: /usr/share/nginx/html/index.html
+    backup: yes
+  with_items: "{{ web_server_name }}"
+  when: ansible_os_family == 'RedHat'
+
+- name: Template index file Debian
+  template:
+    src: /home/homework07/roles/web/templates/index.html.j2
+    dest: /var/www/html/index.html
+    backup: yes
+  with_items: "{{ web_server_name }}"
+  when: ansible_os_family == 'Debian'
+
+- name: Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: Check content to the sites
+  uri:
+      url: http://localhost                                                                                   
+      return_content: yes
+  register: out
+  failed_when: "'Hello DevOps World' not in out.content"
+
+- name: Templates Host
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"

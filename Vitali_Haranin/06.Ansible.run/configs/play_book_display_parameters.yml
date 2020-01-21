@@ -1,0 +1,17 @@
+---
+- hosts: all
+  gather_facts: true
+  become: true
+  tasks:
+    - name: OS/version
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_major_version }} | {{ ansible_distribution_version }}"
+    - name: Mount point/capacity/used
+      debug:
+        msg: "{{ ansible_mounts }}"
+    - name: RAM/capacity/free
+      debug:
+        msg: "Memory total is : {{ ansible_memtotal_mb }} Mb | Memory free is : {{ ansible_memfree_mb }} Mb"
+#   - name: Print facts
+#    debug:
+#       msg: "{{ ansible_facts }}"

@@ -1,0 +1,68 @@
+$script = <<-SCRIPT
+mv /tmp/pub_key.pub /home/vagrant/.ssh/authorized_keys
+chown -R vagrant:vagrant /home/vagrant/.ssh/authorized_keys
+chmod 600 /home/vagrant/.ssh/authorized_keys
+echo "Client done!"
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  
+	# Configure jump machine
+	config.vm.define "jumper" do |jumper|
+         jumper.vm.box = "jumper"
+         jumper.vm.network "private_network", ip: "10.0.0.10"     
+		 jumper.vm.hostname = "jumper"
+		 jumper.vm.provider "virtualbox" do |pmv|
+			pmv.memory = 512
+			pmv.cpus = 1
+		 end
+		 jumper.vm.synced_folder ".", "/vagrant", disabled: true		 	 
+     end
+
+	# Configure host1 machine
+	config.vm.define "host1" do |host1|
+         host1.vm.box = "centos/7"
+         host1.vm.network "private_network", ip: "10.0.0.11"
+		 host1.vm.hostname = "host1"
+		 host1.vm.provider "virtualbox" do |pmv|
+			pmv.memory = 512
+			pmv.cpus = 1
+		 end
+		 host1.vm.synced_folder ".", "/vagrant", disabled: true		 
+		 host1.vm.provision "file", source: 'E:\vagrantfiles\ansible-test\id_rsa.pub', destination: '/tmp/pub_key.pub'
+		 host1.vm.provision "shell",
+			inline: $script
+     end
+
+	# Configure host2 machine
+	config.vm.define "host2" do |host2|
+         host2.vm.box = "ubuntu/xenial64"
+         host2.vm.network "private_network", ip: "10.0.0.12"
+		 host2.vm.hostname = "host2"
+		 host2.vm.provider "virtualbox" do |pmv|
+			pmv.memory = 512
+			pmv.cpus = 1
+		 end
+		 host2.vm.synced_folder ".", "/vagrant", disabled: true	
+		 host2.vm.provision "file", source: 'E:\vagrantfiles\ansible-test\id_rsa.pub', destination: '/tmp/pub_key.pub'
+		 host2.vm.provision "shell",
+		 inline: $script		 
+     end
+
+	# Configure host3 machine
+	config.vm.define "host3" do |host3|
+         host3.vm.box = "centos/7"
+         host3.vm.network "private_network", ip: "10.0.0.13"
+		 host3.vm.hostname = "host3"
+		 host3.vm.provider "virtualbox" do |pmv|
+			pmv.memory = 512
+			pmv.cpus = 1
+		 end
+		 host3.vm.synced_folder ".", "/vagrant", disabled: true
+		 host3.vm.provision "file", source: 'E:\vagrantfiles\ansible-test\id_rsa.pub', destination: '/tmp/pub_key.pub'
+		 host3.vm.provision "shell",
+		 inline: $script		 
+     end
+
+  
+end
