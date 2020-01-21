@@ -1,0 +1,16 @@
+---
+- name: Centos. Install epel-release
+  yum:
+    name: epel-release
+    state: installed
+
+- name: Nginx. Install packages
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+
+- name: Nginx. Enable and start servce
+  service:
+    name: nginx
+    state: started
+    enabled: yes
