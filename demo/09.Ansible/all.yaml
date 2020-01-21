@@ -1,0 +1,31 @@
+---
+redmine:
+  vars: 
+    ansible_ssh_user: root
+  hosts:
+    node01:
+      ansible_host: 192.168.31.10
+    node02:
+      ansible_host: 192.168.31.11
+    node03:
+      ansible_host: 192.168.31.12
+    node04:
+      ansible_host: 192.168.31.13
+    node05:
+      ansible_host: 192.168.31.14
+    node06:
+      ansible_host: 192.168.31.15
+    node07:
+      ansible_host: 192.168.31.16
+    node08:
+      ansible_host: 192.168.31.17
+    node09:
+      ansible_host: 192.168.31.18
+    node10:
+      ansible_host: 192.168.31.19
+    node11:
+      ansible_host: 192.168.31.20
+    node12:
+      ansible_host: 192.168.31.21
+    node13:
+      ansible_host: 192.168.31.22
