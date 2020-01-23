@@ -1,0 +1,6 @@
+---
+redmine:
+  hosts:
+    node01:
+      ansible_host: 192.168.31.10
+      ansible_ssh_user: root
