@@ -1,0 +1,6 @@
+---
+redmine:
+  hosts:
+    node1-deb:
+      ansible_host: 10.10.10.3
+      ansible_ssh_user: vagrant
