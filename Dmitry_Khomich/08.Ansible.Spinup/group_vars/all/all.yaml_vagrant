@@ -1,0 +1,8 @@
+ansible_user: vagrant
+
+ubuntu_site: "ubuntu.loacl.site"
+centos_site: "centos.local.site"
+
+virtual_hosts:
+  - { name: "{{ ubuntu_site }}", ip: "{{ hostvars[\"ubuntu\"].ansible_host }}"}
+  - { name: "{{ centos_site }}", ip: "{{ hostvars[\"centos\"].ansible_host }}"}

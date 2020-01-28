@@ -1,0 +1,36 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: centos
+    image: centos:7
+  - name: debian
+    image: debian:10
+  - name: alpine
+    image: alpine:3
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+    enabled: true
+    options:
+      x:
+        - '201'
+        - '204'
+        - '206'
+        - '301'
+        - '302'
+        - '303'
+        - '305'
+        - '306'
+        - '502'
+        - 'ANSIBLE0007'
+        - 'ANSIBLE0011'
+verifier:
+  name: testinfra
+  lint:
+    name: flake8

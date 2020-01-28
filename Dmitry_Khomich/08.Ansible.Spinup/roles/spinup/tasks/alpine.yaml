@@ -1,0 +1,20 @@
+---
+- name: Git shell install Alpine
+  shell: apk add git
+  register: out
+  ignore_errors: yes
+#- name: Message from Alpine
+#  debug: 
+#    msg: "{{ out.stdout_lines }}"
+- set_fact:
+    r_var: "{{ out.stdout_lines }}"
+#- name: Print element of list
+#  debug:
+#    msg: "{{ r_var|length }}"
+- set_fact:
+    value: "{{ sudo_var if ( r_var|length > 1) else nosudo_var }}"
+- name: Print Permissions
+  debug:
+    msg: "{{ value }}"
+- name: Remove Git on Alpine family if it installed
+  shell: apk del git

@@ -1,0 +1,66 @@
+---
+- name: Include deploy for Debian systems
+  include: debian_http.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include: redhat_http.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Include deploy for Alpine systems
+  include: alpine.yaml
+  when: ansible_os_family == 'Alpine'
+
+- name: Check module
+  block:
+    - name: Check repository start
+      wait_for:
+        host: "{{ item.url }}"
+        port: "80"
+        state: started
+        timeout: 3
+      connection: local
+      register: out
+      with_items: "{{ links }}"
+    - debug:
+        msg: "Check repository successfully"
+  rescue:
+    - name: Send notification
+      debug:
+        msg: "Check repository failed"
+- name: Check connection to docker hub registry 
+  uri:
+      url: "https://registry.hub.docker.com"
+      return_content: yes
+  register: out
+- name: If you get "msg- 200" connection to docker hub registry check!!!
+  debug:
+    msg: "{{ out.status }}"
+- name: Info about hosts
+  set_fact:
+   mount: "{{ ansible_mounts | first }}"
+#- name: Info about mount
+#  debug:
+#    msg: "{{ mount }}"
+- set_fact: disk_total="{{ mount.size_total }}"
+- set_fact: disk_usage="{{ mount.size_total - mount.size_available }}"
+- set_fact: disk_usage_s="{{ (disk_usage|float / 1000000000) | round(1, 'common') }}"
+- set_fact: disk_total_s="{{ (disk_total|float / 1000000000) | round(1, 'common') }}"
+
+- name: HDD/capacity/used in GB
+  debug:
+    msg: "Disk capacity {{ disk_total_s }} used {{ disk_usage_s }}"
+#- name: Check hdd capacity information
+- set_fact: hdd_value="{{ hdd_ok if ( disk_total_s|int > 10) else hdd_no }}"
+- name: HDD capacity information
+  debug:
+    msg: "{{ hdd_value }}"
+
+- name: RAM/capacity/free
+  debug:
+    msg: "RAM total {{ ansible_memtotal_mb }}MB free {{ ansible_memfree_mb }}MB"
+#- name: Check ram capacity information
+- set_fact: ram_value="{{ ram_ok if ( ansible_memtotal_mb|int > 1024 ) else ram_no }}"
+- name: RAM capacity information
+  debug:
+    msg: "{{ ram_value }}"
