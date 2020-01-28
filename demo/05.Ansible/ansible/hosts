@@ -1,0 +1,9 @@
+[infra:children]
+internal
+
+[jump]
+bastion ansible_host=192.168.1.40
+
+[internal]
+host1 ansible_host=10.20.30.20
+host2 ansible_host=10.20.30.21

@@ -1,0 +1,17 @@
+[bastion]
+jump ansible_host=192.168.10.40
+
+[internal]
+ubuntu ansible_host=10.20.30.20
+centos ansible_host=10.20.30.21
+
+[all:vars]
+ansible_user=vagrant
+
+[ubuntu_hosts]
+jump
+ubuntu
+
+[centos_hosts]
+centos
+

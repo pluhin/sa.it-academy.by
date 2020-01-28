@@ -1,0 +1,33 @@
+---
+- hosts: proxmox_main
+  gather_facts: no
+  vars:
+    gw: 192.168.37.1
+    os_template: 'local:vztmpl/ubuntu-16.04-standard_16.04.5-1_amd64.tar.gz'
+    settings:
+      cores: 4
+      memory: 2048
+      swap: 2048
+      disk: 12
+      pass: QwertY_13
+  tasks: 
+    - name: Create Ansible workshop
+      register: out
+      tags: create
+      proxmox:
+        vmid: "200{{ item }}"
+        node: 'proxmox'
+        api_host: localhost
+        api_user: '{{ p5x_user }}'
+        api_password: '{{ p5x_pass }}'
+        hostname: "ws-{{ item }}"
+        password: '{{ settings.pass }}'      
+        ostemplate: "{{ os_template }}"
+        netif: '{"net0":"name=eth0,gw={{ gw }},ip=192.168.31.{{ item }}/16,bridge=vmbr0"}'
+        cores: "{{ settings.cores }}"
+        storage: local-lvm
+        memory: "{{ settings.memory }}"
+        swap: "{{ settings.swap }}"
+        disk: "{{ settings.disk }}"
+        force: yes
+      with_sequence: start=10 end={{ 10 + number_of_hosts|int | default(11) }}

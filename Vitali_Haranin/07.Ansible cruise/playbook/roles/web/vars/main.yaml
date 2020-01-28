@@ -1,0 +1,5 @@
+nginx_supervisor:
+nginx_enable_default_ipv6:
+web_server_name:
+  - { value: " {{ansible_hostname}} " }
+
