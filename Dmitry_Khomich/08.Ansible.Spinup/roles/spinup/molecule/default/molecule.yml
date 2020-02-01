@@ -19,18 +19,22 @@ provisioner:
     enabled: true
     options:
       x:
-        - '201'
-        - '204'
-        - '206'
         - '301'
-        - '302'
         - '303'
-        - '305'
         - '306'
         - '502'
-        - 'ANSIBLE0007'
-        - 'ANSIBLE0011'
-verifier:
-  name: testinfra
-  lint:
-    name: flake8
+        - '305'
+scenario:
+  name: default
+  test_sequence:
+    - lint
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+#    - idempotence
+    - side_effect
+    - verify
+    - destroy

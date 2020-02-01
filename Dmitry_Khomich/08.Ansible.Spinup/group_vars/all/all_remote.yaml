@@ -1,6 +1,0 @@
-ansible_ssh_user: root
-ansible_ssh_pass: QwertY_13
-#ansible_ssh_common_args: '-o ProxyCommand="sshpass -p 23mnZujif4rzU ssh -W %h:%p 178.124.206.48"'
-#ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p root@178.124.206.48"'
-ansible_ssh_bridge_pass: 23mnZujif4rzU
-ansible_ssh_common_args: "-o ProxyCommand=\"sshpass -p '{{ansible_ssh_bridge_pass}}' ssh -W %h:%p -q jump_sa@178.124.206.48\""

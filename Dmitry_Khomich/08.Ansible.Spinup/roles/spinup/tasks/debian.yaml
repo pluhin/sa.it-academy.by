@@ -1,9 +1,8 @@
 ---
-- name: Git shell install Alpine
-  apk:
+- name: Git install Debian
+  apt:
     name: git
     state: present
-  register: out
   ignore_errors: yes
 - name: Check git
   shell: git --version
@@ -13,7 +12,8 @@
 - name: Print Permissions
   debug:
     msg: "{{ value }}"
-- name: Remove Git on Alpine family if it installed
-  apk:
+- name: Remove git on Debian if it installed
+  apt:
     name: git
-    state: absent
+    state: present
+  ignore_errors: yes

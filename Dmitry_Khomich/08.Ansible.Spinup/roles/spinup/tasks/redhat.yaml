@@ -1,8 +1,8 @@
 ---
-- name: Git shell install Alpine
-  apk:
-    name: git
-    state: present
+- name: Git shell install RedHat
+  yum:
+   name: git
+   state: present
   register: out
   ignore_errors: yes
 - name: Check git
@@ -13,7 +13,7 @@
 - name: Print Permissions
   debug:
     msg: "{{ value }}"
-- name: Remove Git on Alpine family if it installed
-  apk:
+- name: Remove Git on RedHat family if it installed
+  yum:
     name: git
     state: absent

@@ -1,6 +1,6 @@
 sudo_var: "You have sudoers permissions"
 nosudo_var: "You don't have sudoers permissions"
-ok_centos: "Loading mirror speeds from cached hostfile"
+git: "git version"
 ok_debian: "Reading package lists..."
 links:
   - {url: deb.debian.org}
