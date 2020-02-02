@@ -1,0 +1,10 @@
+- hosts: "all"
+  gather_facts: false
+  tasks:
+  - name: Set authorized key taken from file
+    authorized_key:
+      user: "{{ ansible_ssh_user }}"
+      state: present
+      key: "{{ item }}"
+    with_items:
+    - "{{ lookup('file', '/home/plu/.ssh/id_rsa.pub') }}"

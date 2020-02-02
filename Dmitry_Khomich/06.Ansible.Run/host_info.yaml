@@ -1,0 +1,25 @@
+---
+- hosts: infra
+  gather_facts: yes
+  tasks:
+    - set_fact:
+       mount: "{{ ansible_mounts | first }}"
+    - set_fact: disk_total="{{ mount.size_total }}"
+    - set_fact: disk_usage="{{ mount.size_total - mount.size_available }}"
+    - set_fact: disk_usage_s="{{ (disk_usage|float / 1000000000) | round(1, 'common') }}GB"
+    - set_fact: disk_total_s="{{ (disk_total|float / 1000000000) | round(1, 'common') }}GB"
+ 
+    - name: OS/Version
+      debug:
+        msg: "OS {{ ansible_distribution}} version  {{ ansible_distribution_version }}"
+    - name: Mount point/capacity/used
+      debug:
+        msg: "Mount point {{ item.mount }}"
+      loop: "{{ ansible_mounts }}"
+      loop_control:
+        label: ""
+    - debug:
+        msg: "Disk capacity {{ disk_total_s }} used {{ disk_usage_s }}"
+    - name: RAM/capacity/free
+      debug:
+        msg: "RAM total {{ ansible_memtotal_mb }}MB free {{ ansible_memfree_mb }}MB" 

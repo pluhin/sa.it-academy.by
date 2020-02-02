@@ -1,0 +1,78 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+# For more information on configuration, see:
+#   * Official English Documentation: http://nginx.org/en/docs/
+#   * Official Russian Documentation: http://nginx.org/ru/docs/
+
+user {{ nginx_conf_user | default('nginx') }}{{ " " ~ nginx_conf_group if nginx_conf_group is defined e$worker_processes {{ nginx_conf_worker_processes | default('auto') }};
+error_log /var/log/nginx/error.log;
+pid {{ "/run" if ansible_os_family == "RedHat" and ansible_distribution_major_version == "7" else "/var$daemon {{ "off" if nginx_supervisor else "on" }};
+
+events {
+    worker_connections {{ nginx_conf_worker_connections | default('1024') }};
+}
+
+http {
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+
+    # Load modular configuration files from the /etc/nginx/conf.d directory.
+    # See http://nginx.org/en/docs/ngx_core_module.html#include
+    # for more information.
+    include /etc/nginx/conf.d/*.conf;
+    {% if nginx_enable_default_server | default(true) %}
+    server {
+        listen       80 default_server;
+        {% if nginx_enable_default_ipv6 %}
+        listen       [::]:80 default_server;
+        {% endif %}
+        server_name  _;
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+
+    # Load modular configuration files from the /etc/nginx/conf.d directory.
+    # See http://nginx.org/en/docs/ngx_core_module.html#include
+    # for more information.
+    include /etc/nginx/conf.d/*.conf;
+    {% if nginx_enable_default_server | default(true) %}
+    server {
+        listen       80 default_server;
+        {% if nginx_enable_default_ipv6 %}
+        listen       [::]:80 default_server;
+        {% endif %}
+        server_name  _;
+        root         /usr/share/nginx/html;
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;                                                                    
+		location / {
+        }
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }                                                                                                   
+	}                                                                                                       
+	{% endif %}                                                                                         
+}                                                   		

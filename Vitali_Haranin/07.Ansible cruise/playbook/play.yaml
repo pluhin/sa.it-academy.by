@@ -1,0 +1,6 @@
+---
+- hosts: internal
+  become: yes
+  roles:
+    - web
+

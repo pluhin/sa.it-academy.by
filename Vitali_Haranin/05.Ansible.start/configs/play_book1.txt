@@ -1,0 +1,47 @@
+---
+- name: Ping module playbook usage
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: ping the local servers
+      ping:
+- name: Get hosts names
+  hosts: all
+  order: sorted
+  gather_facts: False
+  tasks:
+    - debug:
+        var: inventory_hostname
+- name: Get ip adresses
+  hosts: all
+  tasks:
+    - debug: var=ansible_all_ipv4_addresses
+    - debug: var=ansible_default_ipv4.address
+- name: Update and clean up Linux OS
+  hosts: internal
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Update Debian Linux packages with Index updated
+      apt:
+        upgrade: dist
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: Update Red Hat Linux packages with Index updated
+      yum:
+        name: "*"
+        state: latest
+        update_cache: yes
+      when: ansible_os_family == 'RedHat'
+
+    - name: Clean up Debian Linux from cache and unused packages
+      apt:
+        autoremove: yes
+        autoclean: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: Clean up Red Hat Linux from cache and unused packages
+      shell: yum clean all; yum autoremove
+      when: ansible_os_family == 'RedHat'
+      ignore_errors: yes
