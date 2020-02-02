@@ -1,0 +1,6 @@
+---
+- hosts: infra
+#  become: yes
+  force_handlers: yes
+  roles:
+    - spinup

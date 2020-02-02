@@ -1,0 +1,12 @@
+sudo_var: "You have sudoers permissions"
+nosudo_var: "You don't have sudoers permissions"
+git: "git version"
+ok_debian: "Reading package lists..."
+links:
+  - {url: deb.debian.org}
+  - {url: mirror.centos.org}
+  - {url: pypi.python.org}
+hdd_ok: "You have enough space on HDD, more than 10GB!"
+hdd_no: "You don't have enough space on HDD, you should have more than 10GB!!!"
+ram_ok: "You have enough RAM, more than 1024MB"
+ram_no: "You don't have enough RAM, you should have mare than 1024MB"

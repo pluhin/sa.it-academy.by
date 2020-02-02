@@ -1,0 +1,16 @@
+---
+- name: Add repository on RedHat family
+  yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+- name: Nginx. Install packages on RedHat family
+  yum:
+    name: "{{ yum_http_packages }}"
+    disable_gpg_check: yes
+    state: present
+- name: Ngins. Enable and start service on RedHat family
+  service:
+    name: nginx
+    state: started
+    enabled: yes

@@ -1,0 +1,5 @@
+---
+- hosts: infra
+  become: yes
+  roles:
+    - web

@@ -1,0 +1,11 @@
+---
+- name: Nginx. Install packages on Debian family
+  apt:
+    name: "{{ apt_http_packages }}"
+    state: present
+    update_cache: yes
+- name: Nginx. Enable and start service on Debian family 
+  service:
+    name: nginx
+    state: started
+    enabled: yes
