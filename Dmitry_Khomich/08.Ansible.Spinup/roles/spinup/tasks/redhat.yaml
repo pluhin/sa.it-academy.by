@@ -1,0 +1,19 @@
+---
+- name: Git shell install RedHat
+  yum:
+   name: git
+   state: present
+  register: out
+  ignore_errors: yes
+- name: Check git
+  shell: git --version
+  register: out
+- set_fact:
+    value: "{{ sudo_var if ( out.rc == 0) else nosudo_var }}"
+- name: Print Permissions
+  debug:
+    msg: "{{ value }}"
+- name: Remove Git on RedHat family if it installed
+  yum:
+    name: git
+    state: absent

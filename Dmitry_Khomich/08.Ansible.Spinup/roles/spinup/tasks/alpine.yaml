@@ -1,0 +1,19 @@
+---
+- name: Git shell install Alpine
+  apk:
+    name: git
+    state: present
+  register: out
+  ignore_errors: yes
+- name: Check git
+  shell: git --version
+  register: out
+- set_fact:
+    value: "{{ sudo_var if ( out.rc == 0) else nosudo_var }}"
+- name: Print Permissions
+  debug:
+    msg: "{{ value }}"
+- name: Remove Git on Alpine family if it installed
+  apk:
+    name: git
+    state: absent

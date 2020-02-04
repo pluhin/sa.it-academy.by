@@ -1,0 +1,40 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: centos
+    image: centos:7
+  - name: debian
+    image: debian:10
+  - name: alpine
+    image: alpine:3
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+    enabled: true
+    options:
+      x:
+        - '301'
+        - '303'
+        - '306'
+        - '502'
+        - '305'
+scenario:
+  name: default
+  test_sequence:
+    - lint
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+#    - idempotence
+    - side_effect
+    - verify
+    - destroy
