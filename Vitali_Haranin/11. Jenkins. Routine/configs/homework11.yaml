@@ -1,0 +1,20 @@
+---
+- hosts: infra
+  become: yes
+  tasks:
+    - name: Centos. Install nmap
+      yum:
+        name: nmap
+        state: installed
+
+    - name: Run nmap
+      command: nmap -sn 192.168.201.0/24
+      register: result
+
+    - name: Remove nmap
+      yum:
+        name: nmap
+        state: absent
+
+    - name: Print nmap result
+      debug: var=result.stdout_lines
