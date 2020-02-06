@@ -1,0 +1,7 @@
+infra:
+  children:
+    internal:
+      hosts:
+        it-academy-centos:
+          ansible_host: 192.168.201.1
+          ansible_ssh_user: root
