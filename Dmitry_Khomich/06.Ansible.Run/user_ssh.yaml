@@ -1,0 +1,41 @@
+---
+- hosts: infra
+  become: yes 
+  tasks:
+    - name: Print variable
+      debug:
+        msg: "You register user - devops"
+    - name: Creating user devops
+      user:
+        name: "devops"
+        comment: Managed by ansible
+        state: present
+    - name: Add devops user to the sudoers
+      copy:
+        dest: "/etc/sudoers.d/devops"
+        content: "devops  ALL=(ALL)  NOPASSWD: ALL"
+    - name: Check
+      shell: |
+        grep "devops" /etc/passwd
+      register: out
+    - debug:
+        msg: "{{ out.stdout }}"
+    - name: Fetch the file from the ubuntu to ansible machine
+#        run_once: yes
+      fetch: 
+        src: /home/vagrant/.ssh/authorized_keys 
+        dest: ~/.ssh/id_rsa.pub 
+        flat: yes
+    - name: Deploy SSH Key
+      authorized_key: 
+        user: devops
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    - name: Removing user devops
+      user:
+        name: devops
+        state: absent
+        remove: yes
+        force: yes
+      tags: 
+      - remove          

@@ -1,0 +1,19 @@
+---
+
+jump:
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.48
+
+infra:
+  hosts:
+    ubuntu16: 
+      ansible_host: 192.168.201.20
+    centos7:
+      ansible_host: 192.168.201.19
+
+uhosts:
+  hosts:
+    ubuntu16: 
+      ansible_host: 192.168.201.20
+    

@@ -1,0 +1,9 @@
+---
+apt_nginx_packages:
+  - nginx
+
+yum_nginx_packages:
+  - epel-release
+  - nginx
+
+default_home: "/var/www/html/"
