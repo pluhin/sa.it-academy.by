@@ -1,0 +1,25 @@
+
+Vagrant.configure("2") do |config|
+  config.hostmanager.manage_host = true
+  config.hostmanager.ignore_private_ip = false
+  config.hostmanager.include_offline = true
+  #config.ssh.username = "vagrant"
+  #config.ssh.password = "vagrant"
+  config.ssh.insert_key = false
+ 
+
+
+  # Jenkins 
+
+  config.vm.define "centos7" do |vmconfig|
+    vmconfig.vm.hostname = "Jenkins"
+    vmconfig.vm.box = "bento/centos-7.2"
+    vmconfig.vm.network "public_network", ip: "192.168.1.200",  bridge: "Realtek RTL8723BE 802.11 bgn Wi-Fi Adapter"
+    vmconfig.vm.provider "virtualbox" do |vb|
+        vb.memory = "256"
+    end
+    vmconfig.vm.provision :shell, :path => "boot.sh" 
+  end
+
+
+end

@@ -1,0 +1,44 @@
+---
+  - name: Install Soft
+    yum:
+      name: "{{ soft_name }}"
+      state: present
+      disable_gpg_check: yes
+  - name: Download Jenkins REPO
+    get_url:
+      url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
+      dest: /etc/yum.repos.d/jenkins.repo
+  - name: Import key
+    rpm_key:
+      state: present
+      key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+  - name: Install Jenkins
+    yum: 
+      name: jenkins
+      state: present
+      disable_gpg_check: yes
+  - name: Start Jenkins
+    systemd:
+      state: started
+      name: jenkins
+      enabled: yes
+    tags:
+    - start
+  - name: Boot Script
+    shell: |
+      while [ ! -f /var/lib/jenkins/secrets/initialAdminPassword ]
+      do
+          sleep 2
+      done
+      usermod -s /bin/bash jenkins
+      runuser -l jenkins -c 'echo -e "\n\n\n" | ssh-keygen -t rsa'
+      runuser -l jenkins -c 'cat ~/.ssh/id_rsa'
+      runuser -l jenkins -c 'cat ~/.ssh/id_rsa.pub'
+      echo -e "\n" | cat /var/lib/jenkins/secrets/initialAdminPassword
+    register: out
+    tags:
+    - script
+  - debug:
+      msg: "{{ out.stdout_lines }}"
+    tags:
+    - script
