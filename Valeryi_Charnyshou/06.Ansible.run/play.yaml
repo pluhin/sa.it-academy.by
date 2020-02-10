@@ -1,0 +1,13 @@
+---
+- hosts: my_remote_host
+  become: True
+  tasks:
+    - name: OS Version 
+      debug:
+        msg: "{{ ansible_distribution }} {{ ansible_distribution_version }}"
+    - name: Mount point/Capacity/Used
+      debug:
+        msg: "{{ ansible_mounts }}"
+    - name: RAM/Capacity/Free
+      debug:
+        msg: " Capacity: {{ ansible_memtotal_mb }} MB | Free: {{ ansible_memfree_mb }} MB"
