@@ -1,0 +1,36 @@
+$script = <<-SCRIPT
+yum -y install java-1.8.0-openjdk git -q
+useradd -d /var/lib/jenkins jenkins
+sudo runuser -l jenkins -c 'echo -e "\n\n\n" | ssh-keygen -t rsa'
+sudo runuser -l jenkins -c 'cat /tmp/authorized_keys >> /var/lib/jenkins/.ssh/authorized_keys'
+chown jenkins:jenkins /var/lib/jenkins/.ssh/authorized_keys 
+chmod 600 /var/lib/jenkins/.ssh/authorized_keys
+rm -f /tmp/authorized_keys
+echo "Client done!"
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.hostmanager.manage_host = true
+  config.hostmanager.ignore_private_ip = false
+  config.hostmanager.include_offline = true
+  #config.ssh.username = "vagrant"
+  #config.ssh.password = "vagrant"
+  config.ssh.insert_key = false
+ 
+
+  config.vm.define "Jenkins-Node" do |vmconfig|
+    vmconfig.vm.hostname = "Jenkins-Node"
+    vmconfig.vm.box = "bento/centos-7.2"
+    vmconfig.vm.network "public_network", ip: "192.168.1.201",  bridge: "VirtualBox Host-Only Ethernet Adapter #2"
+    vmconfig.vm.provider "virtualbox" do |vb|
+        vb.memory = "256"
+    end	
+    vmconfig.vm.provision "file",
+        source: "authorized_keys", 
+        destination: "/tmp/authorized_keys"
+    vmconfig.vm.provision "shell", 
+        inline: $script
+ end
+
+
+end

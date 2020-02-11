@@ -1,0 +1,5 @@
+my_remote_host:
+  hosts:
+    ubuntu_host:
+      ansible_host: 10.1.1.20
+      ansible_user: vagrant

@@ -1,0 +1,38 @@
+- hosts: my_remote_host 
+  become: yes
+  tasks:
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      comment: Managed by ansible
+      shell: /bin/bash
+      state: present
+  - name: Authorization configuration
+    shell: |
+      echo "{{ user_to_add }}   ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers
+  - name: Create ssh directory
+    file:
+      path: /home/{{user_to_add}}/.ssh
+      state: directory
+      owner: "{{ user_to_add }}"
+      group: "{{ user_to_add }}"
+      mode: 0700
+  - name: Copy SSH key for new user
+    shell: |
+      cp /home/vagrant/.ssh/authorized_keys /home/{{ user_to_add }}/.ssh/
+      chown {{ user_to_add }}:{{ user_to_add }} /home/{{ user_to_add }}/.ssh/authorized_keys
+  - name: Implementing test of privilege
+    become_user: "{{ user_to_add }}"
+    shell: |
+      whoami
+      sudo cat /etc/sudoers | grep {{ user_to_add }}
+    register: out
+  - debug: 
+      msg: "{{ out.stdout }}"
+
+  - name: Removing user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      state: absent
+    tags:
+      remove   
