@@ -1,0 +1,8 @@
+webservers:
+  hosts:
+    ubuntu_host:
+      ansible_host: 10.1.1.20
+      ansible_user: vagrant
+    centos_host:
+      ansible_host: 10.1.1.30
+      ansible_user: vagrant
