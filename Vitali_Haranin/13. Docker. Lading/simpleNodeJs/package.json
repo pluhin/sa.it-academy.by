@@ -1,0 +1,14 @@
+{
+  "name": "node-app",
+  "version": "1.0.0",
+  "description": "Simple Node app using Docker",
+  "main": "lesson13.js",
+  "scripts": {
+    "start": "node lesson13.js"
+  },
+  "author": "Vitaly Haranin <vitaly-vitaly@outlook.com>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}

@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  web:
+    image: eboraas/apache-php
+    container_name: web_app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/var/www/html/
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - UMASK_SET=022 #optional
+    volumes:
+      - ./radarr/data:/config
+      - ./radarr/downloadclient-downloads:/movies
+      - ./radarr/movies:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+  sonarr:
+    image: "hotio/sonarr"
+    volumes:
+        - ./sonarr/config:/config
+        - ./sonarr/data:/data
+    environment:
+        - PUID=111
+        - PGID=321
+        - UMASK=002
+    ports:
+      - 8787:8989
+    restart: unless-stopped

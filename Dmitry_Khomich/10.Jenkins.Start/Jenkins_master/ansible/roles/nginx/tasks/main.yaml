@@ -1,0 +1,27 @@
+---
+# Tasks for Nginx
+
+- name: Add repository
+  yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+    gpgcheck: no
+
+- name: Install Nginx
+  yum: 
+    name: nginx
+    state: present
+
+- name: Start Nginx
+  service: 
+    name: nginx
+    state: started
+
+- name: Proxy to Jenkins
+  replace:
+    path: /etc/nginx/nginx.conf
+    regexp: ' location / {'
+    replace: ' location / { proxy_pass          http://127.0.0.1:8080;'
+  notify:
+    - restart
