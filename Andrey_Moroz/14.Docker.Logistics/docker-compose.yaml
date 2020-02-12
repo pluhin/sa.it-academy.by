@@ -1,0 +1,42 @@
+---
+version: '2'
+
+services:
+
+  web:
+    image: nginx
+    volumes:
+      - /var/lib/jenkins/www/:/usr/share/nginx/html/
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - UMASK_SET=022
+    volumes:
+      - /var/lib/jenkins/path/to/movies:/movies
+      - /var/lib/jenkins/path/to/downloadclient-downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - UMASK_SET=022
+    volumes:
+      - /var/lib/jenkins/path/to/tvseries:/tv
+      - /var/lib/jenkins/path/to/downloadclient-downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
