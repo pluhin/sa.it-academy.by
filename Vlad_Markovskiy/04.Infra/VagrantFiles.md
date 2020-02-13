@@ -1,4 +1,4 @@
-## Centos
+# Centos
 
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -33,9 +33,9 @@ Vagrant.configure("2") do |config|
    SHELL
 end
 
-##Debian
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
+# Debian
+ # -*- mode: ruby -*-
+ # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
 
