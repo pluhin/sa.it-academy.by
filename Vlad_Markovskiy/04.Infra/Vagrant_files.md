@@ -1,5 +1,5 @@
 # Centos
-
+``` ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -32,8 +32,10 @@ Vagrant.configure("2") do |config|
      chmod 600   /home/updater/.ssh/authorized_keys
    SHELL
 end
+```ruby
 
 # Debian
+```ruby
  # -*- mode: ruby -*-
  # vi: set ft=ruby :
 
@@ -65,3 +67,4 @@ Vagrant.configure("2") do |config|
      chmod 600   /home/updater/.ssh/authorized_keys
    SHELL
 end
+```ruby
