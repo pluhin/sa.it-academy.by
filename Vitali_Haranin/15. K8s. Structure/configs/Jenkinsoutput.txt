@@ -1,0 +1,195 @@
+Started by user admin
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on node01 in /var/lib/jenkins/workspace/k8s
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (kubectl)
+[Pipeline] echo
+Installing kubectl
+[Pipeline] sh
++ whoami
+vagrant
++ sudo apt-get -qq update
++ sudo apt-get install -qqy apt-transport-https
++ sudo apt-key add -
++ sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg
+OK
++ sudo touch /etc/apt/sources.list.d/kubectl.list
++ sudo chmod 777 /etc/apt/sources.list.d/kubectl.list
++ sudo echo deb http://apt.kubernetes.io/ kubernetes-xenial main
++ sudo apt-get update -qq
++ sudo apt-get install -qqy kubectl
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (docker)
+[Pipeline] sh
++ sudo apt-get remove docker docker-engine docker.io
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Package 'docker' is not installed, so not removed
+Package 'docker.io' is not installed, so not removed
+Package 'docker-engine' is not installed, so not removed
+0 upgraded, 0 newly installed, 0 to remove and 7 not upgraded.
++ sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+Reading package lists...
+Building dependency tree...
+Reading state information...
+apt-transport-https is already the newest version (1.2.32).
+ca-certificates is already the newest version (20170717~16.04.2).
+curl is already the newest version (7.47.0-1ubuntu2.14).
+software-properties-common is already the newest version (0.96.20.9).
+0 upgraded, 0 newly installed, 0 to remove and 7 not upgraded.
++ sudo apt-key add -
++ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg
+OK
++ lsb_release -cs
++ sudo add-apt-repository deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
++ sudo apt-get update -qq
++ sudo apt-get install -yqq docker-ce
++ sudo usermod -aG docker vagrant
++ sudo docker run hello-world
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (minikube)
+[Pipeline] sh
++ sudo echo Downloading minikube
+Downloading minikube
++ sudo curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0
+  1 46.7M    1  486k    0     0  69216      0  0:11:47  0:00:07  0:11:40  103k
+  2 46.7M    2 1262k    0     0   154k      0  0:05:10  0:00:08  0:05:02  269k
+  4 46.7M    4 2030k    0     0   220k      0  0:03:36  0:00:09  0:03:27  434k
+  5 46.7M    5 2702k    0     0   265k      0  0:03:00  0:00:10  0:02:50  577k
+  6 46.7M    6 3278k    0     0   292k      0  0:02:43  0:00:11  0:02:32  657k
+  8 46.7M    8 3886k    0     0   318k      0  0:02:30  0:00:12  0:02:18  680k
+  9 46.7M    9 4494k    0     0   340k      0  0:02:20  0:00:13  0:02:07  646k
+ 10 46.7M   10 5015k    0     0   352k      0  0:02:15  0:00:14  0:02:01  590k
+ 11 46.7M   11 5498k    0     0   361k      0  0:02:12  0:00:15  0:01:57  559k
+ 12 46.7M   12 5886k    0     0   363k      0  0:02:11  0:00:16  0:01:55  520k
+ 12 46.7M   12 6206k    0     0   360k      0  0:02:12  0:00:17  0:01:55  464k
+ 13 46.7M   13 6673k    0     0   366k      0  0:02:10  0:00:18  0:01:52  435k
+ 14 46.7M   14 7101k    0     0   368k      0  0:02:09  0:00:19  0:01:50  414k
+ 15 46.7M   15 7577k    0     0   375k      0  0:02:07  0:00:20  0:01:47  415k
+ 16 46.7M   16 8107k    0     0   382k      0  0:02:05  0:00:21  0:01:44  444k
+ 18 46.7M   18 8747k    0     0   394k      0  0:02:01  0:00:22  0:01:39  508k
+ 19 46.7M   19 9383k    0     0   404k      0  0:01:58  0:00:23  0:01:35  542k
+ 21 46.7M   21  9.9M    0     0   418k      0  0:01:54  0:00:24  0:01:30  611k
+ 22 46.7M   22 10.4M    0     0   422k      0  0:01:53  0:00:25  0:01:28  616k
+ 23 46.7M   23 11.0M    0     0   432k      0  0:01:50  0:00:26  0:01:24  646k
+ 24 46.7M   24 11.5M    0     0   435k      0  0:01:49  0:00:27  0:01:22  621k
+ 26 46.7M   26 12.3M    0     0   449k      0  0:01:46  0:00:28  0:01:18  655k
+ 27 46.7M   27 12.9M    0     0   454k      0  0:01:45  0:00:29  0:01:16  630k
+ 28 46.7M   28 13.3M    0     0   452k      0  0:01:45  0:00:30  0:01:15  599k
+ 29 46.7M   29 13.6M    0     0   447k      0  0:01:46  0:00:31  0:01:15  526k
+ 30 46.7M   30 14.0M    0     0   446k      0  0:01:47  0:00:32  0:01:15  503k
+ 31 46.7M   31 14.5M    0     0   448k      0  0:01:46  0:00:33  0:01:13  442k
+ 32 46.7M   32 14.9M    0     0   448k      0  0:01:46  0:00:34  0:01:12  417k
+ 33 46.7M   33 15.5M    0     0   453k      0  0:01:45  0:00:35  0:01:10  459k
+ 34 46.7M   34 16.1M    0     0   457k      0  0:01:44  0:00:36  0:01:08  520k
+ 36 46.7M   36 16.8M    0     0   464k      0  0:01:43  0:00:37  0:01:06  580k
+ 37 46.7M   37 17.5M    0     0   471k      0  0:01:41  0:00:38  0:01:03  625k
+ 38 46.7M   38 18.2M    0     0   475k      0  0:01:40  0:00:39  0:01:01  660k
+ 40 46.7M   40 18.8M    0     0   481k      0  0:01:39  0:00:40  0:00:59  678k
+ 41 46.7M   41 19.2M    0     0   477k      0  0:01:40  0:00:41  0:00:59  619k
+ 42 46.7M   42 19.8M    0     0   480k      0  0:01:39  0:00:42  0:00:57  602k
+ 43 46.7M   43 20.5M    0     0   487k      0  0:01:38  0:00:43  0:00:55  609k
+ 45 46.7M   45 21.1M    0     0   489k      0  0:01:37  0:00:44  0:00:53  599k
+ 46 46.7M   46 21.8M    0     0   495k      0  0:01:36  0:00:45  0:00:51  613k
+ 48 46.7M   48 22.5M    0     0   499k      0  0:01:35  0:00:46  0:00:49  679k
+ 49 46.7M   49 23.1M    0     0   501k      0  0:01:35  0:00:47  0:00:48  676k
+ 50 46.7M   50 23.7M    0     0   503k      0  0:01:34  0:00:48  0:00:46  649k
+ 52 46.7M   52 24.3M    0     0   505k      0  0:01:34  0:00:49  0:00:45  648k
+ 53 46.7M   53 24.7M    0     0   505k      0  0:01:34  0:00:50  0:00:44  591k
+ 54 46.7M   54 25.3M    0     0   507k      0  0:01:34  0:00:51  0:00:43  578k
+ 55 46.7M   55 26.0M    0     0   510k      0  0:01:33  0:00:52  0:00:41  591k
+ 57 46.7M   57 26.6M    0     0   513k      0  0:01:33  0:00:53  0:00:40  601k
+ 58 46.7M   58 27.3M    0     0   517k      0  0:01:32  0:00:54  0:00:38  629k
+ 60 46.7M   60 28.0M    0     0   520k      0  0:01:31  0:00:55  0:00:36  672k
+ 61 46.7M   61 28.7M    0     0   524k      0  0:01:31  0:00:56  0:00:35  701k
+ 63 46.7M   63 29.4M    0     0   527k      0  0:01:30  0:00:57  0:00:33  712k
+ 64 46.7M   64 30.0M    0     0   528k      0  0:01:30  0:00:58  0:00:32  689k
+ 65 46.7M   65 30.7M    0     0   532k      0  0:01:29  0:00:59  0:00:30  694k
+ 67 46.7M   67 31.5M    0     0   537k      0  0:01:29  0:01:00  0:00:29  718k
+ 68 46.7M   68 32.1M    0     0   537k      0  0:01:29  0:01:01  0:00:28  682k
+ 69 46.7M   69 32.4M    0     0   534k      0  0:01:29  0:01:02  0:00:27  610k
+ 70 46.7M   70 32.7M    0     0   530k      0  0:01:30  0:01:03  0:00:27  552k
+ 70 46.7M   70 33.0M    0     0   527k      0  0:01:30  0:01:04  0:00:26  472k
+ 71 46.7M   71 33.4M    0     0   525k      0  0:01:31  0:01:05  0:00:26  388k
+ 72 46.7M   72 33.9M    0     0   524k      0  0:01:31  0:01:06  0:00:25  370k
+ 73 46.7M   73 34.3M    0     0   523k      0  0:01:31  0:01:07  0:00:24  381k
+ 74 46.7M   74 34.5M    0     0   519k      0  0:01:32  0:01:08  0:00:24  384k
+ 75 46.7M   75 35.0M    0     0   519k      0  0:01:32  0:01:09  0:00:23  411k
+ 76 46.7M   76 35.6M    0     0   519k      0  0:01:32  0:01:10  0:00:22  443k
+ 77 46.7M   77 36.2M    0     0   520k      0  0:01:31  0:01:11  0:00:20  465k
+ 77 46.7M   77 36.4M    0     0   516k      0  0:01:32  0:01:12  0:00:20  431k
+ 79 46.7M   79 37.0M    0     0   518k      0  0:01:32  0:01:13  0:00:19  499k
+ 80 46.7M   80 37.6M    0     0   520k      0  0:01:31  0:01:14  0:00:17  534k
+ 81 46.7M   81 38.2M    0     0   521k      0  0:01:31  0:01:15  0:00:16  539k
+ 82 46.7M   82 38.6M    0     0   519k      0  0:01:32  0:01:16  0:00:16  508k
+ 83 46.7M   83 39.1M    0     0   518k      0  0:01:32  0:01:17  0:00:15  549k
+ 84 46.7M   84 39.4M    0     0   517k      0  0:01:32  0:01:18  0:00:14  503k
+ 85 46.7M   85 40.0M    0     0   517k      0  0:01:32  0:01:19  0:00:13  475k
+ 86 46.7M   86 40.5M    0     0   517k      0  0:01:32  0:01:20  0:00:12  471k
+ 87 46.7M   87 41.0M    0     0   517k      0  0:01:32  0:01:21  0:00:11  490k
+ 88 46.7M   88 41.3M    0     0   514k      0  0:01:32  0:01:22  0:00:10  450k
+ 89 46.7M   89 41.7M    0     0   513k      0  0:01:33  0:01:23  0:00:10  462k
+ 90 46.7M   90 42.1M    0     0   513k      0  0:01:33  0:01:24  0:00:09  447k
+ 91 46.7M   91 42.8M    0     0   514k      0  0:01:32  0:01:25  0:00:07  465k
+ 92 46.7M   92 43.3M    0     0   514k      0  0:01:32  0:01:26  0:00:06  459k
+ 94 46.7M   94 43.9M    0     0   516k      0  0:01:32  0:01:27  0:00:05  539k
+ 95 46.7M   95 44.5M    0     0   517k      0  0:01:32  0:01:28  0:00:04  568k
+ 96 46.7M   96 44.9M    0     0   515k      0  0:01:32  0:01:29  0:00:03  558k
+ 96 46.7M   96 45.1M    0     0   512k      0  0:01:33  0:01:30  0:00:03  474k
+ 97 46.7M   97 45.3M    0     0   509k      0  0:01:33  0:01:31  0:00:02  421k
+ 97 46.7M   97 45.5M    0     0   506k      0  0:01:34  0:01:32  0:00:02  330k
+ 97 46.7M   97 45.7M    0     0   502k      0  0:01:35  0:01:33  0:00:02  248k
+ 98 46.7M   98 45.9M    0     0   499k      0  0:01:35  0:01:34  0:00:01  197k
+ 98 46.7M   98 46.1M    0     0   496k      0  0:01:36  0:01:35  0:00:01  204k
+ 99 46.7M   99 46.4M    0     0   494k      0  0:01:36  0:01:36 --:--:--  219k
+ 99 46.7M   99 46.6M    0     0   491k      0  0:01:37  0:01:37 --:--:--  228k
+100 46.7M  100 46.7M    0     0   491k      0  0:01:37  0:01:37 --:--:--  238k
++ sudo chmod +x minikube
++ sudo mv minikube /usr/local/bin
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
