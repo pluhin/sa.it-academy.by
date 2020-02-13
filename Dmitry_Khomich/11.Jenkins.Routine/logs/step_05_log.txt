@@ -1,0 +1,87 @@
+Started by upstream project "step_04" build number 7
+originally caused by:
+ Started by upstream project "step_03" build number 21
+ originally caused by:
+  Started by upstream project "step_02" build number 38
+  originally caused by:
+   Started by upstream project "step_01" build number 45
+   originally caused by:
+    Started by user dima
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/step_05
+[step_05] $ sshpass ******** /usr/bin/ansible-playbook /home/dima/ansible/jenkins/list_host.yaml -i /tmp/inventory7447742799120217991.ini -f 5 -u $USERP -k
+
+PLAY [all] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+Tuesday 11 February 2020  13:30:48 +0300 (0:00:00.587)       0:00:00.587 ****** 
+ok: [192.168.31.19]
+
+TASK [List online hosts] *******************************************************
+Tuesday 11 February 2020  13:30:59 +0300 (0:00:10.678)       0:00:11.266 ****** 
+changed: [192.168.31.19]
+
+TASK [debug] *******************************************************************
+Tuesday 11 February 2020  13:31:02 +0300 (0:00:02.524)       0:00:13.791 ****** 
+ok: [192.168.31.19] => {
+    "msg": [
+        "", 
+        "Starting Nmap 7.01 ( https://nmap.org ) at 2020-02-11 10:29 UTC", 
+        "Nmap scan report for 192.168.31.10", 
+        "Host is up (0.00019s latency).", 
+        "MAC Address: 96:AC:89:B2:5B:1C (Unknown)", 
+        "Nmap scan report for 192.168.31.11", 
+        "Host is up (0.00027s latency).", 
+        "MAC Address: A2:B0:73:D5:C4:0F (Unknown)", 
+        "Nmap scan report for 192.168.31.12", 
+        "Host is up (0.00020s latency).", 
+        "MAC Address: 12:E5:03:AD:51:97 (Unknown)", 
+        "Nmap scan report for 192.168.31.13", 
+        "Host is up (-0.100s latency).", 
+        "MAC Address: C2:FB:0F:AA:A8:EF (Unknown)", 
+        "Nmap scan report for 192.168.31.14", 
+        "Host is up (-0.10s latency).", 
+        "MAC Address: 62:CA:2F:E3:33:7F (Unknown)", 
+        "Nmap scan report for 192.168.31.16", 
+        "Host is up (0.00025s latency).", 
+        "MAC Address: FA:16:27:EB:79:13 (Unknown)", 
+        "Nmap scan report for 192.168.31.17", 
+        "Host is up (0.00032s latency).", 
+        "MAC Address: EE:63:5A:D8:6E:B8 (Unknown)", 
+        "Nmap scan report for 192.168.31.18", 
+        "Host is up (0.00019s latency).", 
+        "MAC Address: 42:D5:60:FC:74:C7 (Unknown)", 
+        "Nmap scan report for 192.168.31.20", 
+        "Host is up (0.00026s latency).", 
+        "MAC Address: F2:11:16:A9:CB:95 (Unknown)", 
+        "Nmap scan report for 192.168.31.21", 
+        "Host is up (-0.10s latency).", 
+        "MAC Address: F6:C4:55:2F:ED:8A (Unknown)", 
+        "Nmap scan report for 192.168.31.22", 
+        "Host is up (0.00030s latency).", 
+        "MAC Address: 7A:B4:3F:3E:A3:B9 (Unknown)", 
+        "Nmap scan report for 192.168.31.23", 
+        "Host is up (0.00023s latency).", 
+        "MAC Address: 1E:24:C5:61:B3:6E (Unknown)", 
+        "Nmap scan report for 192.168.31.24", 
+        "Host is up (0.00041s latency).", 
+        "MAC Address: 86:93:CF:C2:96:23 (Unknown)", 
+        "Nmap scan report for 192.168.31.25", 
+        "Host is up (0.00029s latency).", 
+        "MAC Address: 82:DB:29:9A:58:86 (Unknown)", 
+        "Nmap scan report for 192.168.31.19", 
+        "Host is up.", 
+        "Nmap done: 256 IP addresses (15 hosts up) scanned in 4.42 seconds"
+    ]
+}
+
+PLAY RECAP *********************************************************************
+192.168.31.19              : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Tuesday 11 February 2020  13:31:02 +0300 (0:00:00.220)       0:00:14.012 ****** 
+=============================================================================== 
+Gathering Facts -------------------------------------------------------- 10.68s
+List online hosts ------------------------------------------------------- 2.53s
+debug ------------------------------------------------------------------- 0.22s
+Playbook run took 0 days, 0 hours, 0 minutes, 13 seconds
+Finished: SUCCESS

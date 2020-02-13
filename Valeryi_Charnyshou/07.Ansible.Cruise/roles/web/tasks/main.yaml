@@ -1,0 +1,74 @@
+---
+- name: Deploy for Debian Systems
+  include: debian_nginx.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Deploy for RedHat Systems
+  include: redhat_nginx.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Remove Index file Ubuntu
+  file:
+    path: "{{ default_home_ubuntu }}/index.html"
+    state: absent
+  when: ansible_os_family == 'Debian'
+
+- name: Remove Index file RedHat
+  file:
+    path: "{{ default_home_centos }}/index.html"
+    state: absent
+  when: ansible_os_family == 'RedHat'
+
+- name: Copy Web Page Debian
+  copy:
+    src: index.html
+    dest: "{{ default_home_ubuntu }}"
+  when: ansible_os_family == 'Debian'
+  notify:
+    - restart nginx
+
+- name: Copy Web Page RedHat
+  copy:
+    src: index.html
+    dest: "{{ default_home_centos }}"
+  when: ansible_os_family == 'RedHat'
+  notify:
+    - restart nginx
+
+- meta: flush_handlers
+
+- name: Check File
+  shell:
+    cat /etc/os-release | egrep "^NAME" | cut -d '"' -f 2
+  register: out
+  notify: 
+    - print out
+
+- meta: flush_handlers
+
+- name: Check connection
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: Check content
+  uri:
+    url: http://localhost
+    return_content: yes
+  register: out
+  failed_when: "'Charnyshou' not in out.content"
+
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+
+- name: Check content to sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"

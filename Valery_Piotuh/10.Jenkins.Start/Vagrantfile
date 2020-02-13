@@ -1,0 +1,20 @@
+$script = <<-SCRIPT
+wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt update
+sudo apt install default-jdk -y
+sudo apt install jenkins -y
+sudo apt install nginx -y
+java -version
+echo _____________________________________________
+echo UNLOCK JENKINS WITH THIS PASS
+sudo less /var/lib/jenkins/secrets/initialAdminPassword
+echo ____________________________________________
+SCRIPT
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "ubuntu/bionic64"
+    config.vm.define "Jenkins"
+    config.vm.provision "shell", 
+        inline: $script
+end
