@@ -1,0 +1,12 @@
+---
+jump:
+  hosts:
+    jump_server:
+      ansible_host: 178.124.206.48
+      ansible_user: jump_sa
+working_hosts:
+  hosts:
+          #    host_01:
+          #      ansible_host: 192.168.201.21
+    host_02:
+      ansible_host: 192.168.201.22

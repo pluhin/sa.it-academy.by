@@ -1,0 +1,5 @@
+---
+- hosts: working_hosts
+  become: yes
+  roles:
+    - testing
