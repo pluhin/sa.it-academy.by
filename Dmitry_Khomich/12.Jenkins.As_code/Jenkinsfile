@@ -1,0 +1,67 @@
+pipeline { 
+    agent any 
+    environment {
+        dir = "/var/lib/jenkins/ansible"
+        BUILD = "${env.BUILD_ID}"
+    }
+    stages {
+        stage('Clone repository') { 
+            steps { 
+              git branch: 'm-sa2-11-19', url: 'git@github.com:githubamid/sa.it-academy.by.git'
+            }
+        }
+        stage('Chek connection') { 
+            steps { 
+                ansiblePlaybook([
+                  inventory   : '$dir/inv.yaml',
+                  playbook    : '$dir/play.yaml',
+                  installation: 'ansible',
+                  credentialsId: 'rootid',
+                  colorized   : true,
+                ])
+            }
+        }
+        stage('Install nmap'){
+            steps {
+                ansiblePlaybook([
+                  inventory   : '$dir/inv.yaml',
+                  playbook    : '$dir/nmap_install.yaml',
+                  installation: 'ansible',
+                  credentialsId: 'rootid',
+                  colorized   : true,
+                ])
+            }
+        }
+        stage('Count of hosts') {
+            steps { 
+                ansiblePlaybook([
+                  inventory   : '$dir/inv.yaml',
+                  playbook    : '$dir/scan_hosts.yaml',
+                  installation: 'ansible',
+                  credentialsId: 'rootid',
+                  colorized   : true,
+                ])
+            }  
+        }
+        stage('Report about speed and host') {
+            steps { 
+                ansiblePlaybook([
+                  inventory   : '$dir/inv.yaml',
+                  playbook    : '$dir/speedtest.yaml',
+                  installation: 'ansible',
+                  credentialsId: 'rootid',
+                  colorized   : true,
+                ])
+            }  
+        }
+        stage('Push report') {
+            steps {
+                sh '''
+                    git add .
+                    git commit -m 'Add report.txt'
+                    git push origin m-sa2-11-19
+                '''
+            }
+        }
+    }
+}
