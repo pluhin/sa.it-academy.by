@@ -1,5 +1,5 @@
 #!/bin/sh
-yum install java wget git -y --nogpgcheck -q
+yum install sshpass java wget git -y --nogpgcheck -q
 wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
 rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 yum install jenkins -y --nogpgcheck -q
