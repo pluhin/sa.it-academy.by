@@ -1,3 +1,6 @@
+## Ansible config file
+
+```bash
 # config file for ansible -- https://ansible.com/
 # ===============================================
 
@@ -473,3 +476,4 @@ host_key_checking = False
 
 # Set how many context lines to show in diff
 # context = 3
+```
