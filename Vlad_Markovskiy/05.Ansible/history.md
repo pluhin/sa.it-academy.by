@@ -1,4 +1,6 @@
-1124  ansible --version
+## Command history
+```bash
+ 1124  ansible --version
  1125  sudo pip3 install ansible
  1126  sudo apt-get install python3-pip
  1127  sudo apt-get install python3-setuptools
@@ -369,4 +371,4 @@
  1492  cd Vlad_Markovskiy/
  1493  ls
  1494  mkdir 05.Ansible
-
+```
