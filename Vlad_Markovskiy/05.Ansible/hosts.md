@@ -1,3 +1,5 @@
+## Ansible hosts
+```ini
 [jump]
 192.168.43.40
 [iternal]
@@ -47,4 +49,4 @@
 # leading 0s:
 
 #db-[99:101]-node.example.com
-
+```ini
