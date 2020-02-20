@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/chernysh/devops/New/sa.it-academy.by/Valeryi_Charnyshou/10.Jenkins.Start/master","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
