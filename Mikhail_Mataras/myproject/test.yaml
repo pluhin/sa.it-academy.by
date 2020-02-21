@@ -1,0 +1,17 @@
+- hosts: test
+  become: true
+  tasks:
+  - name: Nette Tester. Clone repository
+    git: 
+      repo: "https://github.com/nette/tester.git" 
+      dest: "/opt/processwire/tester" 
+      accept_hostkey: yes
+      force: yes
+  - name: Launch test
+    shell: |
+      cd /opt/processwire/tester
+      php src/tester.php -C tests 
+    register: out
+  - debug:
+      msg: "{{ out.stdout }}"
+     

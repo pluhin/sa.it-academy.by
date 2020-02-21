@@ -1,0 +1,74 @@
+- name: apt | update repository cache
+  apt: 
+    update_cache: yes
+- name: Install packages
+  apt:
+    name: "{{ apt_packages }}"
+    state: latest
+- name: MySQL. Install and setup
+  template: 
+    src: my.cnf.j2 
+    dest: ~/.my.cnf 
+    owner: root 
+    mode: 0600
+  notify: mysql restart 
+- meta: flush_handlers
+- mysql_db:
+    name: "{{ app_db_name }}"
+    encoding: utf8
+- mysql_user:
+    name: "{{ app_db_user }}"
+    password: "{{ app_db_pass }}"
+    priv: "{{ app_db_name }}.*:ALL"
+
+- name: Processwire. Clone repository
+  git: 
+   repo: "{{ app_repo }}" 
+   dest: "{{ app_home }}" 
+   version: '{{ app_version }}' 
+   accept_hostkey: yes
+   force: yes
+
+- name: Processwire. Change owner
+  file:
+    path: "{{ app_home }}"
+    owner: www-data
+    group: www-data
+    recurse: yes
+- name: Processwire. Change permissions
+  file:
+    path: "{{ app_home }}"
+    mode: '777'
+    recurse: yes
+
+- name: Configuration files for virtualhost
+  template:
+    src: processwire.site.conf.j2
+    dest: "/etc/apache2/sites-enabled/processwire.conf"
+  notify:
+    - restart apache2
+  tags:
+    - apache::setup
+- name: Enable rewrite module for Apache
+  apache2_module:
+    state: present
+    name: rewrite
+  notify:
+    - restart apache2  
+- name: "Add {{ app_fqdn }} to host file"
+  shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
+  tags: 
+    - test
+#- uri:
+#    url: "http://{{ app_fqdn }}"
+#    return_content: yes
+#  register: this
+# failed_when: "'asdfdf' not in this.content"
+#  tags: 
+#    - test
+- lineinfile:
+    path: /etc/hosts
+    state: absent
+    regexp: '^127.0.0.1       {{ app_fqdn }}'
+  tags: 
+    - test 
