@@ -1,0 +1,7 @@
+---
+- hosts: infra
+  become: yes
+  roles:
+    - web
+#    - { role: move_logs? tags: ["relocate_logs"], become: true }
+

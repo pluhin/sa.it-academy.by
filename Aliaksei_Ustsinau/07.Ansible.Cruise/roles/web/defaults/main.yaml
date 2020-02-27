@@ -1,0 +1,14 @@
+---
+
+apt_nginx_packages:
+  - nginx
+
+yum_epel_install:
+  - epel-release
+
+yum_nginx_packages:
+  - nginx
+
+default_home_debian: "/var/www/html/"
+
+default_home_redhat: "/usr/share/nginx/html/"
