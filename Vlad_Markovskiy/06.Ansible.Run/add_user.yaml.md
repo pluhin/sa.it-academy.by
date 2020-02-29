@@ -1,3 +1,5 @@
+# Playbook of user adding
+``` yaml
 - hosts: debian
   become: True 
   tasks:
@@ -68,3 +70,4 @@
       state: absent
     tags:
       - user::remove  
+```
