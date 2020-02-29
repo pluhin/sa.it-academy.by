@@ -1,3 +1,5 @@
+# Playbook witch can gather main system information
+```yaml
 ---
 - hosts: " {{ group }}"
  # gather_facts: False
@@ -24,4 +26,4 @@
         - free::mem
     - debug:
         msg: "{{ free.stdout_lines }}"
-
+```
