@@ -1,0 +1,225 @@
+Initialize local repository and create branches:
+
+ 1093  mkdir project
+ 1094  cd project/
+ 1095  git init
+ 1096  git config --global user.name "yaskazeko"
+ 1097  git config --global user.email "yaskazeko@gmail.com"
+ 1098  git config --list
+ 1099  mkdir 02.git.local
+ 1100  cd 02.git.local/
+ 1101  vim backupToZip.py
+ 1102  git add -a
+ 1103  git add -A
+ 1104  git commit -m "master v1.0"
+ 1105  git log
+ 1106  vim backupToZip.py
+ 1107  git commit -m "master v1.1"
+ 1108  git add -A
+ 1109  git commit -m "master v1.1"
+ 1110  git log
+ 1111  git branch dev master
+ 1112  git log
+ 1113  git branch -a
+ 1114  vim backupToZip.py 
+ 1115  git log
+ 1116  git checkout dev
+ 1117  git log
+ 1118  git checkout dev
+ 1119  vim backupToZip.py 
+ 1120  git add --all
+ 1121  git commit -m "dev v1.2"
+ 1122  vim backupToZip.py 
+ 1123  git add --all
+ 1124  git commit -m "dev v1.3"
+ 1125  git log
+ 1126  git branch hotfix/do_one dev
+ 1127  git branch -a
+ 1128  git checkout hotfix/do_one 
+ 1129  vim backupToZip.py 
+ 1130  git add --all
+ 1131  git commit -m "hotfix v1.4"
+ 1132  git log
+ 1133  git branch -m hotfix/do_one features/do_one
+ 1134  git log
+ 1135  git branch hotfix/we_gonna_die master
+ 1136  git checkout hotfix/we_gonna_die 
+ 1137  git log
+ 1138  vim backupToZip.py 
+ 1139  git add --all
+ 1140  git commit -m "hotfix vx.x1"
+ 1141  git checkout features/do_one 
+ 1142  git log
+ 1143  git commit --amend -m "features v1.4"
+ 1144  git log
+ 1145  git branch -a
+
+
+
+Release phase and hotfix deploy:
+
+ 1163  vim backupToZip.py 
+ 1164  git rebase features/do_one --abort
+ 1165  git rebase --abort
+ 1166  git checkout features/do_one 
+ 1167  vim backupToZip.py 
+ 1168  git checkout master 
+ 1169  git rebase dev 
+ 1170  git log
+ 1171  git log --oneline
+ 1172  git cherry-pick hotfix/we_gonna_die 
+ 1173  vim backupToZip.py 
+ 1174  git add --all
+ 1175  git commit -m "hotfix is done"
+ 1176  git checkout dev
+ 1177  git cherry-pick hotfix/we_gonna_die 
+ 1178  vim backupToZip.py 
+ 1181  git add --all
+ 1182  git commit -m "hotfix is done on dev"
+ 1183  git checkout features/do_one 
+ 1184  git cherry-pick hotfix/we_gonna_die 
+ 1185  vim backupToZip.py 
+ 1186  git add --all
+ 1187  git commit -m "hotfix is done on features"
+
+***********************************************
+master
+***********************************************
+
+commit f5cb5f26143cfff49adf9aa1982c4d6314630474
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:50:01 2020 +0300
+
+    hotfix is done
+
+commit 46ceaf5c11b255867cc45e2d0f7dd7c5f560361e
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:36:42 2020 +0300
+
+    features v1.4
+
+commit ab05e513fc457edf816e1ffd69a3bbff604546dd
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:29:50 2020 +0300
+
+    dev v1.3
+
+commit acac2045b2e2b9d0c7af627080b382cb94dc947f
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:28:13 2020 +0300
+
+    dev v1.2
+
+commit b94314326319171fff3daba0621bfb9fd3f4c482
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:20:25 2020 +0300
+
+    master v1.1
+
+commit 2fade2162dce1af1260a3576690c48660f11cd80
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:16:16 2020 +0300
+
+    master v1.0
+
+***********************************************
+dev branch
+***********************************************
+
+commit 89e91190669c59d5a0c026c2baf178d9caebc297
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:50:01 2020 +0300
+
+    hotfix is done on dev
+
+commit 46ceaf5c11b255867cc45e2d0f7dd7c5f560361e
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:36:42 2020 +0300
+
+    features v1.4
+
+commit ab05e513fc457edf816e1ffd69a3bbff604546dd
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:29:50 2020 +0300
+
+    dev v1.3
+
+commit acac2045b2e2b9d0c7af627080b382cb94dc947f
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:28:13 2020 +0300
+
+    dev v1.2
+
+commit b94314326319171fff3daba0621bfb9fd3f4c482
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:20:25 2020 +0300
+
+    master v1.1
+
+commit 2fade2162dce1af1260a3576690c48660f11cd80
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:16:16 2020 +0300
+
+    master v1.0
+
+***********************************************
+features branch
+***********************************************
+
+commit 9f3f8fedab99153d71b11594df7b0f56afc1ee3e
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:50:01 2020 +0300
+
+    hotfix is done on features
+
+commit 46ceaf5c11b255867cc45e2d0f7dd7c5f560361e
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:36:42 2020 +0300
+
+    features v1.4
+
+commit ab05e513fc457edf816e1ffd69a3bbff604546dd
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:29:50 2020 +0300
+
+    dev v1.3
+
+commit acac2045b2e2b9d0c7af627080b382cb94dc947f
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:28:13 2020 +0300
+
+    dev v1.2
+
+commit b94314326319171fff3daba0621bfb9fd3f4c482
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:20:25 2020 +0300
+
+    master v1.1
+
+commit 2fade2162dce1af1260a3576690c48660f11cd80
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:16:16 2020 +0300
+
+    master v1.0
+
+***********************************************
+hotfix branch
+***********************************************
+
+commit 30042e87ac4413488c5365aee1912dc5cbab0fcb
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:50:01 2020 +0300
+
+    hotfix vx.x1
+
+commit b94314326319171fff3daba0621bfb9fd3f4c482
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:20:25 2020 +0300
+
+    master v1.1
+
+commit 2fade2162dce1af1260a3576690c48660f11cd80
+Author: yaskazeko <yaskazeko@gmail.com>
+Date:   Sat Feb 29 21:16:16 2020 +0300
+
+    master v1.0
