@@ -1,0 +1,25 @@
+- name: MySQL. Install and setup
+  template:
+    src: my.cnf.j2
+    dest: ~/.my.cnf
+    owner: root
+    mode: 0600
+  notify:
+    - mysql restart
+
+- meta: flush_handlers
+
+- mysql_db:
+    name: "{{ app_db_name }}"
+    encoding: utf8
+
+- mysql_user:
+    name: "{{ app_db_user }}"
+    password: "{{ app_db_pass }}"
+    priv: "{{ app_db_name }}.*:ALL"
+
+- name: Mysql Update
+  command: apt -y upgrade mysql*
+  become: yes
+  tags:
+    - upgrade
