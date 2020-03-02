@@ -1,0 +1,5 @@
+# Callback plugin
+```bash
+[defaults]
+callback_whitelist = profile_tasks, timer
+```

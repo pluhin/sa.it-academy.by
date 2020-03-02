@@ -1,0 +1,9 @@
+---
+- hosts: " {{ group }}"
+  become: yes
+  tasks:
+  - name: os
+    debug:
+      msg: "{{ansible_hostname}} | {{ ansible_distribution }} | {{ ansible_distribution_version }} "
+  roles:
+  - web

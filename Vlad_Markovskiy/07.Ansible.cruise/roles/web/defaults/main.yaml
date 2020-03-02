@@ -1,0 +1,9 @@
+---
+apt_http_packages:
+  - nginx
+
+
+yum_http_packages:
+  - nginx
+
+default_home: "/var/www/html/"
