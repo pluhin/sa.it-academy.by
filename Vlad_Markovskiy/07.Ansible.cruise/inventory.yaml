@@ -1,0 +1,36 @@
+sa_jump:
+  hosts: 
+    jump:
+      ansible_host: 178.124.206.48 
+sa_machines: 
+  hosts:
+    debian:
+      ansible_host: 192.168.201.10 
+    centos:
+      ansible_host: 192.168.201.9
+
+
+internal:
+  hosts:
+    centos_host:
+      ansible_host: 192.168.55.2
+    debian_host:
+      ansible_host: 192.168.55.3
+
+jump:
+  hosts:
+    bastion:
+      ansible_host: 192.168.43.40
+
+
+#debian:
+ # hosts:
+  #  deb_host:
+   #x   ansible_host: 192.168.55.3   
+
+
+
+#expiremental:
+#  hosts:  
+ #   byrik:
+  #    ansible_host: 192.168.43.10 ansible_user=pushkin
