@@ -1,3 +1,5 @@
+# Terminal output from main playbook
+```shell
 anjey@anjey-UX31A:~/devops/06.Ansible$ ansible-playbook -i inventory.yaml play.yaml -e 'group=internal'
 
 PLAY [internal] ****************************************************************
@@ -84,4 +86,4 @@ Print os and version ---------------------------------------------------- 0.06s
 debug ------------------------------------------------------------------- 0.05s
 debug ------------------------------------------------------------------- 0.05s
 Playbook run took 0 days, 0 hours, 0 minutes, 4 seconds
-
+```

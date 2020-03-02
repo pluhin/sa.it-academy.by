@@ -1,3 +1,5 @@
+# Inventory file
+```yaml
 internal:
   hosts:
     host1:
@@ -20,3 +22,5 @@ debian:
 #  hosts:  
  #   byrik:
   #    ansible_host: 192.168.43.10 ansible_user=pushkin
+## Just expirement with my friend notebook
+```
