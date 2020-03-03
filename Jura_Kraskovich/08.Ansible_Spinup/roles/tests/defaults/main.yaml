@@ -1,0 +1,23 @@
+---
+redhat_repos:
+  - 'http://centos.communilink.net'
+  - 'http://centos.mirror.liquidtelecom.com'
+  - 'http://centos.excellmedia.net'
+  - 'https://dl.fedoraproject.org'
+  - 'https://mirrors.fedoraproject.org'
+
+debian_repos:
+  - 'http://deb.debian.org/debian'
+  - 'http://security-cdn.debian.org/debian-security'
+  - 'http://ftp.debian.org/debian/'
+  - 'http://ftp.es.debian.org/debian/'
+
+pip_repo: 
+  - 'https://bootstrap.pypa.io'
+
+dockerhub_registry: 
+  - 'https://hub.docker.com/_/registry'
+
+memneed_mb: 1024
+
+hdd_size_free: 5

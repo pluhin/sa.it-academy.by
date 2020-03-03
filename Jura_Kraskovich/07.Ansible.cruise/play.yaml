@@ -1,0 +1,6 @@
+---
+- hosts: internal
+  become: yes
+  roles:
+    - nginx
+#    - { role: move_logs, tags: ["relocate_logs"], become: true }

@@ -1,0 +1,31 @@
+centosservers:
+  hosts:
+    centos:
+      ansible_host: 10.20.30.21
+    centos_box_test:
+      ansible_host: 192.168.56.107
+
+
+debianservers:
+  hosts:
+    debian:
+      ansible_host: 10.20.30.22
+
+
+infra:
+  children:
+    internal:
+      hosts:
+        centos:
+          ansible_host: 10.20.30.21
+        debian:
+          ansible_host: 10.20.30.22
+    test:
+      hosts:
+        centos_box_test:
+          ansible_host: 192.168.56.107
+
+jump:
+  hosts:
+    bastion:
+      ansible_host: 192.168.56.103

@@ -1,0 +1,11 @@
+server {
+        listen 80;
+        server_name {{ item }}.{{ ansible_hostname }} www.{{ item }}.{{ ansible_hostname }};
+
+        root /var/www/{{ item }}.{{ ansible_hostname }}/html/;
+        index index.html index.htm;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}

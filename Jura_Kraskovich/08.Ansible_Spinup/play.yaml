@@ -1,0 +1,5 @@
+---
+- hosts: internal
+  become: yes
+  roles:
+    - tests

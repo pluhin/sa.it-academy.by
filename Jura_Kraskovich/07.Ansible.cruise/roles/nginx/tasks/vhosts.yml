@@ -1,0 +1,39 @@
+---
+- name: Remove default nginx vhost config file (if configured).
+  file:
+    path: "{{ nginx_default_vhost_path }}"
+    state: absent
+  notify: reload nginx
+
+- meta: flush_handlers
+
+- name: Ensure nginx_vhost_path exists.
+  file:
+    path: "{{ nginx_vhost_path }}"
+    state: directory
+  notify: restart nginx
+
+- meta: flush_handlers
+
+- name: Add managed vhost config files.
+  template:
+    src: "item_vhost.j2"
+    dest: "{{ nginx_vhost_path }}/{{ item }}.{{ ansible_hostname }}.conf"
+    force: true
+    owner: root
+    group: "{{ root_group }}"
+    mode: 0644
+  with_items: "{{ nginx_vhosts }}"
+  notify: restart nginx
+  tags:
+    - skip_ansible_lint
+
+- meta: flush_handlers
+
+- name: Remove legacy vhosts.conf file.
+  file:
+    path: "{{ nginx_vhost_path }}/vhosts.conf"
+    state: absent
+  notify: restart nginx
+
+- meta: flush_handlers

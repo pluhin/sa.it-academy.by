@@ -1,0 +1,18 @@
+---
+- name: Check RedHat repos
+  block:
+    - name: Check RedHat repos
+      uri:
+        url: "{{ item }}"
+        return_content: yes
+      register: out_redhat
+      with_items: "{{ redhat_repos }}"
+      failed_when: out_redhat.status != 200
+  rescue:
+    - name: Slak notification
+      slack:
+        token: TFBPBNB2L/BUP6ZS22G/ghM0qjhvugFdTupaUa1UkUdL
+        msg: 'Centos repos not available on {{ ansible_hostname }}'
+        channel: '#ansible_ntf'
+        color: danger
+        username: '{{ inventory_hostname }}'

@@ -1,0 +1,23 @@
+---
+- name: Include check sudo
+  include_tasks: check_sudo.yaml
+
+- name: Include check RedHat repos
+  include_tasks: redhat_repos.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Include check Debian repos
+  include_tasks: debian_repos.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include check Pip repo
+  include_tasks: pip_repo.yaml
+
+- name: Include check Docker Hub
+  include_tasks: dockerhub.yaml
+
+- name: Include check RAM
+  include_tasks: ram.yaml
+
+- name: Include check HDD space
+  include_tasks: hdd_space.yaml
