@@ -1,0 +1,35 @@
+pipeline {
+    environment {
+        registry = "dockeramid/temp"
+        registryCredential = 'dockerhub'
+    }
+    agent {label 'master'}
+    stages {
+        stage('Checkout') {
+            steps{  
+              git branch: 'master', credentialsId: 'jenkins-aws', url: 'git@github.com:githubamid/build_sa.git'
+            }  
+        }
+        stage ('Building image') {
+            steps {
+              script {  
+                dockerImage = docker.build registry + ":$BUILD_NUMBER"
+              }   
+            }
+        }
+        stage ('Deploy Image') {
+            steps {
+              script {  
+                docker.withRegistry( '', registryCredential) {
+                    dockerImage.push()
+                }
+              }   
+            }
+        }
+        stage ('Remote image') {
+            steps {
+              sh "docker rmi $registry:$BUILD_NUMBER"  
+            }
+        }
+    }
+}
