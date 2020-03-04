@@ -1,0 +1,5 @@
+---
+redmine:
+  hosts:
+    node01:
+      ansible_host: 172.31.33.250
