@@ -4,10 +4,10 @@ stages:
   - build
 
 job:Apache2_deploy:
-stage: build
-script:
-  - ls -l
-  - apt-get update -yqq
-  - apt-get install apache2 curl -yqq  
-  - apache2ctl configtest
-  - curl http://localhost
+  stage: build
+  script:
+    - ls -l
+    - apt-get update -yqq
+    - apt-get install apache2 curl -yqq  
+    - apache2ctl configtest
+    - curl http://localhost
