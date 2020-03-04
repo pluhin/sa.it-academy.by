@@ -1,9 +1,7 @@
-image: "ruby:2.5"
-
-before_script:
-  - apt-get install rubygems ruby-dev -y
-
-run-test:
-  script:
-      - ruby --version
-
+image: ubuntu
+stages:
+	- build
+job:Apache2_deploy:
+	stage: build
+	script:
+      		- echo $PATH
