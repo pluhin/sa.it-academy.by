@@ -1,0 +1,6 @@
+---
+wordpress:
+  hosts:
+    wordpress-1:
+      ansible_host: 192.168.56.180
+      ansible_ssh_user: vagrant
