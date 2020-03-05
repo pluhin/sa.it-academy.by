@@ -1,0 +1,423 @@
+Delivered-To: yaskazeko@gmail.com
+Received: by 2002:ab0:2b0a:0:0:0:0:0 with SMTP id e10csp4732729uar;
+        Wed, 4 Mar 2020 03:28:32 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vtZqD+BwrfAxH3dzlQipuV/9a5Lg8MYm9wmfXPxjezTC8EaCysKKnbqzIV6kDdJFJ4pMSLD
+X-Received: by 2002:a05:6602:2811:: with SMTP id d17mr1831023ioe.82.1583321312114;
+        Wed, 04 Mar 2020 03:28:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1583321312; cv=none;
+        d=google.com; s=arc-20160816;
+        b=jx2TCh9Lhvw3rQG/iscinWC5zLBYwpwiLj0x2Q8EVIl01y8jzvldsA93kzPTz7oQVs
+         tk7i1CVMTx09psLbu+dpsNYkG9850HhwfcddtkubIpyLhKPb1ySb+PuTScVW5owaJuWk
+         XnnCYHgdhnO7LH1fGZuYFXR6oLKEVQGYXsUMQ7Iik7cSrz3tGMywrCnsMqnONIftf0Xm
+         K1defwzHL++V+ZUvdyewO4JTtCPnhd6rhzkxu9jQuVpxc7y70YwBlQb26gbwPEBhaVye
+         bvR65yj8e4mtHYUZseSHbIxujtD6tagqfuQNtaoVYdCLe+oDO3rzAQpVmE7/AAWb8ecE
+         HiEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=auto-submitted:list-id:content-transfer-encoding:mime-version
+         :subject:message-id:to:reply-to:from:date:sender:dkim-signature
+         :dkim-signature;
+        bh=HFKY0Ia/npHsRnLJQUoko06kfMNc+/AhBW4Cnz3Be2M=;
+        b=E8zY2U/hjJ6t+tZ51le5wMnfqiE8hqNaHJsstWVEsGUKN6zhbnydSn5D0+cKw4CP9z
+         gwhNQTW1FgadE9S+ubXqap7one08sJ8TP+S4wBWPGU1JvMh74PyrG3aY9yUgMH0QYDXX
+         Fbfh4PLVnJgwVHj77ONRZkVz1Cb2JIIi2vWnFhTHPi2kA9RCmCNWgU0G4M74HDW8b9p4
+         Q8Rm9jJuQJAGwAzQHlymPo5//aaq87+gFzfe6Aky4Cy8NzVPjwguQhRfLFmR9uQWlFap
+         Nlpkx5/o+RCf5wDH2CM/JtZIGS8m6Qx9MRyS1RDSeVOH4awHAXLKmwKlJR90xT6hoywy
+         pEsA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@mg.gitlab.com header.s=mailo header.b="pU/VW230";
+       dkim=pass header.i=@mailgun.org header.s=mg header.b=R7Xcerxz;
+       spf=pass (google.com: domain of bounce+55fe60.947b4-yaskazeko=gmail.com@mg.gitlab.com designates 192.237.158.143 as permitted sender) smtp.mailfrom="bounce+55fe60.947b4-yaskazeko=gmail.com@mg.gitlab.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=gitlab.com
+Return-Path: <bounce+55fe60.947b4-yaskazeko=gmail.com@mg.gitlab.com>
+Received: from do158-143.mg.gitlab.com (do158-143.mg.gitlab.com. [192.237.158.143])
+        by mx.google.com with UTF8SMTPS id m19si1400516iol.88.2020.03.04.03.28.31
+        for <yaskazeko@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Mar 2020 03:28:32 -0800 (PST)
+Received-SPF: pass (google.com: domain of bounce+55fe60.947b4-yaskazeko=gmail.com@mg.gitlab.com designates 192.237.158.143 as permitted sender) client-ip=192.237.158.143;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@mg.gitlab.com header.s=mailo header.b="pU/VW230";
+       dkim=pass header.i=@mailgun.org header.s=mg header.b=R7Xcerxz;
+       spf=pass (google.com: domain of bounce+55fe60.947b4-yaskazeko=gmail.com@mg.gitlab.com designates 192.237.158.143 as permitted sender) smtp.mailfrom="bounce+55fe60.947b4-yaskazeko=gmail.com@mg.gitlab.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=gitlab.com
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.gitlab.com; q=dns/txt;
+ s=mailo; t=1583321311; h=List-Id: Content-Transfer-Encoding:
+ Content-Type: Mime-Version: Subject: Message-ID: To: Reply-To: From:
+ Date: Sender: X-Feedback-Id;
+ bh=HFKY0Ia/npHsRnLJQUoko06kfMNc+/AhBW4Cnz3Be2M=; b=pU/VW230neLLlaazhqkFZLmLo2eHJx945g1mmiJkDmVAViuYYb68HS+mAZFrKgdKyhIm+nrV
+ cub0a6K74WoYtL6K2Y7RrVuyipMKW77GGUFo69lO1iJtYzadbKqTvHl/TaM3i16/096kIlGT
+ E8FJGX0Tb6F59cG7ydULbhnMiiI=
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mailgun.org; q=dns/txt; s=mg;
+ t=1583321311; h=List-Id: Content-Transfer-Encoding: Content-Type:
+ Mime-Version: Subject: Message-ID: To: Reply-To: From: Date: Sender:
+ X-Feedback-Id; bh=HFKY0Ia/npHsRnLJQUoko06kfMNc+/AhBW4Cnz3Be2M=; b=R7XcerxzHjimMINnq8EHEq+Am2NqXvsWic5+JlsdiyYunQFN6SZmKXhUr0byj+ZDk1tv0+Y+
+ 24E7oBADTxXtI0m+CjXTwEyzszt1zSRPVzVNAYCMGJT3Z8gPY362QVqJBo7pFD6NrTGvoKdY
+ tXCojxnk8cKS+jQ97KrMK9KT9Dw=
+X-Feedback-Id: 531ee07d5a76185406c6480b:mailgun
+X-Mailgun-Sending-Ip: 192.237.158.143
+X-Mailgun-Sid: WyJiZjViZiIsICJ5YXNrYXpla29AZ21haWwuY29tIiwgIjk0N2I0Il0=
+Sender: gitlab@mg.gitlab.com
+Received: from mg.gitlab.com (68.90.74.34.bc.googleusercontent.com [34.74.90.68])
+ by mxa.mailgun.org with ESMTP id 5e5f90df.7f4ab5eea7a0-smtp-out-n01;
+ Wed, 04 Mar 2020 11:28:31 -0000 (UTC)
+Date: Wed, 04 Mar 2020 11:28:29 +0000
+From: Yaskazeko <gitlab@mg.gitlab.com>
+Reply-To: noreply@gitlab.com
+To: yaskazeko@gmail.com
+Message-ID: <5e5f90ddd5215_57b53fa7854389bc243749@sidekiq-asap-03-sv-gprd.mail>
+Subject: [Git][yaskazeko/python_scripts][master] add file 03.git.hosting.md
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_5e5f90ddc3f33_57b53fa7854389bc243627";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-GitLab-Project: python_scripts
+X-GitLab-Project-Id: 17251268
+X-GitLab-Project-Path: yaskazeko/python_scripts
+List-Id: yaskazeko/python_scripts
+ <17251268.python-scripts.yaskazeko.gitlab.com>
+X-GitLab-Author: yaskazeko
+Auto-Submitted: auto-generated
+X-Auto-Response-Suppress: All
+
+
+----==_mimepart_5e5f90ddc3f33_57b53fa7854389bc243627
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+
+Yaskazeko pushed to branch master at Yaskazeko / python_scripts
+
+
+Commits:
+12c1f477 by yaskazeko at 2020-03-04T14:28:04+03:00
+add file 03.git.hosting.md
+
+- - - - -
+
+
+1 changed file:
+
+- + 03.GIT.Hosting.md
+
+
+Changes:
+
+=====================================
+03.GIT.Hosting.md
+=====================================
+@@ -0,0 +1,17 @@
++### Links on my GitHub, GitLab and BitBucket repository
++
++[GitHub](https://github.com/yaskazeko/python_scripts.git)
++
++[GitLab](https://gitlab.com/yaskazeko/python_scripts.git)
++
++[BitBucket](https://bitbucket.org/YasKazeko/python_scripts.git)
++
++### Links on my Slack notify chenals:
++
++[Github_notifi](https://sa-itacademy-by.slack.com/archives/CUH6JD2SD)
++
++[GitLab_notifi](https://sa-itacademy-by.slack.com/archives/CUFM4L15H)
++
++[BitBucket](https://sa-itacademy-by.slack.com/archives/CUT6ASD24)
++
++
+
+
+
+View it on GitLab: https://gitlab.com/yaskazeko/python_scripts/-/commit/12c1f47756e4c8bb8bc460e44211b5beb645cfe4
+
+-- 
+View it on GitLab: https://gitlab.com/yaskazeko/python_scripts/-/commit/12c1f47756e4c8bb8bc460e44211b5beb645cfe4
+You're receiving this email because of your account on gitlab.com.
+
+
+
+----==_mimepart_5e5f90ddc3f33_57b53fa7854389bc243627
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html lang="en">
+<head>
+<meta content="text/html; charset=US-ASCII" http-equiv="Content-Type">
+<title>
+GitLab
+</title>
+
+
+
+<style>img {
+max-width: 100%; height: auto;
+}
+</style>
+</head>
+<body>
+<div class="content">
+
+<h3>
+Yaskazeko pushed to branch master
+at <a href="https://gitlab.com/yaskazeko/python_scripts">Yaskazeko / python_scripts</a>
+</h3>
+<h4>
+Commits:
+</h4>
+<ul>
+<li>
+<strong><a href="https://gitlab.com/yaskazeko/python_scripts/-/commit/12c1f47756e4c8bb8bc460e44211b5beb645cfe4">12c1f477</a></strong>
+<div>
+<span>by yaskazeko</span>
+<i>at 2020-03-04T14:28:04+03:00</i>
+</div>
+<pre class="commit-message" style="white-space: pre-wrap; margin: 0;">add file 03.git.hosting.md
+</pre>
+</li>
+</ul>
+<h4>1 changed file:</h4>
+<ul>
+<li class="file-stats">
+<a href="#6f36581f7f4088d7156dd7572502f88b078d5b7b">
+<span class="new-file">
++
+03.GIT.Hosting.md
+</span>
+</a>
+</li>
+</ul>
+<h4>Changes:</h4>
+<li id="6f36581f7f4088d7156dd7572502f88b078d5b7b">
+<a href="https://gitlab.com/yaskazeko/python_scripts/-/commit/12c1f47756e4c8bb8bc460e44211b5beb645cfe4#6f36581f7f4088d7156dd7572502f88b078d5b7b"><strong>03.GIT.Hosting.md</strong></a>
+<hr>
+<table class="code white" style="font-family: monospace; font-size: 90%;" bgcolor="#fff" width="100%" cellpadding="0" cellspacing="0">
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="1" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+1
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC1" class="line" lang="markdown"><span class="gu" style="color: #800080; font-weight: 600;">### Links on my GitHub, GitLab and BitBucket repository</span></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="2" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+2
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC2" class="line" lang="markdown"></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="3" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+3
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC3" class="line" lang="markdown"><span class="p">[</span><span class="nv" style="color: #008080;">GitHub</span><span class="p">](</span><span class="sx" style="color: #d14;">https://github.com/yaskazeko/python_scripts.git</span><span class="p">)</span></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="4" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+4
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC4" class="line" lang="markdown"></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="5" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+5
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC5" class="line" lang="markdown"><span class="p">[</span><span class="nv" style="color: #008080;">GitLab</span><span class="p">](</span><span class="sx" style="color: #d14;">https://gitlab.com/yaskazeko/python_scripts.git</span><span class="p">)</span></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="6" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+6
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC6" class="line" lang="markdown"></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="7" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+7
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC7" class="line" lang="markdown"><span class="p">[</span><span class="nv" style="color: #008080;">BitBucket</span><span class="p">](</span><span class="sx" style="color: #d14;">https://bitbucket.org/YasKazeko/python_scripts.git</span><span class="p">)</span></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="8" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+8
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC8" class="line" lang="markdown"></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="9" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+9
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC9" class="line" lang="markdown"><span class="gu" style="color: #800080; font-weight: 600;">### Links on my Slack notify chenals:</span></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="10" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+10
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC10" class="line" lang="markdown"></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="11" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+11
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC11" class="line" lang="markdown"><span class="p">[</span><span class="nv" style="color: #008080;">Github_notifi</span><span class="p">](</span><span class="sx" style="color: #d14;">https://sa-itacademy-by.slack.com/archives/CUH6JD2SD</span><span class="p">)</span></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="12" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+12
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC12" class="line" lang="markdown"></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="13" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+13
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC13" class="line" lang="markdown"><span class="p">[</span><span class="nv" style="color: #008080;">GitLab_notifi</span><span class="p">](</span><span class="sx" style="color: #d14;">https://sa-itacademy-by.slack.com/archives/CUFM4L15H</span><span class="p">)</span></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="14" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+14
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC14" class="line" lang="markdown"></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="15" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+15
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC15" class="line" lang="markdown"><span class="p">[</span><span class="nv" style="color: #008080;">BitBucket</span><span class="p">](</span><span class="sx" style="color: #d14;">https://sa-itacademy-by.slack.com/archives/CUT6ASD24</span><span class="p">)</span></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="16" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+16
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC16" class="line" lang="markdown"></span>
+</pre>
+</td>
+</tr>
+<tr class="line_holder new" id="" style="line-height: 1.6;">
+<td class="diff-line-num new old_line" data-linenumber="0" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+ 
+</td>
+<td class="diff-line-num new new_line" data-linenumber="17" style="width: 35px; color: rgba(0,0,0,0.3); border-right-width: 1px; border-right-color: #c7f0d2; border-right-style: solid; padding: 0 5px;" align="right" bgcolor="#ddfbe6">
+17
+</td>
+<td class="line_content new" style="padding-left: 0.5em; padding-right: 0.5em;" bgcolor="#ecfdf0">
+<pre style="margin: 0;">+<span id="LC17" class="line" lang="markdown"></span></pre>
+</td>
+</tr>
+
+</table>
+<br>
+</li>
+
+</div>
+<div class="footer" style="margin-top: 10px;">
+<p style="font-size: small; color: #777;">
+&#8212;
+<br>
+<a href="https://gitlab.com/yaskazeko/python_scripts/-/commit/12c1f47756e4c8bb8bc460e44211b5beb645cfe4">View it on GitLab</a>.
+<br>
+You're receiving this email because of your account on gitlab.com.
+If you'd like to receive fewer emails, you can
+adjust your notification settings.
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"EmailMessage","action":{"@type":"ViewAction","name":"View Commit","url":"https://gitlab.com/yaskazeko/python_scripts/-/commit/12c1f47756e4c8bb8bc460e44211b5beb645cfe4"}}</script>
+
+
+</p>
+</div>
+</body>
+</html>
+
+----==_mimepart_5e5f90ddc3f33_57b53fa7854389bc243627--
