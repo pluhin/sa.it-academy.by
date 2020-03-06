@@ -18,12 +18,14 @@
   582.  sudo lxc-stop -n mydebian
   583.  cd ..
 
+
 # Debian_VagrantFile
 =======
 
 * Vagrant.configure("2") do |config|
 * config.vm.box = "debian/buster64"
 * end
+
 
 # Centos_VagrantFile
 =======
@@ -32,6 +34,7 @@
 * config.vm.box = "centos/8"
 * config.vm.box_version = "1905.1"
 * end
+
 
 # LXC.conf
 =======
