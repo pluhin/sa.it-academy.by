@@ -36,11 +36,11 @@
 # LXC.conf
 =======
 
-lxc.cgroup.memory.limit_in_bytes = 53687091
-lxc.net.0.type = veth
-lxc.net.0.link = lxcbr0
-lxc.net.0.flags = up
-lxc.net.0.hwaddr = 00:16:3e:xx:xx:xx
+* lxc.cgroup.memory.limit_in_bytes = 53687091
+* lxc.net.0.type = veth
+* lxc.net.0.link = lxcbr0
+* lxc.net.0.flags = up
+* lxc.net.0.hwaddr = 00:16:3e:xx:xx:xx
 
 
 # Vagrant_Link_Box
