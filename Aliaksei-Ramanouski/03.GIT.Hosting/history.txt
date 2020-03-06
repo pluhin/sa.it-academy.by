@@ -1,0 +1,631 @@
+   10  cd project
+   11  ls
+   12  ls -l
+   13  exit
+   14  cd Desktop
+   15  subl ../.zshrc
+   16  subl
+   17  apt get install subl
+   18  subl
+   19  sudo rm /usr/bin/subline
+   20  sudo rm /usr/bin/sublime
+   21  sudo ln -s /opt/Sublime\ Text\ 2/sublime_text /usr/bin/sublime
+   22  hash -r
+   23  sublime filename
+   24  sudo sublime filename
+   25  sudo subl filename
+   26  reboot
+   27  su
+   28  sudo
+   29  sudo apt update
+   30  sudo apt install apt-transport-https ca-certificates curl software-properties-common]
+   31  sudo apt install apt-transport-https ca-certificates curl software-properties-common
+   32  curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+   33  sudo add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"
+   34  sudo apt update
+   35  sudo apt install sublime-text
+   36  subl ../.zshrc
+   37  cat ../.zshrc
+   38  subl ../.zshrc
+   39  sudo subl ../.zshrc
+   40  subl ../.zshrc
+   41  reboot
+   42  subl ../.zshrc
+   43  sudo subl ../.zshrc
+   44  cd ..
+   45  ls
+   46  home
+   47  ls
+   48  ls 0l
+   49  ls -l
+   50  ls -all
+   51  nano .zshrc
+   52  cd /tmp/
+   53  ls
+   54  mkdir project
+   55  cd project
+   56  ;s
+   57  ls
+   58  ls -al
+   59  ls -all
+   60  sudo apt-get install dconf-cli
+   61  sudo subl ../.zshrc
+   62  reboot
+   63  nano .zshrc
+   64  ls
+   65  reboot
+   66  sudo apt-get install -y fonts-droid
+   67  sudo apt-get install -y fonts-droid-fallback
+   68  reboot
+   69  sudo apt update && sudo apt -y install font-manager
+   70  sudo apt-get install fonts-powerline
+   71  sudo dnf install powerline-fonts
+   72  git clone https://github.com/powerline/fonts.git --depth=1
+   73  cd fonts
+   74  ./install.sh
+   75  cd ..
+   76  rm -rf fonts
+   77  sudo apt-get install dconf-cli
+   78  git clone https://github.com/aruhier/gnome-terminal-colors-solarized.git
+   79  cd gnome-terminal-colors-solarized
+   80  ./install.sh
+   81  sudo subl ../.oh-my-zsh/themes/agnoster.zsh-theme
+   82  ls
+   83  mkdir test
+   84  cd test
+   85  git init
+   86  touch index.html
+   87  git add .
+   88  git commit
+   89  git commit -m "first commit"
+   90  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+   91  nano .zshrc
+   92  sudo subl ../.zshrc
+   93  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+   94  sudo subl ../.zshrc
+   95  cd /tmp
+   96  ls
+   97  mkdir pr
+   98  rm pr
+   99  rm -rf pr
+  100  mkdir project
+  101  ls
+  102  cd project
+  103  ls
+  104  clear
+  105  git --version
+  106  apt get install git
+  107  sudo apt get install git
+  108  sudo apt-get install git
+  109  git --version
+  110  git init
+  111  ls -l .git/
+  112  sudo apt-get install vim
+  113  vim .git/config
+  114  git config user.name "Aliaksei Ramanouski"
+  115  git config user.email "manlyx10101@gmail.com"
+  116  vim .git/config
+  117  git config --list
+  118  date > file.txt
+  119  git status
+  120  git commit -m "first commit in master"
+  121  git add all
+  122  git add --all
+  123  git status
+  124  git commit -m "first commit in master"
+  125  vim .gitignore
+  126  ls
+  127  ls -
+  128  ls -all
+  129  date > file2.txt
+  130  git add --all
+  131  git commit -m "second commit in master"
+  132  git log --oneline
+  133  git log --oneline >> /tmp/master(init_branch).txt
+  134  git log --oneline > /tmp/master(init_branch).txt
+  135  ls
+  136  git log --oneline > /tmp/master.txt
+  137  ls
+  138  cat /tmp/master.txt
+  139  cat /tmp/master.md
+  140  git log --oneline > /tmp/master.md
+  141  cat /tmp/master.md
+  142  git branch -a
+  143  git log --oneline
+  144  vim /tmp/master.md
+  145  git log --oneline > /tmp/branch-master.md
+  146  git branch -a > /tmp/branch-master.md
+  147  nano /tmp/branch-master.md
+  148  git log --oneline >> /tmp/branch-master.md
+  149  nano /tmp/branch-master.md
+  150  git checkout -b "dev"
+  151  git log --oneline
+  152  ls
+  153  date >file-dev-01.txt
+  154  git add --all
+  155  git commit -m "first commit in dev"
+  156  date >file-dev-02.txt
+  157  git add --all
+  158  git commit -m "second commit in dev"
+  159  git log --oneline
+  160  git log --oneline > /tmp/branch-dev.md
+  161  cat /tmp/branch-dev.md
+  162  git log --oneline
+  163  cat /tmp/branch-dev.md
+  164  git branch -a >> /tmp/branch-dev.md
+  165  cat /tmp/branch-dev.md
+  166  git checkout -b "features/do_one"
+  167  date >file-features/do_one.txt
+  168  date > file-features/do_one.txt
+  169  date > file-features"/"do_one.txt
+  170  date > "file-features/do_one".txt
+  171  date > "file-features-do_one.txt\nrxit\nexit\nq
+  172  date > file-features-do_one.txt\nrxit\nexit\nq
+  173  date > file-features-do_one.txt\n
+  174  ls
+  175  cat file-features-do_one.txt 
+  176  git add --all
+  177  git commit -m "first commit in features/do_one"
+  178  git checkout master
+  179  git checkout -b "hotfix/we_gonna_die"
+  180  git checkout features/do_one
+  181  ls
+  182  git branch -a > /tmp/branch-features.md
+  183  git log --oneline >> /tmp/branch-features.md
+  184  cat /tmp/branch-features.md
+  185  git checkout hotfix
+  186  git checkout hotfix/we_gonna_die
+  187  ls
+  188  date > file-hotfix-we_gonna_dite.txt
+  189  git add --all
+  190  git commit -m "first commit in hotfix/we_gonna_die"
+  191  git branch -a > /tmp/hotfix-gonna_die.md
+  192  git log --oneline >> /tmp/hotfix-gonna_die.md
+  193  cat /tmp/hotfix-gonna_die.md
+  194  git checkout master
+  195  ls
+  196  git merge dev
+  197  git merge features/do_one
+  198  ls
+  199  git log --oneline
+  200  git checkout hotfix/we_gonna_die
+  201  git log --oneline
+  202  git checkout master
+  203  git cherry-pick 485e1fb
+  204  git log --oneline
+  205  git checkout dev
+  206  git cherry-pick 485e1fb
+  207  git checkout features/do_one
+  208  git cherry-pick 485e1fb
+  209  ls
+  210  git log --oneline
+  211  git checkout features/do_one
+  212  git checkout dev
+  213  git log --oneline
+  214  git checkout master
+  215  ls
+  216  git log --oneline
+  217  git branch -a
+  218  git branch -a > /tmp/02.GIT.Local.md && git log --oneline >> /tmp/02.GIT.Local.md
+  219  cat /tmp/02.GIT.Local.md
+  220  git checkout dev
+  221  git branch -a > /tmp/02.GIT.Local.md && git log --oneline >> /tmp/02.GIT.Local.md
+  222  cat /tmp/02.GIT.Local.md
+  223  git checkout master
+  224  git branch -a > /tmp/02.GIT.Local.md && git log --oneline >> /tmp/02.GIT.Local.md
+  225  git checkout dev
+  226  git branch -a >> /tmp/02.GIT.Local.md && git log --oneline >> /tmp/02.GIT.Local.md
+  227  cat /tmp/02.GIT.Local.md
+  228  git checkout features/do_one
+  229  git branch -a >> /tmp/02.GIT.Local.md && git log --oneline >> /tmp/02.GIT.Local.md
+  230  git checkout hotfix/we_gonna_die
+  231  git branch -a >> /tmp/02.GIT.Local.md && git log --oneline >> /tmp/02.GIT.Local.md
+  232  cat /tmp/02.GIT.Local.md
+  233  cd /tmp
+  234  ls
+  235  ls -all
+  236  cd /coursers
+  237  mkdir coursers
+  238  cd coursers
+  239  sudo cp /tmp/02.GIT.Local.md /tmp/coursers
+  240  ;s
+  241  ls
+  242  cat 02.GIT.Local.md
+  243  nano README.md
+  244  ls
+  245  nano 02.GIT.Local.md
+  246  cd /tmp/project
+  247  nano 02.GIT.Local.md
+  248  cat
+  249  cat 02.GIT.Local.md
+  250  nano 02.GIT.Local.md
+  251  sudo nano 02.GIT.Local.md
+  252  /tmp
+  253  mkdir cicd
+  254  cd cicd
+  255  git@github.com:manlyalex/sa.it-academy.by.git
+  256  git clone git@github.com:manlyalex/sa.it-academy.by.git
+  257  sudo git clone git@github.com:manlyalex/sa.it-academy.by.git
+  258  git clone https://github.com/manlyalex/sa.it-academy.by.git
+  259  ls
+  260  cd sa.it-academy.by
+  261  git checkout m-sa2-12-20
+  262  ls
+  263  mkdir Aliaksei-Ramanouski
+  264  cd Aliaksei-Ramanouski
+  265  ls
+  266  mkdir 02.GIT.Local
+  267  ls
+  268  cd 02.GIT.Local
+  269  ls
+  270  cp /tmp/coursers/02.GIT.Local.md /tmp/cicd/sa.it-academy.by/Aliaksei-Ramanouski/02.GIT.Local
+  271  ls
+  272  cp /tmp/coursers/README.md /tmp/cicd/sa.it-academy.by/Aliaksei-Ramanouski/02.GIT.Local
+  273  ls
+  274  cat README.md
+  275  cat 02.GIT.Local.md
+  276  git  config user.name "Aliaksei Ramanouski"
+  277  git  config user.mail "manlyx10101@gmail.com"
+  278  git add --all
+  279  git commit -m "02.GIT.Local. Work with git branches "
+  280  git  config user.email "manlyx10101@gmail.com"
+  281  git commit -m "02.GIT.Local. Work with git branches "
+  282  ls
+  283  nano 02.GIT.Local.md
+  284  git push
+  285  nano 02.GIT.Local.md
+  286  cat 02.GIT.Local.md
+  287  git add --all
+  288  git commit --amend
+  289  git push -f
+  290  nano 02.GIT.Local.md
+  291  vim 02.GIT.Local.md
+  292  nano 02.GIT.Local.md
+  293  ls
+  294  cp ~/Documents/02.GIT.local.md /tmp/cicd/sa.it-academy.by/Aliaksei-Ramanouski
+  295  ls
+  296  ls -all
+  297  sudo cp ~/Documents/02.GIT.local.md /tmp/cicd/sa.it-academy.by/Aliaksei-Ramanouski
+  298  ls
+  299  nano 02.GIT.Local.md 
+  300  sudo  ~/Documents/02.GIT.local.md > /tmp/cicd/sa.it-academy.by/Aliaksei-Ramanouski/02.GIT.Local/02.GIT.Local.md
+  301  ls
+  302  cat 02.GIT.Local.md
+  303  nano 02.GIT.Local.md 
+  304  cd /tmp/cicd/sa.it-academy.by/Aliaksei-Ramanouski
+  305  ls
+  306  cd 02.GIT.Local
+  307  ls
+  308  rm 01
+  309  rm 02.GIT.Local.md
+  310  ls
+  311  cd ..
+  312  ls
+  313  cd 02.GIT.Local
+  314  ls
+  315  cp ~/Documents/02.GIT.local.md /tmp/cicd/sa.it-academy.by/Aliaksei-Ramanouski/02.GIT.Local
+  316  ls
+  317  cat 02.GIT.local.md
+  318  ls
+  319  git add --all
+  320  git commit --amend
+  321  git push -f
+  322  ls
+  323  cat 02.GIT.Local.md
+  324  git add --all
+  325  git commit --amend
+  326  git push -f
+  327  ls
+  328  who
+  329  ssh-keygen
+  330  cd /home/courses/.ssh/
+  331  ls
+  332  ls l
+  333  ls -l
+  334  ls
+  335  cd 02.GIT.Local
+  336  cd /tmp/cicd/sa.it-academy.by/Aliaksei-Ramanouski
+  337  cd /tmp/cicd/sa.it-academy.by/
+  338  cd ./tmp/cicd/sa.it-academy.by/
+  339  cd ..
+  340  cd /tmp/cicd/sa.it-academy.by/
+  341  ls
+  342  cd /tmp
+  343  ls
+  344  cd ..
+  345  cd /home
+  346  ls
+  347  cd courses
+  348  ;s
+  349  ls
+  350  cd ..
+  351  ls
+  352  cd /tmp
+  353  ls
+  354  sudo /tmp
+  355  ls
+  356  sudo /tmp/
+  357  sudo tmp
+  358  cd ..
+  359  su
+  360  sudo cd /tmp
+  361  sudo cd tmp
+  362  sudo ls
+  363  cd /tmp
+  364  ls
+  365  cd //
+  366  cd tmp
+  367  ls
+  368  ls =l
+  369  ls -l
+  370  cd /tmp
+  371  cd /etc
+  372  ls
+  373  cd /tmp
+  374  ls
+  375  cd et
+  376  cd /etc
+  377  ls
+  378  cd ..
+  379  cd root
+  380  sudo cd root
+  381  su cd root
+  382  sudo cd root
+  383  cd tmp
+  384  ;s
+  385  ls
+  386  cd ..
+  387  cd ./tmp/cicd/sa.it-academy.by/
+  388  find cicd
+  389  find /cicd
+  390  find cicd/
+  391  find tmp
+  392  cd .
+  393  find 02.GIT.Local
+  394  sudo find 02.GIT.Local
+  395  reboot
+  396  ls
+  397  cd /tmp
+  398  ls
+  399  cat config-err-3S8jRJ
+  400  cd /tmp/cicd/sa.it-academy.by/
+  401  sudo 
+  402  sudo cd /tmp
+  403  mkdir c
+  404  mkdir cicd
+  405  rm c
+  406  rm c -r
+  407  ls
+  408  cd cicd
+  409  ls
+  410  git git@github.com:manlyalex/sa.it-academy.by.git
+  411  git clone  git@github.com:manlyalex/sa.it-academy.by.git
+  412  sudo git clone  git@github.com:manlyalex/sa.it-academy.by.git
+  413  ssh-keygen
+  414  ll ~/.ssh
+  415  cat ~/.ssh/id_rsa.pub
+  416  git remote -v
+  417  git remote set-url origin git@github.com:manlyalex/sa.it-academy.by.git
+  418  sudo git remote set-url origin git@github.com:manlyalex/sa.it-academy.by.git
+  419  git clone https://github.com/manlyalex/sa.it-academy.by.git
+  420  ls
+  421  git remote -v
+  422  sudo git remote set-url origin git@github.com:manlyalex/sa.it-academy.by.git
+  423  git remote add origin git@github.com:manlyalex/sa.it-academy.by.git
+  424  cd sa.it-academy.by
+  425  ls
+  426  git checkout m-sa2-12-20
+  427  ls
+  428  clear
+  429  git remote add origin git@github.com:manlyalex/sa.it-academy.by.git
+  430  clear
+  431  ls
+  432  nano Aliaksei-Ramanouski
+  433  ls
+  434  ls -ll
+  435  cd Aliaksei-Ramanouski/02.GIT.Local
+  436  nano cd Aliaksei-Ramanouski/02.GIT.Local
+  437  ls
+  438  cd ..
+  439  ls
+  440  cp 02.GIT.Local/ /tmp/cicd
+  441  sudo cp 02.GIT.Local/ /tmp/cicd
+  442  sudo cp -r 02.GIT.Local/ /tmp/cicd
+  443  cd /tmp/cicd
+  444  ls
+  445  cd 02.GIT.Local
+  446  ls
+  447  nano 02.GIT.Local.md
+  448  git remote add origin git@github.com:manlyalex/sa.it-academy.by.git
+  449  git add --all
+  450  git ini
+  451  git init
+  452  sudo git init
+  453  git add --all
+  454  sudo git add --all
+  455  git commit -m "test"
+  456  sudo git commit -m "test"
+  457  ls
+  458  ls -l
+  459  git config add.
+  460  git config user.email "manlyx10101@gmail.com"
+  461  sudo git config user.email "manlyx10101@gmail.com"
+  462  sudo git config user.name "Aliaksei Ramanouski"
+  463  sudo git commit -m "test"
+  464  git remote add origin git@github.com:manlyalex/test-courses-ci-cd.git
+  465  sudo git remote add origin git@github.com:manlyalex/test-courses-ci-cd.git
+  466  git push
+  467  git push -u origin --all
+  468  cat ~/.ssh/id_rsa.pub
+  469  git remote -v
+  470  git remote rename origin origin-for-githab
+  471  git remote rename origin origin-githab
+  472  sudo git remote rename origin origin-githab
+  473  git remote -v
+  474  git remote add origin git clone git@bitbucket.org:manlyx/test-courses-ci-cd.git
+  475  git remote add origin  git@bitbucket.org:manlyx/test-courses-ci-cd.git
+  476  sudo git remote add origin  git@bitbucket.org:manlyx/test-courses-ci-cd.git
+  477  ls
+  478  git remote -v
+  479  git push -u origin --all
+  480  git remote -v
+  481  git remote rename origin origin-bit
+  482  sudo git remote rename origin origin-bit
+  483  git remote -v
+  484  sudo git remote add origin  git@gitlab.com:manlyx/test-courses-ci-cd.git\n
+  485  git remote -v
+  486  git push -u origin --all
+  487  sudo git remote rename origin origin-gitlab
+  488  git remote -v
+  489  reboot
+  490  ls
+  491  cd /tmp/
+  492  ls
+  493  ls -all
+  494  cd /tmp/cicd
+  495  cd ~/.ssh
+  496  ;s
+  497  ls
+  498  cd ..
+  499  ls
+  500  cd 
+  501  cd test
+  502  ls
+  503  cd ..
+  504  ls
+  505  cd /tmp
+  506  cd ..
+  507  ls
+  508  cd home
+  509  ls
+  510  cd courses
+  511  cd /home/courses
+  512  ls
+  513  cd /home
+  514  ls
+  515  cd courses
+  516  ls
+  517  cd test
+  518  ls
+  519  cd ..
+  520  mkdir cicd
+  521  cd cicd
+  522  ls
+  523  git remote -v
+  524  git remote add origin git@github.com:manlyalex/test-courses-ci-cd.git
+  525  git clone git@github.com:manlyalex/test-courses-ci-cd.git
+  526  ls
+  527  cd test-courses-ci-cd
+  528  ls
+  529  git remote add origin git@github.com:manlyalex/test-courses-ci-cd.git
+  530  git remote -v
+  531  git remote rename origin origin-github
+  532  git config user.email "manlyx10101@gmail.com"
+  533  git config user.name "Aliaksei Ramanouski"
+  534  ls
+  535  date >test-01
+  536  cat test-01
+  537  git add --all
+  538  git commit -m "add date test-01"
+  539  date >test-01
+  540  git commit -m "add date test-02"
+  541  git add --all
+  542  git commit -m "add date test-02"
+  543  git push origin-github
+  544  git remote add origin git@gitlab.com:manlyx/test-courses-ci-cd.git
+  545  git remote -v
+  546  git remote rename origin origin-gitlab
+  547  git push origin-gitlab
+  548  git remote add origin git@bitbucket.org:manlyx/test-courses-ci-cd.git
+  549  git remote rename origin origin-bitbucket
+  550  git remote -v
+  551  git push origin-bitbucket
+  552  date >test-01
+  553  git add --all
+  554  git commit -m "add date test-02"
+  555  git push all
+  556  nano .git/config
+  557  ls
+  558  cd cicd
+  559  ls
+  560  cd test-courses-ci-cd
+  561  ls
+  562  cat test-01
+  563  cd cicd
+  564  cd test-courses-ci-cd
+  565  ./script.py
+  566  nano script.py
+  567  ./script.py
+  568  nano script.py
+  569  ls
+  570  git remote -v
+  571  nano script.py
+  572  ./script.py
+  573  nano script.py
+  574  ./script.py
+  575  nano script.py
+  576  ./script.py
+  577  nano script.py
+  578  ./script.py
+  579  nano script.py
+  580  ./script.py
+  581  nano script.py
+  582  ./script.py
+  583  nano script.py
+  584  ./script.py
+  585  date >test-011
+  586  ./script.py
+  587  nano script.py
+  588  ./script.py
+  589  nano script.py
+  590  ./script.py
+  591  nano script.py
+  592  date > test-4.txt
+  593  ./script.py
+  594  nano script.py
+  595  pip install colored
+  596  nano script.py
+  597  date > test-4.txt
+  598  ./script.py
+  599  nano script.py
+  600  ./script.py
+  601  nano script.py
+  602  ./script.py
+  603  nano script.py
+  604  sudo pip install colored
+  605  nano script.py
+  606  ./script.py
+  607  nano script.py
+  608  ls
+  609  cd cicd
+  610  cd test-courses-ci-cd
+  611  nano script.py
+  612  ./script.py
+  613  nano script.py
+  614  pip install termcolor
+  615  nano script.py
+  616  ./script.py
+  617  nano script.py
+  618  date > test-4.txt
+  619  ./script.py
+  620  nano script.py
+  621  ls
+  622  cd cicd
+  623  ls
+  624  nano GIT.hosting.md
+  625  git remote -v
+  626  cd test-courses-ci-cd
+  627  git remote -v
+  628  clear
+  629  git remote -v
+  630  nano script.py
+  631  touch filetext.txt
+  632  ./script.py
+  633  history > history.txt
+  634  nano history.txt
+  635  history > 10 history.txt
+  636  history > 10 history1.txt
+  637  history 10 >history.txt
+  638  cat history.txt
+  639  clear
+  640  history 10
