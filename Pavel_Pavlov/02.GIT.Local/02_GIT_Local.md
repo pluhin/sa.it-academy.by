@@ -1,9 +1,8 @@
-02.GIT.Local Homework Report
-------
+# 02.GIT.Local Homework Report
 
-#### Command history
+## Command history
 
-'''
+```
     2  mkdir 02.GIT.Local
     3  cd 02.GIT.Local/
     4  git init
@@ -90,13 +89,13 @@
    85  git log --oneline 
    86  cd ..
    87  history > 02.git.local.history
-'''
+```
 
-#### Commit log
+## Commit log
 
-##### master branch
+### master branch
 
-'''
+```
 34424b2 (HEAD -> master) cherry-pick hotfix to master fixed conflict
 46053f8 Second commit to the features/do_one
 935f349 First commit to the features/do_one
@@ -104,11 +103,11 @@
 83a5dd4 First commit to the dev
 72e8ead First commit to the master
 3045bfe Initial commit
-'''
+```
 
-##### dev branch
+### dev branch
 
-'''
+```
 b506981 (HEAD -> dev) cherry-pick hotfix to dev fixed conflict
 46053f8 Second commit to the features/do_one
 935f349 First commit to the features/do_one
@@ -116,11 +115,11 @@ b506981 (HEAD -> dev) cherry-pick hotfix to dev fixed conflict
 83a5dd4 First commit to the dev
 72e8ead First commit to the master
 3045bfe Initial commit
-'''
+```
 
-##### features/do_one branch
+### features/do_one branch
 
-'''
+```
 3013aa1 (HEAD -> features/do_one) cherry-pick hotfix to frature fixed conflict
 46053f8 Second commit to the features/do_one
 935f349 First commit to the features/do_one
@@ -128,12 +127,12 @@ b506981 (HEAD -> dev) cherry-pick hotfix to dev fixed conflict
 83a5dd4 First commit to the dev
 72e8ead First commit to the master
 3045bfe Initial commit
-'''
+```
 
-##### hotfix/we_gonna_die branch
+### hotfix/we_gonna_die branch
 
-'''
+```
 bcc55b6 (HEAD -> hotfix/we_gonna_die) Hotfix commit to the hotfix/we_gonna_die
 72e8ead First commit to the master
 3045bfe Initial commit
-'''
+```

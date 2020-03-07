@@ -1,13 +1,12 @@
-01.CI/CD Homework Report
-------
+# 01.CI/CD Homework Report
 
-#### 1. Registered in SLACK and joined the channel.
+## 1. Registered in SLACK and joined the channel.
 
-#### 2. Accounts have been created for the specified services.
+## 2. Accounts have been created for the specified services.
 
-#### 3. The specified software is installed
+## 3. The specified software is installed
 
-'''
+```
     1  exit
     2  sudo apt install ./slack-desktop-4.3.2-amd64.deb 
     3  sudo apt install git
@@ -21,4 +20,4 @@
    11  git config --global user.email "ppavlov28@gmail.com"
    12  git config --list
    13  history > README.md
-'''
+```
