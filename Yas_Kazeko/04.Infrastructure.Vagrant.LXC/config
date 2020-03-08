@@ -1,0 +1,29 @@
+# Template used to create this container: /usr/share/lxc/templates/lxc-download
+# Parameters passed to the template:
+# For additional config options, please look at lxc.container.conf(5)
+
+# Uncomment the following line to support nesting containers:
+#lxc.include = /usr/share/lxc/config/nesting.conf
+# (Be aware this has security implications)
+
+# ENV
+# Network section
+
+# Distribution configuration
+lxc.include = /usr/share/lxc/config/common.conf
+lxc.arch = x86_64
+
+# Container specific configuration
+lxc.cgroup.cpuset.cpus = 0,1
+lxc.cgroup.cpu.shares = 1024
+lxc.cgroup.memory.limit_in_bytes = 512M
+lxc.rootfs.path = dir:/var/lib/lxc/centos8_lxc/rootfs
+lxc.uts.name = centos8_lxc
+
+# Network configuration
+lxc.net.0.type = veth
+lxc.net.0.flags = up
+lxc.net.0.link = lxcbr0
+lxc.net.0.name = eth0
+lxc.net.0.ipv4.address = 10.0.3.101/24
+lxc.net.0.ipv4.gateway = auto
