@@ -1,3 +1,5 @@
+
+/.vagrant/*
 # IDE
 .vscode
 .idea
@@ -149,4 +151,3 @@ dmypy.json
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-
