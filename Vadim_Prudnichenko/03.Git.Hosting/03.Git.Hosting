@@ -1,0 +1,48 @@
+## Push remote local repository
+```
+bb	git@bitbucket.org:zuwarskej/course-test.git (fetch)
+bb	git@bitbucket.org:zuwarskej/course-test.git (push)
+
+gh	git@github.com:zuwarskej/course-test.git (fetch)
+gh	git@github.com:zuwarskej/course-test.git (push)
+
+gl	git@gitlab.com:zuwarskej/course-test.git (fetch)
+gl	git@gitlab.com:zuwarskej/course-test.git (push)
+```
+---
+```
+###!/bin/bash course-test
+
+git add .
+
+echo 'Enter the commit message:'
+read cm
+git commit -m "$cm"
+
+REMOTES=(gh gl bb)
+
+for remote in ${REMOTES[*]}; do
+  git push $remote master
+done
+
+echo "push successful"
+```
+---
+
+```
+###!/bin/bash 
+
+git add .
+
+echo 'Enter the commit message:'
+read commit
+git commit -m "$commit"
+
+REMOTES=(gh)
+
+for remote in ${REMOTES[*]}; do
+  git push $remote m-sa2-12-20
+done
+
+echo "push successful"
+```
