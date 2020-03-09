@@ -3,8 +3,8 @@
 git add .
 
 echo 'Enter the commit message:'
-read cm
-git commit -m "$cm"
+read commit
+git commit -m "$commit"
 
 REMOTES=(gh gl bb)
 
