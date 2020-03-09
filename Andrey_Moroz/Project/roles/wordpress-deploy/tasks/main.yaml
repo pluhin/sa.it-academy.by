@@ -1,0 +1,13 @@
+---
+
+- name: Copy docker-compose
+  copy:
+    src: docker-compose.yaml
+    dest: "/home/vagrant/"
+    owner: vagrant
+    group: vagrant
+    mode: '0777'
+
+- name: Up docker-copmose
+  shell: |
+    cd /home/vagrant/ && sudo docker-compose up -d

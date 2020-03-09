@@ -1,0 +1,57 @@
+---
+#- name: Update OS
+  #  shell: |
+  # sudo yum -yqq update
+
+- name: Copy nginx.repo
+  copy:
+    src: nginx.repo
+    dest: "/etc/yum.repos.d/"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Install packages
+  yum:
+    name: "{{ yum_install_packages }}"
+    state: present
+
+- name: Copy nginx.conf
+  copy:
+    src: nginx.conf
+    dest: "/etc/nginx/"
+    owner: root
+    group: root
+    mode: '0640'
+
+- name: Copy proxy_wordpress.conf
+  copy:
+    src: proxy_wordpress.conf
+    dest: "/etc/nginx/conf.d/"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Nginx. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Install Docker\Docker-compose
+  shell: |
+    sudo curl -fsSL https://get.docker.com/ | sh
+
+- name: Install Docker-compose
+  shell: |
+    sudo yum install -y docker-compose
+
+- name: Docker. Enable and start service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Disable SElinux
+  shell: |
+    sudo setenforce 0

@@ -1,0 +1,4 @@
+- hosts: wordpress
+  become: True
+  roles:
+    - wordpress-deploy
