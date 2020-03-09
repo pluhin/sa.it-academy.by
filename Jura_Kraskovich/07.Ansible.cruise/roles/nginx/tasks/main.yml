@@ -1,0 +1,84 @@
+---
+# Variable setup.
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Define nginx_user.
+  set_fact:
+    nginx_user: "{{ __nginx_user }}"
+  when: nginx_user is not defined
+
+# Setup/install tasks.
+- include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: setup-Ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
+
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- include_tasks: setup-FreeBSD.yml
+  when: ansible_os_family == 'FreeBSD'
+
+- include_tasks: setup-OpenBSD.yml
+  when: ansible_os_family == 'OpenBSD'
+
+- include_tasks: setup-Archlinux.yml
+  when: ansible_os_family == 'Archlinux'
+
+# Vhost configuration.
+- import_tasks: vhosts.yml
+
+# Create vhosts dir content
+- name: Create vhosts dir content
+  file:
+    path: "{{ www_dir_path }}"
+    state: directory
+    owner: "{{ owner_www }}"
+    group: "{{ group_www }}"
+    mode: 0755    
+  with_items: "{{ nginx_vhosts }}"
+
+# Create HTML file
+- name: Create index.html
+  template:
+    src: "{{ index_html_template }}"
+    dest: "{{ index_html_file_path }}"
+  with_items: "{{ nginx_vhosts }}"
+
+# /etc/hosts
+- name: Change /etc/hosts
+  template:
+    src: "{{ hosts_template }}"
+    dest: "{{ hosts_path }}"
+    backup: yes
+  loop: "{{ virtual_hosts }}"
+
+# Nginx conf & start.
+- name: Copy nginx configuration in place.
+  template:
+    src: "{{ nginx_conf_template }}"
+    dest: "{{ nginx_conf_file_path }}"
+    owner: root
+    group: "{{ root_group }}"
+    mode: 0644
+
+- name: Ensure nginx service is running as configured.
+  service:
+    name: nginx
+    state: "{{ nginx_service_state }}"
+    enabled: "{{ nginx_service_enabled }}"
+
+- name: reload NGINX
+  shell: |
+    service nginx reload
+
+# Healthcheck
+- name: Check content
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  register: out
+  failed_when: "'07.Ansible' not in out.content"
+  loop: "{{ virtual_hosts }}"

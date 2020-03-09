@@ -1,0 +1,18 @@
+- name: Check HDD space
+  block:
+    - name: Check HDD space
+      debug:
+        msg:
+          - "Mount point: {{ item.mount }}"
+          - "Size total: {{ (item.size_total / 1024 / 1024 / 1024)|round(2) }} GB"
+          - "Size used: {{ ((item.size_total-item.size_available) / 1024 / 1024 / 1024)|round(2) }} GB"
+      failed_when: (item.mount == '/') and (item.size_available / 1024 / 1024 / 1024)|round(2) < hdd_size_free
+      with_items: "{{ ansible_mounts }}"
+  rescue:
+    - name: Slak notification
+      slack:
+        token: TFBPBNB2L/BUP6ZS22G/ghM0qjhvugFdTupaUa1UkUdL
+        msg: '{{ ansible_hostname }}: HDD < 5 GB'
+        channel: '#ansible_ntf'
+        color: danger
+        username: '{{ inventory_hostname }}'

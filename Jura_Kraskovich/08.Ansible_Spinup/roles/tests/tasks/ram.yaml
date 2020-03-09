@@ -1,0 +1,15 @@
+---
+- name: Check RAM
+  block:
+    - name: Check RAM
+      debug:
+        msg: "{{ ansible_hostname }}: RAM = {{ ansible_memtotal_mb }} Mb"
+      failed_when: ansible_memtotal_mb < memneed_mb
+  rescue:
+    - name: Slak notification
+      slack:
+        token: TFBPBNB2L/BUP6ZS22G/ghM0qjhvugFdTupaUa1UkUdL
+        msg: '{{ ansible_hostname }}: RAM < 2048 Mb (host have {{ ansible_memtotal_mb }} Mb)'
+        channel: '#ansible_ntf'
+        color: danger
+        username: '{{ inventory_hostname }}'

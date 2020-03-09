@@ -1,0 +1,121 @@
+---
+# Used only for Debian/Ubuntu installation, as the -t option for apt.
+nginx_default_release: ""
+
+# Used only for Redhat installation, enables source Nginx repo.
+nginx_yum_repo_enabled: true
+
+# Use the official Nginx PPA for Ubuntu, and the version to use if so.
+nginx_ppa_use: false
+nginx_ppa_version: stable
+
+# The name of the nginx package to install.
+nginx_package_name: "nginx"
+
+nginx_service_state: started
+nginx_service_enabled: true
+
+nginx_conf_template: "nginx.conf.j2"
+nginx_vhost_template: "vhost.j2"
+index_html_template: "index.html.j2"
+hosts_template: "hosts.j2"
+
+index_html_file_path: "/var/www/{{ item }}.{{ ansible_hostname}}/html/index.html"
+www_dir_path: "/var/www/{{ item }}.{{ ansible_hostname }}/html/"
+hosts_path: "/etc/hosts"
+
+owner_www: "vagrant"
+group_www: "vagrant"
+
+nginx_worker_processes: >-
+  "{{ ansible_processor_vcpus | default(ansible_processor_count) }}"
+nginx_worker_connections: "1024"
+nginx_multi_accept: "off"
+
+nginx_error_log: "/var/log/nginx/error.log warn"
+nginx_access_log: "/var/log/nginx/access.log main buffer=16k flush=2m"
+
+nginx_sendfile: "on"
+nginx_tcp_nopush: "on"
+nginx_tcp_nodelay: "on"
+
+nginx_keepalive_timeout: "65"
+nginx_keepalive_requests: "100"
+
+nginx_server_tokens: "on"
+
+nginx_client_max_body_size: "64m"
+
+nginx_server_names_hash_bucket_size: "64"
+
+nginx_proxy_cache_path: ""
+
+nginx_extra_conf_options: ""
+# Example extra main options, used within the main nginx's context:
+#   nginx_extra_conf_options: |
+#     env VARIABLE;
+#     include /etc/nginx/main.d/*.conf;
+
+nginx_extra_http_options: ""
+# Example extra http options, printed inside the main server http config:
+#    nginx_extra_http_options: |
+#      proxy_buffering    off;
+#      proxy_set_header   X-Real-IP $remote_addr;
+#      proxy_set_header   X-Scheme $scheme;
+#      proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+#      proxy_set_header   Host $http_host;
+
+nginx_remove_default_vhost: false
+
+nginx_vhosts:
+  - site1
+#    template: "{{ item_vhost_template }}"
+  - site2
+#    template: "{{ item_vhost_template }}"
+
+#nginx_vhosts: []
+# - listen: "80"
+#   server_name: "{{ item }}.{{ ansible_hostname }} www.{{ item }}.{{ ansible_hostname }}"
+#   root: "/var/www/{{ item }}.{{ ansible_hostname }}/html/"
+#   index: "index.html index.htm"
+#   filename: "{{ item }}.{{ ansible_hostname }}.conf"
+#
+#   # Properties that are only added if defined:
+#   server_name_redirect: "www.{{ item }}.{{ ansible_hostname }}"
+#   error_page: ""
+#   access_log: ""
+#   error_log: ""
+#   extra_parameters: "" # Can be used to add extra config blocks (multiline).
+#   template: "{{ item_vhost_template }}" # Can be used to override the `nginx_vhost_template` per host.
+#   state: "absent" # To remove the vhost configuration.
+
+nginx_upstreams: []
+# - name: myapp1
+#   strategy: "ip_hash" # "least_conn", etc.
+#   keepalive: 16 # optional
+#   servers: {
+#     "srv1.example.com",
+#     "srv2.example.com weight=3",
+#     "srv3.example.com"
+#   }
+
+nginx_log_format: |-
+  '$remote_addr - $remote_user [$time_local] "$request" '
+  '$status $body_bytes_sent "$http_referer" '
+  '"$http_user_agent" "$http_x_forwarded_for"'
+
+vhost1_cent: "site1.centos7"
+vhost2_cent: "site2.centos7"
+vhost1_deb: "site1.debian10"
+vhost2_deb: "site2.debian10"
+#vhost1_deb: "site1.buster"
+#vhost2_deb: "site2.buster"
+
+
+virtual_hosts:
+#  - { name: "site1.{{ ansible_hostname }}", ip: "{{ hostvars[\"centos_box_test\"].ansible_host }}"}
+#  - { name: "site2.{{ ansible_hostname }}", ip: "{{ hostvars[\"centos_box_test\"].ansible_host }}"}
+  - { name: "{{ vhost1_cent }}", ip: "{{ hostvars[\"centos\"].ansible_host }}"}
+  - { name: "{{ vhost2_cent }}", ip: "{{ hostvars[\"centos\"].ansible_host }}"}
+  - { name: "{{ vhost1_deb }}", ip: "{{ hostvars[\"debian\"].ansible_host }}"}
+  - { name: "{{ vhost2_deb }}", ip: "{{ hostvars[\"debian\"].ansible_host }}"}

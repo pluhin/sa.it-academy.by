@@ -1,0 +1,18 @@
+---
+- name: Check pip repo
+  block:
+    - name: Check pip repo
+      uri:
+        url: "{{ item }}"
+        return_content: yes
+      register: out_pip
+      with_items: "{{ pip_repo }}"
+      failed_when: out_pip.status != 200
+  rescue:
+    - name: Slak notification
+      slack:
+        token: TFBPBNB2L/BUP6ZS22G/ghM0qjhvugFdTupaUa1UkUdL
+        msg: 'pip repos not available on {{ ansible_hostname }}'
+        channel: '#ansible_ntf'
+        color: danger
+        username: '{{ inventory_hostname }}'
