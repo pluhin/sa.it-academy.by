@@ -1,0 +1,15 @@
+all:
+    hosts:
+        lacalhost:
+    children:
+        ubuntu:
+            hosts:
+                192.168.203.13:
+                192.168.203.15:
+        centos:
+            hosts:
+                192.168.203.14:
+                192.168.203.16:
+        redhat:
+            hosts:       
+                18.194.96.246:        
