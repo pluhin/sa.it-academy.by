@@ -1,0 +1,10 @@
+192.168.203.13 | CHANGED | rc=0 >>
+sa-centos-13
+192.168.203.15 | CHANGED | rc=0 >>
+sa-centos-15
+192.168.203.16 | CHANGED | rc=0 >>
+sa-ubuntu-16
+192.168.203.14 | CHANGED | rc=0 >>
+sa-ubuntu-14
+18.194.96.246 | CHANGED | rc=0 >>
+ip-172-31-32-227.eu-central-1.compute.internal
