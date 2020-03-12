@@ -1,4 +1,7 @@
 
+#vim
+*.swp
+
 /.vagrant/*
 # IDE
 .vscode
