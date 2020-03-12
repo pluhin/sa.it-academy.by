@@ -1,0 +1,576 @@
+
+ 1341  ssh jump_sa@178.124.206.53
+ 1342  apt search ansible
+ 1343  apt show ansible
+ 1344  sudo apt install ansible
+ 1345  ansible --version
+ 1346  sudo ansible --upgrade
+ 1347  sudo ansible -upgrade
+ 1348  sudo ansible --upgrade
+ 1349  sudo apt upgrade ansible
+ 1350  wgo
+ 1351  who
+ 1352  users
+ 1353  visudo
+ 1354  sudo visudo
+ 1355  apt update
+ 1356  apt upgrade
+ 1357  sudo visudo
+ 1358  users
+ 1359  apt update
+ 1360  apt upgrade
+ 1361  sudo visudo
+ 1362  apt upgrade
+ 1363  sudo visudo
+ 1364  sudo apt update
+ 1365  sudo visudo
+ 1366  sudo apt update
+ 1367  sudo apt upgrade
+ 1368  ansible --version
+ 1369  ansible uninstall
+ 1370  ansible apt uninstall
+ 1371  git clone github.com/ansible/ansible.git && cd ./ansible && sudo make && sudo make install.
+ 1372  sudo git clone github.com/ansible/ansible.git && cd ./ansible && sudo make && sudo make install.
+ 1373  python3 --version
+ 1374  sudo git clone https://github.com/ansible/ansible.git && cd ./ansible && sudo make && sudo make install.
+ 1375  cd ..
+ 1376  ls
+ 1377  python3 --version
+ 1378  ansible apt uninstall
+ 1379  ansible --version
+ 1380  sudo apt-get remove ansible
+ 1381  ansible --version
+ 1382  sudo git clone https://github.com/ansible/ansible.git && cd ./ansible && sudo make && sudo make install.
+ 1383  sudo git clone https://github.com/ansible/ansible.git && cd ./ansible && sudo make && sudo make install
+ 1384  cd ./ansible
+ 1385  sudo make
+ 1386  sudo make install
+ 1387  cd ..
+ 1388  sudo apt update
+ 1389  sudo apt install software-properties-common
+ 1390  sudo apt-add-repository --yes --update ppa:ansible/ansible
+ 1391  sudo apt install ansible
+ 1392  ansible --version
+ 1393  vim /etc/ansible/ansible.cfg
+ 1394  sudo vim /etc/ansible/ansible.cfg
+ 1395  sudo cat /etc/ansible/ansible.cfg
+ 1396  clear
+ 1397  vim /etc/ansible/hosts
+ 1398  sudo vim /etc/ansible/hosts
+ 1399  ansible -m shell -a 'apt install update' -u courses my_comp
+ 1400  ansible-inventory --graph
+ 1401  sudo ansible-inventory --graph
+ 1402  sudo vim /etc/ansible/ansible.cfg
+ 1403  ansible -m shell -a 'apt install update' -u courses my_comp
+ 1404  sudo ansible-inventory --graph
+ 1405  ansible -m shell -a 'apt install update' -u courses my_comp
+ 1406  sudo vim /etc/ansible/ansible.cfg
+ 1407  ansible -m shell -a 'apt install update' -u courses my_comp
+ 1408  ssh courses@localhost
+ 1409  sudo vim /etc/ansible/ansible.cfg
+ 1410  ansible -m shell -a 'apt install update' -u courses my_comp
+ 1411  sudo vim /etc/ansible/ansible.cfg
+ 1412  sudo vim /etc/ansible/hosts
+ 1413  ansible -m shell -a 'apt install update' -i courses my_comp
+ 1414  ansible my_comp -m shell -a 'apt install update' -i courses
+ 1415  ansible all --list-hosts
+ 1416  ansible my_comp -m shell -a 'apt install update' -i -u courses
+ 1417  ansible my_comp -m shell -a 'apt install update' -i root
+ 1418  sudo mkdir /etc/ansible/{host_vars,group_vars}
+ 1419  mkdir /etc/ansible/group_vars/my_comp/
+ 1420  sudo mkdir /etc/ansible/group_vars/my_comp/
+ 1421  sudo vim /etc/ansible/group_vars/my_comp/user.yaml
+ 1422  ansible-inventory --graph
+ 1423  ansible my_comp -m shell -a 'apt install update' -i courses
+ 1424  ansible @my_comp -m shell -a 'apt install update' -i courses
+ 1425  ansible-inventory --host 192.168.100.228
+ 1426  sudo vim /etc/ansible/hosts
+ 1427  ansible-inventory --host host1
+ 1428  ansible-inventory --host 192.168.100.228
+ 1429  sudo ansible-inventory --host 192.168.100.228
+ 1430  sudo vim /etc/ansible/hosts
+ 1431  ansible-inventory --host host1
+ 1432  sudo vim /etc/ansible/hosts
+ 1433  ansible-inventory --host host1
+ 1434  ansible @my_comp -m shell -a 'apt install update' -i courses
+ 1435  ansible host1 -m shell -a 'apt install update' -i courses
+ 1436  ansible host1 -m ping
+ 1437  ansible host1 -m ping -i courses
+ 1438  ansible host1 -m ping -i
+ 1439  ansible host1 -m ping
+ 1440  sudo vim /etc/ansible/hosts
+ 1441  ansible host1 -m shell -a 'apt install update' -i courses
+ 1442  ansible host1 -m ping
+ 1443  sudo vim /etc/ansible/group_vars/my_comp/user.yaml
+ 1444  ansible host1 -m ping
+ 1445  sudo vim /etc/ansible/hosts
+ 1446  ansible host1 -m ping
+ 1447  ansible-inventory --host host1
+ 1448  sudo vim /etc/ansible/hosts
+ 1449  ansible-inventory --host host1
+ 1450  ansible-inventory --host 127.0.0.1
+ 1451  ansible 127.0.0.1 -m shell -a 'apt install update' -i courses
+ 1452  ansible 127.0.0.1 -m shell -a 'apt install update' -i root
+ 1453  ansible 127.0.0.1 -m shell -a 'apt install update' -i sudo courses
+ 1454  sudo ansible 127.0.0.1 -m shell -a 'apt install update' -i courses
+ 1455  sudo ansible 127.0.0.1 -m shell -a 'apt install upgrade' -i courses
+ 1456  sudo ansible 127.0.0.1 -m shell -a 'sudo apt install upgrade' -i courses
+ 1457  sudo ansible 127.0.0.1 -m ping
+ 1458  sudo ansible 127.0.0.1 -m shell -a 'who' -i courses
+ 1459  sudo ansible 127.0.0.1 -m shell -a 'apt-get update' -i courses
+ 1460  sudo ansible 127.0.0.1 -m shell -a 'apt install upgrade' -i courses
+ 1461  sudo ansible 127.0.0.1 -m shell -a 'apt-get upgrade' -i courses
+ 1462  sudo ansible 127.0.0.1 -m shell -a 'sudo apt-get upgrade' -i courses
+ 1463  ansible 127.0.0.1 -m shell -a 'sudo apt-get upgrade' -i courses
+ 1464  sudo ansible 127.0.0.1 -m shell -a 'sudo apt upgrade' -i courses
+ 1465  sudo ansible 127.0.0.1 -m shell -a 'sudo apt update' -i courses
+ 1466  sudo ansible 127.0.0.1 -m shell -a 'sudo apt upgrade' -i courses
+ 1467  sudo apt update
+ 1468  sudo ansible 127.0.0.1 -m shell -a 'sudo apt upgrade' -i courses
+ 1469  sudo ansible 127.0.0.1 -m shell -a 'sudo apt-get update' -i courses
+ 1470  sudo ansible 127.0.0.1 -m shell -a 'sudo apt-get upgrade' -i courses
+ 1471  sudo ansible 127.0.0.1 -m shell -a 'apt-get upgrade ' -i courses
+ 1472  sudo ansible 127.0.0.1 -m shell -a 'apt-get update ' -i courses
+ 1473  sudo ansible 127.0.0.1 -m shell -a 'apt-get upgrade ' -i courses
+ 1474  sudo vim /etc/ansible/hosts
+ 1475  sudo vim /etc/ansible/group_vars/my_comp/user.yaml
+ 1476  ansible-inventory --host 127.0.0.1
+ 1477  sudo vim /etc/ansible/hosts
+ 1478  sudo vim /etc/ansible/group_vars/my_comp/user.yaml
+ 1479  sudo ansible host1 -m shell -a 'apt-get upgrade ' -i courses
+ 1480  sudo ansible host1 -m shell -a 'apt-get upgrade '
+ 1481  sudo ansible host1 -m shell -a 'apt-get upgrade ' -i
+ 1482  sudo ansible host1 -m shell -a 'apt-get upgrade ' -i courses
+ 1483  ansible-inventory --host host1
+ 1484  sudo vim /etc/ansible/hosts
+ 1485  sudo vim /etc/ansible/group_vars/my_comp/user.yaml
+ 1486  sudo ansible host1 -m shell -a 'apt-get upgrade ' -i courses
+ 1487  sudo ansible host1 -m ping
+ 1488  sudo vim /etc/ansible/hosts
+ 1489  ansible-inventory --host host1
+ 1490  sudo vim /etc/ansible/hosts
+ 1491  sudo vim /etc/ansible/group_vars/my_comp/user.yaml
+ 1492  sudo ansible host1 -m ping
+ 1493  sudo vim /etc/ansible/group_vars/my_comp/user.yaml
+ 1494  sudo ansible host1 -m ping
+ 1495  sudo vim /etc/ansible/group_vars/my_comp/user.yaml
+ 1496  ansible-inventory --host host1
+ 1497  sudo vim /etc/ansible/group_vars/my_comp/user.yaml
+ 1498  ansible-inventory --host host1
+ 1499  sudo ansible host1 -m ping
+ 1500  sudo ansible ansible_hosy -m ping
+ 1501  sudo ansible ansible_host -m ping
+ 1502  sudo ansible my_comp -m ping
+ 1503  sudo ansible 127.0.0.1 -m ping
+ 1504  sudo vim /etc/ansible/group_vars/my_comp/user.yaml
+ 1505  sudo ansible 127.0.0.1 -m ping
+ 1506  sudo vim /etc/ansible/group_vars/my_comp/user.yaml
+ 1507  sudo vim /etc/ansible/hosts
+ 1508  sudo ansible 127.0.0.1 -m ping
+ 1509  sudo ansible host1 -m shell -a 'apt-get upgrade ' -i courses
+ 1510  sudo ansible 127.0.0.1 -m shell -a 'apt-get upgrade ' -i courses
+ 1511  sudo ansible 127.0.0.1 -m shell -a 'apt-get upgrade' -i courses
+ 1512  sudo ansible 127.0.0.1 -m shell -a 'ping' -i courses
+ 1513  sudo ansible 127.0.0.1 -m shell -a 'ping 8.8.8.8' -i courses
+ 1514  sudo ansible 127.0.0.1 -m shell -a 'apt upgrade ' -i courses
+ 1515  sudo visudo
+ 1516  sudo ansible 127.0.0.1 -m shell -a 'apt upgrade ' -i courses
+ 1517  sudo ansible 127.0.0.1 -m shell -a 'sudo apt upgrade ' -i courses
+ 1518  sudo apt upgrade
+ 1519  sudo apt update
+ 1520  sudo visudo
+ 1521  sudo apt update
+ 1522  sudo apt upgrade
+ 1523  sudo ansible 127.0.0.1 -m shell -a 'sudo apt upgrade ' -i courses
+ 1524  ansible 127.0.0.1 -m shell -a 'sudo apt upgrade ' -i courses
+ 1525  sudo visudo
+ 1526  ansible 127.0.0.1 -m shell -a 'sudo apt upgrade ' -i courses
+ 1527  cd /home/courses/.ssh/
+ 1528  ls
+ 1529  cat id_rsa.pub
+ 1530  ssh jump_sa@178.124.206.55
+ 1531  sudo useradd -m  -s /bin/bash ans-user
+ 1532  su - ans-user
+ 1533  sudo passwd ans-user
+ 1534  su - ans-user
+ 1535  sudo useradd -m  -s /bin/zsh user-test
+ 1536  sudo passwd user-test
+ 1537  sudo passwd ans-user
+ 1538  chsh -s /bin/zsh
+ 1539  ls
+ 1540  cd /home/ans-user
+ 1541  ls
+ 1542  ssh-keygen
+ 1543  /home/ans-user
+ 1544  ls
+ 1545  mkdir .ssh
+ 1546  sudo mkdir .ssh
+ 1547  cd .ssh
+ 1548  ssh-keygen
+ 1549  su - ans-user
+ 1550  ssh jump_sa@178.124.206.55
+ 1551  su - ans-user
+ 1552  ssh jump_sa@178.124.206.55
+ 1553  ssh jump_sa@178.124.206.53
+ 1554  cd /home/courses/.ssh/
+ 1555  ls
+ 1556  cat id_rsa.pub
+ 1557  ssh jump_sa@178.124.206.53
+ 1558  clear
+ 1559  cd /home/courses/.ssh/
+ 1560  ls
+ 1561  ssh jump_sa@178.124.206.53
+ 1562  sudo vim /etc/ssh/ssh_config
+ 1563  ssh jump_sa@178.124.206.53
+ 1564  sudo vim /etc/ssh/sshd_config
+ 1565  sudo vim /etc/ssh/ssh_config
+ 1566  vim /etc/ansible/hosts
+ 1567  vim /etc/ansible/ansible.cfg
+ 1568  sudo vim /etc/ansible/ansible.cfg
+ 1569  sudo vim /etc/ansible/hosts
+ 1570  ansible -m ping bastion
+ 1571  ansible -m ping bastion root
+ 1572  ansible -m ping bastion -u root
+ 1573  ansible -m ping bastion
+ 1574  sudo ansible -m ping bastion
+ 1575  ansible -m ping bastion
+ 1576  ansible -m ping bastion -u courses
+ 1577  sudo ansible -m ping bastion -u courses
+ 1578  ansible -m ping bastion -u courses
+ 1579  ansible -m ping bastion
+ 1580  ssh jump_sa@178.124.206.53
+ 1581  ansible -m ping bastion -u jump_sa
+ 1582  ansible -m ping bastion -u courses
+ 1583  ansible -m ping bastion -u jump_sa
+ 1584  sudo vim .ssh/config
+ 1585  ssh root@192.168.203.43
+ 1586  sudo vim .ssh/config
+ 1587  ssh root@192.168.203.45
+ 1588  sudo vim .ssh/config
+ 1589  ssh root@192.168.203.45
+ 1590  ssh root@192.168.203.46
+ 1591  ssh jump_sa@192.168.203.46
+ 1592  ssh jump_sa@192.168.203.45
+ 1593  ssh root@192.168.203.46
+ 1594  ls
+ 1595  cd .ssh
+ 1596  ls
+ 1597  cat id_rsa.pub
+ 1598  cat known_hosts
+ 1599  ls
+ 1600  clear
+ 1601  cat id_rsa.pub
+ 1602  ssh root@192.168.203.46
+ 1603  ssh root@192.168.203.45
+ 1604  ssh root@192.168.203.46
+ 1605  ssh test-ans@192.168.203.45
+ 1606  ssh root@192.168.203.45
+ 1607  ssh host-centos@192.168.203.45
+ 1608  sudo vim .ssh/config
+ 1609  cd ..
+ 1610  sudo vim .ssh/config
+ 1611  vim .ssh/config
+ 1612  sudo vim .ssh/config
+ 1613  cd /etc/ansible/
+ 1614  ls
+ 1615  ls group_vars
+ 1616  ls host_vars
+ 1617  cd group_vars
+ 1618  vim internal.yaml
+ 1619  sudo mkdir internal
+ 1620  cd internal
+ 1621  ls
+ 1622  sudo vim file.yaml
+ 1623  cd ..
+ 1624  cd ~
+ 1625  clear
+ 1626  ansible-inventory --graph
+ 1627  ansible-inventory --host host1
+ 1628  ansible host1 -m ping
+ 1629  ansible host1 -m ping -u root
+ 1630  ansible host1 -m ping -i root
+ 1631  ansible host1 -m ping -i jump_sa
+ 1632  ansible host1 -m ping
+ 1633  ansible host2 -m ping
+ 1634  ansible -m ping bastion
+ 1635  ansible -m ping bastion -u jump_sa
+ 1636  sudo vim file.yaml
+ 1637  cd /etc/ansible/
+ 1638  ls
+ 1639  cd group_vars
+ 1640  ls
+ 1641  cd internal
+ 1642  ls
+ 1643  cd ..
+ 1644  cd my_comp
+ 1645  ls
+ 1646  cd ..
+ 1647  rm -r my_comp
+ 1648  sydo rm -r my_comp
+ 1649  sudo rm -r my_comp
+ 1650  ls
+ 1651  cd internal
+ 1652  ls
+ 1653  vim file.yaml
+ 1654  sudo vim file.yaml
+ 1655  ansible host1 -m ping
+ 1656  ansible host2 -m ping
+ 1657  sudo vim file.yaml
+ 1658  ansible-inventory --graph
+ 1659  ls
+ 1660  cd ..
+ 1661  ls
+ 1662  sudo mkdir internal jump
+ 1663  sudo mkdir jump
+ 1664  ls
+ 1665  cat internal
+ 1666  ls internal
+ 1667  cd jump
+ 1668  file.yaml
+ 1669  cd /etc/ansible/group_vars
+ 1670  cd internal
+ 1671  cat file.yaml
+ 1672  sudo vim file.yaml
+ 1673  ansible host2 -m ping
+ 1674  ansible jump -m ping
+ 1675  clear
+ 1676  ansible-inventory --graph
+ 1677  ansible internal -m ping
+ 1678  cd ..
+ 1679  ls
+ 1680  ls -all
+ 1681  cd roles
+ 1682  ls
+ 1683  ls -all
+ 1684  la -ll
+ 1685  cd ..
+ 1686  ls
+ 1687  sudo vim ansible.cfg
+ 1688  ls
+ 1689  sudo mkdir templates
+ 1690  cd templates
+ 1691  vim file1.yaml
+ 1692  vim file1.conf.j2
+ 1693  sudo vim file1.conf.j2
+ 1694  ansible-inventory --graph
+ 1695  ls
+ 1696  cd ..
+ 1697  ls
+ 1698  cd group_vars
+ 1699  ls
+ 1700  cd internal
+ 1701  sudo vim tl_bk.yml
+ 1702  ls
+ 1703  cd ..
+ 1704  ls
+ 1705  cd ..
+ 1706  ls
+ 1707  cd templates
+ 1708  ls
+ 1709  ansible-inventory --graph
+ 1710  ls
+ 1711  cd ..
+ 1712  ls
+ 1713  cd ..
+ 1714  ls
+ 1715  cd templates
+ 1716  vim file1.conf.j2
+ 1717  sudo vim file1.conf.j2
+ 1718  ansible-inventory --graph
+ 1719  sudo vim file1.conf.j2
+ 1720  ls
+ 1721  rm -r file1.conf.j2
+ 1722  sudo rm -r file1.conf.j2
+ 1723  cd ..
+ 1724  ls
+ 1725  cd group_vars
+ 1726  ls
+ 1727  cd internal
+ 1728  ls
+ 1729  cat tl_bk.yml
+ 1730  sudo rm -r tl_bk.yml
+ 1731  cd ..
+ 1732  ls
+ 1733  cd ..
+ 1734  ls
+ 1735  vim hosts
+ 1736  ls
+ 1737  cd ..
+ 1738  ls
+ 1739  ls host_vars
+ 1740  cd group_vars
+ 1741  ls
+ 1742  ls internal
+ 1743  ls jump
+ 1744  cat internal/file.yaml
+ 1745  vim test.j2
+ 1746  sudo vim test.j2
+ 1747  ls
+ 1748  cd ansible
+ 1749  cd ..
+ 1750  ansible-inventory --graph
+ 1751  cd /etc/ansible
+ 1752  ls
+ 1753  cat host
+ 1754  cat hosts
+ 1755  sudo vim playbook.yml
+ 1756  ls
+ 1757  cd group_vars
+ 1758  ls
+ 1759  ansible-inventory --graph
+ 1760  ansible host2 -m ping
+ 1761  ansible group_vars -m ping
+ 1762  ansible internal -m ping
+ 1763  sudo vim playbook.yml
+ 1764  ansible internal -m ping
+ 1765  sudo vim playbook.yml
+ 1766  cd internal
+ 1767  ls
+ 1768  sudo vim playbook.yml
+ 1769  ansible group_vars -m ping
+ 1770  ansible internal -m ping
+ 1771  ls
+ 1772  cat playbook.yml
+ 1773  ansible-playbook playbook.yml
+ 1774  sudo vim playbook.yml
+ 1775  ansible-playbook playbook.yml
+ 1776  sudo vim playbook.yml
+ 1777  ansible-playbook playbook.yml
+ 1778  sudo vim playbook.yml
+ 1779  ansible-playbook playbook.yml
+ 1780  sudo vim playbook.yml
+ 1781  ansible-playbook playbook.yml
+ 1782  ls
+ 1783  sudo vim playbook.yml
+ 1784  ansible-playbook playbook.yml
+ 1785  sudo vim playbook.yml
+ 1786  ansible-playbook playbook.yml
+ 1787  sudo vim playbook.yml
+ 1788  ls
+ 1789  sudo vim test.j2
+ 1790  sudo vim playbook.yml
+ 1791  ansible-playbook playbook.yml
+ 1792  sudo vim playbook.yml
+ 1793  ansible-playbook playbook.yml
+ 1794  sudo vim playbook.yml
+ 1795  ansible-playbook playbook.yml
+ 1796  sudo vim playbook.yml
+ 1797  ansible-playbook playbook.yml
+ 1798  ansible internal -m apt -a "upgrade=yes update_cache=yes cache_valid_time=86400" --become
+ 1799  ansible host1 -m yum -a "upgrade=yes update_cache=yes cache_valid_time=86400" --become
+ 1800  ansible host1 -m yum -a "upgrade=yes update_cache=no cache_valid_time=86400" --become
+ 1801  ansible host1 -m yum -a "upgrade=yes  cache_valid_time=86400" --become
+ 1802  ansible host1 -m yum -a "upgrade=yes state=latest cache_valid_time=86400" --become
+ 1803  ansible host1 -m yum -a " state=latest"  --become
+ 1804  ansible host1 -m yum -a " state=latest "  --become
+ 1805  ansible host2 -m apt -a "upgrade=yes update_cache=yes cache_valid_time=86400" --become
+ 1806  ansible host1 -m shell -a 'yum -y update' 
+ 1807  ls
+ 1808  cd ..
+ 1809  ls
+ 1810  cd ..
+ 1811  ls
+ 1812  clear
+ 1813  ansible 127.0.0.1 -m shell -a 'sudo apt upgrade ' -i courses
+ 1814  ansible 127.0.0.1 -m shell -a 'sudo who ' -i courses
+ 1815  clear
+ 1816  ansible 127.0.0.1 -m shell -a 'sudo apt upgrade ' -i courses
+ 1817  cls
+ 1818  ls
+ 1819  ansible-inventory --graph
+ 1820  ls
+ 1821  vim ansible.cfg
+ 1822  vim host
+ 1823  vim hosts
+ 1824  ls
+ 1825  cd group_vars
+ 1826  ls
+ 1827  vim internal
+ 1828  cd internal
+ 1829  ls
+ 1830  cat file.yaml
+ 1831  clear
+ 1832  ls
+ 1833  ls roles
+ 1834  cd group_vars
+ 1835  ls
+ 1836  cd internal
+ 1837  ls
+ 1838  cd..
+ 1839  cd ..
+ 1840  ls
+ 1841  cd ..
+ 1842  ls
+ 1843  vim hosts
+ 1844  sudo vim hosts
+ 1845  ansible all -m setup
+ 1846  ansible-inventory --graph
+ 1847  ansible -m ping bastion -u jump_sa
+ 1848  ls
+ 1849  cd ..
+ 1850  ls
+ 1851  clear
+ 1852  ansible -m ping bastion -u jump_sa
+ 1853  ansible -m ping internal -u root
+ 1854  ansible -m hostname internal -u root
+ 1855  ansible -m name internal -u root
+ 1856  ansible -m shell -a 'ip add && who' bastion -u jump_sa
+ 1857  ansible -m shell -a 'ip add' bastion -u jump_sa
+ 1858  ansible -m shell -a 'ip addr' bastion -u jump_sa
+ 1859  ansible -m shell -a 'ifconfig' bastion -u jump_sa
+ 1860  ansible -m shell -a 'who' bastion -u jump_sa
+ 1861  ansible -m shell -a 'hostname' bastion -u jump_sa
+ 1862  ansible -m shell -a 'hostname && who' bastion -u jump_sa
+ 1863  ansible -m shell -a 'hostname && who && ip add' bastion -u jump_sa
+ 1864  ansible -m shell -a 'hostname && who && ip addr show' bastion -u jump_sa
+ 1865  ansible -m shell -a 'hostname -I && who' bastion -u jump_sa
+ 1866  clear
+ 1867  ansible -m shell -a 'hostname -I && who' bastion -u jump_sa
+ 1868  ansible -m shell -a 'hostname -I && who' internal -u root
+ 1869  ansible -m shell -a 'hostname -i -I && who' internal -u root
+ 1870  ansible -m shell -a 'hostname -i && who' internal -u root
+ 1871  ansible -m shell -a 'hostname && who' internal -u root
+ 1872  ansible -m shell -a 'hostname -iI && who' internal -u root
+ 1873  ansible -m shell -a 'hostname -yI && who' internal -u root
+ 1874  ansible -m shell -a 'hostname -y --all-ip-addresses && who' internal -u root
+ 1875  ansible -m shell -a 'hostname -A && who' internal -u root
+ 1876  ansible -m shell -a 'hostname -A -I && who' internal -u root
+ 1877  ansible -m shell -a 'hostname -AI && who' internal -u root
+ 1878  ansible -m shell -a 'hostname -A && hostname -I' internal -u root
+ 1879  clear
+ 1880  ansible -m shell -a 'uname -s && hostname -I' internal -u root
+ 1881  ansible -m shell -a 'info -a && hostname -I' internal -u root
+ 1882  ansible -m shell -a 'info --all && hostname -I' internal -u root
+ 1883  ansible -m shell -a 'hostname -A && hostname -I' internal -u root
+ 1884  clear
+ 1885  ansible -m shell -a 'hostname -A && hostname -I' internal -u root
+ 1886  ansible -m shell -a 'hostname -A && hostname -I' bastion -u jump_sa
+ 1887  sudo vim hosts
+ 1888  sudo /etc/ansible
+ 1889  ls
+ 1890  clear
+ 1891  cd host_vars
+ 1892  ls
+ 1893  ls -all
+ 1894  cd ..
+ 1895  ls
+ 1896  cd group_vars
+ 1897  ls
+ 1898  sudo rm -r playbook.yml
+ 1899  sudo rm -r test.j2
+ 1900  ls
+ 1901  clear
+ 1902  cat internal/file.yaml
+ 1903  cat jump/file.yaml
+ 1904  sudo visudo
+ 1905  ssh root@192.168.203.45
+ 1906  ssh root@192.168.203.46
+ 1907  clear
+ 1908  ssh root@192.168.203.46
+ 1909  vim .ssh/config
+ 1910* ansible -m ping internal -u root
+ 1911* ansible -m shell -a 'hostname -A && hostname -I' bastion -u jump_sa
+ 1912* ansible -m shell -a 'hostname -A && hostname -I' internal -u root
+ 1913* ansible host2 -m apt -a "upgrade" --become
+ 1914* ansible host2 -m apt -a "upgrade=yes update_cache=yes cache_valid_time=86400" --become
+ 1915  ls
