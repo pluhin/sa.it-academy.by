@@ -1,0 +1,16 @@
+#!/bin/bash
+#Pushing script v0.1
+#Script to multiply pushingin on git hostings
+
+#This script must be called from git dir only
+
+#When calling the script use first argument as branch name or pushing keys.
+#For exemple key  " --all" to pushing all branches in remote REPOs.
+ 
+first_arg=$1
+pseudonyms=$(git remote -v | awk '{print$ 1}' | sort | uniq)
+
+for repo in $pseudonyms
+do
+	git push $repo $first_arg
+done

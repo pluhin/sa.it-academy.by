@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/yaska/project/sa.it-academy.by/Yas_Kazeko/04.Infrastructure.Vagrant.LXC/vagrant_box/debian","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
