@@ -1,0 +1,21 @@
+Welcome to Ubuntu 18.04.4 LTS (GNU/Linux 4.15.0-88-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Fri Mar 13 17:49:02 UTC 2020
+
+  System load:  0.0               Processes:             85
+  Usage of /:   11.7% of 9.63GB   Users logged in:       0
+  Memory usage: 23%               IP address for enp0s3: 10.0.2.15
+  Swap usage:   0%                IP address for enp0s8: 10.20.30.23
+
+
+0 packages can be updated.
+0 updates are security updates.
+
+
+Last login: Fri Mar 13 17:48:16 2020 from 10.20.30.22
+
+
