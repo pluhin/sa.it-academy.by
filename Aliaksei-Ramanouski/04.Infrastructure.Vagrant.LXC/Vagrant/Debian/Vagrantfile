@@ -1,0 +1,23 @@
+$script = <<-SCRIPT
+apt-get update -y
+apt install vim wget curl git -y
+adduser updater
+echo "updater:vagrant" | sudo chpasswd
+echo "updater ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/updater
+mv /tmp/pub_key.pub /home/vagrant/.ssh/authorized_keys
+chown -R vagrant:vagrant /home/vagrant/.ssh/authorized_keys
+chmod 600 /home/vagrant/.ssh/authorized_keys
+echo "Client done!"
+SCRIPT
+Vagrant.configure("2") do |config|
+    config.vm.box = "debian/buster64"
+    config.vm.define "testing"
+    config.vm.network "public_network", ip: "192.168.100.241",  bridge: "wlp3s0"
+    config.vm.provider "virtualbox" do |vb|
+       vb.gui = false
+       vb.memory = "512"
+    end
+   config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "/tmp/pub_key.pub"
+   config.vm.provision "shell",
+        inline: $script
+end
