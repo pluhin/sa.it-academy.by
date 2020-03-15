@@ -1,0 +1,241 @@
+192.168.203.13 | CHANGED => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": true,
+    "changes": {
+        "installed": [],
+        "updated": [
+            [
+                "sqlite",
+                "3.7.17-8.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "nss-tools",
+                "3.44.0-7.el7_7.x86_64 from updates"
+            ],
+            [
+                "libblkid",
+                "2.23.2-61.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "nss-sysinit",
+                "3.44.0-7.el7_7.x86_64 from updates"
+            ],
+            [
+                "libsmartcols",
+                "2.23.2-61.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "rsyslog",
+                "8.24.0-41.el7_7.2.x86_64 from updates"
+            ],
+            [
+                "curl",
+                "7.29.0-54.el7_7.2.x86_64 from updates"
+            ],
+            [
+                "nss",
+                "3.44.0-7.el7_7.x86_64 from updates"
+            ],
+            [
+                "systemd",
+                "219-67.el7_7.3.x86_64 from updates"
+            ],
+            [
+                "libcurl",
+                "7.29.0-54.el7_7.2.x86_64 from updates"
+            ],
+            [
+                "hostname",
+                "3.13-3.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "device-mapper",
+                "7:1.02.158-2.el7_7.2.x86_64 from updates"
+            ],
+            [
+                "tzdata",
+                "2019c-1.el7.noarch from updates"
+            ],
+            [
+                "nss-softokn-freebl",
+                "3.44.0-8.el7_7.x86_64 from updates"
+            ],
+            [
+                "procps-ng",
+                "3.3.10-26.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "systemd-libs",
+                "219-67.el7_7.3.x86_64 from updates"
+            ],
+            [
+                "device-mapper-libs",
+                "7:1.02.158-2.el7_7.2.x86_64 from updates"
+            ],
+            [
+                "ca-certificates",
+                "2019.2.32-76.el7_7.noarch from updates"
+            ],
+            [
+                "util-linux",
+                "2.23.2-61.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "iproute",
+                "4.11.0-25.el7_7.2.x86_64 from updates"
+            ],
+            [
+                "libuuid",
+                "2.23.2-61.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "libmount",
+                "2.23.2-61.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "nss-util",
+                "3.44.0-4.el7_7.x86_64 from updates"
+            ],
+            [
+                "nss-softokn",
+                "3.44.0-8.el7_7.x86_64 from updates"
+            ],
+            [
+                "binutils",
+                "2.27-41.base.el7_7.2.x86_64 from updates"
+            ]
+        ]
+    },
+    "msg": "",
+    "rc": 0,
+    "results": [
+        "Loaded plugins: fastestmirror\nLoading mirror speeds from cached hostfile\n * base: mirror.datacenter.by\n * extras: mirror.datacenter.by\n * updates: mirror.datacenter.by\nResolving Dependencies\n--> Running transaction check\n---> Package binutils.x86_64 0:2.27-41.base.el7 will be updated\n---> Package binutils.x86_64 0:2.27-41.base.el7_7.2 will be an update\n---> Package ca-certificates.noarch 0:2018.2.22-70.0.el7_5 will be updated\n---> Package ca-certificates.noarch 0:2019.2.32-76.el7_7 will be an update\n---> Package curl.x86_64 0:7.29.0-54.el7 will be updated\n---> Package curl.x86_64 0:7.29.0-54.el7_7.2 will be an update\n---> Package device-mapper.x86_64 7:1.02.158-2.el7 will be updated\n---> Package device-mapper.x86_64 7:1.02.158-2.el7_7.2 will be an update\n---> Package device-mapper-libs.x86_64 7:1.02.158-2.el7 will be updated\n---> Package device-mapper-libs.x86_64 7:1.02.158-2.el7_7.2 will be an update\n---> Package hostname.x86_64 0:3.13-3.el7 will be updated\n---> Package hostname.x86_64 0:3.13-3.el7_7.1 will be an update\n---> Package iproute.x86_64 0:4.11.0-25.el7 will be updated\n---> Package iproute.x86_64 0:4.11.0-25.el7_7.2 will be an update\n---> Package libblkid.x86_64 0:2.23.2-61.el7 will be updated\n---> Package libblkid.x86_64 0:2.23.2-61.el7_7.1 will be an update\n---> Package libcurl.x86_64 0:7.29.0-54.el7 will be updated\n---> Package libcurl.x86_64 0:7.29.0-54.el7_7.2 will be an update\n---> Package libmount.x86_64 0:2.23.2-61.el7 will be updated\n---> Package libmount.x86_64 0:2.23.2-61.el7_7.1 will be an update\n---> Package libsmartcols.x86_64 0:2.23.2-61.el7 will be updated\n---> Package libsmartcols.x86_64 0:2.23.2-61.el7_7.1 will be an update\n---> Package libuuid.x86_64 0:2.23.2-61.el7 will be updated\n---> Package libuuid.x86_64 0:2.23.2-61.el7_7.1 will be an update\n---> Package nss.x86_64 0:3.44.0-4.el7 will be updated\n---> Package nss.x86_64 0:3.44.0-7.el7_7 will be an update\n---> Package nss-softokn.x86_64 0:3.44.0-5.el7 will be updated\n---> Package nss-softokn.x86_64 0:3.44.0-8.el7_7 will be an update\n---> Package nss-softokn-freebl.x86_64 0:3.44.0-5.el7 will be updated\n---> Package nss-softokn-freebl.x86_64 0:3.44.0-8.el7_7 will be an update\n---> Package nss-sysinit.x86_64 0:3.44.0-4.el7 will be updated\n---> Package nss-sysinit.x86_64 0:3.44.0-7.el7_7 will be an update\n---> Package nss-tools.x86_64 0:3.44.0-4.el7 will be updated\n---> Package nss-tools.x86_64 0:3.44.0-7.el7_7 will be an update\n---> Package nss-util.x86_64 0:3.44.0-3.el7 will be updated\n---> Package nss-util.x86_64 0:3.44.0-4.el7_7 will be an update\n---> Package procps-ng.x86_64 0:3.3.10-26.el7 will be updated\n---> Package procps-ng.x86_64 0:3.3.10-26.el7_7.1 will be an update\n---> Package rsyslog.x86_64 0:8.24.0-41.el7_7 will be updated\n---> Package rsyslog.x86_64 0:8.24.0-41.el7_7.2 will be an update\n---> Package sqlite.x86_64 0:3.7.17-8.el7 will be updated\n---> Package sqlite.x86_64 0:3.7.17-8.el7_7.1 will be an update\n---> Package systemd.x86_64 0:219-67.el7_7.1 will be updated\n---> Package systemd.x86_64 0:219-67.el7_7.3 will be an update\n---> Package systemd-libs.x86_64 0:219-67.el7_7.1 will be updated\n---> Package systemd-libs.x86_64 0:219-67.el7_7.3 will be an update\n---> Package tzdata.noarch 0:2019b-1.el7 will be updated\n---> Package tzdata.noarch 0:2019c-1.el7 will be an update\n---> Package util-linux.x86_64 0:2.23.2-61.el7 will be updated\n---> Package util-linux.x86_64 0:2.23.2-61.el7_7.1 will be an update\n--> Finished Dependency Resolution\n\nDependencies Resolved\n\n================================================================================\n Package                Arch       Version                    Repository   Size\n================================================================================\nUpdating:\n binutils               x86_64     2.27-41.base.el7_7.2       updates     5.9 M\n ca-certificates        noarch     2019.2.32-76.el7_7         updates     399 k\n curl                   x86_64     7.29.0-54.el7_7.2          updates     270 k\n device-mapper          x86_64     7:1.02.158-2.el7_7.2       updates     294 k\n device-mapper-libs     x86_64     7:1.02.158-2.el7_7.2       updates     322 k\n hostname               x86_64     3.13-3.el7_7.1             updates      17 k\n iproute                x86_64     4.11.0-25.el7_7.2          updates     803 k\n libblkid               x86_64     2.23.2-61.el7_7.1          updates     181 k\n libcurl                x86_64     7.29.0-54.el7_7.2          updates     223 k\n libmount               x86_64     2.23.2-61.el7_7.1          updates     183 k\n libsmartcols           x86_64     2.23.2-61.el7_7.1          updates     141 k\n libuuid                x86_64     2.23.2-61.el7_7.1          updates      83 k\n nss                    x86_64     3.44.0-7.el7_7             updates     854 k\n nss-softokn            x86_64     3.44.0-8.el7_7             updates     330 k\n nss-softokn-freebl     x86_64     3.44.0-8.el7_7             updates     224 k\n nss-sysinit            x86_64     3.44.0-7.el7_7             updates      65 k\n nss-tools              x86_64     3.44.0-7.el7_7             updates     528 k\n nss-util               x86_64     3.44.0-4.el7_7             updates      79 k\n procps-ng              x86_64     3.3.10-26.el7_7.1          updates     291 k\n rsyslog                x86_64     8.24.0-41.el7_7.2          updates     616 k\n sqlite                 x86_64     3.7.17-8.el7_7.1           updates     394 k\n systemd                x86_64     219-67.el7_7.3             updates     5.1 M\n systemd-libs           x86_64     219-67.el7_7.3             updates     411 k\n tzdata                 noarch     2019c-1.el7                updates     493 k\n util-linux             x86_64     2.23.2-61.el7_7.1          updates     2.0 M\n\nTransaction Summary\n================================================================================\nUpgrade  25 Packages\n\nTotal download size: 20 M\nDownloading packages:\nDelta RPMs disabled because /usr/bin/applydeltarpm not installed.\n--------------------------------------------------------------------------------\nTotal                                               50 MB/s |  20 MB  00:00     \nRunning transaction check\nRunning transaction test\nTransaction test succeeded\nRunning transaction\n  Updating   : nss-util-3.44.0-4.el7_7.x86_64                              1/50 \n  Updating   : systemd-libs-219-67.el7_7.3.x86_64                          2/50 \n  Updating   : libuuid-2.23.2-61.el7_7.1.x86_64                            3/50 \n  Updating   : libblkid-2.23.2-61.el7_7.1.x86_64                           4/50 \n  Updating   : libmount-2.23.2-61.el7_7.1.x86_64                           5/50 \n  Updating   : nss-softokn-freebl-3.44.0-8.el7_7.x86_64                    6/50 \n  Updating   : libsmartcols-2.23.2-61.el7_7.1.x86_64                       7/50 \n  Updating   : util-linux-2.23.2-61.el7_7.1.x86_64                         8/50 \n  Updating   : sqlite-3.7.17-8.el7_7.1.x86_64                              9/50 \n  Updating   : nss-softokn-3.44.0-8.el7_7.x86_64                          10/50 \n  Updating   : nss-sysinit-3.44.0-7.el7_7.x86_64                          11/50 \n  Updating   : nss-3.44.0-7.el7_7.x86_64                                  12/50 \n  Updating   : libcurl-7.29.0-54.el7_7.2.x86_64                           13/50 \n  Updating   : systemd-219-67.el7_7.3.x86_64                              14/50 \n  Updating   : 7:device-mapper-libs-1.02.158-2.el7_7.2.x86_64             15/50 \n  Updating   : 7:device-mapper-1.02.158-2.el7_7.2.x86_64                  16/50 \n  Updating   : rsyslog-8.24.0-41.el7_7.2.x86_64                           17/50 \n  Updating   : curl-7.29.0-54.el7_7.2.x86_64                              18/50 \n  Updating   : nss-tools-3.44.0-7.el7_7.x86_64                            19/50 \n  Updating   : procps-ng-3.3.10-26.el7_7.1.x86_64                         20/50 \n  Updating   : binutils-2.27-41.base.el7_7.2.x86_64                       21/50 \n  Updating   : tzdata-2019c-1.el7.noarch                                  22/50 \n  Updating   : hostname-3.13-3.el7_7.1.x86_64                             23/50 \n  Updating   : ca-certificates-2019.2.32-76.el7_7.noarch                  24/50 \n  Updating   : iproute-4.11.0-25.el7_7.2.x86_64                           25/50 \n  Cleanup    : nss-tools-3.44.0-4.el7.x86_64                              26/50 \n  Cleanup    : curl-7.29.0-54.el7.x86_64                                  27/50 \n  Cleanup    : 7:device-mapper-libs-1.02.158-2.el7.x86_64                 28/50 \n  Cleanup    : 7:device-mapper-1.02.158-2.el7.x86_64                      29/50 \n  Cleanup    : util-linux-2.23.2-61.el7.x86_64                            30/50 \n  Cleanup    : rsyslog-8.24.0-41.el7_7.x86_64                             31/50 \n  Cleanup    : systemd-219-67.el7_7.1.x86_64                              32/50 \n  Cleanup    : libcurl-7.29.0-54.el7.x86_64                               33/50 \n  Cleanup    : nss-sysinit-3.44.0-4.el7.x86_64                            34/50 \n  Cleanup    : nss-3.44.0-4.el7.x86_64                                    35/50 \n  Cleanup    : nss-softokn-3.44.0-5.el7.x86_64                            36/50 \n  Cleanup    : libmount-2.23.2-61.el7.x86_64                              37/50 \n  Cleanup    : libblkid-2.23.2-61.el7.x86_64                              38/50 \n  Cleanup    : nss-softokn-freebl-3.44.0-5.el7.x86_64                     39/50 \n  Cleanup    : procps-ng-3.3.10-26.el7.x86_64                             40/50 \n  Cleanup    : tzdata-2019b-1.el7.noarch                                  41/50 \n  Cleanup    : ca-certificates-2018.2.22-70.0.el7_5.noarch                42/50 \n  Cleanup    : systemd-libs-219-67.el7_7.1.x86_64                         43/50 \n  Cleanup    : nss-util-3.44.0-3.el7.x86_64                               44/50 \n  Cleanup    : libuuid-2.23.2-61.el7.x86_64                               45/50 \n  Cleanup    : sqlite-3.7.17-8.el7.x86_64                                 46/50 \n  Cleanup    : libsmartcols-2.23.2-61.el7.x86_64                          47/50 \n  Cleanup    : binutils-2.27-41.base.el7.x86_64                           48/50 \n  Cleanup    : hostname-3.13-3.el7.x86_64                                 49/50 \n  Cleanup    : iproute-4.11.0-25.el7.x86_64                               50/50 \n  Verifying  : util-linux-2.23.2-61.el7_7.1.x86_64                         1/50 \n  Verifying  : nss-tools-3.44.0-7.el7_7.x86_64                             2/50 \n  Verifying  : nss-3.44.0-7.el7_7.x86_64                                   3/50 \n  Verifying  : 7:device-mapper-1.02.158-2.el7_7.2.x86_64                   4/50 \n  Verifying  : iproute-4.11.0-25.el7_7.2.x86_64                            5/50 \n  Verifying  : sqlite-3.7.17-8.el7_7.1.x86_64                              6/50 \n  Verifying  : rsyslog-8.24.0-41.el7_7.2.x86_64                            7/50 \n  Verifying  : procps-ng-3.3.10-26.el7_7.1.x86_64                          8/50 \n  Verifying  : curl-7.29.0-54.el7_7.2.x86_64                               9/50 \n  Verifying  : ca-certificates-2019.2.32-76.el7_7.noarch                  10/50 \n  Verifying  : libuuid-2.23.2-61.el7_7.1.x86_64                           11/50 \n  Verifying  : hostname-3.13-3.el7_7.1.x86_64                             12/50 \n  Verifying  : systemd-libs-219-67.el7_7.3.x86_64                         13/50 \n  Verifying  : nss-sysinit-3.44.0-7.el7_7.x86_64                          14/50 \n  Verifying  : libmount-2.23.2-61.el7_7.1.x86_64                          15/50 \n  Verifying  : 7:device-mapper-libs-1.02.158-2.el7_7.2.x86_64             16/50 \n  Verifying  : systemd-219-67.el7_7.3.x86_64                              17/50 \n  Verifying  : nss-softokn-3.44.0-8.el7_7.x86_64                          18/50 \n  Verifying  : libsmartcols-2.23.2-61.el7_7.1.x86_64                      19/50 \n  Verifying  : tzdata-2019c-1.el7.noarch                                  20/50 \n  Verifying  : libcurl-7.29.0-54.el7_7.2.x86_64                           21/50 \n  Verifying  : nss-util-3.44.0-4.el7_7.x86_64                             22/50 \n  Verifying  : binutils-2.27-41.base.el7_7.2.x86_64                       23/50 \n  Verifying  : nss-softokn-freebl-3.44.0-8.el7_7.x86_64                   24/50 \n  Verifying  : libblkid-2.23.2-61.el7_7.1.x86_64                          25/50 \n  Verifying  : nss-tools-3.44.0-4.el7.x86_64                              26/50 \n  Verifying  : curl-7.29.0-54.el7.x86_64                                  27/50 \n  Verifying  : nss-softokn-freebl-3.44.0-5.el7.x86_64                     28/50 \n  Verifying  : rsyslog-8.24.0-41.el7_7.x86_64                             29/50 \n  Verifying  : util-linux-2.23.2-61.el7.x86_64                            30/50 \n  Verifying  : nss-util-3.44.0-3.el7.x86_64                               31/50 \n  Verifying  : procps-ng-3.3.10-26.el7.x86_64                             32/50 \n  Verifying  : libmount-2.23.2-61.el7.x86_64                              33/50 \n  Verifying  : nss-sysinit-3.44.0-4.el7.x86_64                            34/50 \n  Verifying  : libblkid-2.23.2-61.el7.x86_64                              35/50 \n  Verifying  : libuuid-2.23.2-61.el7.x86_64                               36/50 \n  Verifying  : iproute-4.11.0-25.el7.x86_64                               37/50 \n  Verifying  : systemd-libs-219-67.el7_7.1.x86_64                         38/50 \n  Verifying  : 7:device-mapper-1.02.158-2.el7.x86_64                      39/50 \n  Verifying  : libcurl-7.29.0-54.el7.x86_64                               40/50 \n  Verifying  : libsmartcols-2.23.2-61.el7.x86_64                          41/50 \n  Verifying  : systemd-219-67.el7_7.1.x86_64                              42/50 \n  Verifying  : hostname-3.13-3.el7.x86_64                                 43/50 \n  Verifying  : ca-certificates-2018.2.22-70.0.el7_5.noarch                44/50 \n  Verifying  : 7:device-mapper-libs-1.02.158-2.el7.x86_64                 45/50 \n  Verifying  : nss-3.44.0-4.el7.x86_64                                    46/50 \n  Verifying  : binutils-2.27-41.base.el7.x86_64                           47/50 \n  Verifying  : tzdata-2019b-1.el7.noarch                                  48/50 \n  Verifying  : nss-softokn-3.44.0-5.el7.x86_64                            49/50 \n  Verifying  : sqlite-3.7.17-8.el7.x86_64                                 50/50 \n\nUpdated:\n  binutils.x86_64 0:2.27-41.base.el7_7.2                                        \n  ca-certificates.noarch 0:2019.2.32-76.el7_7                                   \n  curl.x86_64 0:7.29.0-54.el7_7.2                                               \n  device-mapper.x86_64 7:1.02.158-2.el7_7.2                                     \n  device-mapper-libs.x86_64 7:1.02.158-2.el7_7.2                                \n  hostname.x86_64 0:3.13-3.el7_7.1                                              \n  iproute.x86_64 0:4.11.0-25.el7_7.2                                            \n  libblkid.x86_64 0:2.23.2-61.el7_7.1                                           \n  libcurl.x86_64 0:7.29.0-54.el7_7.2                                            \n  libmount.x86_64 0:2.23.2-61.el7_7.1                                           \n  libsmartcols.x86_64 0:2.23.2-61.el7_7.1                                       \n  libuuid.x86_64 0:2.23.2-61.el7_7.1                                            \n  nss.x86_64 0:3.44.0-7.el7_7                                                   \n  nss-softokn.x86_64 0:3.44.0-8.el7_7                                           \n  nss-softokn-freebl.x86_64 0:3.44.0-8.el7_7                                    \n  nss-sysinit.x86_64 0:3.44.0-7.el7_7                                           \n  nss-tools.x86_64 0:3.44.0-7.el7_7                                             \n  nss-util.x86_64 0:3.44.0-4.el7_7                                              \n  procps-ng.x86_64 0:3.3.10-26.el7_7.1                                          \n  rsyslog.x86_64 0:8.24.0-41.el7_7.2                                            \n  sqlite.x86_64 0:3.7.17-8.el7_7.1                                              \n  systemd.x86_64 0:219-67.el7_7.3                                               \n  systemd-libs.x86_64 0:219-67.el7_7.3                                          \n  tzdata.noarch 0:2019c-1.el7                                                   \n  util-linux.x86_64 0:2.23.2-61.el7_7.1                                         \n\nComplete!\n"
+    ]
+}
+192.168.203.15 | CHANGED => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": true,
+    "changes": {
+        "installed": [],
+        "updated": [
+            [
+                "sqlite",
+                "3.7.17-8.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "nss-tools",
+                "3.44.0-7.el7_7.x86_64 from updates"
+            ],
+            [
+                "libblkid",
+                "2.23.2-61.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "nss-sysinit",
+                "3.44.0-7.el7_7.x86_64 from updates"
+            ],
+            [
+                "libsmartcols",
+                "2.23.2-61.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "rsyslog",
+                "8.24.0-41.el7_7.2.x86_64 from updates"
+            ],
+            [
+                "curl",
+                "7.29.0-54.el7_7.2.x86_64 from updates"
+            ],
+            [
+                "nss",
+                "3.44.0-7.el7_7.x86_64 from updates"
+            ],
+            [
+                "systemd",
+                "219-67.el7_7.3.x86_64 from updates"
+            ],
+            [
+                "libcurl",
+                "7.29.0-54.el7_7.2.x86_64 from updates"
+            ],
+            [
+                "hostname",
+                "3.13-3.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "device-mapper",
+                "7:1.02.158-2.el7_7.2.x86_64 from updates"
+            ],
+            [
+                "tzdata",
+                "2019c-1.el7.noarch from updates"
+            ],
+            [
+                "nss-softokn-freebl",
+                "3.44.0-8.el7_7.x86_64 from updates"
+            ],
+            [
+                "procps-ng",
+                "3.3.10-26.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "systemd-libs",
+                "219-67.el7_7.3.x86_64 from updates"
+            ],
+            [
+                "device-mapper-libs",
+                "7:1.02.158-2.el7_7.2.x86_64 from updates"
+            ],
+            [
+                "ca-certificates",
+                "2019.2.32-76.el7_7.noarch from updates"
+            ],
+            [
+                "util-linux",
+                "2.23.2-61.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "iproute",
+                "4.11.0-25.el7_7.2.x86_64 from updates"
+            ],
+            [
+                "libuuid",
+                "2.23.2-61.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "libmount",
+                "2.23.2-61.el7_7.1.x86_64 from updates"
+            ],
+            [
+                "nss-util",
+                "3.44.0-4.el7_7.x86_64 from updates"
+            ],
+            [
+                "nss-softokn",
+                "3.44.0-8.el7_7.x86_64 from updates"
+            ],
+            [
+                "binutils",
+                "2.27-41.base.el7_7.2.x86_64 from updates"
+            ]
+        ]
+    },
+    "msg": "",
+    "rc": 0,
+    "results": [
+        "Loaded plugins: fastestmirror\nLoading mirror speeds from cached hostfile\n * base: mirror.datacenter.by\n * extras: mirror.datacenter.by\n * updates: mirror.datacenter.by\nResolving Dependencies\n--> Running transaction check\n---> Package binutils.x86_64 0:2.27-41.base.el7 will be updated\n---> Package binutils.x86_64 0:2.27-41.base.el7_7.2 will be an update\n---> Package ca-certificates.noarch 0:2018.2.22-70.0.el7_5 will be updated\n---> Package ca-certificates.noarch 0:2019.2.32-76.el7_7 will be an update\n---> Package curl.x86_64 0:7.29.0-54.el7 will be updated\n---> Package curl.x86_64 0:7.29.0-54.el7_7.2 will be an update\n---> Package device-mapper.x86_64 7:1.02.158-2.el7 will be updated\n---> Package device-mapper.x86_64 7:1.02.158-2.el7_7.2 will be an update\n---> Package device-mapper-libs.x86_64 7:1.02.158-2.el7 will be updated\n---> Package device-mapper-libs.x86_64 7:1.02.158-2.el7_7.2 will be an update\n---> Package hostname.x86_64 0:3.13-3.el7 will be updated\n---> Package hostname.x86_64 0:3.13-3.el7_7.1 will be an update\n---> Package iproute.x86_64 0:4.11.0-25.el7 will be updated\n---> Package iproute.x86_64 0:4.11.0-25.el7_7.2 will be an update\n---> Package libblkid.x86_64 0:2.23.2-61.el7 will be updated\n---> Package libblkid.x86_64 0:2.23.2-61.el7_7.1 will be an update\n---> Package libcurl.x86_64 0:7.29.0-54.el7 will be updated\n---> Package libcurl.x86_64 0:7.29.0-54.el7_7.2 will be an update\n---> Package libmount.x86_64 0:2.23.2-61.el7 will be updated\n---> Package libmount.x86_64 0:2.23.2-61.el7_7.1 will be an update\n---> Package libsmartcols.x86_64 0:2.23.2-61.el7 will be updated\n---> Package libsmartcols.x86_64 0:2.23.2-61.el7_7.1 will be an update\n---> Package libuuid.x86_64 0:2.23.2-61.el7 will be updated\n---> Package libuuid.x86_64 0:2.23.2-61.el7_7.1 will be an update\n---> Package nss.x86_64 0:3.44.0-4.el7 will be updated\n---> Package nss.x86_64 0:3.44.0-7.el7_7 will be an update\n---> Package nss-softokn.x86_64 0:3.44.0-5.el7 will be updated\n---> Package nss-softokn.x86_64 0:3.44.0-8.el7_7 will be an update\n---> Package nss-softokn-freebl.x86_64 0:3.44.0-5.el7 will be updated\n---> Package nss-softokn-freebl.x86_64 0:3.44.0-8.el7_7 will be an update\n---> Package nss-sysinit.x86_64 0:3.44.0-4.el7 will be updated\n---> Package nss-sysinit.x86_64 0:3.44.0-7.el7_7 will be an update\n---> Package nss-tools.x86_64 0:3.44.0-4.el7 will be updated\n---> Package nss-tools.x86_64 0:3.44.0-7.el7_7 will be an update\n---> Package nss-util.x86_64 0:3.44.0-3.el7 will be updated\n---> Package nss-util.x86_64 0:3.44.0-4.el7_7 will be an update\n---> Package procps-ng.x86_64 0:3.3.10-26.el7 will be updated\n---> Package procps-ng.x86_64 0:3.3.10-26.el7_7.1 will be an update\n---> Package rsyslog.x86_64 0:8.24.0-41.el7_7 will be updated\n---> Package rsyslog.x86_64 0:8.24.0-41.el7_7.2 will be an update\n---> Package sqlite.x86_64 0:3.7.17-8.el7 will be updated\n---> Package sqlite.x86_64 0:3.7.17-8.el7_7.1 will be an update\n---> Package systemd.x86_64 0:219-67.el7_7.1 will be updated\n---> Package systemd.x86_64 0:219-67.el7_7.3 will be an update\n---> Package systemd-libs.x86_64 0:219-67.el7_7.1 will be updated\n---> Package systemd-libs.x86_64 0:219-67.el7_7.3 will be an update\n---> Package tzdata.noarch 0:2019b-1.el7 will be updated\n---> Package tzdata.noarch 0:2019c-1.el7 will be an update\n---> Package util-linux.x86_64 0:2.23.2-61.el7 will be updated\n---> Package util-linux.x86_64 0:2.23.2-61.el7_7.1 will be an update\n--> Finished Dependency Resolution\n\nDependencies Resolved\n\n================================================================================\n Package                Arch       Version                    Repository   Size\n================================================================================\nUpdating:\n binutils               x86_64     2.27-41.base.el7_7.2       updates     5.9 M\n ca-certificates        noarch     2019.2.32-76.el7_7         updates     399 k\n curl                   x86_64     7.29.0-54.el7_7.2          updates     270 k\n device-mapper          x86_64     7:1.02.158-2.el7_7.2       updates     294 k\n device-mapper-libs     x86_64     7:1.02.158-2.el7_7.2       updates     322 k\n hostname               x86_64     3.13-3.el7_7.1             updates      17 k\n iproute                x86_64     4.11.0-25.el7_7.2          updates     803 k\n libblkid               x86_64     2.23.2-61.el7_7.1          updates     181 k\n libcurl                x86_64     7.29.0-54.el7_7.2          updates     223 k\n libmount               x86_64     2.23.2-61.el7_7.1          updates     183 k\n libsmartcols           x86_64     2.23.2-61.el7_7.1          updates     141 k\n libuuid                x86_64     2.23.2-61.el7_7.1          updates      83 k\n nss                    x86_64     3.44.0-7.el7_7             updates     854 k\n nss-softokn            x86_64     3.44.0-8.el7_7             updates     330 k\n nss-softokn-freebl     x86_64     3.44.0-8.el7_7             updates     224 k\n nss-sysinit            x86_64     3.44.0-7.el7_7             updates      65 k\n nss-tools              x86_64     3.44.0-7.el7_7             updates     528 k\n nss-util               x86_64     3.44.0-4.el7_7             updates      79 k\n procps-ng              x86_64     3.3.10-26.el7_7.1          updates     291 k\n rsyslog                x86_64     8.24.0-41.el7_7.2          updates     616 k\n sqlite                 x86_64     3.7.17-8.el7_7.1           updates     394 k\n systemd                x86_64     219-67.el7_7.3             updates     5.1 M\n systemd-libs           x86_64     219-67.el7_7.3             updates     411 k\n tzdata                 noarch     2019c-1.el7                updates     493 k\n util-linux             x86_64     2.23.2-61.el7_7.1          updates     2.0 M\n\nTransaction Summary\n================================================================================\nUpgrade  25 Packages\n\nTotal download size: 20 M\nDownloading packages:\nDelta RPMs disabled because /usr/bin/applydeltarpm not installed.\n--------------------------------------------------------------------------------\nTotal                                               10 MB/s |  20 MB  00:02     \nRunning transaction check\nRunning transaction test\nTransaction test succeeded\nRunning transaction\n  Updating   : nss-util-3.44.0-4.el7_7.x86_64                              1/50 \n  Updating   : systemd-libs-219-67.el7_7.3.x86_64                          2/50 \n  Updating   : libuuid-2.23.2-61.el7_7.1.x86_64                            3/50 \n  Updating   : libblkid-2.23.2-61.el7_7.1.x86_64                           4/50 \n  Updating   : libmount-2.23.2-61.el7_7.1.x86_64                           5/50 \n  Updating   : nss-softokn-freebl-3.44.0-8.el7_7.x86_64                    6/50 \n  Updating   : libsmartcols-2.23.2-61.el7_7.1.x86_64                       7/50 \n  Updating   : util-linux-2.23.2-61.el7_7.1.x86_64                         8/50 \n  Updating   : sqlite-3.7.17-8.el7_7.1.x86_64                              9/50 \n  Updating   : nss-softokn-3.44.0-8.el7_7.x86_64                          10/50 \n  Updating   : nss-sysinit-3.44.0-7.el7_7.x86_64                          11/50 \n  Updating   : nss-3.44.0-7.el7_7.x86_64                                  12/50 \n  Updating   : libcurl-7.29.0-54.el7_7.2.x86_64                           13/50 \n  Updating   : systemd-219-67.el7_7.3.x86_64                              14/50 \n  Updating   : 7:device-mapper-libs-1.02.158-2.el7_7.2.x86_64             15/50 \n  Updating   : 7:device-mapper-1.02.158-2.el7_7.2.x86_64                  16/50 \n  Updating   : rsyslog-8.24.0-41.el7_7.2.x86_64                           17/50 \n  Updating   : curl-7.29.0-54.el7_7.2.x86_64                              18/50 \n  Updating   : nss-tools-3.44.0-7.el7_7.x86_64                            19/50 \n  Updating   : procps-ng-3.3.10-26.el7_7.1.x86_64                         20/50 \n  Updating   : binutils-2.27-41.base.el7_7.2.x86_64                       21/50 \n  Updating   : tzdata-2019c-1.el7.noarch                                  22/50 \n  Updating   : hostname-3.13-3.el7_7.1.x86_64                             23/50 \n  Updating   : ca-certificates-2019.2.32-76.el7_7.noarch                  24/50 \n  Updating   : iproute-4.11.0-25.el7_7.2.x86_64                           25/50 \n  Cleanup    : nss-tools-3.44.0-4.el7.x86_64                              26/50 \n  Cleanup    : curl-7.29.0-54.el7.x86_64                                  27/50 \n  Cleanup    : 7:device-mapper-libs-1.02.158-2.el7.x86_64                 28/50 \n  Cleanup    : 7:device-mapper-1.02.158-2.el7.x86_64                      29/50 \n  Cleanup    : util-linux-2.23.2-61.el7.x86_64                            30/50 \n  Cleanup    : rsyslog-8.24.0-41.el7_7.x86_64                             31/50 \n  Cleanup    : systemd-219-67.el7_7.1.x86_64                              32/50 \n  Cleanup    : libcurl-7.29.0-54.el7.x86_64                               33/50 \n  Cleanup    : nss-sysinit-3.44.0-4.el7.x86_64                            34/50 \n  Cleanup    : nss-3.44.0-4.el7.x86_64                                    35/50 \n  Cleanup    : nss-softokn-3.44.0-5.el7.x86_64                            36/50 \n  Cleanup    : libmount-2.23.2-61.el7.x86_64                              37/50 \n  Cleanup    : libblkid-2.23.2-61.el7.x86_64                              38/50 \n  Cleanup    : nss-softokn-freebl-3.44.0-5.el7.x86_64                     39/50 \n  Cleanup    : procps-ng-3.3.10-26.el7.x86_64                             40/50 \n  Cleanup    : tzdata-2019b-1.el7.noarch                                  41/50 \n  Cleanup    : ca-certificates-2018.2.22-70.0.el7_5.noarch                42/50 \n  Cleanup    : systemd-libs-219-67.el7_7.1.x86_64                         43/50 \n  Cleanup    : nss-util-3.44.0-3.el7.x86_64                               44/50 \n  Cleanup    : libuuid-2.23.2-61.el7.x86_64                               45/50 \n  Cleanup    : sqlite-3.7.17-8.el7.x86_64                                 46/50 \n  Cleanup    : libsmartcols-2.23.2-61.el7.x86_64                          47/50 \n  Cleanup    : binutils-2.27-41.base.el7.x86_64                           48/50 \n  Cleanup    : hostname-3.13-3.el7.x86_64                                 49/50 \n  Cleanup    : iproute-4.11.0-25.el7.x86_64                               50/50 \n  Verifying  : util-linux-2.23.2-61.el7_7.1.x86_64                         1/50 \n  Verifying  : nss-tools-3.44.0-7.el7_7.x86_64                             2/50 \n  Verifying  : nss-3.44.0-7.el7_7.x86_64                                   3/50 \n  Verifying  : 7:device-mapper-1.02.158-2.el7_7.2.x86_64                   4/50 \n  Verifying  : iproute-4.11.0-25.el7_7.2.x86_64                            5/50 \n  Verifying  : sqlite-3.7.17-8.el7_7.1.x86_64                              6/50 \n  Verifying  : rsyslog-8.24.0-41.el7_7.2.x86_64                            7/50 \n  Verifying  : procps-ng-3.3.10-26.el7_7.1.x86_64                          8/50 \n  Verifying  : curl-7.29.0-54.el7_7.2.x86_64                               9/50 \n  Verifying  : ca-certificates-2019.2.32-76.el7_7.noarch                  10/50 \n  Verifying  : libuuid-2.23.2-61.el7_7.1.x86_64                           11/50 \n  Verifying  : hostname-3.13-3.el7_7.1.x86_64                             12/50 \n  Verifying  : systemd-libs-219-67.el7_7.3.x86_64                         13/50 \n  Verifying  : nss-sysinit-3.44.0-7.el7_7.x86_64                          14/50 \n  Verifying  : libmount-2.23.2-61.el7_7.1.x86_64                          15/50 \n  Verifying  : 7:device-mapper-libs-1.02.158-2.el7_7.2.x86_64             16/50 \n  Verifying  : systemd-219-67.el7_7.3.x86_64                              17/50 \n  Verifying  : nss-softokn-3.44.0-8.el7_7.x86_64                          18/50 \n  Verifying  : libsmartcols-2.23.2-61.el7_7.1.x86_64                      19/50 \n  Verifying  : tzdata-2019c-1.el7.noarch                                  20/50 \n  Verifying  : libcurl-7.29.0-54.el7_7.2.x86_64                           21/50 \n  Verifying  : nss-util-3.44.0-4.el7_7.x86_64                             22/50 \n  Verifying  : binutils-2.27-41.base.el7_7.2.x86_64                       23/50 \n  Verifying  : nss-softokn-freebl-3.44.0-8.el7_7.x86_64                   24/50 \n  Verifying  : libblkid-2.23.2-61.el7_7.1.x86_64                          25/50 \n  Verifying  : nss-tools-3.44.0-4.el7.x86_64                              26/50 \n  Verifying  : curl-7.29.0-54.el7.x86_64                                  27/50 \n  Verifying  : nss-softokn-freebl-3.44.0-5.el7.x86_64                     28/50 \n  Verifying  : rsyslog-8.24.0-41.el7_7.x86_64                             29/50 \n  Verifying  : util-linux-2.23.2-61.el7.x86_64                            30/50 \n  Verifying  : nss-util-3.44.0-3.el7.x86_64                               31/50 \n  Verifying  : procps-ng-3.3.10-26.el7.x86_64                             32/50 \n  Verifying  : libmount-2.23.2-61.el7.x86_64                              33/50 \n  Verifying  : nss-sysinit-3.44.0-4.el7.x86_64                            34/50 \n  Verifying  : libblkid-2.23.2-61.el7.x86_64                              35/50 \n  Verifying  : libuuid-2.23.2-61.el7.x86_64                               36/50 \n  Verifying  : iproute-4.11.0-25.el7.x86_64                               37/50 \n  Verifying  : systemd-libs-219-67.el7_7.1.x86_64                         38/50 \n  Verifying  : 7:device-mapper-1.02.158-2.el7.x86_64                      39/50 \n  Verifying  : libcurl-7.29.0-54.el7.x86_64                               40/50 \n  Verifying  : libsmartcols-2.23.2-61.el7.x86_64                          41/50 \n  Verifying  : systemd-219-67.el7_7.1.x86_64                              42/50 \n  Verifying  : hostname-3.13-3.el7.x86_64                                 43/50 \n  Verifying  : ca-certificates-2018.2.22-70.0.el7_5.noarch                44/50 \n  Verifying  : 7:device-mapper-libs-1.02.158-2.el7.x86_64                 45/50 \n  Verifying  : nss-3.44.0-4.el7.x86_64                                    46/50 \n  Verifying  : binutils-2.27-41.base.el7.x86_64                           47/50 \n  Verifying  : tzdata-2019b-1.el7.noarch                                  48/50 \n  Verifying  : nss-softokn-3.44.0-5.el7.x86_64                            49/50 \n  Verifying  : sqlite-3.7.17-8.el7.x86_64                                 50/50 \n\nUpdated:\n  binutils.x86_64 0:2.27-41.base.el7_7.2                                        \n  ca-certificates.noarch 0:2019.2.32-76.el7_7                                   \n  curl.x86_64 0:7.29.0-54.el7_7.2                                               \n  device-mapper.x86_64 7:1.02.158-2.el7_7.2                                     \n  device-mapper-libs.x86_64 7:1.02.158-2.el7_7.2                                \n  hostname.x86_64 0:3.13-3.el7_7.1                                              \n  iproute.x86_64 0:4.11.0-25.el7_7.2                                            \n  libblkid.x86_64 0:2.23.2-61.el7_7.1                                           \n  libcurl.x86_64 0:7.29.0-54.el7_7.2                                            \n  libmount.x86_64 0:2.23.2-61.el7_7.1                                           \n  libsmartcols.x86_64 0:2.23.2-61.el7_7.1                                       \n  libuuid.x86_64 0:2.23.2-61.el7_7.1                                            \n  nss.x86_64 0:3.44.0-7.el7_7                                                   \n  nss-softokn.x86_64 0:3.44.0-8.el7_7                                           \n  nss-softokn-freebl.x86_64 0:3.44.0-8.el7_7                                    \n  nss-sysinit.x86_64 0:3.44.0-7.el7_7                                           \n  nss-tools.x86_64 0:3.44.0-7.el7_7                                             \n  nss-util.x86_64 0:3.44.0-4.el7_7                                              \n  procps-ng.x86_64 0:3.3.10-26.el7_7.1                                          \n  rsyslog.x86_64 0:8.24.0-41.el7_7.2                                            \n  sqlite.x86_64 0:3.7.17-8.el7_7.1                                              \n  systemd.x86_64 0:219-67.el7_7.3                                               \n  systemd-libs.x86_64 0:219-67.el7_7.3                                          \n  tzdata.noarch 0:2019c-1.el7                                                   \n  util-linux.x86_64 0:2.23.2-61.el7_7.1                                         \n\nComplete!\n"
+    ]
+}
+18.194.96.246 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "msg": "Nothing to do",
+    "rc": 0,
+    "results": []
+}
