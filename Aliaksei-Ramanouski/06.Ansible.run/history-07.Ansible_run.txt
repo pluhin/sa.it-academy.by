@@ -1,0 +1,491 @@
+
+ 2027  mkdir 06.Ansible
+ 2028  cd 06.Ansible
+ 2029  ls
+ 2030  vim inv.yaml
+ 2031  ansible-inventory --graph
+ 2032  ansible-inventory --graph -i inv.yaml
+ 2033  ansible-inventory --host1 -i inv.yaml
+ 2034  ansible-inventory --host host1 -i inv.yaml
+ 2035  vim inv.yaml
+ 2036  ansible-inventory --host1 -i inv.yaml
+ 2037  ansible-inventory --graph -i inv.yaml
+ 2038  vim inv.yaml
+ 2039  ansible-inventory --graph -i inv.yaml
+ 2040  vim inv.yaml
+ 2041  ansible-inventory --graph -i inv.yaml
+ 2042  vim inv.yaml
+ 2043  ansible -m ping center -i inv.yaml
+ 2044  vim play.yaml
+ 2045  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2046  vim play.yaml
+ 2047  vim inv.yaml
+ 2048  vim ansible.cfg
+ 2049  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2050  vim inv.yaml
+ 2051  vim play.yaml
+ 2052  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2053  vim play.yaml
+ 2054  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2055  vim play.yaml
+ 2056  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2057  vim play.yaml
+ 2058  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2059  clear
+ 2060  sudo apt-get install terminator
+ 2061  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2062  ls
+ 2063  cd 06.Ansible
+ 2064  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2065  vim play.yaml
+ 2066  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2067  vim play.yaml
+ 2068  ls
+ 2069  cd 06.Ansible
+ 2070  lc
+ 2071  ls
+ 2072  cat play.yaml
+ 2073  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2074  vim play.yaml
+ 2075  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2076  vim play.yaml
+ 2077  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2078  vim play.yaml
+ 2079  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2080  vim play.yaml
+ 2081  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2082  vim play.yaml
+ 2083  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2084  vim play.yaml
+ 2085  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2086  vim play.yaml
+ 2087  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2088  vim play.yaml
+ 2089  ansible 127.0.0.1 -m setup -a "filter=ansible_mounts"
+ 2090  vim play.yaml
+ 2091  ansible 127.0.0.1 -m setup -a "filter=ansible_mounts"
+ 2092  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2093  vim play.yaml
+ 2094  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2095  vim play.yaml
+ 2096  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2097  vim play.yaml
+ 2098  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2099  vim play.yaml
+ 2100  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2101  vim play.yaml
+ 2102  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2103  vim play.yaml
+ 2104  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2105  vim play.yaml
+ 2106  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2107  vim play.yaml
+ 2108  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2109  vim play.yaml
+ 2110  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2111  vim play.yaml
+ 2112  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2113  vim play.yaml
+ 2114  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2115  vim play.yaml
+ 2116  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2117  vim play.yaml
+ 2118  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2119  vim play.yaml
+ 2120  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2121  vim play.yaml
+ 2122  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2123  vim play.yaml
+ 2124  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2125  vim play.yaml
+ 2126  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2127  vim play.yaml
+ 2128  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2129  vim play.yaml
+ 2130  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2131  vim play.yaml
+ 2132  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2133  vim play.yaml
+ 2134  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2135  vim play.yaml
+ 2136  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2137  vim play.yaml
+ 2138  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2139  vim play.yaml
+ 2140  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2141  vim play.yaml
+ 2142  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2143  vim play.yaml
+ 2144  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2145  vim play.yaml
+ 2146  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2147  vim play.yaml
+ 2148  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2149  vim play.yaml
+ 2150  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2151  vim play.yaml
+ 2152  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2153  vim play.yaml
+ 2154  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2155  vim play.yaml
+ 2156  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2157  vim play.yaml
+ 2158  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2159  vim play.yaml
+ 2160  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2161  vim play.yaml
+ 2162  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2163  vim play.yaml
+ 2164  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2165  vim play.yaml
+ 2166  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2167  vim play.yaml
+ 2168  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2169  vim play.yaml
+ 2170  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2171  vim play.yaml
+ 2172  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2173  vim play.yaml
+ 2174  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2175  vim play.yaml
+ 2176  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2177  vim play.yaml
+ 2178  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2179  vim play.yaml
+ 2180  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2181  vim play.yaml
+ 2182  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2183  vim play.yaml
+ 2184  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2185  vim play.yaml
+ 2186  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2187  vim play.yaml
+ 2188  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2189  vim play.yaml
+ 2190  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2191  vim play.yaml
+ 2192  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2193  vim play.yaml
+ 2194  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2195  vim play.yaml
+ 2196  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2197  vim play.yaml
+ 2198  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2199  vim play.yaml
+ 2200  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2201  vim play.yaml
+ 2202  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2203  vim play.yaml
+ 2204  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2205  vim play.yaml
+ 2206  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2207  vim play.yaml
+ 2208  terminator 
+ 2209  ls
+ 2210  cd 06.Ansible
+ 2211  ls
+ 2212  vim play.yaml
+ 2213  ansible center -m setup
+ 2214  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2215  vim play.yaml
+ 2216  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2217  vim play.yaml
+ 2218  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2219  vim play.yaml
+ 2220  ansible center -m setup "{{ ansbile_memory_mb }}"
+ 2221  ansible center -m setup
+ 2222  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2223  vim play.yaml
+ 2224  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2225  vim play.yaml
+ 2226  ansible-playbook play.yaml -i inv.yaml -e "group=center"
+ 2227  ls
+ 2228  vim inv.yaml
+ 2229  ansible-playbook play.yaml -i inv.yaml -e "group=all"
+ 2230  vim inv.yaml
+ 2231  vim play.yaml
+ 2232  ansible-playbook play.yaml -i inv.yaml -e "group=all"
+ 2233  vim play.yaml
+ 2234  ansible-playbook play.yaml -i inv.yaml -e "group=all"
+ 2235  vim play.yaml
+ 2236  ansible-playbook play.yaml -i inv.yaml -e "group=all"
+ 2237  vim play.yaml
+ 2238  ansible-playbook play.yaml -i inv.yaml -e "group=all"
+ 2239  vim play.yaml
+ 2240  ansible-playbook play.yaml -i inv.yaml -e "group=all"
+ 2241  vim play.yaml
+ 2242  ansible-playbook play.yaml -i inv.yaml -e "group=all"
+ 2243  vim inv.yaml
+ 2244  ansible-playbook play.yaml -i inv.yaml -e "group=all"
+ 2245  vim inv.yaml
+ 2246  vim play.yaml
+ 2247  ansible-playbook play.yaml -i inv.yaml -e "group=all"
+ 2248  l
+ 2249  ls
+ 2250  vim user-add-play.yaml
+ 2251  vim play.yaml
+ 2252  vim user-add-play.yaml
+ 2253  vim user-add-play2.yaml
+ 2254  vim play.yaml
+ 2255  vim user-add-play.yaml
+ 2256  vim user-add-play2.yaml
+ 2257  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test"
+ 2258  vim user-add-play2.yaml
+ 2259  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test"
+ 2260  vim user-add-play2.yaml
+ 2261  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test"
+ 2262  vim user-add-play2.yaml
+ 2263  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test"
+ 2264  vim user-add-play2.yaml
+ 2265  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test"
+ 2266  vim user-add-play2.yaml
+ 2267  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test"
+ 2268  vim user-add-play2.yaml
+ 2269  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test"
+ 2270  vim user-add-play2.yaml
+ 2271  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test"
+ 2272  vim user-add-play2.yaml
+ 2273  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test"
+ 2274  vim user-add-play2.yaml
+ 2275  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test"
+ 2276  vim user-add-play2.yaml
+ 2277  ls
+ 2278  ssh root@192.168.203.46
+ 2279  ssh root@192.168.203.45
+ 2280  cd /etc/sudoers.d
+ 2281  ls
+ 2282  cat updater
+ 2283  cd ..
+ 2284  sudo sudoers
+ 2285  sudo visudo
+ 2286  ssh root@192.168.203.46
+ 2287  ls
+ 2288  cd ~/.ssh
+ 2289  ls
+ 2290  cat id_rsa.pub
+ 2291  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test2"
+ 2292  vim user-add-play2.yaml
+ 2293  cd ..
+ 2294  ls
+ 2295  cd 06.Ansible
+ 2296  vim user-add-play2.yaml
+ 2297  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test2"
+ 2298  vim user-add-play2.yaml
+ 2299  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test2"
+ 2300  vim user-add-play2.yaml
+ 2301  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test2"
+ 2302  vim user-add-play2.yaml
+ 2303  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test2"
+ 2304  vim user-add-play2.yaml
+ 2305  cd ~/.ssh
+ 2306  ;s
+ 2307  s
+ 2308  ls
+ 2309  cd ..
+ 2310  ls
+ 2311  cd 06.Ansible
+ 2312  ls
+ 2313  cat user-add-play
+ 2314  cat user-add-play.yaml
+ 2315  cd ~/.ssh
+ 2316  ls
+ 2317  ssh root@192.168.203.46
+ 2318  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test2"
+ 2319  vim user-add-play2.yaml
+ 2320  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test2"
+ 2321  vim user-add-play2.yaml
+ 2322  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test2"
+ 2323  vim user-add-play2.yaml
+ 2324  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test2"
+ 2325  vim user-add-play2.yaml
+ 2326  ssh root@192.168.203.45
+ 2327  ls
+ 2328  ssh root@192.168.203.46
+ 2329  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test2"
+ 2330  vim user-add-play2.yaml
+ 2331  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test2"
+ 2332  vim user-add-play2.yaml
+ 2333  ls
+ 2334  ssh root@192.168.203.46
+ 2335  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test3"
+ 2336  ssh test3@192.168.203.46
+ 2337  ssh root@192.168.203.46
+ 2338  vim user-add-play2.yaml
+ 2339  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test4"
+ 2340  cd ..
+ 2341  ls
+ 2342  cd 06.Ansible
+ 2343  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test4"
+ 2344  ssh root@192.168.203.46
+ 2345  vim user-add-play2.yaml
+ 2346  ssh test3@192.168.203.46
+ 2347  ssh root@192.168.203.46
+ 2348  ssh test4@192.168.203.46
+ 2349  vim user-add-play2.yaml
+ 2350  terminator 
+ 2351  cd ..
+ 2352  cd ~
+ 2353  ls
+ 2354  cd 06.Ansible
+ 2355  ls
+ 2356  vim user-add-play2.yaml
+ 2357  cd ..
+ 2358  ls
+ 2359  ssh test4@192.168.203.46
+ 2360  ssh root@192.168.203.46
+ 2361  ls
+ 2362  sudo visudo
+ 2363  vim user-add-play2.yaml
+ 2364  cd /etc/s
+ 2365  cd /etc/sudoers.d
+ 2366  ls
+ 2367  cat updater
+ 2368  cd ..
+ 2369  ssh root@192.168.203.46
+ 2370  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test4"
+ 2371  vim user-add-play2.yaml
+ 2372  ssh root@192.168.203.45
+ 2373  ssh test4@192.168.203.45
+ 2374  ssh root@192.168.203.45
+ 2375  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test4"
+ 2376  ls
+ 2377  cat play.yaml
+ 2378  cat inv.yaml
+ 2379  vim user-add-play2.yaml
+ 2380  cd 
+ 2381  cd 06.Ansible
+ 2382  ls
+ 2383  vim inv.yaml
+ 2384  ls
+ 2385  cat play.yaml
+ 2386  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test4"
+ 2387  vim user-add-play2.yaml
+ 2388  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test4"
+ 2389  vim user-add-play2.yaml
+ 2390  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test4"
+ 2391  vim user-add-play2.yaml
+ 2392  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test4"
+ 2393  ssh root@192.168.203.45
+ 2394  vim user-add-play2.yaml
+ 2395  ls
+ 2396  vim user-add-play2.yaml
+ 2397  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test4"
+ 2398  vim user-add-play2.yaml
+ 2399  ssh root@192.168.203.46
+ 2400  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test4"
+ 2401  vim user-add-play2.yaml
+ 2402  ls
+ 2403  cat inv.yaml
+ 2404  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test4"
+ 2405  vim user-add-play2.yaml
+ 2406  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test4"
+ 2407  vim user-add-play2.yaml
+ 2408  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test4"
+ 2409  vim user-add-play2.yaml
+ 2410  ls
+ 2411  cat play.yaml
+ 2412  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test4"
+ 2413  cat play.yaml
+ 2414  vim user-add-play2.yaml
+ 2415  sudo visudo
+ 2416  visudo
+ 2417  sudo visudo
+ 2418  ssh root@192.168.203.46
+ 2419  ssh root@192.168.203.45
+ 2420  vim user-add-play2.yaml
+ 2421  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test5"
+ 2422  vim user-add-play2.yaml
+ 2423  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test5"
+ 2424  vim user-add-play2.yaml
+ 2425  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test5"
+ 2426  vim user-add-play2.yaml
+ 2427  ls
+ 2428  cat inv.yaml
+ 2429  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2430  vim user-add-play2.yaml
+ 2431  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2432  vim user-add-play2.yaml
+ 2433  ssh test6@192.168.203.45
+ 2434  ssh root@192.168.203.45
+ 2435  ssh test6@192.168.203.46
+ 2436  ssh root@192.168.203.46
+ 2437  sudo visudo
+ 2438  vim /etc/ssh/ssh_config
+ 2439  ssh root@192.168.203.46
+ 2440  ssh test6@192.168.203.46
+ 2441  clear
+ 2442  ssh test6@192.168.203.46
+ 2443  ls
+ 2444  cd /etc/ssh/sshd_config
+ 2445  vim /etc/ssh/sshd_config
+ 2446  cd /etc/ssh/
+ 2447  ls
+ 2448  ls -all
+ 2449  vim user-add-play2.yaml
+ 2450  ssh root@192.168.203.46
+ 2451  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2452  vim user-add-play2.yaml
+ 2453  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2454  ls
+ 2455  ssh root@192.168.203.45
+ 2456  vim user-add-play2.yaml
+ 2457  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2458  ssh root@192.168.203.45
+ 2459  vim user-add-play2.yaml
+ 2460  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2461  vim user-add-play2.yaml
+ 2462  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2463  vim user-add-play2.yaml
+ 2464  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2465  ssh root@192.168.203.45
+ 2466  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2467  vim user-add-play2.yaml
+ 2468  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2469  vim user-add-play2.yaml
+ 2470  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2471  ssh root@192.168.203.46
+ 2472  ssh root@192.168.203.45
+ 2473  ssh root@192.168.203.46
+ 2474  vim user-add-play2.yaml
+ 2475  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2476  vim user-add-play2.yaml
+ 2477  ls
+ 2478  cat inv.yaml
+ 2479  ls
+ 2480  vim inv.yaml
+ 2481  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2482  vim inv.yaml
+ 2483  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2484  vim inv.yaml
+ 2485  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2486  vim inv.yaml
+ 2487  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2488  vim inv.yaml
+ 2489  vim user-add-play2.yaml
+ 2490  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test6"
+ 2491  vim user-add-play2.yaml
+ 2492  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test7"
+ 2493  ssh test7@192.168.203.46
+ 2494  ls
+ 2495  cd ..
+ 2496  ls
+ 2497  cd cicd
+ 2498  ls
+ 2499  cd cicd
+ 2500  ls
+ 2501  cd test-courses-ci-cd
+ 2502  ls
+ 2503  git add --all
+ 2504  git commit -m "06.Ansible.run"
+ 2505  git push
+ 2506  ssh test7@192.168.203.46
+ 2507  ssh root@192.168.203.46
+ 2508  ssh test7@192.168.203.46
+ 2509  ssh root@192.168.203.46
+ 2510  ssh test7@192.168.203.46
+ 2511  cd 06.Ansible
+ 2512  ls
+ 2513  vim user-add-play2.yaml
+ 2514  ansible-playbook user-add-play2.yaml -i inv.yaml -e "user_to_add=test8"
+ 2515  ssh test8@192.168.203.46
+ 2516  ssh root@192.168.203.46
