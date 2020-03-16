@@ -1,0 +1,44 @@
+---
+- hosts: center
+  gather_facts: no
+  tasks:
+  - name: Add a new user named {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      shell: /bin/bash
+      state: present
+  - name : Create home directory
+    file:
+      path: /home/{{ user_to_add }}/.ssh
+      state: directory
+  - name: Copy Authorized_keys on the remoute host
+    copy: 
+      src: "/home/courses/.ssh/id_rsa.pub"
+      dest: "/home/{{ user_to_add }}/.ssh/authorized_keys"
+  - name: Insert/Update "Match User" configuration block in /etc/ssh/sshd_config
+    blockinfile:
+      path: /etc/ssh/sshd_config
+      block: |
+        Match User {{ user_to_add }}
+        PasswordAuthentication no
+  - name: Restart service sshd
+    shell: systemctl restart sshd.service 
+- hosts: host2
+  gather_facts: no
+  tasks:
+  - name: Add line visudo Ubuntu
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      insertafter: EOF
+      line: "{{ user_to_add }} ALL=(ALL) NOPASSWD: /usr/bin/apt-get update, /usr/bin/apt-get upgrade"
+- hosts: host1
+  gather_facts: no
+  tasks:
+  - name: Add line visudo CentOS
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      insertafter: EOF 
+      line: "{{ user_to_add }} ALL=(ALL) NOPASSWD: /bin/yum update, /bin/yum upgrade"
+
