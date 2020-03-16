@@ -1,0 +1,24 @@
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "debian/buster64"
+  config.vm.network "public_network", bridge: "wlo1"
+  config.vm.box_check_update = false
+  config.vm.hostname = "debian-10-test"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "debian-10-test"
+    vb.memory = 1024
+    vb.cpus = 1
+  end
+
+    config.vm.provision "shell", inline: <<-SHELL
+       echo "Add user updater"
+       useradd updater -m -s /bin/bash
+       echo "updater:vagrant" | chpasswd -m
+       echo "updater   ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/updater
+       echo "Install Software"
+       apt-get -q -y install curl nano git
+       echo "Done..."
+    SHELL
+
+end
