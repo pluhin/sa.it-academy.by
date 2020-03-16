@@ -1,0 +1,9 @@
+---
+- hosts: infra
+  become: yes
+  pre_tasks:
+  - name: Ping
+    ping:
+  roles:
+    - web
+#    - { role: move_logs, tags: ["relocate_logs"], become: true, var_01: 42 }
