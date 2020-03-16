@@ -1,0 +1,36 @@
+[remote]
+jump ansible_host=192.168.220.2
+
+[internal]
+host1 ansible_host=10.20.30.20
+host2 ansible_host=10.20.30.21
+host3 ansible_host=10.20.30.23
+host4 ansible_host=10.20.30.24
+
+[ec_gateway]
+gateway ansible_host=178.124.206.53
+
+[ec_mashines_hosts]
+echost1 ansible_host=192.168.203.1
+echost2 ansible_host=192.168.203.2
+echost3 ansible_host=192.168.203.3
+echost4 ansible_host=192.168.203.4
+
+[internal_apt]
+host1
+host2
+host3
+jump
+
+[internal_yum]
+host4
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,66 @@
+---
+- hosts: "{{group}}"
+  #gather_facts: True
+  strategy : free
+  tasks:
+    - name: Print version
+      debug:
+        msg: 
+          - "{{ ansible_distribution_file_variety }}"
+          - "{{ ansible_distribution_major_version }}"
+      tags:
+        - version
+
+    - name: Collect facts disks
+      shell: df -h
+      register: fs
+      tags:
+        - info
+
+    - name: DisplayFS
+      debug:
+        var: fs.stdout_lines
+      tags:
+        - info
+
+    - name: Collect facts mem
+      shell: free -m
+      register: ms
+      tags:
+        - info
+
+    - name: DisplayMS
+      debug:
+        var: ms.stdout_lines
+      tags:
+        - info
+    
+    - name: add user
+      user:
+        name=brazovsky
+        state=present
+        createhome=yes
+      become: yes 
+      become_method: "sudo"
+      tags:
+        - adduser
+
+    - name: add key
+      authorized_key: user=brazovsky key="{{item}}"
+      with_file:
+        - /home/brazovsky/.ssh/id_rsa.pub
+      become: yes
+      become_method: "sudo"
+      tags:
+        - adduser
+
+    - name: visudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        line: 'brazovsky ALL=(ALL) NOPASSWD:ALL'
+      become: yes
+      become_method: "sudo"
+      tags:
+        - adduser
+
