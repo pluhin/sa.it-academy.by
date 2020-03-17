@@ -1,0 +1,54 @@
+
+PLAY [all] **********************************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [192.168.203.15]
+ok: [192.168.203.13]
+ok: [192.168.203.14]
+ok: [192.168.203.16]
+ok: [18.194.96.246]
+
+TASK [Print OS and version] *****************************************************************************
+ok: [18.194.96.246] => 
+  msg: RedHat | 8.1
+ok: [192.168.203.13] => 
+  msg: CentOS | 7.7
+ok: [192.168.203.14] => 
+  msg: Ubuntu | 18.04
+ok: [192.168.203.15] => 
+  msg: CentOS | 7.7
+ok: [192.168.203.16] => 
+  msg: Ubuntu | 18.04
+
+TASK [Print Mountpoint, capasity and used] **************************************************************
+ok: [18.194.96.246] => (item={'mount': '/', 'device': '/dev/xvda2', 'fstype': 'xfs', 'options': 'rw,seclabel,relatime,attr2,inode64,noquota', 'size_total': 10724814848, 'size_available': 2812448768, 'block_size': 4096, 'block_total': 2618363, 'block_available': 686633, 'block_used': 1931730, 'inode_total': 5241792, 'inode_available': 4985044, 'inode_used': 256748, 'uuid': 'a727b695-0c21-404a-b42b-3075c8deb6ab'}) => 
+  msg: 'Mountpoint /, capasity: 9.99 GB, free: 2.62 GB'
+ok: [192.168.203.13] => (item={'block_used': 337773, 'uuid': 'N/A', 'size_total': 12615557120, 'block_total': 3079970, 'mount': '/', 'block_available': 2742197, 'size_available': 11232038912, 'fstype': 'ext4', 'inode_total': 786432, 'options': 'rw,relatime', 'device': '/dev/mapper/d01-vm--30013--disk--0', 'inode_used': 22461, 'block_size': 4096, 'inode_available': 763971}) => 
+  msg: 'Mountpoint /, capasity: 11.75 GB, free: 10.46 GB'
+ok: [192.168.203.14] => (item={'mount': '/', 'device': '/dev/mapper/d01-vm--30014--disk--0', 'fstype': 'ext4', 'options': 'rw,relatime', 'size_total': 12615557120, 'size_available': 10750427136, 'block_size': 4096, 'block_total': 3079970, 'block_available': 2624616, 'block_used': 455354, 'inode_total': 786432, 'inode_available': 759605, 'inode_used': 26827, 'uuid': 'N/A'}) => 
+  msg: 'Mountpoint /, capasity: 11.75 GB, free: 10.01 GB'
+ok: [192.168.203.15] => (item={'block_used': 337779, 'uuid': 'N/A', 'size_total': 12615557120, 'block_total': 3079970, 'mount': '/', 'block_available': 2742191, 'size_available': 11232014336, 'fstype': 'ext4', 'inode_total': 786432, 'options': 'rw,relatime', 'device': '/dev/mapper/d01-vm--30015--disk--0', 'inode_used': 22480, 'block_size': 4096, 'inode_available': 763952}) => 
+  msg: 'Mountpoint /, capasity: 11.75 GB, free: 10.46 GB'
+ok: [192.168.203.16] => (item={'mount': '/', 'device': '/dev/mapper/d01-vm--30016--disk--0', 'fstype': 'ext4', 'options': 'rw,relatime', 'size_total': 12615557120, 'size_available': 10750443520, 'block_size': 4096, 'block_total': 3079970, 'block_available': 2624620, 'block_used': 455350, 'inode_total': 786432, 'inode_available': 759608, 'inode_used': 26824, 'uuid': 'N/A'}) => 
+  msg: 'Mountpoint /, capasity: 11.75 GB, free: 10.01 GB'
+
+TASK [RAM] **********************************************************************************************
+ok: [18.194.96.246] => 
+  msg: 'RAM capasity: 819 Mb, memory free: 120 Mb'
+ok: [192.168.203.13] => 
+  msg: 'RAM capasity: 4096 Mb, memory free: 3808 Mb'
+ok: [192.168.203.14] => 
+  msg: 'RAM capasity: 4096 Mb, memory free: 3192 Mb'
+ok: [192.168.203.15] => 
+  msg: 'RAM capasity: 4096 Mb, memory free: 3807 Mb'
+ok: [192.168.203.16] => 
+  msg: 'RAM capasity: 4096 Mb, memory free: 3198 Mb'
+
+PLAY RECAP **********************************************************************************************
+18.194.96.246              : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.203.13             : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.203.14             : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.203.15             : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.203.16             : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Playbook run took 0 days, 0 hours, 0 minutes, 4 seconds

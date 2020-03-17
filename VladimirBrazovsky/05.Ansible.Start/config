@@ -1,0 +1,32 @@
+#ec_gateway
+Host gateway
+	User jump_sa
+	HostName 178.124.206.53
+
+#ec_hosts
+Host 192.168.203.*
+	ProxyJump gateway
+
+#local_gateway
+Host locgat
+	User vagrant
+	Hostname 192.168.220.2
+
+#local_host
+Host 10.20.30.*
+	ProxyJump locgat
+
+Host 192.168.220.2
+	User vagrant
+
+#Host 192.168.220.2
+#	IdentityFile ~/.ssh/id_rsa
+
+Host github.com
+	IdentityFile ~/.ssh/id_rsa
+Host bitbucket.org
+	IdentityFile ~/.ssh/id_rsa
+Host gitlab.com
+	IdentityFile ~/.ssh/id_rsa
+Host kurs-server.acdtest.local
+	IdentityFile ~/.ssh/id_rsa

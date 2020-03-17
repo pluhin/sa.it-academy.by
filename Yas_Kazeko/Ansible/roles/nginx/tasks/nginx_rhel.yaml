@@ -1,0 +1,28 @@
+---
+# preset steps.
+- name: install yum-utils
+  yum:
+    name: yum-utils
+    state: present
+# Copy nginx.repo to server
+- name: Copy nginx.repo
+  copy:
+    src: nginx.repo
+    dest: "{{ nginx.repo_path }}"
+
+- name: remove the Apache package
+  yum:
+    name: httpd
+    state: absent
+
+# Install nginx
+- name: nginx. Install packages.
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+# Enable and start nginx 
+- name: nginx. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
