@@ -1,0 +1,21 @@
+---
+
+nginx_repo_path: /etc/yum.repos.d/
+# for debian
+
+apt_nginx_packages:
+  - nginx
+  - vim
+apt_php_packages:
+  - php
+  - php-fpm
+
+# for RHEL
+
+yum_nginx_packages:
+  - nginx
+  - vim
+yum_php_packages:
+  - php
+  - php-fpm
+

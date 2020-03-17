@@ -1,19 +1,14 @@
-all:
-    hosts:
-      vars:
-        
-    children:
-        ubuntu:
-            hosts:
-            - host_2:
-                ansible_host: 192.168.203.14
-            - host_4:
-                ansible_host: 192.168.203.16
-        RHEL:
-            hosts:
-            - host_1:  
-                ansible_host: 192.168.203.13
-            - host_3:  
-                ansible_host: 192.168.203.15
-            - host_5:  
-                ansible_host: 18.194.96.246        
+ubuntu:
+  hosts:
+    host_2:
+      ansible_host: 192.168.203.14
+    host_4:
+      ansible_host: 192.168.203.16
+RHEL:
+  hosts:  
+    host_1:  
+      ansible_host: 192.168.203.13
+    host_3:  
+      ansible_host: 192.168.203.15
+    host_5:  
+      ansible_host: 18.194.96.246        

@@ -8,7 +8,10 @@
 - name: Copy nginx.repo
   copy:
     src: nginx.repo
-    dest: "{{ nginx.repo_path }}"
+    dest: "{{ nginx_repo_path }}"
+    owner: root
+    group: root
+    mode: 0644
 
 - name: remove the Apache package
   yum:
