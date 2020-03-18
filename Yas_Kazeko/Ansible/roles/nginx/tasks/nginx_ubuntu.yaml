@@ -1,6 +1,6 @@
 ---
 # preset steps.
-- name: install utils
+- name: install utils for Deb
   apt:
     name:
     - curl
@@ -9,24 +9,25 @@
     - lsb-release
     state: present
 # To set up the apt repository for stable nginx packages
-- name: 
+- name: run preset script for install nginx repository
   script: preset_script.sh
     
 
-- name: remove the Apache package
+- name: apt remove the Apache package
   apt:
     name: apache2
     state: absent
 
 # Install nginx
-- name: nginx. Install packages.
+- name: apt nginx. Install packages.
   apt:
     name: "{{ apt_nginx_packages }}"
     state: present
     update_cache: yes
 # Enable and start nginx 
-- name: nginx. Enable and start service
+- name: Deb nginx. Enable and start service
   service:
     name: nginx
     state: started
     enabled: yes
+

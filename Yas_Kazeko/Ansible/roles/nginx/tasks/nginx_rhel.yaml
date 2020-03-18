@@ -19,7 +19,7 @@
     state: absent
 
 # Install nginx
-- name: nginx. Install packages.
+- name: yum nginx. Install packages.
   yum:
     name: "{{ yum_nginx_packages }}"
     state: present
@@ -29,3 +29,4 @@
     name: nginx
     state: started
     enabled: yes
+

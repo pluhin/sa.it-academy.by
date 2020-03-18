@@ -11,16 +11,6 @@
     path: "{{default_home}}/index.html"
     state: absent
 
-- name: Templates
-  template:
-    src: "nginx.conf"
-    dest: "/etc/nginx/"
-    owner: root
-    group: root
-    mode: 0644
-    backup: yes
-
-
 
 - name: Copy site on server
   copy:
@@ -33,9 +23,14 @@
   notify:
       - restart nginx
 
-
-
-
+- name: Templates 
+  template: 
+    src: "nginx.conf" 
+    dest: "/etc/nginx/" 
+    owner: root 
+    group: root 
+    mode: 0644 
+    backup: yes 
 
 # TEST site
 
