@@ -3,3 +3,4 @@
 Prepared homeworks list:
 
 * 02.GIT.Local
+* 03.GIT.Hosting
