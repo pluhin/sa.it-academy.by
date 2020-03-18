@@ -1,7 +1,56 @@
 ---
 - name: Include deploy for Debian systems
   import_tasks: nginx_ubuntu.yaml
-  when: ansible_os_family == 'Ubuntu'
+  when: ansible_os_family|lower == 'debian'
 - name: Include deploy for Debian systems
   import_tasks: nginx_rhel.yaml
-  when: ansible_os_family == 'RedHat'
+  when: ansible_os_family|lower == 'redhat'
+
+- name: remove index 
+  file:
+    path: "{{default_home}}/index.html"
+    state: absent
+
+- name: Templates
+  template:
+    src: "nginx.conf"
+    dest: "/etc/nginx/"
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+
+
+- name: Copy site on server
+  copy:
+    src: index.html
+    dest: "{{ default_home }}"
+    owner: nginx
+    group: nginx
+    mode: 0644
+    backup: yes
+  notify:
+      - restart nginx
+
+
+
+
+
+# TEST site
+
+- name: Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.ip }}"
+    return_content: yes  
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'Deploy Nginx' not in this.content" 
+

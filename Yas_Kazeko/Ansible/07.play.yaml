@@ -1,7 +1,6 @@
 ---
-- hosts: host_5
+- hosts: nginx
   become: yes
-  become_user: root
   pre_tasks:
   - name: Ping
     ping:

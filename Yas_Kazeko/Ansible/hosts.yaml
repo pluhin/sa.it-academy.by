@@ -12,3 +12,16 @@ RHEL:
       ansible_host: 192.168.203.15
     host_5:  
       ansible_host: 18.194.96.246        
+nginx:
+  vars:
+    ansible_user: updater
+    site01: "local_test01.site"
+    site02: "local_test02.site"
+    virtual_hosts:
+      - { name: "{{ site01 }}", ip: "{{ hostvars[\"host_5\"].ansible_host }}" }
+      - { name: "{{ site02 }}", ip: "{{ hostvars[\"host_2\"].ansible_host }}" }
+  children:
+    internal:
+      hosts:
+        host_5:
+        host_2:  
