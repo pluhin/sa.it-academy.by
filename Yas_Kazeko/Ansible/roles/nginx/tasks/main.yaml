@@ -10,6 +10,11 @@
   file:
     path: "{{default_home}}/index.html"
     state: absent
+#- name: remove  
+#  file:
+#    path: "{{default_home}}/index.html"
+#    state: absent
+
 
 
 - name: Copy site on server
@@ -20,17 +25,19 @@
     group: nginx
     mode: 0644
     backup: yes
-  notify:
-      - restart nginx
-
-- name: Templates 
+- name: Templates for  
   template: 
     src: "nginx.conf" 
-    dest: "/etc/nginx/" 
+    dest: "/etc/nginx/nginx.conf" 
     owner: root 
     group: root 
     mode: 0644 
     backup: yes 
+  notify:
+      - restart nginx
+
+
+
 
 # TEST site
 
@@ -43,9 +50,8 @@
 
 - name: Check content to the sites
   uri:
-    url: "http://{{ item.ip }}"
+    url: "http://localhost"
     return_content: yes  
-  loop: "{{ virtual_hosts }}"
   register: this
   failed_when: "'Deploy Nginx' not in this.content" 
 
