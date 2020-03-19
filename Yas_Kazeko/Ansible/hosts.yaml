@@ -15,13 +15,24 @@ RHEL:
 nginx:
   vars:
     ansible_user: updater
-    site01: "local_test01.site"
-    site02: "local_test02.site"
+    site01: "local_test01.org"
+    site02: "local_test02.org"
     virtual_hosts:
-      - { name: "{{ site01 }}", ip: "{{ hostvars[\"host_5\"].ansible_host }}" }
-      - { name: "{{ site02 }}", ip: "{{ hostvars[\"host_2\"].ansible_host }}" }
+      - { name: "{{ site01 }}", ip: "{{ hostvars[\"host_2\"].ansible_host }}" }
+      - { name: "{{ site02 }}", ip: "{{ hostvars[\"host_3\"].ansible_host }}" }
   children:
     internal:
       hosts:
-        host_5:
-        host_2:  
+        host_2:
+        host_3: 
+        
+nginx_on_aws:
+  vars:
+    ansible_user: updater 
+    site_aws: "localhost"
+    virtual_hosts: 
+      - { name: "{{ site_aws }}", ip: "172.31.32.227" }
+  children:
+    int: 
+      hosts:
+        host_5: 

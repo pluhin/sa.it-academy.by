@@ -10,10 +10,11 @@
   file:
     path: "{{default_home}}/index.html"
     state: absent
-#- name: remove  
-#  file:
-#    path: "{{default_home}}/index.html"
-#    state: absent
+- name: remove index 
+  file:
+    path: "/etc/nginx/conf.d/nginx_vhosts.conf"
+    state: absent
+
 
 
 
@@ -33,10 +34,19 @@
     group: root 
     mode: 0644 
     backup: yes 
+- name: Templates for  
+  template: 
+    src: "nginx_vhosts.conf" 
+    dest: "/etc/nginx/conf.d/nginx_vhosts.conf" 
+    owner: root 
+    group: root 
+    mode: 0644 
+#    backup: yes 
   notify:
       - restart nginx
 
 
+- meta: flush_handlers
 
 
 # TEST site

@@ -1,5 +1,9 @@
 ---
 
+worker_processes: "1"
+
+woker_connections: "512"
+
 nginx_repo_path: /etc/yum.repos.d/
 # for debian
 
