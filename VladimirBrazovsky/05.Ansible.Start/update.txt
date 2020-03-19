@@ -1,0 +1,19 @@
+host4 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/libexec/platform-python"
+    }, 
+    "changed": false, 
+    "msg": "Cache updated", 
+    "rc": 0, 
+    "results": []
+}
+
+host4 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/libexec/platform-python"
+    }, 
+    "changed": false, 
+    "msg": "Nothing to do", 
+    "rc": 0, 
+    "results": []
+}

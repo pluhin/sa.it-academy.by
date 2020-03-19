@@ -1,0 +1,32 @@
+---
+# preset steps.
+- name: install utils
+  apt:
+    name:
+    - curl
+    - gnupg2
+    - ca-certificates
+    - lsb-release
+    state: present
+# To set up the apt repository for stable nginx packages
+- name: 
+  script: preset_script.sh
+    
+
+- name: remove the Apache package
+  apt:
+    name: apache2
+    state: absent
+
+# Install nginx
+- name: nginx. Install packages.
+  apt:
+    name: "{{ apt_nginx_packages }}"
+    state: present
+    update_cache: yes
+# Enable and start nginx 
+- name: nginx. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
