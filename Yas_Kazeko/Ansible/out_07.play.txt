@@ -1,88 +1,84 @@
 
-PLAY [nginx] ***************************************************************************************
+PLAY [nginx] *****************************************************************************************************************************************************************
 
-TASK [Gathering Facts] *****************************************************************************
+TASK [Gathering Facts] *******************************************************************************************************************************************************
 ok: [host_3]
 ok: [host_2]
 
-TASK [Ping] ****************************************************************************************
+TASK [Ping] ******************************************************************************************************************************************************************
 ok: [host_2]
 ok: [host_3]
 
-TASK [nginx : install utils for Deb] ***************************************************************
+TASK [nginx : install utils for Deb] *****************************************************************************************************************************************
 skipping: [host_3]
 ok: [host_2]
 
-TASK [nginx : run preset script for install nginx repository] **************************************
+TASK [nginx : run preset script for install nginx repository] ****************************************************************************************************************
 skipping: [host_3]
 changed: [host_2]
 
-TASK [nginx : apt remove the Apache package] *******************************************************
+TASK [nginx : apt remove the Apache package] *********************************************************************************************************************************
 skipping: [host_3]
 ok: [host_2]
 
-TASK [nginx : apt nginx. Install packages.] ********************************************************
+TASK [nginx : apt nginx. Install packages.] **********************************************************************************************************************************
 skipping: [host_3]
 ok: [host_2]
 
-TASK [nginx : Deb nginx. Enable and start service] *************************************************
+TASK [nginx : Deb nginx. Enable and start service] ***************************************************************************************************************************
 skipping: [host_3]
 ok: [host_2]
 
-TASK [nginx : install yum-utils] *******************************************************************
+TASK [nginx : install yum-utils] *********************************************************************************************************************************************
 skipping: [host_2]
 ok: [host_3]
 
-TASK [nginx : Copy nginx.repo] *********************************************************************
+TASK [nginx : Copy nginx.repo] ***********************************************************************************************************************************************
 skipping: [host_2]
 ok: [host_3]
 
-TASK [nginx : remove the Apache package] ***********************************************************
+TASK [nginx : remove the Apache package] *************************************************************************************************************************************
 skipping: [host_2]
 ok: [host_3]
 
-TASK [nginx : yum nginx. Install packages.] ********************************************************
+TASK [nginx : yum nginx. Install packages.] **********************************************************************************************************************************
 skipping: [host_2]
 ok: [host_3]
 
-TASK [nginx : nginx. Enable and start service] *****************************************************
+TASK [nginx : nginx. Enable and start service] *******************************************************************************************************************************
 skipping: [host_2]
 ok: [host_3]
 
-TASK [nginx : remove index] ************************************************************************
-changed: [host_2]
-changed: [host_3]
+TASK [nginx : remove old index.html file] ************************************************************************************************************************************
+changed: [host_2] => (item={'name': 'local_test01.org', 'ip': 'localhost'})
+changed: [host_3] => (item={'name': 'local_test01.org', 'ip': 'localhost'})
+changed: [host_2] => (item={'name': 'local_test01.ru', 'ip': 'localhost'})
+changed: [host_3] => (item={'name': 'local_test01.ru', 'ip': 'localhost'})
 
-TASK [nginx : remove index] ************************************************************************
-changed: [host_2]
-changed: [host_3]
+TASK [nginx : Copy new site files on server] *********************************************************************************************************************************
+changed: [host_3] => (item={'name': 'local_test01.org', 'ip': 'localhost'})
+changed: [host_2] => (item={'name': 'local_test01.org', 'ip': 'localhost'})
+changed: [host_3] => (item={'name': 'local_test01.ru', 'ip': 'localhost'})
+changed: [host_2] => (item={'name': 'local_test01.ru', 'ip': 'localhost'})
 
-TASK [nginx : Copy site on server] *****************************************************************
-changed: [host_2]
-changed: [host_3]
-
-TASK [nginx : Templates for] ***********************************************************************
-changed: [host_2]
-changed: [host_3]
-
-TASK [nginx : Templates for] ***********************************************************************
-changed: [host_2]
-changed: [host_3]
-
-RUNNING HANDLER [nginx : restart nginx] ************************************************************
-changed: [host_2]
-changed: [host_3]
-
-TASK [nginx : Check connection to Localhost] *******************************************************
+TASK [nginx : Template for creating common config file.] *********************************************************************************************************************
 ok: [host_2]
 ok: [host_3]
 
-TASK [nginx : Check content to the sites] **********************************************************
+TASK [nginx : Jinja template for creating virtual domain config] *************************************************************************************************************
 ok: [host_2]
 ok: [host_3]
 
-PLAY RECAP *****************************************************************************************
-host_2                     : ok=15   changed=7    unreachable=0    failed=0    skipped=5    rescued=0    ignored=0   
-host_3                     : ok=15   changed=6    unreachable=0    failed=0    skipped=5    rescued=0    ignored=0   
+TASK [nginx : Check connection to Localhost] *********************************************************************************************************************************
+ok: [host_2]
+ok: [host_3]
 
-Playbook run took 0 days, 0 hours, 0 minutes, 25 seconds
+TASK [nginx : Site content verification] *************************************************************************************************************************************
+ok: [host_3]
+ok: [host_2]
+
+PLAY RECAP *******************************************************************************************************************************************************************
+host_2                     : ok=13   changed=3    unreachable=0    failed=0    skipped=5    rescued=0    ignored=0   
+host_3                     : ok=13   changed=2    unreachable=0    failed=0    skipped=5    rescued=0    ignored=0   
+
+Playbook run took 0 days, 0 hours, 0 minutes, 51 seconds

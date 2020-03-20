@@ -29,8 +29,8 @@ nginx:
 nginx_on_aws:
   vars:
     ansible_user: updater 
-    site_aws: "localhost"
-    virtual_hosts: 
+    site_aws: "ip-172-31-32-227"
+    virtual_domain: 
       - { name: "{{ site_aws }}", ip: "172.31.32.227" }
   children:
     int: 

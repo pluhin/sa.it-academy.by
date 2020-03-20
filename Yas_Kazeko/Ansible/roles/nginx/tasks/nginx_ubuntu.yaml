@@ -1,5 +1,5 @@
 ---
-# preset steps.
+# Preset steps. Nginx installation according to the instructions on the official website.
 - name: install utils for Deb
   apt:
     name:
@@ -8,10 +8,10 @@
     - ca-certificates
     - lsb-release
     state: present
+
 # To set up the apt repository for stable nginx packages
 - name: run preset script for install nginx repository
   script: preset_script.sh
-    
 
 - name: apt remove the Apache package
   apt:
@@ -25,17 +25,8 @@
     state: present
     update_cache: yes
 
-
-
-
-
-
-
-
 # Enable and start nginx 
 - name: Deb nginx. Enable and start service
   service:
     name: nginx
-    state: started
     enabled: yes
-
