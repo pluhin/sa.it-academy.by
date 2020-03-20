@@ -1,5 +1,6 @@
 ---
 # Preset steps. Nginx installation according to the instructions on the official website.
+
 - name: install yum-utils
   yum:
     name: yum-utils
@@ -14,13 +15,15 @@
     group: root
     mode: 0644
 
+
 - name: remove the Apache package
   yum:
     name: httpd
     state: absent
 
 # Install nginx
-- name: yum nginx. Install packages.
+
+- name: nginx. Install packages.
   yum:
     name: "{{ yum_nginx_packages }}"
     state: present
