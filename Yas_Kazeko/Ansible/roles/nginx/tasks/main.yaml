@@ -8,24 +8,21 @@
 
 - name: remove index 
   file:
-    path: "{{default_home}}/index.html"
+    path: "{{default_home}}{{ item.name }}/index.html"
     state: absent
-- name: remove index 
-  file:
-    path: "/etc/nginx/conf.d/nginx_vhosts.conf"
-    state: absent
-
+  with_items: "{{ virtual_domain }}"
 
 
 
 - name: Copy site on server
   copy:
-    src: index.html
-    dest: "{{ default_home }}"
+    src: "{{ item.name }}/index.html"
+    dest: "{{ default_home }}{{item.name}}/"
     owner: nginx
     group: nginx
     mode: 0644
     backup: yes
+  with_items: "{{ virtual_domain }}"
 - name: Templates for  
   template: 
     src: "nginx.conf" 
@@ -36,12 +33,12 @@
     backup: yes 
 - name: Templates for  
   template: 
-    src: "nginx_vhosts.conf" 
-    dest: "/etc/nginx/conf.d/nginx_vhosts.conf" 
+    src: "virtual_domain.j2" 
+    dest: "/etc/nginx/conf.d/virtual_domain.conf" 
     owner: root 
     group: root 
     mode: 0644 
-#    backup: yes 
+    backup: yes 
   notify:
       - restart nginx
 

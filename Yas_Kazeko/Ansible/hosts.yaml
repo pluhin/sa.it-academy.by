@@ -16,10 +16,10 @@ nginx:
   vars:
     ansible_user: updater
     site01: "local_test01.org"
-    site02: "local_test02.org"
-    virtual_hosts:
-      - { name: "{{ site01 }}", ip: "{{ hostvars[\"host_2\"].ansible_host }}" }
-      - { name: "{{ site02 }}", ip: "{{ hostvars[\"host_3\"].ansible_host }}" }
+    site02: "local_test01.ru"
+    virtual_domain:
+      - { name: "{{ site01 }}", ip: "localhost" }
+      - { name: "{{ site02 }}", ip: "localhost" }
   children:
     internal:
       hosts:
