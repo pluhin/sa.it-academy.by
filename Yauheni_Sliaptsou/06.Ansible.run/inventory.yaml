@@ -1,0 +1,37 @@
+---
+infra:
+  vars:
+    ansible_user: vagrant
+  children:
+    internal:
+      vars:
+      hosts:
+        host1:
+          ansible_host: 10.20.30.20
+        host2:
+          ansible_host: 10.20.30.21
+        bastion:
+          ansible_host: 192.168.100.40
+
+ec:
+  vars:
+    ansible_user: root
+    ansible_connection: ssh
+    ansible_ssh_pass: QwertY_13
+  children:
+    ubuntu:
+      hosts:
+        echost2:
+          ansible_host: 192.168.203.30
+        echost4:
+          ansible_host: 192.168.203.32
+    centos:
+      hosts:
+        echost1:
+          ansible_host: 192.168.203.29
+        echost3:
+          ansible_host: 192.168.203.31
+jump:
+  hosts:
+    bastion:
+      ansible_host: 192.168.100.40

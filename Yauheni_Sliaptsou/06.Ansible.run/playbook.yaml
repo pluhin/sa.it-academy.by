@@ -1,0 +1,14 @@
+---
+- hosts: "{{ group }}"
+  order: sorted
+  become: yes
+  tasks:
+    - name: Print OS/version
+      debug:
+        msg: "{{ ansible_distribution }}/{{ ansible_distribution_version }}"
+    - name: Print mount point/capacity/used
+      debug:
+        msg: " {{ ansible_mounts[0].mount }} | {{ ansible_mounts[0].block_total }} | {{ansible_mounts[0].block_used}} "
+    - name: Print RAM capacity/free
+      debug:
+        msg: 'RAM capasity: {{ansible_memory_mb.real.total}} Mb, memory free: {{ansible_memory_mb.real.free}} Mb'

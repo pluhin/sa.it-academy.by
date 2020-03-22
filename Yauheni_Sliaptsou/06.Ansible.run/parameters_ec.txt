@@ -1,0 +1,57 @@
+
+PLAY [ec] ********************************************************************************************************************
+
+TASK [Gathering Facts] *******************************************************************************************************
+ok: [echost1]
+ok: [echost4]
+ok: [echost3]
+ok: [echost2]
+
+TASK [Print OS/version] ******************************************************************************************************
+ok: [echost1] => {
+    "msg": "CentOS/7.7"
+}
+ok: [echost2] => {
+    "msg": "Ubuntu/18.04"
+}
+ok: [echost3] => {
+    "msg": "CentOS/7.7"
+}
+ok: [echost4] => {
+    "msg": "Ubuntu/18.04"
+}
+
+TASK [Print mount point/capacity/used] ***************************************************************************************
+ok: [echost1] => {
+    "msg": " / | 3079970 | 336930 "
+}
+ok: [echost2] => {
+    "msg": " / | 3079970 | 464612 "
+}
+ok: [echost3] => {
+    "msg": " / | 3079970 | 336864 "
+}
+ok: [echost4] => {
+    "msg": " / | 3079970 | 427156 "
+}
+
+TASK [Print RAM capacity/free] ***********************************************************************************************
+ok: [echost1] => {
+    "msg": "RAM capasity: 4096 Mb, memory free: 3810 Mb"
+}
+ok: [echost2] => {
+    "msg": "RAM capasity: 4096 Mb, memory free: 3156 Mb"
+}
+ok: [echost3] => {
+    "msg": "RAM capasity: 4096 Mb, memory free: 3819 Mb"
+}
+ok: [echost4] => {
+    "msg": "RAM capasity: 4096 Mb, memory free: 3463 Mb"
+}
+
+PLAY RECAP *******************************************************************************************************************
+echost1                    : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+echost2                    : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+echost3                    : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+echost4                    : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
