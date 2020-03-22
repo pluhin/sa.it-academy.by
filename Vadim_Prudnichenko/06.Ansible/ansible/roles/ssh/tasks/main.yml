@@ -2,7 +2,6 @@
 # Task file for SSH
 
 - include_vars: users.yml
-
   
 - name: Create users with home directory
   user: name={{ item.username }} shell=/bin/bash createhome=yes comment='Created by Ansible'

@@ -1,6 +1,6 @@
 ---
 
-- name: Run Role SSH and Add Users
+- name: Run role SSH and add users
   hosts: hosts
   become: yes
   gather_facts: yes
