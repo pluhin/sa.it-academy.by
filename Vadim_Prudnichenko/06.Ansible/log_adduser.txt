@@ -1,0 +1,39 @@
+
+PLAY [Run role SSH and add users] *****************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************************************************************************************
+ok: [centos2]
+ok: [centos1]
+ok: [ubuntu1]
+ok: [ubuntu2]
+
+TASK [ssh : include_vars] *************************************************************************************************************************************************************************************
+ok: [centos1]
+ok: [centos2]
+ok: [ubuntu1]
+ok: [ubuntu2]
+
+TASK [ssh : Create users with home directory] *****************************************************************************************************************************************************************
+ok: [ubuntu1] => (item={u'username': u'user', u'use_sudo': True})
+ok: [ubuntu2] => (item={u'username': u'user', u'use_sudo': True})
+ok: [centos2] => (item={u'username': u'user', u'use_sudo': True})
+ok: [centos1] => (item={u'username': u'user', u'use_sudo': True})
+
+TASK [ssh : Setup | authorized key upload] ********************************************************************************************************************************************************************
+ok: [centos1] => (item={u'username': u'user', u'use_sudo': True})
+ok: [ubuntu2] => (item={u'username': u'user', u'use_sudo': True})
+ok: [ubuntu1] => (item={u'username': u'user', u'use_sudo': True})
+ok: [centos2] => (item={u'username': u'user', u'use_sudo': True})
+
+TASK [ssh : Sudoers | update sudoers file and validate] *******************************************************************************************************************************************************
+ok: [ubuntu1] => (item={u'username': u'user', u'use_sudo': True})
+ok: [ubuntu2] => (item={u'username': u'user', u'use_sudo': True})
+ok: [centos1] => (item={u'username': u'user', u'use_sudo': True})
+ok: [centos2] => (item={u'username': u'user', u'use_sudo': True})
+
+PLAY RECAP ****************************************************************************************************************************************************************************************************
+centos1                    : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+centos2                    : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu1                    : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu2                    : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

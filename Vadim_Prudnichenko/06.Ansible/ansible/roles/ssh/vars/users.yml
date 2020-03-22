@@ -1,0 +1,7 @@
+---
+# vars file for ssh
+
+users:
+
+  - username: user
+    use_sudo: yes
