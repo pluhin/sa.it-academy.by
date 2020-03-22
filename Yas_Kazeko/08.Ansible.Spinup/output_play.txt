@@ -1,0 +1,82 @@
+
+PLAY [host_4] ********************************************************************************************
+
+TASK [Gathering Facts] ***********************************************************************************
+ok: [host_4]
+
+TASK [Ping] **********************************************************************************************
+ok: [host_4]
+
+TASK [test : Vincent, we happy? ()] **********************************************************************
+changed: [host_4]
+
+TASK [test : Answer] *************************************************************************************
+ok: [host_4] => 
+  msg: ' Yeah we happy. updater has sudo'
+
+TASK [test : include_tasks] ******************************************************************************
+included: /home/yaska/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/check_url.yaml for host_4
+included: /home/yaska/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/check_url.yaml for host_4
+included: /home/yaska/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/check_url.yaml for host_4
+included: /home/yaska/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/check_url.yaml for host_4
+
+TASK [test : test tepos in loop] *************************************************************************
+ok: [host_4]
+
+TASK [test : debug] **************************************************************************************
+ok: [host_4] => 
+  msg: OK Debian repo
+
+TASK [test : Send OK massage to telegram] ****************************************************************
+changed: [host_4]
+
+TASK [test : test tepos in loop] *************************************************************************
+ok: [host_4]
+
+TASK [test : debug] **************************************************************************************
+ok: [host_4] => 
+  msg: OK Centos repo
+
+TASK [test : Send OK massage to telegram] ****************************************************************
+changed: [host_4]
+
+TASK [test : test tepos in loop] *************************************************************************
+ok: [host_4]
+
+TASK [test : debug] **************************************************************************************
+ok: [host_4] => 
+  msg: OK PIP repo
+
+TASK [test : Send OK massage to telegram] ****************************************************************
+changed: [host_4]
+
+TASK [test : test tepos in loop] *************************************************************************
+ok: [host_4]
+
+TASK [test : debug] **************************************************************************************
+ok: [host_4] => 
+  msg: OK Docker repo
+
+TASK [test : Send OK massage to telegram] ****************************************************************
+changed: [host_4]
+
+TASK [test : set_fact] ***********************************************************************************
+ok: [host_4]
+
+TASK [test : Check RAM] **********************************************************************************
+ok: [host_4] => changed=false 
+  msg: normal memory usage
+
+TASK [test : CHECK HDD] **********************************************************************************
+fatal: [host_4]: FAILED! => changed=false 
+  assertion: load_HDD <= hdd_usage_threshold
+  evaluated_to: false
+  msg: load limit exceeded
+
+TASK [test : Send check message to telegram] *************************************************************
+changed: [host_4]
+
+PLAY RECAP ***********************************************************************************************
+host_4                     : ok=23   changed=6    unreachable=0    failed=0    skipped=0    rescued=1    ignored=0   
+
+Playbook run took 0 days, 0 hours, 0 minutes, 18 seconds
