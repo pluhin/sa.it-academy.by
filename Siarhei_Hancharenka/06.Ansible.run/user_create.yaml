@@ -1,0 +1,27 @@
+---
+- hosts: "{{ group }}"
+  become: True
+  tasks:
+    - name: Create
+      user:
+        name: "{{ username }}"
+    - name: Add nopass sudoer
+      shell:
+        cmd: 'echo "{{ username }}     ALL=(ALL) NOPASSWD:SOFTWARE" >> /etc/sudoers'
+    - name: Setup authorized key
+      authorized_key:
+        user: "{{ username }}"
+        state: "present"
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    - name: TEST Centos
+      remote_user: "{{ username }}"
+      yum:
+        name: "*"
+        state: latest
+      when: ansible_os_family == "RedHat"
+    - name: TEST Ubuntu
+      remote_user: "{{ username }}"
+      apt:
+        name: "*"
+        state: latest
+      when: ansible_os_family == "Debian"

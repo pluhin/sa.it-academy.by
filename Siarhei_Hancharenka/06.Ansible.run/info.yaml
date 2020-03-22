@@ -1,0 +1,10 @@
+---
+- hosts: "{{ group }}"
+  tasks:
+    - name: Display parameters form remote host
+      debug:
+        msg:
+          - "OS: {{ ansible_distribution }} {{ ansible_distribution_version }}"
+          - "Mounts:"
+          - "{% for item in ansible_mounts %}  {{ item.mount }} | Total size: {{ item.size_total }} | Available size: {{ item.size_available }}{% endfor %}"
+          - "RAM total: {{ ansible_memtotal_mb }} | RAM free: {{ ansible_memfree_mb }}"
