@@ -1,5 +1,5 @@
 ---
-- hosts: nginx
+- hosts: nginx_on_aws
   become: yes
   pre_tasks:
   - name: Ping
