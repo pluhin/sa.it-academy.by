@@ -6,7 +6,7 @@
         return_content: no
       register: result
       failed_when: result.status != 200
-    - name: 
+    - name:
       debug:
         msg: "OK {{ inner_var.name }}"
     - name: Send OK massage to telegram

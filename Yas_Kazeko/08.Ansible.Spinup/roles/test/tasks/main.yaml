@@ -1,27 +1,28 @@
 ---
-- name: Vincent, we happy? ()
+- name: Vincent, we happy?
   shell:
-    cmd: sudo -l  -U "{{ ansible_user }}" 
+    cmd: sudo -l -U "{{ ansible_user }}"
   register: result
-- name: 
+  tags: never
+- name:
   block:
     - name: Answer
       debug:
         msg: " Yeah we happy. {{ ansible_user }} has sudo"
       when: '"NOPASSWD" in result.stdout'
-  rescue:    
+  rescue:
     - debug:
         msg: "{{ ansible_user }} does not have sudo"
-
+  tags: never
 - name:
   include_tasks: check_url.yaml
   loop: "{{ repo_urls }}"
   loop_control:
-    loop_var: inner_var 
+    loop_var: inner_var
 
 - name: set_fact
   set_fact:
-    load_RAM: "{{ (ansible_memtotal_mb - ansible_memfree_mb) / ansible_memtotal_mb * 100 }}"
+    load_RAM: "{{ (ansible_memtotal_mb - ansible_memfree_mb)/ ansible_memtotal_mb * 100 }}"
     load_HDD: "{{ ansible_mounts[0].size_available / ansible_mounts[0].size_total * 100 }}"
 
 - name:
@@ -31,7 +32,6 @@
         that: load_RAM <= ram_usage_threshold
         fail_msg: "load limit exceeded"
         success_msg: "normal memory usage"
-        
   rescue:
     - name: Send check message to telegram
       telegram:
@@ -46,11 +46,10 @@
         that: load_HDD <= hdd_usage_threshold
         fail_msg: "load limit exceeded"
         success_msg: "normal HDD usage"
-        
+
   rescue:
     - name: Send check message to telegram
       telegram:
         token: "{{ telegram_token }}"
         msg:  "Check HDD Fail, HDD load {{ load_HDD | int }} %"
         chat_id: 391210832
-        
