@@ -1,0 +1,9 @@
+---
+- hosts: center
+  become: yes
+  pre_tasks:
+  - name: Ping
+    ping:
+  roles:
+  - test
+ # - { role: move_logs, tags: ["relocate_logs"], become: true, var_01: 42 }
