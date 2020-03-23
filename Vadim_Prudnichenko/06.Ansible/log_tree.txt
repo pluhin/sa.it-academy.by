@@ -1,0 +1,50 @@
+.
+├── ansible.cfg
+├── group_vars
+│   ├── centos
+│   ├── ubuntu
+│   └── workshop
+├── hosts_update.yml
+├── inventory
+├── os_info.yml
+├── ping.yml
+├── roles
+│   ├── ssh
+│   │   ├── README.md
+│   │   ├── defaults
+│   │   │   └── main.yml
+│   │   ├── files
+│   │   │   └── user.pub
+│   │   ├── handlers
+│   │   │   └── main.yml
+│   │   ├── meta
+│   │   │   └── main.yml
+│   │   ├── tasks
+│   │   │   └── main.yml
+│   │   ├── templates
+│   │   ├── tests
+│   │   │   ├── inventory
+│   │   │   └── test.yml
+│   │   └── vars
+│   │       ├── deleteusers.yml
+│   │       └── users.yml
+│   └── web
+│       ├── README.md
+│       ├── defaults
+│       │   └── main.yml
+│       ├── files
+│       ├── handlers
+│       │   └── main.yml
+│       ├── meta
+│       │   └── main.yml
+│       ├── tasks
+│       │   └── main.yml
+│       ├── templates
+│       ├── tests
+│       │   ├── inventory
+│       │   └── test.yml
+│       └── vars
+│           └── main.yml
+└── ssh.yml
+
+20 directories, 27 files

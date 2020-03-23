@@ -1,6 +1,8 @@
 ---
-# preset steps.
-- name: install utils
+
+# Preset steps. Nginx installation according to the instructions on the official website.
+- name: install utils for Deb
+
   apt:
     name:
     - curl
@@ -8,25 +10,30 @@
     - ca-certificates
     - lsb-release
     state: present
-# To set up the apt repository for stable nginx packages
-- name: 
-  script: preset_script.sh
-    
 
-- name: remove the Apache package
+
+# To set up the apt repository for stable nginx packages
+- name: run preset script for install nginx repository
+  script: preset_script.sh
+
+- name: apt remove the Apache package
+
   apt:
     name: apache2
     state: absent
 
 # Install nginx
-- name: nginx. Install packages.
+
+- name: apt nginx. Install packages.
+
   apt:
     name: "{{ apt_nginx_packages }}"
     state: present
     update_cache: yes
+
 # Enable and start nginx 
-- name: nginx. Enable and start service
+- name: Deb nginx. Enable and start service
   service:
     name: nginx
-    state: started
+
     enabled: yes
