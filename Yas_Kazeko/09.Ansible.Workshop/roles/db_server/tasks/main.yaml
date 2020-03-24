@@ -35,7 +35,7 @@
     dest: "{{ app_home }}"
     version: '{{ app_version }}'
     accept_hostkey: yes
-  tags: never
+
 - name: Redmine. Change permissions
   file:
     path: "{{ app_home }}/public"
@@ -80,8 +80,8 @@
     bundle exec rake redmine:plugins:migrate RAILS_ENV=production
     bundle install --without development test
     RAILS_ENV=production rake db:migrate
-    #RAILS_ENV=production REDMINE_LANG= '{{ app_lang }}' rake redmine:load_default_data
-    #bundle exec rails server webrick -e production
+    RAILS_ENV=production REDMINE_LANG= '{{ app_lang }}' rake redmine:load_default_data
+    bundle exec rails server webrick -e production
   args:
     chdir: "{{ app_home }}"
   tags:
@@ -102,9 +102,6 @@
   tags:
     - apache::setup
 
-- meta: flush_handlers
-  tags:
-    - apache::setup
 
 - name: "Add {{ app_fqdn }} to host file"
   shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
