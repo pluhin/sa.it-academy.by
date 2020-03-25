@@ -1,6 +1,9 @@
 ---
 - hosts: all
   become: true
+  vars_files:
+    - /vars/common_vars.yaml
+
   pre_tasks:
     - name: check host
       shell: |
@@ -9,5 +12,25 @@
     - name: show host
       debug:
         msg: "{{ out.stdout }}"
+
   roles:
+    - db_server
     - redmine
+    - web_sever
+
+  tasks:
+    - name: "Add {{ app_fqdn }} to host file"
+      shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
+
+    - name: Test content in start page
+      uri:
+        url: "http://{{ app_fqdn }}"
+        return_content: yes
+      register: this
+      failed_when: "'Jean-Philippe Lang' not in this.content"
+
+    - name:
+      lineinfile:
+        path: /etc/hosts
+        state: absent
+        regexp: '^127.0.0.1       {{ app_fqdn }}'
