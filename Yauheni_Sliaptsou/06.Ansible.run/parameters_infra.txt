@@ -1,0 +1,46 @@
+
+PLAY [infra] *****************************************************************************************************************
+
+TASK [Gathering Facts] *******************************************************************************************************
+ok: [bastion]
+ok: [host2]
+ok: [host1]
+
+TASK [Print OS/version] ******************************************************************************************************
+ok: [bastion] => {
+    "msg": "Debian/10"
+}
+ok: [host1] => {
+    "msg": "Debian/10"
+}
+ok: [host2] => {
+    "msg": "Debian/10"
+}
+
+TASK [Print mount point/capacity/used] ***************************************************************************************
+ok: [bastion] => {
+    "msg": " /boot | 240972 | 61864 "
+}
+ok: [host1] => {
+    "msg": " /boot | 240972 | 61863 "
+}
+ok: [host2] => {
+    "msg": " /boot | 240972 | 61864 "
+}
+
+TASK [Print RAM capacity/free] ***********************************************************************************************
+ok: [bastion] => {
+    "msg": "RAM capasity: 483 Mb, memory free: 53 Mb"
+}
+ok: [host1] => {
+    "msg": "RAM capasity: 483 Mb, memory free: 59 Mb"
+}
+ok: [host2] => {
+    "msg": "RAM capasity: 483 Mb, memory free: 60 Mb"
+}
+
+PLAY RECAP *******************************************************************************************************************
+bastion                    : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+host1                      : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+host2                      : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

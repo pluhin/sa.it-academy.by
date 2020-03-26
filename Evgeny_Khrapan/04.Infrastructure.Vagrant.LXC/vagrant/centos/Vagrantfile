@@ -1,0 +1,16 @@
+$script = <<-SCRIPT
+yum install vim wget curl git -y
+useradd -m -p vagrant updater
+echo "updater ALL=(ALL:ALL) NOPASSWD: ALL">>/etc/sudoers
+echo "----- DONE -----"
+SCRIPT
+Vagrant.configure("2") do |config|
+    config.vm.box = "bento/centos-8.1"
+    config.vm.network "public_network", ip: "192.168.100.241",  bridge: "wlp59s0"
+    config.vm.provider "virtualbox" do |vb|
+       vb.gui = false
+       vb.memory = "512"
+       vb.name = "centos-sa"
+    end
+   config.vm.provision "shell", inline: $script
+end
