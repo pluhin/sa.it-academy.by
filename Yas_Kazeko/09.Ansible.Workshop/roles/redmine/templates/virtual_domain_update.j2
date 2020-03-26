@@ -1,15 +1,13 @@
-{% if virtual_domain is defined %}
-{% for var in virtual_domain %}
     server {
-        listen       {{ var.ip }}:80;
-        server_name  {{ var.name }};
+        listen      127.0.0.1 :80;
+        server_name  {{ app_fqdn }};
 
         #charset koi8-r;
 
         #access_log  logs/host.access.log  main;
 
         location / {
-            root   {{ default_home }}{{ var.name }};
+            root   {{ app_home_update }}/public;
             index  index.html index.htm;
         }
 
@@ -45,5 +43,3 @@
         #    deny  all;
         #}
     }
-{% endfor %}
-{% endif %}

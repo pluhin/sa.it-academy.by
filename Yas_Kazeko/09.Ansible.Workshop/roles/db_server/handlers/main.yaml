@@ -4,8 +4,3 @@
     name: mysql
     state: restarted
     enabled: yes
-- name: restart apache
-  service:
-    name: apache2
-    state: restarted
-    enabled: yes

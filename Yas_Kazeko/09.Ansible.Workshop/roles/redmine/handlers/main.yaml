@@ -4,8 +4,8 @@
     name: mysql
     state: restarted
     enabled: yes
-- name: restart apache
+- name: restart nginx
   service:
-    name: apache2
+    name: nginx
     state: restarted
     enabled: yes

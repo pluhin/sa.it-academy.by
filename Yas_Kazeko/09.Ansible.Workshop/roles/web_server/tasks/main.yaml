@@ -6,22 +6,6 @@
   import_tasks: nginx_rhel.yaml
   when: ansible_os_family|lower == 'redhat'
 
-- name: remove old index.html file 
-  file:
-    path: "{{default_home}}{{ item.name }}/index.html"
-    state: absent
-  with_items: "{{ virtual_domain }}"
-
-- name: Copy new site files on server
-  copy:
-    src: "{{ item.name }}/index.html"
-    dest: "{{ default_home }}{{item.name}}/"
-    owner: nginx
-    group: nginx
-    mode: 0644
-    backup: yes
-  with_items: "{{ virtual_domain }}"
-
 - name: Template for creating common config file.  
   template: 
     src: "nginx.conf" 
@@ -30,35 +14,7 @@
     group: root 
     mode: 0644 
     backup: yes 
-
-- name: Jinja template for creating virtual domain config 
-  template: 
-    src: "virtual_domain.j2" 
-    dest: "/etc/nginx/conf.d/virtual_domain.conf" 
-    owner: root 
-    group: root 
-    mode: 0644 
-    backup: yes 
   notify:
-      - restart nginx       # added handler for reboot nginx
-
+    - restart nginx       # added handler for reboot nginx
 
 - meta: flush_handlers      # start handler before testing
-
-
-
-
-- name: Check connection to Localhost               # TEST site with call 80 port 
-  wait_for:
-    host: "localhost"
-    port: "80"
-    state: started
-    timeout: 3
-
-- name: Site content verification
-  uri:
-    url: "http://localhost"
-    return_content: yes  
-  register: this
-  failed_when: "'Deploy Nginx' not in this.content" 
-

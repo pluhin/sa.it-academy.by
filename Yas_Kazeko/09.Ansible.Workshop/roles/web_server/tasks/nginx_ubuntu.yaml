@@ -7,10 +7,28 @@
     name:
     - curl
     - gnupg2
+    - dirmngr
+    - apt-transport-https
     - ca-certificates
     - lsb-release
     state: present
 
+- name: install apt-key
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: 561F9B9CAC40B2F7
+
+- name: 
+  shell: 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list'
+  args:
+    executable: /bin/bash
+    
+- name:
+  apt:
+    update_cache: yes
+    name: 
+      - nginx-extras
+      - passenger
 
 # To set up the apt repository for stable nginx packages
 - name: run preset script for install nginx repository
