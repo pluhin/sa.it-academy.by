@@ -1,0 +1,73 @@
+---
+- name: Dump {{ app_db_name }}  databases to hostname.sql
+  mysql_db:
+    state: dump
+    name: "{{ app_db_name }}"
+    target: /tmp/dump_ '{{ app_db_name }}'.bz2
+
+- name: Redmine. Change permissions
+  file:
+    path: "{{ app_home_update }}/public"
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: Redmine. Change permissions
+  file:
+    path: "{{ app_home_update }}/tmp"
+    mode: '777'
+    recurse: yes
+
+- name: Config config/database.yml
+  copy: 
+    src: "{{ app_home}}/config/database.yml"
+    dest: "{{ app_home_update}}/config/database.yml"
+    remote_scr: yes
+
+- name: Config config/configuration.yml
+  copy: 
+    src: "{{ app_home}}/config/configuration.yml"
+    dest: "{{ app_home_update}}/config/configuration.yml"
+    remote_scr: yes
+
+- name: Redmine. Clone repository
+  git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_home_update }}"
+    version: '{{ app_version }}'
+    accept_hostkey: yes
+  tags: never
+
+
+- name: Redmine. Setup 01
+  shell: |
+    bundle update   
+  args:
+    executable: /bin/bash
+    chdir: "{{ app_home_update }}"
+
+- name: Session store secret generation
+  shell: rake generate_secret_token
+  args:
+   chdir: "{{ app_home_update }}"
+   creates: "{{ app_home_update }}/config/initializers/secret_token.rb"
+
+- name: Redmine. Install the required gems by running. Update the database
+  shell: | 
+    bundle install --without development test   
+    bundle exec rake db:migrate RAILS_ENV=production 
+    bundle exec rake redmine:plugins:migrate RAILS_ENV=production
+  args:
+    chdir: "{{ app_home_update }}"
+
+- name: Configuration files for virtualhost ??????????????????
+  template:
+    src: redmine.site.conf.j2
+    dest: "/etc/apache2/sites-enabled/redmine.site.conf"
+  notify:
+    - restart apache
+  tags: 
+    - setup
+
+
+- meta: flush_handlers

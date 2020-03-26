@@ -1,0 +1,11 @@
+app_db_host: "127.0.0.1"
+app_db_name: "redmine"
+app_db_user: "redmine"
+app_db_pass: "redmine"
+app_home: /opt/redmine "{{ app_version }}"
+app_home_update: /opt/redmone "{{ app_version_update }}"
+app_version: 4.0-stable
+app_version_update: 4.1-stable
+app_lang: "ru"
+app_fqdn: "redmine.example.com"
+
