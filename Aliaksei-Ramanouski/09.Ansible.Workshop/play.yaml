@@ -1,0 +1,58 @@
+---
+- hosts: all
+  become: true
+  gather_facts: no
+  vars:
+    apt_all_packages:
+    - git
+    - ruby-full
+    - build-essential 
+    - libmysqlclient-dev 
+    - imagemagick 
+    - libmagickwand-dev
+    - apache2 
+    - libapache2-mod-passenger
+    - mysql-server 
+    - mysql-client
+    - python-pymysql
+    - python-mysqldb
+    links_to_tests:
+    - {url: 127.0.0.1, port: 80}
+  pre_tasks:
+    - name: check host
+      shell: |
+        hostname
+      register: out
+    - name: Show host
+      debug:
+        msg: "{{ out.stdout }}"
+    - name: apt | update repository cache
+      apt: 
+        update_cache: yes
+    - name: Install packages
+      apt:
+        name: "{{ apt_all_packages }}"
+        state: latest
+  roles:
+    - role: sql
+      tags:
+        - install
+        - add
+        - db::config
+    - role: app
+      tags:
+        - clone
+        - permissions
+        - setup
+        - apache::setup
+    - role: slack
+  tasks:
+    - name: Connectivity checks
+      block:
+        - name: Check connection
+          wait_for:
+            host: "{{ item.url }}"
+            port: "{{ item.port }}"
+            timeout: 3
+          register: out
+          with_items: "{{ links_to_tests }}"
