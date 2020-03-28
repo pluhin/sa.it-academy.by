@@ -1,2 +1,2 @@
 ### 10.Jenkins.start
-  - Install nginx + certbot + jenkins + plagins
+  - Install nginx + jenkins + plugins
