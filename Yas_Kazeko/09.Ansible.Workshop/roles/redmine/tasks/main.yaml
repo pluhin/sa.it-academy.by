@@ -1,0 +1,17 @@
+---
+- name: apt | update repository cache
+  apt:
+    update_cache: yes
+  tags: setup
+- name: Redmine. Install packages
+  apt:
+    name: "{{ apt_redmine_packages }}"
+    state: latest
+
+- name: Install Redmine
+  import_tasks: install.yaml
+  tags: install
+
+- name: upgrade Redmine
+  import_tasks: update.yaml
+  tags: update
