@@ -1,0 +1,35 @@
+---
+- name: Remove apache if installed
+  yum:
+    name: apache2
+    state: absent
+
+- name: Enable nginx repo
+  template:
+    src: nginx.repo.j2
+    dest: /etc/yum.repos.d/nginx.repo
+    owner: root
+    group: root
+    mode: 0644
+  when: nginx_yum_repo_enabled | bool
+
+- name: Install soft for RedHat
+  yum:
+    name:
+    - curl
+    - git
+    - mc
+    - ca-certificates
+    - php
+    - php-fpm
+
+- name: Ensure nginx is installed
+  package:
+    name: nginx
+    state: present
+
+- name: Start nginx service
+  service:
+    name: nginx
+    state: started
+    enabled: yes

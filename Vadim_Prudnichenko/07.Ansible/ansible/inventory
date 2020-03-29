@@ -1,0 +1,14 @@
+[hosts:children]
+centos
+ubuntu
+
+[centos]
+centos_01		ansible_host=192.168.203.25
+centos_02		ansible_host=192.168.203.27
+
+[ubuntu]
+ubuntu_01		ansible_host=192.168.203.26
+ubuntu_02		ansible_host=192.168.203.28
+
+[workshop]
+host_01			ansible_host=192.168.31.16
