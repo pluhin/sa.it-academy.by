@@ -4,8 +4,10 @@
     name: mysql
     state: restarted
     enabled: yes
+
 - name: restart nginx
   service:
     name: nginx
+
     state: restarted
     enabled: yes

@@ -4,8 +4,10 @@
     state: dump
     name: "{{ app_db_name }}"
     target: /tmp/dump_ '{{ app_db_name }}'.bz2
+
   tags:
     - update
+
 
 - name: Redmine. Change permissions
   file:
@@ -13,32 +15,40 @@
     owner: www-data
     group: www-data
     recurse: yes
+
   tags:
     - update
+
 
 - name: Redmine. Change permissions
   file:
     path: "{{ app_home_update }}/tmp"
     mode: '777'
     recurse: yes
+
   tags:
     - update
+
 
 - name: Config config/database.yml
   copy: 
     src: "{{ app_home}}/config/database.yml"
     dest: "{{ app_home_update}}/config/database.yml"
     remote_scr: yes
+
   tags:
     - update
+
 
 - name: Config config/configuration.yml
   copy: 
     src: "{{ app_home}}/config/configuration.yml"
     dest: "{{ app_home_update}}/config/configuration.yml"
     remote_scr: yes
+
   tags:
     - update
+
 
 - name: Redmine. Clone repository
   git:
@@ -47,8 +57,10 @@
     version: '{{ app_version }}'
     accept_hostkey: yes
   tags: never
+
   tags:
     - update
+
 
 - name: Redmine. Setup 01
   shell: |
@@ -56,8 +68,10 @@
   args:
     executable: /bin/bash
     chdir: "{{ app_home_update }}"
+
   tags:
     - update
+
 
 - name: Session store secret generation
   shell: rake generate_secret_token
@@ -66,6 +80,7 @@
    creates: "{{ app_home_update }}/config/initializers/secret_token.rb"
   tags:
     - update
+
 
 - name: Redmine. Install the required gems by running. Update the database
   shell: | 
@@ -92,5 +107,6 @@
     - restart nginx
   tags:
     - update
+
 
 - meta: flush_handlers

@@ -3,3 +3,4 @@ apt_packages:
   - mysql-client
   - python-pymysql
   - python-mysqldb
+

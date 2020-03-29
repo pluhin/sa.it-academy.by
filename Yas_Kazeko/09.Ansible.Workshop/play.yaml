@@ -1,10 +1,12 @@
 ---
 - hosts: all
   become: true
+
   vars:
     - install_type: setup
   vars_files:
     - ./vars/common_vars.yaml
+
 
   pre_tasks:
     - name: check host
@@ -16,9 +18,11 @@
         msg: "{{ out.stdout }}"
 
   roles:
+
     - web_server
     - db_server
     - redmine
+
   tasks:
     - name: "Add {{ app_fqdn }} to host file"
       shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
