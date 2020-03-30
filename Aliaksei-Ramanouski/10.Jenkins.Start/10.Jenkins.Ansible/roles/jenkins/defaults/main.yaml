@@ -1,0 +1,4 @@
+---
+repo_jenkins: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+import_key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+

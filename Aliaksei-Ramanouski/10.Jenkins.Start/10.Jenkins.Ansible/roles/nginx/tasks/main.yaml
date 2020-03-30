@@ -1,0 +1,40 @@
+---
+- name: Nginx install CentOS
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+- name: Nginx. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+
+- name: jenkins config file for nginx
+  template: >
+    src=jenkins.nginx.j2
+    dest=/etc/nginx/nginx.conf
+    owner=root
+    group=root
+    mode=0644
+  notify: reload nginx
+
+- name: Chek connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: Check content to the sites
+  uri:
+    url: http://test.jenkins.com
+    return_content: yes
+  register: this
+  failed_when: "'Authentication required' not in this.content"
