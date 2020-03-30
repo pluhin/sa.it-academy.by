@@ -6,7 +6,6 @@
   import_tasks: nginx_rhel.yaml
   when: ansible_os_family|lower == 'redhat'
 
-
 - name: Template for creating common config file.  
   template: 
     src: "nginx.conf" 
@@ -15,8 +14,7 @@
     group: root 
     mode: 0644 
     backup: yes 
-  notify:
-    - restart nginx       # added handler for reboot nginx
+  #notify:
+  #  - restart nginx       # added handler for reboot nginx
 
-- meta: flush_handlers      # start handler before testing
-
+#- meta: flush_handlers      # start handler before testing

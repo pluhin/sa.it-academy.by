@@ -1,0 +1,82 @@
+---
+- name: install java, utils
+  yum:
+    name: "{{ app_install }}"
+    state: latest
+
+- name: install repo
+  yum_repository:
+    name: jenkins
+    description: EPEL YUM repo
+    baseurl: "{{ url_repo }}"
+
+- name: install key
+  rpm_key:
+    state: present
+    key: "{{ jenkins_key }}"
+
+- name: upgrade after install repo and key
+  yum:
+    name: '*'
+    state: latest
+
+- name: install jenkins
+  yum:
+    name: jenkins
+    state: latest
+    disable_gpg_check: yes
+
+- name: usermod /bin/bash for user jenkins
+  user:
+      name: "{{ jenkins_user }}"
+      shell: /bin/bash
+      append: yes
+- name: create .ssh directory
+  file:
+    path: "{{ user_home }}/.ssh/"
+    owner: "{{ jenkins_user }}"
+    state: directory
+    mode: '0644'
+
+- name: copy from vault privet key
+  copy:
+    src: id_rsa
+    dest: "{{ user_home }}/.ssh/id_rsa"
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
+    mode: '0600'
+    decrypt: yes
+
+- name: copy from vault pub key
+  copy:
+    src: id_rsa.pub
+    dest: "{{ user_home }}/.ssh/id_rsa.pub"
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
+    mode: '0644'
+    decrypt: yes
+
+- name: copy template for nginx
+  template:
+    src: virtual_domain.j2
+    dest: "/etc/nginx/conf.d/virtual_domain.conf"
+    backup: yes
+  notify:
+    - restart nginx
+
+- name: startup Jenkins
+  become: true
+  systemd:
+    name: jenkins
+    state: started
+    enabled: true
+  notify:
+    - restart jenkins
+    - restart nginx
+
+- name: display jenkins activation code
+  command: "cat /var/lib/jenkins/secrets/initialAdminPassword"
+  register: output
+
+- debug:
+    msg: "{{ output.stdout }}"

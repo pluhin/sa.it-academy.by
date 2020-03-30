@@ -1,13 +1,11 @@
----
-- name: restart mysql
+- name: restart jenkins
+  become: true
   service:
-    name: mysql
+    name: jenkins
     state: restarted
-    enabled: yes
 
 - name: restart nginx
+  become: true
   service:
     name: nginx
-
     state: restarted
-    enabled: yes
