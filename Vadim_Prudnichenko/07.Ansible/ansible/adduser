@@ -1,7 +1,0 @@
----
-- name: Run role adduser
-  hosts: hosts
-  become: yes
-  gather_facts: yes
-  roles:
-    - { role: adduser }
