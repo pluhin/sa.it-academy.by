@@ -1,0 +1,10 @@
+---
+- name: Send notification
+  slack:
+    token: "{{ slack_token }}"  
+    msg: "{{ message }}"
+    channel: "#ansible-notification"
+    username: "manlyx10101"
+    color: "good"
+    icon_url: https://www.ansible.com/favicon.ico
+    parse: "full"

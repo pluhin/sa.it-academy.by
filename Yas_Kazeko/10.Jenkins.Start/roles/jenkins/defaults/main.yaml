@@ -1,0 +1,12 @@
+jenkins_user: jenkins
+user_home: ~
+app_install:
+  - java
+  - deltarpm
+  - vim
+  - git
+url_repo: "http://pkg.jenkins-ci.org/redhat/jenkins.repo"
+jenkins_key: "https://jenkins-ci.org/redhat/jenkins-ci.org.key"
+
+
+

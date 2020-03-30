@@ -10,8 +10,10 @@
 
 - name: Install Redmine
   import_tasks: install.yaml
-  tags: install
+
+  when: install_type == "setup"
 
 - name: upgrade Redmine
   import_tasks: update.yaml
-  tags: update
+  when: install_type == "update"
+
