@@ -1,0 +1,38 @@
+---
+- name: Include deploy for all systems
+  include: packages.yaml
+
+- name: Include deploy webserver configs
+  include: set_config.yaml
+
+- name: Remove Index file
+  file:
+    path: "{{ default_home }}{{ item.name }}/index.html"
+    state: absent
+  loop: "{{ virtual_hosts }}"
+
+- name: Add Index file
+  copy:
+    src: index.html
+    dest: "{{ default_home }}{{ item.name }}"
+  loop: "{{ virtual_hosts }}"
+
+- name: Check connection to localhost
+  wait_for:
+    host: "localhost"
+    port: "{{ item.port }}"
+    state: started
+    timeout: 3
+  loop: "{{ virtual_hosts }}"
+#  register: out
+
+#- debug:
+#    msg: "{{ out }}"
+
+- name: Check content to the sites
+  uri:
+    url: "http://localhost:{{ item.port }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'<title>TEST</title>' not in this.content"
