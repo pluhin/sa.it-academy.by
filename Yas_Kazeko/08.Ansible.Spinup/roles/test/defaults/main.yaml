@@ -1,5 +1,4 @@
 ---
-
 repo_urls:
   - {name: "Debian repo", url: "http://ftp.by.debian.org/debian/dists/buster-updates/main/Contents-source.gz"}
   - {name: "Centos repo", url: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm"}
