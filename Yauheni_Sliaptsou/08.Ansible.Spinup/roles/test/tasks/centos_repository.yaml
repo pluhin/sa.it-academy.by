@@ -1,18 +1,10 @@
 ---
-- name: Check Centos repo
+- name: Check CentOS repository
   block:
-    - name: Centos repo
+    - name: CentOS repository
       uri:
         url: "{{ item }}"
         return_content: no
       register: out_uri
       with_items: "{{ centos_repository }}"
       failed_when: out_uri.status != 200
-#  rescue:
-#    - name: Send notofication to Slack
-#      slack:
-#        token: TFBPBNB2L/BTQ4WV8P3/Yq8fc1FORDH7YrtGijv7Cw
-#        msg: "Centos repo check FAILED"
-#        channel: "sa_notifications"
-#        username: "incoming-webhook"
-#        parse: "full"
