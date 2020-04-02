@@ -1,0 +1,7 @@
+---
+- name: Run role nginx
+  hosts: hosts
+  become: yes
+  gather_facts: yes
+  roles:
+    - { role: nginx }
