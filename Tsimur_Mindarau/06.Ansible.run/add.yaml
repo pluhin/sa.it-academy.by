@@ -1,0 +1,26 @@
+---
+- hosts: "{{ group }}"
+  become: true
+  tasks:
+    - name: Create user "ansible_test"
+      user:
+        name:  ansible_test
+        state: present
+    - name: Add ssh key from ansible host to ansible user
+      authorized_key:
+        user: ansible_test
+        state: present
+        key: "{{ lookup('file','~/.ssh/id_rsa.pub') }}"
+    - name: Get passwordless privileges
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^ansible_test'
+        line: "ansible_test ALL=(ALL) NOPASSWD: ALL"
+    - name: Test update capability
+      shell: su - ansible_test -c "sudo yum -y update"
+      when: ansible_distribution == "CentOS"
+
+    - name: Test update capability 2
+      shell: su - ansible_test -c "sudo apt-get update"
+      when: ansible_distribution == "Ubuntu"
