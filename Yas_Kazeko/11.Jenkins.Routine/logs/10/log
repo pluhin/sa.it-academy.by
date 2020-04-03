@@ -1,8 +1,8 @@
-Started by user [8mha:////4NKA60RGBibiP9BSuCCw1Gc2xcaXm8tTnsZOAdO633M8AAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAyuEgZu/dLi1CL9xJTczDwAEmIUecAAAAA=[0mKazeko Yas
+Started by user Kazeko Yas
 Running as SYSTEM
 Building on master in workspace /var/lib/jenkins/workspace/11.Jenkins.Routine/10.start
 [10.start] $ /bin/bash /tmp/jenkins2339380898761171061.sh
 Username: jenkins, host ip: 192.168.203.15
-242M	/var/lib/jenkins
-Triggering a new build of [8mha:////4Dhqlpw6msQSnmtQRp7xPnb5coGHFUofop2ZVHw6+9TcAAAAtR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAyVEgYd/az8JH1DQz2v1LzszLxivaD80pLMvFSwsJGBnmdecUliTk58Xm5igT4AtBaMf+EAAAA=[0m11.Jenkins.Routine ? 20.Install_nmap
+242M  /var/lib/jenkins
+Triggering a new build of 11.Jenkins.Routine ? 20.Install_nmap
 Finished: SUCCESS
