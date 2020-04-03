@@ -1,0 +1,10 @@
+pipeline {
+    agent 13
+    stages {
+        stage (){
+            steps{
+                sh "pwd"
+            }
+        }
+    }
+}
