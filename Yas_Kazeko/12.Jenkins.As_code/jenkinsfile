@@ -1,10 +1,80 @@
 pipeline {
-    agent 13
+    agent {
+    	label '13'
+    }
+    environment {
+        BRANCH = "branch_01"
+    }
+    triggers{ 
+        cron('H 02 * * 0') 
+    }
     stages {
-        stage (){
-            steps{
-                sh "pwd"
+        stage('Config git') { 
+            steps { 
+                    sh """
+                        git config user.name "yaskazeko"
+                        git config user.email "yaskazeko@gmail.com"    
+                       """
+            }
+        } 
+        stage('Clone repository') { 
+            steps { 
+                    deleteDir()
+                    git url: 'git@github.com:yaskazeko/12.Jenkins.As_code.git'
             }
         }
+        stage('Create new branch') { 
+            steps { 
+                    sh """
+
+                        git config --global push.default simple
+                        git checkout -b $BRANCH
+                    """
+            }
+        }
+        stage('Install nmap && check online hosts'){
+        	steps {
+        	        sh """
+        				sudo yum install -y nmap
+        				sudo nmap -sP 192.168.203.0/26 > nmap_online_hosts
+                        date >> nmap_online_hosts
+        			"""
+        	}
+        }
+        stage('Install speedtest'){
+        	steps {
+        			sh """
+                        sudo yum install wget
+                        wget https://bintray.com/ookla/rhel/rpm -O bintray-ookla-rhel.repo
+                        sudo mv bintray-ookla-rhel.repo /etc/yum.repos.d/
+                        sudo yum install speedtest
+        			"""
+        	}
+        }
+        stage('Check speedtest'){
+        	steps {
+        			sh """
+        			speedtest --accept-license > check_speedtest
+                    date >> check_speedtest
+        			"""
+        	}
+        }
+        stage('Git push'){
+        	steps {
+        	        sh """
+        	            git add --all
+        				git commit -m "Push in repo"
+        				git push -u -f origin $BRANCH
+        			"""
+        	}
+        }
     }
+        post {
+            success {
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+            failure {
+                slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }
 }
