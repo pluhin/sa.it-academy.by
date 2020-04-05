@@ -1,0 +1,24 @@
+---
+- name: Installing aptitude
+  become: True
+  shell: |
+    apt update
+    apt-get install -y aptitude
+
+- name: Update and upgrade packages
+  become: True
+  apt:
+    upgrade: 'True'
+    update_cache: 'True'
+    cache_valid_time: 86400
+
+- name: Installing nginx
+  apt:
+    name: "{{ apt_nginx_packages }}"
+    state: present
+
+- name: Enable and start nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
