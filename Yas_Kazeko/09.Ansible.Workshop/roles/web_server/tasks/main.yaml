@@ -1,0 +1,22 @@
+---
+- name: Include deploy for Debian systems
+  import_tasks: nginx_ubuntu.yaml
+  when: ansible_os_family|lower == 'debian'
+- name: Include deploy for RHEL systems
+  import_tasks: nginx_rhel.yaml
+  when: ansible_os_family|lower == 'redhat'
+
+
+- name: Template for creating common config file.  
+  template: 
+    src: "nginx.conf" 
+    dest: "/etc/nginx/nginx.conf" 
+    owner: root 
+    group: root 
+    mode: 0644 
+    backup: yes 
+  notify:
+    - restart nginx       # added handler for reboot nginx
+
+- meta: flush_handlers      # start handler before testing
+

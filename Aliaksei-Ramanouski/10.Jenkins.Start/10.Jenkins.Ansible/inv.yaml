@@ -1,0 +1,11 @@
+---
+all_hosts:
+  vars:
+    ansible_user: root
+    site_ub01: "test.jenkins.com"
+    virtual_hosts:
+      - { name: "{{ site_ub01 }}", ip: "{{ hostvars[\"jenkins\"].ansible_host }}"}
+  hosts:
+    jenkins:
+      ansible_user: root
+      ansible_host: 192.168.203.45

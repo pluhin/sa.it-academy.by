@@ -1,0 +1,407 @@
+--> Test matrix
+    
+└── default
+    ├── dependency
+    ├── lint
+    ├── cleanup
+    ├── destroy
+    ├── syntax
+    ├── create
+    ├── prepare
+    ├── converge
+    ├── idempotence
+    ├── side_effect
+    ├── verify
+    ├── cleanup
+    └── destroy
+    
+--> Scenario: 'default'
+--> Action: 'dependency'
+Skipping, missing the requirements file.
+--> Scenario: 'default'
+--> Action: 'lint'
+--> Executing: yamllint .
+ansible-lint
+flake8
+./defaults/main.yaml
+  4:81      error    line too long (110 > 80 characters)  (line-length)
+  5:81      error    line too long (104 > 80 characters)  (line-length)
+  6:81      error    line too long (189 > 80 characters)  (line-length)
+  6:189     error    trailing spaces  (trailing-spaces)
+
+./tasks/main_.yaml
+  4:42      error    trailing spaces  (trailing-spaces)
+  7:8       error    trailing spaces  (trailing-spaces)
+  13:10     error    trailing spaces  (trailing-spaces)
+  21:24     error    trailing spaces  (trailing-spaces)
+  25:81     error    line too long (92 > 80 characters)  (line-length)
+  26:81     error    line too long (91 > 80 characters)  (line-length)
+  35:1      error    trailing spaces  (trailing-spaces)
+  50:1      error    trailing spaces  (trailing-spaces)
+  57:1      error    trailing spaces  (trailing-spaces)
+
+./tasks/check_url.yaml
+  6:25      warning  truthy value should be one of [false, true]  (truthy)
+  9:12      error    trailing spaces  (trailing-spaces)
+
+./tasks/main.yaml
+  4:42      error    trailing spaces  (trailing-spaces)
+  7:8       error    trailing spaces  (trailing-spaces)
+  13:10     error    trailing spaces  (trailing-spaces)
+  21:24     error    trailing spaces  (trailing-spaces)
+  25:81     error    line too long (92 > 80 characters)  (line-length)
+  26:81     error    line too long (91 > 80 characters)  (line-length)
+  35:1      error    trailing spaces  (trailing-spaces)
+  51:1      error    trailing spaces  (trailing-spaces)
+  59:1      error    trailing spaces  (trailing-spaces)
+
+./molecule/default/molecule.yml
+  16:20     error    trailing spaces  (trailing-spaces)
+  21:1      error    too many blank lines (1 > 0)  (empty-lines)
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/check_url.yaml:9
+    - name: 
+
+301 Commands should not change things if nothing needs doing
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main.yaml:2
+Task/Handler: Vincent, we happy? ()
+
+305 Use shell only when shell functionality is required
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main.yaml:2
+Task/Handler: Vincent, we happy? ()
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main.yaml:4
+    cmd: sudo -l  -U "{{ ansible_user }}" 
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main.yaml:7
+- name: 
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main.yaml:13
+  rescue:    
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main.yaml:21
+    loop_var: inner_var 
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main.yaml:35
+        
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main.yaml:51
+        
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main.yaml:59
+ 
+
+301 Commands should not change things if nothing needs doing
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main_.yaml:2
+Task/Handler: Vincent, we happy? ()
+
+305 Use shell only when shell functionality is required
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main_.yaml:2
+Task/Handler: Vincent, we happy? ()
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main_.yaml:4
+    cmd: sudo -l  -U "{{ ansible_user }}" 
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main_.yaml:7
+- name: 
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main_.yaml:13
+  rescue:    
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main_.yaml:21
+    loop_var: inner_var 
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main_.yaml:35
+        
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main_.yaml:50
+        
+
+201 Trailing whitespace
+/home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/main_.yaml:57
+        
+
+--> Scenario: 'default'
+--> Action: 'cleanup'
+Skipping, cleanup playbook not configured.
+--> Scenario: 'default'
+--> Action: 'destroy'
+--> Sanity checks: 'docker'
+    
+    PLAY [Destroy] *****************************************************************
+    
+    TASK [Destroy molecule instance(s)] ********************************************
+    changed: [localhost] => (item=instance)
+    changed: [localhost] => (item=instance2)
+    changed: [localhost] => (item=instance3)
+    
+    TASK [Wait for instance(s) deletion to complete] *******************************
+    ok: [localhost] => (item=None)
+    ok: [localhost] => (item=None)
+    ok: [localhost] => (item=None)
+    ok: [localhost]
+    
+    TASK [Delete docker network(s)] ************************************************
+    
+    PLAY RECAP *********************************************************************
+    localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+    
+--> Scenario: 'default'
+--> Action: 'syntax'
+    
+    playbook: /home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/molecule/default/converge.yml
+--> Scenario: 'default'
+--> Action: 'create'
+    
+    PLAY [Create] ******************************************************************
+    
+    TASK [Log into a Docker registry] **********************************************
+    skipping: [localhost] => (item=None) 
+    skipping: [localhost] => (item=None) 
+    skipping: [localhost] => (item=None) 
+    
+    TASK [Check presence of custom Dockerfiles] ************************************
+    ok: [localhost] => (item=None)
+    ok: [localhost] => (item=None)
+    ok: [localhost] => (item=None)
+    ok: [localhost]
+    
+    TASK [Create Dockerfiles from image names] *************************************
+    changed: [localhost] => (item=None)
+    changed: [localhost] => (item=None)
+    changed: [localhost] => (item=None)
+    changed: [localhost]
+    
+    TASK [Discover local Docker images] ********************************************
+    ok: [localhost] => (item=None)
+    ok: [localhost] => (item=None)
+    ok: [localhost] => (item=None)
+    ok: [localhost]
+    
+    TASK [Build an Ansible compatible image (new)] *********************************
+    ok: [localhost] => (item=molecule_local/centos:7)
+    ok: [localhost] => (item=molecule_local/debian:10)
+    ok: [localhost] => (item=molecule_local/alpine:3)
+    
+    TASK [Create docker network(s)] ************************************************
+    
+    TASK [Determine the CMD directives] ********************************************
+    ok: [localhost] => (item=None)
+    ok: [localhost] => (item=None)
+    ok: [localhost] => (item=None)
+    ok: [localhost]
+    
+    TASK [Create molecule instance(s)] *********************************************
+    changed: [localhost] => (item=instance)
+    changed: [localhost] => (item=instance2)
+    changed: [localhost] => (item=instance3)
+    
+    TASK [Wait for instance(s) creation to complete] *******************************
+    changed: [localhost] => (item=None)
+    changed: [localhost] => (item=None)
+    FAILED - RETRYING: Wait for instance(s) creation to complete (300 retries left).
+    changed: [localhost] => (item=None)
+    changed: [localhost]
+    
+    PLAY RECAP *********************************************************************
+    localhost                  : ok=7    changed=3    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+    
+--> Scenario: 'default'
+--> Action: 'prepare'
+Skipping, prepare playbook not configured.
+--> Scenario: 'default'
+--> Action: 'converge'
+    
+    PLAY [Converge] ****************************************************************
+    
+    TASK [Gathering Facts] *********************************************************
+    ok: [instance3]
+    ok: [instance2]
+    ok: [instance]
+    
+    TASK [Include test] ************************************************************
+    
+    TASK [test : include_tasks] ****************************************************
+    included: /home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/check_url.yaml for instance, instance2, instance3
+    included: /home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/check_url.yaml for instance, instance2, instance3
+    included: /home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/check_url.yaml for instance, instance2, instance3
+    included: /home/yaskazeko/project/sa.it-academy.by/Yas_Kazeko/08.Ansible.Spinup/roles/test/tasks/check_url.yaml for instance, instance2, instance3
+    
+    TASK [test : test tepos in loop] ***********************************************
+    ok: [instance2]
+    ok: [instance]
+    ok: [instance3]
+    
+    TASK [test : debug] ************************************************************
+    ok: [instance] => {
+        "msg": "OK Debian repo"
+    }
+    ok: [instance2] => {
+        "msg": "OK Debian repo"
+    }
+    ok: [instance3] => {
+        "msg": "OK Debian repo"
+    }
+    
+    TASK [test : test tepos in loop] ***********************************************
+    ok: [instance2]
+    ok: [instance]
+    ok: [instance3]
+    
+    TASK [test : debug] ************************************************************
+    ok: [instance] => {
+        "msg": "OK Centos repo"
+    }
+    ok: [instance2] => {
+        "msg": "OK Centos repo"
+    }
+    ok: [instance3] => {
+        "msg": "OK Centos repo"
+    }
+    
+    TASK [test : test tepos in loop] ***********************************************
+    ok: [instance3]
+    ok: [instance]
+    ok: [instance2]
+    
+    TASK [test : debug] ************************************************************
+    ok: [instance] => {
+        "msg": "OK PIP repo"
+    }
+    ok: [instance2] => {
+        "msg": "OK PIP repo"
+    }
+    ok: [instance3] => {
+        "msg": "OK PIP repo"
+    }
+    
+    TASK [test : test tepos in loop] ***********************************************
+    ok: [instance2]
+    ok: [instance]
+    ok: [instance3]
+    
+    TASK [test : debug] ************************************************************
+    ok: [instance] => {
+        "msg": "OK Docker repo"
+    }
+    ok: [instance2] => {
+        "msg": "OK Docker repo"
+    }
+    ok: [instance3] => {
+        "msg": "OK Docker repo"
+    }
+    
+    TASK [test : set_fact] *********************************************************
+    ok: [instance]
+    ok: [instance2]
+    ok: [instance3]
+    
+    TASK [test : Check RAM] ********************************************************
+    ok: [instance] => {
+        "changed": false,
+        "msg": "normal memory usage"
+    }
+    ok: [instance2] => {
+        "changed": false,
+        "msg": "normal memory usage"
+    }
+    ok: [instance3] => {
+        "changed": false,
+        "msg": "normal memory usage"
+    }
+    
+    TASK [test : CHECK HDD] ********************************************************
+    ok: [instance] => {
+        "changed": false,
+        "msg": "normal HDD usage"
+    }
+    ok: [instance3] => {
+        "changed": false,
+        "msg": "normal HDD usage"
+    }
+    ok: [instance2] => {
+        "changed": false,
+        "msg": "normal HDD usage"
+    }
+    
+    PLAY RECAP *********************************************************************
+    instance                   : ok=16   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+    instance2                  : ok=16   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+    instance3                  : ok=16   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+    
+--> Scenario: 'default'
+--> Action: 'idempotence'
+Idempotence completed successfully.
+--> Scenario: 'default'
+--> Action: 'side_effect'
+Skipping, side effect playbook not configured.
+--> Scenario: 'default'
+--> Action: 'verify'
+--> Running Ansible Verifier
+    
+    PLAY [Verify] ******************************************************************
+    
+    TASK [Gathering Facts] *********************************************************
+    ok: [instance2]
+    ok: [instance3]
+    ok: [instance]
+    
+    TASK [Example assertion] *******************************************************
+    ok: [instance2] => {
+        "changed": false,
+        "msg": "All assertions passed"
+    }
+    ok: [instance3] => {
+        "changed": false,
+        "msg": "All assertions passed"
+    }
+    ok: [instance] => {
+        "changed": false,
+        "msg": "All assertions passed"
+    }
+    
+    PLAY RECAP *********************************************************************
+    instance                   : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+    instance2                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+    instance3                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+    
+Verifier completed successfully.
+--> Scenario: 'default'
+--> Action: 'cleanup'
+Skipping, cleanup playbook not configured.
+--> Scenario: 'default'
+--> Action: 'destroy'
+    
+    PLAY [Destroy] *****************************************************************
+    
+    TASK [Destroy molecule instance(s)] ********************************************
+    changed: [localhost] => (item=instance)
+    changed: [localhost] => (item=instance2)
+    changed: [localhost] => (item=instance3)
+    
+    TASK [Wait for instance(s) deletion to complete] *******************************
+    changed: [localhost] => (item=None)
+    changed: [localhost] => (item=None)
+    changed: [localhost] => (item=None)
+    changed: [localhost]
+    
+    TASK [Delete docker network(s)] ************************************************
+    
+    PLAY RECAP *********************************************************************
+    localhost                  : ok=2    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+    
+--> Pruning extra files from scenario ephemeral directory

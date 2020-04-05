@@ -1,0 +1,16 @@
+Started by upstream project "[8mha:////4KPby3gPD6/8QGUmcFwp+gzcIBNUx8qnaZmRZUHKHSQmAAAArR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzpEgZV/az8JH1DQz2v1LzszLxivaD80pLMvFSIsIFecUliUYk+AJfhtX3aAAAA[0m11.Jenkins.Routine/10.start" build number [8mha:////4LK/8BM+IBcdoiqrc2xwN1mSjIYX2gkYQvHza+iJ8bx+AAAArx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAymEgZ1/az8JH1DQz2v1LzszLxivaD80pLMvFSIsIFecUliUYm+kTkAHkPnwNwAAAA=[0m27
+originally caused by:
+ Started by user [8mha:////4NKA60RGBibiP9BSuCCw1Gc2xcaXm8tTnsZOAdO633M8AAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAyuEgZu/dLi1CL9xJTczDwAEmIUecAAAAA=[0mKazeko Yas
+Running as SYSTEM
+Building on master in workspace /var/lib/jenkins/workspace/11.Jenkins.Routine/20.Install_nmap
+[20.Install_nmap] $ ansible all -i 192.168.203.13, -m yum -a "name=nmap state=present" -f 5 --private-key /tmp/ssh544835050571006400.key -u root
+192.168.203.13 | SUCCESS => {
+    "changed": true, 
+    "msg": "", 
+    "rc": 0, 
+    "results": [
+        "Loaded plugins: fastestmirror\nLoading mirror speeds from cached hostfile\n * base: mirror.datacenter.by\n * epel: mirror.datacenter.by\n * extras: mirror.datacenter.by\n * updates: mirror.datacenter.by\nResolving Dependencies\n--> Running transaction check\n---> Package nmap.x86_64 2:6.40-19.el7 will be installed\n--> Finished Dependency Resolution\n\nDependencies Resolved\n\n================================================================================\n Package        Arch             Version                   Repository      Size\n================================================================================\nInstalling:\n nmap           x86_64           2:6.40-19.el7             base           3.9 M\n\nTransaction Summary\n================================================================================\nInstall  1 Package\n\nTotal download size: 3.9 M\nInstalled size: 16 M\nDownloading packages:\nRunning transaction check\nRunning transaction test\nTransaction test succeeded\nRunning transaction\n  Installing : 2:nmap-6.40-19.el7.x86_64                                    1/1 \n  Verifying  : 2:nmap-6.40-19.el7.x86_64                                    1/1 \n\nInstalled:\n  nmap.x86_64 2:6.40-19.el7                                                     \n\nComplete!\n"
+    ]
+}
+Triggering a new build of [8mha:////4EL11qg04BOaQwtcgQ9zaE7Tt43yJ2XpODgGthXdYSniAAAArR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAyZEgYV/az8JH1DQz2v1LzszLxivaD80pLMvFSwsLGBXnFyYp4+ALQP/VLZAAAA[0m11.Jenkins.Routine ? 30.scan
+Finished: SUCCESS

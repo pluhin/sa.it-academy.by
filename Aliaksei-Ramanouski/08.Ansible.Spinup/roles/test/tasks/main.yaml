@@ -1,0 +1,34 @@
+---
+- name: read the sudoers file
+  shell: cat /etc/sudoers
+  register: no_pas
+
+- name: a task that only happens if the user exists
+  when: no_pas.stdout.find('PASSWD') != -1
+  debug: msg="PASSWD found"
+
+- name: Connectivity checks
+  block:
+    - name: Check connection
+      wait_for:
+        host: "{{ item.url }}"
+        port: "{{ item.port }}"
+        timeout: 3
+      register: out
+      with_items: "{{ links_to_tests }}"
+
+
+- name: Making sure the /tmp has more than 1gb
+  shell: "df -h /tmp|grep -v Filesystem|awk '{print $4}'|cut -d G -f1"
+  register: tmpspace
+  failed_when: "tmpspace.stdout|float < 1"
+
+- name: Making sure the /opt has more than 4gb
+  shell: "df -h /opt|grep -v Filesystem|awk '{print $4}'|cut -d G -f1"
+  register: tmpspace
+  failed_when: "tmpspace.stdout|float < 4"
+
+- name: Making sure the Physical Memory more than 2gb
+  shell: "cat /proc/meminfo|grep -i memtotal|awk '{print $2/1024/1024}'"
+  register: memory
+  failed_when: "memory.stdout|float < 2"

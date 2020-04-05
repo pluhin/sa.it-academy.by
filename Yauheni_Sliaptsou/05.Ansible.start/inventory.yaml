@@ -1,0 +1,25 @@
+all:
+  children:
+    ec:
+      hosts:
+        echost1:
+          ansible_host: 192.168.203.29
+        echost2:
+          ansible_host: 192.168.203.30
+        echost3:
+          ansible_host: 192.168.203.31
+        echost4:
+          ansible_host: 192.168.203.32
+    infra:
+      children:
+        internal:
+          hosts:
+            host1:
+              ansible_host: 10.20.30.20
+            host2:
+              ansible_host: 10.20.30.21
+    jump:
+      hosts:
+        bastion:
+          ansible_host: 192.168.100.40
+    ungrouped: {}

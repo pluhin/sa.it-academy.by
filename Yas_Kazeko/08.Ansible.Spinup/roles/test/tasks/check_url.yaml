@@ -1,0 +1,26 @@
+- name: Test repos
+  block:
+    - name: test tepos in loop
+      uri:
+        url: "{{ inner_var.url }}"
+        return_content: no
+      register: result
+      failed_when: result.status != 200
+
+    - name:
+      debug:
+        msg: "OK {{ inner_var.name }}"
+    - name: Send OK massage to telegram
+      telegram:
+        token: "{{ telegram_token }}"
+        msg: "Check {{ inner_var.name }} OK"
+        chat_id: 391210832
+  rescue:
+    - name:
+      debug:
+        msg: " Fail {{ inner_var.name }}"
+    - name: Send error massage to telegram
+      telegram:
+        token: "{{ telegram_token }}"
+        msg: "Check {{ inner_var.name }} Fail"
+        chat_id: 391210832
