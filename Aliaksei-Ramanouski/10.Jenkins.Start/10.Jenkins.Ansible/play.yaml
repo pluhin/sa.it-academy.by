@@ -15,7 +15,7 @@
         msg: "{{ out.stdout }}"
   roles:
     - role: jenkins
-    - role: nginx
+#    - role: nginx
   tasks:
     - name: Connectivity checks
       block:
