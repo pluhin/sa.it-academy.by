@@ -1,0 +1,34 @@
+---
+- name: Remove apache if installed
+  apt:
+    name: apache2
+    state: absent
+
+- name: Install nginx for Debian 
+  apt:
+    name: nginx
+    state: latest
+    update_cache: yes
+  changed_when: false
+
+- name: Install soft for Debian
+  apt:
+    name:
+    - curl
+    - git
+    - mc
+    - ca-certificates
+    - php
+    - php-fpm
+
+- name: Ensure nginx is installed
+  apt:
+    name: nginx
+    state: present
+    default_release: "{{ nginx_default_release }}"
+
+- name: Start nginx service
+  service:
+    name: nginx
+    state: started
+    enabled: yes

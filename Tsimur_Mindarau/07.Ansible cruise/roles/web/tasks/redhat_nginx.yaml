@@ -1,0 +1,24 @@
+---
+- name: Installing epel
+  yum:
+    name: "{{ yum_epel_install }}"
+    state: present
+
+- name: Upgrade all packages
+  yum: name=* state=latest
+
+- name: Installing nginx
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+
+- name: Remove welcome file
+  file:
+    path: "/etc/httpd/conf.d/welcome.conf"
+    state: absent
+
+- name: Enable and start nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes

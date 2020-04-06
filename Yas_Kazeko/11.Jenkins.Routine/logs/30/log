@@ -1,0 +1,21 @@
+Started by upstream project "[8mha:////4HUvdH0Ett2dr4JwRlBD4+85Piey5XEJLNz79N5t8jwaAAAAtR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAylEgYd/az8JH1DQz2v1LzszLxivaD80pLMvFSwsJGBnmdecUliTk58Xm5igT4AfHwo8uEAAAA=[0m11.Jenkins.Routine/20.Install_nmap" build number [8mha:////4NExGl0l+1TZLRlGHawQPETmsOkcjuEOFVjFmA5xO9PWAAAAtx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAymEgY9/az8JH1DQz2v1LzszLxivaD80pLMvFSwsJGBnmdecUliTk58Xm5igb6pEQB8Cq1/4wAAAA==[0m52
+originally caused by:
+ Started by upstream project "[8mha:////4KPby3gPD6/8QGUmcFwp+gzcIBNUx8qnaZmRZUHKHSQmAAAArR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzpEgZV/az8JH1DQz2v1LzszLxivaD80pLMvFSIsIFecUliUYk+AJfhtX3aAAAA[0m11.Jenkins.Routine/10.start" build number [8mha:////4LK/8BM+IBcdoiqrc2xwN1mSjIYX2gkYQvHza+iJ8bx+AAAArx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAymEgZ1/az8JH1DQz2v1LzszLxivaD80pLMvFSIsIFecUliUYm+kTkAHkPnwNwAAAA=[0m27
+ originally caused by:
+  Started by user [8mha:////4NKA60RGBibiP9BSuCCw1Gc2xcaXm8tTnsZOAdO633M8AAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAyuEgZu/dLi1CL9xJTczDwAEmIUecAAAAA=[0mKazeko Yas
+Running as SYSTEM
+Building on master in workspace /var/lib/jenkins/workspace/11.Jenkins.Routine/30.scan
+[30.scan] $ ansible all -i 192.168.203.13, -m shell -a "nmap -sP 192.168.203.12/30" -f 5
+192.168.203.13 | SUCCESS | rc=0 >>
+
+Starting Nmap 6.40 ( http://nmap.org ) at 2020-04-01 19:35 UTC
+Nmap scan report for 192.168.203.12
+Host is up (0.000034s latency).
+Nmap scan report for sa-centos-13.it-academy.local (192.168.203.13)
+Host is up (0.00011s latency).
+Nmap scan report for 192.168.203.14
+Host is up (0.000078s latency).
+Nmap done: 4 IP addresses (3 hosts up) scanned in 2.16 seconds
+[30.scan] $ /bin/sh -xe /tmp/jenkins6441860708407884231.sh
+Triggering a new build of [8mha:////4G6HDnP7FcSji9QHPUSryYhLlkIuiAt8J+rd3nkGoar+AAAAtB+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzlEgZt/az8JH1DQz2v1LzszLxivaD80pLMvFSwsImBXlFqbn5ZanxebmKBPgBx7M7H4AAAAA==[0m11.Jenkins.Routine ? 40.remove_nmap
+Finished: SUCCESS

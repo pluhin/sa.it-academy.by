@@ -1,0 +1,14 @@
+---
+packages:
+  - nginx
+  - git
+
+virtual_hosts:
+  - { name: "web1", port: "80"}
+  - { name: "web2", port: "8080"}
+
+default_home: "/srv/http/"
+
+config_folders:
+  - sites-available
+  - sites-enabled

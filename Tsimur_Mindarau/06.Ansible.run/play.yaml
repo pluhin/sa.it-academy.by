@@ -1,0 +1,19 @@
+---
+- hosts: "{{ group }}"
+
+  tasks:
+    - name: OS version
+      debug:
+        msg: "{{ ansible_distribution }}/{{ ansible_distribution_version }}"
+      tags:
+        - os_version
+    - name: Mount point/capacity/used
+      debug:
+        msg: "Mount ({{ansible_mounts[0].mount}}) /{{ansible_mounts[0].size_total}}/{{ansible_mounts[0].size_total - ansible_mounts[0].size_available}}"
+      tags:
+        - drive
+    - name: RAM/capacity/free
+      debug:
+        msg: "RAM/{{ ansible_memory_mb.real.total }}/{{ ansible_memory_mb.real.free }}"
+      tags:
+        - memory

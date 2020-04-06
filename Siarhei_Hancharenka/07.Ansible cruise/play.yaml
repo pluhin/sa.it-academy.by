@@ -1,0 +1,8 @@
+---
+- hosts: ec
+  become: yes
+  pre_tasks:
+    - name: Ping
+      ping:
+  roles:
+    - nginx
