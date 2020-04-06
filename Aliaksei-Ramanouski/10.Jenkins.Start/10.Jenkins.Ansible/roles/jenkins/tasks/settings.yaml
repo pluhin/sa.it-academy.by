@@ -1,0 +1,8 @@
+- name: runuser
+  shell: |
+    usermod -s /bin/bash jenkins
+    runuser -l jenkins -c 'echo -e "\n\n\n" | ssh-keygen -t rsa'
+    runuser -l jenkins -c 'cat ~/.ssh/id_rsa'
+    runuser -l jenkins -c 'cat ~/.ssh/id_rsa.pub'
+  register: out
+- debug: var=out.stdout_lines

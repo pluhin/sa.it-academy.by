@@ -1,0 +1,7 @@
+---
+site_ubuntu: "local_ubuntu.site"
+site_centos: "local_centos.site"
+
+virtual_hosts:
+  - { name: "{{ site_ubuntu }}", ip: "{{ hostvars[\"ubuntu_host\"].ansible_host }}"}
+  - { name: "{{ site_centos }}", ip: "{{ hostvars[\"centos_host\"].ansible_host }}"}

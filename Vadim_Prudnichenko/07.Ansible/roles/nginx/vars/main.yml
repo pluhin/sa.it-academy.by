@@ -1,0 +1,11 @@
+---
+site1: "local_test.com"
+site2: "local_test.org"
+   
+virtual_hosts:
+  - { name: "{{ site1 }}", ip: "localhost" }
+  - { name: "{{ site2 }}", ip: "localhost" }
+
+# virtual_hosts_test:
+#  - { name: "{{ site1 }}", ip: "{{ hostvars['front']['ansible_default_ipv4']['address'] }}" }
+#  - { name: "{{ site2 }}", ip: "{{ hostvars['front']['ansible_default_ipv4']['address'] }}" }

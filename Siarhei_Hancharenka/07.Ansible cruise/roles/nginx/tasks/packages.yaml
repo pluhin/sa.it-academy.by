@@ -1,0 +1,16 @@
+---
+- name: Install RedHat epel repository
+  package:
+    name: epel-release
+  when: ansible_os_family == "RedHat"
+
+- name: Install packages
+  package:
+    name: "{{ packages }}"
+    state: present
+
+#- name: nginx. Enable and start service
+#  service:
+#    name: nginx
+#    state: restarted
+#    enabled: yes
