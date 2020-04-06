@@ -1,0 +1,13 @@
+---
+apt_nginx_packages:
+  - nginx
+
+yum_epel_install:
+  - epel-release
+
+yum_nginx_packages:
+  - nginx
+
+default_home_ubuntu: "/var/www/html/"
+
+default_home_centos: "/usr/share/nginx/html/"
