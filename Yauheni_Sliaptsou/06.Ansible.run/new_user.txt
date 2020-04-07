@@ -1,0 +1,43 @@
+
+PLAY [ec] ********************************************************************************************************************
+
+TASK [Create new user] *******************************************************************************************************
+changed: [echost1]
+changed: [echost4]
+changed: [echost3]
+changed: [echost2]
+
+TASK [Add ssh key] ***********************************************************************************************************
+changed: [echost1]
+changed: [echost2]
+changed: [echost4]
+changed: [echost3]
+
+TASK [New user authorization only by SSH key] ********************************************************************************
+changed: [echost1]
+changed: [echost4]
+changed: [echost3]
+changed: [echost2]
+
+PLAY [ubuntu] ****************************************************************************************************************
+
+TASK [Ubuntu - add user to the sudo:nopasswd for upgrade command] ************************************************************
+changed: [echost4]
+changed: [echost2]
+
+TASK [Test - Upgrade all apt packages] ***************************************************************************************
+ok: [echost2]
+ok: [echost4]
+
+PLAY [centos] ****************************************************************************************************************
+
+TASK [Test - Upgrade all yum packages] ***************************************************************************************
+ok: [echost3]
+ok: [echost1]
+
+PLAY RECAP *******************************************************************************************************************
+echost1                    : ok=4    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+echost2                    : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+echost3                    : ok=4    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+echost4                    : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

@@ -1,0 +1,5 @@
+---
+yum_nginx_packages:
+  - epel-release     
+  - nginx
+  - git

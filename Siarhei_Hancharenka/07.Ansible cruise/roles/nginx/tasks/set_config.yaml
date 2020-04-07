@@ -1,0 +1,52 @@
+---
+- name: Delete config folders
+  file:
+    path: "/etc/nginx/{{ item }}"
+    state: absent
+  loop: "{{ config_folders }}"
+
+- name: Create config folders
+  file:
+    path: "/etc/nginx/{{ item }}"
+    state: directory
+  loop: "{{ config_folders }}"
+
+- name: Create root folders for virtual hosts
+  file:
+    path: "/srv/http/{{ item.name }}"
+    state: directory
+  loop: "{{ virtual_hosts }}"
+
+- name: Remove default config file
+  file:
+    path: /etc/nginx/nginx.conf
+    state: absent
+
+- name: setup new nginx config file
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    backup: true
+  notify:
+    - restart nginx
+
+- meta: flush_handlers
+
+- name: Setup sites-available config file
+  template:
+    src: "host.j2"
+    dest: "/etc/nginx/sites-available/{{ item.name }}"
+    backup: yes
+    mode: '644'
+  loop: "{{ virtual_hosts }}"
+
+- name: Setup sites-enabled config symlincs
+  file:
+    src: "/etc/nginx/sites-available/{{ item.name }}"
+    dest: "/etc/nginx/sites-enabled/{{ item.name }}"
+    state: link
+  loop: "{{ virtual_hosts }}"
+  notify:
+    - restart nginx
+
+- meta: flush_handlers

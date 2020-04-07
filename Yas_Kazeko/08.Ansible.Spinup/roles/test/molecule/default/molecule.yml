@@ -1,0 +1,20 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  yamllint .
+  ansible-lint
+  flake8
+platforms:
+  - name: instance
+    image: centos:7
+  - name: instance2
+    image: debian:10
+  - name: instance3
+    image: alpine:3
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

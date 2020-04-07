@@ -1,0 +1,8 @@
+---
+- hosts: host_4
+  become: yes
+  pre_tasks:
+  - name: Ping
+    ping:
+  roles:
+  - test

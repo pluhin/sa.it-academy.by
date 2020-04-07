@@ -1,0 +1,11 @@
+- name: restart jenkins
+  become: true
+  service:
+    name: jenkins
+    state: restarted
+
+- name: restart nginx
+  become: true
+  service:
+    name: nginx
+    state: restarted

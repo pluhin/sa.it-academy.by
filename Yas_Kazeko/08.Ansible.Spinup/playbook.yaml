@@ -1,0 +1,22 @@
+---
+- hosts: host_4
+  become: yes
+  vars:
+    
+    urls:
+  
+  tasks:
+    - name: Vincent, we happy? ()
+      shell:
+        cmd: sudo -l  -U "{{ ansible_user }}" 
+      register: result
+    - name: 
+      block:
+        - name: Answer
+          debug:
+            msg: " Yeah we happy. {{ ansible_user }} has sudo"
+          when: '"NOPASSWD" in result.stdout'
+      rescue:    
+        - debug:
+            msg: "{{ ansible_user }} does not have sudo"
+    -name: Test repo        

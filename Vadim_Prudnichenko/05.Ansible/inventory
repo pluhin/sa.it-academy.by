@@ -1,0 +1,16 @@
+[master]
+aws-server	ansible_host=172.31.17.61	
+
+[hosts]
+centos1		ansible_host=192.168.203.25
+ubuntu1		ansible_host=192.168.203.26
+centos2		ansible_host=192.168.203.27
+ubuntu2		ansible_host=192.168.203.28
+
+[centos]
+centos1		ansible_host=192.168.203.25
+centos2		ansible_host=192.168.203.27
+
+[ubuntu]
+ubuntu1		ansible_host=192.168.203.26
+ubuntu2		ansible_host=192.168.203.28
