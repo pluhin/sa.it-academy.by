@@ -1,0 +1,16 @@
+Started by upstream project "10.Test_connection" build number 23
+originally caused by:
+ Started by user yauheni
+Running as SYSTEM
+Building on master in workspace /var/lib/jenkins/workspace/20.Install_upgrade_nmap
+[20.Install_upgrade_nmap] $ sshpass ******** ansible all -i 192.168.203.32, -m yum -a "name=nmap state=present" -f 5 -u root -k
+192.168.203.32 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "cache_update_time": 1586014396,
+    "cache_updated": false,
+    "changed": false
+}
+Triggering a new build of 30.Checks_all_online_hosts
+Finished: SUCCESS
