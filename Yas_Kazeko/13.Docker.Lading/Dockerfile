@@ -1,13 +1,15 @@
 
-FROM python:3.8-buster
+FROM python:3.8-alpine
 
-ENV SITE my_site
+ENV SITE mysite
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-WORKDIR /"$SITE"
-RUN     pip install django                      \
-    &&  django-admin startproject "$SITE"       
-CMD cd "$SITE" && python manage.py runserver 
+
+RUN     pip install django 
+
+COPY mysite/ /mysite/
+
+CMD cd "$SITE" && python manage.py runserver 0.0.0.0:8000
 
 EXPOSE 8000:8000
