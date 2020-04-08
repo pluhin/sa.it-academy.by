@@ -1,0 +1,90 @@
+---
+- name: Check sudo nopasswd
+  block:
+    - name: Check sudo
+      command: ls
+      register: result
+      failed_when: "'FAILED' in result.stderr"
+  rescue:
+    - name: Send to Slack
+      slack:
+        token: TUQ1BR7GT/B0114M1F8H0/e1Bq3FXkdNP3yy7rShCtVjun
+        msg: "ERROR: {{ ansible_user }} without sudo on {{ ansible_host }}"
+        channel: '#ansible_notif'
+        username: 'incoming-webhook'
+        parse: 'full'
+
+
+- name: Check repo CentoS system
+  include: check_centos.yaml
+  when: ansible_os_family == "RedHat"
+
+
+- name: Check repo Ubuntu
+  include: check_ubuntu.yaml
+  when: ansible_os_family == "Debian"
+
+
+- name: Check pip repo
+  block:
+    - name: Check pip_repo
+      uri:
+        url: "{{ pip_repo }}"
+      register: result_pip
+      failed_when: result_pip.status != 200
+  rescue:
+    - name: Send notification to Slack
+      slack:
+        token: TUQ1BR7GT/B0114M1F8H0/e1Bq3FXkdNP3yy7rShCtVjun
+        msg: "Failed: {{ ansible_host }} disconnect with - https://pypi.org"
+        channel: '#ansible_notif'
+        username: 'incoming-webhook'
+        parse: 'full'
+
+
+- name: Check Docker repo
+  block:
+    - name: Check docker_repo
+      uri:
+        url: "{{ docker_repo }}"
+      register: result_docker
+      failed_when: result_docker.status != 200
+  rescue:
+    - name: Send to Slack
+      slack:
+        token: TUQ1BR7GT/B0114M1F8H0/e1Bq3FXkdNP3yy7rShCtVjun
+        msg: "Failed: {{ ansible_host }} disconnect with - https://hub.docker.com/_/centos"
+        channel: '#ansible_notif'
+        username: 'incoming-webhook'
+        parse: 'full'
+
+
+- name: Check RAM for notification
+  block:
+    - name: Memory RAM
+      fail:
+      when: ansible_memfree_mb < memory_req
+  rescue:
+    - name: Send  to Slack
+      slack:
+        token: TUQ1BR7GT/B0114M1F8H0/e1Bq3FXkdNP3yy7rShCtVjun
+        msg: "Failed: {{ ansible_host }}  {{ memory_req }} Mb"
+        channel: '#ansible_notif'
+        username: 'incoming-webhook'
+        parse: 'full'
+
+
+- name: Check size disk_space_req
+  block:
+    - name: Check size
+      fail:
+      when: (item.mount == '/') and (item.size_available / 10**6) < disk_space_req
+      with_items: "{{ ansible_mounts }}"
+  rescue:
+    - name: Send to Slack
+      slack:
+        token: TUQ1BR7GT/B0114M1F8H0/e1Bq3FXkdNP3yy7rShCtVjun
+        msg: "Failed: {{ ansible_host }} have available size / LESS {{ disk_space_req }}Gb"
+        channel: '#ansible_notif'
+        username: 'incoming-webhook'
+        parse: 'full'

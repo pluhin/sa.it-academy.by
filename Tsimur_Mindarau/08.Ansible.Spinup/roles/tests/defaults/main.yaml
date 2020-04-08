@@ -1,0 +1,18 @@
+centos_repo:
+  - 'http://mirror.datacenter.by/pub/CentOS'
+  - 'http://mirror.yandex.ru/centos'
+  - 'http://centos2.hti.pl'
+  - 'http://mirror.atlanticmetro.net/centos'
+
+ubuntu_repo:
+  - 'http://mirror.yandex.ru/ubuntu'
+  - 'http://ftp.byfly.by/ubuntu'
+  - 'http://mirror.linux-ia64.org/ubuntu'
+  - 'http://ftp.icm.edu.pl/pub/Linux/ubuntu'
+
+pip_repo: "https://pypi.org"
+
+docker_repo: "https://hub.docker.com/_/centos"
+
+memory_req: 1024
+disk_space_req: 5
