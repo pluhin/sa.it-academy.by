@@ -1,0 +1,12 @@
+---
+debian_repository:
+  - "http://ftp.by.debian.org/debian/pool/main/g/golang-1.14/golang-1.14-doc_1.14.1-1_all.deb"
+centos_repository:
+  - "http://mirror.centos.org/centos/8/extras/x86_64/os/Packages/epel-release-8-8.el8.noarch.rpm"
+pip_package_repository:
+  - "https://files.pythonhosted.org/packages/a9/4f/8a247eee2958529a6a805d38fbacd9764fd566462fa0016aa2a2947ab2a6/Django-3.0.5-py3-none-any.whl"
+
+docker_hub_registry:
+  - "https://hub.docker.com/_/ubuntu"
+
+mount: "{{ ansible_mounts | selectattr('mount','equalto', mount) | list | first }}"
