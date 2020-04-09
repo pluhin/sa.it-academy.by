@@ -1,0 +1,14 @@
+{% extends 'authors/base.html' %}
+
+{% block title %}
+    Create author
+{% endblock %}
+
+{% block body %}
+    <h3>Create a new author:</h3><br>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Create">
+    </form>
+{% endblock %}
