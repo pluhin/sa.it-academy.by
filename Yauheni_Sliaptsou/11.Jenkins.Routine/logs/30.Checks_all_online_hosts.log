@@ -1,0 +1,313 @@
+Started by upstream project "20.Install_upgrade_nmap" build number 21
+originally caused by:
+ Started by upstream project "10.Test_connection" build number 23
+ originally caused by:
+  Started by user yauheni
+Running as SYSTEM
+Building on master in workspace /var/lib/jenkins/workspace/30.Checks_all_online_hosts
+[30.Checks_all_online_hosts] $ ansible all -i 192.168.203.32, -m shell -a "nmap 192.168.203.1-48" -f 5 --private-key /tmp/ssh7681756595128748817.key -u jenkins
+192.168.203.32 | CHANGED | rc=0 >>
+
+Starting Nmap 7.60 ( https://nmap.org ) at 2020-04-08 13:23 UTC
+Nmap scan report for 192.168.203.1
+Host is up (0.00026s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.203.2
+Host is up (0.00029s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.203.3
+Host is up (0.00024s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.203.4
+Host is up (0.00024s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.203.5
+Host is up (0.00028s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.6
+Host is up (0.00027s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.7
+Host is up (0.00022s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.8
+Host is up (0.00026s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.9
+Host is up (0.00026s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+8080/tcp open  http-proxy
+
+Nmap scan report for 192.168.203.10
+Host is up (0.00025s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+8080/tcp open  http-proxy
+
+Nmap scan report for 192.168.203.11
+Host is up (0.00024s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+8080/tcp open  http-proxy
+
+Nmap scan report for 192.168.203.12
+Host is up (0.00022s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+8080/tcp open  http-proxy
+
+Nmap scan report for 192.168.203.14
+Host is up (0.00024s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.16
+Host is up (0.00023s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.17
+Host is up (0.00023s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.18
+Host is up (0.00023s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.19
+Host is up (0.00027s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.20
+Host is up (0.00025s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.21
+Host is up (0.00022s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.22
+Host is up (0.00021s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.23
+Host is up (0.00025s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.24
+Host is up (0.00022s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.25
+Host is up (0.00022s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.203.26
+Host is up (0.00027s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.203.27
+Host is up (0.00026s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.203.28
+Host is up (0.00020s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.203.29
+Host is up (0.00024s latency).
+Not shown: 997 filtered ports
+PORT     STATE  SERVICE
+22/tcp   open   ssh
+80/tcp   closed http
+8080/tcp open   http-proxy
+
+Nmap scan report for 192.168.203.30
+Host is up (0.00027s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.31
+Host is up (0.00026s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.203.32
+Host is up (0.00021s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.203.33
+Host is up (0.00022s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.34
+Host is up (0.00027s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.35
+Host is up (0.00021s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.36
+Host is up (0.00018s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.37
+Host is up (0.00024s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.38
+Host is up (0.00026s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.39
+Host is up (0.00019s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.40
+Host is up (0.00026s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.41
+Host is up (0.00025s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.42
+Host is up (0.00020s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.43
+Host is up (0.00024s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.44
+Host is up (0.00026s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 192.168.203.45
+Host is up (0.00027s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.203.46
+Host is up (0.00026s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+Nmap scan report for 192.168.203.47
+Host is up (0.00025s latency).
+Not shown: 998 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+8080/tcp open  http-proxy
+
+Nmap scan report for 192.168.203.48
+Host is up (0.00026s latency).
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap done: 48 IP addresses (46 hosts up) scanned in 7.09 seconds
+Triggering a new build of 40.Remove_nmap
+Finished: SUCCESS
