@@ -1,5 +1,7 @@
 ---
-- hosts: localhost
+
+- hosts: host_1
+
   remote_user: updater
   become: yes
   vars:
@@ -8,6 +10,7 @@
       - speedtest-cli
   tasks:
     - name: Install nmap and speedtest-cli
+
       yum:
         name: "{{ packages }}"
         state: present
@@ -19,3 +22,4 @@
       when: ansible_os_family|lower == 'debian'
 
    
+
