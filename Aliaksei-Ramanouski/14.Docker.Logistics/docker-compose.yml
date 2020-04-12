@@ -1,0 +1,18 @@
+version: '3'
+services:
+    nginx:
+        image: nginx:alpine
+        ports:
+            - 8002:80
+        volumes:
+            - ./src:/usr/share/nginx/html
+    sonarr:
+        image: linuxserver/sonarr
+        container_name: sonarr
+        ports:
+            - 8989:8989
+    radarr:
+        image: linuxserver/radarr
+        container_name: radarr
+        ports:
+            - 7878:7878
