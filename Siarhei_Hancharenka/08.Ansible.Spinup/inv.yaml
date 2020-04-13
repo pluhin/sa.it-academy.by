@@ -1,0 +1,22 @@
+---
+jump:
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.53
+ec:
+  vars:
+    ansible_user: updater
+  children:
+    ec_centos:
+      hosts:
+        centos9:
+          ansible_host: 192.168.203.9
+        centos11:
+          ansible_host: 192.168.203.11
+    ec_ubuntu:
+      hosts:
+        ubuntu10:
+          ansible_host: 192.168.203.10
+        ubuntu12:
+          ansible_host: 192.168.203.12
+
