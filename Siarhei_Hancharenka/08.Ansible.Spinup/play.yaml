@@ -1,0 +1,5 @@
+---
+- hosts: ec
+#  become: yes
+  roles:
+    - checkup

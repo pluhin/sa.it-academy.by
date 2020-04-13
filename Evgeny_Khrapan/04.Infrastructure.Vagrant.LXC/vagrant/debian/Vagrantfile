@@ -1,0 +1,18 @@
+$script = <<-SCRIPT
+useradd -m -p vagrant updater
+echo "updater ALL=(ALL:ALL) NOPASSWD: ALL">>/etc/sudoers
+apt-get update -y
+apt install -y vim git wget curl
+echo "----- DONE -----"
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/buster64"
+  config.vm.box_check_update = false
+  config.vm.provider "virtualbox" do |vb|
+          vb.gui = false
+          vb.memory = "512"
+          vb.name = "debian-sa"
+  end
+  config.vm.provision "shell", inline: $script
+end

@@ -1,0 +1,35 @@
+---
+- name: Remove apache if installed
+  apt:
+    name: apache2
+    state: absent
+
+- name: Add repository nginx for Ubuntu
+  apt_repository:
+    repo: 'ppa:nginx/{{ nginx_ppa_version }}'
+    state: present
+    update_cache: yes
+  register: nginx_ppa_added
+  when: nginx_ppa_use | bool
+
+- name: Install soft for Ubuntu
+  apt:
+    name:
+    - curl
+    - git
+    - mc
+    - ca-certificates
+    - php
+    - php-fpm
+
+- name: Start nginx service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Ensure nginx will reinstall if the PPA was just added
+  apt:
+    name: nginx
+    state: absent
+  when: nginx_ppa_added.changed

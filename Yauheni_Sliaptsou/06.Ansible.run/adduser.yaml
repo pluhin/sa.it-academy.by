@@ -1,0 +1,45 @@
+---
+- hosts: ec
+  gather_facts: no
+  tasks:
+    - name: Create new user
+      user:
+        name: "{{ user_to_add }}"
+        state: present
+
+    - name: Add ssh key
+      authorized_key:
+        user: "{{ user_to_add }}"
+        state: present
+        key: "{{ lookup('file','~/.ssh/id_rsa.pub') }}"
+
+    - name: New user authorization only by SSH key
+      blockinfile:
+        path: /etc/ssh/sshd_config
+        block: |
+          Match User {{ user_to_add }}
+          PasswordAuthentication no
+
+- hosts: ubuntu
+  gather_facts: no
+  tasks:
+    - name: Ubuntu - add user to the sudo:nopasswd for upgrade command
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        insertafter: EOF
+        line: "{{ user_to_add }} ALL=(ALL) NOPASSWD: /usr/bin/apt-get update, /usr/bin/apt-get upgrade"
+    - name:  Test - Upgrade all apt packages
+      apt: upgrade=dist force_apt_get=yes
+
+- hosts: centos
+  gather_facts: no
+  tasks:
+#    - name: CentOS - add user to the sudo:nopasswd for upgrade command
+#      lineinfile:
+#        dest: /etc/sudoers
+#        state: present
+#        insertafter: EOF
+#        line: "{{ user_to_add }} ALL=(ALL) NOPASSWD: /bin/yum update, /bin/yum upgrade"
+    - name: Test - Upgrade all yum packages
+      yum: name=* state=latest

@@ -1,0 +1,10 @@
+---
+- name: Check CentOS repository
+  block:
+    - name: CentOS repository
+      uri:
+        url: "{{ item }}"
+        return_content: no
+      register: out_uri
+      with_items: "{{ centos_repository }}"
+      failed_when: out_uri.status != 200

@@ -1,0 +1,29 @@
+---
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootroot
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+  web:
+    image: eboraas/apache-php
+    container_name: web_app
+    depends_on:
+      - db
+    ports:
+      - "8100:80"
+    volumes:
+      - ./data:/var/www/html/
+  web2:
+    image: eboraas/apache-php
+    container_name: web_app2
+    depends_on:
+        - db
+    ports:
+        - "8200:80"
+    volumes:
+        - ./data:/var/www/html/

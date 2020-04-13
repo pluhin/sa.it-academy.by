@@ -1,0 +1,84 @@
+---
+- name: apt | update repository cache
+  apt: 
+    update_cache: yes
+
+- name: Redmine. Install packages
+  apt:
+    name: "{{ apt_redmine_packages }}"
+    state: latest
+
+- name: Redmine. Clone repository
+  git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_home }}"
+    version: '{{ app_version }}'
+    accept_hostkey: yes
+
+    force: yes
+
+
+- name: Redmine. Change permissions
+  file:
+    path: "{{ app_home }}/public"
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: Redmine. Change permissions
+  file:
+    path: "{{ app_home }}/tmp"
+    mode: '777'
+    recurse: yes
+
+
+- name: Redmine. Setup 01
+  shell: |
+    gem install bundler
+    bundle update   
+  args:
+    executable: /bin/bash
+    chdir: "{{ app_home }}"
+
+
+- name: Session store secret generation
+  shell: rake generate_secret_token
+  args:
+   chdir: "{{ app_home }}"
+   creates: "{{ app_home }}/config/initializers/secret_token.rb"
+
+
+- name: Config database
+  template:
+    src: database.yml.j2
+    dest: "{{ app_home }}/config/database.yml"
+    backup: yes
+
+- name: Redmine. Setup 02
+  shell: | 
+    bundle exec rake tmp:cache:clear RAILS_ENV=production
+    bundle exec rake db:migrate RAILS_ENV=production 
+    RAILS_ENV= production bundle exec rake redmine:plugins:migrate
+    bundle install --without development test
+    rake db:migrate RAILS_ENV=production 
+
+    #RAILS_ENV=production REDMINE_LANG= '{{ app_lang }}' rake redmine:load_default_data
+    #bundle exec rails server webrick -e production
+  args:
+    chdir: "{{ app_home }}"
+
+
+
+- name: remove all condif in /nginx/conf.d
+  file:
+    path: /etc/nginx/conf.d/*
+    state: absent
+
+- name: Configuration files for virtualhost
+  template:
+    src: virtual_domain.j2
+    dest: "/etc/nginx/conf.d/virtual_domain.conf"
+  notify:
+    - restart nginx
+
+- meta: flush_handlers

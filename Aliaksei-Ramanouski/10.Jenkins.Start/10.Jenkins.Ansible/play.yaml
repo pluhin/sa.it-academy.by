@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: true
+  gather_facts: no
+  vars:
+    links_to_tests:
+    - {url: 127.0.0.1, port: 8080}
+  pre_tasks:
+    - name: check host
+      shell: |
+        hostname
+      register: out
+    - name: Show host
+      debug:
+        msg: "{{ out.stdout }}"
+  roles:
+    - role: jenkins
+#    - role: nginx
+  tasks:
+    - name: Connectivity checks
+      block:
+        - name: Check connection
+          wait_for:
+            host: "{{ item.url }}"
+            port: "{{ item.port }}"
+            timeout: 3
+          register: out
+          with_items: "{{ links_to_tests }}"

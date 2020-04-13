@@ -1,0 +1,30 @@
+---
+- hosts: all
+  #order: sorted
+  #gather_facts: False
+  remote_user: updater
+  become: yes
+  vars:
+    name: updater_1
+    key: "{{lookup('file', './users_home/updater_1/.ssh/id_rsa.pub') }}" 
+  tasks:
+  - name: Add sudoers users
+    user:
+      name: "{{ name }}"
+      append: yes
+    
+    
+  - name: Allow "{{ name }}" to have passwordless sudo
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: '^"{{ name }}"'
+      line: '{{ name }} ALL=(ALL) NOPASSWD: ALL'
+      validate: visudo -cf %s
+    
+  - name: Set up authorized_keys for the "{{ name }}" user
+    authorized_key:
+      user: "{{ name }}"
+      state: present
+      key: "{{key}}" 
+     

@@ -1,0 +1,57 @@
+---
+
+# Preset steps. Nginx installation according to the instructions on the official website.
+- name: install utils for Deb
+
+  apt:
+    name:
+    - curl
+    - gnupg2
+    - dirmngr
+    - apt-transport-https
+    - ca-certificates
+    - lsb-release
+    state: present
+
+- name: install apt-key
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: 561F9B9CAC40B2F7
+
+- name: 
+  shell: 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list'
+  args:
+    executable: /bin/bash
+    
+- name:
+  apt:
+    update_cache: yes
+    name: 
+      - nginx-extras
+      - passenger
+
+# To set up the apt repository for stable nginx packages
+- name: run preset script for install nginx repository
+  script: preset_script.sh
+
+- name: apt remove the Apache package
+
+  apt:
+    name: apache2
+    state: absent
+
+# Install nginx
+
+- name: apt nginx. Install packages.
+
+  apt:
+    name: "{{ apt_nginx_packages }}"
+    state: present
+    update_cache: yes
+
+# Enable and start nginx 
+- name: Deb nginx. Enable and start service
+  service:
+    name: nginx
+
+    enabled: yes

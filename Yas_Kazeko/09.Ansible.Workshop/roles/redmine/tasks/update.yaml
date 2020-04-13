@@ -1,0 +1,112 @@
+---
+- name: Dump {{ app_db_name }}  databases to hostname.sql
+  mysql_db:
+    state: dump
+    name: "{{ app_db_name }}"
+    target: /tmp/dump_ '{{ app_db_name }}'.bz2
+
+  tags:
+    - update
+
+
+- name: Redmine. Change permissions
+  file:
+    path: "{{ app_home_update }}/public"
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+  tags:
+    - update
+
+
+- name: Redmine. Change permissions
+  file:
+    path: "{{ app_home_update }}/tmp"
+    mode: '777'
+    recurse: yes
+
+  tags:
+    - update
+
+
+- name: Config config/database.yml
+  copy: 
+    src: "{{ app_home}}/config/database.yml"
+    dest: "{{ app_home_update}}/config/database.yml"
+    remote_scr: yes
+
+  tags:
+    - update
+
+
+- name: Config config/configuration.yml
+  copy: 
+    src: "{{ app_home}}/config/configuration.yml"
+    dest: "{{ app_home_update}}/config/configuration.yml"
+    remote_scr: yes
+
+  tags:
+    - update
+
+
+- name: Redmine. Clone repository
+  git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_home_update }}"
+    version: '{{ app_version }}'
+    accept_hostkey: yes
+  tags: never
+
+  tags:
+    - update
+
+
+- name: Redmine. Setup 01
+  shell: |
+    bundle update   
+  args:
+    executable: /bin/bash
+    chdir: "{{ app_home_update }}"
+
+  tags:
+    - update
+
+
+- name: Session store secret generation
+  shell: rake generate_secret_token
+  args:
+   chdir: "{{ app_home_update }}"
+   creates: "{{ app_home_update }}/config/initializers/secret_token.rb"
+  tags:
+    - update
+
+
+- name: Redmine. Install the required gems by running. Update the database
+  shell: | 
+    bundle install --without development test   
+    bundle exec rake db:migrate RAILS_ENV=production 
+    bundle exec rake redmine:plugins:migrate RAILS_ENV=production
+  args:
+    chdir: "{{ app_home_update }}"
+  tags:
+    - update
+
+- name: remove all condif in /nginx/conf.d
+  file:
+    path: /etc/nginx/conf.d
+    state: absent
+  tags:
+    - update
+
+- name: Configuration files for virtualhost
+  template:
+    src: virtual_domain_update.j2
+    dest: "/etc/nginx/conf.d/virtual_domain.conf"
+  notify:
+    - restart nginx
+  tags:
+    - update
+
+
+- meta: flush_handlers

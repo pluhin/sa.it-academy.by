@@ -1,0 +1,19 @@
+---
+- hosts: all
+  order: sorted
+  #gather_facts: False
+  remote_user: updater
+  become: yes
+  tasks:
+    - name: Print OS and version
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+    - name: Print Mountpoint, capasity and used
+      debug:
+        msg: 'Mountpoint {{ item.mount }}, 
+              capasity: {{ item.size_total|human_readable(unit="G")}},
+              free: {{ item.size_available|human_readable(unit="G")}}'
+      loop:  "{{ ansible_mounts }}"
+    - name: RAM
+      debug: 
+        msg: 'RAM capasity: {{ansible_memtotal_mb}} Mb, memory free: {{ansible_memfree_mb}} Mb'

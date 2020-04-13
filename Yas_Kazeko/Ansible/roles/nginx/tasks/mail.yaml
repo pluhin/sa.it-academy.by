@@ -1,0 +1,7 @@
+---
+- name: Include deploy for Debian systems
+  include: nginx_ubuntu.yaml
+  when: ansible_os_family == 'Ubuntu'
+- name: Include deploy for Debian systems
+  include: nginx_rhel.yaml
+  when: ansible_os_family == 'RedHat'

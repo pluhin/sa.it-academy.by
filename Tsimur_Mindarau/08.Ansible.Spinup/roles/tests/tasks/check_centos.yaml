@@ -1,0 +1,18 @@
+---
+- name: Check Centos
+  block:
+    - name: Check centos
+      uri:
+        url: "{{ item }}"
+        return_content: yes
+      register: out
+      with_items: "{{ centos_repo }}"
+      failed_when: out.status != 200
+  rescue:
+     - name: Send to Slack
+       slack:
+         token: TUQ1BR7GT/B0114M1F8H0/e1Bq3FXkdNP3yy7rShCtVjun
+         msg: "Faild:#############CentOS REPO NOT AVAILABLE################ {{ ansible_host }}"
+         channel: 'ansible_notif'
+         username: 'incoming-webhook'
+         parse: 'full'

@@ -1,0 +1,34 @@
+---
+- name: Check if we have SUDO with NOPASSWD
+  block:
+    - name: Check sudo
+      command: sudo -v
+      register: result
+      failed_when: "'FAILED' in result.stderr"
+
+- name: Check connection to Debian repository
+  include: debian_repository.yaml
+  when: ansible_os_family == "Debian"
+
+- name: Check connection to Debian repository
+  include: centos_repository.yaml
+  when: ansible_os_family == "RedHat"
+
+- name: Check connection to PIP repository
+  include: pip_repository.yaml
+
+- name: Check connection to DockerHub registry
+  include: docker_hub_registry.yaml
+
+- name: Check if we have enough RAM
+  block:
+    - name: ram check
+      fail:
+      when: ansible_memory_mb.real.total < 1024
+
+- name: Check if we have enough HDD space
+  block:
+    - name: Check HDD space
+      fail:
+      when: (item.mount == '/') and (item.size_available / 1000000000) < 2
+      with_items: "{{ ansible_mounts }}"

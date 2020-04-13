@@ -1,0 +1,13 @@
+###################################
+# Home demo ansible
+Host home_bastion
+        User vagrant
+        HostName 192.168.100.40
+Host 10.20.30.2*
+        ProxyJump home_bastion
+# EC HTP
+Host ec_bastion
+        User jump_sa
+        HostName 178.124.206.53
+Host 192.168.203.29 192.168.203.30 192.168.203.31 192.168.203.32
+        ProxyJump ec_bastion

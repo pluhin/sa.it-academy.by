@@ -1,0 +1,12 @@
+
+Started by user Kazeko Yas
+
+Running as SYSTEM
+Building on master in workspace /var/lib/jenkins/workspace/11.Jenkins.Routine/10.start
+[10.start] $ /bin/bash /tmp/jenkins2339380898761171061.sh
+Username: jenkins, host ip: 192.168.203.15
+
+242M  /var/lib/jenkins
+Triggering a new build of 11.Jenkins.Routine ? 20.Install_nmap
+
+Finished: SUCCESS

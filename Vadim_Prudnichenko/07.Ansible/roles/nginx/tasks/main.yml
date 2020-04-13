@@ -1,0 +1,88 @@
+---
+- name: Include OS-specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Define nginx_user
+  set_fact:
+    nginx_user: "{{ nginx_user }}"
+  when: nginx_user is not defined
+
+- include_tasks: setup-redhat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: setup-ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
+ 
+#- include_tasks: setup-debian.yml
+#  when: ansible_os_family == 'Debian'
+
+- name: Remove index.html 
+  file:
+    path: "{{nginx_html}}/index.html"
+    state: absent
+  with_items: "{{ virtual_hosts }}"
+
+- name: Copy new index.html
+  copy:
+    src: "index.html"
+    dest: "{{nginx_html}}"
+    owner: "{{ nginx_user }}"
+    group: "{{ root_group }}"
+    mode: 0644
+    backup: yes
+  with_items: "{{ virtual_hosts }}"
+
+# Nginx setup
+- name: Copy nginx configuration in place.
+  template:
+    src: "{{ nginx_conf_template }}"
+    dest: "{{ nginx_conf_file_path }}"
+    owner: root
+    group: "{{ root_group }}"
+    mode: 0644
+  notify:
+    - reload nginx
+
+# Vhost setup
+- name: Add template vhost 
+  template: 
+    src: "{{ nginx_vhost_template }}" 
+    dest: "{{ nginx_conf_path }}" 
+    owner: root 
+    group: "{{ root_group }}" 
+    mode: 0644 
+    backup: yes 
+  notify:
+      - restart nginx 
+
+- name: Add template hosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+  with_items: "{{ virtual_hosts }}"
+
+- meta: flush_handlers
+
+- name: Ensure nginx service is running as configured
+  service:
+    name: nginx
+    state: "{{ nginx_service_state }}"
+    enabled: "{{ nginx_service_enabled }}"
+  when: ansible_os_family == 'RedHat'
+
+- name: Check connection to Localhost 
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+
+- name: Check content to the sites
+  uri:
+    url: "http://localhost"
+    return_content: yes
+  register: out
+  failed_when: "'Welcome to nginx' not in out.content"
+  with_items: "{{ virtual_hosts }}"
+  tags: check

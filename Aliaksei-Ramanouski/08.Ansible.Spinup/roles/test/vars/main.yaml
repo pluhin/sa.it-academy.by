@@ -1,0 +1,6 @@
+---
+links_to_tests:
+  - {url: ftp.debian.org, port: 80}
+  - {url: mirror.centos.org, port: 80}
+  - {url: pypi.org, port: 443}
+  - {url: hub.docker.com, port: 443}

@@ -1,0 +1,14 @@
+---
+apt_nginx_packages:
+  - nginx
+  - vim
+  - git
+
+yum_nginx_packages:
+  - epel-release     
+  - nginx  
+  - git   
+
+default_home_1: "/var/www/test1.com/html"
+
+default_home_2: "/var/www/test2.com/html"

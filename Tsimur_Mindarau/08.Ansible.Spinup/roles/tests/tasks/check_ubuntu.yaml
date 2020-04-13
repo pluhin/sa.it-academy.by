@@ -1,0 +1,20 @@
+---
+
+- name: Check repo Ubuntu
+
+  block:
+    - name: Check repo ubuntu
+      uri:
+        url: "{{ item }}"
+        return_content: yes
+      register: out
+      with_items: "{{ ubuntu_repo }}"
+      failed_when: out.status != 200
+  rescue:
+     - name: Send  to Slack
+       slack:
+          token: TUQ1BR7GT/B0114M1F8H0/e1Bq3FXkdNP3yy7rShCtVjun
+          msg: "Faild: ###############UBUNTU REPO NOT AVAILABLE############# {{ ansible_host }}"
+          channel: '#ansible_notif'
+          username: 'incoming-webhook'
+          parse: 'full'

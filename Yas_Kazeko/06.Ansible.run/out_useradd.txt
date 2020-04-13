@@ -1,0 +1,39 @@
+
+PLAY [all] **********************************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [192.168.203.15]
+ok: [192.168.203.13]
+ok: [192.168.203.16]
+ok: [192.168.203.14]
+ok: [18.194.96.246]
+
+TASK [Add sudoers users] ********************************************************************************
+ok: [192.168.203.15]
+ok: [192.168.203.14]
+ok: [192.168.203.13]
+ok: [192.168.203.16]
+ok: [18.194.96.246]
+
+TASK [Allow "updater_1" to have passwordless sudo] ******************************************************
+ok: [192.168.203.15]
+ok: [192.168.203.14]
+ok: [192.168.203.16]
+ok: [192.168.203.13]
+ok: [18.194.96.246]
+
+TASK [Set up authorized_keys for the "updater_1" user] **************************************************
+ok: [192.168.203.15]
+ok: [192.168.203.14]
+ok: [192.168.203.13]
+ok: [192.168.203.16]
+ok: [18.194.96.246]
+
+PLAY RECAP **********************************************************************************************
+18.194.96.246              : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.203.13             : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.203.14             : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.203.15             : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+192.168.203.16             : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Playbook run took 0 days, 0 hours, 0 minutes, 7 seconds

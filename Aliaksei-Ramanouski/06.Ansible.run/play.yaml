@@ -1,0 +1,15 @@
+---
+- hosts: " {{ group }} "
+  tasks:
+    - name: OS/version  
+      debug: 
+        msg: " {{ ansible_distribution }} | {{ ansible_distribution_version }} "
+    - name: Mount point/capacity/used
+      debug:
+        msg: " {{ ansible_mounts[0].mount }} | {{ ansible_mounts[0].block_total }} | {{ansible_mounts[0].block_used}} "
+    - name: RAM/capacity/used
+      debug:
+        msg: " {{ ansible_memory_mb.real.total }} | {{ ansible_memory_mb.real.free }} "
+      tags:
+        - all_test
+    

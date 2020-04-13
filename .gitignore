@@ -167,3 +167,4 @@ __pycache__
 *.iml
 .project
 
+.ansible_vault_pass

@@ -1,0 +1,10 @@
+---
+- name: Check Pip repository
+  block:
+    - name: Pip repository
+      uri:
+        url: "{{ item }}"
+        return_content: no
+      register: out_uri
+      with_items: "{{ pip_package_repository }}"
+      failed_when: out_uri.status != 200

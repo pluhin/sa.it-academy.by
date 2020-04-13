@@ -1,0 +1,13 @@
+Started by user yauheni
+Running as SYSTEM
+Building on master in workspace /var/lib/jenkins/workspace/10.Test_connection
+[10.Test_connection] $ ansible all -i 192.168.203.32, -m ping -f 5 --private-key /tmp/ssh3760385392158962816.key -u jenkins
+192.168.203.32 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+Triggering a new build of 20.Install_upgrade_nmap
+Finished: SUCCESS

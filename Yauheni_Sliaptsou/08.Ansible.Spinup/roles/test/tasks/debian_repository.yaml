@@ -1,0 +1,10 @@
+---
+- name: Check Debian repository
+  block:
+    - name: Debian repository
+      uri:
+        url: "{{ item }}"
+        return_content: no
+      register: out_uri
+      with_items: "{{ debian_repository }}"
+      failed_when: out_uri.status != 200
