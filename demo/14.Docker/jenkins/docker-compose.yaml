@@ -1,0 +1,19 @@
+version: '3.3'
+
+services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: PRD.Dockerfile
+      #target: jenkins_cli
+    image: jenkins_ci_base
+    container_name: jenkins_ci_current
+    user: jenkins
+    volumes:
+      - ./data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8082:8080"
+    environment:
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+      PASS: admin
