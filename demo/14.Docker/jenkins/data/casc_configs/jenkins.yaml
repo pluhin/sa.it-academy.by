@@ -1,0 +1,18 @@
+jenkins:
+  numExecutors: 4
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+    - usernamePassword:
+        description: "Githubuser"
+        id: "some_randome"
+        password: "password"
+        scope: GLOBAL
+        username: "git_hub_user"
+unclassified:
+  location:
+    adminAddress: "pluhin@gmail.com"
+    url: "http://jenkins.plu/"
+  shell:
+    shell: "/bin/bash"
