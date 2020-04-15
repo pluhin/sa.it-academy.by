@@ -1,0 +1,12 @@
+---
+repos:
+  - {name: 'Debian', url: 'https://packages.debian.org/stable/allpackages'}
+  - {name: 'Centos', url: 'http://mirror.centos.org/centos/'}
+  - {name: 'PIP', url: 'https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3'}
+  - {name: 'Docker', url: 'https://hub.docker.com/_/nginx'}
+
+thresholds: {
+  ram: 10,
+  hdd: 10
+}
+

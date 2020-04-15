@@ -1,0 +1,28 @@
+---
+- name: check sudo
+  block:
+    - shell: sudo -l
+      register: result
+    - debug:
+        msg: "{{ 'SUDO is ready' if 'NOPASSWD' in result.stdout else 'SUDO is unavailable' }}"
+  rescue:
+    - debug:
+        msg: "SUDO is unavailable"
+  tags:
+    - sudo
+
+- name: check repository
+  include_tasks: check_url.yaml
+  loop: "{{ repos }}"
+
+- name: check ram
+  assert:
+    that: ansible_memfree_mb > thresholds.ram
+    fail_msg: "RAM is unsufficient"
+    success_msg: "RAM is OK"
+
+- name: check hdd
+  assert:
+    that: ansible_mounts[0].size_available > thresholds.hdd
+    fail_msg: "HDD is unsufficient"
+    success_msg: "HDD is OK"

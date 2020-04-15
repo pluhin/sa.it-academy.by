@@ -1,0 +1,47 @@
+$instance_name_prefix = "k8s-home"
+$vm_gui = false
+
+$script = <<-SCRIPT
+cat /tmp/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
+chmod 600 /home/vagrant/.ssh/authorized_keys
+SCRIPT
+
+
+MACHINES = {
+  'master' =>  { vcpu: '2', ram: '2048', ip: '10.20.30.30', ssh_port: '33100', size: '20240', file: "data_master.vdi"},
+  'node1' =>   { vcpu: '2', ram: '2048', ip: '10.20.30.31', ssh_port: '33101', size: '20240', file: "data_node1.vdi"},
+#  'node2' =>   { vcpu: '2', ram: '2048', ip: '10.20.30.32', ssh_port: '33102', size: '20240', file: "data_node2.vdi"},
+  'etcd' =>    { vcpu: '1', ram: '1024', ip: '10.20.30.33', ssh_port: '33401', size: '20240', file: "data_nfs1.vdi"},
+}
+
+INSTANCES = MACHINES.flat_map do |server_name, server|
+  server.merge({
+    :vagrant_name => "#{server_name}",
+  })
+end
+
+Vagrant.configure("2") do |vagrant|
+  vagrant.ssh.insert_key = false
+  INSTANCES.each do |instance|
+    vagrant.vm.define instance[:vagrant_name] do |machine|
+      machine.vm.box = "bento/debian-9"
+      machine.vm.network "private_network", ip: instance[:ip]
+      machine.vm.hostname = instance[:vagrant_name]
+      machine.vm.network "forwarded_port", guest: 22, host: instance[:ssh_port]
+      machine.vm.provider "virtualbox" do |vb|
+        vb.gui = $vm_gui
+        vb.memory =  instance[:ram]
+        vb.cpus = instance[:vcpu]
+        if !File.exist?(instance[:file])
+            vb.customize ['createhd', '--filename',instance[:file], '--variant', 'Fixed', '--size',  instance[:size]]
+        end
+        vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', instance[:file]]
+      end
+      machine.vm.provision 'Start installation', type: 'shell' do |install|
+        install.inline = 'sudo swapoff -a'
+      end
+      machine.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "/tmp/id_rsa.pub"
+      machine.vm.provision "shell", inline: $script
+    end
+  end
+end
