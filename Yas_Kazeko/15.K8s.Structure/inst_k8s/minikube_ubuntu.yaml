@@ -32,40 +32,18 @@
 
 - name: install apt-key for docker
   apt_key:
-    url: https://download.docker.com/linux/debian/gpg
+    url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
 - name: install docker apt-repository
   apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-    state: present      
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu eoan stable
+    state: present
 
 - name:
   apt:
     update_cache: yes
-    name: 
+    name:
       - docker-ce
       - docker-ce-cli
       - containerd.io
-
-- name: Create a directory if it does not exist
-  file:
-    path: /usr/local/bin
-    state: directory
-    mode: '0775'
-
-- name: Download minikube
-  get_url:
-    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-    dest: /usr/local/bin/minikube
-    mode: '0770'
-
-- name: test start minikube, config net and display dashboard address
-  shell: |
-    minikube start --vm-driver none0
-    kubectl cluster-info
-    kubectl proxy --address='0.0.0.0' --disable-filter=true  &
-    minikube dashboard --url
-  args:
-    executable: /bin/bash
-  delegate_to: localhost
