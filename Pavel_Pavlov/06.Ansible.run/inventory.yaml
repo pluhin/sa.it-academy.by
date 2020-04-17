@@ -1,0 +1,26 @@
+---
+infra:
+  vars:
+    ansible_ssh_user: vagrant
+    ansible_python_interpreter: auto_legacy_silent
+  children:
+    test_is:
+      hosts:
+        host1:
+          ansible_host: 10.0.0.20
+        host2:
+          ansible_host: 10.0.0.21
+
+jump:
+  vars:
+    ansible_ssh_user: vagrant
+  hosts:
+    bastion:
+      ansible_host: 192.168.59.251
+
+test:
+  vars:
+    ansible_ssh_user: vagrant
+  hosts:
+    host3:
+      ansible_host: 10.0.0.22

@@ -1,0 +1,42 @@
+---
+  # Preset steps. minikube installation according to the instructions on the official website.
+  - name: install utils for RHEL
+  
+    yum:
+      name:
+      - curl
+      - gnupg2
+      - apt-transport-https
+      - software-properties-common
+      - ca-certificates
+      state: present
+      update_cache: yes
+      
+# Copy kubernetes.repo
+  - name: Copy kubernetes.repo
+    copy:
+      src: kubernetes.repo
+      dest: "/etc/yum.repos.d/kubernetes.repo"
+      owner: root
+      group: root
+      mode: 0644
+     
+  - name:
+    yum:
+      update_cache: yes
+      name:
+        - kubectl
+        - virtualbox
+
+  - name: install docker apt-repository
+    yum_repository:
+      repo: "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+      state: present
+
+  - name:
+    yum:
+      update_cache: yes
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io

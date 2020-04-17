@@ -1,0 +1,72 @@
+
+PLAY [localhost] **********************************************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************************
+ok: [localhost]
+
+TASK [install utils for Deb] **********************************************************************************************************************
+ok: [localhost]
+
+TASK [install apt-key] ****************************************************************************************************************************
+ok: [localhost]
+
+TASK [shell] **************************************************************************************************************************************
+changed: [localhost]
+
+TASK [apt] ****************************************************************************************************************************************
+ok: [localhost]
+
+TASK [install apt-key for docker] *****************************************************************************************************************
+ok: [localhost]
+
+TASK [install docker apt-repository] **************************************************************************************************************
+ok: [localhost]
+
+TASK [apt] ****************************************************************************************************************************************
+ok: [localhost]
+
+TASK [install utils for RHEL] *********************************************************************************************************************
+skipping: [localhost]
+
+TASK [Copy kubernetes.repo] ***********************************************************************************************************************
+skipping: [localhost]
+
+TASK [yum] ****************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [install docker apt-repository] **************************************************************************************************************
+skipping: [localhost]
+
+TASK [yum] ****************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [Create a directory if it does not exist] ****************************************************************************************************
+ok: [localhost]
+
+TASK [Download minikube] **************************************************************************************************************************
+ok: [localhost]
+
+TASK [test start minikube, config net and display dashboard address] ******************************************************************************
+changed: [localhost]
+
+TASK [debug] **************************************************************************************************************************************
+ok: [localhost] => 
+  msg:
+  - '* minikube v1.9.2 on Ubuntu 19.10'
+  - '* Using the docker driver based on existing profile'
+  - '* Starting control plane node m01 in cluster minikube'
+  - '* Pulling base image ...'
+  - '* Restarting existing docker container for "minikube" ...'
+  - '* Preparing Kubernetes v1.18.0 on Docker 19.03.2 ...'
+  - '  - kubeadm.pod-network-cidr=10.244.0.0/16'
+  - '* Enabling addons: dashboard, default-storageclass, storage-provisioner'
+  - '* Done! kubectl is now configured to use "minikube"'
+  - "\e[0;32mKubernetes master\e[0m is running at \e[0;33mhttps://172.17.0.2:8443\e[0m"
+  - "\e[0;32mKubeDNS\e[0m is running at \e[0;33mhttps://172.17.0.2:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy\e[0m"
+  - ''
+  - To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+PLAY RECAP ****************************************************************************************************************************************
+localhost                  : ok=12   changed=2    unreachable=0    failed=0    skipped=5    rescued=0    ignored=0   
+
+Playbook run took 0 days, 0 hours, 0 minutes, 43 seconds
