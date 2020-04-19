@@ -1,0 +1,47 @@
+---
+version: '3.7'
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./third_party/nginx
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    restart: always
+    depends_on:
+      - radarr
+      - sonarr
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - UMASK_SET=022
+    volumes:
+      - ./radarr/config:/config
+      - ./radarr/movies:/movies
+      - ./radarr/downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - UMASK_SET=022
+    volumes:
+      - ./sonarr/tv:/tv
+      - ./sonarr/config:/config
+      - ./sonarr/downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
