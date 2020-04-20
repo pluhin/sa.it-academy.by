@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-service 
+  labels:
+    run: django-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8000
+    protocol: TCP
+  selector:
+    app: django

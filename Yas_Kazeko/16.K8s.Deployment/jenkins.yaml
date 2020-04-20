@@ -1,0 +1,140 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ci-cd
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: jenkins-secret
+  namespace: ci-cd
+type: Opaque
+data:
+  password: c3VwZXJfcGFzcw==
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins
+  namespace: ci-cd
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 31456
+  selector:
+    app: jenkins
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  namespace: ci-cd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+        - name: jenkins
+          image: jenkins/jenkins
+          env:
+            - name: JAVA_OPTS
+              value: "-Djenkins.install.runSetupWizard=false"
+            - name: PASS
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins-secret
+                  key: password
+          ports:
+            - name: http-port
+              containerPort: 8080
+            - name: jnlp-port
+              containerPort: 50000
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: docker-sock
+              mountPath: /var/run
+            - name: jenkins-auth-config
+              mountPath: /var/jenkins_home/init.groovy.d/basic-security.groovy
+              subPath: basic-security.groovy
+            - name: jenkins-config-yaml
+              mountPath: /var/jenkins_home/casc_configs/jenkins.yaml
+              subPath: jenkins.yaml
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run
+        - name: jenkins-auth-config
+          configMap:
+            name: basic-security
+        - name: jenkins-config-yaml
+          configMap:
+            name: jenkins-config
+---
+apiVersion: "v1"
+kind: "PersistentVolumeClaim"
+metadata:
+  name: "repository"
+  namespace: ci-cd
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: basic-security
+  namespace: ci-cd
+data:
+  basic-security.groovy: |
+        #!groovy        
+        import jenkins.model.*
+        import hudson.security.*
+        def instance = Jenkins.getInstance()
+        println "--> creating local user 'admin'"
+        password = System.getenv("PASS")
+        def hudsonRealm = new HudsonPrivateSecurityRealm(false)
+        hudsonRealm.createAccount('admin',password)
+        instance.setSecurityRealm(hudsonRealm)
+        def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
+        strategy.setAllowAnonymousRead(true)
+        instance.setAuthorizationStrategy(strategy)
+        instance.save()
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-config
+  namespace: ci-cd
+data:
+  jenkins.yaml: |
+        jenkins:
+          numExecutors: 4
+        credentials:
+          system:
+            domainCredentials:
+            - credentials:
+              - usernamePassword:
+                  description: "Githubuser"
+                  id: "some_randome"
+                  password: "password"
+                  scope: GLOBAL
+                  username: "git_hub_user"
+        unclassified:
+          location:
+            adminAddress: "pluhin@gmail.com"
+            url: "http://jenkins.yas/"
+        shell:
+        shell: "/bin/bash"
