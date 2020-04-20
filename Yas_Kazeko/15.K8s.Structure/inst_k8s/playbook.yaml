@@ -1,0 +1,46 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+
+    urls:
+  
+  tasks:
+    - name: Include deploy for Debian systems
+      import_tasks: minikube_ubuntu.yaml
+      when: ansible_os_family|lower == 'debian'
+    - name: Include deploy for RHEL systems
+      import_tasks: minikube_rhel.yaml
+      when: ansible_os_family|lower == 'redhat'
+
+    - name: Create a directory if it does not exist
+      file:
+        path: "/usr/local/bin"
+        state: directory
+        owner: yaskazeko
+        group: yaskazeko
+        mode: 'u=rwx,go=rx'
+      become: yes
+    
+    - name: Download minikube
+      get_url:
+        url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        dest: /usr/local/bin/minikube
+        owner: yaskazeko
+        group: yaskazeko
+        mode: 'u=rwx,go=rx'
+      become: yes
+    
+    - name: test start minikube, config net and display dashboard address
+      shell: |
+        minikube start
+        kubectl cluster-info
+        kubectl proxy --address='0.0.0.0' --disable-filter=true &
+        minikube dashboard --url &
+      args:
+        executable: /bin/bash
+      register: out
+      become: no
+    
+    - debug:
+        msg: "{{ out.stdout }}"
