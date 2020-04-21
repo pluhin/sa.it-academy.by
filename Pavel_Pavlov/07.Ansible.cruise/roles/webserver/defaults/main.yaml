@@ -1,0 +1,24 @@
+---
+ansible_ssh_user: ansuser
+ansible_python_interpreter: auto_legacy_silent
+os_release: "{{ ansible_distribution_release }}"
+
+config_folders:
+  - /etc/nginx/sites-available
+  - /etc/nginx/sites-enabled
+
+sites_available: "/etc/nginx/sites-available"
+enable_site: "/etc/nginx/sites-enabled"
+
+web_folder: "/var/www/"
+
+hostitem: "{{ inventory_hostname }}"
+
+site_enabled: "include /etc/nginx/sites-enabled/*;"
+
+sites_ts01: "site_ts01.local"
+sites_ts02: "site_ts02.local"
+
+virtual_hosts:
+  - {name: "{{ sites_ts01 }}", ip: "{{ ansible_default_ipv4.address }}"}
+  - {name: "{{ sites_ts02 }}", ip: "{{ ansible_default_ipv4.address }}"}

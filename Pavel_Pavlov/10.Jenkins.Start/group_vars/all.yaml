@@ -1,0 +1,9 @@
+---
+apt_needed_packages:
+  - gnupg2
+  - openjdk-11-jre
+
+local_home: "{{ lookup('env','HOME') }}"
+local_user: "{{ lookup('env','USER') }}"
+
+app_name: "jenkins.example.com"

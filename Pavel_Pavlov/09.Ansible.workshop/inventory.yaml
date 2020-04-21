@@ -1,0 +1,5 @@
+---
+srv:
+  hosts:
+    redmine:
+      ansible_host: 192.168.244.33

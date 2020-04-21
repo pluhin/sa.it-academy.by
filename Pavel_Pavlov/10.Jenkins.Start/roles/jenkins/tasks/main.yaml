@@ -1,0 +1,37 @@
+---
+- name: Include Jenkins deploy for Debian system
+  include: jenkins_debian.yaml
+  when: ansible_os_family == 'Debian'
+
+# Добавить запись в локальный файл hosts
+
+- name: Add reccord in local hosts file
+  connection: local
+  shell: |
+    echo "{{ ansible_host }} {{ app_name }}" | tee -a /etc/hosts
+
+- name: Check connect to the jenkins
+  connection: local
+  uri:
+    url: "http://{{ app_name }}"
+    return_content: yes
+  register: this
+  failed_when: "'url=/login?from' not in this.content"
+
+    # Get jenkins private and public keys
+
+- name: Create jenkins keys
+  shell: |
+    runuser -l jenkins -c 'echo -e "\n\n" | ssh-keygen -t rsa'
+    runuser -l jenkins -c 'cat ~/.ssh/id_rsa'
+    runuser -l jenkins -c 'cat ~/.ssh/id_rsa.pub'
+  register: outkey
+  tags:
+    - get::key
+
+- debug:
+    msg: "{{ outkey.stdout_lines }}"
+  tags:
+    - get::key
+
+

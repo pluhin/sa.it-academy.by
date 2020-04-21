@@ -1,0 +1,33 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+
+# Проверка связи
+
+    - name: Ping
+      ping:
+
+# Обновить репозитории
+
+    - name: Update repo cache
+      apt:
+        update_cache: yes
+
+  roles:
+    - jenkins
+
+  post_tasks:
+
+    # Получить код для активации Jenkins
+
+    - name: Get code
+      shell: |
+        cat /var/lib/jenkins/secrets/initialAdminPassword
+      register: code
+      tags:
+        - code
+
+    - debug:
+        msg: "Jenkins is available at http://{{ app_name }} with next code {{ code.stdout }}"
+
