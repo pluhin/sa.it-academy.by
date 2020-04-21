@@ -1,0 +1,82 @@
+---
+# Установка пакетов необходимых для установки и работы Jenkins
+
+    - name: Install prerequisted
+      apt:
+        name: "{{ apt_needed_packages }}"
+        state: latest
+
+# Добавление репозитория Jenkins
+
+    - name: Add jenkins repo key
+      apt_key:
+        url: https://pkg.jenkins.io/debian/jenkins.io.key
+        state: present
+
+    - name: Add jenkins repo
+      apt_repository:
+        repo: deb https://pkg.jenkins.io/debian-stable binary/
+        state: present
+        filename: 'jenkins.list'
+
+    - name: Update repo cache
+      apt:
+        update_cache: yes
+
+# Установка Jenkins
+
+    - name: Install jenkins
+      apt:
+        name: jenkins
+        state: latest
+
+# Установка nginx
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: latest
+
+# Config nginx for Jenkins
+
+    - name: Delete default nginx config
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      tags:
+        - config::nginx
+
+    - name: Copy config file
+      template:
+        src: jenkins.conf.j2
+        dest: /etc/nginx/sites-available/jenkins.conf
+      tags:
+        - config::nginx
+
+    - name: Enable nginx config for Jenkins
+      file:
+        src: /etc/nginx/sites-available/jenkins.conf
+        dest: /etc/nginx/sites-enabled/jenkins.conf
+        state: link
+      tags:
+        - config::nginx
+
+    - name: Check nginx config
+      shell: |
+        nginx -t
+      register: nginx_config_status
+      tags:
+        - config::nginx
+
+    - debug:
+        msg: "{{ nginx_config_status }}"
+      tags:
+        - config::nginx
+
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes
+      tags:
+        - config::nginx
