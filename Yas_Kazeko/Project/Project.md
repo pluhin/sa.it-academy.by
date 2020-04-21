@@ -16,7 +16,6 @@
 ### Technologies which were used in project
 - **Orchestration:** Jenkins
 - **Automation tools:** Ansible
-- **Infrastructure:** Metal
 - **Container:** Docker
 - **CVS:** GitHub
 - **CI description:** by schedule
