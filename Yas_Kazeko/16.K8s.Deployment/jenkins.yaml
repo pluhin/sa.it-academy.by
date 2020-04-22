@@ -79,6 +79,7 @@ spec:
         - name: jenkins-config-yaml
           configMap:
             name: jenkins-config
+#---------------------------
 ---
 apiVersion: "v1"
 kind: "PersistentVolumeClaim"
@@ -91,6 +92,8 @@ spec:
   resources:
     requests:
       storage: 10Gi
+
+#---------------------------
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -131,10 +134,10 @@ data:
                   id: "some_randome"
                   password: "password"
                   scope: GLOBAL
-                  username: "git_hub_user"
+                  username: "yaskazeko"
         unclassified:
           location:
-            adminAddress: "pluhin@gmail.com"
+            adminAddress: "yaskazeko@gmail.com"
             url: "http://jenkins.yas/"
         shell:
         shell: "/bin/bash"

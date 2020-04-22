@@ -1,1 +1,1 @@
-## Deploy Django-CMS
+## CI-CD WordPress + MariaDB

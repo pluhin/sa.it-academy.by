@@ -8,7 +8,7 @@
 - Application is written in PHP
 - Used database: MariaDB
 - Proxy: Nginx
-- [GitHUB repository](https://github.com/yaskazeko/wordpress)
+- [GitHUB CI-CD repository](https://github.com/yaskazeko/wordpress)
 
 ### High Level Design
 ![block](./block_diagram.jpg)
