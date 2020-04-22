@@ -1,0 +1,13 @@
+[Unit]
+Description=start server.js
+After=network.target
+
+[Service]
+Environment=NODE_PORT=4201
+User=user
+WorkingDirectory=/home/user/prod/03.npm_Deploy
+ExecStart=/usr/bin/node /home/user/prod/03.npm_Deploy/server.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
