@@ -12,6 +12,9 @@ Description of application for deployment
 
 - Simple Todo app with ability to save info in the MongoDB.
 
+Scheme
+----
+
 ![Sheme](https://github.com/manlyalex/project/blob/master/sheme-03.jpg)
 
 Technologies which were used in project
