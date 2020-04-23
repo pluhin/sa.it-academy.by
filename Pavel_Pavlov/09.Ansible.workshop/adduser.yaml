@@ -1,0 +1,34 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+
+  - name: Ping
+    ping:
+
+  - name: Add user {{ username }}
+    user:
+      name: "{{ username }}"
+      password: "{{ userpass | password_hash('md5')}}"
+      shell: /bin/bash
+      comment: Managed by ansible
+      state: present
+
+  - name: Take SSH key
+    authorized_key:
+      user: "{{ username }}"
+      state: present
+      key: "{{ lookup('file', '/home/ppa/.ssh/id_rsa.pub') }}"
+
+  - name: Take SUDO
+    shell:
+      echo "{{ username }}   ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/{{ username }}
+
+  - name: Deny password login
+    lineinfile:
+      path: /etc/ssh/ssh_config
+      backup: yes
+      regexp: '^PasswordAuthentication'
+      line: "PasswordAuthentication no"
+      insertafter: '^#(\s*)PasswordAuthentication'

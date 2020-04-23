@@ -1,0 +1,74 @@
+- hosts: "{{group}}"
+  vars:
+    username: "{{user_to_add}}"
+    userpass: "{{user_password}}"
+  become: True
+  tasks:
+
+# Get Host info
+  - name: Get host info
+    debug:
+      msg: "Hostname - {{ ansible_hostname }}; OS - {{ ansible_distribution }} {{ ansible_distribution_version }}"
+    tags:
+      - hostinfo
+      - info
+
+# Get Host IP info
+  - name: Get host IP info
+    debug:
+      msg: "{{ ansible_hostname }} IPv4 address - {{ ansible_all_ipv4_addresses }} "
+    tags:
+      - ipinfo
+      - info
+
+# Get RAM Info
+  - name: Get RAM info
+    debug:
+      msg: "RAM: total {{ ansible_memtotal_mb }}Mb / free {{ ansible_memfree_mb }}Mb "
+    tags:
+      - meminfo
+      - info
+
+# Get Disk info
+  - name: Get disk info
+    command: 
+      df -h
+    register: output
+    tags:
+      - diskinfo
+      - info
+  - debug:
+      msg: "{{ output.stdout_lines }}"
+    tags:
+      - diskinfo
+      - info
+
+# Create new user    
+  - name: Add user {{ username }}
+    user:
+      name: "{{ username }}"
+      password: "{{ userpass | password_hash('md5')}}"
+      generate_ssh_key: yes
+      ssh_key_file: .ssh/id_rsa
+      comment: Managed by ansible
+      state: present
+    tags:
+      - adduser
+
+  - name: Take SSH key
+    authorized_key:
+      user: "{{username}}"
+      state: present
+      key: "{{ lookup('file', '/home/ppa/.ssh/id_rsa.pub') }}"
+    tags:
+      - adduser
+      - addsshkey
+
+  - name: Take SUDO
+    shell:
+      echo "{{ username }}   ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/{{ username }}
+    tags:
+      - adduser
+      - addsudo
+
+

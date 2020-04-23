@@ -1,0 +1,19 @@
+---
+- name: Create web folder
+  file:
+    path: "{{ web_folder }}"
+    state: directory
+
+- name: Create config directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop: "{{ config_folders }}"
+
+- name: Add site config string
+  lineinfile:
+    path: /etc/nginx/nginx.conf
+    backup: yes
+    regexp: '^(\s)*include \/etc\/nginx\/sites-enabled\/.*'
+    line: "{{ site_enabled }}"
+    insertafter: 'include(\s)*\/etc\/nginx\/conf\.d\/*'

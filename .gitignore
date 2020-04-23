@@ -154,4 +154,17 @@ dmypy.json
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+*.test
+*.list
+*.pem
+*.pyc
+*.retry
+.*.swp
+/.vagrant
+env
+__pycache__
+.idea/*
+*.iml
+.project
+
 .ansible_vault_pass

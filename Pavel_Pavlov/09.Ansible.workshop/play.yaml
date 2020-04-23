@@ -1,0 +1,32 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+    - name: Ping
+      ping:
+
+    - name: Pre-task | HW info
+      vars:
+        msg: |
+          Hostname: {{ ansible_hostname }}
+          Arch: {{ ansible_architecture }}
+          CPU Core: {{ ansible_processor_cores }}
+          RAM: {{ ansible_memtotal_mb }}
+      debug:
+        msg: "{{ msg.split('\n') }}"
+      failed_when: "ansible_memtotal_mb|float < 2048"
+      tags:
+        -hostinfo
+
+    - name: Pre-task | apt update repository cache
+      apt:
+        update_cache: yes
+
+    - name: Pre-task | Install Redmine dependences
+      apt:
+        name: "{{ apt_redmine_packages }}"
+        state: latest
+
+  roles:
+    - mysql
+    - redmine

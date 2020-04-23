@@ -1,0 +1,14 @@
+---
+- name: check urls
+  block:
+    - name: check url availability
+      uri:
+        url: "{{ item.url }}"
+        return_content: no
+      register: result
+      failed_when: result.status != 200
+    - debug:
+        msg: "{{ item.name }} available"
+  rescue:
+    - debug:
+        msg: "{{ item.name }} connection failed"
