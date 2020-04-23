@@ -1,0 +1,9 @@
+---
+- hosts: "{{ group }}"
+  become: true
+  pre_tasks:
+    - name: Ping
+      ping:
+
+  roles:
+    - webserver

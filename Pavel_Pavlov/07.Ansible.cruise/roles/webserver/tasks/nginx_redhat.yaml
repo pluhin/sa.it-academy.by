@@ -1,0 +1,21 @@
+---
+- name: Updgrade system
+  yum:
+    name: '*'
+    state: latest
+
+- name: Install epel-release
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install nginx
+  yum:
+    name: nginx
+    state: present
+
+- name: Start nginx
+  service:
+    name: nginx
+    enabled: yes
+    state: restarted

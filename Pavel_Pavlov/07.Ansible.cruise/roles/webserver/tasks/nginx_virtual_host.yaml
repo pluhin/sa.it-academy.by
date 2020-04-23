@@ -1,0 +1,39 @@
+---
+- name: Modify hosts file
+  template:
+    src: hosts.j2
+    dest: "/etc/hosts"
+    backup: yes
+
+- name: Create site directory
+  file:
+    path: "{{ web_folder }}{{ item }}"
+    state: directory
+  loop:
+    - "{{ sites_ts01 }}"
+    - "{{ sites_ts02 }}"
+
+- name: Copy index file
+  template:
+    src: index.html.j2
+    dest: "{{ item }}"
+  loop:
+    - "{{ web_folder }}{{ sites_ts01 }}/index.html"
+    - "{{ web_folder }}{{ sites_ts02 }}/index.html"
+
+- name: Copy config file
+  template:
+    src: site_config.j2
+    dest: "{{sites_available}}/{{ item }}"
+  loop:
+    - "{{ sites_ts01 }}"
+    - "{{ sites_ts02 }}"
+
+- name: Enable sites
+  file:
+    src: "{{sites_available}}/{{ item }}"
+    dest: "{{ enable_site }}/{{ item }}"
+    state: link
+  loop:
+    - "{{ sites_ts01 }}"
+    - "{{ sites_ts02 }}"

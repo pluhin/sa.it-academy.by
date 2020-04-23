@@ -1,0 +1,73 @@
+192.168.203.18 | CHANGED | rc=0 >>
+# Nmap 7.60 scan initiated Wed Apr 22 18:40:33 2020 as: nmap -n -sn -oG - 192.168.203.0-64
+Host: 192.168.203.1 ()    Status: Up
+Host: 192.168.203.2 ()    Status: Up
+Host: 192.168.203.3 ()    Status: Up
+Host: 192.168.203.4 ()    Status: Up
+Host: 192.168.203.5 ()    Status: Up
+Host: 192.168.203.6 ()    Status: Up
+Host: 192.168.203.7 ()    Status: Up
+Host: 192.168.203.8 ()    Status: Up
+Host: 192.168.203.9 ()    Status: Up
+Host: 192.168.203.10 ()    Status: Up
+Host: 192.168.203.11 ()    Status: Up
+Host: 192.168.203.12 ()    Status: Up
+Host: 192.168.203.13 ()    Status: Up
+Host: 192.168.203.14 ()    Status: Up
+Host: 192.168.203.15 ()    Status: Up
+Host: 192.168.203.16 ()    Status: Up
+Host: 192.168.203.17 ()    Status: Up
+Host: 192.168.203.19 ()    Status: Up
+Host: 192.168.203.20 ()    Status: Up
+Host: 192.168.203.21 ()    Status: Up
+Host: 192.168.203.22 ()    Status: Up
+Host: 192.168.203.23 ()    Status: Up
+Host: 192.168.203.24 ()    Status: Up
+Host: 192.168.203.25 ()    Status: Up
+Host: 192.168.203.26 ()    Status: Up
+Host: 192.168.203.27 ()    Status: Up
+Host: 192.168.203.28 ()    Status: Up
+Host: 192.168.203.29 ()    Status: Up
+Host: 192.168.203.30 ()    Status: Up
+Host: 192.168.203.31 ()    Status: Up
+Host: 192.168.203.32 ()    Status: Up
+Host: 192.168.203.33 ()    Status: Up
+Host: 192.168.203.34 ()    Status: Up
+Host: 192.168.203.35 ()    Status: Up
+Host: 192.168.203.36 ()    Status: Up
+Host: 192.168.203.37 ()    Status: Up
+Host: 192.168.203.38 ()    Status: Up
+Host: 192.168.203.39 ()    Status: Up
+Host: 192.168.203.40 ()    Status: Up
+Host: 192.168.203.41 ()    Status: Up
+Host: 192.168.203.42 ()    Status: Up
+Host: 192.168.203.43 ()    Status: Up
+Host: 192.168.203.44 ()    Status: Up
+Host: 192.168.203.45 ()    Status: Up
+Host: 192.168.203.46 ()    Status: Up
+Host: 192.168.203.47 ()    Status: Up
+Host: 192.168.203.48 ()    Status: Up
+Host: 192.168.203.49 ()    Status: Up
+Host: 192.168.203.50 ()    Status: Up
+Host: 192.168.203.51 ()    Status: Up
+Host: 192.168.203.52 ()    Status: Up
+Host: 192.168.203.53 ()    Status: Up
+Host: 192.168.203.54 ()    Status: Up
+Host: 192.168.203.55 ()    Status: Up
+Host: 192.168.203.56 ()    Status: Up
+Host: 192.168.203.57 ()    Status: Up
+Host: 192.168.203.58 ()    Status: Up
+Host: 192.168.203.59 ()    Status: Up
+Host: 192.168.203.60 ()    Status: Up
+Host: 192.168.203.18 ()    Status: Up
+# Nmap done at Wed Apr 22 18:40:34 2020 -- 65 IP addresses (60 hosts up) scanned in 0.93 seconds
+192.168.203.18 | CHANGED | rc=0 >>
+Retrieving speedtest.net configuration...
+Testing from COSMOS Telecom (178.172.195.18)...
+Retrieving speedtest.net server list...
+Selecting best server based on ping...
+Hosted by A1 (Minsk) [0.08 km]: 43.274 ms
+Testing download speed................................................................................
+Download: 521.05 Mbit/s
+Testing upload speed......................................................................................................
+Upload: 4.15 Mbit/s
