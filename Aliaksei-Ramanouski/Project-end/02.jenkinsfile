@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('clone repo') {
+            steps{
+                deleteDir()
+                git branch: 'master',
+                url: 'https://github.com/manlyalex/node-todo'
+            }
+        }
+        stage('deploy app with version') {
+            steps{
+                sh '''
+                #!bin/bash
+                if [ $VERSION_TO_DEPLOY != "" ]; then
+                git checkout tags/$VERSION_TO_DEPLOY -b jenkins-branch
+                fi
+                '''
+            }
+        }
+        stage('npm install') {
+            steps{
+                sh 'npm install'
+            }
+        }
+        
+        stage ("SSH copy app and restart server") {
+          steps{
+            withCredentials([sshUserPrivateKey(credentialsId: 'host-246', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'username')]) {
+              script{
+                    def remote = [:]
+                    remote.name = "root"
+                    remote.identityFile = "~/.ssh/id_rsa"
+                    remote.host = "192.168.100.251"
+                    remote.allowAnyHosts = true
+                    remote.user = "$username"
+                    
+                    sshCommand remote: remote, command: "systemctl stop node_api"
+                    sshRemove remote: remote, path: '/home/user/prod/*'
+                    sshPut remote: remote, from: '.', into: '/home/user/prod'
+                    sshCommand remote: remote, command: "systemctl start node_api"
+                    }    
+                }
+            }
+        }
+    }
+    post {
+    success {
+      slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+    failure {
+      slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+    }
+}

@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: true
+  gather_facts: no
+  pre_tasks:
+    - name: check host
+      shell: |
+        hostname
+      register: out
+
+    - name: Show host
+      debug:
+        msg: "{{ out.stdout }}"
+
+  roles:
+  - python
+  - nodejs
+  - mongo
+  - web
+  - deploy
+  - systemd
+  - check_app

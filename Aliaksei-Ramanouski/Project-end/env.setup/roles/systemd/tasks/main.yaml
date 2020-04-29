@@ -1,0 +1,8 @@
+---
+- name: server-js | Create Unit file
+  template: src=node_api.service.j2 dest=/etc/systemd/system/node_api.service mode=644
+  notify:
+    - reload systemctl
+
+- name: server.js | Start server.js
+  service: name=node_api.service state=restarted enabled=yes
