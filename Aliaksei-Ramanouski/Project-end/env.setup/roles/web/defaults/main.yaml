@@ -1,0 +1,7 @@
+---
+apt_nginx_packages:
+  - nginx
+  - vim
+  - git
+
+default_config: "/etc/nginx/sites-available"

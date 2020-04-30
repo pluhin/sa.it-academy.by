@@ -1,0 +1,13 @@
+---
+- name: Add mongo ppa key
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: 7F0CEB10
+    state: present
+
+- name: Install mongo
+  apt:
+    name: mongodb
+    state: present
+    update_cache: yes
+

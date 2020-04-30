@@ -1,0 +1,67 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('clone repo') {
+            steps{
+                deleteDir()
+                git branch: 'master',
+                url: 'https://github.com/manlyalex/node-todo'
+            }
+        }
+        stage('ls') {
+            steps{
+                sh 'ls -l'
+            }
+        }
+        stage('npm install') {
+            steps{
+                sh 'npm install'
+            }
+        }
+        stage ('test lint') {
+            steps{
+                sh 'npm run lint'
+            }
+        }
+        stage('config') {
+            steps{
+                sh '''
+                  git config --global user.name $USER_NAME
+                  git config --global user.email $USER_EMAIL
+                  git status --porcelain
+                '''
+            }
+        }
+        stage ('New version'){
+            steps {
+                script {
+                    newVersion = sh(script: 'npm version patch -m "Bumped version %s."', returnStdout: true).trim()
+                }
+            echo "${newVersion}"
+            } 
+        }
+        stage('Publish') {
+            steps {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'git_hub', usernameVariable: 'GIT_AUTHOR_NAME', passwordVariable: 'GIT_PASSWORD']]) {
+                    sh('git push https://${GIT_AUTHOR_NAME}:${GIT_PASSWORD}@github.com/manlyalex/node-todo.git master --tags')
+                }
+            }
+        }
+        stage ('Start_Deploy') {
+            steps {
+                build job: '03.npm_Deploy', parameters: [
+                string(name: 'VERSION_TO_DEPLOY', value: "${newVersion}")
+                ]
+            }
+        }
+    }
+    post {
+    success {
+      slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) ${newVersion}")
+        }
+    failure {
+      slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+    }
+}

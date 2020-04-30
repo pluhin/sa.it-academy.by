@@ -1,0 +1,12 @@
+---
+center:
+  vars:
+    ansible_user: root
+    site_ub01: "prod.com"
+    virtual_hosts:
+      - { name: "{{ site_ub01 }}", ip: "{{ hostvars[\"env.setup\"].ansible_host }}"}
+  children:
+    prod:
+      hosts:
+        env.setup:
+          ansible_host: 192.168.100.251

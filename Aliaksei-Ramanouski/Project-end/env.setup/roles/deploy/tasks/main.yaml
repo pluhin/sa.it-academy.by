@@ -1,0 +1,16 @@
+---
+  - name: create directory
+    file:
+      path: /home/user/prod/03.npm_Deploy
+      state: directory
+      recurse: yes
+
+  - name: clone repo
+    git:
+      repo: https://github.com/manlyalex/node-todo.git
+      dest: /home/user/prod/03.npm_Deploy
+      version: master
+  - name: Install packages based on package.json.
+    npm:
+      path: /home/user/prod/03.npm_Deploy
+
