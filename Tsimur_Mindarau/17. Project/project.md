@@ -18,7 +18,7 @@ https://wordpress.org/download/
 
 ### Scheme here
 
-![GitHub Logo](img/sсh.png)
+![Pipline](img/sсh.png)
 
 ### Technologies which were used in project
 
