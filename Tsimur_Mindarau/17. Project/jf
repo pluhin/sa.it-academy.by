@@ -1,0 +1,74 @@
+pipeline {
+    environment {
+        registry = "tsimur1010/project"
+        registryCredential = 'dockerhub_id'
+        dockerImage = ''
+    }
+    agent any
+    stages {
+        stage('Git Clone app') {
+            steps {
+                dir('appfiles') {
+                    git 'https://github.com/tsimur/project_app.git'
+                }
+            }
+        }
+        stage('Git Clone pipeline') {
+            steps {
+                git 'https://github.com/tsimur/project_pl.git'
+            }
+        }
+        stage('Building image') {
+            steps {
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
+            }
+        }
+        stage('Push image on dockerhub ') {
+            steps {
+                script {
+                    docker.withRegistry('', registryCredential) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+        stage('Cleaning up') {
+            steps {
+                sh "docker rmi $registry:$BUILD_NUMBER"
+            }
+        }
+        stage('Deploy image on kubernetes') {
+            steps {
+            script {
+                    def image_id = registry + ":$BUILD_NUMBER"
+                    sh "ansible-playbook  playapp.yaml --extra-vars \"image_id=${image_id} \""
+                }
+
+            }
+        }
+        stage('Deploy service for app') {
+            steps {
+                script {
+                    sh "ansible-playbook  playservice.yaml"
+                }
+            }
+        }
+
+    }
+
+    post {
+        // only triggered when blue or green sign
+        success {
+            slackSend channel: '#project_notification',
+            message: 'Pipeline, success'
+        }
+        // triggered when red sign
+        failure {
+            slackSend channel: '#project_notification',
+            message: 'Pipeline, failure'
+        }
+    }
+
+}
