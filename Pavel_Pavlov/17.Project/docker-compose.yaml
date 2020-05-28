@@ -1,0 +1,31 @@
+---
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql
+    container_name: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: $mysql_database
+      MYSQL_USER: $mysql_user
+      MYSQL_PASSWORD: $mysql_password
+      MYSQL_ROOT_PASSWORD: $mysql_root_password
+    volumes:
+      - ./wpdata:/var/lib/mysql
+
+  wordpress:
+    image: wordpress
+    container_name: wordpress
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: $mysql_user
+      WORDPRESS_DB_PASSWORD: $mysql_password
+      WORDPRESS_DB_NAME: $mysql_database
+    ports:
+      - 80:80
+    volumes:
+      - ./wordpress:/var/www/html
