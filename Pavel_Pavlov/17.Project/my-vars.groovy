@@ -1,0 +1,8 @@
+wp_host="192.168.244.40"
+wp_title="Test site"
+wp_user_name="admin"
+wp_user_pass="admin"
+wp_user_mail="admin@e.mail"
+MYSQL_ROOT_PASSWORD="example"
+GIT_USER="Pavel Pavlov"
+GIT_EMAIL="ppavlov28@gmail.com"
