@@ -1,0 +1,23 @@
+* commit 8a307c19e17eb60a7f2e4f7c34a693c4001d727b
+| Author: Andrew Tarulis <ramzai138@gmail.com>
+| Date:   Thu Jul 16 19:45:08 2020 +0300
+| 
+|     second commit in dev
+| 
+* commit aee7a1ffa5242b230a1f1f4c6c27b08d1df5afe6
+| Author: Andrew Tarulis <ramzai138@gmail.com>
+| Date:   Thu Jul 16 19:45:08 2020 +0300
+| 
+|     first commit in dev
+| 
+* commit 5dc56a2bf473ff5b343e4291b38ea6a73fd6552d
+| Author: Andrew Tarulis <ramzai138@gmail.com>
+| Date:   Thu Jul 16 19:45:07 2020 +0300
+| 
+|     second commit in master
+| 
+* commit 53ba746fc0508d287efb58eccbe0577c3e6ececa
+  Author: Andrew Tarulis <ramzai138@gmail.com>
+  Date:   Thu Jul 16 19:45:07 2020 +0300
+  
+      first commit in master
