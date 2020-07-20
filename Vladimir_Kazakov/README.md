@@ -7,7 +7,6 @@
 ## Group number: m-sa2-13-20
 
 ## Description of application for deployment
-=======
 
 ## Project's reporter: Vladimir Kazakov
 ## Group number: m-sa2-13-20
