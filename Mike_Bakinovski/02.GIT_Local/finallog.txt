@@ -1,0 +1,56 @@
+*   commit 04b579b95a07dc1e168cb60594c706553c348c7b
+|\  Merge: c126fea d4cb2ba
+| | Author: MikeBakinovski <mike.bakinovski@gmail.com>
+| | Date:   Tue Jul 21 09:33:27 2020 +0300
+| | 
+| |     HOTFIX DEPLOY TO 'dev' BRANCH
+| |       
+| | *   commit 53bf8d8a82f6fb23fde1de983d92f16cec7027cf
+| | |\  Merge: 5ad5747 d4cb2ba
+| | |/  Author: MikeBakinovski <mike.bakinovski@gmail.com>
+| |/|   Date:   Tue Jul 21 09:33:27 2020 +0300
+| | |   
+| | |       HOTFIX DEPLOY TO 'features/do_one' BRANCH
+| | |        
+| | | *   commit 98b231a9a1ba7c0d3ed02ab5b54c1a84ae066fd5
+| | | |\  Merge: 5ad5747 d4cb2ba
+| | |/ /  Author: MikeBakinovski <mike.bakinovski@gmail.com>
+| | | /   Date:   Tue Jul 21 09:33:27 2020 +0300
+| | |/    
+| |/|         HOTFIX DEPLOY TO 'master' BRANCH
+| | |    
+| * | commit d4cb2baa35fc90b6d14313c9b900800bb84b91ee
+| | | Author: MikeBakinovski <mike.bakinovski@gmail.com>
+| | | Date:   Tue Jul 21 09:33:27 2020 +0300
+| | | 
+| | |     One commit to hotfix/we_gonna_die with gonna_dielog.txt file.
+| | |    
+| | * commit 5ad5747f9c49e3e18cb1fcd607f89d16cd346d3b
+| |/  Author: MikeBakinovski <mike.bakinovski@gmail.com>
+|/|   Date:   Tue Jul 21 09:33:27 2020 +0300
+| |   
+| |       One commit to features/do_one with do_onelog.txt file.
+| |   
+* | commit c126fea1ddac5ac57fc86fb8d0355257e76d509a
+| | Author: MikeBakinovski <mike.bakinovski@gmail.com>
+| | Date:   Tue Jul 21 09:33:27 2020 +0300
+| | 
+| |     Second commit to dev with devlog.txt file.
+| |   
+* | commit 1dedc6e0ab1da1319aa1c35771b6f83c215d53ee
+|/  Author: MikeBakinovski <mike.bakinovski@gmail.com>
+|   Date:   Tue Jul 21 09:33:27 2020 +0300
+|   
+|       First commit to dev with devlog.txt file.
+|  
+* commit 595c1c3aea8587ab6871ff90fd20dbbc461950c4
+| Author: MikeBakinovski <mike.bakinovski@gmail.com>
+| Date:   Tue Jul 21 09:33:27 2020 +0300
+| 
+|     Second commit to master with masterlog.txt file.
+|  
+* commit 82993334529b7baf0fa34676d44a5bbdcd43b640
+  Author: MikeBakinovski <mike.bakinovski@gmail.com>
+  Date:   Tue Jul 21 09:33:27 2020 +0300
+  
+      First commit to master with 02.Home_Task.txt file.
