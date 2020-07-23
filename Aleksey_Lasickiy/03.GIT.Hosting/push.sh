@@ -2,6 +2,9 @@
 
 #git push in all repositories script
 
-git push github $1
-git push gitlab $1
-git push bitbucket $1
+gitremote=(github gitlab bitbucket)
+
+for remote in ${gitremote[*]}; do
+
+  git push $remote $1
+done
