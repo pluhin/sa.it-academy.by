@@ -1,0 +1,35 @@
+---
+- hosts: "{{ group }}"
+#  gather_facts: False
+  strategy: free
+  vars:
+    var_01: "Hi"
+    var_02: True
+    var_03: 42
+  tasks:
+    - name: Print variables
+      debug:
+        msg: "{{ var_01 }} | {{ var_02 }} | {{ var_03 }}"
+      tags:
+        - vars
+    - name: Print facts
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+      tags:
+        - vars
+    - name: Print facts
+      debug:
+        msg: "{{ ansible_facts }}"
+      tags: 
+        - facts
+    - name: Debug
+      debug:
+        msg: "Hi from {{ inventory_hostname }}"
+      tags:
+        - all_test
+        - check::inv
+    - name: Debug
+      debug:
+        msg: "{{ hostvars[inventory_hostname] }}"
+      tags:
+        - all_test

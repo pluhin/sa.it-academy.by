@@ -1,0 +1,34 @@
+infra:
+  vars:
+    ansible_user: vagrant
+  children:
+    internal:
+      hosts:
+        host1:
+          ansible_host: 10.20.30.20
+        host2:
+          ansible_host: 10.20.30.21
+jump:
+  vars:
+    ansible_user: vagrant
+  hosts:
+    bastion:
+      ansible_host: 192.168.1.40
+
+added:
+  vars:
+    var_01: "Dag!"
+  hosts:
+    host1:
+    bastion:
+
+ec: 
+  vars: 
+    ansible_user: root
+  hosts:
+    edu_01:
+      ansible_host: 192.168.203.1
+    edu_02:
+      ansible_host: 192.168.203.2
+    edu_03:
+      ansible_host: 192.168.203.3   
