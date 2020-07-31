@@ -1,0 +1,27 @@
+- hosts: edu
+  tasks:
+    - name: Add user "ansible"
+      user:
+        name: ansible
+        state: present
+        password: '!'
+        comment: Manager by Ansible
+
+    - name: Add SSH key for user "ansible"
+      authorized_key:
+        user: ansible
+        key: "{{ lookup('file', 'id_rsa.pub') }}"
+
+    - name: Make sure "sudo" is installed
+      package:
+        name: sudo
+        state: present
+
+    - name: Allow the user to act as root without password
+      copy:
+        src: sudoers.d-ansible
+        dest: /etc/sudoers.d/ansible
+        owner: root
+        group: root
+        mode: 600
+        backup: yes
