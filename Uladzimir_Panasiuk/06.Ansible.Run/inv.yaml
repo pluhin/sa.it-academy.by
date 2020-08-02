@@ -1,0 +1,10 @@
+edu:
+  hosts:
+    edu_17:
+      ansible_host: 192.168.203.17
+    edu_18:
+      ansible_host: 192.168.203.18
+    edu_19:
+      ansible_host: 192.168.203.19
+    edu_20:
+      ansible_host: 192.168.203.20
