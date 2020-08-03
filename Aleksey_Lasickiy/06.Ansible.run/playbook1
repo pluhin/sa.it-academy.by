@@ -1,0 +1,127 @@
+ansible-playbook playbook1.yaml -u root
+
+PLAY [ec] ****************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************
+ok: [host3]
+ok: [host1]
+ok: [host4]
+ok: [host2]
+
+TASK [Display OS/version] ************************************************************************************
+ok: [host1] => {
+    "msg": "CentOS|7.8"
+}
+ok: [host3] => {
+    "msg": "CentOS|7.8"
+}
+ok: [host2] => {
+    "msg": "Ubuntu|18.04"
+}
+ok: [host4] => {
+    "msg": "Ubuntu|18.04"
+}
+
+TASK [Display point/capacity/used] ***************************************************************************
+ok: [host1] => {
+    "msg": [
+        {
+            "block_available": 1279974,
+            "block_size": 4096,
+            "block_total": 1531792,
+            "block_used": 251818,
+            "device": "/dev/mapper/d01-vm--30037--disk--0",
+            "fstype": "ext4",
+            "inode_available": 371298,
+            "inode_total": 393216,
+            "inode_used": 21918,
+            "mount": "/",
+            "options": "rw,relatime",
+            "size_available": 5242773504,
+            "size_total": 6274220032,
+            "uuid": "N/A"
+        }
+    ]
+}
+ok: [host3] => {
+    "msg": [
+        {
+            "block_available": 1280009,
+            "block_size": 4096,
+            "block_total": 1531792,
+            "block_used": 251783,
+            "device": "/dev/mapper/d01-vm--30039--disk--0",
+            "fstype": "ext4",
+            "inode_available": 371339,
+            "inode_total": 393216,
+            "inode_used": 21877,
+            "mount": "/",
+            "options": "rw,relatime",
+            "size_available": 5242916864,
+            "size_total": 6274220032,
+            "uuid": "N/A"
+        }
+    ]
+}
+ok: [host2] => {
+    "msg": [
+        {
+            "block_available": 1169115,
+            "block_size": 4096,
+            "block_total": 1531792,
+            "block_used": 362677,
+            "device": "/dev/mapper/d01-vm--30038--disk--0",
+            "fstype": "ext4",
+            "inode_available": 366376,
+            "inode_total": 393216,
+            "inode_used": 26840,
+            "mount": "/",
+            "options": "rw,relatime",
+            "size_available": 4788695040,
+            "size_total": 6274220032,
+            "uuid": "N/A"
+        }
+    ]
+}
+ok: [host4] => {
+    "msg": [
+        {
+            "block_available": 1171175,
+            "block_size": 4096,
+            "block_total": 1531792,
+            "block_used": 360617,
+            "device": "/dev/mapper/d01-vm--30040--disk--0",
+            "fstype": "ext4",
+            "inode_available": 366387,
+            "inode_total": 393216,
+            "inode_used": 26829,
+            "mount": "/",
+            "options": "rw,relatime",
+            "size_available": 4797132800,
+            "size_total": 6274220032,
+            "uuid": "N/A"
+        }
+    ]
+}
+
+TASK [Display RAM/capacity/free] *****************************************************************************
+ok: [host1] => {
+    "msg": "4096 | 4014"
+}
+ok: [host3] => {
+    "msg": "4096 | 4014"
+}
+ok: [host2] => {
+    "msg": "4096 | 4004"
+}
+ok: [host4] => {
+    "msg": "4096 | 4004"
+}
+
+PLAY RECAP ***************************************************************************************************
+host1                      : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+host2                      : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+host3                      : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+host4                      : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+
