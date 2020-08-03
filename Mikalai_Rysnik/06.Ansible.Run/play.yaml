@@ -1,0 +1,25 @@
+---
+- hosts: main_host
+  tasks:
+    - name: facts
+      debug: 
+        msg: "{{ ansible_facts }}"  
+      tags: 
+        - facts
+    - name: OS/version
+      debug:
+        msg: "{{ ansible_distribution }}|{{ ansible_distribution_version }}"  
+      tags: 
+        - os
+    - name: point/capacity/used
+      debug: 
+        msg: "{{ ansible_facts.mounts }}"  
+      tags: 
+        - point
+    - name: RAM/capacity/free
+      debug: 
+        msg: "{{ ansible_facts.memtotal_mb }} | {{ansible_facts.memory_mb.nocache.free}}"  
+      tags: 
+        - ram
+
+    
