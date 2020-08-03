@@ -1,0 +1,9 @@
+### {{ ansible_managed }}
+
+server {
+  listen        80;
+  server_name   {{ item.name }};
+  root          {{ nginx_vhosts_root }}/{{ item.name }};
+  index         index.html;
+  location / {}
+}

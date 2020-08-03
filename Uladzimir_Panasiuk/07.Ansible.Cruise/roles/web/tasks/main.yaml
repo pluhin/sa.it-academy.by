@@ -1,0 +1,32 @@
+---
+- name: Install nginx for Debian
+  apt:
+    name: nginx
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Install nginx for RedHat
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - epel-release
+    - nginx
+  when: ansible_os_family == 'RedHat'
+
+- name: Make sure nginx is started and enabled
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Generate and deploy /etc/hosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+
+- name: Configure servers
+  include: "nginx_config.yaml"
+  when: inventory_hostname == item.nginx_host
+  loop: "{{ sites }}"
