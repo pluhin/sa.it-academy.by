@@ -1,0 +1,46 @@
+## Create playbook to display parameters from remote host
+```
+---
+- hosts: infra
+  user: root
+  tasks:
+    - name: OS/version
+      debug:
+        msg: "{{ ansible_distribution }}/{{ ansible_distribution_version }}"
+
+    - name: Mount point/capacity/used
+      debug:
+        msg: "{{ ansible_mounts }}"
+
+    - name: RAM total/free
+      debug:
+        msg: "Total: {{ ansible_memtotal_mb }}; Free: {{  ansible_memory_mb.nocache.free }}"
+```
+### Playbook for the Ansible user 
+```
+- hosts: infra
+  user: root
+  tasks:
+    - name: Add user "jinTolia"
+      user:
+        name: jinTolia
+        state: present
+        password: '!'
+        comment: Jin Freedom
+
+    - name: Add SSH key for user "jinTolia"
+      authorized_key:
+        user: jinTolia
+        key: "{{ lookup('file', '/home/jin/.ssh/id_rsa.pub') }}"
+
+    - name: Make sure "sudo" is installed
+      package:
+        name: sudo
+        state: present
+
+    - name: adding ansible user to sudoers
+      lineinfile:
+        dest: /etc/sudoers
+        line: "jinTolia ALL=(ALL)       NOPASSWD: ALL"
+        validate: 'visudo -cf %s'
+```
