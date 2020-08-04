@@ -1,0 +1,14 @@
+[jump]
+bastion ansible_host=178.124.206.53
+
+[ec:children]
+ec_centos
+ec_ubuntu
+
+[ec_centos]
+host1 ansible_host=192.168.203.37
+host3 ansible_host=192.168.203.39
+
+[ec_ubuntu]
+host2 ansible_host=192.168.203.38
+host4 ansible_host=192.168.203.40
