@@ -1,0 +1,54 @@
+---
+- hosts: main_host
+  vars:
+    user_name: user01
+    user_pass: '123'
+  tasks:
+    - name: print user
+      debug: 
+        msg: "{{ user_name }}"  
+      tags: 
+        - print
+    - name: add user
+      user: 
+        name: "{{ user_name }}"  
+        password: "{{ user_pass }}"
+        comment: Manage by ansible
+        state: present
+      tags:
+        - add
+
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: "{{ user_name }}"
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      tags:
+        - ssh
+
+    - name: check sudo
+      package:
+        name: sudo
+        state: present
+      tags:
+        -sudo_check
+
+    - name: adding ansible user to sudoers
+      lineinfile: 
+        dest: /etc/sudoers 
+        line: "{{ user_name }} ALL=(ALL) NOPASSWD: ALL" 
+        validate: 'visudo -cf %s'
+      tags:
+        - nopass
+
+    - name: check user 
+      shell: 
+        cmd: sudo -l -U "{{ user_name }}"
+      register: check_user_shell
+      tags:
+        - check_user
+
+    - debug:
+        msg: "{{ check_user_shell }}"
+      tags:
+        - check_user
