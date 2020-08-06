@@ -1,0 +1,18 @@
+---
+- hosts: redmine
+  gather_facts: no
+  become: true
+  pre_tasks:
+    - name: check host
+      shell: | 
+        hostname
+      register: out
+      tags: 
+        - info
+    - name: Show host
+      debug:
+        msg: "{{ out.stdout }}"
+      tags: 
+        - info
+  roles:
+    - redmine

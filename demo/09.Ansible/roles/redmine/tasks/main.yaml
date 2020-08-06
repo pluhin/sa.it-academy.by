@@ -1,0 +1,15 @@
+---
+- name: Redmine. Install packages
+  apt:
+    name: "{{ apt_redmine_packages }}"
+    state: latest
+    update_cache: yes
+
+- name: MySQL. Install and setup
+  template:
+    src: my.cnf.j2
+    dest: ~/.my.cnf
+    owner: root
+    mode: 0600
+  notify:
+    - restart mysql
