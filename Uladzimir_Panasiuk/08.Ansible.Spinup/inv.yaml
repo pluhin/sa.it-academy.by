@@ -1,0 +1,13 @@
+edu:
+  vars:
+    ansible_user: ansible
+    ansible_become: yes
+  hosts:
+    edu17:
+      ansible_host: 192.168.203.17
+    edu18:
+      ansible_host: 192.168.203.18
+    edu19:
+      ansible_host: 192.168.203.19
+    edu20:
+      ansible_host: 192.168.203.20

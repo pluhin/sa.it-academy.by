@@ -1,0 +1,29 @@
+---
+
+dependency:
+  name: galaxy
+
+driver:
+  name: podman
+
+platforms:
+  - name: debian
+    image: debian:10
+    volumes:
+     - /:/mnt:ro
+  
+  - name: centos
+    image: centos:7
+    volumes:
+     - /:/mnt:ro
+  
+  - name: alpine
+    image: alpine:latest
+    volumes:
+     - /:/mnt:ro
+
+provisioner:
+  name: ansible
+
+verifier:
+  name: ansible
