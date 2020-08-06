@@ -1,0 +1,30 @@
+jump:
+  vars:
+    ansible_user: jump_sa
+  hosts:
+    bastion:  
+      ansible_host: 178.124.206
+ec:
+  vars:
+    ansible_user: ansibleuser
+  children:
+    ec_centos:
+      hosts:
+        host1:
+          ansible_host: 192.168.203.37
+        host3:
+          ansible_host: 192.168.203.39
+  
+    ec_ubuntu:
+      hosts:
+        host2:
+          ansible_host: 192.168.203.38
+        host4:
+          ansible_host: 192.168.203.40
+    
+web_test:
+  hosts:
+    host1:
+      ansible_host: 192.168.203.37
+    host2:
+      ansible_host: 192.168.203.38

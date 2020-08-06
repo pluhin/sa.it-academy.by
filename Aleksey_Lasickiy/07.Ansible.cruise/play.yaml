@@ -1,0 +1,5 @@
+---
+- hosts: web_test
+  become: yes
+  roles:
+  - web
