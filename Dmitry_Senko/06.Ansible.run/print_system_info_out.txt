@@ -1,0 +1,136 @@
+
+PLAY [ec] **************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************
+Wednesday 05 August 2020  16:17:10 +0300 (0:00:00.341)       0:00:00.341 ****** 
+ok: [ec_host_29]
+ok: [ec_host_31]
+ok: [ec_host_32]
+ok: [ec_host_30]
+
+TASK [Print OS/version] ************************************************************************************************
+Wednesday 05 August 2020  16:17:16 +0300 (0:00:06.303)       0:00:06.644 ****** 
+ok: [ec_host_29] => {
+    "msg": "CentOS | 7.8"
+}
+ok: [ec_host_31] => {
+    "msg": "CentOS | 7.8"
+}
+ok: [ec_host_30] => {
+    "msg": "Ubuntu | 18.04"
+}
+ok: [ec_host_32] => {
+    "msg": "Ubuntu | 18.04"
+}
+
+TASK [Print mountpoints and its capacity/available sizes] **************************************************************
+Wednesday 05 August 2020  16:17:16 +0300 (0:00:00.168)       0:00:06.813 ****** 
+ok: [ec_host_29] => {
+    "msg": [
+        {
+            "block_available": 1282244,
+            "block_size": 4096,
+            "block_total": 1531792,
+            "block_used": 249548,
+            "device": "/dev/mapper/d01-vm--30029--disk--0",
+            "fstype": "ext4",
+            "inode_available": 371886,
+            "inode_total": 393216,
+            "inode_used": 21330,
+            "mount": "/",
+            "options": "rw,relatime",
+            "size_available": 5252071424,
+            "size_total": 6274220032,
+            "uuid": "N/A"
+        }
+    ]
+}
+ok: [ec_host_31] => {
+    "msg": [
+        {
+            "block_available": 1282264,
+            "block_size": 4096,
+            "block_total": 1531792,
+            "block_used": 249528,
+            "device": "/dev/mapper/d01-vm--30031--disk--0",
+            "fstype": "ext4",
+            "inode_available": 371886,
+            "inode_total": 393216,
+            "inode_used": 21330,
+            "mount": "/",
+            "options": "rw,relatime",
+            "size_available": 5252153344,
+            "size_total": 6274220032,
+            "uuid": "N/A"
+        }
+    ]
+}
+ok: [ec_host_30] => {
+    "msg": [
+        {
+            "block_available": 1199922,
+            "block_size": 4096,
+            "block_total": 1531792,
+            "block_used": 331870,
+            "device": "/dev/mapper/d01-vm--30030--disk--0",
+            "fstype": "ext4",
+            "inode_available": 366676,
+            "inode_total": 393216,
+            "inode_used": 26540,
+            "mount": "/",
+            "options": "rw,relatime",
+            "size_available": 4914880512,
+            "size_total": 6274220032,
+            "uuid": "N/A"
+        }
+    ]
+}
+ok: [ec_host_32] => {
+    "msg": [
+        {
+            "block_available": 1199925,
+            "block_size": 4096,
+            "block_total": 1531792,
+            "block_used": 331867,
+            "device": "/dev/mapper/d01-vm--30032--disk--0",
+            "fstype": "ext4",
+            "inode_available": 366676,
+            "inode_total": 393216,
+            "inode_used": 26540,
+            "mount": "/",
+            "options": "rw,relatime",
+            "size_available": 4914892800,
+            "size_total": 6274220032,
+            "uuid": "N/A"
+        }
+    ]
+}
+
+TASK [Print RAM total/free] ********************************************************************************************
+Wednesday 05 August 2020  16:17:16 +0300 (0:00:00.147)       0:00:06.960 ****** 
+ok: [ec_host_29] => {
+    "msg": "Total: 4096; Free: 4013"
+}
+ok: [ec_host_31] => {
+    "msg": "Total: 4096; Free: 4014"
+}
+ok: [ec_host_30] => {
+    "msg": "Total: 4096; Free: 4030"
+}
+ok: [ec_host_32] => {
+    "msg": "Total: 4096; Free: 4030"
+}
+
+PLAY RECAP *************************************************************************************************************
+ec_host_29                 : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ec_host_30                 : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ec_host_31                 : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ec_host_32                 : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Wednesday 05 August 2020  16:17:17 +0300 (0:00:00.121)       0:00:07.081 ****** 
+=============================================================================== 
+Gathering Facts ------------------------------------------------------------------------------------------------- 6.30s
+Print OS/version ------------------------------------------------------------------------------------------------ 0.17s
+Print mountpoints and its capacity/available sizes -------------------------------------------------------------- 0.15s
+Print RAM total/free -------------------------------------------------------------------------------------------- 0.12s
+Playbook run took 0 days, 0 hours, 0 minutes, 7 seconds
