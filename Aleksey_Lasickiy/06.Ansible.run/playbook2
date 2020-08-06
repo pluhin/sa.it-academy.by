@@ -1,0 +1,56 @@
+
+ansible-playbook playbook2.yaml -u root
+
+PLAY [ec] ****************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************
+ok: [host3]
+ok: [host1]
+ok: [host4]
+ok: [host2]
+
+TASK [Create new user] ***************************************************************************************
+ok: [host1] => {
+    "msg": "ansibleuser created!"
+}
+ok: [host3] => {
+    "msg": "ansibleuser created!"
+}
+ok: [host2] => {
+    "msg": "ansibleuser created!"
+}
+ok: [host4] => {
+    "msg": "ansibleuser created!"
+}
+
+TASK [Creating user ansibleuser] *****************************************************************************
+[WARNING]: The input password appears not to have been hashed. The 'password' argument must be encrypted for
+this module to work properly.
+changed: [host1]
+changed: [host3]
+changed: [host4]
+changed: [host2]
+
+TASK [Set ssh key] *******************************************************************************************
+changed: [host1]
+changed: [host3]
+changed: [host2]
+changed: [host4]
+
+TASK [sudo] **************************************************************************************************
+ok: [host3]
+ok: [host1]
+ok: [host2]
+ok: [host4]
+
+TASK [Edit sudoers file] *************************************************************************************
+changed: [host1]
+changed: [host3]
+changed: [host2]
+changed: [host4]
+
+PLAY RECAP ***************************************************************************************************
+host1                      : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+host2                      : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+host3                      : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+host4                      : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0

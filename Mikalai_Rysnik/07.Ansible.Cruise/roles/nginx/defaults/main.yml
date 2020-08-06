@@ -1,0 +1,8 @@
+apt_http_packages:
+  - nginx
+  - curl
+yum_http_packages:
+  - epel-release
+  - nginx
+  - curl
+default_path: "/usr/share/nginx/html"

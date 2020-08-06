@@ -1,0 +1,15 @@
+main_host:
+  children:
+    hosts_test:
+      hosts:
+        centos1:
+          ansible_host: 192.168.203.25
+        ubuntu1:
+          ansible_host: 192.168.203.26
+    hosts_dev:
+      hosts:
+        centos2:
+          ansible_host: 192.168.203.27
+        ubuntu2:
+          ansible_host: 192.168.203.28
+        
