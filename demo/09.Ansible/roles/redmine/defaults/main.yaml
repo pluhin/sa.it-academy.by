@@ -21,3 +21,6 @@ app_db_pass: "redmine"
 app_repo: "https://github.com/redmine/redmine.git"
 app_home: /opt/redmine
 app_version: 4.0-stable
+
+app_lang: "ru"
+app_fqdn: redmine.plu.by
