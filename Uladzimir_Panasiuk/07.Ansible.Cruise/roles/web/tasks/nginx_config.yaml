@@ -1,0 +1,26 @@
+---
+- name: Generate configs for vhosts
+  template:
+    src: "nginx_vhost_conf.j2"
+    dest: "/etc/nginx/conf.d/{{ item.name }}.conf"
+  notify: Restart nginx
+
+- name: Make sure vhost root dir is exist
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    
+- name: Gerenate index.html and copy it
+  template:
+    src: "index.html.j2"
+    dest: "{{ item.path }}/index.html"
+
+- name: Force all notified handlers to run at this point
+  meta: flush_handlers
+
+- name: Check availability
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  register: this
+  failed_when: item.name not in this.content

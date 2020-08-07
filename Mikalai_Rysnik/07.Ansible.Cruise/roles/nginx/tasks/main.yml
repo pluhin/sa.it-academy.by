@@ -1,0 +1,6 @@
+---
+- name: added in 2.4, previously you used 'include'
+  import_tasks: redhat.yml
+  when: ansible_facts['os_family']|lower == 'redhat'
+- import_tasks: debian.yml
+  when: ansible_facts['os_family']|lower == 'debian'

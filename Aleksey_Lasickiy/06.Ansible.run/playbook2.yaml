@@ -1,0 +1,43 @@
+---
+- hosts: ec
+  become: True
+  vars:
+    user_name: ansibleuser
+    user_pass: 'qwert'
+  tasks:
+    - name: Create new user
+      debug: 
+        msg: "{{ user_name }} created! "  
+      tags: 
+        - print
+    - name: Creating user {{ user_name }}
+      user: 
+        name: "{{ user_name }}" 
+        password: "{{ user_pass }}"
+        comment: Managed by ansible
+        state: present
+      tags:
+        - add::usr
+
+    - name: Set ssh key
+      authorized_key:
+        user: "{{ user_name }}"
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      tags:
+        - ssh
+
+    - name: sudo
+      package:
+        name: sudo
+        state: present
+      tags:
+        -check::sudo
+
+    - name: Edit sudoers file
+      lineinfile: 
+        dest: /etc/sudoers 
+        line: "{{ user_name }} ALL=(ALL) NOPASSWD: ALL" 
+        validate: 'visudo -cf %s'
+      tags:
+        - sudo_file

@@ -1,0 +1,14 @@
+- hosts: "{{ group }}"
+#- hosts: ec
+  tasks:
+    - name: Print OS/version
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+
+    - name: Print mountpoints and its capacity/available sizes
+      debug:
+        msg: "{{ ansible_mounts }}"
+
+    - name: Print RAM total/free
+      debug:
+        msg: "Total: {{ ansible_memtotal_mb }}; Free: {{  ansible_memory_mb.nocache.free }}"

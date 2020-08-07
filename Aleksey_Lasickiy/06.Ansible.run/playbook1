@@ -1,0 +1,13 @@
+ansible ec -m shell -a 'hostname -A && hostname -I' -u root
+host1 | CHANGED | rc=0 >>
+sa-centos-37.it-academy.local
+192.168.203.37
+host3 | CHANGED | rc=0 >>
+sa-centos-39.it-academy.local
+192.168.203.39
+host2 | CHANGED | rc=0 >>
+sa-ubuntu-38.it-academy.local
+192.168.203.38
+host4 | CHANGED | rc=0 >>
+sa-ubuntu-40.it-academy.local
+192.168.203.40

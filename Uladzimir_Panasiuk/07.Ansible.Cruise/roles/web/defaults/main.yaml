@@ -1,0 +1,14 @@
+---
+nginx_vhosts_root: "/var/www/vhosts"
+
+
+sites:
+  - { nginx_host: "edu17", name: "site1.edu17.local", path: "{{ nginx_vhosts_root }}/site1.edu17.local", ip: "{{ hostvars[\"edu17\"].ansible_host }}" }
+  - { nginx_host: "edu17", name: "site2.edu17.local", path: "{{ nginx_vhosts_root }}/site2.edu17.local", ip: "{{ hostvars[\"edu17\"].ansible_host }}" }
+  - { nginx_host: "edu18", name: "site1.edu18.local", path: "{{ nginx_vhosts_root }}/site1.edu18.local", ip: "{{ hostvars[\"edu18\"].ansible_host }}" }
+  - { nginx_host: "edu18", name: "site2.edu18.local", path: "{{ nginx_vhosts_root }}/site2.edu18.local", ip: "{{ hostvars[\"edu18\"].ansible_host }}" }
+  - { nginx_host: "edu19", name: "site1.edu19.local", path: "{{ nginx_vhosts_root }}/site1.edu19.local", ip: "{{ hostvars[\"edu19\"].ansible_host }}" }
+  - { nginx_host: "edu19", name: "site2.edu19.local", path: "{{ nginx_vhosts_root }}/site2.edu19.local", ip: "{{ hostvars[\"edu19\"].ansible_host }}" }
+  - { nginx_host: "edu20", name: "site1.edu20.local", path: "{{ nginx_vhosts_root }}/site1.edu20.local", ip: "{{ hostvars[\"edu20\"].ansible_host }}" }
+  - { nginx_host: "edu20", name: "site2.edu20.local", path: "{{ nginx_vhosts_root }}/site2.edu20.local", ip: "{{ hostvars[\"edu20\"].ansible_host }}" }
+  
