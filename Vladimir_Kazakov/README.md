@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 ## Project's reporter: Vladimir Kazakov
 ## Group number: m-sa2-13-20
@@ -27,3 +28,6 @@
 
 ## Links
 
+=======
+# This is Vladimir Kazakov (vlkazakov) branch repository
+>>>>>>> Add md-files
