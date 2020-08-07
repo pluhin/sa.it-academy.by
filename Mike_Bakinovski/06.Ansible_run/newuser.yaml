@@ -1,0 +1,58 @@
+---
+- hosts: "{{ group }}"
+  user: root
+  vars:
+    user_name: "{{ user }}"
+    user_pass: "{{ pass }}"
+  tasks:
+    - name: New user '{{ user_name }}'
+      user: 
+        name: "{{ user_name }}"  
+        password: "{{ user_pass }}"
+        comment: Manage by ansible
+        state: present
+      tags:
+        - useradd
+
+    - name: SSH key for user '{{ user_name }}'
+      authorized_key:
+        user: "{{ user_name }}"
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      tags:
+        - sshkey
+
+    - name: Sudo package check
+      package:
+        name: sudo
+        state: present
+      tags:
+        -sudocheck
+
+    - name: Add '{{ user_name }}' sudo no password permitions to sudoers file
+      lineinfile: 
+        dest: /etc/sudoers 
+        line: "{{ user_name }} ALL=(ALL) NOPASSWD: ALL" 
+        validate: 'visudo -cf %s'
+      tags:
+        - sudonopass
+
+    - name: sudo -V command test output as user '{{ user_name }}'
+      command: sudo -V
+      become: true
+      become_user: mike
+      register: sudoid
+      tags:
+        - sudotest
+    - debug: msg="{{sudoid.stdout_lines}}"
+      tags:
+        - sudotest
+
+
+    - name: print result 
+      debug: 
+        msg: "User '{{ user_name }}' added, pass '{{ user_pass }}', SSH auth, sudo nopass test"  
+      tags: 
+        - printres
+
+

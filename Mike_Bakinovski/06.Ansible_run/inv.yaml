@@ -1,0 +1,29 @@
+infra:
+  vars:
+    ansible_user: root
+  children:
+    internal:
+      hosts:
+        cent:
+           ansible_host: 10.20.30.20
+        debi:
+           ansible_host: 10.20.30.21
+jump:
+  vars:
+    ansible_user: root
+  hosts:
+    bastion:
+      ansible_host: 192.168.100.55
+ec:
+  vars:
+    ansible_user: root
+  hosts:
+    ec_5:
+      ansible_host: 192.168.203.5
+    ec_6:
+      ansible_host: 192.168.203.6
+    ec_7:
+      ansible_host: 192.168.203.7
+    ec_8:
+      ansible_host: 192.168.203.8
+
