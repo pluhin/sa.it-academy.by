@@ -1,6 +1,0 @@
-nginx:
-  vars:
-    user: root
-  hosts:
-    connect5:
-      ansible_host: 10.20.30.20
