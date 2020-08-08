@@ -1,0 +1,84 @@
+- hosts: "{{ group }}"
+#- hosts: ec
+  tasks:
+
+  - name: Print variable
+    debug:
+      msg: "You requested user '{{ user_to_add }}'"
+    tags: print_user
+
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      password: "{{ user_pass }}"
+      comment: Managed by ansible
+      state: present
+
+  - name: Set ssh key for user "{{ user_to_add }}"
+    authorized_key:
+      user: "{{ user_to_add }}"
+      state: present
+      key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    tags:
+      - ssh
+
+  - name: sudo
+    package:
+      name: sudo
+      state: present
+    tags:
+      - sudo
+
+  - name: Edit sudoers file
+    lineinfile: 
+      dest: /etc/sudoers 
+      line: "{{ user_to_add }} ALL=(ALL) NOPASSWD: ALL" 
+      validate: 'visudo -cf %s'
+    tags:
+      - sudo_file
+
+  - name: First check user 
+    shell: |
+      grep "{{ user_to_add }}" /etc/passwd
+      date
+      env
+    register: out
+    tags:
+      - check
+
+  - debug:
+      msg: "{{ out.stdout_lines }}"
+    tags:
+      - check
+
+  - name: TEST Update Centos
+    remote_user: "{{ user_to_add }}"
+    yum:
+      name: "*"
+      state: latest
+    when: ansible_distribution == "CentOS"
+  - name: TEST Update Ubuntu
+    remote_user: "{{ user_to_add }}"
+    apt:
+      name: "*"
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Removing user " {{ user_to_add }} "
+    user:
+      name: "{{ user_to_add }}"
+      state: absent
+        
+  - name: Second check user
+    shell: |
+      grep "{{ user_to_add }}" /etc/passwd
+      date
+      env
+    register: out
+    tags:
+      - check
+
+  - debug:
+      msg: "{{ out.stdout_lines }}"
+    tags:
+      - check
