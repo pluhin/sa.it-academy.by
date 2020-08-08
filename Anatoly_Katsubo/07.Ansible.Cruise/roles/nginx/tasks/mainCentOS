@@ -1,0 +1,14 @@
+---
+- name: Install Nginx Web Server on RedHat Family
+  yum:
+    name=nginx
+    state=latest
+  when:
+    ansible_os_family == "RedHat"
+  notify:
+    - reload nginx
+
+- name: Create index.html file
+  template: src=index.html dest=/usr/share/nginx/html/index.html
+  notify:
+    - reload nginx
