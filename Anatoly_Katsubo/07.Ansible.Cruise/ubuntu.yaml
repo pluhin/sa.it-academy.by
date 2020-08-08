@@ -1,0 +1,5 @@
+---
+- hosts: connect5
+  user: root
+  roles:
+   - nginx
