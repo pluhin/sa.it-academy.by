@@ -9,6 +9,6 @@
     - reload nginx
 
 - name: Create index.html file
-  template: src=index.html dest=/usr/share/nginx/html/index.html
+  template: src=index.html.j2 dest=/usr/share/nginx/html/index.html
   notify:
     - reload nginx
