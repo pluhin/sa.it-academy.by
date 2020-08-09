@@ -1,9 +1,3 @@
-## Homework 02.GIT.LOCAL
-***
-
-### 1. Created local repository m-sa2-13-20 and completed next several steps:
-
-  ```
   300  cd GitHub
   301  ls
   302  mkdir m-sa2-13-20
@@ -116,4 +110,3 @@
   409  git checkout features/do_one
   410  git merge hotfix/we_gonna_die
   411  history 300
-  ```
