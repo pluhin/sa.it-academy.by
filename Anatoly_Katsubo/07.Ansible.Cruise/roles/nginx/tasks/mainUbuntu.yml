@@ -1,0 +1,22 @@
+---
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Install required packages
+  apt: name=nginx
+
+- name: Start nginx service
+  service: name=nginx state=started
+
+- name: Delete default nginx site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify: reload nginx
+
+- name: Create default nginx site
+  template: src=ansible.conf.j2 dest=/etc/nginx/sites-enabled/ansible owner=www-data group=www-data
+  notify: reload nginx
+
+- name: Create index.html file
+  template: src=index.html.j2 dest=/usr/share/nginx/html/index.html owner=www-data group=www-data
+  
+  

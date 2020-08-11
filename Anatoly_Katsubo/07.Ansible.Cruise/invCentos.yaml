@@ -1,0 +1,7 @@
+nginx:
+  vars:
+    user: vagrant
+    become: yes
+  hosts:
+    connect5:
+      ansible_host: 10.20.30.21

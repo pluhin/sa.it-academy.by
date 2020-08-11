@@ -1,0 +1,7 @@
+---
+- hosts: connect5
+  user: vagrant
+  become: yes
+  roles:
+   - epel
+   - nginx
