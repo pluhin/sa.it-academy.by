@@ -1,0 +1,54 @@
+all:
+  children:
+    ec:
+      vars: 
+        ansible_user: root
+      children:
+        ec_centos:
+          hosts:
+            ec_host_29:
+              ansible_host: 192.168.203.29
+            ec_host_31:
+              ansible_host: 192.168.203.31
+        ec_ubuntu:
+          hosts:
+            ec_host_30:
+              ansible_host: 192.168.203.30
+            ec_host_32:
+              ansible_host: 192.168.203.32
+    test_ec:
+      vars: 
+        ansible_user: root
+      hosts:
+        ec_host_29:
+          ansible_host: 192.168.203.29
+        ec_host_30:
+          ansible_host: 192.168.203.30
+      
+    infra:
+      vars:
+        ansible_user: vagrant
+      children:
+        internal:
+          hosts:
+            internal_centos:
+              ansible_host: 10.20.30.20
+            internal_ubuntu:
+              ansible_host: 10.20.30.21
+    jump:        
+      hosts:
+        home_bastion:
+          ansible_user: vagrant
+          #ansible_host: 192.168.100.40
+          ansible_host: 192.168.122.40
+        ec_bastion:
+          ansible_user: jump_sa
+          ansible_host: 178.124.206.53
+
+    test_group_added:
+      vars:
+        test_var_01: "test_var_01!"
+      hosts:
+        internal_centos:
+        home_bastion:
+    ungrouped: {}
