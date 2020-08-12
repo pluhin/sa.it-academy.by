@@ -1,0 +1,477 @@
+
+PLAY [test_ec] *********************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:55:41 +0300 (0:00:00.031)       0:00:00.031 ******** 
+ok: [ec_host_29]
+ok: [ec_host_30]
+
+TASK [web : Nginx. Install packages for Ubuntu] ************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:55:47 +0300 (0:00:06.703)       0:00:06.735 ******** 
+skipping: [ec_host_29]
+ok: [ec_host_30]
+
+TASK [web : Nginx. Enable and start servce for Ubuntu] *****************************************************************************************************************************************************
+Tuesday 11 August 2020  10:55:52 +0300 (0:00:04.565)       0:00:11.300 ******** 
+skipping: [ec_host_29]
+ok: [ec_host_30]
+
+TASK [web : Add epel-release repo for Centos] **************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:55:56 +0300 (0:00:04.561)       0:00:15.862 ******** 
+skipping: [ec_host_30]
+ok: [ec_host_29]
+
+TASK [web : Upgrade server for Centos] *********************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:56:00 +0300 (0:00:03.829)       0:00:19.691 ******** 
+skipping: [ec_host_30]
+changed: [ec_host_29]
+
+TASK [web : Nginx. Install packages for Centos] ************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:56:35 +0300 (0:00:34.693)       0:00:54.385 ******** 
+skipping: [ec_host_30]
+ok: [ec_host_29]
+
+TASK [web : Nginx. Remove welcome file for Centos] *********************************************************************************************************************************************************
+Tuesday 11 August 2020  10:56:39 +0300 (0:00:03.745)       0:00:58.130 ******** 
+skipping: [ec_host_30]
+ok: [ec_host_29]
+
+TASK [web : Nginx. Enable and start servce] ****************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:56:42 +0300 (0:00:03.322)       0:01:01.453 ******** 
+skipping: [ec_host_30]
+ok: [ec_host_29]
+
+TASK [web : Remove index file for Ubuntu] ******************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:56:45 +0300 (0:00:03.455)       0:01:04.908 ******** 
+skipping: [ec_host_29]
+changed: [ec_host_30]
+
+TASK [web : Remove index file for Centos] ******************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:56:49 +0300 (0:00:03.828)       0:01:08.737 ******** 
+skipping: [ec_host_30]
+changed: [ec_host_29]
+
+TASK [Copy web page for Ubuntu] ****************************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:56:52 +0300 (0:00:03.193)       0:01:11.931 ******** 
+skipping: [ec_host_29]
+changed: [ec_host_30]
+
+TASK [Copy web page for Centos] ****************************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:57:01 +0300 (0:00:08.835)       0:01:20.766 ******** 
+skipping: [ec_host_30]
+changed: [ec_host_29]
+
+TASK [web : Configure Centos Firewall to Allow Traffic] ****************************************************************************************************************************************************
+Tuesday 11 August 2020  10:57:09 +0300 (0:00:07.286)       0:01:28.053 ******** 
+skipping: [ec_host_30]
+changed: [ec_host_29]
+
+RUNNING HANDLER [web : restart nginx] **********************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:57:14 +0300 (0:00:05.106)       0:01:33.160 ******** 
+changed: [ec_host_29]
+changed: [ec_host_30]
+
+TASK [web : Check file] ************************************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:57:18 +0300 (0:00:04.384)       0:01:37.544 ******** 
+changed: [ec_host_30]
+changed: [ec_host_29]
+
+RUNNING HANDLER [web : print out] **************************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:57:22 +0300 (0:00:03.563)       0:01:41.108 ******** 
+ok: [ec_host_30] => {
+    "msg": "Ubuntu"
+}
+ok: [ec_host_29] => {
+    "msg": "CentOS Linux"
+}
+
+TASK [web : Check connection to Localhost] *****************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:57:22 +0300 (0:00:00.355)       0:01:41.463 ******** 
+ok: [ec_host_29]
+ok: [ec_host_30]
+
+TASK [web : print out] *************************************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:57:26 +0300 (0:00:04.236)       0:01:45.700 ******** 
+ok: [ec_host_29] => {
+    "msg": {
+        "changed": false,
+        "elapsed": 0,
+        "failed": false,
+        "match_groupdict": {},
+        "match_groups": [],
+        "path": null,
+        "port": 80,
+        "search_regex": null,
+        "state": "started"
+    }
+}
+ok: [ec_host_30] => {
+    "msg": {
+        "changed": false,
+        "elapsed": 0,
+        "failed": false,
+        "match_groupdict": {},
+        "match_groups": [],
+        "path": null,
+        "port": 80,
+        "search_regex": null,
+        "state": "started"
+    }
+}
+
+TASK [web : Templates] *************************************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:57:26 +0300 (0:00:00.279)       0:01:45.979 ******** 
+ok: [ec_host_29]
+ok: [ec_host_30]
+
+TASK [web : Check template] ********************************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:57:33 +0300 (0:00:06.119)       0:01:52.098 ******** 
+changed: [ec_host_29]
+changed: [ec_host_30]
+
+TASK [web : Check content to the sites] ********************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:57:36 +0300 (0:00:03.538)       0:01:55.637 ******** 
+ok: [ec_host_29] => (item={'name': 'remote_centos.site', 'ip': '192.168.203.29'})
+ok: [ec_host_30] => (item={'name': 'remote_centos.site', 'ip': '192.168.203.29'})
+ok: [ec_host_29] => (item={'name': 'remote_ubuntu.site', 'ip': '192.168.203.30'})
+ok: [ec_host_30] => (item={'name': 'remote_ubuntu.site', 'ip': '192.168.203.30'})
+
+TASK [web : print out] *************************************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:57:44 +0300 (0:00:07.611)       0:02:03.248 ******** 
+ok: [ec_host_29] => {
+    "msg": {
+        "changed": false,
+        "msg": "All items completed",
+        "results": [
+            {
+                "accept_ranges": "bytes",
+                "ansible_loop_var": "item",
+                "changed": false,
+                "connection": "close",
+                "content": "<!DOCTYPE html>\n<html>\n<body>\n<h1>Welcome to the test page Dmitry Senko!</h1>\n<p>Finally we are here!</p>\n</body>\n</html>",
+                "content_length": "121",
+                "content_type": "text/html",
+                "cookies": {},
+                "cookies_string": "",
+                "date": "Tue, 11 Aug 2020 07:57:39 GMT",
+                "elapsed": 0,
+                "etag": "\"5f32397f-79\"",
+                "failed": false,
+                "failed_when_result": false,
+                "invocation": {
+                    "module_args": {
+                        "attributes": null,
+                        "backup": null,
+                        "body": null,
+                        "body_format": "raw",
+                        "client_cert": null,
+                        "client_key": null,
+                        "content": null,
+                        "creates": null,
+                        "delimiter": null,
+                        "dest": null,
+                        "directory_mode": null,
+                        "follow": false,
+                        "follow_redirects": "safe",
+                        "force": false,
+                        "force_basic_auth": false,
+                        "group": null,
+                        "headers": {},
+                        "http_agent": "ansible-httpget",
+                        "method": "GET",
+                        "mode": null,
+                        "owner": null,
+                        "regexp": null,
+                        "remote_src": null,
+                        "removes": null,
+                        "return_content": true,
+                        "selevel": null,
+                        "serole": null,
+                        "setype": null,
+                        "seuser": null,
+                        "src": null,
+                        "status_code": [
+                            200
+                        ],
+                        "timeout": 30,
+                        "unix_socket": null,
+                        "unsafe_writes": null,
+                        "url": "http://remote_centos.site",
+                        "url_password": null,
+                        "url_username": null,
+                        "use_proxy": true,
+                        "validate_certs": true
+                    }
+                },
+                "item": {
+                    "ip": "192.168.203.29",
+                    "name": "remote_centos.site"
+                },
+                "last_modified": "Tue, 11 Aug 2020 06:23:59 GMT",
+                "msg": "OK (121 bytes)",
+                "redirected": false,
+                "server": "nginx/1.16.1",
+                "status": 200,
+                "url": "http://remote_centos.site"
+            },
+            {
+                "accept_ranges": "bytes",
+                "ansible_loop_var": "item",
+                "changed": false,
+                "connection": "close",
+                "content": "<!DOCTYPE html>\n<html>\n<body>\n<h1>Welcome to the test page Dmitry Senko!</h1>\n<p>Finally we are here!</p>\n</body>\n</html>",
+                "content_length": "121",
+                "content_type": "text/html",
+                "cookies": {},
+                "cookies_string": "",
+                "date": "Tue, 11 Aug 2020 07:57:42 GMT",
+                "elapsed": 0,
+                "etag": "\"5f324f4a-79\"",
+                "failed": false,
+                "failed_when_result": false,
+                "invocation": {
+                    "module_args": {
+                        "attributes": null,
+                        "backup": null,
+                        "body": null,
+                        "body_format": "raw",
+                        "client_cert": null,
+                        "client_key": null,
+                        "content": null,
+                        "creates": null,
+                        "delimiter": null,
+                        "dest": null,
+                        "directory_mode": null,
+                        "follow": false,
+                        "follow_redirects": "safe",
+                        "force": false,
+                        "force_basic_auth": false,
+                        "group": null,
+                        "headers": {},
+                        "http_agent": "ansible-httpget",
+                        "method": "GET",
+                        "mode": null,
+                        "owner": null,
+                        "regexp": null,
+                        "remote_src": null,
+                        "removes": null,
+                        "return_content": true,
+                        "selevel": null,
+                        "serole": null,
+                        "setype": null,
+                        "seuser": null,
+                        "src": null,
+                        "status_code": [
+                            200
+                        ],
+                        "timeout": 30,
+                        "unix_socket": null,
+                        "unsafe_writes": null,
+                        "url": "http://remote_ubuntu.site",
+                        "url_password": null,
+                        "url_username": null,
+                        "use_proxy": true,
+                        "validate_certs": true
+                    }
+                },
+                "item": {
+                    "ip": "192.168.203.30",
+                    "name": "remote_ubuntu.site"
+                },
+                "last_modified": "Tue, 11 Aug 2020 07:56:58 GMT",
+                "msg": "OK (121 bytes)",
+                "redirected": false,
+                "server": "nginx/1.14.0 (Ubuntu)",
+                "status": 200,
+                "url": "http://remote_ubuntu.site"
+            }
+        ]
+    }
+}
+ok: [ec_host_30] => {
+    "msg": {
+        "changed": false,
+        "msg": "All items completed",
+        "results": [
+            {
+                "accept_ranges": "bytes",
+                "ansible_loop_var": "item",
+                "changed": false,
+                "connection": "close",
+                "content": "<!DOCTYPE html>\n<html>\n<body>\n<h1>Welcome to the test page Dmitry Senko!</h1>\n<p>Finally we are here!</p>\n</body>\n</html>",
+                "content_length": "121",
+                "content_type": "text/html",
+                "cookies": {},
+                "cookies_string": "",
+                "date": "Tue, 11 Aug 2020 07:57:39 GMT",
+                "elapsed": 0,
+                "etag": "\"5f32397f-79\"",
+                "failed": false,
+                "failed_when_result": false,
+                "invocation": {
+                    "module_args": {
+                        "attributes": null,
+                        "backup": null,
+                        "body": null,
+                        "body_format": "raw",
+                        "client_cert": null,
+                        "client_key": null,
+                        "content": null,
+                        "creates": null,
+                        "delimiter": null,
+                        "dest": null,
+                        "directory_mode": null,
+                        "follow": false,
+                        "follow_redirects": "safe",
+                        "force": false,
+                        "force_basic_auth": false,
+                        "group": null,
+                        "headers": {},
+                        "http_agent": "ansible-httpget",
+                        "method": "GET",
+                        "mode": null,
+                        "owner": null,
+                        "regexp": null,
+                        "remote_src": null,
+                        "removes": null,
+                        "return_content": true,
+                        "selevel": null,
+                        "serole": null,
+                        "setype": null,
+                        "seuser": null,
+                        "src": null,
+                        "status_code": [
+                            200
+                        ],
+                        "timeout": 30,
+                        "unix_socket": null,
+                        "unsafe_writes": null,
+                        "url": "http://remote_centos.site",
+                        "url_password": null,
+                        "url_username": null,
+                        "use_proxy": true,
+                        "validate_certs": true
+                    }
+                },
+                "item": {
+                    "ip": "192.168.203.29",
+                    "name": "remote_centos.site"
+                },
+                "last_modified": "Tue, 11 Aug 2020 06:23:59 GMT",
+                "msg": "OK (121 bytes)",
+                "redirected": false,
+                "server": "nginx/1.16.1",
+                "status": 200,
+                "url": "http://remote_centos.site"
+            },
+            {
+                "accept_ranges": "bytes",
+                "ansible_loop_var": "item",
+                "changed": false,
+                "connection": "close",
+                "content": "<!DOCTYPE html>\n<html>\n<body>\n<h1>Welcome to the test page Dmitry Senko!</h1>\n<p>Finally we are here!</p>\n</body>\n</html>",
+                "content_length": "121",
+                "content_type": "text/html",
+                "cookies": {},
+                "cookies_string": "",
+                "date": "Tue, 11 Aug 2020 07:57:43 GMT",
+                "elapsed": 0,
+                "etag": "\"5f324f4a-79\"",
+                "failed": false,
+                "failed_when_result": false,
+                "invocation": {
+                    "module_args": {
+                        "attributes": null,
+                        "backup": null,
+                        "body": null,
+                        "body_format": "raw",
+                        "client_cert": null,
+                        "client_key": null,
+                        "content": null,
+                        "creates": null,
+                        "delimiter": null,
+                        "dest": null,
+                        "directory_mode": null,
+                        "follow": false,
+                        "follow_redirects": "safe",
+                        "force": false,
+                        "force_basic_auth": false,
+                        "group": null,
+                        "headers": {},
+                        "http_agent": "ansible-httpget",
+                        "method": "GET",
+                        "mode": null,
+                        "owner": null,
+                        "regexp": null,
+                        "remote_src": null,
+                        "removes": null,
+                        "return_content": true,
+                        "selevel": null,
+                        "serole": null,
+                        "setype": null,
+                        "seuser": null,
+                        "src": null,
+                        "status_code": [
+                            200
+                        ],
+                        "timeout": 30,
+                        "unix_socket": null,
+                        "unsafe_writes": null,
+                        "url": "http://remote_ubuntu.site",
+                        "url_password": null,
+                        "url_username": null,
+                        "use_proxy": true,
+                        "validate_certs": true
+                    }
+                },
+                "item": {
+                    "ip": "192.168.203.30",
+                    "name": "remote_ubuntu.site"
+                },
+                "last_modified": "Tue, 11 Aug 2020 07:56:58 GMT",
+                "msg": "OK (121 bytes)",
+                "redirected": false,
+                "server": "nginx/1.14.0 (Ubuntu)",
+                "status": 200,
+                "url": "http://remote_ubuntu.site"
+            }
+        ]
+    }
+}
+
+RUNNING HANDLER [web : print out] **************************************************************************************************************************************************************************
+Tuesday 11 August 2020  10:57:44 +0300 (0:00:00.282)       0:02:03.531 ******** 
+ok: [ec_host_29] => {
+    "msg": "### Ansible managed\n127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4\n::1         localhost localhost.localdomain localhost6 localhost6.localdomain6\n\n192.168.203.29   remote_centos.site\n192.168.203.30   remote_ubuntu.site"
+}
+ok: [ec_host_30] => {
+    "msg": "### Ansible managed\n127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4\n::1         localhost localhost.localdomain localhost6 localhost6.localdomain6\n\n192.168.203.29   remote_centos.site\n192.168.203.30   remote_ubuntu.site"
+}
+
+PLAY RECAP *************************************************************************************************************************************************************************************************
+ec_host_29                 : ok=19   changed=7    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0   
+ec_host_30                 : ok=15   changed=5    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0   
+
+Tuesday 11 August 2020  10:57:44 +0300 (0:00:00.284)       0:02:03.815 ******** 
+=============================================================================== 
+web : Upgrade server for Centos -------------------------------------------------------------------------------------------------------------------------------------------------------------------- 34.69s
+Copy web page for Ubuntu ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 8.84s
+web : Check content to the sites -------------------------------------------------------------------------------------------------------------------------------------------------------------------- 7.61s
+Copy web page for Centos ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 7.29s
+Gathering Facts ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 6.70s
+web : Templates ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 6.12s
+web : Configure Centos Firewall to Allow Traffic ---------------------------------------------------------------------------------------------------------------------------------------------------- 5.11s
+web : Nginx. Install packages for Ubuntu ------------------------------------------------------------------------------------------------------------------------------------------------------------ 4.57s
+web : Nginx. Enable and start servce for Ubuntu ----------------------------------------------------------------------------------------------------------------------------------------------------- 4.56s
+web : restart nginx --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 4.38s
+web : Check connection to Localhost ----------------------------------------------------------------------------------------------------------------------------------------------------------------- 4.24s
+web : Add epel-release repo for Centos -------------------------------------------------------------------------------------------------------------------------------------------------------------- 3.83s
+web : Remove index file for Ubuntu ------------------------------------------------------------------------------------------------------------------------------------------------------------------ 3.83s
+web : Nginx. Install packages for Centos ------------------------------------------------------------------------------------------------------------------------------------------------------------ 3.75s
+web : Check file ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 3.56s
+web : Check template -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 3.54s
+web : Nginx. Enable and start servce ---------------------------------------------------------------------------------------------------------------------------------------------------------------- 3.46s
+web : Nginx. Remove welcome file for Centos --------------------------------------------------------------------------------------------------------------------------------------------------------- 3.32s
+web : Remove index file for Centos ------------------------------------------------------------------------------------------------------------------------------------------------------------------ 3.19s
+web : print out ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.28s
+Playbook run took 0 days, 0 hours, 2 minutes, 3 seconds

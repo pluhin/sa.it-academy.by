@@ -1,0 +1,19 @@
+---
+apt_nginx_packages:
+  - nginx
+
+yum_epel_add:
+  - epel-release
+
+yum_nginx_packages:
+  - nginx
+
+default_home: "/usr/share/nginx/html"
+# default_home: "/var/www/html"
+
+site_centos: "remote_centos.site"
+site_ubuntu: "remote_ubuntu.site"
+
+virtual_hosts:
+  - { name: "{{ site_centos }}", ip: "{{ hostvars[\"ec_host_29\"].ansible_host }}"}
+  - { name: "{{ site_ubuntu }}", ip: "{{ hostvars[\"ec_host_30\"].ansible_host }}"}
