@@ -1,0 +1,25 @@
+---
+- name: Add epel-release repo for Centos
+  yum:
+    name: "{{ yum_epel_add }}"
+    state: present
+
+- name: Upgrade server for Centos
+  shell: |
+    yum -y update
+
+- name: Nginx. Install packages for Centos
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+
+- name: Nginx. Remove welcome file for Centos
+  file:
+    path: "/etc/httpd/conf.d/welcome.conf"
+    state: absent
+
+- name: Nginx. Enable and start servce
+  service:
+    name: nginx
+    state: started
+    enabled: yes

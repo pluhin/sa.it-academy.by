@@ -1,0 +1,11 @@
+---
+- name: Nginx. Install packages for Ubuntu
+  apt:
+    name: "{{ apt_nginx_packages }}"
+    state: present
+
+- name: Nginx. Enable and start servce for Ubuntu
+  service:
+    name: nginx
+    state: started
+    enabled: yes
