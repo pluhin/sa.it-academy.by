@@ -1,0 +1,33 @@
+---
+- hosts: "{{ group }}"
+  tasks:
+    - name: Print OS/version
+      vars:
+        msg: |
+          OS/version: {{ ansible_distribution }}/{{ ansible_distribution_version }}
+      debug:
+        msg: "{{ msg.split('\n') }}"
+      tags:
+        - os
+
+    - name: Print mount point/capacity/used
+      shell: 
+         "df -H --output=source,size,used,avail"
+      register: dfcmd
+      tags: 
+        - dfcmd
+
+    - debug: msg="{{dfcmd.stdout_lines}}"
+      tags:
+        - dfcmd
+
+    - name: Print RAM/capacity/free
+      shell:
+         "free -h"
+      register: freecmd
+      tags:
+        - freecmd
+
+    - debug: msg="{{freecmd.stdout_lines}}"
+      tags:
+        - freecmd

@@ -1,0 +1,464 @@
+ansible-playbook play.yaml -i inv.yaml
+
+PLAY [web_test] ********************************************************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************************************************
+Thursday 06 August 2020  08:52:40 +0000 (0:00:00.045)       0:00:00.045 *******
+ok: [host1]
+ok: [host2]
+
+TASK [web : Nginx. Install packages] ***********************************************************************************************************************************
+Thursday 06 August 2020  08:52:46 +0000 (0:00:05.834)       0:00:05.880 *******
+ok: [host2]
+
+TASK [web : Nginx. Enable and start servce] ****************************************************************************************************************************
+Thursday 06 August 2020  08:52:50 +0000 (0:00:04.415)       0:00:10.295 *******
+ok: [host2]
+
+TASK [web : Add epel-release repo] *************************************************************************************************************************************
+Thursday 06 August 2020  08:52:54 +0000 (0:00:04.153)       0:00:14.448 *******
+ok: [host1]
+
+TASK [web : Upgrade server] ********************************************************************************************************************************************
+Thursday 06 August 2020  08:52:58 +0000 (0:00:03.218)       0:00:17.666 *******
+[WARNING]: Consider using the yum module rather than running 'yum'.  If you need to use command because yum is insufficient you can add 'warn: false' to this command
+task or set 'command_warnings=False' in ansible.cfg to get rid of this message.
+changed: [host1]
+
+TASK [web : Nginx. Install packages] ***********************************************************************************************************************************
+Thursday 06 August 2020  08:53:02 +0000 (0:00:04.330)       0:00:21.997 *******
+ok: [host1]
+
+TASK [web : Nginx. Remove welcome file] ********************************************************************************************************************************
+Thursday 06 August 2020  08:53:05 +0000 (0:00:02.907)       0:00:24.905 *******
+ok: [host1]
+
+TASK [web : Nginx. Enable and start servce] ****************************************************************************************************************************
+Thursday 06 August 2020  08:53:08 +0000 (0:00:02.930)       0:00:27.835 *******
+ok: [host1]
+
+TASK [web : Remove index file Ubuntu] **********************************************************************************************************************************
+Thursday 06 August 2020  08:53:11 +0000 (0:00:02.764)       0:00:30.600 *******
+changed: [host2]
+
+TASK [web : Remove index file Centos] **********************************************************************************************************************************
+Thursday 06 August 2020  08:53:14 +0000 (0:00:03.516)       0:00:34.117 *******
+changed: [host1]
+
+TASK [Copy web page Ubuntu] ********************************************************************************************************************************************
+Thursday 06 August 2020  08:53:17 +0000 (0:00:02.759)       0:00:36.876 *******
+changed: [host2]
+
+TASK [Copy web page Centos] ********************************************************************************************************************************************
+Thursday 06 August 2020  08:53:24 +0000 (0:00:06.942)       0:00:43.819 *******
+changed: [host1]
+
+RUNNING HANDLER [web : restart nginx] **********************************************************************************************************************************
+Thursday 06 August 2020  08:53:29 +0000 (0:00:05.074)       0:00:48.894 *******
+changed: [host1]
+changed: [host2]
+
+TASK [web : Check file] ************************************************************************************************************************************************
+Thursday 06 August 2020  08:53:33 +0000 (0:00:03.807)       0:00:52.701 *******
+changed: [host1]
+changed: [host2]
+
+RUNNING HANDLER [web : print out] **************************************************************************************************************************************
+Thursday 06 August 2020  08:53:36 +0000 (0:00:03.378)       0:00:56.080 *******
+ok: [host1] => {
+    "msg": "CentOS Linux"
+}
+ok: [host2] => {
+    "msg": "Ubuntu"
+}
+
+TASK [web : Check connection to Localhost] *****************************************************************************************************************************
+Thursday 06 August 2020  08:53:36 +0000 (0:00:00.294)       0:00:56.375 *******
+ok: [host1]
+ok: [host2]
+
+TASK [web : print out] *************************************************************************************************************************************************
+Thursday 06 August 2020  08:53:40 +0000 (0:00:03.596)       0:00:59.971 *******
+ok: [host1] => {
+    "msg": {
+        "changed": false,
+        "elapsed": 0,
+        "failed": false,
+        "match_groupdict": {},
+        "match_groups": [],
+        "path": null,
+        "port": 80,
+        "search_regex": null,
+        "state": "started"
+    }
+}
+ok: [host2] => {
+    "msg": {
+        "changed": false,
+        "elapsed": 0,
+        "failed": false,
+        "match_groupdict": {},
+        "match_groups": [],
+        "path": null,
+        "port": 80,
+        "search_regex": null,
+        "state": "started"
+    }
+}
+
+TASK [web : Templates] *************************************************************************************************************************************************
+Thursday 06 August 2020  08:53:40 +0000 (0:00:00.214)       0:01:00.185 *******
+ok: [host1]
+ok: [host2]
+
+TASK [web : Check template] ********************************************************************************************************************************************
+Thursday 06 August 2020  08:53:51 +0000 (0:00:10.604)       0:01:10.790 *******
+changed: [host1]
+changed: [host2]
+
+TASK [web : Check content to the sites] ********************************************************************************************************************************
+Thursday 06 August 2020  08:53:54 +0000 (0:00:03.559)       0:01:14.350 *******
+ok: [host1] => (item={'name': 'local_centos.site', 'ip': '192.168.203.37'})
+ok: [host2] => (item={'name': 'local_centos.site', 'ip': '192.168.203.37'})
+ok: [host1] => (item={'name': 'local_ubuntu.site', 'ip': '192.168.203.38'})
+ok: [host2] => (item={'name': 'local_ubuntu.site', 'ip': '192.168.203.38'})
+
+TASK [web : print out] *************************************************************************************************************************************************
+Thursday 06 August 2020  08:54:02 +0000 (0:00:07.258)       0:01:21.609 *******
+ok: [host1] => {
+    "msg": {
+        "changed": false,
+        "msg": "All items completed",
+        "results": [
+            {
+                "accept_ranges": "bytes",
+                "ansible_loop_var": "item",
+                "changed": false,
+                "connection": "close",
+                "content": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>Aleksey Lasickiy</title>\n</head>\n<body>\n<h1>Welcome to the test page!</h1>\n<p>Finally we are here!</p>\n</body>\n</html>\n",
+                "content_length": "187",
+                "content_type": "text/html",
+                "cookies": {},
+                "cookies_string": "",
+                "date": "Thu, 06 Aug 2020 08:53:57 GMT",
+                "elapsed": 0,
+                "etag": "\"5f2bc506-bb\"",
+                "failed": false,
+                "failed_when_result": false,
+                "invocation": {
+                    "module_args": {
+                        "attributes": null,
+                        "backup": null,
+                        "body": null,
+                        "body_format": "raw",
+                        "client_cert": null,
+                        "client_key": null,
+                        "content": null,
+                        "creates": null,
+                        "delimiter": null,
+                        "dest": null,
+                        "directory_mode": null,
+                        "follow": false,
+                        "follow_redirects": "safe",
+                        "force": false,
+                        "force_basic_auth": false,
+                        "group": null,
+                        "headers": {},
+                        "http_agent": "ansible-httpget",
+                        "method": "GET",
+                        "mode": null,
+                        "owner": null,
+                        "regexp": null,
+                        "remote_src": null,
+                        "removes": null,
+                        "return_content": true,
+                        "selevel": null,
+                        "serole": null,
+                        "setype": null,
+                        "seuser": null,
+                        "src": null,
+                        "status_code": [
+                            200
+                        ],
+                        "timeout": 30,
+                        "unix_socket": null,
+                        "unsafe_writes": null,
+                        "url": "http://local_centos.site",
+                        "url_password": null,
+                        "url_username": null,
+                        "use_proxy": true,
+                        "validate_certs": true
+                    }
+                },
+                "item": {
+                    "ip": "192.168.203.37",
+                    "name": "local_centos.site"
+                },
+                "last_modified": "Thu, 06 Aug 2020 08:53:26 GMT",
+                "msg": "OK (187 bytes)",
+                "redirected": false,
+                "server": "nginx/1.16.1",
+                "status": 200,
+                "url": "http://local_centos.site"
+            },
+            {
+                "accept_ranges": "bytes",
+                "ansible_loop_var": "item",
+                "changed": false,
+                "connection": "close",
+                "content": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>Aleksey Lasickiy</title>\n</head>\n<body>\n<h1>Welcome to the test page!</h1>\n<p>Finally we are here!</p>\n</body>\n</html>\n",
+                "content_length": "187",
+                "content_type": "text/html",
+                "cookies": {},
+                "cookies_string": "",
+                "date": "Thu, 06 Aug 2020 08:54:00 GMT",
+                "elapsed": 0,
+                "etag": "\"5f2bc501-bb\"",
+                "failed": false,
+                "failed_when_result": false,
+                "invocation": {
+                    "module_args": {
+                        "attributes": null,
+                        "backup": null,
+                        "body": null,
+                        "body_format": "raw",
+                        "client_cert": null,
+                        "client_key": null,
+                        "content": null,
+                        "creates": null,
+                        "delimiter": null,
+                        "dest": null,
+                        "directory_mode": null,
+                        "follow": false,
+                        "follow_redirects": "safe",
+                        "force": false,
+                        "force_basic_auth": false,
+                        "group": null,
+                        "headers": {},
+                        "http_agent": "ansible-httpget",
+                        "method": "GET",
+                        "mode": null,
+                        "owner": null,
+                        "regexp": null,
+                        "remote_src": null,
+                        "removes": null,
+                        "return_content": true,
+                        "selevel": null,
+                        "serole": null,
+                        "setype": null,
+                        "seuser": null,
+                        "src": null,
+                        "status_code": [
+                            200
+                        ],
+                        "timeout": 30,
+                        "unix_socket": null,
+                        "unsafe_writes": null,
+                        "url": "http://local_ubuntu.site",
+                        "url_password": null,
+                        "url_username": null,
+                        "use_proxy": true,
+                        "validate_certs": true
+                    }
+                },
+                "item": {
+                    "ip": "192.168.203.38",
+                    "name": "local_ubuntu.site"
+                },
+                "last_modified": "Thu, 06 Aug 2020 08:53:21 GMT",
+                "msg": "OK (187 bytes)",
+                "redirected": false,
+                "server": "nginx/1.14.0 (Ubuntu)",
+                "status": 200,
+                "url": "http://local_ubuntu.site"
+            }
+        ]
+    }
+}
+ok: [host2] => {
+    "msg": {
+        "changed": false,
+        "msg": "All items completed",
+        "results": [
+            {
+                "accept_ranges": "bytes",
+                "ansible_loop_var": "item",
+                "changed": false,
+                "connection": "close",
+                "content": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>Aleksey Lasickiy</title>\n</head>\n<body>\n<h1>Welcome to the test page!</h1>\n<p>Finally we are here!</p>\n</body>\n</html>\n",
+                "content_length": "187",
+                "content_type": "text/html",
+                "cookies": {},
+                "cookies_string": "",
+                "date": "Thu, 06 Aug 2020 08:53:58 GMT",
+                "elapsed": 0,
+                "etag": "\"5f2bc506-bb\"",
+                "failed": false,
+                "failed_when_result": false,
+                "invocation": {
+                    "module_args": {
+                        "attributes": null,
+                        "backup": null,
+                        "body": null,
+                        "body_format": "raw",
+                        "client_cert": null,
+                        "client_key": null,
+                        "content": null,
+                        "creates": null,
+                        "delimiter": null,
+                        "dest": null,
+                        "directory_mode": null,
+                        "follow": false,
+                        "follow_redirects": "safe",
+                        "force": false,
+                        "force_basic_auth": false,
+                        "group": null,
+                        "headers": {},
+                        "http_agent": "ansible-httpget",
+                        "method": "GET",
+                        "mode": null,
+                        "owner": null,
+                        "regexp": null,
+                        "remote_src": null,
+                        "removes": null,
+                        "return_content": true,
+                        "selevel": null,
+                        "serole": null,
+                        "setype": null,
+                        "seuser": null,
+                        "src": null,
+                        "status_code": [
+                            200
+                        ],
+                        "timeout": 30,
+                        "unix_socket": null,
+                        "unsafe_writes": null,
+                        "url": "http://local_centos.site",
+                        "url_password": null,
+                        "url_username": null,
+                        "use_proxy": true,
+                        "validate_certs": true
+                    }
+                },
+                "item": {
+                    "ip": "192.168.203.37",
+                    "name": "local_centos.site"
+                },
+                "last_modified": "Thu, 06 Aug 2020 08:53:26 GMT",
+                "msg": "OK (187 bytes)",
+                "redirected": false,
+                "server": "nginx/1.16.1",
+                "status": 200,
+                "url": "http://local_centos.site"
+            },
+            {
+                "accept_ranges": "bytes",
+                "ansible_loop_var": "item",
+                "changed": false,
+                "connection": "close",
+                "content": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>Aleksey Lasickiy</title>\n</head>\n<body>\n<h1>Welcome to the test page!</h1>\n<p>Finally we are here!</p>\n</body>\n</html>\n",
+                "content_length": "187",
+                "content_type": "text/html",
+                "cookies": {},
+                "cookies_string": "",
+                "date": "Thu, 06 Aug 2020 08:54:01 GMT",
+                "elapsed": 0,
+                "etag": "\"5f2bc501-bb\"",
+                "failed": false,
+                "failed_when_result": false,
+                "invocation": {
+                    "module_args": {
+                        "attributes": null,
+                        "backup": null,
+                        "body": null,
+                        "body_format": "raw",
+                        "client_cert": null,
+                        "client_key": null,
+                        "content": null,
+                        "creates": null,
+                        "delimiter": null,
+                        "dest": null,
+                        "directory_mode": null,
+                        "follow": false,
+                        "follow_redirects": "safe",
+                        "force": false,
+                        "force_basic_auth": false,
+                        "group": null,
+                        "headers": {},
+                        "http_agent": "ansible-httpget",
+                        "method": "GET",
+                        "mode": null,
+                        "owner": null,
+                        "regexp": null,
+                        "remote_src": null,
+                        "removes": null,
+                        "return_content": true,
+                        "selevel": null,
+                        "serole": null,
+                        "setype": null,
+                        "seuser": null,
+                        "src": null,
+                        "status_code": [
+                            200
+                        ],
+                        "timeout": 30,
+                        "unix_socket": null,
+                        "unsafe_writes": null,
+                        "url": "http://local_ubuntu.site",
+                        "url_password": null,
+                        "url_username": null,
+                        "use_proxy": true,
+                        "validate_certs": true
+                    }
+                },
+                "item": {
+                    "ip": "192.168.203.38",
+                    "name": "local_ubuntu.site"
+                },
+                "last_modified": "Thu, 06 Aug 2020 08:53:21 GMT",
+                "msg": "OK (187 bytes)",
+                "redirected": false,
+                "server": "nginx/1.14.0 (Ubuntu)",
+                "status": 200,
+                "url": "http://local_ubuntu.site"
+            }
+        ]
+    }
+}
+
+RUNNING HANDLER [web : print out] **************************************************************************************************************************************
+Thursday 06 August 2020  08:54:02 +0000 (0:00:00.167)       0:01:21.776 *******
+ok: [host1] => {
+    "msg": "### This file is managed by Ansible.\n\ndate: 2020-08-05 13:28:37\nuser: test\n127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4\n::1         localhost localhost.localdomain localhost6 localhost6.localdomain6\n192.168.203.37   local_centos.site\n192.168.203.38   local_ubuntu.site"
+}
+ok: [host2] => {
+    "msg": "### This file is managed by Ansible.\n\ndate: 2020-08-05 13:28:37\nuser: test\n127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4\n::1         localhost localhost.localdomain localhost6 localhost6.localdomain6\n192.168.203.37   local_centos.site\n192.168.203.38   local_ubuntu.site"
+}
+
+PLAY RECAP *************************************************************************************************************************************************************
+host1                      : ok=18   changed=6    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0
+host2                      : ok=15   changed=5    unreachable=0    failed=0    skipped=7    rescued=0    ignored=0
+
+Thursday 06 August 2020  08:54:02 +0000 (0:00:00.197)       0:01:21.974 *******
+===============================================================================
+web : Templates ------------------------------------------------------------------------------------------------------------------------------------------------ 10.60s
+web : Check content to the sites -------------------------------------------------------------------------------------------------------------------------------- 7.26s
+Copy web page Ubuntu -------------------------------------------------------------------------------------------------------------------------------------------- 6.94s
+Gathering Facts ------------------------------------------------------------------------------------------------------------------------------------------------- 5.83s
+Copy web page Centos -------------------------------------------------------------------------------------------------------------------------------------------- 5.08s
+web : Nginx. Install packages ----------------------------------------------------------------------------------------------------------------------------------- 4.41s
+web : Upgrade server -------------------------------------------------------------------------------------------------------------------------------------------- 4.33s
+web : Nginx. Enable and start servce ---------------------------------------------------------------------------------------------------------------------------- 4.15s
+web : restart nginx --------------------------------------------------------------------------------------------------------------------------------------------- 3.81s
+web : Check connection to Localhost ----------------------------------------------------------------------------------------------------------------------------- 3.60s
+web : Check template -------------------------------------------------------------------------------------------------------------------------------------------- 3.56s
+web : Remove index file Ubuntu ---------------------------------------------------------------------------------------------------------------------------------- 3.52s
+web : Check file ------------------------------------------------------------------------------------------------------------------------------------------------ 3.38s
+web : Add epel-release repo ------------------------------------------------------------------------------------------------------------------------------------- 3.22s
+web : Nginx. Remove welcome file -------------------------------------------------------------------------------------------------------------------------------- 2.93s
+web : Nginx. Install packages ----------------------------------------------------------------------------------------------------------------------------------- 2.91s
+web : Nginx. Enable and start servce ---------------------------------------------------------------------------------------------------------------------------- 2.76s
+web : Remove index file Centos ---------------------------------------------------------------------------------------------------------------------------------- 2.76s
+web : print out ------------------------------------------------------------------------------------------------------------------------------------------------- 0.21s
+web : print out ------------------------------------------------------------------------------------------------------------------------------------------------- 0.20s
+Playbook run took 0 days, 0 hours, 1 minutes, 21 seconds
