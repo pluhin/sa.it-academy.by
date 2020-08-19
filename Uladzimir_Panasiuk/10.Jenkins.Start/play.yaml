@@ -1,0 +1,27 @@
+---
+- hosts: Jenkins
+  gather_facts: no
+  become: yes
+  
+  vars:
+    - fqdn: jenkins.local
+  
+  roles:
+    - jenkins
+    - nginx
+  
+  tasks:
+    - name: Check deployment
+      uri:
+        url: "http://{{ fqdn }}/login"
+        return_content: yes
+      register: this
+      failed_when: "'Sign in [Jenkins]' not in this.content"
+  
+    - name: Register Jenkins initial password
+      shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+      register: this
+
+    - name: Show Jenkins password
+      debug:
+        msg: "{{ this.stdout }}"
