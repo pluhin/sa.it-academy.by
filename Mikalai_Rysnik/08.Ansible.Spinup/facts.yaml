@@ -1,0 +1,10 @@
+---
+- hosts: hosts_test  
+  tasks:
+  - name: Set fact 01
+    set_fact:
+      message_from_jump: "we've been on Jump"
+      cacheable: yes
+  - name: Print fact from Jump
+    debug:
+      msg: "Fact from Jump is {{ message_from_jump }}"
