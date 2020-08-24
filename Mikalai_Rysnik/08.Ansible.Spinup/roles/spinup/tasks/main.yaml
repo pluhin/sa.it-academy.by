@@ -1,0 +1,6 @@
+---
+- name: Check SUDO without password
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
