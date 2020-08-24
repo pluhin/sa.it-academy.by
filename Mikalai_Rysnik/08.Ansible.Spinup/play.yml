@@ -1,4 +1,4 @@
 ---
-- hosts: hosts_test
+- hosts: hosts_debian
   roles:
     - spinup
