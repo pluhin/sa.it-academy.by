@@ -1,4 +1,4 @@
 ---
-- hosts: hosts_dev
+- hosts: hosts_test
   roles:
-    - malukula
+    - spinup
