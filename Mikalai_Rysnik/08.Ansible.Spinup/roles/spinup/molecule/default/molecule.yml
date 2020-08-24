@@ -3,15 +3,10 @@ dependency:
   name: galaxy
 driver:
   name: docker
-
 platforms:
-  - name: instance1
-    image: centos:8
-  - name: instance2
-    image: debian:10
-  - name: instance3
-    image: alpine:3
-
+  - name: instance
+    image: docker.io/pycontribs/centos:8
+    pre_build_image: true
 provisioner:
   name: ansible
 verifier:
