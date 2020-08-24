@@ -1,0 +1,10 @@
+- name: Notify Slack of Playbook Good
+  slack:
+    username: 'Ansible sender'
+    color: good
+    icon_url: https://agardner.net/wp-content/uploads/2018/08/ansible-logo.png
+    token: TFBPBNB2L/B01A23EGUD6/Cu0YIUl4okP9vHGa2fX0F0Rk
+    channel: "#test_senkodima"
+    msg: "All ansible tasks done. \n
+    '{{ inventory_hostname }}' completed." 
+    parse: 'full' # optional
