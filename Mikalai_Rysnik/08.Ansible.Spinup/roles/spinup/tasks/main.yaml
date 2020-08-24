@@ -1,6 +1,35 @@
 ---
-- name: Check SUDO without password
+- name: Check SUDO with NOPASSWD
   command: "true"
   become: yes
   become_method: sudo
   changed_when: false
+  
+- name: Check connections to public repositories. Debian
+  apt:
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+  changed_when: false
+    
+- name: Check connections to public repositories. RedHat
+  yum:
+    name: "*"
+    update_cache: yes
+  when: ansible_os_family == "RedHat"
+  
+- name: Check connections to public repositories. PIP package repository
+  uri:
+    url: "https://files.pythonhosted.org/packages/af/dc/4c2cbece71e480d09b8e8f6fd6c6c8849e7b65a591a7cd7a3e66085630d1/molecule-3.0.6.tar.gz"
+    
+- name: Check connectivity to DockerHub
+  uri:
+    url: "https://hub.docker.com"
+    return_content: yes
+  register: this
+  failed_when:
+    - "'<title>Docker Hub</title>' not in this.content"
+
+- name: Check RAM
+  debug:
+    msg: "{{ ansible_memtotal_mb }} MB. We need {{ available_data.ram }} MB"
+  failed_when: ansible_memtotal_mb < available_data.ram
