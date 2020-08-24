@@ -33,3 +33,11 @@
   debug:
     msg: "{{ ansible_memtotal_mb }} MB. We need {{ available_data.ram }} MB"
   failed_when: ansible_memtotal_mb < available_data.ram
+
+- name: Calculate HDD available space
+  set_fact: hdd_available={{ ((ansible_mounts | first).size_available / 1024 / 1024) | round(1,'common') }}
+
+- name: Check HDD
+  debug:
+    msg: "{{ hdd_available }} Gb. We need {{ available_data.hdd }} Gb"
+  failed_when: hdd_available | float < available_data.hdd
