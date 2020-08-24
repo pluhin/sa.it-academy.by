@@ -1,0 +1,12 @@
+- name: Notify Slack of Playbook Failure
+  slack:
+    username: 'Ansible sender'
+    color: danger
+    icon_url: https://agardner.net/wp-content/uploads/2018/08/ansible-logo.png
+    token: TFBPBNB2L/B01A23EGUD6/Cu0YIUl4okP9vHGa2fX0F0Rk
+    channel: "#test_senkodima"
+    msg: "Ansible failed on *{{ ansible_hostname }} ({{ inventory_hostname }})* \n
+    *Task*: {{ ansible_failed_task.name }} \n
+    *Action*: {{ ansible_failed_task.action }} \n
+    *Error Message*: \n ```{{ ansible_failed_result | to_nice_json }}``` "
+    parse: 'full' # optional
