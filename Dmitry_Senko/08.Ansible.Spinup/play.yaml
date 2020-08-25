@@ -1,0 +1,5 @@
+---
+- hosts: test_ec 
+  become: yes
+  roles:
+  - testing
