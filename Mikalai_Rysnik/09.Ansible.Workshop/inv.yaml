@@ -1,0 +1,7 @@
+---
+redmine:
+  vars:
+    ansible_user: root
+  hosts:
+    redmine_01:
+      ansible_host: 92.119.115.101

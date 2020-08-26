@@ -1,0 +1,23 @@
+---
+apt_redmine_packages:
+  - git
+  - ruby-full
+  - build-essential
+  - imagemagick
+  - libmagickwand-dev
+  - apache2
+  - libapache2-mod-passenger
+
+app_repo: "https://github.com/redmine/redmine.git"
+app_home: /opt/redmine
+app_version: 4.0-stable
+
+app_db: {
+  host: "127.0.0.1",
+  name: "redmine",
+  user: "redmine",
+  pass: "redmine"
+}
+
+app_lang: "ru"
+app_fqdn: vm870383.had.su
