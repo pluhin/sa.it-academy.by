@@ -1,0 +1,14 @@
+---
+apt_mysql_packages:
+  - libmysqlclient-dev
+  - mysql-server
+  - mysql-client
+  - python-pymysql
+  - python-mysqldb
+
+app_db: {
+  host: "127.0.0.1",
+  name: "redmine",
+  user: "redmine",
+  pass: "redmine"
+}
