@@ -1,0 +1,71 @@
+pipeline {
+    agent {
+        label 'ec17'
+    }
+
+    triggers {
+        cron('0 2 * * 7')
+    }
+
+    parameters {
+        string(name: 'NetworkToScan', defaultValue: '192.168.203.0/24', description: 'What subnet or IP should be scanned')
+        string(name: 'GitRepo', defaultValue: 'git@github.com:upanasiuk/devops-course.git')
+        credentials(name: 'GitCredsToUse', description: 'Credentials to use for github repo', defaultValue: 'my_github', credentialType: "SSH username with private key", required: true )
+    }
+
+    stages {
+        stage('Pull VCS') {
+            steps {
+                git credentialsId: "${params.GitCredsToUse}", url: "${params.GitRepo}"
+            }
+        }
+
+        stage('Make sure nmap and speedtest are installed') {
+            steps {
+                step([$class: 'AnsibleAdHocCommandBuilder',
+                    hostPattern: '127.0.0.1',
+                    module: 'package',
+                    command: 'name=nmap,python2-speedtest-cli,python-setuptools state=present',
+                    additionalParameters: '-b'
+                ])
+            }
+        }
+
+        stage('Count all online hosts inside EC') {
+            steps {
+                sh """
+                    nmap ${params.NetworkToScan} > nmap.log
+                """
+            }
+        }
+
+        stage('Measure Internet speed') {
+            steps {
+                sh """
+                    speedtest > speedtest.log
+                """
+            }
+        }
+
+        stage ('Collect and push logs to repo') {
+            steps {
+                sh """
+                    mkdir -p logs/${env.BUILD_ID}
+                    mv {nmap,speedtest}.log logs/${env.BUILD_ID}
+                """
+
+                sh """
+                    git config user.email "jenkins@jenkins.local"
+                    git config user.name "Jenkins"
+                    git config push.default matching
+                    git add .
+                    git commit -m "logs from Jenkins build ${env.BUILD_ID}"
+                """
+
+                sshagent (credentials: ["${params.GitCredsToUse}"]) {
+                    sh('git push')
+                }
+            }
+        }
+    }
+}
