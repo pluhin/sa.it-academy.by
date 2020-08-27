@@ -14,7 +14,7 @@ pipeline {
     }
 
     stages {
-        stage('Pull CSM') {
+        stage('Pull VCS') {
             steps {
                 git credentialsId: "${params.GitCredsToUse}", url: "${params.GitRepo}"
             }
