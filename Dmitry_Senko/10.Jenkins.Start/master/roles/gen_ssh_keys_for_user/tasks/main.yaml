@@ -1,0 +1,77 @@
+---
+
+#################### CHANGE SHELL FOR USER ###############################
+
+# Change shell for user "{{ user }}"
+- name: Change shell for user "{{ user }}"
+  become: yes
+  remote_user: "{{ user }}" # the user that logged into the machine
+  user:
+    name: "{{ user }}"
+    shell: /bin/bash # Change default shell for user
+
+# # OR USE
+# # Change shell for user "{{ user }}"
+# - name: Change shell for user "{{ user }}"
+#   shell: |
+#     usermod -s /bin/bash {{ user }}
+#   register: this
+
+###################### END OF CHANGE SHELL FOR USER ######################
+
+
+###################### GENERATING SSH KEYS FOR USER ######################
+
+# # DOESN`T PROPERLY WORK
+# # Create a 2048-bit SSH key for user {{ user }} in {{ user }}/.ssh/id_rsa
+# - name: Generate SSH keys for "{{ user }}"
+#   become: yes
+#   become_user: "{{ user }}" # feature allows you to ‘become’ another user
+#   user:
+#     name: "{{ user }}"
+#     shell: /bin/bash
+#     generate_ssh_key: yes
+#     ssh_key_type: rsa # default value
+#     ssh_key_bits: 2048 # default value
+#     ssh_key_file: ~/.ssh/{{ ssh_key_filename }}
+#   register: this
+
+# Create a 2048-bit SSH key for user {{ user }} in {{ user }}/.ssh/id_rsa  
+- name: Change shell for "{{ user }}" & Generate SSH keys for "{{ user }}"
+  shell: |
+    runuser -l {{ user }} -c 'echo -e "\n\n\n" | ssh-keygen -t rsa'
+  register: this
+
+- name: Show generating SSH keys for "{{ user }}"
+  debug:
+    msg: "{{ this.stdout_lines }}"
+
+###################### END OF GENERATING SSH KEYS FOR USER ######################
+
+
+- name: Register "{{ user }}" public ssh key
+  become: yes
+  become_user: "{{ user }}" # feature allows you to ‘become’ another user
+  shell: |
+    cat ~/.ssh/id_rsa.pub
+    # # or use command instead of become and become_user
+    # runuser -l {{ user }} -c 'cat ~/.ssh/id_rsa.pub'
+  register: this
+
+- name: Show "{{ user }}" public ssh key
+  debug:
+    msg: "{{ this.stdout_lines }}"
+
+
+- name: Register "{{ user }}" private ssh key
+  become: yes
+  become_user: "{{ user }}" # feature allows you to ‘become’ another user
+  shell: |
+    cat ~/.ssh/id_rsa
+    # # or use command instead of become and become_user
+    # runuser -l {{ user }} -c 'cat ~/.ssh/id_rsa'
+  register: this
+
+- name: Show "{{ user }}" private ssh key
+  debug:
+    msg: "{{ this.stdout_lines }}"

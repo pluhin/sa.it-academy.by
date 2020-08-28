@@ -1,0 +1,4 @@
+---
+user: jenkins
+
+ssh_key_filename: id_rsa

@@ -1,0 +1,6 @@
+---
+upstream_name: jenkins
+upstream_url: 127.0.0.1
+upstream_port: 8080
+
+listen_http: 80
