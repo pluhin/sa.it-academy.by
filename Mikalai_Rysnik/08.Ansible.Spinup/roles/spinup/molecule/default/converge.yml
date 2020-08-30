@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include spinup"
+      include_role:
+        name: "spinup"
