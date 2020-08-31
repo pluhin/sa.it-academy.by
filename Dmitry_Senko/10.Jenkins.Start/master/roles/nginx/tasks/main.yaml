@@ -1,0 +1,45 @@
+---
+- name: Add epel-release
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install nginx
+  yum:
+    name: nginx
+    state: present
+
+- name: Make sure firewalld is enabled
+  systemd:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: Configure firewalld
+  firewalld:
+    zone: public
+    service: "{{ item }}"
+    state: enabled
+    permanent: yes
+    immediate: yes
+  with_items:
+    - http
+    - https
+
+- name: Configure nginx
+  template:
+    src: "nginx-jenkins.conf.j2"
+    dest: "/etc/nginx/conf.d/jenkins.conf"
+  notify: Restart Nginx
+
+- name: Install selinux-python libs
+  yum:
+    name: "libselinux-python, libsemanage-python"
+
+- name: Set httpd_can_network_connect flag on and keep it persistent across reboots
+  seboolean:
+    name: httpd_can_network_connect
+    persistent: yes
+    state: yes
+
+- meta: flush_handlers

@@ -1,0 +1,58 @@
+---
+- hosts: Jenkins
+  gather_facts: yes # to get "ansible_hostname" in "Notify Slack of Playbook Failure"
+  become: yes
+  
+  vars:
+    - fqdn: jenkins.senko.local
+
+  pre_tasks:
+    - name: Register hostname & ip address of host
+      shell: |
+        hostname
+        ip addr show eth1 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1
+      register: this
+
+    - name: Show hostname & ip address of host
+      debug:
+        msg:
+        - "{{ this.stdout_lines }}"
+        - "****************************************************************************"
+        - "PLEASE ADD THIS LINE TO YOUR LOCAL /etc/hosts USING ' sudo vim /etc/hosts ':"
+        - "{{ this.stdout_lines[1] }} {{ fqdn }}"
+        - "****************************************************************************"
+
+  roles:
+    - jenkins
+    - gen_ssh_keys_for_user
+    - nginx
+  
+  tasks:
+    - name: Test block
+      block:
+        - name: Register Jenkins initial Admin Password
+          shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+          ignore_errors: yes # for next launches of this play
+          register: this
+
+        - name: Show Jenkins initial Admin Password
+          debug:
+            msg: "{{ this.stdout_lines }}"
+
+        # # DOESN`T PROPERLY WORK 
+        # - name: Check Jenkins deployment
+        #   uri:
+        #     url: "http://{{ fqdn }}"
+        #     return_content: yes
+        #   register: this
+        #   failed_when: "'Welcome' not in this.content"
+
+        - name: Notify Slack if all checks is good
+          include_role:
+            name: slack_handler
+            tasks_from: good
+            
+      rescue:
+        - include_role:
+            name: slack_handler
+            tasks_from: failure

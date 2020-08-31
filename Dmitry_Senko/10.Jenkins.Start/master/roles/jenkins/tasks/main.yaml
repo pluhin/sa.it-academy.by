@@ -1,0 +1,26 @@
+---
+- name: Install dependencies
+  yum:
+    name: "{{ yum_packages }}"
+    state: present
+
+- name: Add Jenkins repo
+  get_url:
+    url: 'https://pkg.jenkins.io/redhat/jenkins.repo'
+    dest: '/etc/yum.repos.d/jenkins.repo'
+
+- name: Import jenkins repo key
+  rpm_key:
+    key: 'https://pkg.jenkins.io/redhat/jenkins.io.key'
+    state: present
+
+- name: Install Jenkins
+  yum:
+    name: jenkins
+    state: present
+
+- name: Start Jenkins
+  systemd:
+    name: jenkins
+    state: started
+    enabled: yes
