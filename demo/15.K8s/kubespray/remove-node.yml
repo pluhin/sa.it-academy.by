@@ -1,0 +1,55 @@
+---
+- name: Check ansible version
+  import_playbook: ansible_version.yml
+
+- hosts: all
+  gather_facts: false
+  tags: always
+  tasks:
+    - name: "Set up proxy environment"
+      set_fact:
+        proxy_env:
+          http_proxy: "{{ http_proxy | default ('') }}"
+          HTTP_PROXY: "{{ http_proxy | default ('') }}"
+          https_proxy: "{{ https_proxy | default ('') }}"
+          HTTPS_PROXY: "{{ https_proxy | default ('') }}"
+          no_proxy: "{{ no_proxy | default ('') }}"
+          NO_PROXY: "{{ no_proxy | default ('') }}"
+      no_log: true
+
+- hosts: "{{ node | default('etcd:k8s-cluster:calico-rr') }}"
+  gather_facts: no
+  vars_prompt:
+    name: "delete_nodes_confirmation"
+    prompt: "Are you sure you want to delete nodes state? Type 'yes' to delete nodes."
+    default: "no"
+    private: no
+
+  pre_tasks:
+    - name: check confirmation
+      fail:
+        msg: "Delete nodes confirmation failed"
+      when: delete_nodes_confirmation != "yes"
+
+- hosts: kube-master
+  gather_facts: no
+  roles:
+    - { role: kubespray-defaults }
+    - { role: bootstrap-os, tags: bootstrap-os }
+    - { role: remove-node/pre-remove, tags: pre-remove }
+
+- hosts: "{{ node | default('kube-node') }}"
+  gather_facts: no
+  roles:
+    - { role: kubespray-defaults }
+    - { role: bootstrap-os, tags: bootstrap-os }
+    - { role: remove-node/remove-etcd-node}
+    - { role: reset, tags: reset, when: reset_nodes|default(True) }
+
+# Currently cannot remove first master or etcd
+- hosts: "{{ node | default('kube-master[1:]:etcd[1:]') }}"
+  gather_facts: no
+  roles:
+    - { role: kubespray-defaults }
+    - { role: bootstrap-os, tags: bootstrap-os}
+    - { role: remove-node/post-remove, tags: post-remove }
