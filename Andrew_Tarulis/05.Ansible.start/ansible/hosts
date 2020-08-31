@@ -1,0 +1,28 @@
+[it:children]
+it_jump
+it_centos
+it_ubuntu
+
+[it_jump]
+bastion ansible_host=178.124.206.53
+
+[it_centos]
+host1 ansible_host=192.168.203.33
+host3 ansible_host=192.168.203.35
+
+[it_ubuntu]
+host2 ansible_host=192.168.203.34
+host4 ansible_host=192.168.203.36
+
+#####################
+[ec:children]
+ec_debian
+ec_centos
+
+[ec_centos]
+bastion ansible_host=192.168.22.221
+centos ansible_host=10.20.30.42
+
+[ec_debian]
+debian ansible_host=10.20.30.41
+
