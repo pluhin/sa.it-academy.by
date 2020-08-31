@@ -1,4 +1,6 @@
 FROM debian:stretch-slim
 
 RUN apt-get update \
-    && apt-get install -y python3 python3-pip
+    && apt-get install -y python3
+
+EXPOSE 9000
