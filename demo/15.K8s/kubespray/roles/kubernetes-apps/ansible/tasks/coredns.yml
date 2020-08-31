@@ -1,0 +1,43 @@
+---
+- name: Kubernetes Apps | Lay Down CoreDNS Template
+  action: "{{ item.module }}"
+  args:
+    src: "{{ item.file }}{% if item.module == 'template' %}.j2{% endif %}"
+    dest: "{{ kube_config_dir }}/{{ item.file }}"
+  with_items:
+    - { name: coredns, module: template, file: coredns-config.yml, type: configmap }
+    - { name: coredns, module: copy, file: coredns-sa.yml, type: sa }
+    - { name: coredns, module: template, file: coredns-deployment.yml, type: deployment }
+    - { name: coredns, module: template, file: coredns-svc.yml, type: svc }
+    - { name: coredns, module: copy, file: coredns-clusterrole.yml, type: clusterrole }
+    - { name: coredns, module: copy, file: coredns-clusterrolebinding.yml, type: clusterrolebinding }
+    - { name: dns-autoscaler, module: copy, file: dns-autoscaler-sa.yml, type: sa }
+    - { name: dns-autoscaler, module: copy, file: dns-autoscaler-clusterrole.yml, type: clusterrole }
+    - { name: dns-autoscaler, module: copy, file: dns-autoscaler-clusterrolebinding.yml, type: clusterrolebinding }
+    - { name: dns-autoscaler, module: template, file: dns-autoscaler.yml, type: deployment }
+  register: coredns_manifests
+  vars:
+    clusterIP: "{{ skydns_server }}"
+  when:
+    - dns_mode in ['coredns', 'coredns_dual']
+    - inventory_hostname == groups['kube-master'][0]
+  tags:
+    - coredns
+
+- name: Kubernetes Apps | Lay Down Secondary CoreDNS Template
+  template:
+    src: "{{ item.src }}.j2"
+    dest: "{{ kube_config_dir }}/{{ item.file }}"
+  with_items:
+    - { name: coredns, src: coredns-deployment.yml, file: coredns-deployment-secondary.yml, type: deployment }
+    - { name: coredns, src: coredns-svc.yml, file: coredns-svc-secondary.yml, type: svc }
+    - { name: dns-autoscaler, src: dns-autoscaler.yml, file: coredns-autoscaler-secondary.yml, type: deployment }
+  register: coredns_secondary_manifests
+  vars:
+    clusterIP: "{{ skydns_server_secondary }}"
+    coredns_ordinal_suffix: "-secondary"
+  when:
+    - dns_mode == 'coredns_dual'
+    - inventory_hostname == groups['kube-master'][0]
+  tags:
+    - coredns

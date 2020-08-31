@@ -1,0 +1,33 @@
+---
+- name: crictl | Download crictl
+  include_tasks: "../../../download/tasks/download_file.yml"
+  vars:
+    download: "{{ download_defaults | combine(downloads.crictl) }}"
+
+- name: Install crictl config
+  template:
+    src: ../templates/crictl.yaml.j2  # noqa 404 not in role_path when task is included from download role
+    dest: /etc/crictl.yaml
+    owner: bin
+    mode: 0644
+
+- name: Copy crictl binary from download dir
+  synchronize:
+    src: "{{ local_release_dir }}/crictl"
+    dest: "{{ bin_dir }}/crictl"
+    compress: no
+    perms: yes
+    owner: no
+    group: no
+  delegate_to: "{{ inventory_hostname }}"
+
+- name: Get crictl completion
+  command: "{{ bin_dir }}/crictl completion"
+  changed_when: False
+  register: cri_completion
+
+- name: Install crictl completion
+  copy:
+    dest: /etc/bash_completion.d/crictl
+    content: "{{ cri_completion.stdout }}"
+  become: True
