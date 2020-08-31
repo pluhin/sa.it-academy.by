@@ -1,6 +1,8 @@
-FROM debian:stretch-slim
+FROM python:alpine
 
-RUN apt-get update \
-    && apt-get install -y python3 nginx
+WORKDIR /code
+COPY . .
 
 EXPOSE 9000
+
+CMD [ "python", "-m", "http.server" ]
