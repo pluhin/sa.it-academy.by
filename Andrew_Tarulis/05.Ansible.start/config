@@ -1,0 +1,17 @@
+###################################
+# IT HTP
+Host it_bastion
+        User jump_sa
+        HostName 178.124.206.53
+Host 192.168.37.* 192.168.31.* 192.168.203.*
+        ProxyJump it_bastion
+
+
+
+# EC HTP
+Host ec_bastion
+        User ansible
+        HostName 192.168.22.221
+Host 10.20.30.*
+        ProxyJump ec_bastion
+
