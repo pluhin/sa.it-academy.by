@@ -3,6 +3,6 @@ FROM python:alpine
 WORKDIR /code
 COPY . .
 
-EXPOSE 9000
+EXPOSE 9090
 
-CMD [ "python", "pr.py" ]
+#CMD [ "python", "pr.py" ]
