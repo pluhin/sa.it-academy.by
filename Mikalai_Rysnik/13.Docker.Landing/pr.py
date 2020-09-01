@@ -1,7 +1,7 @@
 import socket
 import time
 
-def serverTCP(port=6000, host='127.0.0.1'):
+def serverTCP(port=6000, host='0.0.0.0'):
     ''' Сервер, ожидает входное соединение для получения данных и отсылает ответ после '''
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #TCP
     try:
