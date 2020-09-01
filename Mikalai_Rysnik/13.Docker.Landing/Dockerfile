@@ -5,4 +5,4 @@ COPY . .
 
 EXPOSE 9000
 
-CMD [ "python", "-m", "http.server" ]
+CMD [ "python", "pr.py" ]
