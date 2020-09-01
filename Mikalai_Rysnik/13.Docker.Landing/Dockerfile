@@ -1,8 +1,8 @@
 FROM python:alpine
 
 WORKDIR /code
-COPY . .
+COPY pr.py .
 
 EXPOSE 9090
 
-#CMD [ "python", "pr.py" ]
+CMD [ "python", "pr.py" ]
