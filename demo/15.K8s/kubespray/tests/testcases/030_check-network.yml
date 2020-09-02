@@ -1,0 +1,114 @@
+---
+- hosts: kube-master[0]
+  vars:
+    test_image_repo: busybox
+    test_image_tag: latest
+
+  tasks:
+  - name: Force binaries directory for Flatcar Container Linux by Kinvolk
+    set_fact:
+      bin_dir: "/opt/bin"
+    when: ansible_os_family in ["Flatcar Container Linux by Kinvolk"]
+
+  - name: Force binaries directory for other hosts
+    set_fact:
+      bin_dir: "/usr/local/bin"
+    when: not ansible_os_family in ["Flatcar Container Linux by Kinvolk"]
+
+  - name: Create test namespace  # noqa 301 305
+    shell: "{{ bin_dir }}/kubectl create namespace test"
+
+  - name: Run 2 busybox pods in test ns  # noqa 305
+    shell: "{{ bin_dir }}/kubectl run {{ item }} --image={{ test_image_repo }}:{{ test_image_tag }} --namespace test --command -- tail -f /dev/null"
+    changed_when: false
+    loop:
+    - busybox1
+    - busybox2
+
+  - import_role:
+      name: cluster-dump
+
+  - name: Check that all pods are running and ready  # noqa 305
+    shell: "{{ bin_dir }}/kubectl get pods --namespace test --no-headers -o yaml"
+    changed_when: false
+    register: run_pods_log
+    until:
+    # Check that all pods are running
+    - '(run_pods_log.stdout | from_yaml)["items"] | map(attribute = "status.phase") | unique | list == ["Running"]'
+    # Check that all pods are ready
+    - '(run_pods_log.stdout | from_yaml)["items"] | map(attribute = "status.containerStatuses") | map("map", attribute = "ready") | map("min") | min'
+    retries: 18
+    delay: 10
+    failed_when: false
+    no_log: true
+
+  - name: Get pod names  # noqa 305
+    shell: "{{ bin_dir }}/kubectl get pods -n test -o json"
+    changed_when: false
+    register: pods
+    no_log: true
+
+  - debug:
+      msg: "{{ pods.stdout.split('\n') }}"
+    failed_when: not run_pods_log is success
+
+  - name: Get hostnet pods
+    command: "{{ bin_dir }}/kubectl get pods -n test -o
+            jsonpath='{range .items[?(.spec.hostNetwork)]}{.metadata.name} {.status.podIP} {.status.containerStatuses} {end}'"
+    changed_when: false
+    register: hostnet_pods
+    no_log: true
+
+  - name: Get running pods
+    command: "{{ bin_dir }}/kubectl get pods -n test -o
+            jsonpath='{range .items[?(.status.phase==\"Running\")]}{.metadata.name} {.status.podIP} {.status.containerStatuses} {end}'"
+    changed_when: False
+    register: running_pods
+    no_log: true
+
+  - name: Check kubectl output  # noqa 305
+    shell: "{{ bin_dir }}/kubectl get pods --all-namespaces -owide"
+    changed_when: False
+    register: get_pods
+    no_log: true
+
+  - debug:
+      msg: "{{ get_pods.stdout.split('\n') }}"
+
+  - name: Set networking facts
+    set_fact:
+      kube_pods_subnet: 10.233.64.0/18
+      pod_names: "{{ (pods.stdout | from_json)['items'] | map(attribute = 'metadata.name') | list }}"
+      pod_ips: "{{ (pods.stdout | from_json)['items'] | selectattr('status.podIP', 'defined') | map(attribute = 'status.podIP') | list }}"
+      pods_hostnet: |
+        {% set list = hostnet_pods.stdout.split(" ") %}
+        {{ list }}
+      pods_running: |
+        {% set list = running_pods.stdout.split(" ") %}
+        {{ list }}
+
+  - name: Check pods IP are in correct network
+    assert:
+      that: item | ipaddr(kube_pods_subnet)
+    when:
+    - not item in pods_hostnet
+    - item in pods_running
+    with_items: "{{ pod_ips }}"
+
+  - name: Ping between pods is working
+    command: "{{ bin_dir }}/kubectl -n test exec {{ item[0] }} -- ping -c 4 {{ item[1] }}"
+    when:
+    - not item[0] in pods_hostnet
+    - not item[1] in pods_hostnet
+    with_nested:
+    - "{{ pod_names }}"
+    - "{{ pod_ips }}"
+
+  - name: Ping between hostnet pods is working
+    command: "{{ bin_dir }}/kubectl -n test exec {{ item[0] }} -- ping -c 4 {{ item[1] }}"
+    when:
+    - item[0] in pods_hostnet
+    - item[1] in pods_hostnet
+    with_nested:
+    - "{{ pod_names }}"
+    - "{{ pod_ips }}"
