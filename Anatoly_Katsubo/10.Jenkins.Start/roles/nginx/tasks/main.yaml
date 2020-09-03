@@ -1,0 +1,22 @@
+---
+- name: Add epel
+  yum:
+    name: epel-release
+
+- name: Install nginx
+  yum:
+    name: nginx
+
+- name: Create index.html file
+  template: src=nginx-jenkins.conf.j2 dest=/etc/nginx/conf.d/jenkins.conf
+  notify:
+    - reload nginx
+
+- name: Install selinux-python libs
+  yum:
+    name: 'libselinux-python, libsemanage-python'
+
+- seboolean:
+    name: httpd_can_network_connect
+    persistent: yes
+    state: yes
