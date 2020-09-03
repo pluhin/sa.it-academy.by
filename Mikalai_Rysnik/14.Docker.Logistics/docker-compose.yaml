@@ -1,40 +1,25 @@
-version: '3'
+version: '3.3'
 services:
   nginx:
     image: nginx
     container_name: nginx
     volumes: 
-      - ./app_content/nginx/html:/usr/share/nginx/html
+      - ./html:/usr/share/nginx/html
     ports:
-      - 10000:80
-    restart: unless-stopped
-      
-  sonarr:
-    image: linuxserver/sonarr
-    container_name: sonarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Minsk
-    volumes:
-      - ./app_content/sonarr/config:/config
-      - ./app_content/sonarr/tv:/tv
-      - ./app_content/sonarr/downloads:/downloads
-    ports:
-      - 10001:8989
-    restart: unless-stopped
+      - 9091:80
 
+  sonarr:
+      image: linuxserver/sonarr
+      container_name: sonarr
+      environment:
+          - TZ=Europe/Minsk
+      ports:
+          - 8989:8989
+     
   radarr:
     image: linuxserver/radarr
     container_name: radarr
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=Europe/Minsk
-    volumes:
-      - ./app_content/radarr/config:/config
-      - ./app_content/radarr/movies:/movies
-      - ./app_content/radarr/downloads:/downloads
     ports:
-      - 10002:7878
-    restart: unless-stopped
+      - 7878:7878
