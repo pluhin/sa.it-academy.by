@@ -1,7 +1,3 @@
-## 14.Docker.Logistics
-
-#### Docker + Jenkins
-``` bash
 pipeline {
   environment {
     registry = "rysnik/build_test"
@@ -37,34 +33,3 @@ pipeline {
     }
   }
 }
-```
-
-#### Docker-compose
-
-```yaml
-version: '3.3'
-services:
-  nginx:
-    image: nginx
-    container_name: nginx
-    volumes: 
-      - ./html:/usr/share/nginx/html
-    ports:
-      - 9091:80
-
-  sonarr:
-      image: linuxserver/sonarr
-      container_name: sonarr
-      environment:
-          - TZ=Europe/Minsk
-      ports:
-          - 8989:8989
-     
-  radarr:
-    image: linuxserver/radarr
-    container_name: radarr
-    environment:
-      - TZ=Europe/Minsk
-    ports:
-      - 7878:7878
-```
