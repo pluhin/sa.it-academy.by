@@ -1,0 +1,56 @@
+pipeline {
+    agent none
+    triggers {
+        cron('0 2 * * 7')
+    stages {
+        stage('Check host') {
+          agent { label 'ec_node40'}
+            steps {
+                sh 'cat /etc/os-release'
+            }
+        } 
+        
+        stage('Install nmap') {
+          agent { label 'ec_node40'}
+            steps {
+                sh''' 
+                 apt install nmap -y
+                 nmap -sP 192.168.203.0/24 > check_hosts.txt
+                 apt remove nmap -y
+                 ''' 
+            }
+        }   
+        stage('Speed test') {
+          agent { label 'ec_node40'}
+            options {ansiColor ('xterm')}
+            steps {
+                sh 'sudo yum install python
+                wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
+                chmod +x speedtest-cli
+                ./speedtest-cli > speedtest.txt'
+            }
+        }
+        stage('Save log file') {
+          agent { label 'master'}
+            steps {
+                sh 'cat ${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/log > /var/lib/jenkins/log.txt'
+            }
+        }
+        stage('Checking repository'){
+          agent { label 'master'}
+            steps { 
+                sh "ls -l"
+            }
+        }
+        stage('Copy and check log.txt'){
+          agent { label 'master'}
+            steps { 
+                sh '''
+                cp /var/lib/jenkins/log.txt ./
+                ls -l
+                '''
+            }
+        }
+        
+    }
+}
