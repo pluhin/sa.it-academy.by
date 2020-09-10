@@ -1,0 +1,30 @@
+node('master'){
+        stage("install kubectl"){
+            sh '''
+                sudo apt-get update && sudo apt-get install -y apt-transport-https
+                curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+                echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+                sudo apt-get update
+                sudo apt-get install -y kubectl
+            '''
+        }
+        stage("install docker"){
+            sh '''
+                sudo apt-get remove docker docker-engine docker.io
+                sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+                sudo curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+                sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+                sudo apt-get update -qq
+                sudo apt-get install -yqq docker-ce docker-ce-cli containerd.io
+                sudo usermod -aG docker user
+            '''
+        }
+        stage("install minikube"){
+            sh '''
+                sudo curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+                sudo chmod +x minikube
+                sudo mkdir -p /usr/local/bin/
+                sudo install minikube /usr/local/bin/
+            '''
+        }
+    }
