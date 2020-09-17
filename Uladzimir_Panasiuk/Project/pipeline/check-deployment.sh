@@ -1,7 +1,7 @@
 #!/bin/bash
 
 for (( i=0; i<$1; i++ )); do
-  if curl --silent "$2" | grep "$3" &>/dev/null; then
+  if curl --location --silent "$2" | grep "$3" &>/dev/null; then
     exit
   else
     sleep 1
