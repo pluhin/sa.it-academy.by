@@ -5,6 +5,7 @@
 *.retry
 .*.swp
 /.vagrant
+.vagrant
 env
 __pycache__
 .idea/*
