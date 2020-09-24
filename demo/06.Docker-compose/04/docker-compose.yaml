@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  nginx_svc:
+    image: nginx
+    container_name: php-nginx-nfs
+    ports:
+      - "8100:80"
+    volumes:
+      - data_nfs:/usr/share/nginx/html:ro
+volumes:
+  data_nfs:
+    driver: local
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.1.100,rw,nolock,hard,nointr,nfsvers=4"
+      device: ":/opt/dc/"
