@@ -1,0 +1,16 @@
+FROM alpine:latest
+
+MAINTAINER alekseytivonchik
+
+RUN apk update \
+    && apk upgrade \
+    && apk add --no-cache python3 \
+    && apk add --no-cache py3-pip \
+    && mkdir /apiPython
+
+COPY apitest.py /apiPython/apitest.py
+
+CMD ["python3", "/apiPython/apitest.py"]
+
+EXPOSE 8080
+
