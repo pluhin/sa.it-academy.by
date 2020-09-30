@@ -1,0 +1,34 @@
+version: "3.3"
+services:
+  web:
+    image: nginx
+    container_name: nginx_server
+    volumes:
+      - ./www:/usr/share/nginx/html
+    ports:
+      - "80:80"
+    restart: always
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr_doc
+    volumes:
+      - /mnt/sonarr/config:/config
+      - /mnt/sonarr/tv:/tv
+      - /mnt/sonarr/downloads:/downloads
+    ports:
+      - "8989:8989"
+    depends_on: 
+      - web
+    restart: always
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr_doc
+    volumes:
+      - /mnt/radarr/radarr_config:/config
+      - /mnt/radarr/movies:/movies
+      - /mnt/radar/downloads:/downloads
+    ports:
+      - "7878:7878"
+    restart: always
+    depends_on:
+      - web
