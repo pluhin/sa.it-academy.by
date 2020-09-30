@@ -1,0 +1,44 @@
+version: '3.3'
+
+services:
+    
+  web:
+    image: httpd
+    container_name: httpd
+    volumes:
+      - /home/denis/tmp/html:/usr/local/apache2/htdocs/
+    ports:
+      - 8585:80
+    restart: unless-stopped
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - UMASK_SET=022 #optional
+    volumes:
+    - /home/denis/tmp/sonarr/data:/config
+    - /home/denis/tmp/sonarr/tvseries:/tv
+    - /home/denis/tmp/sonarr/downloadclient-downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - UMASK_SET=022 #optional
+    volumes:
+    - /home/denis/tmp/radarr/data:/config
+    - /home/denis/tmp/radarr/movies:/movies
+    - /home/denis/tmp/radarr/downloadclient-downloads:/downloads
+    ports:
+    - 7878:7878
+    restart: unless-stopped
