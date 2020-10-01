@@ -104,13 +104,13 @@ resource "docker_container" "radarr" {
     host_path = "/mnt/radarr_config"
   }
   volumes {
-    volume_name    = docker_volume.radarr_tv.name
+#   volume_name    = docker_volume.radarr_tv.name
     container_path = "/movies"
     read_only      = false
     host_path = "/mnt/movies"
   }
   volumes {
-    volume_name    = docker_volume.radarr_downloads.name
+#   volume_name    = docker_volume.radarr_downloads.name
     container_path = "/downloads"
     read_only      = false
     host_path = "/mnt/radarr_client"
