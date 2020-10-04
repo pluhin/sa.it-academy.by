@@ -1,0 +1,2 @@
+# SSH connecthon to node 1 root@192.168.201.8
+alias k8s_to_8='ssh -L 6443:localhost:6443 root@192.168.201.8 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_ec_ws'
