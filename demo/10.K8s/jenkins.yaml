@@ -134,6 +134,8 @@ spec:
             - name: jenkins-config-yaml
               mountPath: /var/jenkins_home/casc_configs/jenkins.yaml
               subPath: jenkins.yaml
+            - name: jenkins-home
+              mountPath: /var/jenkins_home
       volumes:
         - name: docker-sock
           hostPath:
@@ -144,6 +146,10 @@ spec:
         - name: jenkins-config-yaml
           configMap:
             name: jenkins-config
+        - name: jenkins-home
+          nfs:
+            server: 192.168.37.105
+            path: /mnt/IT-Academy/nfs-data/sa2-14-20/demo/jenkins
 ---
 apiVersion: v1
 kind: Service
