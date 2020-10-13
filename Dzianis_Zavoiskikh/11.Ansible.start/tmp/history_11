@@ -1,0 +1,2030 @@
+  472  who
+  473  cd sa
+  474  cd my_git_02.Local/
+  475  ls -la
+  476  git status
+  477  git remote -v
+  478  git pull origin master 
+  479  git merge
+  480  git merge origin master 
+  481  git status
+  482  git commit -a -m "Creating a report files"
+  483  git status
+  484  git push
+  485  git push origin master 
+  486  git status
+  487  git commit -ammend
+  488  git push origin master 
+  489  git status
+  490  git commit -ammend
+  491  git push origin master 
+  492  git status
+  493  git commit -ammend
+  494  git push origin master 
+  495  git status
+  496  cd ~/sa/sa_fork/
+  497  ls --la
+  498  ls -la
+  499  git remote -v
+  500  history | grep upstr 
+  501  git pull upstream m-sa2-14-20 
+  502  git status
+  503  cp -R  ~/sa/my_git_02.Local/05.Docker/ ~/sa/sa_fork/Dzianis_Zavoiskikh/
+  504  ls -la
+  505  cd Dzianis_Zavoiskikh/
+  506  ls -la
+  507  cd 05.Docker/
+  508  ls -la
+  509  git status
+  510  git add -all
+  511  git commit -m "05.Docker done"
+  512  git add --all
+  513  git commit -m "05.Docker done"
+  514  git status
+  515  git log --oneline
+  516  history | grep  origin
+  517  git push origin m-sa2-14-20 
+  518  git status
+  519  sudo -i
+  520  git status
+  521  cd ~
+  522  cd sa/my_git_02.Local/ls
+  523  cd sa/my_git_02.Local/
+  524  ls
+  525  mkdir 06.Docker-compose
+  526  cd 06.Docker-compose/
+  527  ls -la
+  528  mkdir gitlabCE_docker
+  529  cd gitlabCE_docker/
+  530  ls
+  531  nano docker-compose.yaml 
+  532  cd ~/tmp/
+  533  sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  534  sudo chmod +x /usr/local/bin/docker-compose
+  535  sudo -i
+  536  docker-compose --version
+  537  cd ~/sa/my_git_02.Local/06.Docker-compose/gitlabCE_docker
+  538  ls
+  539  nano docker-compose.yaml 
+  540  sudo docker-compose up -d
+  541  sudo -i
+  542  git status
+  543  git add --all
+  544  git commit -m "Docker compose for GitLab testing"
+  545  git push origin master 
+  546  git status
+  547  exit
+  548  histiry | grep wget
+  549  sudo -i
+  550  exit
+  551  who
+  552  history 10
+  553  sudo -i
+  554  sudo -i
+  555  cd /home/denis/sa/my_git_02.Local/06.Docker-compose/02
+  556  ls
+  557  sudo rm docker-compose.yaml 
+  558  ls
+  559  touch docker-compose.yaml
+  560  mc
+  561  cd ..
+  562  sudo rm -r 02
+  563  ls
+  564  mkdir 02
+  565  cd 02
+  566  touch docker-compose.yaml
+  567  nano docker-compose.yaml 
+  568  docker-compose ps
+  569  sudo docker-compose -ps
+  570  sudo docker-compose ps
+  571  sudo docker-compose up -d
+  572  nano docker-compose.yaml 
+  573  ls -la
+  574  git status
+  575  git add -all
+  576  git add --all
+  577  git commit -m "Radarr&Sonarr 06.Docke-rcompose"
+  578  git remote -v
+  579  git push origin master 
+  580  cd ~
+  581  sudo apt-get update
+  582  sudo apt-get install rcconf
+  583  sudo rcconf
+  584  ls
+  585  cd sa/my_git_02.Local/06.Docker-compose/03
+  586  cd sa/my_git_02.Local/06.Docker-compose
+  587  mkdir 03
+  588  nano docker-compose
+  589  ls
+  590  cd 03
+  591  cd ~
+  592  cd tmp/
+  593  mkdir html
+  594  cd html/
+  595  cd ~/sa/my_git_02.Local/06.Docker-compose
+  596  cd 03
+  597  ls -la
+  598  nano docker-compose.yaml 
+  599  sudo docker-compose up -d
+  600  docker images
+  601  sudo docker images
+  602  sudo docker-compose up -d
+  603  sudo docker login
+  604  sudo docker-compose up -d
+  605  nano docker-compose.yaml 
+  606  sudo docker-compose up -d
+  607  nano docker-compose.yaml 
+  608  cd ~
+  609  cd ~/tmp/html/
+  610  ls -la
+  611  nano index.html
+  612  cd ~/sa/my_git_02.Local/06.Docker-compose/03
+  613  sudo docker-compose down
+  614  sudo docker-compose up -d
+  615  docker ps
+  616  sudo docker ps
+  617  sudo docker it 68e803d3c055 bash
+  618  sudo docker -it 68e803d3c055 bash
+  619  exit
+  620  sudo docker ps
+  621  cd sa/my_git_02.Local/06.Docker-compose/03/
+  622  ls
+  623  docker-compose down
+  624  docker-compose ps
+  625  sudo docker-compose ps
+  626  sudo docker-compose up -d
+  627  sudo docker ps
+  628  sudo docker-compose down
+  629  sudo docker-compose up
+  630  sudo docker-compose up -d
+  631  sudo docker-compose ps
+  632  sudo docker ps
+  633  sudo docker-compose down
+  634  cd ../02
+  635  sudo docker ps
+  636  sudo docker-compose down
+  637  cd ../03
+  638  ls -la
+  639  sudo docker-compose up -d
+  640  sudo docker-compose down
+  641  sudo docker ps
+  642  cd ../04
+  643  ls
+  644  sudo docker-compose up -d
+  645  cd ..
+  646  git status
+  647  git add --all
+  648  git commit -m "06.Doker-compose 3 applications deployed"
+  649  git push origin master 
+  650  git status
+  651  git commit -ammend
+  652  git status
+  653  git push
+  654  git push origin master 
+  655  git commit -ammend
+  656  git push origin master 
+  657  git commit -ammend
+  658  git push origin master 
+  659  git commit -ammend
+  660  git push origin master 
+  661  ls
+  662  cd 04
+  663  ls
+  664  sudo docker-compose down
+  665  sudo docker ps
+  666  mkdir ../05
+  667  cd ../05
+  668  ls
+  669  cd ~
+  670  sudo apt update
+  671  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+  672  sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+  673  sudo apt-get update && sudo apt-get install terraform
+  674  terraform -help
+  675  terraform --version
+  676  cd sa/my_git_02.Local/06.Docker-compose/05/
+  677  ls
+  678  nano main.tf 
+  679  terraform init
+  680  ls
+  681  ls -la
+  682  sudo docker images
+  683  who 
+  684  sudo docker ps
+  685  cd sa/my_git_02.Local/06.Docker-compose/
+  686  ls
+  687  cd 05/
+  688  ls
+  689  sudo docker images
+  690  exit
+  691  cat .ssh/id_rsa.pub 
+  692  ssh-copy-id jump_sa@178.124.206.53
+  693  ssh jump_sa@178.124.206.53
+  694  nano .ssh/config
+  695  sudo systemctl restart ssh.service
+  696  ssh root@
+  697  ssh root@192.168.205.13
+  698  ssh jump_sa@178.124.206.53
+  699  ssh root@192.168.201.8
+  700  ssh-copy-id root@192.168.201.8
+  701  ssh root@192.168.201.8
+  702  history | grep ssh
+  703  ssh root@192.168.201.8
+  704  exit
+  705  history 10
+  706  ssh root@192.168.201.8
+  707  exit
+  708  ssh root@192.168.201.8
+  709  ls -la
+  710  sudo docker ps
+  711  who
+  712  htop
+  713  grep -E --color 'vmx|svm' /proc/cpuinfo
+  714  sudo grep -E --color 'vmx|svm' /proc/cpuinfo
+  715  vbxmanage --version
+  716  vbxmanage --v
+  717  vbxmanage -v
+  718  virtualbox --version
+  719  vboxmanage --version
+  720  sudo apt-get update && sudo apt-get install -y apt-transport-https
+  721  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+  722  echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+  723  sudo apt-get update
+  724  sudo apt-get install -y kubectl
+  725  kubectl version
+  726  ls -la
+  727  cd tmp/
+  728  ls -la
+  729  curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64   && chmod +x minikube
+  730  echo $PATH
+  731  sudo mkdir -p /usr/local/bin/
+  732  echo $PATH
+  733  sudo install minikube /usr/local/bin/
+  734  minikube start --help
+  735  minikube version
+  736  kubectl version -o json
+  737  kubectl config view
+  738  minikube start
+  739  exit
+  740  history
+  741  history |grep ssh
+  742  ssh root@192.168.201.8
+  743  exit
+  744  who
+  745  htop
+  746  ssh root@192.168.201.8
+  747  exit
+  748  ssh root@192.168.201.8
+  749  exit
+  750  who
+  751  whoami
+  752  history
+  753  who
+  754  exit -all
+  755  who
+  756  logout pts/1
+  757  nano .ssh/config
+  758  cat access.yaml 
+  759  history | grep create
+  760  history | grep access
+  761  who
+  762  ssh root@192.168.201.8
+  763  kubectl get nodes
+  764  ssh root@192.168.201.8
+  765  ps aux | grep 6443
+  766  kubectl get nodes
+  767  kill -9 17059
+  768  ps aux | grep 6443
+  769  sudo apt update
+  770  sudo apt install golang-go
+  771  go version
+  772  sudo apt install golang-1.14-go
+  773  go version
+  774  sudo mv go /usr/local
+  775  go version
+  776  go1.10.7 env GOROOT
+  777  go1.11.6 env GOROOT
+  778  go env GOROOT
+  779  go1.11 env GOROOT
+  780  go env GOROOT
+  781  sudo rm -r /usr/local/go
+  782  echo $PATH
+  783  nano $HOME/.profile
+  784  go version
+  785  ls -la
+  786  sudo -i
+  787  echo $GOROOT
+  788  echo $GOPATH
+  789  go env
+  790  cd /home/denis/go
+  791  cd /home/denis/
+  792  ls -la
+  793  go env
+  794  sudo ls -la /usr/lib/
+  795  sudo rm -r /usr/lib/go-1.11/
+  796  sudo ls -la /usr/lib/
+  797  sudo ls -la /usr/lib/ | less
+  798  sudo rm -r /usr/lib/go
+  799  sudo ls -la /usr/lib/ | less
+  800  go version
+  801  sudo tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz
+  802  history | grep tar
+  803  history 100 | less
+  804  ls -la
+  805  cd tmp/
+  806  ls -la
+  807  wget https://golang.org/dl/go1.15.2.linux-amd64.tar.gz
+  808  tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz
+  809  sudo tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz
+  810  export PATH=$PATH:/usr/local/go/bin
+  811  echo $PATH
+  812  go version
+  813  git clone git@github.com:derailed/k9s.git
+  814  ls -la
+  815  cd ..
+  816  ls -la
+  817  cd tmp/
+  818  ls -la
+  819  cd k9s/
+  820  ls -la
+  821  make build && ./execs/k9s
+  822  ls -la
+  823  ./execs/k9s
+  824  ssh -L 6443:localhost:6443 root@192.168.201.8 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_ec_ws
+  825  ./execs/k9s
+  826  history 10
+  827  history | grep 443
+  828  history -a
+  829  k9s
+  830  ./execs/k9s
+  831  history | grep export
+  832  echo $HOME/tmp/k9s/execs
+  833  k9s
+  834  echo $PATH
+  835  export PATH=$PATH:$HOME/tmp/k9s/execs
+  836  echo $PATH
+  837  k9s
+  838  nano ~/.bashrc 
+  839  cd ~
+  840  cd sa/my_git_02.Local/ls
+  841  cd sa/my_git_02.Local/
+  842  ls
+  843  mkdir 08.k8s
+  844  cd 08.k8s/
+  845  nano metric-server.yaml
+  846  kubectl create metric-server.yaml
+  847  kubectl create -f metric-server.yaml
+  848  nano ksm.yaml
+  849  kubectl create -f kms.yaml
+  850  kubectl create -f ksm.yaml
+  851  kubectl create namespace monitoring
+  852  kubectl create -f ksm.yaml
+  853  history 500 >> 08.k8s.history
+  854  k9s
+  855  history 20
+  856  history 40
+  857  cd ..
+  858  ls -la
+  859  git status
+  860  git push origin master 
+  861  ls -la
+  862  nano ~/.bashrc 
+  863  git status
+  864  git add --all
+  865  git commit -m "08.k8s in process"
+  866  git push origin master 
+  867  k9s
+  868  cd ~
+  869  history | grep ssh
+  870  ssh jump_sa@178.124.206.53
+  871  ssh root@192.168.202.5
+  872  exit
+  873  ps aux | grep 644
+  874  kubectl get nodes
+  875  ps aux | grep 644
+  876  kill -9 53852
+  877  ps aux | grep 644
+  878  minikube service list
+  879  htop
+  880  exit
+  881  go version
+  882  echo $PATH
+  883  cd /usr/local/
+  884  ls -la
+  885  export GOROOT=/usr/local/go
+  886  go version
+  887  export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+  888  go version
+  889  exit
+  890  history 50
+  891  go version
+  892  nano .profile 
+  893  exit
+  894  go version
+  895  k9s
+  896  echo $PATH
+  897  nano .profile 
+  898  history
+  899  nano .profile 
+  900  exit
+  901  echo $PATH
+  902  k9s
+  903  go version
+  904  echo $HOME
+  905  exit
+  906  go version
+  907  k9s
+  908  echo $PATH
+  909  nano .profile 
+  910  exit
+  911  go version
+  912  osnochgpd
+  913  cd ~/sa/sa_fork/
+  914  git status
+  915  exit
+  916  go version
+  917  nano .profile 
+  918  ls -la
+  919  nano .bashrc 
+  920  nano .bash_aliases
+  921  kubectl get nodes
+  922  ls -la
+  923  exit
+  924  kubectl get nodes
+  925  k8s_to_8 
+  926  kubectl get nodes
+  927  ps aux | grep 6443
+  928  kill -9 24006
+  929  kubectl get nodes
+  930  cd sa
+  931  ls
+  932  cd my_git_02.Local/
+  933  ls -la
+  934  cd 08.k8s/
+  935  mkdir 08.Kubernetes_installation
+  936  ls -la
+  937  gir remote -v
+  938  git remote -v
+  939  git pull origin master 
+  940  git status
+  941  ls -la
+  942  mv k8s_dashboard_.png 08.Kubernetes_installation/
+  943  mv k9s_.JPG 08.Kubernetes_installation/
+  944  mv kubectl_get_nodes.JPG 08.Kubernetes_installation/
+  945  cat ~/.bash_aliases >> 08.Kubernetes_installation/aliases
+  946  cd 08.Kubernetes_installation/
+  947  ls -la
+  948  git status
+  949  git merge origin/master 
+  950  git add --all
+  951  git ammend
+  952  git commit ammend
+  953  git commit -ammend
+  954  git status
+  955  git push origin master 
+  956  ls -la
+  957  mv k9s_.JPG k9s_pods_list.JPG 
+  958  ls -la
+  959  git add --all
+  960  git commit -ammend
+  961  git push origin master 
+  962  ls -la
+  963  git add --all
+  964  git commit -ammend
+  965  git push origin master 
+  966  cd ..
+  967  cp -Rp 08.Kubernetes_installation/ ~/sa/sa_fork/Dzianis_Zavoiskikh/
+  968  cd ~/sa/sa_fork/
+  969  ls -la
+  970  cd Dzianis_Zavoiskikh/
+  971  ls -la
+  972  cd 08.Kubernetes_installation/
+  973  ls -la
+  974  git remote -v
+  975  history | grep upstr
+  976  git pull upstream m-sa2-14-20 
+  977  history | grep merge
+  978  git status
+  979  git merge upstream/m-sa2-14-20 
+  980  git add --all
+  981  git commit -m "08.Kubernetes install done"
+  982  git push origin m-sa2-14-20 
+  983  git status
+  984  nano aliases 
+  985  git add --all
+  986  git commit ammend
+  987  git 
+  988  git commit -ammend
+  989  git push origin m-sa2-14-20 
+  990  cd ~
+  991  vimtutor
+  992  nano .bash_aliases
+  993  fg
+  994  ssh root@192.168.202.5
+  995  ssh-copy-id root@192.168.202.5
+  996  ssh root@192.168.202.5
+  997  nano .bash_aliases
+  998  ls -la
+  999  cd .kube/
+ 1000  ls -la
+ 1001  cat config_ec_ws 
+ 1002  ssh root@192.168.202.5
+ 1003  ssh root@192.168.201.8
+ 1004  cd ~
+ 1005  ps aux | grep 644
+ 1006  nano .bash_aliases 
+ 1007  cd .kube/
+ 1008  ls -la
+ 1009  touch config_k3_ws
+ 1010  nano .bash_aliases 
+ 1011  cd ~
+ 1012  nano .bash_aliases 
+ 1013  ssh -L 6445:localhost:6445 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_k3_ws
+ 1014  ps aux | grep 644
+ 1015  kubectl get nodes
+ 1016  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_k3_ws
+ 1017  ps aux | grep 644
+ 1018  kill -9 30463
+ 1019  ps aux | grep 644
+ 1020  kubectl get nodes
+ 1021  k9s
+ 1022  kubectl get pods
+ 1023  cd .kube/
+ 1024  cat config_ec_ws 
+ 1025  ssh root@192.168.202.5
+ 1026  ps aux | 644
+ 1027  ps aux | grep 644
+ 1028  kill -9 30495
+ 1029  ps aux | grep 644
+ 1030  ls
+ 1031  cp config_ec_ws config_k3_ws 
+ 1032  ls -la
+ 1033  cd ~
+ 1034  nano .bash_aliases 
+ 1035  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_k3_ws
+ 1036  kubectl get nodes
+ 1037  ps aux | grep 644
+ 1038  kill -9 30898
+ 1039  nano ~/.kube/config_k3_ws 
+ 1040  cat ~/.kube/config_k3_ws 
+ 1041  ssh root@192.168.202.5
+ 1042  ps aux | grep 644
+ 1043  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_k3_ws
+ 1044  ps aux | grep 644
+ 1045  kubectl get nodes
+ 1046  nano ~/.kube/config_k3_ws 
+ 1047  ssh root@192.168.202.5
+ 1048  cd .kube/
+ 1049  ls
+ 1050  cd ~
+ 1051  ps aux | grep 644
+ 1052  kubectl get nodes --insecure-skip-tls-verify=true
+ 1053  kubectl get nodes
+ 1054  ssh root@192.168.202.5
+ 1055  cd .kube/
+ 1056  ls
+ 1057  nano config_k3_ws 
+ 1058  cd ~
+ 1059  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_k3_ws
+ 1060  ps aux | grep 644
+ 1061  kill -9  31170
+ 1062  kill -9 31657
+ 1063  ps aux | grep 644
+ 1064  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_k3_ws
+ 1065  kubectl get nodes
+ 1066  ssh root@192.168.202.5
+ 1067  ps aux | grep 644
+ 1068  kill -9 31696
+ 1069  ps aux | grep 644
+ 1070  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_k3_ws
+ 1071  kubectl get nodes
+ 1072  ssh root@192.168.202.5
+ 1073  cd .kube/
+ 1074  ls
+ 1075  nano config
+ 1076  ps aux | grep 644
+ 1077  kill -9 31866
+ 1078  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N
+ 1079  ps aux | grep 644
+ 1080  kubectl get nodes
+ 1081  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config
+ 1082  ps aux | grep 644
+ 1083  kill -9 31965
+ 1084  kill -9 32019
+ 1085  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config
+ 1086  kubectl get nodes
+ 1087  ps aux | grep 644
+ 1088  kill -9 32049
+ 1089  ls -a
+ 1090  cd ~
+ 1091  k8s_to_8 
+ 1092  kubectl get nodes
+ 1093  ps aux | grep 644
+ 1094  kill -9 32090
+ 1095  apt install vim-enhanced
+ 1096  sudo apt install vim-enhanced
+ 1097  sudo apt install vimtutor
+ 1098  apt-get install vim-runtime
+ 1099  sudo apt-get install vim-runtime
+ 1100  vimtutor
+ 1101  vimtutor --help
+ 1102  apt install vim
+ 1103  sudo apt install vim
+ 1104  vimtutor
+ 1105  exit
+ 1106  go version
+ 1107  vimtutor
+ 1108  exit
+ 1109  k8s_to_8 
+ 1110  k9s 
+ 1111  go version
+ 1112  ps aux | grep 644
+ 1113  k8s_to_8 
+ 1114  ps aux | grep 644
+ 1115  kubectl get nodes
+ 1116  k9s
+ 1117  docker ps
+ 1118  sudo docker ps
+ 1119  cat .bash_aliases 
+ 1120  exit
+ 1121  kubectl get pods
+ 1122  exit
+ 1123  who
+ 1124  sudo docker ps
+ 1125  k8s_to_8 
+ 1126  k9s
+ 1127  cd sa/my_git_02.Local/ls -la
+ 1128  cd sa/my_git_02.Local/
+ 1129  ls -la
+ 1130  mkdir 09.ws
+ 1131  cd 09.ws/
+ 1132  nano jenkins.yaml
+ 1133  kubectl create  -f jenkins.yaml 
+ 1134  kubectl get namespaces 
+ 1135  nano jenkins.yaml
+ 1136  echo "techno1" | base 64
+ 1137  echo "techno1" | base64
+ 1138  nano jenkins.yaml
+ 1139  kubectl apply  -f jenkins.yaml 
+ 1140  nano jenkins.yaml
+ 1141  kubectl apply  -f jenkins.yaml 
+ 1142  kubectl create  -f jenkins.yaml 
+ 1143  nano jenkins.yaml
+ 1144  kubectl create -f jenkins.yaml 
+ 1145  nano jenkins.yaml
+ 1146  echo "QwertY_13" | base64
+ 1147  nano jenkins.yaml
+ 1148  kubectl create -f jenkins.yaml 
+ 1149  kubectl delete -f jenkins.yaml 
+ 1150  kubectl create -f jenkins.yaml 
+ 1151  nano jenkins.yaml
+ 1152  kubectl get secrets -n ci-cd
+ 1153  kubectl describe secrets -n ci-cd jenkins-secret
+ 1154  kubectl get secrets -n ci-cd jenkins-secret
+ 1155  kubectl get secrets -n ci-cd jenkins-secret -o yaml
+ 1156  nano jenkins.yaml
+ 1157  kubectl create -f jenkins.yaml 
+ 1158  nano jenkins.yaml
+ 1159  kubectl create -f jenkins.yaml 
+ 1160  error parsing jenkins.yaml: error converting YAML to JSON: yaml: line 9: did not find expected key
+ 1161  nano jenkins.yaml
+ 1162  kubectl create -f jenkins.yaml 
+ 1163  kubectl apply -f jenkins.yaml 
+ 1164  nano jenkins.yaml
+ 1165  kubectl apply -f jenkins.yaml 
+ 1166  nano jenkins.yaml
+ 1167  kubectl apply -f jenkins.yaml 
+ 1168  nano jenkins.yaml
+ 1169  git add --all
+ 1170  kubectl apply -f jenkins.yaml 
+ 1171  k9s
+ 1172  nano jenkins.yaml
+ 1173  k9s
+ 1174  kubectl delete -f jenkins.yaml 
+ 1175  nano jenkins.yaml
+ 1176  kubectl create -f jenkins.yaml 
+ 1177  Warning: extensions/v1beta1 Ingress is deprecated in v1.14+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+ 1178  ingress.extensions/ingress-jenkins created
+ 1179  Warning: extensions/v1beta1 Ingress is deprecated in v1.14+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+ 1180  ingress.extensions/ingress-jenkins created
+ 1181  kubectl get nodes
+ 1182  kubectl version
+ 1183  kubectl apply -f jenkins.yaml 
+ 1184  k9s
+ 1185  cd 08.
+ 1186  cd ../08.k8s/
+ 1187  kubectl delete ksm.yaml 
+ 1188  ls -la
+ 1189  cd 08.Kubernetes_installation/
+ 1190  ls -la
+ 1191  cd ..
+ 1192  ls -la
+ 1193  kubectl delete ksm.yaml 
+ 1194  k9s
+ 1195  cd ..
+ 1196  cd 09.ws/
+ 1197  ls -la
+ 1198  history | grep ssh
+ 1199  ssh root@192.168.201.8
+ 1200  cd ../08.k8s/
+ 1201  kubectl delete metric-server.yaml 
+ 1202  kubectl delete -f metric-server.yaml 
+ 1203   
+ 1204  k9s
+ 1205  cd ../09.ws/
+ 1206  kubectl delete metric-server.yaml 
+ 1207  kubectl delete -f ksm.yaml 
+ 1208  k9s
+ 1209  kubectl get nodes
+ 1210  kubectl get pods
+ 1211  kubectl get pods --all-namespaces
+ 1212  kubectl create -f jenkins.yaml 
+ 1213  nano jenkins.yaml 
+ 1214  kubectl apply -f jenkins.yaml 
+ 1215  k9s
+ 1216  kubectl apply -f jenkins.yaml
+ 1217  kubectl get ingress
+ 1218  kubectl get -f jenkins.yaml -o yaml
+ 1219  ls -la
+ 1220  k9s
+ 1221  kubectl delete -f jenkins.yaml
+ 1222  nano jenkins.yaml 
+ 1223  kubectl create -f jenkins.yaml
+ 1224  nano jenkins.yaml 
+ 1225  kubectl apply -f jenkins.yaml
+ 1226  kubectl delete -f jenkins.yaml
+ 1227  kubectl create -f jenkins.yaml
+ 1228  kubectl delete -f jenkins.yaml
+ 1229  ingress.extensions "ingress-jenkins" deleted
+ 1230  kubectl create -f jenkins.yaml
+ 1231  k9s
+ 1232  kubectl get nodes -o jsonpath='{ $.items[*].status.addresses[?(@.type=="InternalIP")].address }'
+ 1233  k9s
+ 1234  service apache2 stop
+ 1235  sudo service apache2 stop
+ 1236  kubectl apply -f jenkins.yaml
+ 1237  k9s
+ 1238  kubectl apply -f jenkins.yaml
+ 1239  sudo service apache2 stop
+ 1240  k9s
+ 1241  exit
+ 1242  k9s
+ 1243  apt update
+ 1244  sudo apt update
+ 1245  sudo apt install tmux
+ 1246  tmux -version
+ 1247  tmux -V
+ 1248  tmux split-window -h
+ 1249  sudo tmux split-window -h
+ 1250  tmux help
+ 1251  tmux -V
+ 1252  tmux split-window -h
+ 1253  exit\
+ 1254  split-window -h
+ 1255  -bash: split-window: command not found
+ 1256  tmux split-window -h
+ 1257  tmux ls
+ 1258  tmux new-session -d -s stuff -n text-to-file
+ 1259  tmux split-window -d -t stuff:text-to-file
+ 1260  tmux new-window -d -a -t stuff:text-to-file
+ 1261  tmux split-window -d -t stuff:monitor
+ 1262  tmux ls
+ 1263  tmux lsw
+ 1264  tmux a -t stuff
+ 1265  tmux lsw
+ 1266  tmux ls
+ 1267  clear
+ 1268  k9s
+ 1269  kubectl get nodes
+ 1270  k8s_to_8 
+ 1271  kubectl get nodes
+ 1272  k9s
+ 1273  cd sa/my_git_02.Local/09.ws/
+ 1274  kubectl apply -f jenkins.yaml
+ 1275  kubectl delete -f jenkins.yaml
+ 1276  kubectl create -f jenkins.yaml
+ 1277  links http://localhost
+ 1278  nano jenkins.yaml
+ 1279  links http://localhost:8080
+ 1280  k8s_to_8 
+ 1281  ps aux |grep 6443
+ 1282  kill -9  39929
+ 1283  kill -9 63412
+ 1284  ps aux |grep 6443
+ 1285  k8s_to_8 
+ 1286  kubectl get nodes
+ 1287  k9s
+ 1288  tmux new -s session1
+ 1289  history 20
+ 1290  tmux lsw
+ 1291  tmux ls
+ 1292  tmux mux ls
+ 1293  tmux ls
+ 1294  set -g mouse on
+ 1295  nano ~./tmux.conf
+ 1296  nano ~/.tmux.conf
+ 1297  tmux ls
+ 1298  tmux kill-session -t stuff
+ 1299  tmux ls
+ 1300  tmux
+ 1301  tmux ls
+ 1302  tmux kill-server
+ 1303  exit
+ 1304  k8s_to_8 
+ 1305  cd sa/my_git_02.Local/
+ 1306  ls -la
+ 1307  cd 09.ws/
+ 1308  ls -la
+ 1309  kubectl delete -f jenkins.yaml
+ 1310  cd ../07.Kubernetes/
+ 1311  ls -la
+ 1312  cd ..
+ 1313  ls -la
+ 1314  kubectl addons list
+ 1315  kubectl get pods
+ 1316  kubectl get nodes
+ 1317  kubectl get pods --all-namespaces
+ 1318  history | grep ansib
+ 1319  sudo -i
+ 1320  sudo cd /tmp
+ 1321  cd /tmp
+ 1322  ls -la
+ 1323  cd ~
+ 1324  cd /tmp/
+ 1325  ls -la
+ 1326  cd ~
+ 1327  cd tmp/
+ 1328  ls -la
+ 1329  cd Dzianis_Zavoiskikh/
+ 1330  ls -la
+ 1331  cd ..
+ 1332  cd k9s/
+ 1333  ls -la
+ 1334  ansible-inventory
+ 1335  cd /
+ 1336  mc
+ 1337  history | grep acc
+ 1338  mc
+ 1339  cd ~
+ 1340  ls -R *yaml
+ 1341  kubectl delete -f access.yaml 
+ 1342  cd /
+ 1343  find . -name "*yaml"
+ 1344  find . -name "*inventory*"
+ 1345  kubectl config view
+ 1346  kubectl config current-context
+ 1347  kubectl config get-contexts
+ 1348  kubectl config view -o jsonpath='{.users[*].name}' 
+ 1349  kubectl explain pods
+ 1350  kubectl get services
+ 1351  kubectl get pod my-pod -o yaml 
+ 1352  kubectl get pods --show-labels
+ 1353  kubectl get pods --all-namespaces -o jsonpath='{range .items[*].status.initContainerStatuses[*]}{.containerID}{"\n"}{end}' | cut -d/ -f3
+ 1354  history | grep inventory
+ 1355  sudo -i
+ 1356  kubectl config view
+ 1357  exit
+ 1358  tmux ls
+ 1359  tmux
+ 1360  tmux kill-server
+ 1361  k8s_to_8 
+ 1362  k9s 
+ 1363  exit
+ 1364  ansible --version
+ 1365  ansible -V
+ 1366  tmux -V
+ 1367  tmux man
+ 1368  man tmux
+ 1369  logout
+ 1370  tmux man page
+ 1371  tmux -V
+ 1372  tmux ls
+ 1373  tmux lsw
+ 1374  tmux
+ 1375  tmux ls
+ 1376  tmux a
+ 1377  tmux ls
+ 1378  tmux a
+ 1379  nano /etc/apt/sources.list
+ 1380  sudo nano /etc/apt/sources.list
+ 1381  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
+ 1382  sudo apt update
+ 1383  sudo apt install ansible
+ 1384  ansible -V
+ 1385  ansible version
+ 1386  ansible --version
+ 1387  sudo ansible --version
+ 1388  ls -la
+ 1389  ls
+ 1390  ls -la *sibl*
+ 1391  mc
+ 1392  sudo apt update
+ 1393  sudo apt install ansible
+ 1394  sudo ansible version
+ 1395  sudo ansible --version
+ 1396  sudo ansible-cfg --version
+ 1397  ansible --version
+ 1398  mc
+ 1399  cd /bin
+ 1400  ls -la
+ 1401  ls -la ansib*
+ 1402  sudo -i
+ 1403  ansible ---version
+ 1404  Traceback (most recent call last):
+ 1405  pip list
+ 1406  sudo pip list
+ 1407  sudo pip3 list
+ 1408  cd ~
+ 1409  sudo pip3 list | less
+ 1410  sudo pip list | less
+ 1411  wich pip
+ 1412  which pip\
+ 1413  which pip
+ 1414  sudo pip2 list | less
+ 1415  apt install ansible
+ 1416  sudo apt install ansible
+ 1417  sudo pip3 install ansible
+ 1418  clear
+ 1419  ansible --version
+ 1420  ls -la
+ 1421  cd sa/my_git_02.Local/
+ 1422  ls
+ 1423  mkdir 11.Ansible
+ 1424  cd 11.Ansible/
+ 1425  ls -la
+ 1426  ansible --version >> ansible_version.txt
+ 1427  cat ansible_version.txt 
+ 1428  history 100
+ 1429  tmux ls
+ 1430  tmux -a
+ 1431  tmux a
+ 1432  sudo nano /etc/ansible/ansible.cfg 
+ 1433  ansible --version
+ 1434  ls ~ ans*
+ 1435  ls 
+ 1436  echo $ANSIBLE_CONFIG
+ 1437  echo ANSIBLE_CONFIG
+ 1438  ansible --version
+ 1439  sudo nano /etc/ansible/ansible.cfg 
+ 1440  ansible-inventory --graph
+ 1441  sudo ansible-inventory --graph
+ 1442  sudo nano /etc/ansible/hosts 
+ 1443  ansible-inventory --graph
+ 1444  ansible-inventory --host 192.168.203.8
+ 1445  sudo ansible-inventory --host 192.168.203.44
+ 1446  sudo ansible-inventory --host 192.168.203.8
+ 1447  ansible ec_dz78 -m ping
+ 1448  sudo ansible ec_dz78 -m ping
+ 1449  ansible ec_dz78 -m ping
+ 1450  tmux ls
+ 1451  exit
+ 1452  nano .ssh/config 
+ 1453  ssh root@192.168.203.7
+ 1454  ssh-copy-id root@192.168.203.7
+ 1455  ssh root@192.168.203.7
+ 1456  ssh-copy-id root@192.168.203.8
+ 1457  ssh root@192.168.203.8
+ 1458  python3 -V
+ 1459  history 10
+ 1460  ansible --version
+ 1461  history 10
+ 1462  history a
+ 1463  ansible -i dz_hosts.yaml -a "uname -a"  h203_7
+ 1464  cd sa/my_git_02.Local/11.Ansible/
+ 1465  ansible -i dz_hosts.yaml -a "uname -a"  h203_7
+ 1466  ansible -i dz_hosts.yaml -a "uname -a"  ec_203_78
+ 1467  clear
+ 1468  history 10
+ 1469  ls
+ 1470  history
+ 1471  history >> history_11
+  553  sudo -i
+  554  sudo -i
+  555  cd /home/denis/sa/my_git_02.Local/06.Docker-compose/02
+  556  ls
+  557  sudo rm docker-compose.yaml 
+  558  ls
+  559  touch docker-compose.yaml
+  560  mc
+  561  cd ..
+  562  sudo rm -r 02
+  563  ls
+  564  mkdir 02
+  565  cd 02
+  566  touch docker-compose.yaml
+  567  nano docker-compose.yaml 
+  568  docker-compose ps
+  569  sudo docker-compose -ps
+  570  sudo docker-compose ps
+  571  sudo docker-compose up -d
+  572  nano docker-compose.yaml 
+  573  ls -la
+  574  git status
+  575  git add -all
+  576  git add --all
+  577  git commit -m "Radarr&Sonarr 06.Docke-rcompose"
+  578  git remote -v
+  579  git push origin master 
+  580  cd ~
+  581  sudo apt-get update
+  582  sudo apt-get install rcconf
+  583  sudo rcconf
+  584  ls
+  585  cd sa/my_git_02.Local/06.Docker-compose/03
+  586  cd sa/my_git_02.Local/06.Docker-compose
+  587  mkdir 03
+  588  nano docker-compose
+  589  ls
+  590  cd 03
+  591  cd ~
+  592  cd tmp/
+  593  mkdir html
+  594  cd html/
+  595  cd ~/sa/my_git_02.Local/06.Docker-compose
+  596  cd 03
+  597  ls -la
+  598  nano docker-compose.yaml 
+  599  sudo docker-compose up -d
+  600  docker images
+  601  sudo docker images
+  602  sudo docker-compose up -d
+  603  sudo docker login
+  604  sudo docker-compose up -d
+  605  nano docker-compose.yaml 
+  606  sudo docker-compose up -d
+  607  nano docker-compose.yaml 
+  608  cd ~
+  609  cd ~/tmp/html/
+  610  ls -la
+  611  nano index.html
+  612  cd ~/sa/my_git_02.Local/06.Docker-compose/03
+  613  sudo docker-compose down
+  614  sudo docker-compose up -d
+  615  docker ps
+  616  sudo docker ps
+  617  sudo docker it 68e803d3c055 bash
+  618  sudo docker -it 68e803d3c055 bash
+  619  exit
+  620  sudo docker ps
+  621  cd sa/my_git_02.Local/06.Docker-compose/03/
+  622  ls
+  623  docker-compose down
+  624  docker-compose ps
+  625  sudo docker-compose ps
+  626  sudo docker-compose up -d
+  627  sudo docker ps
+  628  sudo docker-compose down
+  629  sudo docker-compose up
+  630  sudo docker-compose up -d
+  631  sudo docker-compose ps
+  632  sudo docker ps
+  633  sudo docker-compose down
+  634  cd ../02
+  635  sudo docker ps
+  636  sudo docker-compose down
+  637  cd ../03
+  638  ls -la
+  639  sudo docker-compose up -d
+  640  sudo docker-compose down
+  641  sudo docker ps
+  642  cd ../04
+  643  ls
+  644  sudo docker-compose up -d
+  645  cd ..
+  646  git status
+  647  git add --all
+  648  git commit -m "06.Doker-compose 3 applications deployed"
+  649  git push origin master 
+  650  git status
+  651  git commit -ammend
+  652  git status
+  653  git push
+  654  git push origin master 
+  655  git commit -ammend
+  656  git push origin master 
+  657  git commit -ammend
+  658  git push origin master 
+  659  git commit -ammend
+  660  git push origin master 
+  661  ls
+  662  cd 04
+  663  ls
+  664  sudo docker-compose down
+  665  sudo docker ps
+  666  mkdir ../05
+  667  cd ../05
+  668  ls
+  669  cd ~
+  670  sudo apt update
+  671  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+  672  sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+  673  sudo apt-get update && sudo apt-get install terraform
+  674  terraform -help
+  675  terraform --version
+  676  cd sa/my_git_02.Local/06.Docker-compose/05/
+  677  ls
+  678  nano main.tf 
+  679  terraform init
+  680  ls
+  681  ls -la
+  682  sudo docker images
+  683  who 
+  684  sudo docker ps
+  685  cd sa/my_git_02.Local/06.Docker-compose/
+  686  ls
+  687  cd 05/
+  688  ls
+  689  sudo docker images
+  690  exit
+  691  cat .ssh/id_rsa.pub 
+  692  ssh-copy-id jump_sa@178.124.206.53
+  693  ssh jump_sa@178.124.206.53
+  694  nano .ssh/config
+  695  sudo systemctl restart ssh.service
+  696  ssh root@
+  697  ssh root@192.168.205.13
+  698  ssh jump_sa@178.124.206.53
+  699  ssh root@192.168.201.8
+  700  ssh-copy-id root@192.168.201.8
+  701  ssh root@192.168.201.8
+  702  history | grep ssh
+  703  ssh root@192.168.201.8
+  704  exit
+  705  history 10
+  706  ssh root@192.168.201.8
+  707  exit
+  708  ssh root@192.168.201.8
+  709  ls -la
+  710  sudo docker ps
+  711  who
+  712  htop
+  713  grep -E --color 'vmx|svm' /proc/cpuinfo
+  714  sudo grep -E --color 'vmx|svm' /proc/cpuinfo
+  715  vbxmanage --version
+  716  vbxmanage --v
+  717  vbxmanage -v
+  718  virtualbox --version
+  719  vboxmanage --version
+  720  sudo apt-get update && sudo apt-get install -y apt-transport-https
+  721  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+  722  echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+  723  sudo apt-get update
+  724  sudo apt-get install -y kubectl
+  725  kubectl version
+  726  ls -la
+  727  cd tmp/
+  728  ls -la
+  729  curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64   && chmod +x minikube
+  730  echo $PATH
+  731  sudo mkdir -p /usr/local/bin/
+  732  echo $PATH
+  733  sudo install minikube /usr/local/bin/
+  734  minikube start --help
+  735  minikube version
+  736  kubectl version -o json
+  737  kubectl config view
+  738  minikube start
+  739  exit
+  740  history
+  741  history |grep ssh
+  742  ssh root@192.168.201.8
+  743  exit
+  744  who
+  745  htop
+  746  ssh root@192.168.201.8
+  747  exit
+  748  ssh root@192.168.201.8
+  749  exit
+  750  who
+  751  whoami
+  752  history
+  753  who
+  754  exit -all
+  755  who
+  756  logout pts/1
+  757  nano .ssh/config
+  758  cat access.yaml 
+  759  history | grep create
+  760  history | grep access
+  761  who
+  762  ssh root@192.168.201.8
+  763  kubectl get nodes
+  764  ssh root@192.168.201.8
+  765  ps aux | grep 6443
+  766  kubectl get nodes
+  767  kill -9 17059
+  768  ps aux | grep 6443
+  769  sudo apt update
+  770  sudo apt install golang-go
+  771  go version
+  772  sudo apt install golang-1.14-go
+  773  go version
+  774  sudo mv go /usr/local
+  775  go version
+  776  go1.10.7 env GOROOT
+  777  go1.11.6 env GOROOT
+  778  go env GOROOT
+  779  go1.11 env GOROOT
+  780  go env GOROOT
+  781  sudo rm -r /usr/local/go
+  782  echo $PATH
+  783  nano $HOME/.profile
+  784  go version
+  785  ls -la
+  786  sudo -i
+  787  echo $GOROOT
+  788  echo $GOPATH
+  789  go env
+  790  cd /home/denis/go
+  791  cd /home/denis/
+  792  ls -la
+  793  go env
+  794  sudo ls -la /usr/lib/
+  795  sudo rm -r /usr/lib/go-1.11/
+  796  sudo ls -la /usr/lib/
+  797  sudo ls -la /usr/lib/ | less
+  798  sudo rm -r /usr/lib/go
+  799  sudo ls -la /usr/lib/ | less
+  800  go version
+  801  sudo tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz
+  802  history | grep tar
+  803  history 100 | less
+  804  ls -la
+  805  cd tmp/
+  806  ls -la
+  807  wget https://golang.org/dl/go1.15.2.linux-amd64.tar.gz
+  808  tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz
+  809  sudo tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz
+  810  export PATH=$PATH:/usr/local/go/bin
+  811  echo $PATH
+  812  go version
+  813  git clone git@github.com:derailed/k9s.git
+  814  ls -la
+  815  cd ..
+  816  ls -la
+  817  cd tmp/
+  818  ls -la
+  819  cd k9s/
+  820  ls -la
+  821  make build && ./execs/k9s
+  822  ls -la
+  823  ./execs/k9s
+  824  ssh -L 6443:localhost:6443 root@192.168.201.8 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_ec_ws
+  825  ./execs/k9s
+  826  history 10
+  827  history | grep 443
+  828  history -a
+  829  k9s
+  830  ./execs/k9s
+  831  history | grep export
+  832  echo $HOME/tmp/k9s/execs
+  833  k9s
+  834  echo $PATH
+  835  export PATH=$PATH:$HOME/tmp/k9s/execs
+  836  echo $PATH
+  837  k9s
+  838  nano ~/.bashrc 
+  839  cd ~
+  840  cd sa/my_git_02.Local/ls
+  841  cd sa/my_git_02.Local/
+  842  ls
+  843  mkdir 08.k8s
+  844  cd 08.k8s/
+  845  nano metric-server.yaml
+  846  kubectl create metric-server.yaml
+  847  kubectl create -f metric-server.yaml
+  848  nano ksm.yaml
+  849  kubectl create -f kms.yaml
+  850  kubectl create -f ksm.yaml
+  851  kubectl create namespace monitoring
+  852  kubectl create -f ksm.yaml
+  853  history 500 >> 08.k8s.history
+  854  k9s
+  855  history 20
+  856  history 40
+  857  cd ..
+  858  ls -la
+  859  git status
+  860  git push origin master 
+  861  ls -la
+  862  nano ~/.bashrc 
+  863  git status
+  864  git add --all
+  865  git commit -m "08.k8s in process"
+  866  git push origin master 
+  867  k9s
+  868  cd ~
+  869  history | grep ssh
+  870  ssh jump_sa@178.124.206.53
+  871  ssh root@192.168.202.5
+  872  exit
+  873  ps aux | grep 644
+  874  kubectl get nodes
+  875  ps aux | grep 644
+  876  kill -9 53852
+  877  ps aux | grep 644
+  878  minikube service list
+  879  htop
+  880  exit
+  881  go version
+  882  echo $PATH
+  883  cd /usr/local/
+  884  ls -la
+  885  export GOROOT=/usr/local/go
+  886  go version
+  887  export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+  888  go version
+  889  exit
+  890  history 50
+  891  go version
+  892  nano .profile 
+  893  exit
+  894  go version
+  895  k9s
+  896  echo $PATH
+  897  nano .profile 
+  898  history
+  899  nano .profile 
+  900  exit
+  901  echo $PATH
+  902  k9s
+  903  go version
+  904  echo $HOME
+  905  exit
+  906  go version
+  907  k9s
+  908  echo $PATH
+  909  nano .profile 
+  910  exit
+  911  go version
+  912  osnochgpd
+  913  cd ~/sa/sa_fork/
+  914  git status
+  915  exit
+  916  go version
+  917  nano .profile 
+  918  ls -la
+  919  nano .bashrc 
+  920  nano .bash_aliases
+  921  kubectl get nodes
+  922  ls -la
+  923  exit
+  924  kubectl get nodes
+  925  k8s_to_8 
+  926  kubectl get nodes
+  927  ps aux | grep 6443
+  928  kill -9 24006
+  929  kubectl get nodes
+  930  cd sa
+  931  ls
+  932  cd my_git_02.Local/
+  933  ls -la
+  934  cd 08.k8s/
+  935  mkdir 08.Kubernetes_installation
+  936  ls -la
+  937  gir remote -v
+  938  git remote -v
+  939  git pull origin master 
+  940  git status
+  941  ls -la
+  942  mv k8s_dashboard_.png 08.Kubernetes_installation/
+  943  mv k9s_.JPG 08.Kubernetes_installation/
+  944  mv kubectl_get_nodes.JPG 08.Kubernetes_installation/
+  945  cat ~/.bash_aliases >> 08.Kubernetes_installation/aliases
+  946  cd 08.Kubernetes_installation/
+  947  ls -la
+  948  git status
+  949  git merge origin/master 
+  950  git add --all
+  951  git ammend
+  952  git commit ammend
+  953  git commit -ammend
+  954  git status
+  955  git push origin master 
+  956  ls -la
+  957  mv k9s_.JPG k9s_pods_list.JPG 
+  958  ls -la
+  959  git add --all
+  960  git commit -ammend
+  961  git push origin master 
+  962  ls -la
+  963  git add --all
+  964  git commit -ammend
+  965  git push origin master 
+  966  cd ..
+  967  cp -Rp 08.Kubernetes_installation/ ~/sa/sa_fork/Dzianis_Zavoiskikh/
+  968  cd ~/sa/sa_fork/
+  969  ls -la
+  970  cd Dzianis_Zavoiskikh/
+  971  ls -la
+  972  cd 08.Kubernetes_installation/
+  973  ls -la
+  974  git remote -v
+  975  history | grep upstr
+  976  git pull upstream m-sa2-14-20 
+  977  history | grep merge
+  978  git status
+  979  git merge upstream/m-sa2-14-20 
+  980  git add --all
+  981  git commit -m "08.Kubernetes install done"
+  982  git push origin m-sa2-14-20 
+  983  git status
+  984  nano aliases 
+  985  git add --all
+  986  git commit ammend
+  987  git 
+  988  git commit -ammend
+  989  git push origin m-sa2-14-20 
+  990  cd ~
+  991  vimtutor
+  992  nano .bash_aliases
+  993  fg
+  994  ssh root@192.168.202.5
+  995  ssh-copy-id root@192.168.202.5
+  996  ssh root@192.168.202.5
+  997  nano .bash_aliases
+  998  ls -la
+  999  cd .kube/
+ 1000  ls -la
+ 1001  cat config_ec_ws 
+ 1002  ssh root@192.168.202.5
+ 1003  ssh root@192.168.201.8
+ 1004  cd ~
+ 1005  ps aux | grep 644
+ 1006  nano .bash_aliases 
+ 1007  cd .kube/
+ 1008  ls -la
+ 1009  touch config_k3_ws
+ 1010  nano .bash_aliases 
+ 1011  cd ~
+ 1012  nano .bash_aliases 
+ 1013  ssh -L 6445:localhost:6445 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_k3_ws
+ 1014  ps aux | grep 644
+ 1015  kubectl get nodes
+ 1016  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_k3_ws
+ 1017  ps aux | grep 644
+ 1018  kill -9 30463
+ 1019  ps aux | grep 644
+ 1020  kubectl get nodes
+ 1021  k9s
+ 1022  kubectl get pods
+ 1023  cd .kube/
+ 1024  cat config_ec_ws 
+ 1025  ssh root@192.168.202.5
+ 1026  ps aux | 644
+ 1027  ps aux | grep 644
+ 1028  kill -9 30495
+ 1029  ps aux | grep 644
+ 1030  ls
+ 1031  cp config_ec_ws config_k3_ws 
+ 1032  ls -la
+ 1033  cd ~
+ 1034  nano .bash_aliases 
+ 1035  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_k3_ws
+ 1036  kubectl get nodes
+ 1037  ps aux | grep 644
+ 1038  kill -9 30898
+ 1039  nano ~/.kube/config_k3_ws 
+ 1040  cat ~/.kube/config_k3_ws 
+ 1041  ssh root@192.168.202.5
+ 1042  ps aux | grep 644
+ 1043  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_k3_ws
+ 1044  ps aux | grep 644
+ 1045  kubectl get nodes
+ 1046  nano ~/.kube/config_k3_ws 
+ 1047  ssh root@192.168.202.5
+ 1048  cd .kube/
+ 1049  ls
+ 1050  cd ~
+ 1051  ps aux | grep 644
+ 1052  kubectl get nodes --insecure-skip-tls-verify=true
+ 1053  kubectl get nodes
+ 1054  ssh root@192.168.202.5
+ 1055  cd .kube/
+ 1056  ls
+ 1057  nano config_k3_ws 
+ 1058  cd ~
+ 1059  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_k3_ws
+ 1060  ps aux | grep 644
+ 1061  kill -9  31170
+ 1062  kill -9 31657
+ 1063  ps aux | grep 644
+ 1064  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_k3_ws
+ 1065  kubectl get nodes
+ 1066  ssh root@192.168.202.5
+ 1067  ps aux | grep 644
+ 1068  kill -9 31696
+ 1069  ps aux | grep 644
+ 1070  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config_k3_ws
+ 1071  kubectl get nodes
+ 1072  ssh root@192.168.202.5
+ 1073  cd .kube/
+ 1074  ls
+ 1075  nano config
+ 1076  ps aux | grep 644
+ 1077  kill -9 31866
+ 1078  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N
+ 1079  ps aux | grep 644
+ 1080  kubectl get nodes
+ 1081  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config
+ 1082  ps aux | grep 644
+ 1083  kill -9 31965
+ 1084  kill -9 32019
+ 1085  ssh -L 6443:localhost:6443 root@192.168.202.5 -f -N; export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config
+ 1086  kubectl get nodes
+ 1087  ps aux | grep 644
+ 1088  kill -9 32049
+ 1089  ls -a
+ 1090  cd ~
+ 1091  k8s_to_8 
+ 1092  kubectl get nodes
+ 1093  ps aux | grep 644
+ 1094  kill -9 32090
+ 1095  apt install vim-enhanced
+ 1096  sudo apt install vim-enhanced
+ 1097  sudo apt install vimtutor
+ 1098  apt-get install vim-runtime
+ 1099  sudo apt-get install vim-runtime
+ 1100  vimtutor
+ 1101  vimtutor --help
+ 1102  apt install vim
+ 1103  sudo apt install vim
+ 1104  vimtutor
+ 1105  exit
+ 1106  go version
+ 1107  vimtutor
+ 1108  exit
+ 1109  k8s_to_8 
+ 1110  k9s 
+ 1111  go version
+ 1112  ps aux | grep 644
+ 1113  k8s_to_8 
+ 1114  ps aux | grep 644
+ 1115  kubectl get nodes
+ 1116  k9s
+ 1117  docker ps
+ 1118  sudo docker ps
+ 1119  cat .bash_aliases 
+ 1120  exit
+ 1121  kubectl get pods
+ 1122  exit
+ 1123  who
+ 1124  sudo docker ps
+ 1125  k8s_to_8 
+ 1126  k9s
+ 1127  cd sa/my_git_02.Local/ls -la
+ 1128  cd sa/my_git_02.Local/
+ 1129  ls -la
+ 1130  mkdir 09.ws
+ 1131  cd 09.ws/
+ 1132  nano jenkins.yaml
+ 1133  kubectl create  -f jenkins.yaml 
+ 1134  kubectl get namespaces 
+ 1135  nano jenkins.yaml
+ 1136  echo "techno1" | base 64
+ 1137  echo "techno1" | base64
+ 1138  nano jenkins.yaml
+ 1139  kubectl apply  -f jenkins.yaml 
+ 1140  nano jenkins.yaml
+ 1141  kubectl apply  -f jenkins.yaml 
+ 1142  kubectl create  -f jenkins.yaml 
+ 1143  nano jenkins.yaml
+ 1144  kubectl create -f jenkins.yaml 
+ 1145  nano jenkins.yaml
+ 1146  echo "QwertY_13" | base64
+ 1147  nano jenkins.yaml
+ 1148  kubectl create -f jenkins.yaml 
+ 1149  kubectl delete -f jenkins.yaml 
+ 1150  kubectl create -f jenkins.yaml 
+ 1151  nano jenkins.yaml
+ 1152  kubectl get secrets -n ci-cd
+ 1153  kubectl describe secrets -n ci-cd jenkins-secret
+ 1154  kubectl get secrets -n ci-cd jenkins-secret
+ 1155  kubectl get secrets -n ci-cd jenkins-secret -o yaml
+ 1156  nano jenkins.yaml
+ 1157  kubectl create -f jenkins.yaml 
+ 1158  nano jenkins.yaml
+ 1159  kubectl create -f jenkins.yaml 
+ 1160  error parsing jenkins.yaml: error converting YAML to JSON: yaml: line 9: did not find expected key
+ 1161  nano jenkins.yaml
+ 1162  kubectl create -f jenkins.yaml 
+ 1163  kubectl apply -f jenkins.yaml 
+ 1164  nano jenkins.yaml
+ 1165  kubectl apply -f jenkins.yaml 
+ 1166  nano jenkins.yaml
+ 1167  kubectl apply -f jenkins.yaml 
+ 1168  nano jenkins.yaml
+ 1169  git add --all
+ 1170  kubectl apply -f jenkins.yaml 
+ 1171  k9s
+ 1172  nano jenkins.yaml
+ 1173  k9s
+ 1174  kubectl delete -f jenkins.yaml 
+ 1175  nano jenkins.yaml
+ 1176  kubectl create -f jenkins.yaml 
+ 1177  Warning: extensions/v1beta1 Ingress is deprecated in v1.14+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+ 1178  ingress.extensions/ingress-jenkins created
+ 1179  Warning: extensions/v1beta1 Ingress is deprecated in v1.14+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+ 1180  ingress.extensions/ingress-jenkins created
+ 1181  kubectl get nodes
+ 1182  kubectl version
+ 1183  kubectl apply -f jenkins.yaml 
+ 1184  k9s
+ 1185  cd 08.
+ 1186  cd ../08.k8s/
+ 1187  kubectl delete ksm.yaml 
+ 1188  ls -la
+ 1189  cd 08.Kubernetes_installation/
+ 1190  ls -la
+ 1191  cd ..
+ 1192  ls -la
+ 1193  kubectl delete ksm.yaml 
+ 1194  k9s
+ 1195  cd ..
+ 1196  cd 09.ws/
+ 1197  ls -la
+ 1198  history | grep ssh
+ 1199  ssh root@192.168.201.8
+ 1200  cd ../08.k8s/
+ 1201  kubectl delete metric-server.yaml 
+ 1202  kubectl delete -f metric-server.yaml 
+ 1203   
+ 1204  k9s
+ 1205  cd ../09.ws/
+ 1206  kubectl delete metric-server.yaml 
+ 1207  kubectl delete -f ksm.yaml 
+ 1208  k9s
+ 1209  kubectl get nodes
+ 1210  kubectl get pods
+ 1211  kubectl get pods --all-namespaces
+ 1212  kubectl create -f jenkins.yaml 
+ 1213  nano jenkins.yaml 
+ 1214  kubectl apply -f jenkins.yaml 
+ 1215  k9s
+ 1216  kubectl apply -f jenkins.yaml
+ 1217  kubectl get ingress
+ 1218  kubectl get -f jenkins.yaml -o yaml
+ 1219  ls -la
+ 1220  k9s
+ 1221  kubectl delete -f jenkins.yaml
+ 1222  nano jenkins.yaml 
+ 1223  kubectl create -f jenkins.yaml
+ 1224  nano jenkins.yaml 
+ 1225  kubectl apply -f jenkins.yaml
+ 1226  kubectl delete -f jenkins.yaml
+ 1227  kubectl create -f jenkins.yaml
+ 1228  kubectl delete -f jenkins.yaml
+ 1229  ingress.extensions "ingress-jenkins" deleted
+ 1230  kubectl create -f jenkins.yaml
+ 1231  k9s
+ 1232  kubectl get nodes -o jsonpath='{ $.items[*].status.addresses[?(@.type=="InternalIP")].address }'
+ 1233  k9s
+ 1234  service apache2 stop
+ 1235  sudo service apache2 stop
+ 1236  kubectl apply -f jenkins.yaml
+ 1237  k9s
+ 1238  kubectl apply -f jenkins.yaml
+ 1239  sudo service apache2 stop
+ 1240  k9s
+ 1241  exit
+ 1242  k9s
+ 1243  apt update
+ 1244  sudo apt update
+ 1245  sudo apt install tmux
+ 1246  tmux -version
+ 1247  tmux -V
+ 1248  tmux split-window -h
+ 1249  sudo tmux split-window -h
+ 1250  tmux help
+ 1251  tmux -V
+ 1252  tmux split-window -h
+ 1253  exit\
+ 1254  split-window -h
+ 1255  -bash: split-window: command not found
+ 1256  tmux split-window -h
+ 1257  tmux ls
+ 1258  tmux new-session -d -s stuff -n text-to-file
+ 1259  tmux split-window -d -t stuff:text-to-file
+ 1260  tmux new-window -d -a -t stuff:text-to-file
+ 1261  tmux split-window -d -t stuff:monitor
+ 1262  tmux ls
+ 1263  tmux lsw
+ 1264  tmux a -t stuff
+ 1265  tmux lsw
+ 1266  tmux ls
+ 1267  clear
+ 1268  k9s
+ 1269  kubectl get nodes
+ 1270  k8s_to_8 
+ 1271  kubectl get nodes
+ 1272  k9s
+ 1273  cd sa/my_git_02.Local/09.ws/
+ 1274  kubectl apply -f jenkins.yaml
+ 1275  kubectl delete -f jenkins.yaml
+ 1276  kubectl create -f jenkins.yaml
+ 1277  links http://localhost
+ 1278  nano jenkins.yaml
+ 1279  links http://localhost:8080
+ 1280  k8s_to_8 
+ 1281  ps aux |grep 6443
+ 1282  kill -9  39929
+ 1283  kill -9 63412
+ 1284  ps aux |grep 6443
+ 1285  k8s_to_8 
+ 1286  kubectl get nodes
+ 1287  k9s
+ 1288  tmux new -s session1
+ 1289  history 20
+ 1290  tmux lsw
+ 1291  tmux ls
+ 1292  tmux mux ls
+ 1293  tmux ls
+ 1294  set -g mouse on
+ 1295  nano ~./tmux.conf
+ 1296  nano ~/.tmux.conf
+ 1297  tmux ls
+ 1298  tmux kill-session -t stuff
+ 1299  tmux ls
+ 1300  tmux
+ 1301  tmux ls
+ 1302  tmux kill-server
+ 1303  exit
+ 1304  k8s_to_8 
+ 1305  cd sa/my_git_02.Local/
+ 1306  ls -la
+ 1307  cd 09.ws/
+ 1308  ls -la
+ 1309  kubectl delete -f jenkins.yaml
+ 1310  cd ../07.Kubernetes/
+ 1311  ls -la
+ 1312  cd ..
+ 1313  ls -la
+ 1314  kubectl addons list
+ 1315  kubectl get pods
+ 1316  kubectl get nodes
+ 1317  kubectl get pods --all-namespaces
+ 1318  history | grep ansib
+ 1319  sudo -i
+ 1320  sudo cd /tmp
+ 1321  cd /tmp
+ 1322  ls -la
+ 1323  cd ~
+ 1324  cd /tmp/
+ 1325  ls -la
+ 1326  cd ~
+ 1327  cd tmp/
+ 1328  ls -la
+ 1329  cd Dzianis_Zavoiskikh/
+ 1330  ls -la
+ 1331  cd ..
+ 1332  cd k9s/
+ 1333  ls -la
+ 1334  ansible-inventory
+ 1335  cd /
+ 1336  mc
+ 1337  history | grep acc
+ 1338  mc
+ 1339  cd ~
+ 1340  ls -R *yaml
+ 1341  kubectl delete -f access.yaml 
+ 1342  cd /
+ 1343  find . -name "*yaml"
+ 1344  find . -name "*inventory*"
+ 1345  kubectl config view
+ 1346  kubectl config current-context
+ 1347  kubectl config get-contexts
+ 1348  kubectl config view -o jsonpath='{.users[*].name}' 
+ 1349  kubectl explain pods
+ 1350  kubectl get services
+ 1351  kubectl get pod my-pod -o yaml 
+ 1352  kubectl get pods --show-labels
+ 1353  kubectl get pods --all-namespaces -o jsonpath='{range .items[*].status.initContainerStatuses[*]}{.containerID}{"\n"}{end}' | cut -d/ -f3
+ 1354  history | grep inventory
+ 1355  sudo -i
+ 1356  kubectl config view
+ 1357  exit
+ 1358  tmux ls
+ 1359  tmux
+ 1360  tmux kill-server
+ 1361  k8s_to_8 
+ 1362  k9s 
+ 1363  exit
+ 1364  ansible --version
+ 1365  ansible -V
+ 1366  tmux -V
+ 1367  tmux man
+ 1368  man tmux
+ 1369  logout
+ 1370  tmux man page
+ 1371  tmux -V
+ 1372  tmux ls
+ 1373  tmux lsw
+ 1374  tmux
+ 1375  tmux ls
+ 1376  tmux a
+ 1377  tmux ls
+ 1378  tmux a
+ 1379  nano /etc/apt/sources.list
+ 1380  sudo nano /etc/apt/sources.list
+ 1381  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
+ 1382  sudo apt update
+ 1383  sudo apt install ansible
+ 1384  ansible -V
+ 1385  ansible version
+ 1386  ansible --version
+ 1387  sudo ansible --version
+ 1388  ls -la
+ 1389  ls
+ 1390  ls -la *sibl*
+ 1391  mc
+ 1392  sudo apt update
+ 1393  sudo apt install ansible
+ 1394  sudo ansible version
+ 1395  sudo ansible --version
+ 1396  sudo ansible-cfg --version
+ 1397  ansible --version
+ 1398  mc
+ 1399  cd /bin
+ 1400  ls -la
+ 1401  ls -la ansib*
+ 1402  sudo -i
+ 1403  ansible ---version
+ 1404  Traceback (most recent call last):
+ 1405  pip list
+ 1406  sudo pip list
+ 1407  sudo pip3 list
+ 1408  cd ~
+ 1409  sudo pip3 list | less
+ 1410  sudo pip list | less
+ 1411  wich pip
+ 1412  which pip\
+ 1413  which pip
+ 1414  sudo pip2 list | less
+ 1415  apt install ansible
+ 1416  sudo apt install ansible
+ 1417  sudo pip3 install ansible
+ 1418  clear
+ 1419  ansible --version
+ 1420  ls -la
+ 1421  cd sa/my_git_02.Local/
+ 1422  ls
+ 1423  mkdir 11.Ansible
+ 1424  cd 11.Ansible/
+ 1425  ls -la
+ 1426  ansible --version >> ansible_version.txt
+ 1427  cat ansible_version.txt 
+ 1428  history 100
+ 1429  tmux ls
+ 1430  tmux -a
+ 1431  tmux a
+ 1432  sudo nano /etc/ansible/ansible.cfg 
+ 1433  ansible --version
+ 1434  ls ~ ans*
+ 1435  ls 
+ 1436  echo $ANSIBLE_CONFIG
+ 1437  echo ANSIBLE_CONFIG
+ 1438  ansible --version
+ 1439  sudo nano /etc/ansible/ansible.cfg 
+ 1440  ansible-inventory --graph
+ 1441  sudo ansible-inventory --graph
+ 1442  sudo nano /etc/ansible/hosts 
+ 1443  ansible-inventory --graph
+ 1444  ansible-inventory --host 192.168.203.8
+ 1445  sudo ansible-inventory --host 192.168.203.44
+ 1446  sudo ansible-inventory --host 192.168.203.8
+ 1447  ansible ec_dz78 -m ping
+ 1448  sudo ansible ec_dz78 -m ping
+ 1449  ansible ec_dz78 -m ping
+ 1450  tmux ls
+ 1451  exit
+ 1452  nano .ssh/config 
+ 1453  ssh root@192.168.203.7
+ 1454  ssh-copy-id root@192.168.203.7
+ 1455  ssh root@192.168.203.7
+ 1456  ssh-copy-id root@192.168.203.8
+ 1457  ssh root@192.168.203.8
+ 1458  python3 -V
+ 1459  history 10
+ 1460  ansible --version
+ 1461  history 10
+ 1462  history a
+ 1463  tmux ls
+ 1464  tmux a
+ 1465  tmux ls
+ 1466  tmux new -d -s 1tmux
+ 1467  tmux new -d -s 2tmux
+ 1468  tmux new -d -s 3tmux
+ 1469  tmux ls
+ 1470  tmux kill-ses -t 1tmux
+ 1471  tmux ls
+ 1472  tmux a -t 2 tmux
+ 1473  tmux a -t 2tmux
+ 1474  tmux ls
+ 1475  tmux a
+ 1476  tmux ls
+ 1477  tmux a
+ 1478  tmux ls
+ 1479  tmux new -d -s 1MUX
+ 1480  tmux a
+ 1481  history 20
+ 1482  history 30
+ 1483  sudo ansible ec_dz78 -m ping
+ 1484  ps aux | grep ssh
+ 1485  ssh root@192.168.201.8
+ 1486  ansible ec_dz78 -m ping
+ 1487  ls -la
+ 1488  mkdir tmp/log
+ 1489  sudo nano /etc/ansible/ansible.cfg 
+ 1490  touch tmp/log/ansible.log
+ 1491  ls -la tmp/log/ansible.log
+ 1492  ansible ec_dz78 -m ping
+ 1493  cat tmp/log/ansible.log
+ 1494  ansible-inventory --graph
+ 1495  whoami
+ 1496  ls -la tmp/log/ansible.log
+ 1497  sudo chowner denis:denis /etc/ansible/hosts 
+ 1498  sudo chown denis:denis /etc/ansible/hosts 
+ 1499  ls -la /etc/ansible/hosts 
+ 1500  ansible-inventory --graph
+ 1501  ansible ec_dz -m ping
+ 1502  ansible-inventory --graph
+ 1503  ansible ec_dz -m ping
+ 1504  ansible-inventory --graph
+ 1505  ls -la
+ 1506  cd sa/my_git_02.Local/11.Ansible/
+ 1507  ls -la
+ 1508  ansible -i dz_hosts.yaml --graph
+ 1509  ansible-inventory -i dz_hosts.yaml --graph
+ 1510  history | grep chown
+ 1511  sudo chown -R denis:denis /etc/ansible/
+ 1512  cd /etc/ansible/
+ 1513  mkdir {host_vars, group_vars}
+ 1514  ls -la
+ 1515  mkdir ./{host_vars,group_vars}
+ 1516  ls -la
+ 1517  rm -R group_vars}
+ 1518  ls -la
+ 1519  rm -r \{host_vars\,/
+ 1520  ls -la
+ 1521  cd ~/sa/my_git_02.Local/11.Ansible/ls -la
+ 1522  cd ~/sa/my_git_02.Local/11.Ansible/
+ 1523  ls -la
+ 1524  ansible-inventory -i dz_hosts.yaml --graph
+ 1525  sudo ansible-inventory -i dz_hosts.yaml --graph
+ 1526  sudo ansible-inventory -i demo.yaml --graph
+ 1527  ansible-inventory -i demo.yaml --graph
+ 1528  sudo ansible-inventory -i dz_hosts.yaml --graph
+ 1529  ansible-inventory -i dz_hosts.yaml --graph
+ 1530  ansible-inventory -i demo.yaml --graph
+ 1531  ansible-inventory -i dz_hosts.yaml --graph
+ 1532  ansible -i dz_hosts.yaml -m shell -a "uname -rv" h201_8
+ 1533  ansible -i dz_hosts.yaml -m shell -a "uname -rv" h203_7
+ 1534  ansible -i dz_hosts.yaml -m ping  h203_7
+ 1535  ansible ec_dz -m ping
+ 1536  ansible -i dz_hosts.yaml -m ping  h203_7 --ask-pass
+ 1537  sudo ansible -i dz_hosts.yaml -m ping  h203_7 --ask-pass
+ 1538  exit
+ 1539  tmux lsw
+ 1540  cd sa/my_git_02.Local/11.Ansible/
+ 1541  ls -la
+ 1542  ansible-inventory -i dz_hosts.yaml --graph
+ 1543  ansible -i dz_hosts.yaml -m ping  h203_7
+ 1544  ansible-inventory -i dz_hosts.yaml --graph
+ 1545  ansible -i dz_hosts.yaml -a "uname -rv"  h203_7
+ 1546  ansible -i dz_hosts.yaml -a "uname -rvs"  h203_7
+ 1547  ansible -i dz_hosts.yaml -a "uname -a"  h203_7
+ 1548  exit
+ 1549  cd sa/my_git_02.Local/11.Ansible/
+ 1550  cat dz_hosts.yaml 
+ 1551  nano dz_hosts.yaml 
+ 1552  history >> history_11 
+ 1456  ssh-copy-id root@192.168.203.8
+ 1457  ssh root@192.168.203.8
+ 1458  python3 -V
+ 1459  history 10
+ 1460  ansible --version
+ 1461  history 10
+ 1462  history a
+ 1463  ansible --version
+ 1464  echo $HOSTNAME
+ 1465  cd sa/my_git_02.Local/11.Ansible/
+ 1466  ls -la
+ 1467  ansible -i dz_hosts.yaml -m shell -a "echo $HOSTNAME" h203_8
+ 1468  ansible-inventory -i dz_hosts.yaml --graph
+ 1469  ansible -i dz_hosts.yaml -m shell -a "echo $HOSTNAME" h203_7
+ 1470  ansible -i dz_hosts.yaml -m shell -a 'echo $HOSTNAME' h203_7
+ 1471  clear
+ 1472  ansible -i dz_hosts.yaml -m shell -a 'echo $HOSTNAME' h203_7
+ 1473  ansible -i dz_hosts.yaml -m shell -a 'echo $HOSTNAME' h203_8
+ 1474  ansible -i dz_hosts.yaml -a 'echo $HOSTNAME' h203_8
+ 1475  ansible -i dz_hosts.yaml -m shell -a 'echo $HOST' h203_8
+ 1476  ansible -i dz_hosts.yaml -a 'sudo echo $HOSTNAME' h203_8
+ 1477  ansible -i dz_hosts.yaml h203_8 -m setup
+ 1478  ansible -i dz_hosts.yaml h203_8 -m setup | grep hostname
+ 1479  ansible -i dz_hosts.yaml h203_8 -m setup | grep -E "(hostname|adress)"
+ 1480  ansible -i dz_hosts.yaml h203_8 -m setup | grep -E "(hostname|address)"
+ 1481  ansible -i dz_hosts.yaml h203_8 -m setup | grep -E '(hostname|"address)'
+ 1482  ansible -i dz_hosts.yaml h203_8 -m setup -a "filter=ansible_hostname"
+ 1483  ansible -i dz_hosts.yaml ec_203_78 -m setup | grep -E '(hostname|"address)'
+ 1484  ansible -i dz_hosts.yaml ec_203_78 -m setup | grep -E '(hostname|"address": "19)'
+ 1485  history 30 >> history_11 

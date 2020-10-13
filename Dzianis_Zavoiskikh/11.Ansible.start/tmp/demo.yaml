@@ -1,0 +1,19 @@
+ec_dz:
+  children:
+    jump:
+    ec_203_78:
+      hosts:
+        worker_01:
+          ansible_host: 192.168.203.1
+        worker_02:
+          ansible_host: 192.168.203.2
+    ec_201_89:
+      hosts:
+        worker_ws_01:
+          ansible_host: 192.168.31.1
+        worker_ws_02:
+          ansible_host: 192.168.32.2
+jump:
+  hosts:
+    jump_sa:
+      ansible_host: 178.124.206.53

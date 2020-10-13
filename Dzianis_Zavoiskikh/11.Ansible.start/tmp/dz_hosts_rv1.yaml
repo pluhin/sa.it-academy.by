@@ -4,14 +4,22 @@ ec_dz:
       hosts:
         h203_7:
           ansible_host: 192.168.203.7
+          ansible_user: root
+          ansible_ssh_pass: QwertY_13!
         h203_8:
           ansible_host: 192.168.203.8         
+          ansible_user: root
+          ansible_ssh_pass: QwertY_13!
     ec_201_89:
       hosts:
         h201_8:
           ansible_host: 192.168.201.8
+          ansible_user: root
+          ansible_ssh_pass: QwertY_13!
         h201_9:
           ansible_host: 192.168.201.9          
+          ansible_user: root
+          ansible_ssh_pass: QwertY_13!
 jump:
   hosts:
     jump_sa:
