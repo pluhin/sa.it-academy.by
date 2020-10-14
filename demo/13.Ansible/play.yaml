@@ -1,0 +1,6 @@
+---
+- hosts: ec
+  become: yes
+  #  strategy: free
+  roles:
+  - web
