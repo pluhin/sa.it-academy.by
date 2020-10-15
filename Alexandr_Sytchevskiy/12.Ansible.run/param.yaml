@@ -1,0 +1,13 @@
+---
+- hosts: sav
+  # gather_facts: False
+  tasks:
+  - name: Print OS version
+    debug:
+      msg: Version OS "{{ ansible_distribution }} {{ ansible_distribution_version }} {{ ansible_distribution_release }}"
+  - name: Print mounts
+    debug:
+      msg: Mounts "{{ ansible_facts.mounts[0] }}"
+  - name: Print RAM
+    debug:
+      msg: RAM "{{ ansible_facts.memory_mb }}"
