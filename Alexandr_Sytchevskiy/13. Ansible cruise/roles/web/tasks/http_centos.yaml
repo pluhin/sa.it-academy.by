@@ -1,0 +1,11 @@
+---
+- name: NGINX. Install packages
+  yum:
+    name: "{{ yum_http_packages }}"
+    state: present
+
+- name: NGINX. Enable and start servce
+  service:
+    name: nginx
+    state: started
+    enabled: yes

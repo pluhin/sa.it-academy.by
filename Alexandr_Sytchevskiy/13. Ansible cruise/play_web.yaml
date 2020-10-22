@@ -1,0 +1,5 @@
+---
+- hosts: sav
+  become: True
+  roles:
+  - web
