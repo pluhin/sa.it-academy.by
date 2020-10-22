@@ -1,0 +1,81 @@
+---
+- name: Include deploy for CentOS system
+  include: http_centos.yaml
+  when: ansible_distribution == 'CentOS'
+
+
+- name: Include deploy for RedHat systems
+  include: http_ubuntu.yaml
+  when: ansible_distribution == 'Ubuntu'
+
+- name: NGINX. Remove nginx.conf
+  file:
+    path: "/etc/nginx/nginx.conf"
+    state: absent
+
+- name: Replace NGINX conf file
+  template:
+    src: nginx.conf
+    dest: "/etc/nginx/nginx.conf"
+  notify:
+  - restart nginx
+
+- name: Restart nginx
+  meta: flush_handlers
+
+- name: Copy first page to CentOS
+  copy:
+    src: "{{ index_cent }}"
+    dest: "{{ default_home_cent }}"
+  notify:
+  - restart nginx
+  when: ansible_distribution == 'CentOS'
+
+- name: Copy first page to Ununtu
+  copy:
+    src: "{{ index_ubuntu }}"
+    dest: "{{ default_home_ubun }}"
+  notify:
+  - restart nginx
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 10
+  register: out
+
+- name: print out
+  debug:
+    msg: "{{ out }}"
+
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+
+- name: Check template
+  shell: |
+    cat /etc/hosts
+  register: out
+  changed_when: false
+
+- name: print out
+  debug:
+    msg: "{{ out }}"
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'Nginx' not in this.content"
+
+- name: print out
+  debug:
+    msg: "{{ this }}"
+

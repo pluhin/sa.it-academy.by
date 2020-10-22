@@ -1,0 +1,6 @@
+---
+- hosts: sav
+  become: True
+  roles:
+  - check
+

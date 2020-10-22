@@ -1,0 +1,47 @@
+- name: Check if user "test" have SUDO with NOPASSWD
+  shell: |
+    grep "{{ check_nopass }}" /etc/sudoers
+  register: user
+  changed_when: false
+  tags:
+    - newer
+- debug:
+    msg: "{{ user.stdout_lines }}"
+  tags:
+    - newer
+- name: Check connection to puplic repositories
+  shell: |
+    ping -c 3 {{ rep_ubuntu }} 2>&1 > /dev/null |
+    ping -c 3 {{ rep_centos }} 2>&1 > /dev/null |
+    ping -c 3 {{ rep_pip }} 2>&1 > /dev/null
+  register: online
+  changed_when: false
+- debug:
+    msg: "{{ online }}"
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ docker_ubuntu }}"
+    return_content: yes
+  register: API
+  failed_when: "'{{ api_key }}' not in API.content"
+- debug:
+    msg: "{{ API }}"
+
+- name: Check RAM/HDD free space for install app
+  yum:
+    name: "{{ app_name }}"
+    state: present
+  when:
+    - ansible_distribution == 'CentOS'
+    - ansible_facts.mounts[0].size_available > 10240
+    - ansible_facts.memory_mb.nocache.free > 1024
+
+- name: Check RAM/HDD free space for install app
+  apt:
+    name: "{{ app_name }}"
+    state: present
+  when:
+    - ansible_distribution == 'Ubuntu'
+    - ansible_facts.mounts[0].size_available > 10240
+    - ansible_facts.memory_mb.nocache.free > 1024

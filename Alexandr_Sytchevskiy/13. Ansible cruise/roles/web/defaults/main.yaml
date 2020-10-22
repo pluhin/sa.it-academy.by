@@ -1,0 +1,19 @@
+apt_http_packages:
+- nginx
+
+yum_http_packages:
+- nginx
+
+default_home_ubun: "/usr/share/nginx/html/index.html"
+
+default_home_cent: "/usr/share/doc/HTML/index.html"
+
+site_deb: "local-deb.site"
+site_cent: "local-cent.site"
+
+virtual_hosts:
+  - { name: "{{ site_deb }}", ip: "{{ hostvars[\"worker2\"].ansible_host }}"}
+  - { name: "{{ site_cent }}", ip: "{{ hostvars[\"worker1\"].ansible_host }}"}
+
+index_cent: "~/devops/ansible/roles/web/files/index_u.html"
+index_ubuntu: "~/devops/ansible/roles/web/files/index_c.html"

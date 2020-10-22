@@ -1,0 +1,14 @@
+sav_all:
+  children:
+    sav:
+      vars:
+        data: 1
+      hosts:
+        worker1:
+          ansible_host: 192.168.203.11
+        worker2:
+          ansible_host: 192.168.203.12
+jump:
+  hosts:
+    jump_sa:
+      ansible_host: 178.124.206.53

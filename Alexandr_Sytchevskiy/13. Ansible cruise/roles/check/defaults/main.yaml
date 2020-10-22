@@ -1,0 +1,13 @@
+check_nopass: "test ALL=(ALL) NOPASSWD:"
+
+rep_ubuntu: "archive.ubuntu.com"
+
+rep_centos: "mirror.datacenter.by"
+
+rep_pip: "pypi.org"
+
+docker_ubuntu: "registry.hub.docker.com/search?q=ubuntu"
+
+api_key: "aebb7f3442de072b3209127919cf37c0"
+
+app_name: "mc"
