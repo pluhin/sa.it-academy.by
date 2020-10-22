@@ -1,0 +1,6 @@
+app_lang: 'ru'
+
+app_fqdn: "redmine-15.sa"
+
+app_home: /opt/redmine
+

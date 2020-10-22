@@ -1,0 +1,11 @@
+---
+sav:
+  hosts:
+    redmine:
+      ansible_host: 192.168.205.15
+      ansible_user: root
+
+jump:
+  hosts:
+    jump_sa:
+      ansible_host: 178.124.206.53
