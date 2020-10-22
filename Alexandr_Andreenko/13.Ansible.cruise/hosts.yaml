@@ -1,0 +1,8 @@
+HQS:
+  hosts:
+    centos:
+      ansible_host: 192.168.203.1
+      ansible_user: root
+    ubuntu:
+      ansible_host: 192.168.203.2
+      ansible_user: root      

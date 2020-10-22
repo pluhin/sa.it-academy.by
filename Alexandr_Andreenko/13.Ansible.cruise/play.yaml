@@ -1,0 +1,7 @@
+---
+- hosts: HQS
+  become: yes
+  roles:
+    - web
+    - test
+
