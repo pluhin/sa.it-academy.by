@@ -1,0 +1,36 @@
+---
+- hosts: ec_203_78
+  #gather_facts: no
+  #strategy: free
+  tasks:
+    - name: Show OS Distribution | Version
+      debug:
+        msg: 
+          - "OS:       {{ ansible_distribution }}"
+          - "Version:  {{ ansible_distribution_version }}"
+      tags:
+        - vars  
+    - name: Show full info
+      debug:
+        msg: "{{ ansible_facts }}"
+      tags:
+        - full        
+    - name: Show mounts essential info
+      debug:
+        msg: 
+          - "Device:    {{ item.device }}"
+          - "Total:     {{ (item.size_total/1000000000)| round(2,'common') }} Gb"
+          - "Available: {{ (item.size_available/1000000000)| round(2,'common') }} Gb"
+          - "Used:      {{ ((item.size_total-item.size_available)/1000000000)| round(2,'common') }} Gb"
+      loop: "{{ ansible_facts.mounts }}"
+      loop_control:
+        label: "Mount point: {{ item.mount }}"   
+      tags:
+        - vars
+    - name: Show RAM Total and Free
+      debug:
+        msg: 
+          - "RAM total  {{ (ansible_facts.memtotal_mb/1000)| round(2,'common') }} Gb"
+          - "RAM free   {{ (ansible_facts.memfree_mb/1000)| round(2,'common') }} Gb"
+      tags:
+        - vars

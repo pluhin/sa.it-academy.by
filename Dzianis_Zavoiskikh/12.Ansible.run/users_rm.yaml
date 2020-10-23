@@ -1,0 +1,12 @@
+---
+- hosts: ec_203_78
+  become: True
+  vars:
+    users:
+    - tanya
+  tasks:
+  - name: Removing users
+    user:
+      name: "{{ item }}"
+      state: absent  
+    with_items: "{{ users }}"

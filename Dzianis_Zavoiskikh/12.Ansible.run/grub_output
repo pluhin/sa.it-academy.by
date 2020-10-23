@@ -1,0 +1,68 @@
+
+PLAY [ec_203_78] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+Thursday 22 October 2020  20:59:26 +0300 (0:00:00.055)       0:00:00.055 ****** 
+ok: [h203_7]
+ok: [h203_8]
+
+TASK [Show OS Distribution | Version] ******************************************
+Thursday 22 October 2020  20:59:37 +0300 (0:00:11.327)       0:00:11.383 ****** 
+ok: [h203_7] => {
+    "msg": [
+        "OS:       CentOS",
+        "Version:  7.8"
+    ]
+}
+ok: [h203_8] => {
+    "msg": [
+        "OS:       Ubuntu",
+        "Version:  18.04"
+    ]
+}
+
+TASK [Show mounts essential info] **********************************************
+Thursday 22 October 2020  20:59:37 +0300 (0:00:00.148)       0:00:11.532 ****** 
+ok: [h203_7] => (item=Mount point: /) => {
+    "msg": [
+        "Device:    /dev/mapper/d01-vm--3007--disk--0",
+        "Total:     6.27 Gb",
+        "Available: 5.26 Gb",
+        "Used:      1.02 Gb"
+    ]
+}
+ok: [h203_8] => (item=Mount point: /) => {
+    "msg": [
+        "Device:    /dev/mapper/d01-vm--3008--disk--0",
+        "Total:     6.27 Gb",
+        "Available: 4.7 Gb",
+        "Used:      1.58 Gb"
+    ]
+}
+
+TASK [Show RAM Total and Free] *************************************************
+Thursday 22 October 2020  20:59:38 +0300 (0:00:00.171)       0:00:11.704 ****** 
+ok: [h203_7] => {
+    "msg": [
+        "RAM total  4.1 Gb",
+        "RAM free   3.98 Gb"
+    ]
+}
+ok: [h203_8] => {
+    "msg": [
+        "RAM total  4.1 Gb",
+        "RAM free   3.91 Gb"
+    ]
+}
+
+PLAY RECAP *********************************************************************
+h203_7                     : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+h203_8                     : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Playbook run took 0 days, 0 hours, 0 minutes, 11 seconds
+Thursday 22 October 2020  20:59:38 +0300 (0:00:00.183)       0:00:11.887 ****** 
+=============================================================================== 
+Gathering Facts -------------------------------------------------------- 11.33s
+Show RAM Total and Free ------------------------------------------------- 0.18s
+Show mounts essential info ---------------------------------------------- 0.17s
+Show OS Distribution | Version ------------------------------------------ 0.15s

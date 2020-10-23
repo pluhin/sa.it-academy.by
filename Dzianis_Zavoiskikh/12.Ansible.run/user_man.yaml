@@ -1,0 +1,94 @@
+#12.Ansible.run Homework:
+#Playbook for the Ansible user
+#Create new user (use module)
+#New user authorization only by SSH key
+#Add its to the sudo:nopasswd for upgrade command
+#Implement test of that
+
+
+---
+# target hosts shortage (from inventory)
+- hosts: ec_203_78
+  become: True
+
+#Create the array of the new users names
+  vars:
+    users:
+    - tanya
+
+  tasks:
+
+#Printing out the list of new users for creating
+  - name: Print variables
+    debug:
+      msg: 
+        - "You requested user {{ item }}"
+        - "At OS family: {{ ansible_os_family }}"
+    with_items: "{{ users }}"
+
+#Now when the package name is the same across different OS families, it's as simple as:
+  - name: Install sudo
+    package: name=sudo state=latest  
+
+#Create new user (use module)
+  - name: Creating users 
+    user:
+      name: "{{ item }}"
+      comment: Managed by ansible
+      state: present
+    with_items: "{{ users }}"
+
+#Adding New user authorization only by SSH key
+  - name: "Add authorized keys"
+    authorized_key:
+      user: "{{ item }}"
+      key: "{{ lookup('file', 'files/'+ item + '.key.pub') }}"
+    with_items: "{{ users }}"
+
+  - name: Add users to sudoers without a pass
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      line: "{{ item }} ALL=(ALL) NOPASSWD: ALL"
+      insertbefore: BOF
+    with_items: "{{ users }}"    
+
+#Store the new user's enviroment debug out
+  - name: Check
+    shell: |
+      grep "{{ item }}" /etc/passwd
+      cat /home/"{{ item }}"/.ssh/authorized_keys
+      cat /etc/sudoers
+      date
+      env
+    register: out
+    with_items: "{{ users }}"
+    tags:
+      - check
+
+  - debug:
+      var: out
+    tags:
+      - check
+
+# Implement test of upgrade attemt from created users in different OS
+  - name: System upgrade attempt from created users 
+    remote_user: "{{ item }}"    
+    shell: |
+      sudo yum upgrade -y
+    with_items: "{{ users }}"
+    when: ansible_os_family == 'RedHat'
+
+  - name: System upgrade attempt from created users 
+    remote_user: "{{ item }}"    
+    shell: |
+      sudo apt upgrade -y
+    with_items: "{{ users }}"
+    when: ansible_os_family == 'Debian'    
+
+# Removing users separated at the playbook "users_rm.yaml"
+#  - name: Removing users
+#    user:
+#      name: "{{ item }}"
+#      state: absent  
+#    with_items: "{{ users }}"
