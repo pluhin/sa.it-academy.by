@@ -1,0 +1,52 @@
+---
+- hosts: working_hosts
+  tasks:
+    - name: Create file for tmp storing facts
+      file:
+        path: /tmp/facts
+        state: touch
+        mode: 0774
+    - name: Copy facts in /tmp/facts
+      copy:
+        content: '{{ ansible_facts.mounts[0].size_total }} {{ ansible_facts.mounts[0].size_available }}'
+        dest: /tmp/facts    
+    - name: Create file for script
+      file:
+        path: /tmp/sc.sh
+        state: touch
+        mode: 0775    
+    - name: Copy script content
+      copy:
+        content: |
+          #!bin/bash
+          TOTAL=`awk '{print $1}' /tmp/facts`
+          AVAILABLE=`awk '{print $2}' /tmp/facts`
+          echo $((TOTAL-AVAILABLE))
+        dest: /tmp/sc.sh
+    - name: Run script
+      shell:
+        sh /tmp/sc.sh
+      register: 
+        result 
+    - name: print OS version
+      debug:
+        msg: 'OS version: {{ ansible_distribution}} {{ ansible_distribution_version }}'
+      tags:
+        os
+    - name: print mount points, capacity and used space
+      debug:
+        msg: 'Mount point: {{ ansible_facts.mounts[0].device }}, Capacity: {{ ansible_facts.mounts[0].size_total }}, Used Space: {{ result.stdout}}'
+      tags:
+        mount_points
+    - name: print RAM, capacity, free
+      debug:
+        msg: 'RAM capacity: {{ ansible_memory_mb.real.total }}, RAM free: {{ ansible_memory_mb.real.free }}'
+      tags:
+        ram    
+    - name: Remove tmp files
+      file:
+        path: '{{ item }}'
+        state: absent
+      with_items:
+        - /tmp/facts
+        - /tmp/sc.sh           
