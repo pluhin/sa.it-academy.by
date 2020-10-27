@@ -1,0 +1,356 @@
+
+PLAY [ec_203_78] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+Saturday 24 October 2020  00:51:22 +0300 (0:00:00.064)       0:00:00.064 ****** 
+ok: [h203_7]
+ok: [h203_8]
+
+TASK [Print variables] *********************************************************
+Saturday 24 October 2020  00:51:32 +0300 (0:00:10.265)       0:00:10.330 ****** 
+ok: [h203_7] => (item=tanya) => {
+    "msg": [
+        "You requested user tanya",
+        "At OS family: RedHat"
+    ]
+}
+ok: [h203_8] => (item=tanya) => {
+    "msg": [
+        "You requested user tanya",
+        "At OS family: Debian"
+    ]
+}
+
+TASK [Install sudo] ************************************************************
+Saturday 24 October 2020  00:51:32 +0300 (0:00:00.165)       0:00:10.496 ****** 
+ok: [h203_7]
+ok: [h203_8]
+
+TASK [Creating users] **********************************************************
+Saturday 24 October 2020  00:51:41 +0300 (0:00:08.415)       0:00:18.912 ****** 
+ok: [h203_7] => (item=tanya)
+ok: [h203_8] => (item=tanya)
+
+TASK [Add authorized keys] *****************************************************
+Saturday 24 October 2020  00:51:48 +0300 (0:00:07.202)       0:00:26.114 ****** 
+ok: [h203_7] => (item=tanya)
+ok: [h203_8] => (item=tanya)
+
+TASK [Add users to sudoers without a pass] *************************************
+Saturday 24 October 2020  00:51:55 +0300 (0:00:07.394)       0:00:33.509 ****** 
+ok: [h203_7] => (item=tanya)
+ok: [h203_8] => (item=tanya)
+
+TASK [Check] *******************************************************************
+Saturday 24 October 2020  00:52:03 +0300 (0:00:07.309)       0:00:40.818 ****** 
+changed: [h203_7] => (item=tanya)
+changed: [h203_8] => (item=tanya)
+
+TASK [debug] *******************************************************************
+Saturday 24 October 2020  00:52:10 +0300 (0:00:07.557)       0:00:48.375 ****** 
+ok: [h203_7] => {
+    "out": {
+        "changed": true,
+        "msg": "All items completed",
+        "results": [
+            {
+                "ansible_loop_var": "item",
+                "changed": true,
+                "cmd": "grep \"tanya\" /etc/passwd\ncat /home/\"tanya\"/.ssh/authorized_keys\ncat /etc/sudoers\ndate\nenv\n",
+                "delta": "0:00:00.006343",
+                "end": "2020-10-23 21:52:09.189189",
+                "failed": false,
+                "invocation": {
+                    "module_args": {
+                        "_raw_params": "grep \"tanya\" /etc/passwd\ncat /home/\"tanya\"/.ssh/authorized_keys\ncat /etc/sudoers\ndate\nenv\n",
+                        "_uses_shell": true,
+                        "argv": null,
+                        "chdir": null,
+                        "creates": null,
+                        "executable": null,
+                        "removes": null,
+                        "stdin": null,
+                        "stdin_add_newline": true,
+                        "strip_empty_ends": true,
+                        "warn": true
+                    }
+                },
+                "item": "tanya",
+                "rc": 0,
+                "start": "2020-10-23 21:52:09.182846",
+                "stderr": "",
+                "stderr_lines": [],
+                "stdout": "tanya:x:1000:1000:Managed by ansible:/home/tanya:/bin/bash\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCylPxVZM1QvcubPs+BMoORFf+cIx3gcMWUJ5Qaptf1qP2w/QeOVN0q+FcpxDEjZdMqzFMzrKWn4doAd7Rea0AAb8WL6Jt0+Cgtf1mskB0X5vOkSeaQTl7MggNC8zuox0/8xGGQSbfmqRW6TRNuPPD55C37rK6SzcbF2cJ0T60e9wZEk3A1U0B2tLiG252M2/9oii6yzv1zhlKmCu84Leo9geKVFKIpzABPXEFP9y4lR87u0O7JS4OnfE/+jFVMPHkUPlw1NTklh8BgARScT1TJ1HmRWQnUBL09FEnXHvnFZigr6H7g0m/YIUmID19b1JTPvfn5c3YstHpeDun38YhR denis@ruvds-pmm5p\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD4OHwgh7opEeDBpSwphf9soXB3xM+pgjxAWxBQfRIFI8KfFVMpHJt8dnu7ay90f016Eptcy8n8Uc3eHeOpbUfx5uIUfKHeZHRCJLiPhptof3MC+dx95+u3YWjAWqf4zdY70YSuQL11m6zFPcoxz1vB/vFd6c1U+bjg3RBvNYrKG3Pr/EVpXJRQDJN6tsz1p92u7zKMdid4+eIj0NbSTXuiItqV27RrA7BMzW7IXS6lAnH7AJzuZft5Q6ostEEzUzgbdyk4Ku/HRIFvUvS72X7XrKAV1g5YCNksplMBLSypbe92Sfp4Bn4+Hr6bTsOoY8vDzuFUdfTWNImjR/r273Mx denis@ruvds-pmm5p\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCaE1xkrjDiSeMkCxr6zCFG/mtJKMfw7HT5PcjDkgTI2Dj2X1CgFuYjHeAnizMQucQU0RUDOjwowJArjwbgF7nZjIKIWaWeq+N4oAgvtS8vXmmz2Vs/tzE192Dl2yOYJu6eZwAv8F7pBPkyYV6WJl+l7xl+3NKE/xy7R+dvI3E7ysxk9mdgjRP9nLiiO1eCqaErxW4asmkbeyl9YXq82boQjc4CHUVEvPuaSmi+M2/bnOjOBRx74hvy0I1NBIAU4fKCL/f6giDouIr9tnErP+rLHXYImWnDa7rKucV/Hj4q6UmXRyXjlsHILXdieR/TS5KtkLEOlIRDg8n0gcmqfgDX tanya@ruvds-pmm5p\ntanya ALL=(ALL) NOPASSWD: ALL\n## Sudoers allows particular users to run various commands as\n## the root user, without needing the root password.\n##\n## Examples are provided at the bottom of the file for collections\n## of related commands, which can then be delegated out to particular\n## users or groups.\n## \n## This file must be edited with the 'visudo' command.\n\n## Host Aliases\n## Groups of machines. You may prefer to use hostnames (perhaps using \n## wildcards for entire domains) or IP addresses instead.\n# Host_Alias     FILESERVERS = fs1, fs2\n# Host_Alias     MAILSERVERS = smtp, smtp2\n\n## User Aliases\n## These aren't often necessary, as you can use regular groups\n## (ie, from files, LDAP, NIS, etc) in this file - just use %groupname \n## rather than USERALIAS\n# User_Alias ADMINS = jsmith, mikem\n\n\n## Command Aliases\n## These are groups of related commands...\n\n## Networking\n# Cmnd_Alias NETWORKING = /sbin/route, /sbin/ifconfig, /bin/ping, /sbin/dhclient, /usr/bin/net, /sbin/iptables, /usr/bin/rfcomm, /usr/bin/wvdial, /sbin/iwconfig, /sbin/mii-tool\n\n## Installation and management of software\n# Cmnd_Alias SOFTWARE = /bin/rpm, /usr/bin/up2date, /usr/bin/yum\n\n## Services\n# Cmnd_Alias SERVICES = /sbin/service, /sbin/chkconfig, /usr/bin/systemctl start, /usr/bin/systemctl stop, /usr/bin/systemctl reload, /usr/bin/systemctl restart, /usr/bin/systemctl status, /usr/bin/systemctl enable, /usr/bin/systemctl disable\n\n## Updating the locate database\n# Cmnd_Alias LOCATE = /usr/bin/updatedb\n\n## Storage\n# Cmnd_Alias STORAGE = /sbin/fdisk, /sbin/sfdisk, /sbin/parted, /sbin/partprobe, /bin/mount, /bin/umount\n\n## Delegating permissions\n# Cmnd_Alias DELEGATING = /usr/sbin/visudo, /bin/chown, /bin/chmod, /bin/chgrp \n\n## Processes\n# Cmnd_Alias PROCESSES = /bin/nice, /bin/kill, /usr/bin/kill, /usr/bin/killall\n\n## Drivers\n# Cmnd_Alias DRIVERS = /sbin/modprobe\n\n# Defaults specification\n\n#\n# Refuse to run if unable to disable echo on the tty.\n#\nDefaults   !visiblepw\n\n#\n# Preserving HOME has security implications since many programs\n# use it when searching for configuration files. Note that HOME\n# is already set when the the env_reset option is enabled, so\n# this option is only effective for configurations where either\n# env_reset is disabled or HOME is present in the env_keep list.\n#\nDefaults    always_set_home\nDefaults    match_group_by_gid\n\n# Prior to version 1.8.15, groups listed in sudoers that were not\n# found in the system group database were passed to the group\n# plugin, if any. Starting with 1.8.15, only groups of the form\n# %:group are resolved via the group plugin by default.\n# We enable always_query_group_plugin to restore old behavior.\n# Disable this option for new behavior.\nDefaults    always_query_group_plugin\n\nDefaults    env_reset\nDefaults    env_keep =  \"COLORS DISPLAY HOSTNAME HISTSIZE KDEDIR LS_COLORS\"\nDefaults    env_keep += \"MAIL PS1 PS2 QTDIR USERNAME LANG LC_ADDRESS LC_CTYPE\"\nDefaults    env_keep += \"LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES\"\nDefaults    env_keep += \"LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE\"\nDefaults    env_keep += \"LC_TIME LC_ALL LANGUAGE LINGUAS _XKB_CHARSET XAUTHORITY\"\n\n#\n# Adding HOME to env_keep may enable a user to run unrestricted\n# commands via sudo.\n#\n# Defaults   env_keep += \"HOME\"\n\nDefaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin\n\n## Next comes the main part: which users can run what software on \n## which machines (the sudoers file can be shared between multiple\n## systems).\n## Syntax:\n##\n## \tuser\tMACHINE=COMMANDS\n##\n## The COMMANDS section may have other options added to it.\n##\n## Allow root to run any commands anywhere \nroot\tALL=(ALL) \tALL\n\n## Allows members of the 'sys' group to run networking, software, \n## service management apps and more.\n# %sys ALL = NETWORKING, SOFTWARE, SERVICES, STORAGE, DELEGATING, PROCESSES, LOCATE, DRIVERS\n\n## Allows people in group wheel to run all commands\n%wheel\tALL=(ALL)\tALL\n\n## Same thing without a password\n# %wheel\tALL=(ALL)\tNOPASSWD: ALL\n\n## Allows members of the users group to mount and unmount the \n## cdrom as root\n# %users  ALL=/sbin/mount /mnt/cdrom, /sbin/umount /mnt/cdrom\n\n## Allows members of the users group to shutdown this system\n# %users  localhost=/sbin/shutdown -h now\n\n## Read drop-in files from /etc/sudoers.d (the # here does not mean a comment)\n#includedir /etc/sudoers.d\nFri Oct 23 21:52:09 UTC 2020\nXDG_SESSION_ID=308267\nTERM=screen\nSHELL=/bin/bash\nSSH_CLIENT=192.168.204.82 50208 22\nSSH_TTY=/dev/pts/2\nLC_ALL=C\nUSER=root\nLS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.axa=01;36:*.oga=01;36:*.spx=01;36:*.xspf=01;36:\nMAIL=/var/mail/root\nPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin\nLC_MESSAGES=C\nPWD=/root\nLANG=C\nSHLVL=3\nHOME=/root\nLOGNAME=root\nSSH_CONNECTION=192.168.204.82 50208 192.168.203.7 22\nLC_CTYPE=C.UTF-8\nLESSOPEN=||/usr/bin/lesspipe.sh %s\nXDG_RUNTIME_DIR=/run/user/0\n_=/usr/bin/env",
+                "stdout_lines": [
+                    "tanya:x:1000:1000:Managed by ansible:/home/tanya:/bin/bash",
+                    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCylPxVZM1QvcubPs+BMoORFf+cIx3gcMWUJ5Qaptf1qP2w/QeOVN0q+FcpxDEjZdMqzFMzrKWn4doAd7Rea0AAb8WL6Jt0+Cgtf1mskB0X5vOkSeaQTl7MggNC8zuox0/8xGGQSbfmqRW6TRNuPPD55C37rK6SzcbF2cJ0T60e9wZEk3A1U0B2tLiG252M2/9oii6yzv1zhlKmCu84Leo9geKVFKIpzABPXEFP9y4lR87u0O7JS4OnfE/+jFVMPHkUPlw1NTklh8BgARScT1TJ1HmRWQnUBL09FEnXHvnFZigr6H7g0m/YIUmID19b1JTPvfn5c3YstHpeDun38YhR denis@ruvds-pmm5p",
+                    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD4OHwgh7opEeDBpSwphf9soXB3xM+pgjxAWxBQfRIFI8KfFVMpHJt8dnu7ay90f016Eptcy8n8Uc3eHeOpbUfx5uIUfKHeZHRCJLiPhptof3MC+dx95+u3YWjAWqf4zdY70YSuQL11m6zFPcoxz1vB/vFd6c1U+bjg3RBvNYrKG3Pr/EVpXJRQDJN6tsz1p92u7zKMdid4+eIj0NbSTXuiItqV27RrA7BMzW7IXS6lAnH7AJzuZft5Q6ostEEzUzgbdyk4Ku/HRIFvUvS72X7XrKAV1g5YCNksplMBLSypbe92Sfp4Bn4+Hr6bTsOoY8vDzuFUdfTWNImjR/r273Mx denis@ruvds-pmm5p",
+                    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCaE1xkrjDiSeMkCxr6zCFG/mtJKMfw7HT5PcjDkgTI2Dj2X1CgFuYjHeAnizMQucQU0RUDOjwowJArjwbgF7nZjIKIWaWeq+N4oAgvtS8vXmmz2Vs/tzE192Dl2yOYJu6eZwAv8F7pBPkyYV6WJl+l7xl+3NKE/xy7R+dvI3E7ysxk9mdgjRP9nLiiO1eCqaErxW4asmkbeyl9YXq82boQjc4CHUVEvPuaSmi+M2/bnOjOBRx74hvy0I1NBIAU4fKCL/f6giDouIr9tnErP+rLHXYImWnDa7rKucV/Hj4q6UmXRyXjlsHILXdieR/TS5KtkLEOlIRDg8n0gcmqfgDX tanya@ruvds-pmm5p",
+                    "tanya ALL=(ALL) NOPASSWD: ALL",
+                    "## Sudoers allows particular users to run various commands as",
+                    "## the root user, without needing the root password.",
+                    "##",
+                    "## Examples are provided at the bottom of the file for collections",
+                    "## of related commands, which can then be delegated out to particular",
+                    "## users or groups.",
+                    "## ",
+                    "## This file must be edited with the 'visudo' command.",
+                    "",
+                    "## Host Aliases",
+                    "## Groups of machines. You may prefer to use hostnames (perhaps using ",
+                    "## wildcards for entire domains) or IP addresses instead.",
+                    "# Host_Alias     FILESERVERS = fs1, fs2",
+                    "# Host_Alias     MAILSERVERS = smtp, smtp2",
+                    "",
+                    "## User Aliases",
+                    "## These aren't often necessary, as you can use regular groups",
+                    "## (ie, from files, LDAP, NIS, etc) in this file - just use %groupname ",
+                    "## rather than USERALIAS",
+                    "# User_Alias ADMINS = jsmith, mikem",
+                    "",
+                    "",
+                    "## Command Aliases",
+                    "## These are groups of related commands...",
+                    "",
+                    "## Networking",
+                    "# Cmnd_Alias NETWORKING = /sbin/route, /sbin/ifconfig, /bin/ping, /sbin/dhclient, /usr/bin/net, /sbin/iptables, /usr/bin/rfcomm, /usr/bin/wvdial, /sbin/iwconfig, /sbin/mii-tool",
+                    "",
+                    "## Installation and management of software",
+                    "# Cmnd_Alias SOFTWARE = /bin/rpm, /usr/bin/up2date, /usr/bin/yum",
+                    "",
+                    "## Services",
+                    "# Cmnd_Alias SERVICES = /sbin/service, /sbin/chkconfig, /usr/bin/systemctl start, /usr/bin/systemctl stop, /usr/bin/systemctl reload, /usr/bin/systemctl restart, /usr/bin/systemctl status, /usr/bin/systemctl enable, /usr/bin/systemctl disable",
+                    "",
+                    "## Updating the locate database",
+                    "# Cmnd_Alias LOCATE = /usr/bin/updatedb",
+                    "",
+                    "## Storage",
+                    "# Cmnd_Alias STORAGE = /sbin/fdisk, /sbin/sfdisk, /sbin/parted, /sbin/partprobe, /bin/mount, /bin/umount",
+                    "",
+                    "## Delegating permissions",
+                    "# Cmnd_Alias DELEGATING = /usr/sbin/visudo, /bin/chown, /bin/chmod, /bin/chgrp ",
+                    "",
+                    "## Processes",
+                    "# Cmnd_Alias PROCESSES = /bin/nice, /bin/kill, /usr/bin/kill, /usr/bin/killall",
+                    "",
+                    "## Drivers",
+                    "# Cmnd_Alias DRIVERS = /sbin/modprobe",
+                    "",
+                    "# Defaults specification",
+                    "",
+                    "#",
+                    "# Refuse to run if unable to disable echo on the tty.",
+                    "#",
+                    "Defaults   !visiblepw",
+                    "",
+                    "#",
+                    "# Preserving HOME has security implications since many programs",
+                    "# use it when searching for configuration files. Note that HOME",
+                    "# is already set when the the env_reset option is enabled, so",
+                    "# this option is only effective for configurations where either",
+                    "# env_reset is disabled or HOME is present in the env_keep list.",
+                    "#",
+                    "Defaults    always_set_home",
+                    "Defaults    match_group_by_gid",
+                    "",
+                    "# Prior to version 1.8.15, groups listed in sudoers that were not",
+                    "# found in the system group database were passed to the group",
+                    "# plugin, if any. Starting with 1.8.15, only groups of the form",
+                    "# %:group are resolved via the group plugin by default.",
+                    "# We enable always_query_group_plugin to restore old behavior.",
+                    "# Disable this option for new behavior.",
+                    "Defaults    always_query_group_plugin",
+                    "",
+                    "Defaults    env_reset",
+                    "Defaults    env_keep =  \"COLORS DISPLAY HOSTNAME HISTSIZE KDEDIR LS_COLORS\"",
+                    "Defaults    env_keep += \"MAIL PS1 PS2 QTDIR USERNAME LANG LC_ADDRESS LC_CTYPE\"",
+                    "Defaults    env_keep += \"LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES\"",
+                    "Defaults    env_keep += \"LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE\"",
+                    "Defaults    env_keep += \"LC_TIME LC_ALL LANGUAGE LINGUAS _XKB_CHARSET XAUTHORITY\"",
+                    "",
+                    "#",
+                    "# Adding HOME to env_keep may enable a user to run unrestricted",
+                    "# commands via sudo.",
+                    "#",
+                    "# Defaults   env_keep += \"HOME\"",
+                    "",
+                    "Defaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin",
+                    "",
+                    "## Next comes the main part: which users can run what software on ",
+                    "## which machines (the sudoers file can be shared between multiple",
+                    "## systems).",
+                    "## Syntax:",
+                    "##",
+                    "## \tuser\tMACHINE=COMMANDS",
+                    "##",
+                    "## The COMMANDS section may have other options added to it.",
+                    "##",
+                    "## Allow root to run any commands anywhere ",
+                    "root\tALL=(ALL) \tALL",
+                    "",
+                    "## Allows members of the 'sys' group to run networking, software, ",
+                    "## service management apps and more.",
+                    "# %sys ALL = NETWORKING, SOFTWARE, SERVICES, STORAGE, DELEGATING, PROCESSES, LOCATE, DRIVERS",
+                    "",
+                    "## Allows people in group wheel to run all commands",
+                    "%wheel\tALL=(ALL)\tALL",
+                    "",
+                    "## Same thing without a password",
+                    "# %wheel\tALL=(ALL)\tNOPASSWD: ALL",
+                    "",
+                    "## Allows members of the users group to mount and unmount the ",
+                    "## cdrom as root",
+                    "# %users  ALL=/sbin/mount /mnt/cdrom, /sbin/umount /mnt/cdrom",
+                    "",
+                    "## Allows members of the users group to shutdown this system",
+                    "# %users  localhost=/sbin/shutdown -h now",
+                    "",
+                    "## Read drop-in files from /etc/sudoers.d (the # here does not mean a comment)",
+                    "#includedir /etc/sudoers.d",
+                    "Fri Oct 23 21:52:09 UTC 2020",
+                    "XDG_SESSION_ID=308267",
+                    "TERM=screen",
+                    "SHELL=/bin/bash",
+                    "SSH_CLIENT=192.168.204.82 50208 22",
+                    "SSH_TTY=/dev/pts/2",
+                    "LC_ALL=C",
+                    "USER=root",
+                    "LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.axa=01;36:*.oga=01;36:*.spx=01;36:*.xspf=01;36:",
+                    "MAIL=/var/mail/root",
+                    "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin",
+                    "LC_MESSAGES=C",
+                    "PWD=/root",
+                    "LANG=C",
+                    "SHLVL=3",
+                    "HOME=/root",
+                    "LOGNAME=root",
+                    "SSH_CONNECTION=192.168.204.82 50208 192.168.203.7 22",
+                    "LC_CTYPE=C.UTF-8",
+                    "LESSOPEN=||/usr/bin/lesspipe.sh %s",
+                    "XDG_RUNTIME_DIR=/run/user/0",
+                    "_=/usr/bin/env"
+                ]
+            }
+        ]
+    }
+}
+ok: [h203_8] => {
+    "out": {
+        "changed": true,
+        "msg": "All items completed",
+        "results": [
+            {
+                "ansible_loop_var": "item",
+                "changed": true,
+                "cmd": "grep \"tanya\" /etc/passwd\ncat /home/\"tanya\"/.ssh/authorized_keys\ncat /etc/sudoers\ndate\nenv\n",
+                "delta": "0:00:00.005077",
+                "end": "2020-10-23 21:52:09.393181",
+                "failed": false,
+                "invocation": {
+                    "module_args": {
+                        "_raw_params": "grep \"tanya\" /etc/passwd\ncat /home/\"tanya\"/.ssh/authorized_keys\ncat /etc/sudoers\ndate\nenv\n",
+                        "_uses_shell": true,
+                        "argv": null,
+                        "chdir": null,
+                        "creates": null,
+                        "executable": null,
+                        "removes": null,
+                        "stdin": null,
+                        "stdin_add_newline": true,
+                        "strip_empty_ends": true,
+                        "warn": true
+                    }
+                },
+                "item": "tanya",
+                "rc": 0,
+                "start": "2020-10-23 21:52:09.388104",
+                "stderr": "",
+                "stderr_lines": [],
+                "stdout": "tanya:x:1000:1000:Managed by ansible:/home/tanya:/bin/sh\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCylPxVZM1QvcubPs+BMoORFf+cIx3gcMWUJ5Qaptf1qP2w/QeOVN0q+FcpxDEjZdMqzFMzrKWn4doAd7Rea0AAb8WL6Jt0+Cgtf1mskB0X5vOkSeaQTl7MggNC8zuox0/8xGGQSbfmqRW6TRNuPPD55C37rK6SzcbF2cJ0T60e9wZEk3A1U0B2tLiG252M2/9oii6yzv1zhlKmCu84Leo9geKVFKIpzABPXEFP9y4lR87u0O7JS4OnfE/+jFVMPHkUPlw1NTklh8BgARScT1TJ1HmRWQnUBL09FEnXHvnFZigr6H7g0m/YIUmID19b1JTPvfn5c3YstHpeDun38YhR denis@ruvds-pmm5p\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD4OHwgh7opEeDBpSwphf9soXB3xM+pgjxAWxBQfRIFI8KfFVMpHJt8dnu7ay90f016Eptcy8n8Uc3eHeOpbUfx5uIUfKHeZHRCJLiPhptof3MC+dx95+u3YWjAWqf4zdY70YSuQL11m6zFPcoxz1vB/vFd6c1U+bjg3RBvNYrKG3Pr/EVpXJRQDJN6tsz1p92u7zKMdid4+eIj0NbSTXuiItqV27RrA7BMzW7IXS6lAnH7AJzuZft5Q6ostEEzUzgbdyk4Ku/HRIFvUvS72X7XrKAV1g5YCNksplMBLSypbe92Sfp4Bn4+Hr6bTsOoY8vDzuFUdfTWNImjR/r273Mx denis@ruvds-pmm5p\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCaE1xkrjDiSeMkCxr6zCFG/mtJKMfw7HT5PcjDkgTI2Dj2X1CgFuYjHeAnizMQucQU0RUDOjwowJArjwbgF7nZjIKIWaWeq+N4oAgvtS8vXmmz2Vs/tzE192Dl2yOYJu6eZwAv8F7pBPkyYV6WJl+l7xl+3NKE/xy7R+dvI3E7ysxk9mdgjRP9nLiiO1eCqaErxW4asmkbeyl9YXq82boQjc4CHUVEvPuaSmi+M2/bnOjOBRx74hvy0I1NBIAU4fKCL/f6giDouIr9tnErP+rLHXYImWnDa7rKucV/Hj4q6UmXRyXjlsHILXdieR/TS5KtkLEOlIRDg8n0gcmqfgDX tanya@ruvds-pmm5p\ntanya ALL=(ALL) NOPASSWD: ALL\n#\n# This file MUST be edited with the 'visudo' command as root.\n#\n# Please consider adding local content in /etc/sudoers.d/ instead of\n# directly modifying this file.\n#\n# See the man page for details on how to write a sudoers file.\n#\nDefaults\tenv_reset\nDefaults\tmail_badpass\nDefaults\tsecure_path=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin\"\n\n# Host alias specification\n\n# User alias specification\n\n# Cmnd alias specification\n\n# User privilege specification\nroot\tALL=(ALL:ALL) ALL\n\n# Members of the admin group may gain root privileges\n%admin ALL=(ALL) ALL\n\n# Allow members of group sudo to execute any command\n%sudo\tALL=(ALL:ALL) ALL\n\n# See sudoers(5) for more information on \"#include\" directives:\n\n#includedir /etc/sudoers.d\nFri Oct 23 21:52:09 UTC 2020\nMAIL=/var/mail/root\nUSER=root\nSSH_CLIENT=192.168.204.82 51302 22\nSHLVL=1\nHOME=/root\nSSH_TTY=/dev/pts/2\nLC_CTYPE=C.UTF-8\nLOGNAME=root\n_=/bin/sh\nXDG_SESSION_ID=308268\nTERM=screen\nPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin\nXDG_RUNTIME_DIR=/run/user/0\nLANG=C\nSHELL=/bin/bash\nPWD=/root\nSSH_CONNECTION=192.168.204.82 51302 192.168.203.8 22",
+                "stdout_lines": [
+                    "tanya:x:1000:1000:Managed by ansible:/home/tanya:/bin/sh",
+                    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCylPxVZM1QvcubPs+BMoORFf+cIx3gcMWUJ5Qaptf1qP2w/QeOVN0q+FcpxDEjZdMqzFMzrKWn4doAd7Rea0AAb8WL6Jt0+Cgtf1mskB0X5vOkSeaQTl7MggNC8zuox0/8xGGQSbfmqRW6TRNuPPD55C37rK6SzcbF2cJ0T60e9wZEk3A1U0B2tLiG252M2/9oii6yzv1zhlKmCu84Leo9geKVFKIpzABPXEFP9y4lR87u0O7JS4OnfE/+jFVMPHkUPlw1NTklh8BgARScT1TJ1HmRWQnUBL09FEnXHvnFZigr6H7g0m/YIUmID19b1JTPvfn5c3YstHpeDun38YhR denis@ruvds-pmm5p",
+                    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD4OHwgh7opEeDBpSwphf9soXB3xM+pgjxAWxBQfRIFI8KfFVMpHJt8dnu7ay90f016Eptcy8n8Uc3eHeOpbUfx5uIUfKHeZHRCJLiPhptof3MC+dx95+u3YWjAWqf4zdY70YSuQL11m6zFPcoxz1vB/vFd6c1U+bjg3RBvNYrKG3Pr/EVpXJRQDJN6tsz1p92u7zKMdid4+eIj0NbSTXuiItqV27RrA7BMzW7IXS6lAnH7AJzuZft5Q6ostEEzUzgbdyk4Ku/HRIFvUvS72X7XrKAV1g5YCNksplMBLSypbe92Sfp4Bn4+Hr6bTsOoY8vDzuFUdfTWNImjR/r273Mx denis@ruvds-pmm5p",
+                    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCaE1xkrjDiSeMkCxr6zCFG/mtJKMfw7HT5PcjDkgTI2Dj2X1CgFuYjHeAnizMQucQU0RUDOjwowJArjwbgF7nZjIKIWaWeq+N4oAgvtS8vXmmz2Vs/tzE192Dl2yOYJu6eZwAv8F7pBPkyYV6WJl+l7xl+3NKE/xy7R+dvI3E7ysxk9mdgjRP9nLiiO1eCqaErxW4asmkbeyl9YXq82boQjc4CHUVEvPuaSmi+M2/bnOjOBRx74hvy0I1NBIAU4fKCL/f6giDouIr9tnErP+rLHXYImWnDa7rKucV/Hj4q6UmXRyXjlsHILXdieR/TS5KtkLEOlIRDg8n0gcmqfgDX tanya@ruvds-pmm5p",
+                    "tanya ALL=(ALL) NOPASSWD: ALL",
+                    "#",
+                    "# This file MUST be edited with the 'visudo' command as root.",
+                    "#",
+                    "# Please consider adding local content in /etc/sudoers.d/ instead of",
+                    "# directly modifying this file.",
+                    "#",
+                    "# See the man page for details on how to write a sudoers file.",
+                    "#",
+                    "Defaults\tenv_reset",
+                    "Defaults\tmail_badpass",
+                    "Defaults\tsecure_path=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin\"",
+                    "",
+                    "# Host alias specification",
+                    "",
+                    "# User alias specification",
+                    "",
+                    "# Cmnd alias specification",
+                    "",
+                    "# User privilege specification",
+                    "root\tALL=(ALL:ALL) ALL",
+                    "",
+                    "# Members of the admin group may gain root privileges",
+                    "%admin ALL=(ALL) ALL",
+                    "",
+                    "# Allow members of group sudo to execute any command",
+                    "%sudo\tALL=(ALL:ALL) ALL",
+                    "",
+                    "# See sudoers(5) for more information on \"#include\" directives:",
+                    "",
+                    "#includedir /etc/sudoers.d",
+                    "Fri Oct 23 21:52:09 UTC 2020",
+                    "MAIL=/var/mail/root",
+                    "USER=root",
+                    "SSH_CLIENT=192.168.204.82 51302 22",
+                    "SHLVL=1",
+                    "HOME=/root",
+                    "SSH_TTY=/dev/pts/2",
+                    "LC_CTYPE=C.UTF-8",
+                    "LOGNAME=root",
+                    "_=/bin/sh",
+                    "XDG_SESSION_ID=308268",
+                    "TERM=screen",
+                    "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+                    "XDG_RUNTIME_DIR=/run/user/0",
+                    "LANG=C",
+                    "SHELL=/bin/bash",
+                    "PWD=/root",
+                    "SSH_CONNECTION=192.168.204.82 51302 192.168.203.8 22"
+                ]
+            }
+        ]
+    }
+}
+
+TASK [System upgrade attempt from created users] *******************************
+Saturday 24 October 2020  00:52:10 +0300 (0:00:00.156)       0:00:48.532 ****** 
+skipping: [h203_8] => (item=tanya) 
+changed: [h203_7] => (item=tanya)
+
+TASK [System upgrade attempt from created users] *******************************
+Saturday 24 October 2020  00:52:18 +0300 (0:00:07.175)       0:00:55.707 ****** 
+skipping: [h203_7] => (item=tanya) 
+changed: [h203_8] => (item=tanya)
+
+PLAY RECAP *********************************************************************
+h203_7                     : ok=9    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+h203_8                     : ok=9    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+Playbook run took 0 days, 0 hours, 1 minutes, 3 seconds
+Saturday 24 October 2020  00:52:25 +0300 (0:00:07.564)       0:01:03.272 ****** 
+=============================================================================== 
+Gathering Facts -------------------------------------------------------- 10.27s
+Install sudo ------------------------------------------------------------ 8.42s
+System upgrade attempt from created users ------------------------------- 7.56s
+Check ------------------------------------------------------------------- 7.56s
+Add authorized keys ----------------------------------------------------- 7.39s
+Add users to sudoers without a pass ------------------------------------- 7.31s
+Creating users ---------------------------------------------------------- 7.20s
+System upgrade attempt from created users ------------------------------- 7.18s
+Print variables --------------------------------------------------------- 0.17s
+debug ------------------------------------------------------------------- 0.16s
