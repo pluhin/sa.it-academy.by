@@ -1,0 +1,19 @@
+ec_all:
+  children:
+    ec_home:
+      hosts:
+        centos:
+          ansible_host: 192.168.203.17
+        ubuntu:
+          ansible_host: 192.168.203.18
+    ec_k8s:
+      hosts:
+        debian_01:
+          ansible_host: 192.168.201.18
+        debian_02:
+          ansible_host: 192.168.201.19
+#jump:
+#  hosts:
+#    jump_sa:
+#      ansible_host: 178.124.206.53
+#      ansible_user: jump_sa
