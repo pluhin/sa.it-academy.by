@@ -1,0 +1,30 @@
+---
+- name: Redmine. Install packages
+  apt:
+    name: "{{ apt_redmine_packages }}"
+    state: latest
+    update_cache: yes
+
+- name: MySQL. Install and setup
+  template: 
+    src: my.cnf.j2
+    dest: ~/.my.cnf 
+    owner: root 
+    mode: 0600
+  notify:
+    - mysql restart
+
+- meta: flush_handlers
+
+- mysql_db:
+    name: "{{ app_db_name }}"
+    encoding: utf8
+- mysql_user:
+    name: "{{ app_db_user }}"
+    password: "{{ app_db_pass }}"
+    priv: "{{ app_db_name }}.*:ALL"
+
+- name: Config database
+  template: 
+    src: database.yml.j2 
+    dest: "{{ app_home }}/config/database.yml"    
