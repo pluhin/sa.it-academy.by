@@ -1,0 +1,60 @@
+---
+- hosts: ec
+  vars:
+    user: Artem
+  tasks:
+    - name: Creating user {{ user }}
+      user:
+        name: "{{ user }}"
+        state: present
+    - name: Authentication
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        line: 'Match User Artem PasswordAuthentication no'
+        insertbefore: BOF
+
+    - name: Install sudo on centos
+      when: ansible_distribution == 'CentOS'
+      yum:
+        name:
+          - sudo
+
+    - name: Add user Artem for upgrade command
+      when: ansible_distribution == 'CentOS'
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        line: 'Artem ALL=(ALL) NOPASSWD: ALL'
+        insertbefore: BOF
+
+
+    - name: Add user {{ user }} for upgrade command
+      when: ansible_distribution == 'Ubuntu'
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        line: 'Artem ALL=(ALL) NOPASSWD: ALL'
+        insertbefore: BOF
+
+    - name: Check user
+      shell: |
+        grep "{{ user }}" /etc/passwd
+        date
+        env
+      register: out
+    - debug:
+        msg: "{{ out.stdout_lines }}"
+    - name: System upgrade by Artem
+      remote_user: Artem
+      when: ansible_distribution == 'CentOS'
+      yum:
+        name: '*'
+        state: latest
+
+    - name: System upgrade by Artem
+      remote_user: Artem
+      when: ansible_distribution == 'Ubuntu'
+      apt:
+        name: '*'
+        state: latest
