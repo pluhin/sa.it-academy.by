@@ -1,0 +1,16 @@
+---
+apt_redmine_packages:
+  - git
+  - ruby-full
+  - build-essential
+  - libmysqlclient-dev
+  - imagemagick
+  - libmagickwand-dev
+  - apache2
+  - libapache2-mod-passenger
+  - python-pymysql
+  - python-mysqldb
+
+apt_mysql_packages:
+  - mysql-server
+  - mysql-client

@@ -1,0 +1,23 @@
+---
+- name: MySQL. Install and setup my.conf
+  template: 
+    src: my.cnf.j2 
+    dest: ~/.my.cnf 
+    owner: root 
+    mode: 0600
+  notify:
+    - mysql restart
+
+# Start the handler (mysql restart) right now, not at the end of playbook
+- meta: flush_handlers
+
+- name: MySQL. Create db
+  mysql_db:
+    name: "{{ app_db_name }}"
+    encoding: utf8
+
+- name: MySQL. Create user
+  mysql_user:
+    name: "{{ app_db_user }}"
+    password: "{{ app_db_pass }}"
+    priv: "{{ app_db_name }}.*:ALL"
