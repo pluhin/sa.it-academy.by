@@ -1,0 +1,18 @@
+---
+- hosts: ec_all
+  tasks:
+    - name: Print OS
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+      tags:
+        - facts
+    - name: Print mount
+      debug:
+        msg: "{{ ansible_facts.mounts[0] }}"
+      tags:
+        - facts
+    - name: Print RAM
+      debug:
+        msg: "RAM capacity: {{ ansible_memory_mb.real.total }}, RAM free: {{ ansible_facts.memory_mb.real.free }}"
+      tags:
+        - facts
