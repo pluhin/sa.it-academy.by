@@ -1,0 +1,57 @@
+---
+- hosts: cw
+  vars:
+    user: Alexandr
+  tasks:
+    - name: Creating user {{ user }}
+      user:
+        name: "{{ user }}"
+        state: present
+    - name: Authentication
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        line: 'Match User Alexandr PasswordAuthentication no'
+        insertbefore: BOF
+
+    - name: Install sudo on centos
+      when: ansible_distribution == 'CentOS'
+      yum:
+        name:
+          - sudo
+
+    - name: Add user Alexandr for upgrade command
+      when: ansible_distribution == 'CentOS'
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        line: 'Alexandr ALL=(ALL) NOPASSWD: ALL'
+        insertbefore: BOF
+
+
+    - name: Add user {{ user }} for upgrade command
+      when: ansible_distribution == 'Ubuntu'
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        line: 'Alexandr ALL=(ALL) NOPASSWD: ALL'
+        insertbefore: BOF
+
+    - name: Check user
+      shell: |
+        grep "{{ user }}" /etc/passwd
+        date
+        env
+      register: out
+    - debug:
+        msg: "{{ out.stdout_lines }}"
+    - name: System upgrade by Alexandr
+      remote_user: Alexandr
+      when: ansible_distribution == 'CentOS'
+      shell: |
+        sudo yum upgrade -y
+    - name: System upgrade by Alexandr
+      remote_user: Alexandr
+      when: ansible_distribution == 'Ubuntu'
+      shell: |
+        sudo apt upgrade -y     
