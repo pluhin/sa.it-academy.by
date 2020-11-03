@@ -1,0 +1,12 @@
+---
+- name: Apache disable and stop servce 
+  service:
+    name: "{{ 'apache2' if (ansible_os_family == 'Debian') else 'httpd' }}"
+    state: stopped
+    enabled: no
+
+- name: nginx Enable and start servce 
+  service:
+    name: nginx
+    state: started
+    enabled: yes

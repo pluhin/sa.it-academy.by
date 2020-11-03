@@ -1,0 +1,13 @@
+---
+# Installing the nginx packages (Both Debian & CentOS)
+- name: Installing the nginx packages
+  include: instPackages.yaml
+  tags:
+    - inst
+
+# Apache stopping if exist, starting nginx
+- name: Apache stopping if exist, starting nginx
+  include: apacheStopping.yaml
+  tags:
+    - inst
+
