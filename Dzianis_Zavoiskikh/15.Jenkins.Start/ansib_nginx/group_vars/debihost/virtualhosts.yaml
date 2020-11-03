@@ -1,0 +1,5 @@
+virtualhosts:
+  deb:
+    dz15:
+      server_name: dz15.jenkins.com
+      vhost_root: /usr/share/nginx/dz15

@@ -1,0 +1,8 @@
+---
+# Installing nginx on Debian needs just the nginx
+- name: Install Debian packages (nginx)
+  apt:
+    name: "{{ apt_packages_list }}"
+    state: present
+    # update_cache: yes
+  when: ansible_os_family == 'Debian'
