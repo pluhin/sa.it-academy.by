@@ -1,0 +1,18 @@
+---
+- name: Nginx. Install packages
+  yum:
+    name: 
+      - http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+      - nginx
+    state: present
+
+#- name: HTTPD. Remove welcome file
+#  file:
+#    path: "/etc/httpd/conf.d/welcome.conf"
+#    state: absent
+
+- name: Nginx. Enable and start servce
+  service:
+    name: nginx
+    state: started
+    enabled: yes
