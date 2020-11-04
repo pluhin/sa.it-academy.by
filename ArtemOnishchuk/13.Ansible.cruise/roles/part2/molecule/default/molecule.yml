@@ -1,0 +1,16 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: instance1
+    image: ubuntu:bionic
+  - name: instance2
+    image: centos:centos7
+  - name: instance3
+    image: alpine:latest
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

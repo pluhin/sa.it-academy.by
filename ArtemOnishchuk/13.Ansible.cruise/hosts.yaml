@@ -1,0 +1,20 @@
+ec_all:
+  children:
+    ec:
+      vars:
+        data: 1
+      hosts:
+        centos:
+          ansible_host: 192.168.203.9
+        ubuntu:
+          ansible_host: 192.168.203.10
+#    ec_ws:
+#      hosts:
+#        worker_ws_01:
+#          ansible_host: 192.168.31.1
+#        worker_ws_02:
+#          ansible_host: 192.168.32.2
+jump:
+  hosts:
+    jump_sa:
+      ansible_host: 178.124.206.53
