@@ -1,0 +1,11 @@
+---
+apt_packages_list:
+  - nginx
+
+yum_packages_list:
+  - epel-release
+  - nginx
+
+server_name: "{{ ansible_fqdn }}"
+
+server_ip: "{{ ansible_host }}"
