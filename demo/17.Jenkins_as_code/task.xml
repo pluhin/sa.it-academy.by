@@ -1,0 +1,75 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.40">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.7.2"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.7.2">
+      <jobProperties>
+        <string>jenkins.model.BuildDiscarderProperty</string>
+      </jobProperties>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.1.1"/>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>5</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.31">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.83">
+    <script>pipeline { 
+    agent any
+    options {
+        buildDiscarder(logRotator(numToKeepStr:&apos;5&apos;))
+        ansiColor(&apos;xterm&apos;)
+    }
+    stages {
+        stage(&apos;Clone repository&apos;) { 
+            steps { 
+                git url: &apos;https://github.com/pluhin/sa.it-academy.by.git&apos;
+            }
+        }
+        stage(&apos;Checking repository&apos;){
+            steps { 
+                sh &quot;ls -l&quot;
+            }
+        }
+        stage(&apos;Packing project&apos;) {
+            steps {
+                sh &quot;&quot;&quot;
+                tar -zcvf /tmp/package.tar.gz  ./
+                &quot;&quot;&quot;
+                deleteDir()
+                sh &quot;mv /tmp/package.tar.gz  ./&quot;
+            }
+        }
+        stage(&apos;Packing test&apos;) {
+            steps {
+                sh &quot;ls -l&quot;
+            }
+        }
+        stage(&apos;Packing test 2&apos;) {
+            steps {
+                sh &quot;ls -la&quot;
+            }
+        }
+    
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
