@@ -1,0 +1,139 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+  labels:
+    app: sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+      - name: sonarr
+        image: linuxserver/sonarr
+        ports:
+        - containerPort: 8989
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  labels:
+    app: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+      - name: radarr
+        image: linuxserver/radarr
+        ports:
+        - containerPort: 7878
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx-image
+        image: nginx
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr-web-service 
+  labels:
+    run: radarr-web-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 7878
+    protocol: TCP
+  selector:
+    app: radarr
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarr-web-service 
+  labels:
+    run: sonarr-web-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8989
+    protocol: TCP
+  selector:
+    app: sonarr
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-web-service 
+  labels:
+    run: nginx-web-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: nginx
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-sa
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: sonarr.k8s-8.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: sonarr-web-service
+          servicePort: 8989
+  - host: radarr.k8s-8.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: radarr-web-service
+          servicePort: 7878
+  - host: nginx.k8s-8.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nginx-web-service
+          servicePort: 80

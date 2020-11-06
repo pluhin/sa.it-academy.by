@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx-image
+        image: nginx
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-web-service 
+  labels:
+    run: nginx-web-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: nginx
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-sa
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: nginx.k8s-8.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nginx-web-service
+          servicePort: 80
