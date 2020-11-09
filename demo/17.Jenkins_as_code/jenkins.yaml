@@ -72,31 +72,8 @@ data:
                     directEntry:
                       privateKey: |
                         -----BEGIN RSA PRIVATE KEY-----
-                        MIIEowIBAAKCAQEAsQL99OXhUkmrSEGeNdjDKa7TKAixoUTD3nfrx2NqacMK4HBD
-                        Z8eIgIXeXhfu+Qs0eTKyR/qgJ2U9ZJSuAbnnqr6kt+8c65WNcbcD4c48SBtWLuFO
-                        E6huEAKCuXuixImbSrDjBTTJdMaQE6ufjKQgadJLaS+a4EK1gU2VuYDtW51MxDCN
-                        FpkM2J+NKgbkQIDkUCEQcKP8nThqNRqoswv8JES8FX9BINy+vlxMi6Fm76/4xFko
-                        U+el9uFKaB0X0GMS6m8VWppWrX0S4NSIm0sNW7Btc1isoS8+R2oDj8AxfqnDdtj1
-                        vNQpGF2C8LbpTl1JKJ9WpkgXYMsR4n9WkhLb/QIDAQABAoIBAFWjh/BjA4dHQwn7
-                        TSrqC0nwXhKBWkcWuNi6FiVqMMKobWu2hLYB8EWV/sZxN9nflOyKHXz7gV5t+aze
-                        zezh33ZZM+IVWl2UBlGc5NDrcXjFWQXnVVnnZBB01oAck9wYYzxYpg0Pw+OuaWhK
-                        4S8u/MuVxYxHTtvvCldbjPOpr6xheNXC9vtSuQJ2B3PlxsLp+ySgCVG4ed6BwxwU
-                        dxotNuHuGB8CeyC5RqI2ioUmsohWF8Vys4vm7AQrENBd0/RA1TVnG1ZAXsH+wsT4
-                        Di17zYlQeugedl0lwLBTo2JjvjkZkaExHuwxr1mk6IXZHqxetOY9iMnB+PVfVEMs
-                        GQnBvjUCgYEA3654PKwlmBoHiH+qfhFg3MrTDfHgu5M/FsUyqY5VRHQDHKFqAzRQ
-                        ibHpPOBggbiklZrb2MyJm/0h8WGDifgM5jxo9xXADcMMuvUa3PVbfQJtHMG2kNzJ
-                        yfzVgUAAdcusmuVWme8Z3dHbAWQsAQ6hvY28mSJ3JWJ6PCea7dF6eAsCgYEAypZM
-                        g1wnitNBMzIz8YbC+AWfSEezPyyMqXt0lBHkD2sq/cGONmGdyhK+5tmD7XuBnv5a
-                        0aKfArExyalhkzB5K9ikw9JqSpN4a1UsE60nb24qjPogRIss6fO32dc6eeXfWgoO
-                        EaRePzPGtIWLnyClGP79poSb/68btAy14rGrGRcCgYAlTgG7jLJQZbbv6urST6+p
-                        4yHD550la29QKt9CK/zIh9ilA76cfjMYY9WUU4+E0viQAt27kJE6tMLecPbxIa91
-                        Dooq+zOml+sdmxc51qnFdYwhCaWbD1eQGly5S6VIAAnvY2RIE/pqZj9yQfSc0IXl
-                        CSh1GaxpTb05HxnVo+Qa9QKBgQDGVWjo/bKUvgfJ+G9UGSwNp2tuVwvMYHABiSTz
-                        xaQx2CiJsBHreZwB9mJBHViEinK3VqtRK1VjTFjC5nnpoP4wB/Qe5oQ7KK8u3X6+
-                        cLn35LHxvPsUP/EjxgALXCQarQsCWm+1o+bFF4qEt22ex1X658EqYg9bvXJwzjTP
-                        kENC1wKBgE0ZgxRTd/chb5J1FqZUoC2sOaZMjEdtGtZHGf05PVouv2SVT4P4TzAp
-                        +2R2jb4cXJrDT/WojMRZLtCy3lTs43eyPD3xWfLtdClbCVKRkZ5/PpNpXoRzn35N
-                        wSBhnu8DOFxPzJb1eMFfjsq+uGvtHdO74vrvn75D2ADrN4zMeX76
+                        
+                        
                         -----END RSA PRIVATE KEY-----
                   scope: GLOBAL
                   username: "github-jenkins"
