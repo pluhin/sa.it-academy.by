@@ -1,0 +1,15 @@
+---
+apt_nginx_packages:
+  - nginx
+
+yum_nginx_packages:
+  - nginx
+
+default_home: "/usr/share/nginx/html"
+
+site_deb: "local-deb.site"
+site_cent: "local-cent.site"
+
+virtual_hosts:
+  - { name: "{{ site_deb }}", ip: "{{ hostvars[\"cw_2\"].ansible_host }}"}
+  - { name: "{{ site_cent }}", ip: "{{ hostvars[\"cw_1\"].ansible_host }}"}
