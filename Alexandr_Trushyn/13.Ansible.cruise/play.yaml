@@ -1,0 +1,7 @@
+---
+- hosts: cw
+  become: yes
+  #  strategy: free
+  roles:
+  - web
+  - test

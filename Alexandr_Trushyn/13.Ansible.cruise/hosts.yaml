@@ -1,0 +1,28 @@
+#[all:children]
+#cw
+#ta
+
+#courses workstation
+#[cw]
+#cw_1 ansible_host=192.168.203.15 env=main
+#cw_2 ansible_host=192.168.203.16 env=slave
+
+#test ansible
+#[ta]
+#ta_1 ansible_host=192.168.0.3 env=test
+
+all:
+  children:
+    cw:
+      vars:
+        data: 1
+      hosts:
+        cw_1:
+          ansible_host: 192.168.203.15
+        cw_2:
+          ansible_host: 192.168.203.16
+    ta:
+      vars:
+      hosts:
+        ta_1:
+          ansible_host: 192.168.0.3
