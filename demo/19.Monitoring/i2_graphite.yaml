@@ -1,0 +1,82 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: graphite
+  namespace: monitoring
+  labels:
+    type: ClusterIP
+spec:
+  type: ClusterIP
+  selector:
+    app: icinga-graphite
+    tier: graphite
+  ports:
+  - name: graphite
+    protocol: TCP
+    port: 80
+    targetPort: graphite
+  - name: graphite-carbon
+    protocol: TCP
+    port: 2003
+    targetPort: graphite-carbon
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graphite
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: icinga-graphite
+      tier: graphite
+  template:
+    metadata:
+      labels:
+        app: icinga-graphite
+        tier: graphite
+    spec:
+      hostname: graphite
+      restartPolicy: Always
+      containers:
+      - name: graphite
+        image: graphiteapp/graphite-statsd:latest
+        imagePullPolicy: Always
+        ports:
+        - name: graphite
+          containerPort: 80
+        - name: graphite-carbon
+          containerPort: 2003
+        volumeMounts:
+        ## NFS shares
+        - name: i2-graphite-storage
+          mountPath: /opt/graphite/storage
+        - name: i2-graphite-conf
+          mountPath: /opt/graphite/conf
+      volumes:
+      - name: i2-graphite-conf
+        nfs:
+          server: 192.168.37.105
+          path: /mnt/IT-Academy/Icinga2/graphite-conf
+      - name: i2-graphite-storage
+        nfs:
+          server: 192.168.37.105
+          path: /mnt/IT-Academy/Icinga2/graphite
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: graphite
+  namespace: monitoring
+spec:
+  rules:
+  - host: graphite.it-academy.by
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: graphite
+          servicePort: 80

@@ -1,0 +1,138 @@
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: webserver
+  namespace: monitoring
+  labels:
+    type: ClusterIP
+spec:
+  type: ClusterIP
+  selector:
+    app: icinga-webserver
+    tier: webserver
+  ports:
+  - name: webserver
+    protocol: TCP
+    port: 80
+    targetPort: webserver
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: icinga-webserver
+      tier: webserver
+  template:
+    metadata:
+      labels:
+        app: icinga-webserver
+        tier: webserver
+    spec:
+      hostname: webserver
+      restartPolicy: Always
+      containers:
+      - name: webserver
+        image: pluhin31/icinga2-web:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 300m
+            memory: 300Mi
+          limits:
+            cpu: 1000m
+            memory: 1000Mi
+        ports:
+        - name: webserver
+          containerPort: 80
+        volumeMounts:
+        - name: resources-ini
+          mountPath: /etc/icingaweb2/resources.ini
+          subPath: resources.ini
+        - name: i2web-commandtransports-ini
+          mountPath: /etc/icingaweb2/modules/monitoring/commandtransports.ini
+          subPath: commandtransports.ini
+        - name: i2web-graphite-ini
+          mountPath: /etc/icingaweb2/modules/graphite/config.ini
+          subPath: config.ini
+      volumes:
+      - name: resources-ini
+        configMap:
+          name: i2web-resources-ini
+      - name: i2web-commandtransports-ini
+        configMap:
+          name: i2web-commandtransports-ini
+      - name: i2web-graphite-ini
+        configMap:
+          name: i2web-graphite-ini
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: webserver
+  namespace: monitoring
+spec:
+  rules:
+  - host: icinga2.it-academy.by
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: webserver
+          servicePort: 80
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: i2web-resources-ini
+  namespace: monitoring
+data:
+  resources.ini: |
+    [icingaweb_db]
+    type = "db"
+    db = "pgsql"
+    host = "192.168.204.81"
+    port = "5432"
+    dbname = "icingaweb2"
+    username = "icingaweb2"
+    password = "***"
+    prefix = "icingaweb_"
+
+    [icinga_ido]
+    type = "db"
+    db = "pgsql"
+    host = "192.168.204.81"
+    port = "5432"
+    dbname = "icinga"
+    username = "icinga"
+    password = "***"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: i2web-graphite-ini
+  namespace: monitoring
+data:
+  config.ini: |
+    [graphite]
+    url = http://graphite.monitoring.svc.cluster.local
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: i2web-commandtransports-ini
+  namespace: monitoring
+data:
+  commandtransports.ini: |
+    [icinga2]
+    transport = "api"
+    host = "icinga2-core.icinga2.svc.cluster.local"
+    port = "5665"
+    username = "root"
+    password = "***"
