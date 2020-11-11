@@ -1,0 +1,24 @@
+---
+- name: Install uti
+  yum:
+    name: "{{ utilities }}"
+
+- name: Add repo
+  get_url:
+    url: 'https://pkg.jenkins.io/redhat-stable/jenkins.repo'
+    dest: '/etc/yum.repos.d/jenkins.repo'
+
+- name: Import key
+  rpm_key:
+    key: 'https://pkg.jenkins.io/redhat-stable/jenkins.io.key'
+    state: present
+
+- name: Install Jenkins
+  yum:
+    name: jenkins
+
+- name: Start Jenkins
+  systemd:
+    name: jenkins
+    state: started
+    enabled: yes
