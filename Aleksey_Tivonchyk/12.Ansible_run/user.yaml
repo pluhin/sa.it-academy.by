@@ -1,0 +1,42 @@
+---
+- hosts: ita
+  vars:
+    user: Alx
+  tasks:
+    - name: Add user "{{ user }}"
+      user:
+        name: "{{ user }}"
+        state: present
+    - name: Authentication
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        line: 'Match User Alx PasswordAuthentication no'
+        insertafter: EOF
+    - name: Install sudo on Centos
+      when: ansible_distribution == 'CentOS'
+      shell: |
+        yum install sudo -y
+    - name: Add user for upgrade command
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        line: 'Alx ALL=(ALL) NOPASSWD: ALL'
+        insertbefore: BOF
+    - name: Check user
+      shell: |
+        grep "{{ user }}" /etc/passwd
+      register: out
+    - debug:
+        msg: "{{ out.stdout_lines }}"
+    - name: CentOS upgrade by Alx
+      remote_user: Alx
+      when: ansible_distribution == 'CentOS'
+      shell: |
+        sudo yum upgrade -y
+    - name: Ubuntu upgrade by Alx
+      remote_user: Alx
+      when: ansible_distribution == 'Ubuntu'
+      shell: |
+        sudo apt-get update -y
+        sudo apt-get upgrade -y 

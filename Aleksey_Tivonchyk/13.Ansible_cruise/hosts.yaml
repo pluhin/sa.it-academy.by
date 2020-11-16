@@ -1,0 +1,6 @@
+ita:
+  hosts:
+    centos:
+      ansible_host: 192.168.203.13
+    ubuntu:
+      ansible_host: 192.168.203.14
