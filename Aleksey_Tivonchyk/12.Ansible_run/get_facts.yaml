@@ -1,0 +1,18 @@
+---
+- hosts: ita
+  tasks:
+    - name: Get mountpoints
+      debug:
+        msg: "Avalible space: {{ ansible_facts.mounts[0].size_available }} | Total space: {{ ansible_facts.mounts[0].size_total }}"
+      tags:
+        - facts      
+    - name: Get OS release
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+      tags:
+        - facts
+    - name: Get Ram
+      debug:
+        msg: "{{ ansible_facts.memory_mb.real }}"
+      tags:
+        - facts
