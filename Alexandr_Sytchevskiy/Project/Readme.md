@@ -10,7 +10,7 @@
 - [CI & CD GitHub repository](https://github.com/Sanchelioss/DevOps_Project.git)
 
 ### Pipeline. High Level Design
-![alt text](scheme.png)
+![alt text](scheme.jpg)
 
 ### Technologies which were used in project
 - **Orchestration:** Jenkins
