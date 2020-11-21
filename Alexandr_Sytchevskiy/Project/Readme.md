@@ -5,7 +5,7 @@
 
 ## Description of application for deployment
 - Name: Nextcloud
-- Application is written in PHP, Javaskript and other...
+- Application is written in PHP, Javascript and other...
 - Used database: MariaDB
 - [CI & CD GitHub repository](https://github.com/Sanchelioss/DevOps_Project.git)
 
