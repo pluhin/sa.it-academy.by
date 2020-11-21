@@ -1,0 +1,20 @@
+---
+- name: Update and Install
+  yum: name={{ item }} update_cache=yes
+  loop: [ 'epel-release', 'nginx']
+- name: Nginx Enable and start
+  systemd:
+    name: nginx
+    state: started
+
+- name: Copy nginx config
+  template:
+    src: centos.conf.j2
+    dest: "{{ nginx_config_path }}"
+  notify:
+    - restart nginx
+
+- name: Copy index.html Centos
+  copy:
+    src: centos/index.html
+    dest: "{{ centos_home_path }}"
