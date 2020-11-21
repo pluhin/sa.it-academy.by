@@ -60,4 +60,4 @@
 
 ### Usefull links
 
-[Github bitnami-docker-wordpress](https://github.com/nextcloud/docker.git)
+[Github nexctloud](https://github.com/nextcloud/docker.git)
