@@ -1,0 +1,2 @@
+domain_name: "jenkins-15.sa"
+nginx_config_path: "/etc/nginx/conf.d/jekins.conf"
