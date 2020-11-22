@@ -1,0 +1,6 @@
+---
+vm:
+  hosts:
+    redmine:
+      ansible_host: 192.168.205.12
+      ansible_user: root
