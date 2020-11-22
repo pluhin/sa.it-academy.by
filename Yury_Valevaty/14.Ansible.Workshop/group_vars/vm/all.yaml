@@ -1,0 +1,17 @@
+apt_redmine_packages:
+  - mysql-server
+  - mysql-client
+  - python-pymysql
+  - python-mysqldb
+  - git
+  - ruby-full
+  - build-essential
+  - libmysqlclient-dev
+  - imagemagick
+  - libmagickwand-dev
+  - apache2
+  - libapache2-mod-passenger
+
+app_repo: "https://github.com/redmine/redmine.git"
+app_home: /opt/redmine
+app_version: 4.0-stable

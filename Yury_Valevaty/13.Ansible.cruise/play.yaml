@@ -1,0 +1,7 @@
+---
+- hosts: vms
+  become: yes
+  roles:
+    - web
+    - test
+
