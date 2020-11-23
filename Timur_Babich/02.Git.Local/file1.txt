@@ -1,3 +1,0 @@
-this is file1.txt
-dev branch
-Пан 23 ліс 2020 16:54:41 +03
