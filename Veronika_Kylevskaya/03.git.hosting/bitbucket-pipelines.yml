@@ -1,0 +1,19 @@
+# This is an example Starter pipeline configuration
+# Use a skeleton to build, test and deploy using manual and parallel steps
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: atlassian/default-image:2
+
+pipelines:
+  default:
+    - step:
+        name: Email notification
+        script:
+          - pipe: atlassian/email-notify:0.3.8 
+            variables: 
+              USERNAME: 'mrishkaa@gmail.com' 
+              PASSWORD: $PASSWORD 
+              FROM: 'mrishkaa@gmail.com' 
+              TO: 'mrishkaa@gmail.com' 
+              HOST: 'smtp.gmail.com'
+              BODY_PLAIN: "!! bitbucket NEW action !!"
