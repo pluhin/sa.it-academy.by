@@ -4,7 +4,8 @@
 *.pyc
 *.retry
 .*.swp
-/.vagrant
+.vagrant
+*.log
 env
 __pycache__
 .idea/*
