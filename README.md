@@ -1,18 +1,46 @@
-# DevOps course
+CREATING BRANCHES
 
-Main purpose of this repository is collaboration of homework for study groups
+1) Added file Andrew.txt in master. 
+Made the first commit.
 
-## Links
+Added text in file: Andrew is a good guy. 
+Made the second commit.
 
-- How to join to the course [IT Academy site](https://www.it-academy.by/)
-- Shared slides (with recorded webinars): [GDRIVE](https://drive.google.com/open?id=0B7-pec-Rldg3fmZyRTdHb1NzUmwzcUxGdVNBNEpndTFVa00wcHFVLUlIbHpiS0FrbEd5QzQ)
-- Our [Calendar](https://calendar.google.com/calendar/embed?src=g0hu9oa3gerlib7gmo74ghbvsk@group.calendar.google.com&ctz=Europe/Minsk&pli=1)
+2) Created second branch based on Master. 
+Modified text to:
+Andrew is NOT a good guy.
+Made the first commit to dev.
 
-## Contacts & communication
+Modified text to "Andrew is NOT a good guy, but he is from BELARUS."
 
-- Slack channels for groups [sa-itacademy-by.slack.com](https://sa-itacademy-by.slack.com), invite only
-- Author's email [pluhin@gmail.com](pluhin@gmail.com)
+3) Created branch "features/do_one" containing both commits from Master and both commits from Dev.
 
-## CI/CD
+Modified text to:
+Andrew is NOT a good guy, but he is from BELARUS.
+BELARUS is great.
 
-In preparing
+Made commit to "features/do_one".
+
+4) Created branch "hotfix/we_gonna_die" containing both commits from Master.
+
+Modified text to:
+Andrew is a good guy. Andrew is from BELARUS.
+
+Made commit to "hotfix/we_gonna_die" 
+
+RELEASE PHASE
+
+1) Merged dev and features/do_one in Master.
+
+Now the text is as following:
+Andrew is NOT a good guy, but he is from BELARUS.
+BELARUS is great.
+
+2) Checked out "hotfix/we_gonna_die" 
+Found hash of the commit (a7a1ab2)
+
+Tried to cherry pick this commit to Master. 
+
+Solved conflict. Commited to Master.
+
+New text in Master after hotfix: Andrew is a good guy. Andrew is from BELARUS. BELARUS is great.
