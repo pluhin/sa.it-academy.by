@@ -1,4 +1,4 @@
-<h1> CREATING BRANCHES </h1>
+<h2> CREATING BRANCHES </h2>
 
 1) Added file Andrew.txt in master. 
 Made the first commit.
@@ -28,7 +28,7 @@ Andrew is a good guy. Andrew is from BELARUS.
 
 Made commit to "hotfix/we_gonna_die" 
 
-RELEASE PHASE
+<h2> RELEASE PHASE </h2>
 
 1) Merged dev and features/do_one in Master.
 
