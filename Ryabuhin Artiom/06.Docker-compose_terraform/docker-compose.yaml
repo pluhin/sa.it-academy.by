@@ -1,0 +1,50 @@
+version: '2'
+services:
+#    apache:
+#        image: docker.io/bitnami/apache:2.4-debian-10
+#        volumes:
+#            - /path/to/html:/www/html
+#        ports:
+#            - 8080:8080
+
+#    nginx:
+#        build:
+#            context: .
+#            dockerfile: dockerfile
+#        container_name: nginx_01
+#        links:
+#            - "radarr"
+#            - "sonarr"
+#        volumes:
+#            - /path/to/www:/var/lib/nginx/html
+#        ports:
+#            - 8080:80
+    web:
+        image: nginx
+        volumes:
+            - ./html:/usr/share/nginx/html
+#            - ./config_n:/config_n
+        ports:
+            - "8080:80"
+        depends_on:
+            - sonarr
+            - radarr
+
+    sonarr:
+        image: linuxserver/sonarr
+        container_name: sonarr
+        volumes:
+            - /path/to/config:/config_s
+            - /path/to/nzbget/downloads:/downloads
+            - /path/to/plex/Shows:/tv
+        ports:
+            - 8989:8989
+    radarr:
+        image: linuxserver/radarr
+        container_name: radarr
+        volumes:
+            - /path/to/radarr/config:/config_r
+            - /path/to/nzbget/downloads:/downloads
+            - /path/to/plex/Movies:/movies
+        ports:
+            - 7878:7878
