@@ -1,0 +1,6 @@
+app_fqdn: "project.zz.com.ru"
+USER: newuser
+VERSION: "001"
+image_db: "mysql:5.6"
+image_wp: "wordpress:5.5.3-php7.2-apache"
+nginx_config_path: "/etc/nginx/conf.d/{{ app_fqdn }}.conf"

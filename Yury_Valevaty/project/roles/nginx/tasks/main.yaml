@@ -1,0 +1,17 @@
+---
+- name: Add epel
+  yum:
+    name: epel-release
+
+- name: Install utilities
+  yum:
+    name: "{{ utilities }}"
+
+- name: Set httpd_can_network_connect
+  shell: |
+    setsebool -P httpd_can_network_connect 1
+
+- name: Enable and start nginx
+  systemd:
+    name: nginx
+    state: started

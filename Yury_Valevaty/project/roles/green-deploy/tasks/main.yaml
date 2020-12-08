@@ -1,0 +1,129 @@
+---
+- name: "Creating user {{ USER }}"
+  user:
+    name: "{{ USER }}"
+    comment: Managed by ansible
+    state: present
+
+- name: Create a directory mysql
+  file:
+    path: "/var/www/{{ app_fqdn }}/{{ VERSION }}/mysql"
+    state: directory
+    owner: "{{ USER }}"
+    group: "{{ USER }}"
+    mode: 0755
+
+- name: Copy dump db
+  copy:
+    src: /vagrant/dump.sql
+    dest: "/var/www/{{ app_fqdn }}/dump.sql"
+    owner: "{{ USER }}"
+    group: "{{ USER }}"
+    mode: 0644
+    force: yes
+
+- name: Copy env file
+  template:
+    src: env.conf
+    dest: "/var/www/{{ app_fqdn }}/{{ VERSION }}/.env"
+    mode: 0644
+
+- name: Copy docker-compose file
+  template:
+    src: docker-compose.yml
+    dest: "/var/www/{{ app_fqdn }}/{{ VERSION }}"
+    mode: 0644
+
+- name: Extract files from archive
+  unarchive:
+    src: /vagrant/wordpress.tar.gz
+    dest: "/var/www/{{ app_fqdn }}/{{ VERSION }}"
+
+- name: Run docker-compose up
+  shell: docker-compose -f docker-compose.yml --env-file .env up -d
+  args:
+    chdir: "/var/www/{{ app_fqdn }}/{{ VERSION }}"
+
+- name: Pause for runing app
+  pause:
+    seconds: 15
+
+- name: "Import db to {{ app_fqdn }} v.{{ VERSION }}"
+  shell: "docker exec -i db-{{ app_fqdn }}-{{ VERSION }} /usr/bin/mysql -u root --password={{ MYSQL_ROOT_PASSWORD }} {{ WORDPRESS_DB_NAME }} < /var/www/{{ app_fqdn }}/dump.sql"
+
+- name: Add nginx conf
+  template:
+    src: site.conf.j2
+    dest: "{{ nginx_config_path }}"
+  notify:
+    - restart nginx
+- meta: flush_handlers
+
+- name: "Add {{ app_fqdn }} to host file"
+  shell: echo "127.0.0.1 {{ app_fqdn }}" >> /etc/hosts
+  tags:
+    - test
+
+- name: Curl and check output
+  block:
+    - name: Curl content
+      uri:
+        url: "http://{{ app_fqdn }}"
+        return_content: yes
+      register: webpage
+      failed_when: "'WordPress' not in webpage.content"
+      tags:
+        - test
+    - name: Print content
+      debug:
+        msg: "{{ webpage.content }}"
+      tags:
+        - test
+
+  rescue:
+    - name: Send notification message to Slack
+      slack:
+        token: "{{ slack_token }}"
+        channel: '#sa'
+        username: 'Ansible sender'
+        msg: 'Green deploy task: failed'
+        icon_url: https://agardner.net/wp-content/uploads/2018/08/ansible-logo.png
+        parse: 'full'
+      tags:
+        - test
+
+    - name: Run rollback
+      block:
+        - name: "Run docker-compose down v.{{ VERSION }}"
+          shell: docker-compose down
+          args:
+            chdir: "/var/www/{{ app_fqdn }}/{{ VERSION }}"
+
+        - name: "Delete directory {{ app_fqdn }} v.{{ VERSION }}"
+          file:
+            path: "/var/www/{{ app_fqdn }}/{{ VERSION }}"
+            state: absent
+        
+        - lineinfile:
+            path: /etc/hosts
+            state: absent
+            regexp: '^127.0.0.1 {{ app_fqdn }}'
+          tags:
+            - test
+        - meta: end_play
+
+- lineinfile:
+    path: /etc/hosts
+    state: absent
+    regexp: '^127.0.0.1 {{ app_fqdn }}'
+
+- name: Send notification message to Slack
+  slack:
+    token: "{{ slack_token }}"
+    channel: '#sa'
+    username: 'Ansible sender'
+    msg: 'Green deploy task: Successed'
+    icon_url: https://agardner.net/wp-content/uploads/2018/08/ansible-logo.png
+    parse: 'full'
+  tags:
+    - test

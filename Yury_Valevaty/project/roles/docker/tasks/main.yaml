@@ -1,0 +1,45 @@
+---
+- name: Install packages for Docker
+  yum:
+    name:
+      - yum-utils
+    state: present
+    update_only: yes
+- name: Add Docker repo
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docer-ce.repo
+  become: yes
+  tags:
+    - never
+
+- name: Install Docker
+  yum:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+  become: yes
+
+- name: Install docker-compose
+  get_url:
+    url : https://github.com/docker/compose/releases/download/1.27.4/docker-compose-Linux-x86_64
+    dest: /usr/bin/docker-compose
+    mode: 'u+x,g+x'
+  become: yes
+
+- name: Enable docker
+  shell: |
+    usermod -aG docker $USER
+    chown $USER /var/run/docker.sock
+    systemctl enable docker
+  args:
+    executable: /bin/bash
+
+- name: Start Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  become: yes
