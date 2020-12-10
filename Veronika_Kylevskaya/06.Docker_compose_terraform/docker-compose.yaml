@@ -1,0 +1,47 @@
+version: '3.4'
+
+services:
+  sonarr:
+    image: hotio/sonarr
+    container_name: sonarr
+    ports:
+      - "5001:8989"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ="Etc/UTC"
+      - ARGS=""
+      - DEBUG="no"
+    volumes:
+      - sonarr_config:/config
+  radarr:
+    image: hotio/radarr
+    container_name: radarr
+    ports:
+      - "5002:7878"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ="Etc/UTC"
+      - ARGS=""
+      - DEBUG="no"
+    volumes:
+      - radarr_config:/config
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    container_name: app
+    ports:
+      - "5000:5000"
+volumes:
+  radarr_config:
+  sonarr_config:
+
+   
+
+
+    
+   
