@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+   db:
+     image: ${image_db}
+     volumes:
+       - /var/www/${APP_FQDN}/${VERSION}/mysql:/var/lib/mysql
+     restart: always
+     container_name: db-${APP_FQDN}-${VERSION}
+     environment:
+       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+       MYSQL_DATABASE: ${MYSQL_DATABASE}
+       MYSQL_USER: ${MYSQL_USER}
+       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+   wordpress:
+     depends_on:
+       - db
+     image: ${image_wp}
+     ports:
+       - 8${VERSION}:80
+     restart: always
+     container_name: wp-${APP_FQDN}-${VERSION}
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+       WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+       WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+     volumes:
+       - /var/www/${APP_FQDN}/${VERSION}/wordpress:/var/www/html

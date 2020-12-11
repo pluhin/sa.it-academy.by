@@ -1,0 +1,166 @@
+---
+- name:  Check old version
+  shell: "cat /etc/nginx/conf.d/{{ app_fqdn }}.conf | grep proxy_pass | rev | cut -c2-4 | rev"
+  register: out
+
+- name: Set old version
+  set_fact:
+    OLD_VERSION: "{{ out.stdout }}"
+
+- meta: end_play
+  when: "VERSION in out.stdout"
+
+- name: "Creating user {{ USER }}"
+  user:
+    name: "{{ USER }}"
+    comment: Managed by ansible
+    state: present
+
+- name: Create a directory wordpress
+  file:
+    path: "/var/www/{{ app_fqdn }}/{{ VERSION }}/wordpress"
+    state: directory
+    owner: "{{ USER }}"
+    group: "{{ USER }}"
+    mode: 0755
+
+- name: Create a directory mysql
+  file:
+    path: "/var/www/{{ app_fqdn }}/{{ VERSION }}/mysql"
+    state: directory
+    owner: "{{ USER }}"
+    group: "{{ USER }}"
+    mode: 0755
+
+- name: Copy env file
+  template:
+    src: env.conf
+    dest: "/var/www/{{ app_fqdn }}/{{ VERSION }}/.env"
+    mode: 0644
+
+- name: Copy docker-compose file
+  template:
+    src: docker-compose.yml
+    dest: "/var/www/{{ app_fqdn }}/{{ VERSION }}"
+    mode: 0644
+
+- name: "Rcync directory wordpress {{ app_fqdn }} v.{{ OLD_VERSION }} to v.{{ VERSION }}"
+  shell: "rsync -avH /var/www/{{ app_fqdn }}/{{ OLD_VERSION }}/wordpress /var/www/{{ app_fqdn }}/{{ VERSION }}/wordpress"
+
+- name: Run docker-compose up
+  shell: docker-compose -f docker-compose.yml --env-file .env up -d
+  args:
+    chdir: "/var/www/{{ app_fqdn }}/{{ VERSION }}"
+
+- name: Copy dump file
+  template:
+    src: dump.sh
+    dest: "/var/www/{{ app_fqdn }}/{{ OLD_VERSION }}"
+    mode: 0644
+
+- name: "Backup db {{ app_fqdn }} v.{{ OLD_VERSION }}"
+  shell: sh dump.sh
+  args:
+    chdir: "/var/www/{{ app_fqdn }}/{{ OLD_VERSION }}"
+
+- name: Pause for runing app
+  pause:
+    seconds: 15
+
+- name: "Import db to {{ app_fqdn }} v.{{ VERSION }}"
+  shell: "docker exec -i db-{{ app_fqdn }}-{{ VERSION }} /usr/bin/mysql -u root --password={{ MYSQL_ROOT_PASSWORD }} {{ WORDPRESS_DB_NAME }} < /var/www/{{ app_fqdn }}/dump.sql"
+
+- name: Add nginx conf
+  template:
+    src: site.conf.j2
+    dest: "{{ nginx_config_path }}"
+  notify:
+    - restart nginx
+- meta: flush_handlers
+
+- name: "Add {{ app_fqdn }} to host file"
+  shell: echo "127.0.0.1 {{ app_fqdn }}" >> /etc/hosts
+  tags:
+    - test
+
+- name: Curl and check output
+  block:
+    - name: Curl content
+      uri:
+        url: "http://{{ app_fqdn }}"
+        return_content: yes
+      register: webpage
+      failed_when: "'WordPress' not in webpage.content"
+      tags:
+        - test
+    - name: Print content
+      debug:
+        msg: "{{ webpage.content }}"
+      tags:
+        - test
+
+  rescue:
+    - name: Send notification message to Slack
+      slack:
+        token: "{{ slack_token }}"
+        channel: '#sa'
+        username: 'Ansible sender'
+        msg: 'Update task: failed'
+        icon_url: https://agardner.net/wp-content/uploads/2018/08/ansible-logo.png
+        parse: 'full'
+      tags:
+        - test
+
+    - name: Run rollback
+      block:
+        - name: Add old nginx conf
+          template:
+            src: site-old.conf.j2
+            dest: "{{ nginx_config_path }}"
+          notify:
+            - restart nginx
+        - meta: flush_handlers
+
+        - name: "Run docker-compose down v.{{ VERSION }}"
+          shell: docker-compose down
+          args:
+            chdir: "/var/www/{{ app_fqdn }}/{{ VERSION }}"
+
+        - name: "Delete directory {{ app_fqdn }} v.{{ VERSION }}"
+          file:
+            path: "/var/www/{{ app_fqdn }}/{{ VERSION }}"
+            state: absent
+        
+        - lineinfile:
+            path: /etc/hosts
+            state: absent
+            regexp: '^127.0.0.1 {{ app_fqdn }}'
+          tags:
+            - test
+        - meta: end_play
+
+- lineinfile:
+    path: /etc/hosts
+    state: absent
+    regexp: '^127.0.0.1 {{ app_fqdn }}'
+
+- name: Run docker-compose down
+  shell: docker-compose down
+  args:
+    chdir: "/var/www/{{ app_fqdn }}/{{ OLD_VERSION }}"
+
+- name: "Delete directory {{ app_fqdn }} v.{{ OLD_VERSION }}"
+  file:
+    path: "/var/www/{{ app_fqdn }}/{{ OLD_VERSION }}"
+    state: absent
+
+- name: Send notification message to Slack
+  slack:
+    token: "{{ slack_token }}"
+    channel: '#sa'
+    username: 'Ansible sender'
+    msg: 'Update task: Successed'
+    icon_url: https://agardner.net/wp-content/uploads/2018/08/ansible-logo.png
+    parse: 'full'
+  tags:
+    - test
