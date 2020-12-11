@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/managed-by: Tiller
     app.kubernetes.io/instance: kube-state-metric
   name: kube-state-metric-kube-state-metrics
-  namespace: kubernetes-dashboard
+  namespace: kube-system
 imagePullSecrets:
   []
   
@@ -184,14 +184,14 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: kube-state-metric-kube-state-metrics
-  namespace: kubernetes-dashboard
+  namespace: kube-system
 ---
 # Source: kube-state-metrics/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: kube-state-metric-kube-state-metrics
-  namespace: kubernetes-dashboard
+  namespace: kube-system
   labels:
     app.kubernetes.io/name: kube-state-metrics
     helm.sh/chart: "kube-state-metrics-2.8.4"
@@ -216,7 +216,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kube-state-metric-kube-state-metrics
-  namespace: kubernetes-dashboard
+  namespace: kube-system
   labels:
     app.kubernetes.io/name: kube-state-metrics
     helm.sh/chart: "kube-state-metrics-2.8.4"
