@@ -1,0 +1,30 @@
+---
+- hosts: ec
+  #gather_facts: False
+  #strategy: free
+  #serial: 1
+  vars:
+    var_01: "Hi"
+    var_02: True
+    var_03: 42
+  tasks:
+    - name: Print variables 
+      debug:
+        msg: "{{ var_01 }} | {{ var_02 }} | {{ var_03 }}"
+      tags:
+      - host::vars
+    - name: Print facts
+      debug:
+        msg: "{{ ansible_facts.mounts[0].size_total }}"
+    - name: Print facts
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+    - name: Debug
+      debug:
+        msg: "Hi from {{ inventory_hostname }}"
+    - name: Debug
+      debug:
+        msg: "{{ hostvars[inventory_hostname].ansible_machine }}"
+      tags:
+      - host::vars
+      - host_vars
