@@ -1,8 +1,8 @@
-#CREATING BRANCHES
+##CREATING BRANCHES
 
-1) Added file Andrew.txt in master. Made the *first commit*. Added text in file: Andrew is a good guy. Made the second commit.
++1) Added file Andrew.txt in master. Made the *first commit*. Added text in file: Andrew is a good guy. Made the second commit.
 
-2) Created *second branch* based on Master. 
++2) Created *second branch* based on Master. 
 Modified text to:
 Andrew is NOT a good guy.
 Made the first commit to dev.
@@ -24,7 +24,7 @@ Andrew is a good guy. Andrew is from BELARUS.
 
 Made commit to *"hotfix/we_gonna_die"* 
 
-#RELEASE PHASE
+##RELEASE PHASE
 
 1) Merged *dev* and *features/do_one* in *Master*.
 
