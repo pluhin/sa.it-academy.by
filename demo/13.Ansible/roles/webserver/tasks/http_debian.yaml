@@ -1,0 +1,11 @@
+---
+- name: Apache2. Install packages
+  apt:
+    name: "{{ apt_http_packages }}"
+    state: present
+    update_cache: yes
+- name: Apache2. Enable and start service
+  service:
+    name: apache2
+    state: started
+    enabled: yes

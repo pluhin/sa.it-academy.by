@@ -1,0 +1,5 @@
+---
+- hosts: ec
+  become: True
+  roles:
+    - webserver
