@@ -1,8 +1,8 @@
 ##CREATING BRANCHES
 
-+1) Added file Andrew.txt in master. Made the *first commit*. Added text in file: Andrew is a good guy. Made the second commit.
+1) Added file Andrew.txt in master. Made the *first commit*. Added text in file: Andrew is a good guy. Made the second commit.
 
-+2) Created *second branch* based on Master. 
+) Created *second branch* based on Master. 
 Modified text to:
 Andrew is NOT a good guy.
 Made the first commit to dev.
