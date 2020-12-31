@@ -1,0 +1,43 @@
+---
+- hosts: work_host
+  vars:
+    str_hi: "Test mounts"
+  tasks:
+    - name: Print mounts
+      debug:
+        msg: "Total: {{ ansible_facts.mounts[0].size_total }} Available: {{ ansible_facts.mounts[0].size_available }}"
+    - name: Print OS
+      debug:
+        msg: "{{ansible_system}} {{ ansible_distribution }} {{ ansible_distribution_version }}"
+    - name: Add user
+      user:
+        name: "{{ add_user_name }}"
+        comment: Managed by ansible
+        state: present
+    - name: Check user after added
+      shell: |
+        grep "{{ add_user_name }}" /etc/passwd
+        date
+      register: out
+    - name: Debag out
+      debug:
+        msg: "{{ out.stdout_lines }}"
+    - name: Set key
+      ansible.posix.authorized_key:
+        user: "{{ add_user_name }}"
+        state: present
+        key: "{{ lookup('file', '/home/denis/.ssh/it-academy.pub') }}"
+        path: /etc/ssh/authorized_keys/fedor
+        manage_dir: False
+    - name: Add sudo for sentos
+      shell: |
+        yum install sudo -y
+      when:
+        - ansible_facts['distribution'] == "CentOS"
+    - name: Writes sudoers
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^{{ add_user_name }} ALL='
+        line: '{{ add_user_name }} ALL=(ALL:ALL) NOPASSWD: ALL'
+        validate: /usr/sbin/visudo -cf %s
