@@ -1,0 +1,21 @@
+---
+- hosts: lh_ubuntu
+  become: true
+  vars:
+    home_dir: /opt/redmine
+    default_app_fqdn: "redmine-6.sa"
+  pre_tasks:
+  - debug:
+      msg: "{{ ansible_host }}"
+  roles:
+    - requirements
+    - role: redmine_db
+      vars:
+        app_home: "{{ home_dir }}"
+    - role: redmine_app
+      vars:
+        app_home: "{{ home_dir }}"
+        app_fqdn: "{{ default_app_fqdn }}"
+    - role: redmine_test
+      vars:
+        app_fqdn: "{{ default_app_fqdn }}"
