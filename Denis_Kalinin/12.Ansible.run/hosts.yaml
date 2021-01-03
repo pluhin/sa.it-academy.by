@@ -1,0 +1,19 @@
+---
+ec:
+  hosts:
+    first:
+      ansible_host: 192.168.202.9
+    second:
+      ansible_host: 192.168.202.10
+my:
+  hosts:
+    vagrant:
+      ansible_host: 192.168.100.103
+
+work_host:
+  vars:
+    ansible_user: root
+    add_user_name: fedor
+  children:
+    ec:
+    my:

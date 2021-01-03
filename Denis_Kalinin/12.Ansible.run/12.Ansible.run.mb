@@ -1,0 +1,15 @@
+##Description
+```
+    - name: Print mounts
+    - name: Print OS
+    - name: Add user
+    - name: Check user after added
+    - name: Debag out
+    - name: Set key (add ssh key) 
+    - name: Add sudo for sentos (add only for centos, because doesn't have access /etc/sudoers, skipped Ubuntu)
+    - name: Write sudoers (validates if not exist add NOPASSWD for user)
+```
+
+
+
+![Image 1](result.png)
