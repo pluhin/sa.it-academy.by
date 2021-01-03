@@ -1,0 +1,14 @@
+---
+- name: Redmine. Install packages (requirements)
+  apt:
+    name: "{{ apt_redmine_packages }}"
+    state: latest
+    update_cache: yes
+
+- name: Redmine. Clone repository
+  git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_home }}"
+    version: '{{ app_version }}'
+    accept_hostkey: yes
+    update: no

@@ -1,0 +1,11 @@
+---
+all_hosts:
+  hosts:
+    redmine:
+      ansible_host: 192.168.201.6
+      ansible_user: root
+    lh_ubuntu:
+      ansible_host: 192.168.44.56
+      ansible_user: vagrant
+
+      
