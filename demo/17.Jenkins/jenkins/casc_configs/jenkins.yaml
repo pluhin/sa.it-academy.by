@@ -1,0 +1,74 @@
+jenkins:
+  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n"
+  numExecutors: 5
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+        - string:
+            description: "Slack integration token"
+            id: "slack_token"
+            scope: GLOBAL
+            secret: "XXX"
+        - usernamePassword:
+            description: "For github"
+            id: "github-https"
+            password: "XXX"
+            scope: GLOBAL
+            username: "XXX"
+        - basicSSHUserPrivateKey:
+            id: "github-ssh"
+            privateKeySource:
+              directEntry:
+                privateKey: |
+                    -----BEGIN RSA PRIVATE KEY-----
+                    MIIEowIBAAKCAQEApYKxIMWe8WTzmJgUOxJEgozx0NJZ573eVTYozOSH2okrlvK3
+                    G156RKv0RpZO81vhsw7yjFkpXM0kziGiECrnmP0VCDII0vaLXPJbuVdZTUQqfnnL
+                    HlOCv+N3iMhcvcUxifNV6I11KLxX+Xr0izVm1CvJPC2iw0bBjnqf2mOSiTpBTiSK
+                    kDiZ62EMar7Q8RbvbkKd1NY9qhCHo+EeggITS8/K94OLpMUIT4HwjjQ5nUrGQ/rs
+                    Wsre7jyeVeja+MaKiMsZx/EXm/JMIDk0uySqTUA6d2mngNHxFg+w/tTfhfQXp4ha
+                    VK2nOoUizpMT1RmISwDma7RnZoYHGK4pYp51cwIDAQABAoIBACus1yz8uTqeFyH3
+                    T69e3LFOnCksuQjMM7Vsu0uGKstiUxxcJDGWttEURzuxQlg5sM9dbGfYx29zuvii
+                    K2/0wnS+pCQrf+Sbpp76XXYFNM2M5WHGpfD0vJYCYnK33LE/LhlnGw5o9bewK87r
+                    wUhS6TWn8ExvBnpdW4pLlY89o1eOmTOdDcv20uj4yEX3YkXjNOPVjV9M1nuIk0c4
+                    qF4JcO+xIHbYx1L3HwahTbzBjoyUGF4uruEoWj7mBe9tjA6Ccl4HcEafcZwbULcG
+                    ms4Yl8/jBreVYOOnIFn9kYR6Spz2finwGh9NV4IQmWteI3ZKGVmaqrKoZ2yX9CM6
+                    Cw/mbmECgYEA0In8dIo0lHQiPBAUY6A57SFHhWgCXSO9690Ygywmu+OSLdXqnCWn
+                    c+OG9zmv6Cds6UjHstP8R32fd1BJ5Ty6068QAolsA+ZWvGqF90Y1WHAbOUa/T8j1
+                    GwxOyAcvJ3tqOxcrTxQ6l0rT6bHKCiFKtDJuWFAcHrcLi6gM0oRAzUkCgYEAyy3B
+                    kgbGuYfFFi7LlPBi38tzGUz4B1yfTgFnW7tvxQy6jBu/J2VSi128NFzn3Nd/HHOe
+                    y8BQAbSkx0F9v//dZebRw6MQk0lqOehV/BtT1RGnDaUh8UR1qQzzwA07kQgu7QxC
+                    VrmxSASmx6oCwbHzAw4P7je7x6Y4mUtpy3xwGNsCgYEAosjzzq0Luk6lYqlSoSoz
+                    zY1K3TKBld8OpA1k0xAl9EkClNEFYHpsKqSTeG0JiXktJTVw3YFozw2a63I7HLy5
+                    QgDHyJMpRCoLzuyAQrQFdFGejqlRMaC25DRJUw94maNXG2VMo2AxFGSO4z+rbRjr
+                    zZoIVNvD953/XzcBO1uNkjECgYAbE8f+TATj6OItKKNdAARNSvHV51oOsRtR7AH4
+                    SayFmEKsNW5uM6SiiiVw3QjRd66q/gWlpcWD1K05GNNHaTP6Rp6h8fNdjaUofnwn
+                    EwVDGg0nVmCFpNgBZYZ+i8TqeSq30LBummSz8lq/tTqU0cBPIeqhlq/h1ZcpZtF8
+                    muLdjQKBgAuvZYCUU+BYMBNDbFdCuWT09qzEEmTDTLZDTdSv5E4jZ/ZLL03VZm7F
+                    Uh4hwAb+lQ3ZlxYZjHoIVhUvHYzVp0mxn3dq5YScxZEMrLu0dSZG/eTOqGoM60xR
+                    lUedCFJ5LalzqCcpgk0rARn2dF0i24IbkeBKMgxROqQ2FgLTk9Ft
+                    -----END RSA PRIVATE KEY-----
+            scope: GLOBAL
+            username: "github-jenkins"
+unclassified:
+  mailer:
+    authentication:
+      password: "XXX"
+      username: "XXX"
+    charset: "UTF-8"
+    replyToAddress: "no-reply@it-academy.by"
+    smtpHost: "mailbe01.hoster.by"
+    smtpPort: "2525"
+    useSsl: false
+    useTls: false
+  slackNotifier:
+    botUser: false
+    room: "integration"
+    sendAsText: false
+    teamDomain: "sa-itacademy-by"
+    tokenCredentialId: "slack_token"
+  location:
+    adminAddress: "pluhin@gmail.com"
+    url: "http://jenkinsci.it-academy.by/"
+  shell:
+    shell: "/bin/bash"
