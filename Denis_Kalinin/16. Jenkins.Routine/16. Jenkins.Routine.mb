@@ -1,0 +1,122 @@
+## Jenkins output
+```
+Started by user kds
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/nmap
+[nmap] $ /bin/bash /tmp/jenkins3902464274957440771.sh
+Failed to add the host to the list of known hosts (/var/lib/jenkins/.ssh/known_hosts).
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 52:54:00:4d:77:d3 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global noprefixroute dynamic eth0
+       valid_lft 78709sec preferred_lft 78709sec
+    inet6 fe80::5054:ff:fe4d:77d3/64 scope link 
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:2f:e3:d6 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.200/24 brd 192.168.1.255 scope global noprefixroute eth1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a00:27ff:fe2f:e3d6/64 scope link 
+       valid_lft forever preferred_lft forever
+[nmap] $ /bin/bash /tmp/jenkins9734213118746758937.sh
+PING 192.168.1.200 (192.168.1.200) 56(84) bytes of data.
+64 bytes from 192.168.1.200: icmp_seq=1 ttl=64 time=0.248 ms
+64 bytes from 192.168.1.200: icmp_seq=2 ttl=64 time=1.02 ms
+64 bytes from 192.168.1.200: icmp_seq=3 ttl=64 time=0.934 ms
+
+--- 192.168.1.200 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2033ms
+rtt min/avg/max/mdev = 0.248/0.732/1.016/0.344 ms
+[nmap] $ /bin/bash /tmp/jenkins2772531356029835041.sh
+Failed to add the host to the list of known hosts (/var/lib/jenkins/.ssh/known_hosts).
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.datacenter.by
+ * extras: mirror.datacenter.by
+ * updates: mirror.datacenter.by
+Resolving Dependencies
+--> Running transaction check
+---> Package nmap.x86_64 2:6.40-19.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package        Arch             Version                   Repository      Size
+================================================================================
+Installing:
+ nmap           x86_64           2:6.40-19.el7             base           3.9 M
+
+Transaction Summary
+================================================================================
+Install  1 Package
+
+Total download size: 3.9 M
+Installed size: 16 M
+Downloading packages:
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : 2:nmap-6.40-19.el7.x86_64                                    1/1 
+  Verifying  : 2:nmap-6.40-19.el7.x86_64                                    1/1 
+
+Installed:
+  nmap.x86_64 2:6.40-19.el7                                                     
+
+Complete!
+[nmap] $ /bin/bash /tmp/jenkins16985854633694960789.sh
+Failed to add the host to the list of known hosts (/var/lib/jenkins/.ssh/known_hosts).
+
+Starting Nmap 6.40 ( http://nmap.org ) at 2021-01-17 15:42 UTC
+Nmap scan report for laptop (192.168.1.1)
+Host is up (0.00033s latency).
+MAC Address: 0A:00:27:00:00:02 (Unknown)
+Nmap scan report for 192.168.1.200
+Host is up.
+Nmap done: 256 IP addresses (2 hosts up) scanned in 2.09 seconds
+[nmap] $ /bin/bash /tmp/jenkins17693180861245251077.sh
+Failed to add the host to the list of known hosts (/var/lib/jenkins/.ssh/known_hosts).
+Loaded plugins: fastestmirror
+Resolving Dependencies
+--> Running transaction check
+---> Package nmap.x86_64 2:6.40-19.el7 will be erased
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package        Arch             Version                  Repository       Size
+================================================================================
+Removing:
+ nmap           x86_64           2:6.40-19.el7            @base            16 M
+
+Transaction Summary
+================================================================================
+Remove  1 Package
+
+Installed size: 16 M
+Downloading packages:
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Erasing    : 2:nmap-6.40-19.el7.x86_64                                    1/1 
+  Verifying  : 2:nmap-6.40-19.el7.x86_64                                    1/1 
+
+Removed:
+  nmap.x86_64 2:6.40-19.el7                                                     
+
+Complete!
+[nmap] $ /bin/bash /tmp/jenkins11893454533695405515.sh
+Failed to add the host to the list of known hosts (/var/lib/jenkins/.ssh/known_hosts).
+Loaded plugins: fastestmirror
+No Match for argument: nmap
+No Packages marked for removal
+Finished: SUCCESS
+```
