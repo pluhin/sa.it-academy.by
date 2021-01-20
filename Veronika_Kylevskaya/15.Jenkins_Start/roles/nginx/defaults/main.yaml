@@ -1,0 +1,2 @@
+domain_name: "veronika.com"
+nginx_config_path: "/etc/nginx/conf.d/jekins.conf"jj

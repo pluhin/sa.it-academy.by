@@ -1,0 +1,20 @@
+---
+- name: Add epel-release
+  yum:
+    name: epel-release
+
+- name: Install nginx
+  yum:
+    name: nginx
+
+- name: Start nginx
+  systemd:
+    name: nginx
+    state: started
+
+- name: Add nginx config
+  template:
+    src: jenkins.conf.j2
+    dest: "{{ nginx_config_path }}"
+  notify:
+    - restart nginx
