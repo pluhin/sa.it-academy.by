@@ -1,0 +1,23 @@
+pipeline {
+    agent { label 'Node1nfs' }
+    options {
+        buildDiscarder(logRotator(numToKeepStr:'5'))
+        ansiColor('xterm')
+    }
+    stages {
+        stage('01.git push to repo') {
+            steps {
+                echo 'push..'
+                sh """
+                cd /mnt/nfs/scripts
+                bash git_push_to_repo.sh
+                """
+            }
+        }
+        stage('Done message') {
+            steps {
+                echo 'Done....'
+            }
+        }
+    }
+} 
