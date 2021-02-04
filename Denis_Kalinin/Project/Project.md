@@ -8,7 +8,7 @@
 * Application: Java, Tomcat, Spring Boot
 * Database: Postgresql
 
-####Technologies for CI/CD
+#### Technologies for CI/CD
 
 * Orchestration: Jenkins
 * Automation tools: Jenkins
