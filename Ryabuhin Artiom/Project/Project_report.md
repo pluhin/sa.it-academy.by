@@ -11,6 +11,8 @@
 ### SCM: GitHub
 ### Other: kubernetes, Mysql, PHP (HESK), ngrok
 
+### git repo with PHP (HESK) code https://github.com/CHESTER-ART/hesk
+
 ## CI description:
 ## Deployment flows short description:
 
