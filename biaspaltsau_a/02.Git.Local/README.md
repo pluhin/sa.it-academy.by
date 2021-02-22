@@ -44,3 +44,53 @@
 
 '''
 ## FINAL
+'''
+
+$ git branch
+* dev
+  features
+  hotfix
+  master
+
+
+
+
+$ git log --oneline
+### master
+0e135d6 (HEAD -> master) Merge branch 'hotfix'
+ea30760 (hotfix) 1 hotfix commit
+88bfe45 (features) 1 features commit
+f93c2b4 2 dev commit
+dd5c900 1 dev commit
+9f310b2 2 master commit
+d1cedd4 1 commit
+  
+### dev  
+$ git log --oneline
+d28e213 (HEAD -> dev) Merge branch 'hotfix' into dev
+ea30760 (hotfix) 1 hotfix commit
+f93c2b4 2 dev commit
+dd5c900 1 dev commit
+9f310b2 2 master commit
+d1cedd4 1 commit
+
+### hotfix
+$ git log --oneline
+ea30760 (HEAD -> hotfix) 1 hotfix commit
+9f310b2 2 master commit
+d1cedd4 1 commit
+
+### features
+  
+88bfe45 (HEAD -> features) 1 features commit
+f93c2b4 2 dev commit
+dd5c900 1 dev commit
+9f310b2 2 master commit
+d1cedd4 1 commit
+
+
+
+'''
+
+
+
