@@ -69,11 +69,10 @@ $ git log --oneline
 d28e213 (HEAD -> dev) Merge branch 'hotfix' into dev
 ea30760 (hotfix) 1 hotfix commit
 f93c2b4 2 dev commit
-```
 dd5c900 1 dev commit
 9f310b2 2 master commit
 d1cedd4 1 commit
-
+```
 ### hotfix
 ```
 $ git log --oneline
