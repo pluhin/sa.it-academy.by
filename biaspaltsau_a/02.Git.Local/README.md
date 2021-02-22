@@ -1,5 +1,5 @@
 ## 02.Git.Local
-'''
+
    38  git clone https://github.com/MsWik/sa.it-academy.by
    39  ls
    40  git init
@@ -42,18 +42,13 @@
    87  history
 
 
-'''
-## FINAL
-'''
 
+## FINAL
 $ git branch
 * dev
   features
   hotfix
   master
-
-
-
 
 $ git log --oneline
 ### master
@@ -87,10 +82,3 @@ f93c2b4 2 dev commit
 dd5c900 1 dev commit
 9f310b2 2 master commit
 d1cedd4 1 commit
-
-
-
-'''
-
-
-
