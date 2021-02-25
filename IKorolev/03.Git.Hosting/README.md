@@ -13,9 +13,21 @@
 
 ## SSH keys:
 
-<img src="Image/buc_ssh.png" width="50%" height="50%">
+<img src="Image/buc_ssh.png" width="55%" height="54%">
 
-<img src="Image/hub_ssh.png" width="50%" height="50%">
+<img src="Image/hub_ssh.png" width="55%" height="54%">
 
-<img src="Image/lab_ssh.png" width="50%" height="50%">
+<img src="Image/lab_ssh.png" width="55%" height="54%">
 
+
+..* bitbucket
+
+<img src="Image/buc_slack.png" width="54%" height="52%">
+
+..* github
+
+<img src="Image/hub_slack.png" width="54%" height="52%">
+
+..* gitlab
+
+<img src="Image/lab_slack.png" width="54%" height="52%">
