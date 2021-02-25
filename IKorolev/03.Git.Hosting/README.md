@@ -2,7 +2,8 @@
 # 03. GIT hosting
 ---
 ## Links to remote repositories:
-..
+
+
 > [bitbucket.org](https://bitbucket.org/Korolev731/test_buc)
 
 > [gitlab.com](https://gitlab.com/Korolev731/test_lab)
