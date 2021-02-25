@@ -20,14 +20,25 @@
 <img src="Image/lab_ssh.png" width="55%" height="54%">
 
 
-..* bitbucket
+* bitbucket
 
 <img src="Image/buc_slack.png" width="54%" height="52%">
 
-..* github
+* github
 
 <img src="Image/hub_slack.png" width="54%" height="52%">
 
-..* gitlab
+* gitlab
 
 <img src="Image/lab_slack.png" width="54%" height="52%">
+
+
+## Script:
+
+```bash
+#!/bin/bash
+git push -u 1 --all
+git push -u 2--all
+git push -u 3 --all
+
+```
