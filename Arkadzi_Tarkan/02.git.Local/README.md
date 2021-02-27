@@ -1,6 +1,6 @@
-#Home task 02.git.local
+# Home task 02.git.local
 
-##history
+## history
 
 ```
   337  cd git_devops_course
@@ -50,7 +50,7 @@
   381  git log --oneline
 ```
 
-##master
+## master
 
 ```
 2538d4f (HEAD -> master) first h_w1 commit
@@ -61,7 +61,7 @@ e0145ad second d2 commit
 6e135d0 first m1 commit
 ```
 
-##dev
+## dev
 
 ```
 c828373 (HEAD -> dev) first h_w1 commit
@@ -71,7 +71,7 @@ e0145ad second d2 commit
 6e135d0 first m1 commit
 ```
 
-##features/do_one
+## features/do_one
 
 ```
 98718e2 (HEAD -> features/do_one) first h_w1 commit
@@ -82,7 +82,7 @@ e0145ad second d2 commit
 6e135d0 first m1 commit
 ```
 
-##hotfix/we_gonna_die
+## hotfix/we_gonna_die
 
 ```
 f2d169a (HEAD -> hotfix/we_gonna_die) first h_w1 commit
