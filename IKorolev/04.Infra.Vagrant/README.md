@@ -1,3 +1,7 @@
+
+04. Vagrant
+---
+
 # Vagrant boxes
 
 * [debian](https://app.vagrantup.com/Korolev731/debian_test)
@@ -66,9 +70,6 @@ end
 
 > vagrant halt
 * Halt virtual machine.
-
-
-
 
 
 
