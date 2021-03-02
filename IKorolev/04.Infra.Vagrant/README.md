@@ -4,7 +4,7 @@
 * [centos8](https://app.vagrantup.com/Korolev731/centos8)
 
 
-##Vagrantfile Debian
+## Vagrantfile Debian
 
 ```
 Vagrant.configure("2") do |config|
@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
 end
 
 ```
-##Vagrantfile Centos
+## Vagrantfile Centos
 
 ```
 Vagrant.configure("2") do |config|
@@ -55,17 +55,17 @@ end
 
 ##Basic Vagrant Usage
 
-> vagrant ssh
-SSH into virtual machine.
+> vagrant ssh 
+.* SSH into virtual machine.
 
 > vagrant up
-Start virtual machine.
+.* Start virtual machine.
 
 > vagrant share
-Share your virtual machine to the world via a temporary and unique url.
+.* Share your virtual machine to the world via a temporary and unique url.
 
 > vagrant halt
-Halt virtual machine.
+.* Halt virtual machine.
 
 
 
