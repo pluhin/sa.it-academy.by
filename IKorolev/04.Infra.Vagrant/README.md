@@ -53,7 +53,7 @@ end
 ```
 
 
-##Basic Vagrant Usage
+## Basic Vagrant Usage
 
 > vagrant ssh 
 * SSH into virtual machine.
