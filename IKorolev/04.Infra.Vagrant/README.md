@@ -56,16 +56,16 @@ end
 ##Basic Vagrant Usage
 
 > vagrant ssh 
-.* SSH into virtual machine.
+* SSH into virtual machine.
 
 > vagrant up
-.* Start virtual machine.
+* Start virtual machine.
 
 > vagrant share
-.* Share your virtual machine to the world via a temporary and unique url.
+* Share your virtual machine to the world via a temporary and unique url.
 
 > vagrant halt
-.* Halt virtual machine.
+* Halt virtual machine.
 
 
 
