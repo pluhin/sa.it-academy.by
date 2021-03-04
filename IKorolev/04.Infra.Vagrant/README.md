@@ -1,14 +1,10 @@
 04. Vagrant
 ---
-
 # Vagrant boxes
-
 * [debian](https://app.vagrantup.com/Korolev731/debian_test)
 * [centos8](https://app.vagrantup.com/Korolev731/centos8)
 
-
 ## Vagrantfile Debian
-
 ```
 Vagrant.configure("2") do |config|
     config.vm.define "host1" do |debian|
@@ -28,10 +24,8 @@ Vagrant.configure("2") do |config|
     SHELL
   end
 end
-
 ```
 ## Vagrantfile Centos
-
 ```
 Vagrant.configure("2") do |config|
     config.vm.define "host3" do |centos|
@@ -54,8 +48,6 @@ Vagrant.configure("2") do |config|
   end
 end
 ```
-
-
 ## Basic Vagrant Usage
 
 > vagrant ssh 
@@ -69,21 +61,3 @@ end
 
 > vagrant halt
 * Halt virtual machine.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
