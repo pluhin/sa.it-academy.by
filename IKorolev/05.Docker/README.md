@@ -1,21 +1,37 @@
 # 05.Docker
 ## Dockerfile
 ```
-FROM node:10-alpine
+FROM centos:latest
 
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+MAINTAINER IKorolev
 
-WORKDIR /home/node/app
+RUN yum install epel-release -y \
+    && yum update -y \
+    && yum install python3-pip -y \
+    && mkdir /www
 
-COPY package*.json ./
+COPY q.py /www/q.py
 
-USER node
+CMD ["python3", "/www/q.py"]
 
-RUN npm install
+EXPOSE 6526
+```
+[Dockerhub](https://hub.docker.com/r/korolev731/test)
 
-COPY --chown=node:node . .
+## Script_lisener
+```
+import socket
 
-EXPOSE 8080
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-CMD [ "node", "app.js" ]
+
+server.bind(('', 6526))
+server.listen()
+while True:
+      client_socket, addr = server.accept()
+      request = client_socket.recv(1024)
+      print ('Connected ' + addr[0] + ':' + str(addr[1]))
+      client_socket.sendall(b'Its Works!')
+      client_socket.close()
 ```
