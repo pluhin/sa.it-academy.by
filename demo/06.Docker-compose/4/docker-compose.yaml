@@ -1,0 +1,29 @@
+version: '3.4'
+# docker run -d -p 81:80 -v `pwd`/index.html:/usr/share/nginx/html/index.html:ro --name webserver nginx
+# services:
+#   webserver:
+#     image: nginx
+#     container_name: webserver
+#     ports:
+#       - "127.0.0.1:81:80"
+#     volumes:
+#       - ./app:/usr/share/nginx/html:ro
+
+####################
+
+
+services:
+  nginx_svc:
+    image: nginx
+    container_name: php-nginx-nfs
+    ports:
+      - "8100:80"
+    volumes:
+      - data_nfs:/usr/share/nginx/html:ro
+volumes:
+  data_nfs:
+    driver: local
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.1.100,rw,nolock,hard,nointr,nfsvers=4"
+      device: ":/opt/dc/"
