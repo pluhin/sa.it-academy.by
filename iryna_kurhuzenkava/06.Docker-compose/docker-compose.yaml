@@ -1,0 +1,27 @@
+version: '3'
+services:
+  radarr:
+    image: linuxserver/radarr
+    ports:
+      - "7878:7878" # port mapping
+    volumes:
+      - "./config/radarr:/config" # config directory for radarr
+      - "/storage/Downloads/complete:/downloads" # completed downloads directory from sab
+      - "/storage/Movies:/storage/Movies" # where radarr will copy your movies. add as many of these as you need
+    environment:
+      TZ: UTC
+      PUID: 501 # set this to the UID of your user
+      PGID: 501 # set this to the GID of your user
+
+  sonarr:
+    image: linuxserver/sonarr
+    ports:
+      - "8989:8989" # port mapping
+    volumes:
+      - "./config/sonarr:/config" # sonarr config dir
+      - "/storage/Downloads/complete:/downloads" # your completed downloads directory from sab
+      - "/storage/TV:/storage/TV" # where it will copy your files when done. add as many of these as you need
+    environment:
+      TZ: UTC
+      PUID: 501 # set this to the UID of your user
+      PGID: 501 # set this to the GID of your user
