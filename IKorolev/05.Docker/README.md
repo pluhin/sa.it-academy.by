@@ -37,3 +37,13 @@ while True:
     client_socket.sendall(b'Welcome to Server! nakonec poluchilos')
     client_socket.close()
 ```
+## Test Logs
+```
+[dom]# curl localhost:80
+Its Works!
+
+[dom]# telnet localhost 80
+Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
+```
