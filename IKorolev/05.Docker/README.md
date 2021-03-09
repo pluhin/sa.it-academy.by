@@ -43,7 +43,7 @@ while True:
 Its Works!
 
 [dom]# telnet localhost 80
-Trying ::1...
+Trying ::1..
 Connected to localhost.
 Escape character is '^]'.
 ```
