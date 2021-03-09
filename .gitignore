@@ -1,0 +1,14 @@
+*.test
+*.list
+*.pem
+*.pyc
+*.retry
+.*.swp
+.vagrant
+env
+.env
+__pycache__
+.idea/*
+*.iml
+.project
+.terraform
