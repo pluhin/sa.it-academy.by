@@ -1,20 +1,21 @@
 # 05.Docker
 ## Dockerfile
 ```
-FROM centos:latest
+FROM alpine:latest
 
 MAINTAINER IKorolev
 
-RUN yum install epel-release -y \
-    && yum update -y \
-    && yum install python3-pip -y \
-    && mkdir /www
+RUN apk update \
+    && apk upgrade \
+    && apk add --no-cache python3 \
+    && apk add --no-cache py3-pip \
+    && mkdir /myapp
 
-COPY q.py /www/q.py
+COPY q.py /myapp/q.py
 
-CMD ["python3", "/www/q.py"]
+CMD ["python3", "/myapp/q.py"]
 
-EXPOSE 6598
+EXPOSE 6589
 ```
 [Dockerhub](https://hub.docker.com/r/korolev731/test)
 
@@ -22,16 +23,17 @@ EXPOSE 6598
 ```
 import socket
 
+# Configure socket
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
-
-server.bind(('', 6598))
+server.bind(('', 6589))
 server.listen()
+
+# Listen requests
 while True:
-      client_socket, addr = server.accept()
-      request = client_socket.recv(1024)
-      print ('Connected ' + addr[0] + ':' + str(addr[1]))
-      client_socket.sendall(b'Its Works!')
-      client_socket.close()
+    client_socket, addr = server.accept()
+    request = client_socket.recv(1024)
+    print ('Connected ' + addr[0] + ':' + str(addr[1]))
+    client_socket.sendall(b'Welcome to Server! nakonec poluchilos')
+    client_socket.close()
 ```
