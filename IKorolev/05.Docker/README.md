@@ -14,7 +14,7 @@ COPY q.py /www/q.py
 
 CMD ["python3", "/www/q.py"]
 
-EXPOSE 6526
+EXPOSE 6598
 ```
 [Dockerhub](https://hub.docker.com/r/korolev731/test)
 
@@ -26,7 +26,7 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 
-server.bind(('', 6526))
+server.bind(('', 6598))
 server.listen()
 while True:
       client_socket, addr = server.accept()
