@@ -39,11 +39,10 @@ while True:
 ```
 ## Test Logs
 ```
-[dom]# curl localhost:80
-Its Works!
-
-[dom]# telnet localhost 80
-Trying ::1..
+dom@dom:~/1/test/test_hub/docker/2$ telnet localhost 80
+Trying 127.0.0.1...
 Connected to localhost.
 Escape character is '^]'.
+
+Welcome to Server! nakonec poluchilosConnection closed by foreign host.
 ```
