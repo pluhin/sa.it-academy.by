@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+
+  sonarr:
+    image: ghcr.io/linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - TZ=Europe/London
+    volumes:
+      - ./sonarr/data:/config
+      - ./sonarr/tvseries:/tv
+      - ./sonarr/downloadclient-downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  radarr:
+    image: ghcr.io/linuxserver/radarr
+    container_name: radarr
+    environment:
+      - TZ=Europe/London
+    volumes:
+      - ./radarr/data:/config
+      - ./radarr/movies:/movies
+      - ./radarr/downloadclient-downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+  web:
+    depends_on:
+      - sonarr
+      - radarr
+    image: nginx
+    restart: always
+    volumes:
+      - /home/updater/compose/04/www:/usr/share/nginx/html
+    ports:
+      - "8080:80"

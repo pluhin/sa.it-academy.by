@@ -1,5 +1,8 @@
 provider "docker" {}
 
+resource "docker_image" "nginx" {
+  name = "nginx"
+}
 resource "docker_image" "sonarr" {
   name = "linuxserver/sonarr"
 }
@@ -28,6 +31,28 @@ resource "docker_volume" "radarr_movies" {
 }
 resource "docker_volume" "radarr_downloads" {
     name = "radarr_download"
+}
+
+
+resource "docker_container" "nginx" {
+  name    = "nginx"
+  image   = docker_image.nginx.latest
+  volumes {
+    host_path      = "/home/updater/terraform/02/www"
+    container_path = "/usr/share/nginx/html"
+    read_only      = false
+  }
+  ports {
+    internal = "80"
+    external = "8080"
+  }
+    env = [
+    "TZ=Europe/Minsk"
+  ]
+  networks_advanced {
+    name = docker_network.wp.name
+  }
+  depends_on = [docker_container.radarr, docker_container.sonarr]
 }
 
 resource "docker_container" "sonarr" {
