@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  web:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./www:/usr/share/nginx/html:ro
+    ports:
+      - "8098:8099"
+    depends_on:
+      - sonarr
+      - radarr
+    restart: unless-stopped
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    ports:
+      - "8989:8989"
+    restart: unless-stopped
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    ports:
+      - "7878:7878"
+    restart: unless-stopped
