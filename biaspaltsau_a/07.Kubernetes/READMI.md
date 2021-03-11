@@ -9,8 +9,10 @@ minikube addons enable dashboard
 minikube addons enable ingress
 minikube addons list
 kubectl proxy --address='0.0.0.0' --disable-filter=true #& - Фоновый оператор не поддерживается 
- 2078  minikube stop
- 2079  minikube delete
+minikube stop
+minikube delete
 ```
 ## screen
+![alt text](https://github.com/MsWik/sa.it-academy.by/blob/md-sa2-16-21/biaspaltsau_a/07.Kubernetes/s.png)
+![alt text](https://github.com/MsWik/sa.it-academy.by/blob/md-sa2-16-21/biaspaltsau_a/07.Kubernetes/r.png)
 
