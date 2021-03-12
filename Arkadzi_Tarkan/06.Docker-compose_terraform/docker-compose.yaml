@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+
+  web_server:
+    image: nginx
+    container_name: nginx
+    volumes: 
+    - ./index.html:/usr/share/nginx/html/index.html:ro
+    ports:
+    - "127.0.0.1:81:80"
+    depends_on:
+      - sonarr
+      - radarr
+    restart: unless-stopped
+
+  sonarr:
+    image: ghcr.io/linuxserver/sonarr
+    container_name: sonarr
+    volumes:
+      - ./sonarr_data:/config
+      - ./sonarr_tvseries:/tv
+      - ./sonarr_downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  radarr:
+    image: ghcr.io/linuxserver/radarr
+    container_name: radarr
+    volumes:
+      - ./radarr_data:/config
+      - ./radarr_movies:/movies
+      - ./radarr_downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
