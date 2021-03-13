@@ -1,0 +1,33 @@
+version: '3.3'
+services:
+  webserver:
+    image: nginx
+    container_name: webserver
+    ports:
+      - "81:80"
+    links:
+      - 'app1'
+      - 'app2'
+    volumes:
+      - ./app:/usr/share/nginx/html:ro
+    restart: always
+  app1:
+    image: ghcr.io/linuxserver/radarr
+    container_name: radarr
+    volumes:
+      - ./to/app1:/config
+      - ./to/movies1:/movies
+      - ./to/downloads1:/downloads
+    ports:
+      - 7878:7878
+    restart: always
+  app2:
+    image: ghcr.io/linuxserver/sonarr
+    container_name: sonarr
+    volumes:
+      - ./to/app2:/config
+      - ./to/movies2:/movies
+      - ./to/downloads2:/downloads
+    ports:
+      - 8989:8989
+    restart: always

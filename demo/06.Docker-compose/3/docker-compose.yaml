@@ -1,0 +1,23 @@
+
+---
+version: '3.4'
+
+services:
+  front-apache:
+    image: webdevops/php-apache
+    container_name: php-apache
+    ports:
+      - "8200:80"
+    volumes:
+      - local_data:/app:ro
+  front-nginx:
+    image: nginx
+    container_name: php-nginx
+    ports:
+      - "8100:80"
+    volumes:
+      - local_data:/usr/share/nginx/html:ro
+volumes:
+  local_data:
+    external:
+      name: local_data
