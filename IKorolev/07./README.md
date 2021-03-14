@@ -177,6 +177,16 @@
   744  ssh root@192.168.203.9
   745  vim inventory/ws/hosts.yaml
   746  cd ..
-  747  history
-  748  history >> README.md
+  948  apt-get install python3-pip
+  949  pip3  install -r contrib/inventory_builder/requirements.txt
+  950  apt-get install python3-pip
+  951  pip3  install -r contrib/inventory_builder/requirements.txt
+  952  sudo apt install python3-pip
+  953  pip3  install -r contrib/inventory_builder/requirements.txt
+  954  CONFIG_FILE=inventory/ws/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
+  955  ansible-playbook -i inventory/ws/hosts.yaml  -u root cluster.yml
+  956  history 
   ```
+## Screen
+![alt text](https://github.com/Korolev731/sa.it-academy.by/blob/md-sa2-16-21/IKorolev/07./1.png)
+![alt text](https://github.com/Korolev731/sa.it-academy.by/blob/md-sa2-16-21/IKorolev/07./2.png)
