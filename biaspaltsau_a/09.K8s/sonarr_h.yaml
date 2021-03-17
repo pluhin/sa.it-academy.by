@@ -1,0 +1,55 @@
+replicaCount: 1
+
+image:
+  repository: linuxserver/sonarr
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: LoadBalancer
+  port: 8989
+
+ingress:
+  enabled: enable
+  annotations: {}
+    
+  hosts: 
+    - host: helmsonnar.k8s-4.sa
+      paths: ["/"]
+  tls: []
+  
+resources: 
+   limits:
+     cpu: 2000m
+     memory: 2Gi
+   requests:
+     cpu: 2000m
+     memory: 2Gi
+  
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
