@@ -1,0 +1,29 @@
+version: '3.3'
+services: 
+  webserver:
+    image: nginx
+    container_name: webserver
+    ports: 
+      - "9001:80"
+    links: 
+      - 'radarr'
+      - 'sonarr'
+    volumes: 
+      - ./app:/usr/share/nginx/html:ro
+    restart: always
+  radarr:
+    image: ghcr.io/linuxserver/radarr
+    container_name: radarr
+    volumes: 
+      - ./radarr:/config
+    ports: 
+      - 7878:7878
+    restart: always
+  sonarr:
+    image: ghcr.io/linuxserver/sonarr
+    container_name: sonarr
+    volumes: 
+      - ./sonarr:/config
+    ports: 
+      - 8989:8989
+    restart: always
