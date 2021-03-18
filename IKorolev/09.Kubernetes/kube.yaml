@@ -1,0 +1,169 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-front
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx-front
+        image: nginx
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 1Gi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr-app
+  labels:
+    app: sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+      - name: sonarr-app
+        image: linuxserver/sonarr
+        ports:
+        - containerPort: 8989
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 1Gi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr-app
+  labels:
+    app: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+      - name: radarr-image
+        image: linuxserver/radarr
+        ports:
+        - containerPort: 7878
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 1Gi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    run: nginx-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: nginx
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarr-service
+  labels:
+    run: sonarr-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8989
+    protocol: TCP
+  selector:
+    app: sonarr
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr-service
+  labels:
+    run: radarr-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 7878
+    protocol: TCP
+  selector:
+    app: radarr
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-sa
+spec:
+  backend:
+    serviceName: http-front
+    servicePort: 80
+  rules:
+  - host: first.k8s-9.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nginx-service
+          servicePort: 80
+  - host: sonarr.k8s-9.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: sonarr-service
+          servicePort: 8989
+  - host: radarr.k8s-9.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: radarr-service
+          servicePort: 7878
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-config
+data:
+  demo-file: |
+    <html><h1>Hi, POluchiloc </h1></html>
