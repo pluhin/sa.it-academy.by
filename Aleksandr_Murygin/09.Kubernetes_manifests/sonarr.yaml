@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr-web
+  labels:
+    app: simple-app1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-app1
+  template:
+    metadata:
+      labels:
+        app: simple-app1
+    spec:
+      containers:
+      - name: sonarr
+        image: linuxserver/sonarr
+        ports:
+        - containerPort: 8989
+        resources:
+          requests:
+            cpu: 50m
+            memory: 200Mi
+          limits:
+            cpu: 100m
+            memory: 300Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-app1-service
+  labels:
+    run: simple-app1-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8989
+  selector:
+    app: simple-app1
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-sa
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: first.k8s-17.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: simple-app1-service
+          servicePort: 80
