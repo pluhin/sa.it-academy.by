@@ -1,0 +1,59 @@
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: sonarr-deployment
+   labels:
+     app: sonarr
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: sonarr
+   template:
+     metadata:
+       labels:
+         app: sonarr
+ 
+     spec:
+      containers:
+         - name: sonarr
+           image: linuxserver/sonarr
+           ports:
+             - containerPort: 8989
+           resources:
+             requests:
+               cpu: 1000m
+               memory: 2Gi
+             limits:
+               cpu: 1000m
+               memory: 2Gi
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: sonarr-service
+spec:
+  selector:
+    app: sonarr
+  ports:
+  - protocol: TCP
+    port: 8989
+  type: LoadBalancer
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sonarr-ingress
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: sonarr.k8s-13.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: sonarr-service
+          servicePort: 8989
