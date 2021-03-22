@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr-web
+  labels:
+    app: simple-app2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-app2
+  template:
+    metadata:
+      labels:
+        app: simple-app2
+    spec:
+      containers:
+      - name: sonarr
+        image: linuxserver/radarr
+        ports:
+        - containerPort: 7878
+        resources:
+          requests:
+            cpu: 50m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 200Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-app2-service
+  labels:
+    run: simple-app2-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 7878
+  selector:
+    app: simple-app2
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-sa2
+spec:
+  backend:
+    serviceName: default-http-backend2
+    servicePort: 80
+  rules:
+  - host: second.k8s-17.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: simple-app2-service
+          servicePort: 80
