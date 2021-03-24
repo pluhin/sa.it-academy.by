@@ -42,7 +42,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: radarr.k8s-9.sa
+    - host: sonarr.k8s-9.sa
       paths:
       - path: /
         backend: 
