@@ -1,0 +1,18 @@
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "ubuntu/bionic64"
+    config.vm.provider "virtualbox" do |vb|
+       vb.gui = false
+       vb.memory = "1024"
+       vb.cpus = 1
+    end
+    config.vm.network "public_network", ip: "192.168.1.201",  bridge: "wlp2s0"
+    config.vm.provision "ansible", type: "shell", inline: <<-SHELL
+      echo "Installing kubectl"
+      apt-get -qq update && apt-get install -qqy git vim mc curl wget software-properties-common sshpass 
+      apt install -y python3-pip
+      pip3 install ansible==2.9.18 jinja2==2.11.3 netaddr==0.7.19 pbr==5.4.4 jmespath==0.9.5 ruamel.yaml==0.16.10
+      useradd -s /bin/bash -d /home/user/ -m -G sudo user
+      sudo runuser -l user -c 'echo -e "\n\n\n" | ssh-keygen -t rsa'
+    SHELL
+end
