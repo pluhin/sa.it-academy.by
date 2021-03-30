@@ -17,7 +17,7 @@ WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
 ```
 ### Remote hosts
 #### ip/hostname output
-```
+```sh
 sergei@sergei-VirtualBox:~/vebinar11$ ansible -i hosts.yaml all_hosts -m shell -a "hostname && hostname -I" --ask-pass
 SSH password: 
 worker1 | CHANGED | rc=0 >>
@@ -28,7 +28,7 @@ sa-ubuntu-8
 192.168.202.8 
 ```
 #### update output
-```
+```sh
 ansible -i hosts.yaml worker1 -m shell -a "sudo yum upgrade -y" --ask-pass
 SSH password: 
 [WARNING]: Consider using 'become', 'become_method', and 'become_user' rather than running sudo
@@ -40,7 +40,7 @@ Loading mirror speeds from cached hostfile
  * updates: mirror.datacenter.by
 No packages marked for update
 ```
-```
+```sh
 ansible -i hosts.yaml worker2 -m shell -a "sudo apt upgrade -y" --ask-pass
 SSH password: 
 [WARNING]: Consider using 'become', 'become_method', and 'become_user' rather than running sudo
