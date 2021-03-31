@@ -1,4 +1,4 @@
-#### radarr.yaml
+### radar.yaml
 ````
 ---
 apiVersion: apps/v1
@@ -24,11 +24,11 @@ spec:
         - containerPort: 7878
         resources:
           requests:
-            cpu: 50m
-            memory: 50Mi
+            cpu: 1000m
+            memory: 2Gi
           limits:
-            cpu: 100m
-            memory: 100Mi
+            cpu: 1000m
+            memory: 2Gi
 ---
 apiVersion: v1
 kind: Service
@@ -61,6 +61,70 @@ spec:
         backend:
           serviceName: radarr-service
           servicePort: 7878
- `````
- 
- #### sonarr.yaml
+````
+
+### sonarr.yaml
+````
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr-deployment
+  labels:
+    app: sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+      - name: sonarr
+        image: linuxserver/sonarr
+        ports:
+        - containerPort: 8989
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 2Gi
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarr-service
+  labels:
+    run: sonarr-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8989
+    protocol: TCP
+  selector:
+    app: sonarr
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-sonarr
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: sonarr.k8s-11.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: sonarr-service
+          servicePort: 8989
+````
+### next
