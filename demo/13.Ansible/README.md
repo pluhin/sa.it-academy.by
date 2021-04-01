@@ -3,27 +3,24 @@
 ## Install ansible lint and molecule
 
 ```bash
-   4  pip3 install molecule
-    5  pip3 install --upgrade pip setuptools
-    6  pip3 install molecule
-    7  apt search PyYAML
-    8  pip3 install PyYAML
-    9  pip3 install PyYAML --ignore-installed 
-   10  pip3 install molecule
-   11  history 
-    pip3 install molecule-docker
-   15  apt-get install     apt-transport-https     ca-certificates     curl     gnupg     lsb-release
-   16  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-   17  echo   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+pip3 install molecule
+pip3 install --upgrade pip setuptools
+pip3 install molecule molecule-docker 
+
+apt-get install     apt-transport-https     ca-certificates     curl     gnupg     lsb-release
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-   18  apt-get update
-   19  apt-get install docker-ce docker-ce-cli containerd.io
-   20  usermod -aG docker user
+apt-get update
+apt-get install docker-ce docker-ce-cli containerd.io
+usermod -aG docker user
 
+pip3 uninstall docker docker-py docker-compose
+pip3 install docker-compose
 ```
 
 ```
-128  cd ansible/
+  128  cd ansible/
   129  ls
   130  vim web.yaml
   131  vim hosts.yaml 
@@ -111,4 +108,32 @@
   213  molecule test
   214  vim molecule/default/converge.yml 
   215  history 
+```
+---
+
+```bash
+cd ansible/roles/webserver/
+molecule init scenario -d docker
+molecule test
+```
+
+vim molecule/default/molecule.yml 
+
+```yaml
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: instance
+    image: docker.io/pycontribs/centos:7
+    pre_build_image: true
+  - name: instance_deb
+    image: docker.io/pycontribs/ubuntu:latest
+    pre_build_image: true
+provisioner:
+  name: ansible
+verifier:
+  name: ansible
 ```
