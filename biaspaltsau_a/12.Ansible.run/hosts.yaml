@@ -1,0 +1,18 @@
+all_hosts:
+      hosts:
+        worker1:
+          ansible_host: 192.168.203.3
+          ansible_user: root
+          #ubuntu
+        worker2:
+          ansible_host: 192.168.203.4
+          ansible_user: root
+          #ubuntu
+
+
+
+
+jump:
+  hosts:
+    jump_sa:
+      ansible_host: 178.124.206.53
