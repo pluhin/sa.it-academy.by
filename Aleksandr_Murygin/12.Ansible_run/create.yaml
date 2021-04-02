@@ -1,0 +1,61 @@
+---
+ - hosts: ec_all
+   vars:    
+     - user_password: '$6$G60EE/gYsN2$BcEjizSkfW.p4HxsNYHmPP77mZf45/MCHpMTa/fUmcC47KXVCJ.mItzbpsT8wOaVQHQEwjEXrCfzctUqBe2pC0'
+       user: second
+   gather_facts: yes
+ 
+   tasks:
+ 
+   - name: Add a new user  
+     user:
+          name="{{ user }}"
+          password={{ user_password }}
+          shell="/bin/bash"            
+ 
+   - name: Add test user to the sudoers
+     copy:
+          dest: "/etc/sudoers.d/{{ user }}"
+          content: "{{ user }} ALL=(ALL) NOPASSWD: ALL"
+ 
+   - name: Deploy SSH Key
+     authorized_key: user="{{ user }}"
+                     key="{{ lookup('file', '/home/aleks/.ssh/id_rsa.pub') }}"
+                     state=present
+ 
+   - name: Disable Password Authentication
+     lineinfile:
+           dest=/etc/ssh/sshd_config
+           line="Match user {{ user }}"
+           state=present
+           backup=yes
+
+      
+   - name: Disable Password Authentication
+     lineinfile:
+           dest=/etc/ssh/sshd_config
+           line="PasswordAuthentication no"
+           state=present
+           backup=yes
+     notify:
+       - restart ssh
+
+   - name: Test upgrade Ubuntu system by {{ user }}
+     remote_user: "{{ user }}"
+     shell: sudo apt upgrade -y
+     when: ansible_facts['os_family'] == "Debian"
+     register: out
+
+   - name: Test upgrade Centos system by {{ user }}
+     remote_user: "{{ user }}"
+     shell: sudo yum upgrade -y
+     when: ansible_facts['distribution'] == "CentOS"
+     register: out
+
+   handlers:
+   - name: restart ssh
+     service:
+       name=sshd
+       state=restarted
+
+  

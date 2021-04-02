@@ -1,0 +1,18 @@
+---
+- hosts: my
+  vars:
+    var_01: "{{ ansible_facts.mounts[0].size_total }}"
+    var_02: "{{ ansible_facts.mounts[0].size_available }}"
+
+  tasks:
+    - name: OS/version
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+
+    - name: Mountpoint total/used
+      debug: msg="{{ ansible_facts.mounts[0].size_total }} | {{ var_01 | int - var_02 | int }}"        
+
+    - name: RAM total/free
+      debug:
+        msg: "{{ansible_facts.memory_mb.real.total }} | {{ansible_facts.memory_mb.real.free }}"
+
