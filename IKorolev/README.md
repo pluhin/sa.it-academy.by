@@ -1,0 +1,203 @@
+# 12.Ansible
+```
+ansible-playbook play.yaml -i hosts.yaml -u root --sk-vault-pass
+Vault password:
+
+PLAY [ec2] ********************************************************************************
+
+TASK [Gathering Facts] ********************************************************************
+Saturday 03 April 2021  12:56:15 +0000 (0:00:00.031)       0:00:00.031 ********
+ok: [w_2]
+ok: [w_1]
+
+TASK [Set authorized key taken from file] *************************************************
+Saturday 03 April 2021  12:56:24 +0000 (0:00:09.438)       0:00:09.469 ********
+ok: [w_1] => (item=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDUJ/gDEbGEm/oyKfpXieMEK5ZCLPx93MoadzAEbFNaOpORKOB+fpfWQ+sUAynqiMHdKyjS6EU4pP17cUQaafQe3y3zswc3SN+w6Lb7fsX+J7cpxlCuEU0cSU3NBFYvQqXH70G3/7sja51ZLdAZlKtfDfBywng1asa0mk+9TJIJE0UJkTZwlSLXjJl6xWZ4oYeZjP2rcJqJGJyBCYVd3nzj6q42DIOhA8ZR585Q6IPxiiVrzTTOAxOlUuhXCd70mfh/1ftfs4G6EUR4o9Kb6KYyvS4lVP/kNyU8u0p4dNBNjChX2O2AzTlR0R0KN1YaVB7EvrIaGAumzotiPJx user@ubuntu-bionic)
+ok: [w_2] => (item=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDUJ/gDEbGEm/oyKfpXieMEK5ZCLPx93MoadzAEbFNaOpORKOB+fpfWQ+sUAynqiMHdKyjS6EU4pP17cUQaafQe3y3zswc3SN+w6Lb7fsX+J7cpxlCuEU0cSU3NBFYvQqXH70G3/7sja51ZLdAZlKtfDfBywng1asa0mk+9TJIJE0UJkTZwlSLXjJl6xWZ4oYeZjP2rcJqJGJyBCYVd3nzj6q42DIOhA8ZR585Q6IPxiiVrzTTOAxOlUuhXCd70mfh/1ftfs4G6EUR4o9Kb6KYyvS4lVP/kNyU8u0p4dNBNjChX2O2AzTlR0R0KN1YaVB7EvrIaGAumzotiPJx user@ubuntu-bionic)
+
+TASK [Print variables] ********************************************************************
+Saturday 03 April 2021  12:56:29 +0000 (0:00:04.514)       0:00:13.983 ********
+ok: [w_1] => {
+    "msg": "IKorolev | True | 1374"
+}
+ok: [w_2] => {
+    "msg": "IKorolev | True | 1374"
+}
+
+TASK [Print OS] ***************************************************************************
+Saturday 03 April 2021  12:56:29 +0000 (0:00:00.191)       0:00:14.174 ********
+ok: [w_1] => {
+    "msg": "Ubuntu | 18.04"
+}
+ok: [w_2] => {
+    "msg": "CentOS | 7.7"
+}
+
+TASK [Print mount] ************************************************************************
+Saturday 03 April 2021  12:56:29 +0000 (0:00:00.210)       0:00:14.385 ********
+ok: [w_1] => {
+    "msg": [
+        {
+            "block_available": 4602652,
+            "block_size": 4096,
+            "block_total": 5127828,
+            "block_used": 525176,
+            "device": "/dev/loop9",
+            "fstype": "ext4",
+            "inode_available": 1284173,
+            "inode_total": 1310720,
+            "inode_used": 26547,
+            "mount": "/",
+            "options": "rw,relatime",
+            "size_available": 18852462592,
+            "size_total": 21003583488,
+            "uuid": "N/A"
+        }
+    ]
+}
+ok: [w_2] => {
+    "msg": [
+        {
+            "block_available": 4689442,
+            "block_size": 4096,
+            "block_total": 5127828,
+            "block_used": 438386,
+            "device": "/dev/loop8",
+            "fstype": "ext4",
+            "inode_available": 1288130,
+            "inode_total": 1310720,
+            "inode_used": 22590,
+            "mount": "/",
+            "options": "rw,relatime",
+            "size_available": 19207954432,
+            "size_total": 21003583488,
+            "uuid": "N/A"
+        }
+    ]
+}
+
+TASK [Print RAM] **************************************************************************
+Saturday 03 April 2021  12:56:29 +0000 (0:00:00.230)       0:00:14.616 ********
+ok: [w_1] => {
+    "msg": "RAM capacity: 4096, RAM free: 3987"
+}
+ok: [w_2] => {
+    "msg": "RAM capacity: 4096, RAM free: 4002"
+}
+
+PLAY RECAP ********************************************************************************
+w_1                        : ok=6    changed=0    unreachable=0    failed=0    skipped=0   rescued=0    ignored=0
+w_2                        : ok=6    changed=0    unreachable=0    failed=0    skipped=0   rescued=0    ignored=0
+
+Saturday 03 April 2021  12:56:29 +0000 (0:00:00.197)       0:00:14.813 ********
+===============================================================================
+Gathering Facts --------------------------------------------------------------------- 9.44s
+Set authorized key taken from file -------------------------------------------------- 4.51s
+Print mount ------------------------------------------------------------------------- 0.23s
+Print OS ---------------------------------------------------------------------------- 0.21s
+Print RAM --------------------------------------------------------------------------- 0.20s
+Print variables --------------------------------------------------------------------- 0.19s
+Playbook run took 0 days, 0 hours, 0 minutes, 14 seconds
+
+```
+
+```
+ ansible-playbook play_user.yaml -i hosts.yaml -u rot --ask-vault-pass -e group=ec2 -e user_add=IK
+Vault password:
+
+PLAY [ec2] ********************************************************************************
+
+TASK [Gathering Facts] ********************************************************************
+Saturday 03 April 2021  15:28:50 +0000 (0:00:00.055)       0:00:00.055 ********
+ok: [w_1]
+ok: [w_2]
+
+TASK [Print decleared variables] **********************************************************
+Saturday 03 April 2021  15:28:54 +0000 (0:00:03.509)       0:00:03.565 ********
+ok: [w_1] => {
+    "msg": "You requested user IK"
+}
+ok: [w_2] => {
+    "msg": "You requested user IK"
+}
+
+TASK [Create a 2048-bit SSH key for user IK in ~IK/.ssh/id_rsa] ***************************
+Saturday 03 April 2021  15:28:54 +0000 (0:00:00.098)       0:00:03.663 ********
+ok: [w_1]
+ok: [w_2]
+
+TASK [Check if user created] **************************************************************
+Saturday 03 April 2021  15:28:55 +0000 (0:00:01.282)       0:00:04.946 ********
+changed: [w_1]
+changed: [w_2]
+
+TASK [Install sudo on Centos] *************************************************************
+Saturday 03 April 2021  15:28:56 +0000 (0:00:00.922)       0:00:05.868 ********
+skipping: [w_1]
+skipping: [w_2]
+
+TASK [Add user to sudo group if OS is Ubuntu] *********************************************
+Saturday 03 April 2021  15:28:56 +0000 (0:00:00.108)       0:00:05.977 ********
+skipping: [w_1]
+ok: [w_2]
+
+TASK [Add user to wheel group if OS is Centos] ********************************************
+Saturday 03 April 2021  15:28:57 +0000 (0:00:00.746)       0:00:06.724 ********
+skipping: [w_1]
+skipping: [w_2]
+
+TASK [Escalate privileges to sudo nopasswd] ***********************************************
+Saturday 03 April 2021  15:28:57 +0000 (0:00:00.105)       0:00:06.829 ********
+ok: [w_1]
+ok: [w_2]
+
+TASK [debug] ******************************************************************************
+Saturday 03 April 2021  15:28:58 +0000 (0:00:00.882)       0:00:07.711 ********
+ok: [w_1] => {
+    "msg": [
+        "IK:x:1000:1000:Managed by ansible:/home/IK:/bin/bash",
+        "IKorolev:x:1001:1001::/home/IKorolev:/bin/bash"
+    ]
+}
+ok: [w_2] => {
+    "msg": [
+        "IK:x:1000:1000:Managed by ansible:/home/IK:/bin/bash",
+        "IKorolev:x:1001:1001::/home/IKorolev:/bin/sh"
+    ]
+}
+
+TASK [Switching to "IK"] ******************************************************************
+Saturday 03 April 2021  15:28:58 +0000 (0:00:00.112)       0:00:07.824 ********
+changed: [w_1]
+changed: [w_2]
+
+TASK [Upgrade all packages, excluding kernel & foo related packages] **********************
+Saturday 03 April 2021  15:29:00 +0000 (0:00:01.277)       0:00:09.101 ********
+skipping: [w_1]
+skipping: [w_2]
+
+TASK [Update all packages to their latest version] ****************************************
+Saturday 03 April 2021  15:29:00 +0000 (0:00:00.132)       0:00:09.234 ********
+skipping: [w_1]
+fatal: [w_2]: FAILED! => {"changed": false, "msg": "'/usr/bin/apt-get upgrade --with-new-pks ' failed: E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarly unavailable)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend),is another process using it?\n", "rc": 100, "stdout": "", "stdout_lines": []}
+
+PLAY RECAP ********************************************************************************
+w_1                        : ok=7    changed=2    unreachable=0    failed=0    skipped=5   rescued=0    ignored=0
+w_2                        : ok=8    changed=2    unreachable=0    failed=1    skipped=3   rescued=0    ignored=0
+
+Saturday 03 April 2021  15:29:06 +0000 (0:00:06.567)       0:00:15.802 ********
+===============================================================================
+Update all packages to their latest version ----------------------------------------- 6.57s
+Gathering Facts --------------------------------------------------------------------- 3.51s
+Create a 2048-bit SSH key for user IK in ~IK/.ssh/id_rsa ---------------------------- 1.28s
+Switching to "IK" ------------------------------------------------------------------- 1.28s
+Check if user created --------------------------------------------------------------- 0.92s
+Escalate privileges to sudo nopasswd ------------------------------------------------ 0.88s
+Add user to sudo group if OS is Ubuntu ---------------------------------------------- 0.75s
+Upgrade all packages, excluding kernel & foo related packages ----------------------- 0.13s
+debug ------------------------------------------------------------------------------- 0.11s
+Install sudo on Centos -------------------------------------------------------------- 0.11s
+Add user to wheel group if OS is Centos --------------------------------------------- 0.11s
+Print decleared variables ----------------------------------------------------------- 0.10s
+Playbook run took 0 days, 0 hours, 0 minutes, 15 seconds
+```
