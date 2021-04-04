@@ -1,4 +1,4 @@
-
+# 12.Ansible
 ```
 ansible-playbook play.yaml -i hosts.yaml -u root --sk-vault-pass
 Vault password:
