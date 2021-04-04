@@ -100,20 +100,20 @@ Print variables ----------------------------------------------------------------
 Playbook run took 0 days, 0 hours, 0 minutes, 14 seconds
 
 ```
-
+----
 ```
- ansible-playbook play_user.yaml -i hosts.yaml -u rot --ask-vault-pass -e group=ec2 -e user_add=IK
+ansible-playbook play_user.yaml -i hosts.yaml -u root --ask-vault-pass -e group=ec2 -e user_to_add=IK
 Vault password:
 
-PLAY [ec2] ********************************************************************************
+PLAY [ec2] *********************************************************************
 
-TASK [Gathering Facts] ********************************************************************
-Saturday 03 April 2021  15:28:50 +0000 (0:00:00.055)       0:00:00.055 ********
-ok: [w_1]
+TASK [Gathering Facts] *********************************************************
+Sunday 04 April 2021  10:09:33 +0000 (0:00:00.055)       0:00:00.055 **********
 ok: [w_2]
+ok: [w_1]
 
-TASK [Print decleared variables] **********************************************************
-Saturday 03 April 2021  15:28:54 +0000 (0:00:03.509)       0:00:03.565 ********
+TASK [Print variable] **********************************************************
+Sunday 04 April 2021  10:09:36 +0000 (0:00:03.217)       0:00:03.272 **********
 ok: [w_1] => {
     "msg": "You requested user IK"
 }
@@ -121,38 +121,53 @@ ok: [w_2] => {
     "msg": "You requested user IK"
 }
 
-TASK [Create a 2048-bit SSH key for user IK in ~IK/.ssh/id_rsa] ***************************
-Saturday 03 April 2021  15:28:54 +0000 (0:00:00.098)       0:00:03.663 ********
+TASK [Install sudo if OS-family is Debian] *************************************
+Sunday 04 April 2021  10:09:36 +0000 (0:00:00.097)       0:00:03.369 **********
+skipping: [w_1]
+ok: [w_2]
+
+TASK [Install sudo if OS-family is CentOS] *************************************
+Sunday 04 April 2021  10:09:39 +0000 (0:00:03.062)       0:00:06.432 **********
+skipping: [w_1]
+skipping: [w_2]
+
+TASK [Ensure group "sudo" exists] **********************************************
+Sunday 04 April 2021  10:09:40 +0000 (0:00:00.096)       0:00:06.529 **********
+skipping: [w_1]
+ok: [w_2]
+
+TASK [Ensure group "wheel" exists] *********************************************
+Sunday 04 April 2021  10:09:40 +0000 (0:00:00.816)       0:00:07.345 **********
+skipping: [w_1]
+skipping: [w_2]
+
+TASK [Creating user IK] ********************************************************
+Sunday 04 April 2021  10:09:40 +0000 (0:00:00.096)       0:00:07.442 **********
 ok: [w_1]
 ok: [w_2]
 
-TASK [Check if user created] **************************************************************
-Saturday 03 April 2021  15:28:55 +0000 (0:00:01.282)       0:00:04.946 ********
+TASK [Adding user to sudo group if OS-family is Debian] ************************
+Sunday 04 April 2021  10:09:42 +0000 (0:00:01.188)       0:00:08.631 **********
+skipping: [w_1]
+ok: [w_2]
+
+TASK [Adding user to wheel group if OS-family is CentOS] ***********************
+Sunday 04 April 2021  10:09:42 +0000 (0:00:00.800)       0:00:09.431 **********
+skipping: [w_1]
+skipping: [w_2]
+
+TASK [Escalating privileges to sudo nopasswd] **********************************
+Sunday 04 April 2021  10:09:43 +0000 (0:00:00.096)       0:00:09.527 **********
+ok: [w_1]
+ok: [w_2]
+
+TASK [Check user exists] *******************************************************
+Sunday 04 April 2021  10:09:43 +0000 (0:00:00.886)       0:00:10.413 **********
 changed: [w_1]
 changed: [w_2]
 
-TASK [Install sudo on Centos] *************************************************************
-Saturday 03 April 2021  15:28:56 +0000 (0:00:00.922)       0:00:05.868 ********
-skipping: [w_1]
-skipping: [w_2]
-
-TASK [Add user to sudo group if OS is Ubuntu] *********************************************
-Saturday 03 April 2021  15:28:56 +0000 (0:00:00.108)       0:00:05.977 ********
-skipping: [w_1]
-ok: [w_2]
-
-TASK [Add user to wheel group if OS is Centos] ********************************************
-Saturday 03 April 2021  15:28:57 +0000 (0:00:00.746)       0:00:06.724 ********
-skipping: [w_1]
-skipping: [w_2]
-
-TASK [Escalate privileges to sudo nopasswd] ***********************************************
-Saturday 03 April 2021  15:28:57 +0000 (0:00:00.105)       0:00:06.829 ********
-ok: [w_1]
-ok: [w_2]
-
-TASK [debug] ******************************************************************************
-Saturday 03 April 2021  15:28:58 +0000 (0:00:00.882)       0:00:07.711 ********
+TASK [debug] *******************************************************************
+Sunday 04 April 2021  10:09:45 +0000 (0:00:01.536)       0:00:11.949 **********
 ok: [w_1] => {
     "msg": [
         "IK:x:1000:1000:Managed by ansible:/home/IK:/bin/bash",
@@ -166,38 +181,36 @@ ok: [w_2] => {
     ]
 }
 
-TASK [Switching to "IK"] ******************************************************************
-Saturday 03 April 2021  15:28:58 +0000 (0:00:00.112)       0:00:07.824 ********
-changed: [w_1]
+TASK [Check user has sudo nopasswd privigleges if OS-family is Debian] *********
+Sunday 04 April 2021  10:09:45 +0000 (0:00:00.114)       0:00:12.064 **********
+skipping: [w_1]
 changed: [w_2]
 
-TASK [Upgrade all packages, excluding kernel & foo related packages] **********************
-Saturday 03 April 2021  15:29:00 +0000 (0:00:01.277)       0:00:09.101 ********
+TASK [Check user has sudo nopasswd privigleges if OS-family is CentOS] *********
+Sunday 04 April 2021  10:09:52 +0000 (0:00:06.939)       0:00:19.003 **********
 skipping: [w_1]
 skipping: [w_2]
 
-TASK [Update all packages to their latest version] ****************************************
-Saturday 03 April 2021  15:29:00 +0000 (0:00:00.132)       0:00:09.234 ********
-skipping: [w_1]
-fatal: [w_2]: FAILED! => {"changed": false, "msg": "'/usr/bin/apt-get upgrade --with-new-pks ' failed: E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarly unavailable)\nE: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend),is another process using it?\n", "rc": 100, "stdout": "", "stdout_lines": []}
+PLAY RECAP *********************************************************************
+w_1                        : ok=6    changed=1    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
+w_2                        : ok=10   changed=2    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0
 
-PLAY RECAP ********************************************************************************
-w_1                        : ok=7    changed=2    unreachable=0    failed=0    skipped=5   rescued=0    ignored=0
-w_2                        : ok=8    changed=2    unreachable=0    failed=1    skipped=3   rescued=0    ignored=0
-
-Saturday 03 April 2021  15:29:06 +0000 (0:00:06.567)       0:00:15.802 ********
+Sunday 04 April 2021  10:09:52 +0000 (0:00:00.105)       0:00:19.109 **********
 ===============================================================================
-Update all packages to their latest version ----------------------------------------- 6.57s
-Gathering Facts --------------------------------------------------------------------- 3.51s
-Create a 2048-bit SSH key for user IK in ~IK/.ssh/id_rsa ---------------------------- 1.28s
-Switching to "IK" ------------------------------------------------------------------- 1.28s
-Check if user created --------------------------------------------------------------- 0.92s
-Escalate privileges to sudo nopasswd ------------------------------------------------ 0.88s
-Add user to sudo group if OS is Ubuntu ---------------------------------------------- 0.75s
-Upgrade all packages, excluding kernel & foo related packages ----------------------- 0.13s
-debug ------------------------------------------------------------------------------- 0.11s
-Install sudo on Centos -------------------------------------------------------------- 0.11s
-Add user to wheel group if OS is Centos --------------------------------------------- 0.11s
-Print decleared variables ----------------------------------------------------------- 0.10s
-Playbook run took 0 days, 0 hours, 0 minutes, 15 seconds
+Check user has sudo nopasswd privigleges if OS-family is Debian --------- 6.94s
+Gathering Facts --------------------------------------------------------- 3.22s
+Install sudo if OS-family is Debian ------------------------------------- 3.06s
+Check user exists ------------------------------------------------------- 1.54s
+Creating user IK -------------------------------------------------------- 1.19s
+Escalating privileges to sudo nopasswd ---------------------------------- 0.89s
+Ensure group "sudo" exists ---------------------------------------------- 0.82s
+Adding user to sudo group if OS-family is Debian ------------------------ 0.80s
+debug ------------------------------------------------------------------- 0.11s
+Check user has sudo nopasswd privigleges if OS-family is CentOS --------- 0.11s
+Print variable ---------------------------------------------------------- 0.10s
+Install sudo if OS-family is CentOS ------------------------------------- 0.10s
+Adding user to wheel group if OS-family is CentOS ----------------------- 0.10s
+Ensure group "wheel" exists --------------------------------------------- 0.10s
+Playbook run took 0 days, 0 hours, 0 minutes, 19 seconds
+user@ubuntu-bionic:/home/user/q/1231/1$
 ```
