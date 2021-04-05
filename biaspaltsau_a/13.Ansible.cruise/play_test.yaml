@@ -1,0 +1,6 @@
+---
+- hosts: all_hosts
+  become: True
+  #  strategy: free
+  roles:
+  - test
