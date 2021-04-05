@@ -1,10 +1,10 @@
 all:
     hosts:
-        centos_11:
+        w_1:
             ansible_host: 192.168.202.9
-        ubuntu_12:
+        w_2:
             ansible_host: 192.168.202.10
 slaves:
     hosts:
-        centos_11:
-        ubuntu_12:
+        w_1:
+        w_2:
