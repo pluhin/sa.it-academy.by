@@ -1,0 +1,5 @@
+---
+- hosts: slaves
+  become: yes
+  roles:
+    - web
