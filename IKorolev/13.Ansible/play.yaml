@@ -1,5 +1,7 @@
 ---
-- hosts: slaves
+- hosts: all
   become: yes
   roles:
     - web
+    - test
+

@@ -1,0 +1,59 @@
+---
+- name: Check RAM
+  assert:
+    that:
+      - ansible_memtotal_mb >= 10
+    msg: Host has enough RAM
+  with_items:
+    - "{{ ansible_memory_mb }}"
+
+- name: Check free space
+  assert:
+    that:
+      - mount.size_available > mount.size_total|float * 0.15
+    msg: Disk space has reached 85% threshold
+  vars:
+    mount: "{{ ansible_mounts | selectattr('mount','equalto',item.mount) | list | first }}"
+  with_items:
+    - "{{ ansible_mounts }}"
+
+- name:  Connectivity checks to doker_hub
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  register: out_uri
+  loop:
+    - https://registry.hub.docker.com
+  tags:
+    - repo_docker
+- name: Print output
+  debug:
+    msg: "Url {{ output.etag }}"
+  loop: "{{ out_uri.results }}"
+  loop_control:
+    loop_var: output
+    label: "{{ output.etag }}"
+    pause: 3
+  tags:
+    - repo_docker
+
+- name: Check pub repo
+  vars:
+    links:
+      - { url: archive.ubuntu.com, port: 80 }
+      - { url: ftp.wrz.de, port: 80 }
+      - { url: bootstrap.pypa.io, port: 443 }
+  wait_for:
+    host: "{{ item.url }}"
+    port: "{{ item.port }}"
+    timeout: 3
+  register: out
+  with_items: "{{ links }}"
+  tags:
+    - pub_repo
+
+- name: Check SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false

@@ -1,0 +1,11 @@
+site_centos: centos9.sa
+site_debian: ubuntu10.sa
+nginx_config_path: /etc/nginx/conf.d/
+
+centos_home_path: /usr/share/nginx/html
+debian_host_path: /var/www/html
+
+virtual_domain:
+  - { name: "{{ site_centos }}", ip: "{{ hostvars[\"centos\"].ansible_host }}"}
+  - { name: "{{ site_debian }}", ip: "{{ hostvars[\"ubuntu\"].ansible_host }}"}
+
