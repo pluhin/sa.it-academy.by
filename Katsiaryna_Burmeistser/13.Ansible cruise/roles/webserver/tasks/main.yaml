@@ -1,0 +1,55 @@
+---
+- name: Deploy for Debian OS
+  include: nginx_Debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Deploy for RedHat OS
+  include: nginx_RedHat.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: print out
+  debug:
+    msg: "{{ out }}"
+
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+- name: Check template
+  shell: |
+    cat /etc/hosts
+  register: out
+  changed_when: false
+
+- name: print out
+  debug:
+    msg: "{{ out.stdout_lines }}"
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'nginx!' not in this.content"
+  tags:
+  - tests
+
+- name: print out
+  debug:
+    msg: "{{ this.results[0].content }} | {{ this.results[1].content }}"
+  tags:
+  - tests

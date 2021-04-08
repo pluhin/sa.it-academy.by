@@ -1,0 +1,43 @@
+---
+- name: Add epel-release repo
+  yum:
+    name: epel-release
+    state: present
+
+- name: Nginx-RedHat. Install packages
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+
+- name: Nginx. Enable and start servce
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Remove Index File CentOS
+  file:
+    path: "{{ centos_default_home }}/index.html"
+    state: absent
+
+- name: Copy Home Page CentOS
+  copy:
+    src: index.html
+    dest: "{{ centos_default_home }}"
+  notify:
+    - restart nginx
+
+- name: CentOS. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+  tags:
+  - tests
+
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  tags:
+  - tests

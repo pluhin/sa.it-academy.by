@@ -1,0 +1,23 @@
+---
+- name: Nginx-Debian. Install packages
+  apt:
+    name: "{{ apt_nginx_packages }}"
+    state: present
+    update_cache: yes
+- name: Nginx. Enable and start servce
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+    
+- name: Remove Index File Ubuntu
+  file:
+    path: "{{ ubuntu_default_home }}/index.html"
+    state: absent
+
+- name: Copy Home Page Ubuntu
+  copy:
+    src: index.html
+    dest: "{{ ubuntu_default_home }}"
+  notify:
+    - restart nginx
