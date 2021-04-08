@@ -1,0 +1,15 @@
+---
+apt_nginx_packages:
+  - nginx
+nginx_dependencies:
+  - epel-release
+yum_nginx_packages:
+  - nginx
+#default_home: "{{ '/usr/share/nginx/html' if (ansible_os_family == 'Debian') else '/var/www/html' }}"
+default_home: "{{ '/var/www/html' if (ansible_os_family == 'Debian') else '/usr/share/nginx/html' }}"
+site_deb: "local-deb.site"
+site_cent: "local-cent.site"
+
+virtual_hosts:
+  - { name: "{{ site_deb }}", ip: "{{ hostvars[\"worker2\"].ansible_host }}"}
+  - { name: "{{ site_cent }}", ip: "{{ hostvars[\"worker1\"].ansible_host }}"}

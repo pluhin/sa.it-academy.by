@@ -1,0 +1,67 @@
+---
+- name: Deploy to Debian
+  include: nginx_ubuntu.yaml
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Deploy to RedHat
+  include: nginx_redhat.yaml
+  when: ansible_distribution == 'CentOS'
+
+- name: Remove default page
+  file:
+    path: "{{ default_home }}/index.html"
+    state: absent
+
+- name: Copy custom first page
+  copy:
+    src: index.html
+    dest: "{{ default_home }}"
+  notify:
+    - restart nginx
+
+- name: Check connection to localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: print output
+  debug:
+    msg: "{{ out }}"
+
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+- name: Check template
+  shell: |
+    cat /etc/hosts
+  register: out
+  changed_when: false
+
+- name: print out
+  debug:
+    msg: "{{ out.stdout_lines }}"
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'first custom' not in this.content"
+  tags:
+  - tests
+
+- name: print out
+  debug:
+    msg: "{{ this.results[0].content }} | {{ this.results[1].content }}"
+  tags:
+  - tests
