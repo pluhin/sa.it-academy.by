@@ -55,6 +55,11 @@
   tags:
     - setup
 
+- name: Config database
+  template:
+    src: database.yml.j2
+    dest: "{{ app_home }}/config/database.yml"
+
 - name: Configuration files for virtualhost
   template:
     src: redmine.site.conf.j2

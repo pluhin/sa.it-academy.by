@@ -17,8 +17,4 @@
     login_unix_socket: /var/run/mysqld/mysqld.sock
   no_log: yes
 
-- name: Config database
-  template: 
-    src: database.yml.j2 
-    dest: "{{ app_home }}/config/database.yml"
 
