@@ -9,7 +9,7 @@ all_hosts:
 
 
 
-jump:
-  hosts:
-    jump_sa:
-      ansible_host: 178.124.206.53
+#jump:
+#  hosts:
+#    jump_sa:
+#      ansible_host: 178.124.206.53

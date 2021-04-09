@@ -3,31 +3,7 @@
 - hosts: redmine
   become: yes
   pre_tasks:
-    - name: Redmine. Install packages
-      apt:
-        name: "{{ apt_redmine_packages }}"
-        state: latest
-        update_cache: yes
-    
-    - name: Redmine. Clone repository
-      git:
-        repo: "{{ app_repo }}"
-        dest: "{{ app_home }}"
-        version: '{{ app_version }}'
-        accept_hostkey: yes
-        update: no
-
-    - name: Redmine. Change permissions
-      file:
-        path: "{{ app_home }}/public"
-        owner: www-data
-        group: www-data
-        recurse: yes
-    - name: Redmine. Change permissions
-      file:
-        path: "{{ app_home }}/tmp"
-        mode: '777'
-        recurse: yes
+    msg: "{{ ansible_host }}"
   roles:
   - db
   - redmine
