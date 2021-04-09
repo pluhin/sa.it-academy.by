@@ -51,12 +51,6 @@
     password: "{{ app_db_pass }}"
     priv: "{{ app_db_name }}.*:ALL"
 
-- name: Config database
-  template:
-    src: database.yml.j2
-    dest: "{{ app_home }}/config/database.yml"
-
-
 
 - name: Redmine. Setup 02
   shell: |

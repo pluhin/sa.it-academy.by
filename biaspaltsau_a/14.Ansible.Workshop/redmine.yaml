@@ -2,8 +2,6 @@
 ---
 - hosts: redmine
   become: yes
-  pre_tasks:
-    msg: "{{ ansible_host }}"
   roles:
   - db
   - redmine
