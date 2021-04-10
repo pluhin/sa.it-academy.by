@@ -1,0 +1,26 @@
+---
+- hosts: ec2
+  # gather_facts: False
+  # strategy: free
+  # serial: 1
+  vars:
+    var_01: "IKorolev"
+    var_02: True
+    var_03: 1374
+  tasks:
+    - name: Print variables 
+      debug:
+        msg: "{{ var_01 }} | {{ var_02 }} | {{ var_03 }}"
+      tags:
+        - local_vars
+    - name: Print OS
+      debug:
+        msg: "{{ ansible_facts.distribution }} | {{ ansible_facts.distribution_version }}"
+    - name: Print mount
+      debug:
+        msg: "{{ ansible_facts.mounts }}"
+    - name: Print RAM
+      debug:
+        msg: "RAM capacity: {{ ansible_memory_mb.real.total }}, RAM free: {{ ansible_facts.memory_mb.real.free }}"
+      tags:
+        - facts
