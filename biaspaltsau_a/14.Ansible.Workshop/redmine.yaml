@@ -1,0 +1,7 @@
+  
+---
+- hosts: redmine
+  become: yes
+  roles:
+  - db
+  - redmine
