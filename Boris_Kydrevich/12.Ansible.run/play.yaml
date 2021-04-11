@@ -1,0 +1,20 @@
+---
+- hosts: ec_all
+  pre_tasks:
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: "{{ ansible_ssh_user }}"
+        state: present
+        key: "{{ item }}"
+      with_items:
+      - "{{ lookup('file', '/home/user/.ssh/id_rsa.pub') }}"
+  tasks:
+    - name: Print OS/Version
+      debug:
+        msg: "{{ ansible_distribution}} | {{ ansible_distribution_version}}"
+    - name: Print Mounts 
+      debug:
+        msg: "{{ ansible_facts.mounts[0] }}"
+    - name: Print Memory 
+      debug:
+        msg: "{{ ansible_facts.memory_mb.real }}"
