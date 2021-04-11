@@ -1,0 +1,41 @@
+---
+- name: HTTPD. Install packages
+  yum:
+    name: "{{ yum_http_packages }}"
+    state: present
+  tags:
+  - tests
+
+- name: HTTPD. Remove welcome file
+  file:
+    path: "/etc/httpd/conf.d/welcome.conf"
+    state: absent
+
+- name: HTTPD. Enable and start service
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: HTTPS. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+  tags:
+  - tests
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  tags:
+  - tests
+
+# - name: Set httpd_can_network_connect flag on and keep it persistent across reboots
+#   seboolean:
+#     name: httpd_can_network_connect
+#     state: yes
+#     persistent: yes
+#   tags:
+#   - tests
+

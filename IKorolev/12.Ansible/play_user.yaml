@@ -1,0 +1,70 @@
+---
+- hosts: "{{ group }}"
+  become: True
+  tasks:
+  - name: Print variable
+    debug:
+      msg: "You requested user {{ user_to_add }}"
+  - name: Install sudo if OS-family is Debian
+    apt:
+      name: sudo
+      state: present
+    when: ansible_os_family == "Debian"
+  - name: Install sudo if OS-family is CentOS  
+    yum: 
+      name: sudo
+      state: present
+    when: ansible_os_family == "CentOS" 
+  - name: Ensure group "sudo" exists
+    group:
+      name: sudo
+      state: present
+    when: ansible_os_family == "Debian"  
+  - name: Ensure group "wheel" exists
+    group:
+      name: wheel
+      state: present
+    when: ansible_os_family == "CentOS"    
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      comment: Managed by ansible
+      state: present
+      generate_ssh_key: yes
+      ssh_key_bits: 2048
+      ssh_key_file: .ssh/id_rsa
+  - name: Adding user to sudo group if OS-family is Debian     
+    user: 
+      name: "{{ user_to_add }}"
+      groups: sudo
+      append: yes
+    when: ansible_os_family == "Debian"   
+  - name: Adding user to wheel group if OS-family is CentOS
+    user:
+      name: "{{ user_to_add }}"      
+      groups: wheel
+      append: yes
+    when: ansible_os_family == "CentOS"
+  - name: Escalating privileges to sudo nopasswd
+    lineinfile:
+      path: "/etc/sudoers.d/{{ user_to_add }}"
+      line: "{{ user_to_add }}    ALL=(ALL)       NOPASSWD: ALL"
+      create: yes
+  - name: Check user exists
+    shell: |
+      grep "{{ user_to_add }}" /etc/passwd
+    register: out
+    tags:
+      - check
+  - debug:
+      msg: "{{ out.stdout_lines }}"
+    tags:
+      - check
+  - name: Check user has sudo nopasswd privigleges if OS-family is Debian
+    apt:
+      update_cache: yes
+    when: ansible_os_family == "Debian"
+  - name: Check user has sudo nopasswd privigleges if OS-family is CentOS  
+    yum:
+      update_cache: yes
+    when: ansible_os_family == "CentOS"     

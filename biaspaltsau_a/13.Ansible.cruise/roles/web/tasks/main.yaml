@@ -1,0 +1,82 @@
+---
+- name: Include deploy for Debian systems
+  include: nginx_ubuntu.yaml
+  when: ansible_distribution == 'Ubuntu'
+#  tags:
+#    - never
+
+- name: Include deploy for RedHat systems
+  include: nginx_redhat.yaml
+  when: ansible_distribution == 'CentOS'
+#  tags:
+#    - never
+
+- name: Remove Index file
+  file:
+    path: "{{ default_home }}/index.html"
+    state: absent
+#  tags:
+#    - never
+
+- name: Copy first page
+  copy:
+    src: index.html
+    dest: "{{ default_home }}"
+  notify:
+    - restart nginx
+#  tags:
+#    - never
+
+- name: Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+#  tags:
+#    - never
+
+#- name: print out
+#  debug:
+#    msg: "{{ out }}"
+#  tags:
+#    - never
+
+#- name: Templates
+#  template:
+#    src: "hosts.j2"
+#    dest: "/etc/hosts"
+#    backup: yes
+##  tags:
+##    - never
+
+#- name: Check template
+#  shell: |
+#    cat /etc/hosts
+#  register: out
+#  changed_when: false
+##  tags:
+##    - never
+
+- name: print out
+  debug:
+    msg: "{{ out }}"
+#  tags:
+#    - never
+
+#- name: Check content to the sites
+#  uri:
+#    url: "http://{{ item.name }}"
+#    return_content: yes
+#  loop: "{{ virtual_hosts }}"
+#  register: this
+#  failed_when: "'comrate' not in this.content"
+#  tags:
+#    - never
+
+#- name: print out
+#  debug:
+#   msg: "{{ this }}"
+#  tags:
+#    - never

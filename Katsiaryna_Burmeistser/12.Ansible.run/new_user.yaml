@@ -1,0 +1,82 @@
+---
+- hosts: ec_all
+  vars:
+    user: katya
+    id_rsa_key: "{{ lookup('file', '/home/apachy/.ssh/id_rsa.pub') }}"
+
+  tasks:
+    - name: Creating user {{ user }}
+      user:
+        name: "{{ user }}"
+        comment: Managed by ansible
+        state: present
+
+    - name: Creates .ssh folder for {{user}} user
+      file:
+        path: "/home/{{user}}/.ssh"
+        state: directory
+
+    - name: Register ssh key in .ssh/authorized_keys
+      copy:
+        content: "id_rsa_key"
+        dest: "/home/{{ user }}/.ssh/authorized_keys"
+
+
+    - name: User authentication only by SSH key
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        line: "Match User  {{ user }}  PasswordAuthentication no"
+        insertbefore: BOF
+
+
+    - name: Install sudo on centos
+      when: ansible_distribution == 'CentOS'
+      yum:
+        name:
+          - sudo
+
+    - name: Install sudo on ubuntu
+      when: ansible_distribution == 'Ubuntu'
+      apt:
+        name:
+          - sudo
+
+    - name: CentOS - Add user {{ user }} for upgrade command
+      when: ansible_distribution == 'CentOS'
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        line: "{{ user }} ALL=(ALL) NOPASSWD: ALL"
+        insertbefore: BOF
+
+    - name: Ubuntu - Add user {{ user }} for upgrade command
+      when: ansible_distribution == 'Ubuntu'
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        line: "{{ user }} ALL=(ALL) NOPASSWD: ALL"
+        insertbefore: BOF
+
+    - name: Check user {{ user }}
+      shell: |
+        grep "{{ user }}" /etc/passwd
+      register: out
+    - debug:
+        msg: "{{ out.stdout_lines }}"
+
+    - name: Upgrade CentOS system by {{ user }}
+      remote_user: "{{ user }}"
+      when: ansible_distribution == 'CentOS'
+      yum:
+        name: '*'
+        state: latest
+      become: yes
+
+    - name: Upgrade Ubuntu system by {{ user }}
+      remote_user: "{{ user }}"
+      when: ansible_distribution == 'Ubuntu'
+      apt:
+        name: '*'
+        state: latest
+      become: yes

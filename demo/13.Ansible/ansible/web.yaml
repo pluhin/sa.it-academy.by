@@ -1,0 +1,4 @@
+---
+- hosts: ec2
+  roles:
+    - webserver
