@@ -1,13 +1,5 @@
 ---
 - hosts: ec_all
-  pre_tasks:
-    - name: Set authorized key taken from file
-      authorized_key:
-        user: "{{ ansible_ssh_user }}"
-        state: present
-        key: "{{ item }}"
-      with_items:
-      - "{{ lookup('file', '/home/user/.ssh/id_rsa.pub') }}"
   tasks:
     - name: Print OS/Version
       debug:
