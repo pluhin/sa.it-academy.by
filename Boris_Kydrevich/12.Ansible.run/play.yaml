@@ -1,0 +1,12 @@
+---
+- hosts: ec_all
+  tasks:
+    - name: Print OS/Version
+      debug:
+        msg: "{{ ansible_distribution}} | {{ ansible_distribution_version}}"
+    - name: Print Mounts 
+      debug:
+        msg: "{{ ansible_facts.mounts[0] }}"
+    - name: Print Memory 
+      debug:
+        msg: "{{ ansible_facts.memory_mb.real }}"
