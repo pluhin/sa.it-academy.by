@@ -3,5 +3,6 @@
   - debug:
       msg: "{{ ansible_host }}"
   roles:
-    - redmine
     - mysql
+    - redmine
+    
