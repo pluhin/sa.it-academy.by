@@ -1,5 +1,5 @@
 ---
-apt_redmine_packages: 
+apt_mysql_packages: 
 
   - mysql-server
   - mysql-client
