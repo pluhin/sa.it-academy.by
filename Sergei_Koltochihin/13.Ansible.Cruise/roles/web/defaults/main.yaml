@@ -5,7 +5,8 @@ nginx_dependencies:
   - epel-release
 yum_nginx_packages:
   - nginx
-#default_home: "{{ '/usr/share/nginx/html' if (ansible_os_family == 'Debian') else '/var/www/html' }}"
+
+default_home_additional: "{{ '/var/www/additionalsite.add' if (ansible_os_family == 'Debian') else '/usr/share/nginx/additionalsite.add' }}"
 default_home: "{{ '/var/www/html' if (ansible_os_family == 'Debian') else '/usr/share/nginx/html' }}"
 site_deb: "local-deb.site"
 site_cent: "local-cent.site"

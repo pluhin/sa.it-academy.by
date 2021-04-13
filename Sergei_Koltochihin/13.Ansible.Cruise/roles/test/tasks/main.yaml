@@ -2,16 +2,16 @@
 - name: check ram
   assert:
     that:
-      - ansible_memtotal_mb >= 1024
+      - ansible_memtotal_mb | int >= 1024
     msg: Host has enough ram
   with_items:
-    - "{{ ansible_memory_mb }}"
+    - "{{ ansible_memtotal_mb }}"
 
 - name: check free space
   assert:
     that:
       - mount.size_available > mount.size_total|float * 0.2
-    msg: Disks pace has reached 80%
+    msg: Disks space has reached 80%
   vars:
     mount: "{{ ansible_mounts | selectattr('mount','equalto',item.mount) | list | first }}"
   with_items:

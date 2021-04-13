@@ -13,9 +13,15 @@
     state: started
     enabled: yes
     
-- name: enable firewall port
+- name: enable firewall port 80 tcp
   firewalld:
     port: 80/tcp
+    permanent: yes
+    state: enabled
+
+- name: enable firewall port 9001 tcp
+  firewalld:
+    port: 9001/tcp
     permanent: yes
     state: enabled
 

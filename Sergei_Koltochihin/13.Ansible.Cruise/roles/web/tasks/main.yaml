@@ -50,7 +50,7 @@
   debug:
     msg: "{{ out.stdout_lines }}"
 
-- name: Check content to the sites
+- name: Check content of the sites
   uri:
     url: "http://{{ item.name }}"
     return_content: yes
@@ -65,3 +65,49 @@
     msg: "{{ this.results[0].content }} | {{ this.results[1].content }}"
   tags:
   - tests
+
+- name: Create sites-available folder for nginx
+  become: true
+  file:
+    path: /etc/nginx/sites-available
+    state: directory
+  when: ansible_distribution == 'CentOS'
+
+- name: Create sites-enabled folder for nginx
+  become: true
+  file:
+    path: /etc/nginx/sites-enabled
+    state: directory
+  when: ansible_distribution == 'CentOS'
+
+- name: Creating additional vhost
+  become: true
+  template:
+    src: templates/additionalsite.conf
+    dest: "/etc/nginx/sites-available/additionalsite.add.conf"
+
+- name: Enable additional site
+  become: true
+  file:
+    src: "/etc/nginx/sites-available/additionalsite.add.conf"
+    dest: "/etc/nginx/sites-enabled/additionalsite.add.conf"
+    state: link
+
+- name: Copy custom additional page
+  copy:
+    src: index.html
+    dest: "{{ default_home_additional }}"
+  notify:
+    - restart nginx
+
+- name: Check connection to additional site on localhost
+  wait_for:
+    host: "127.0.0.1"
+    port: "9001"
+    state: started
+    timeout: 3
+  register: out
+
+- name: print output
+  debug:
+    msg: "{{ out }}"
