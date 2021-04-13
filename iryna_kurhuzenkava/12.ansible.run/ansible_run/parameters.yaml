@@ -1,0 +1,14 @@
+---
+- hosts: ec
+  tasks:
+    - name: Print OS
+      debug:
+        msg: "OS: {{ ansible_distribution }} | {{ ansible_distribution_version }}"
+    - name: Print mount point
+      debug:
+        msg: "Mount point: capacity {{ ansible_facts.mounts[0].size_total /1024 /1024 }} GB, available {{ ansible_facts.mounts[0].size_available /1024 /1024 }} GB, used {{ (ansible_facts.mounts[0].size_total - ansible_facts.mounts[0].size_available) /1024 /1024}} GB"
+    - name: Print memory
+      debug:
+        msg: "RAM: capacity {{ ansible_facts.memory_mb.real.total }} B, used {{ ansible_facts.memory_mb.real.used }} B"
+     
+   

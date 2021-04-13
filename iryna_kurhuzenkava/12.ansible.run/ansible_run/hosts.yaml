@@ -1,0 +1,15 @@
+---
+ec_all:
+  vars:
+    date_01: 'Testing'
+  children:
+    ec:
+      hosts:
+        worker_01:
+          ansible_host: 192.168.202.13
+        worker_02:
+          ansible_host: 192.168.202.14
+jump:
+  hosts:
+    jump_sa:
+      ansible_host: 178.124.206.53
