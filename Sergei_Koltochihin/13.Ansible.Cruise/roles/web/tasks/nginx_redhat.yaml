@@ -1,0 +1,31 @@
+---
+- name: install nginx dependencies
+  yum:
+    name: "{{ nginx_dependencies }}"
+    state: present
+- name: nginx install packages
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+- name: nginx enable and restart service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+    
+- name: enable firewall port 80 tcp
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+
+- name: enable firewall port 9001 tcp
+  firewalld:
+    port: 9001/tcp
+    permanent: yes
+    state: enabled
+
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded

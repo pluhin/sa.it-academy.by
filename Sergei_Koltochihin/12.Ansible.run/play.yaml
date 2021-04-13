@@ -1,0 +1,18 @@
+
+---
+- hosts: all_hosts
+  tasks:
+    - name: Print OS and version
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+    - name: Print mounts information
+      debug:
+        msg: 
+          - "Mount path: {{ ansible_facts.mounts[0].mount }}"        
+          - "Mount capacity: {{ ansible_facts.mounts[0].size_total }}"
+          - "Mount used: {{ ansible_facts.mounts[0].size_total - ansible_facts.mounts[0].size_available }}"
+    - name: Pring memory information
+      debug:
+        msg:
+          - "Memory capacity: {{ ansible_facts.memory_mb.real.total }}"
+          - "Memory free: {{ ansible_facts.memory_mb.real.free }}"
