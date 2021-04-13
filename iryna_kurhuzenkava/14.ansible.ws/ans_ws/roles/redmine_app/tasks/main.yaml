@@ -62,7 +62,10 @@
   notify:
     - apache restart 
 
-
+- name: Config database
+  template: 
+    src: database.yml.j2 
+    dest: "{{ app_home }}/config/database.yml"
 
 
 

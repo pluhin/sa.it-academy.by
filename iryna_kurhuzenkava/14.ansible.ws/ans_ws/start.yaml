@@ -7,11 +7,11 @@
     shell: hostname
     register: hostname
   - debug:
-      var: "{{ hostname.stdout }}"
+      msg: "{{ hostname.stdout }}"
       
   roles:
-    - redmine_app
     - redmine_db
+    - redmine_app
   tasks: 
   - name: "Add {{ app_fqdn }} to host file"
     shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
