@@ -1,0 +1,69 @@
+---
+- name: Redmine. Setup 01
+  shell: |
+    gem install bundler
+    bundle update   
+  args:
+    executable: /bin/bash
+    chdir: "{{ app_home }}"
+  tags: 
+    - setup
+- name: Session store secret generation
+  shell: rake generate_secret_token
+  args:
+   chdir: "{{ app_home }}"
+   creates: "{{ app_home }}/config/initializers/secret_token.rb"
+  tags:
+    - setup
+- name: Redmine. Setup 02
+  shell: | 
+    bundle exec rake db:migrate RAILS_ENV=production 
+    bundle exec rake redmine:plugins:migrate RAILS_ENV=production
+    bundle install --without development test
+    RAILS_ENV=production rake db:migrate
+    #RAILS_ENV=production REDMINE_LANG="{{ app_lang }}" rake redmine:load_default_data
+    #bundle exec rails server webrick -e production
+  args:
+    chdir: "{{ app_home }}"
+  tags:
+    - setup
+    
+- name: Install Nginx Web Server on Debian Family
+  apt:
+    name=nginx
+    state=latest
+  when:
+    ansible_os_family == "Ubuntu"
+  notify:
+    - nginx systemd
+
+- name: Replace nginx.conf
+  template:
+    src: templates/nginx.conf
+    dest: "/etc/nginx/nginx.conf"
+    
+- name: Configuration 
+  template:
+    src: redmine.site.conf.j2
+    dest: "/etc/nginx/sites-enabled/redmine.site.conf"
+  notify:
+    - restart nginx
+    
+- name: "Add {{ app_fqdn }} to host file"
+  shell: echo "192.168.201.5       {{ app_fqdn }}" >> /etc/hosts
+  tags:
+    - test
+- uri:
+    url: "http://{{ app_fqdn }}"
+    return_content: yes
+  register: this
+  failed_when: "'Jean-Philippe Lang' not in this.content"
+  tags:
+    - test
+- lineinfile:
+    path: /etc/hosts
+    state: absent
+    regexp: '^127.0.0.1       {{ app_fqdn }}'
+  tags:
+    - test
+    - always  
