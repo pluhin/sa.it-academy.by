@@ -27,30 +27,17 @@
     chdir: "{{ app_home }}"
   tags:
     - setup
-    
-- name: Install Nginx Web Server on Debian Family
-  apt:
-    name=nginx
-    state=latest
-  when:
-    ansible_os_family == "Ubuntu"
-  notify:
-    - nginx systemd
 
-- name: Replace nginx.conf
-  template:
-    src: templates/nginx.conf
-    dest: "/etc/nginx/nginx.conf"
-    
-- name: Configuration 
+- name: Configuration files for virtualhost
   template:
     src: redmine.site.conf.j2
-    dest: "/etc/nginx/sites-enabled/redmine.site.conf"
+    dest: "/etc/apache2/sites-enabled/redmine.site.conf"
   notify:
-    - restart nginx
-    
+    - restart apache
+- meta: flush_handlers
+
 - name: "Add {{ app_fqdn }} to host file"
-  shell: echo "192.168.201.5       {{ app_fqdn }}" >> /etc/hosts
+  shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
   tags:
     - test
 - uri:
@@ -66,4 +53,4 @@
     regexp: '^127.0.0.1       {{ app_fqdn }}'
   tags:
     - test
-    - always  
+    - always      
