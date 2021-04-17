@@ -1,0 +1,4 @@
+app_db_host: "127.0.0.1"
+app_db_name: "redmine1"
+app_db_user: "redmine1"
+app_db_pass: "redmine1"

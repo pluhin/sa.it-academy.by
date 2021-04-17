@@ -1,0 +1,44 @@
+---
+- hosts: ec
+  tasks:
+    - name: Add user 
+      user:
+        name: "{{ add_user }}"
+        state: present
+        
+    - name: Check
+      shell: |
+        grep "{{ add_user }}" /etc/passwd
+        date
+      register: out
+    - debug:
+        msg: "{{ out.stdout_lines }}"
+      
+    - name: Add {{ add_user }} to the sudo:nopasswd for upgrade command
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        line: "{{ add_user }} ALL=(ALL) NOPASSWD: ALL"
+        insertbefore: BOF
+        
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: "{{ add_user }}"
+        state: present
+        key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+        
+    - name: Test upgrade CentOS 
+      remote_user: "{{ add_user }}"
+      when: ansible_distribution == 'CentOS'
+      shell: |
+        yum upgrade --skip-broken
+      become: yes
+
+    - name: Test upgrade Ubuntu 
+      remote_user: "{{ add_user }}"
+      when: ansible_distribution == 'Ubuntu'
+      shell: |
+        apt upgrade
+      become: yes
+     
+   

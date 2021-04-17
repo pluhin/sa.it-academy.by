@@ -1,0 +1,60 @@
+---
+- hosts: all_hosts
+  vars:
+    user: sergei
+    id_rsa_key: "{{ lookup('file', '/home/sergei/.ssh/id_rsa.pub') }}"
+
+  tasks:
+    - name: Creating user {{ user }}
+      user:
+        name: "{{ user }}"
+        password: ""
+        comment: Managed by ansible
+        state: present
+    
+    - name: Creating ssh folder
+      file: 
+        path: "/home/{{user}}/.ssh"
+        state: directory
+
+    - name: Authorize key
+      authorized_key:
+        user: "{{ user }}"
+        state: present
+        key: "{{ item }}"
+      with_items:
+      - "{{ id_rsa_key }}"
+
+    - name: SSH authentication
+      lineinfile:
+        path: "/etc/ssh/sshd_config"
+        state: present
+        line: "Match User  {{ user }}  PasswordAuthentication no"
+        insertbefore: BOF
+    - name: Add user to sudo nopasswd
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        line: "{{ user }} ALL=(ALL) NOPASSWD: ALL"
+        insertbefore: BOF
+    - name: Check user {{ user }}
+      shell: |
+        grep "{{user}}" /etc/passwd
+      register: out
+    - debug:
+          msg: "{{ out.stdout_lines }}"
+    - name: Upgrade CentOS
+      remote_user: "{{ user }}"
+      when: ansible_distribution == 'CentOS'
+      yum:
+        name: '*'
+        state: latest
+      become: yes
+    - name: Upgrade Ubuntu
+      remote_user: "{{ user }}"
+      when: ansible_distribution == 'Ubuntu'
+      apt:
+        name: '*'
+        state: latest
+      become: yes
+      
