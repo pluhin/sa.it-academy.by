@@ -119,4 +119,3 @@ server {
 }
 ````
 
-while [ ! -f /var/lib/jenkins/secrets/initialAdminPassword ]
