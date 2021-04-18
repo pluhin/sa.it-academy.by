@@ -1,0 +1,6 @@
+
+Ubuntu_repo: "http://archive.ubuntu.com/"
+  
+Centos_repo: "https://dl.fedoraproject.org/"
+
+Docker_hub: "https://registry.hub.docker.com" 

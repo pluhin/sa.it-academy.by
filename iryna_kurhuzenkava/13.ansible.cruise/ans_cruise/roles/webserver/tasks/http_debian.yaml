@@ -1,0 +1,12 @@
+---
+- name: Nginx. Install packages to Ubuntu
+  apt:
+    name: "{{ apt_http_packages }}"
+    state: present
+    update_cache: yes
+    
+- name: Nginx. Enable and start service on Ubuntu
+  service:
+    name: nginx
+    state: started
+    enabled: yes

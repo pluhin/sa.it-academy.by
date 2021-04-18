@@ -1,0 +1,21 @@
+---
+yum_http_packages:
+  - epel-release
+  - nginx
+  - libsemanage-python
+  - libselinux-python
+
+apt_http_packages:
+  - nginx
+  
+nginx_config_path: "/etc/nginx/conf.d/centos.conf"
+
+ubuntu_default_home: "/var/www/html"
+centos_default_home: "/var/www"
+
+site_ubuntu: "local-ubuntu.site"
+site_centos: "local-centos.site"
+
+virtual_hosts:
+  - { name: "{{ site_centos }}", ip: "{{ hostvars[\"worker_01\"].ansible_host }}"}
+  - { name: "{{ site_ubuntu }}", ip: "{{ hostvars[\"worker_02\"].ansible_host }}"}
