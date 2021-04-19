@@ -94,6 +94,6 @@ redmine : uri ----------------------------------------------------------- 3.27s
 Redmine. Clone repository ----------------------------------------------- 3.25s
 Add redmine-5.sa to host file ------------------------------------------- 3.03s
 Playbook run took 0 days, 0 hours, 1 minutes, 35 seconds
-
-
 ```
+
+![img](
