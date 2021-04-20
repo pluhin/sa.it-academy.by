@@ -1,0 +1,637 @@
+21-4-20 21:07:39.4|Info|Bootstrap|Starting Sonarr - /app/sonarr/bin/Sonarr.exe - Version 3.0.6.1196
+21-4-20 21:07:41.5|Info|AppFolderInfo|Data directory is being overridden to [/config]
+21-4-20 21:07:41.7|Info|Router|Application mode: Interactive
+21-4-20 21:07:42.2|Info|MigrationLogger|*** Checking database for required migrations data source=/config/sonarr.db;cache size=-10000;datetimekind=Utc;journal mode=Wal;pooling=True;version=3 ***
+21-4-20 21:07:42.6|Info|MigrationLogger|*** VersionMigration migrating ***
+21-4-20 21:07:42.8|Info|MigrationLogger|*** VersionUniqueMigration migrating ***
+21-4-20 21:07:42.9|Info|MigrationLogger|*** VersionDescriptionMigration migrating ***
+21-4-20 21:07:42.9|Info|MigrationLogger|*** 1: InitialSetup migrating ***
+21-4-20 21:07:42.9|Info|InitialSetup|Starting migration to 1
+21-4-20 21:07:42.9|Info|MigrationLogger|*** 2: remove_tvrage_imdb_unique_constraint migrating ***
+21-4-20 21:07:43.0|Info|remove_tvrage_imdb_unique_constraint|Starting migration to 2
+21-4-20 21:07:43.0|Info|MigrationLogger|*** 3: remove_renamed_scene_mapping_columns migrating ***
+21-4-20 21:07:43.0|Info|remove_renamed_scene_mapping_columns|Starting migration to 3
+21-4-20 21:07:43.0|Info|MigrationLogger|*** 4: updated_history migrating ***
+21-4-20 21:07:43.0|Info|updated_history|Starting migration to 4
+21-4-20 21:07:43.0|Info|MigrationLogger|*** 5: added_eventtype_to_history migrating ***
+21-4-20 21:07:43.0|Info|added_eventtype_to_history|Starting migration to 5
+21-4-20 21:07:43.0|Info|MigrationLogger|*** 6: add_index_to_log_time migrating ***
+21-4-20 21:07:43.0|Info|add_index_to_log_time|Starting migration to 6
+21-4-20 21:07:43.0|Info|MigrationLogger|*** 7: add_renameEpisodes_to_naming migrating ***
+21-4-20 21:07:43.0|Info|add_renameEpisodes_to_naming|Starting migration to 7
+21-4-20 21:07:43.1|Info|MigrationLogger|*** 8: remove_backlog migrating ***
+21-4-20 21:07:43.1|Info|remove_backlog|Starting migration to 8
+21-4-20 21:07:43.2|Info|MigrationLogger|*** 9: fix_rename_episodes migrating ***
+21-4-20 21:07:43.2|Info|fix_rename_episodes|Starting migration to 9
+21-4-20 21:07:43.2|Info|MigrationLogger|*** 10: add_monitored migrating ***
+21-4-20 21:07:43.2|Info|add_monitored|Starting migration to 10
+21-4-20 21:07:43.2|Info|MigrationLogger|*** 11: remove_ignored migrating ***
+21-4-20 21:07:43.2|Info|remove_ignored|Starting migration to 11
+21-4-20 21:07:43.2|Info|MigrationLogger|*** 12: remove_custom_start_date migrating ***
+21-4-20 21:07:43.2|Info|remove_custom_start_date|Starting migration to 12
+21-4-20 21:07:43.2|Info|MigrationLogger|*** 13: add_air_date_utc migrating ***
+21-4-20 21:07:43.2|Info|add_air_date_utc|Starting migration to 13
+21-4-20 21:07:43.2|Info|MigrationLogger|*** 14: drop_air_date migrating ***
+21-4-20 21:07:43.2|Info|drop_air_date|Starting migration to 14
+21-4-20 21:07:43.3|Info|MigrationLogger|*** 15: add_air_date_as_string migrating ***
+21-4-20 21:07:43.3|Info|add_air_date_as_string|Starting migration to 15
+21-4-20 21:07:43.3|Info|MigrationLogger|*** 16: updated_imported_history_item migrating ***
+21-4-20 21:07:43.3|Info|updated_imported_history_item|Starting migration to 16
+21-4-20 21:07:43.3|Info|MigrationLogger|*** 17: reset_scene_names migrating ***
+21-4-20 21:07:43.3|Info|reset_scene_names|Starting migration to 17
+21-4-20 21:07:43.3|Info|MigrationLogger|*** 18: remove_duplicates migrating ***
+21-4-20 21:07:43.3|Info|remove_duplicates|Starting migration to 18
+21-4-20 21:07:43.3|Info|MigrationLogger|*** 19: restore_unique_constraints migrating ***
+21-4-20 21:07:43.3|Info|restore_unique_constraints|Starting migration to 19
+21-4-20 21:07:43.3|Info|MigrationLogger|*** 20: add_year_and_seasons_to_series migrating ***
+21-4-20 21:07:43.3|Info|add_year_and_seasons_to_series|Starting migration to 20
+21-4-20 21:07:43.4|Info|MigrationLogger|*** 21: drop_seasons_table migrating ***
+21-4-20 21:07:43.4|Info|drop_seasons_table|Starting migration to 21
+21-4-20 21:07:43.4|Info|MigrationLogger|*** 22: move_indexer_to_generic_provider migrating ***
+21-4-20 21:07:43.4|Info|move_indexer_to_generic_provider|Starting migration to 22
+21-4-20 21:07:43.4|Info|MigrationLogger|*** 23: add_config_contract_to_indexers migrating ***
+21-4-20 21:07:43.4|Info|add_config_contract_to_indexers|Starting migration to 23
+21-4-20 21:07:43.4|Info|MigrationLogger|*** 24: drop_tvdb_episodeid migrating ***
+21-4-20 21:07:43.4|Info|drop_tvdb_episodeid|Starting migration to 24
+21-4-20 21:07:43.4|Info|MigrationLogger|*** 25: move_notification_to_generic_provider migrating ***
+21-4-20 21:07:43.4|Info|move_notification_to_generic_provider|Starting migration to 25
+21-4-20 21:07:43.4|Info|MigrationLogger|*** 26: add_config_contract_to_notifications migrating ***
+21-4-20 21:07:43.4|Info|add_config_contract_to_notifications|Starting migration to 26
+21-4-20 21:07:43.4|Info|MigrationLogger|*** 27: fix_omgwtfnzbs migrating ***
+21-4-20 21:07:43.4|Info|fix_omgwtfnzbs|Starting migration to 27
+21-4-20 21:07:43.5|Info|MigrationLogger|*** 28: add_blacklist_table migrating ***
+21-4-20 21:07:43.5|Info|add_blacklist_table|Starting migration to 28
+21-4-20 21:07:43.5|Info|MigrationLogger|*** 29: add_formats_to_naming_config migrating ***
+21-4-20 21:07:43.5|Info|add_formats_to_naming_config|Starting migration to 29
+21-4-20 21:07:43.5|Info|MigrationLogger|*** 30: add_season_folder_format_to_naming_config migrating ***
+21-4-20 21:07:43.5|Info|add_season_folder_format_to_naming_config|Starting migration to 30
+21-4-20 21:07:43.5|Info|MigrationLogger|*** 31: delete_old_naming_config_columns migrating ***
+21-4-20 21:07:43.5|Info|delete_old_naming_config_columns|Starting migration to 31
+21-4-20 21:07:43.5|Info|MigrationLogger|*** 32: set_default_release_group migrating ***
+21-4-20 21:07:43.5|Info|set_default_release_group|Starting migration to 32
+21-4-20 21:07:43.5|Info|MigrationLogger|*** 33: add_api_key_to_pushover migrating ***
+21-4-20 21:07:43.5|Info|add_api_key_to_pushover|Starting migration to 33
+21-4-20 21:07:43.5|Info|MigrationLogger|*** 34: remove_series_contraints migrating ***
+21-4-20 21:07:43.5|Info|remove_series_contraints|Starting migration to 34
+21-4-20 21:07:43.6|Info|MigrationLogger|*** 35: add_series_folder_format_to_naming_config migrating ***
+21-4-20 21:07:43.6|Info|add_series_folder_format_to_naming_config|Starting migration to 35
+21-4-20 21:07:43.6|Info|MigrationLogger|*** 36: update_with_quality_converters migrating ***
+21-4-20 21:07:43.6|Info|update_with_quality_converters|Starting migration to 36
+21-4-20 21:07:43.6|Info|MigrationLogger|*** 37: add_configurable_qualities migrating ***
+21-4-20 21:07:43.6|Info|add_configurable_qualities|Starting migration to 37
+21-4-20 21:07:43.7|Info|MigrationLogger|*** 38: add_on_upgrade_to_notifications migrating ***
+21-4-20 21:07:43.7|Info|add_on_upgrade_to_notifications|Starting migration to 38
+21-4-20 21:07:43.7|Info|MigrationLogger|*** 39: add_metadata_tables migrating ***
+21-4-20 21:07:43.7|Info|add_metadata_tables|Starting migration to 39
+21-4-20 21:07:43.7|Info|MigrationLogger|*** 40: add_metadata_to_episodes_and_series migrating ***
+21-4-20 21:07:43.7|Info|add_metadata_to_episodes_and_series|Starting migration to 40
+21-4-20 21:07:43.7|Info|MigrationLogger|*** 41: fix_xbmc_season_images_metadata migrating ***
+21-4-20 21:07:43.7|Info|fix_xbmc_season_images_metadata|Starting migration to 41
+21-4-20 21:07:43.7|Info|MigrationLogger|*** 42: add_download_clients_table migrating ***
+21-4-20 21:07:43.7|Info|add_download_clients_table|Starting migration to 42
+21-4-20 21:07:43.7|Info|MigrationLogger|*** 43: convert_config_to_download_clients migrating ***
+21-4-20 21:07:43.7|Info|convert_config_to_download_clients|Starting migration to 43
+21-4-20 21:07:43.7|Info|MigrationLogger|*** 44: fix_xbmc_episode_metadata migrating ***
+21-4-20 21:07:43.7|Info|fix_xbmc_episode_metadata|Starting migration to 44
+21-4-20 21:07:43.7|Info|MigrationLogger|*** 45: add_indexes migrating ***
+21-4-20 21:07:43.7|Info|add_indexes|Starting migration to 45
+21-4-20 21:07:43.7|Info|MigrationLogger|*** 46: fix_nzb_su_url migrating ***
+21-4-20 21:07:43.7|Info|fix_nzb_su_url|Starting migration to 46
+21-4-20 21:07:43.8|Info|MigrationLogger|*** 47: add_temporary_blacklist_columns migrating ***
+21-4-20 21:07:43.8|Info|add_temporary_blacklist_columns|Starting migration to 47
+21-4-20 21:07:43.8|Info|MigrationLogger|*** 48: add_title_to_scenemappings migrating ***
+21-4-20 21:07:43.8|Info|add_title_to_scenemappings|Starting migration to 48
+21-4-20 21:07:43.8|Info|MigrationLogger|*** 49: fix_dognzb_url migrating ***
+21-4-20 21:07:43.8|Info|fix_dognzb_url|Starting migration to 49
+21-4-20 21:07:43.8|Info|MigrationLogger|*** 50: add_hash_to_metadata_files migrating ***
+21-4-20 21:07:43.8|Info|add_hash_to_metadata_files|Starting migration to 50
+21-4-20 21:07:43.8|Info|MigrationLogger|*** 51: download_client_import migrating ***
+21-4-20 21:07:43.8|Info|download_client_import|Starting migration to 51
+21-4-20 21:07:43.8|Info|MigrationLogger|*** 52: add_columns_for_anime migrating ***
+21-4-20 21:07:43.8|Info|add_columns_for_anime|Starting migration to 52
+21-4-20 21:07:43.8|Info|MigrationLogger|*** 53: add_series_sorttitle migrating ***
+21-4-20 21:07:43.8|Info|add_series_sorttitle|Starting migration to 53
+21-4-20 21:07:43.8|Info|MigrationLogger|*** 54: rename_profiles migrating ***
+21-4-20 21:07:43.8|Info|rename_profiles|Starting migration to 54
+21-4-20 21:07:43.8|Info|MigrationLogger|*** 55: drop_old_profile_columns migrating ***
+21-4-20 21:07:43.8|Info|drop_old_profile_columns|Starting migration to 55
+21-4-20 21:07:43.9|Info|MigrationLogger|*** 56: add_mediainfo_to_episodefile migrating ***
+21-4-20 21:07:43.9|Info|add_mediainfo_to_episodefile|Starting migration to 56
+21-4-20 21:07:43.9|Info|MigrationLogger|*** 57: convert_episode_file_path_to_relative migrating ***
+21-4-20 21:07:43.9|Info|convert_episode_file_path_to_relative|Starting migration to 57
+21-4-20 21:07:43.9|Info|MigrationLogger|*** 58: drop_episode_file_path migrating ***
+21-4-20 21:07:43.9|Info|drop_episode_file_path|Starting migration to 58
+21-4-20 21:07:43.9|Info|MigrationLogger|*** 59: add_enable_options_to_indexers migrating ***
+21-4-20 21:07:43.9|Info|add_enable_options_to_indexers|Starting migration to 59
+21-4-20 21:07:43.9|Info|MigrationLogger|*** 60: remove_enable_from_indexers migrating ***
+21-4-20 21:07:43.9|Info|remove_enable_from_indexers|Starting migration to 60
+21-4-20 21:07:44.1|Info|MigrationLogger|*** 61: clear_bad_scene_names migrating ***
+21-4-20 21:07:44.1|Info|clear_bad_scene_names|Starting migration to 61
+21-4-20 21:07:44.2|Info|MigrationLogger|*** 62: convert_quality_models migrating ***
+21-4-20 21:07:44.2|Info|convert_quality_models|Starting migration to 62
+21-4-20 21:07:44.2|Info|MigrationLogger|*** 63: add_remotepathmappings migrating ***
+21-4-20 21:07:44.2|Info|add_remotepathmappings|Starting migration to 63
+21-4-20 21:07:44.3|Info|MigrationLogger|*** 64: remove_method_from_logs migrating ***
+21-4-20 21:07:44.3|Info|remove_method_from_logs|Starting migration to 64
+21-4-20 21:07:44.3|Info|MigrationLogger|*** 65: make_scene_numbering_nullable migrating ***
+21-4-20 21:07:44.3|Info|make_scene_numbering_nullable|Starting migration to 65
+21-4-20 21:07:44.3|Info|MigrationLogger|*** 66: add_tags migrating ***
+21-4-20 21:07:44.3|Info|add_tags|Starting migration to 66
+21-4-20 21:07:44.3|Info|MigrationLogger|*** 67: add_added_to_series migrating ***
+21-4-20 21:07:44.3|Info|add_added_to_series|Starting migration to 67
+21-4-20 21:07:44.3|Info|MigrationLogger|*** 68: add_release_restrictions migrating ***
+21-4-20 21:07:44.3|Info|add_release_restrictions|Starting migration to 68
+21-4-20 21:07:44.3|Info|MigrationLogger|*** 69: quality_proper migrating ***
+21-4-20 21:07:44.3|Info|quality_proper|Starting migration to 69
+21-4-20 21:07:44.3|Info|MigrationLogger|*** 70: delay_profile migrating ***
+21-4-20 21:07:44.3|Info|delay_profile|Starting migration to 70
+21-4-20 21:07:44.3|Info|MigrationLogger|*** 71: unknown_quality_in_profile migrating ***
+21-4-20 21:07:44.3|Info|unknown_quality_in_profile|Starting migration to 71
+21-4-20 21:07:44.4|Info|MigrationLogger|*** 72: history_downloadId migrating ***
+21-4-20 21:07:44.4|Info|history_downloadId|Starting migration to 72
+21-4-20 21:07:44.4|Info|MigrationLogger|*** 73: clear_ratings migrating ***
+21-4-20 21:07:44.4|Info|clear_ratings|Starting migration to 73
+21-4-20 21:07:44.4|Info|MigrationLogger|*** 74: disable_eztv migrating ***
+21-4-20 21:07:44.4|Info|disable_eztv|Starting migration to 74
+21-4-20 21:07:44.4|Info|MigrationLogger|*** 75: force_lib_update migrating ***
+21-4-20 21:07:44.4|Info|force_lib_update|Starting migration to 75
+21-4-20 21:07:44.4|Info|MigrationLogger|*** 76: add_users_table migrating ***
+21-4-20 21:07:44.4|Info|add_users_table|Starting migration to 76
+21-4-20 21:07:44.5|Info|MigrationLogger|*** 77: add_add_options_to_series migrating ***
+21-4-20 21:07:44.5|Info|add_add_options_to_series|Starting migration to 77
+21-4-20 21:07:44.5|Info|MigrationLogger|*** 78: add_commands_table migrating ***
+21-4-20 21:07:44.5|Info|add_commands_table|Starting migration to 78
+21-4-20 21:07:44.5|Info|MigrationLogger|*** 79: dedupe_tags migrating ***
+21-4-20 21:07:44.5|Info|dedupe_tags|Starting migration to 79
+21-4-20 21:07:44.6|Info|MigrationLogger|*** 81: move_dot_prefix_to_transmission_category migrating ***
+21-4-20 21:07:44.6|Info|move_dot_prefix_to_transmission_category|Starting migration to 81
+21-4-20 21:07:44.6|Info|MigrationLogger|*** 82: add_fanzub_settings migrating ***
+21-4-20 21:07:44.6|Info|add_fanzub_settings|Starting migration to 82
+21-4-20 21:07:44.6|Info|MigrationLogger|*** 83: additonal_blacklist_columns migrating ***
+21-4-20 21:07:44.6|Info|additonal_blacklist_columns|Starting migration to 83
+21-4-20 21:07:44.7|Info|MigrationLogger|*** 84: update_quality_minmax_size migrating ***
+21-4-20 21:07:44.7|Info|update_quality_minmax_size|Starting migration to 84
+21-4-20 21:07:44.7|Info|MigrationLogger|*** 85: expand_transmission_urlbase migrating ***
+21-4-20 21:07:44.7|Info|expand_transmission_urlbase|Starting migration to 85
+21-4-20 21:07:44.7|Info|MigrationLogger|*** 86: pushbullet_device_ids migrating ***
+21-4-20 21:07:44.7|Info|pushbullet_device_ids|Starting migration to 86
+21-4-20 21:07:44.7|Info|MigrationLogger|*** 87: remove_eztv migrating ***
+21-4-20 21:07:44.7|Info|remove_eztv|Starting migration to 87
+21-4-20 21:07:44.8|Info|MigrationLogger|*** 88: pushbullet_devices_channels_list migrating ***
+21-4-20 21:07:44.8|Info|pushbullet_devices_channels_list|Starting migration to 88
+21-4-20 21:07:44.8|Info|MigrationLogger|*** 89: add_on_rename_to_notifcations migrating ***
+21-4-20 21:07:44.8|Info|add_on_rename_to_notifcations|Starting migration to 89
+21-4-20 21:07:44.8|Info|MigrationLogger|*** 90: update_kickass_url migrating ***
+21-4-20 21:07:44.8|Info|update_kickass_url|Starting migration to 90
+21-4-20 21:07:44.8|Info|MigrationLogger|*** 91: added_indexerstatus migrating ***
+21-4-20 21:07:44.8|Info|added_indexerstatus|Starting migration to 91
+21-4-20 21:07:44.8|Info|MigrationLogger|*** 92: add_unverifiedscenenumbering migrating ***
+21-4-20 21:07:44.8|Info|add_unverifiedscenenumbering|Starting migration to 92
+21-4-20 21:07:44.9|Info|MigrationLogger|*** 93: naming_config_replace_illegal_characters migrating ***
+21-4-20 21:07:44.9|Info|naming_config_replace_illegal_characters|Starting migration to 93
+21-4-20 21:07:44.9|Info|MigrationLogger|*** 94: add_tvmazeid migrating ***
+21-4-20 21:07:44.9|Info|add_tvmazeid|Starting migration to 94
+21-4-20 21:07:44.9|Info|MigrationLogger|*** 95: add_additional_episodes_index migrating ***
+21-4-20 21:07:44.9|Info|add_additional_episodes_index|Starting migration to 95
+21-4-20 21:07:44.9|Info|MigrationLogger|*** 96: disable_kickass migrating ***
+21-4-20 21:07:44.9|Info|disable_kickass|Starting migration to 96
+21-4-20 21:07:44.9|Info|MigrationLogger|*** 97: add_reason_to_pending_releases migrating ***
+21-4-20 21:07:44.9|Info|add_reason_to_pending_releases|Starting migration to 97
+21-4-20 21:07:44.9|Info|MigrationLogger|*** 98: remove_titans_of_tv migrating ***
+21-4-20 21:07:44.9|Info|remove_titans_of_tv|Starting migration to 98
+21-4-20 21:07:45.0|Info|MigrationLogger|*** 99: extra_and_subtitle_files migrating ***
+21-4-20 21:07:45.0|Info|extra_and_subtitle_files|Starting migration to 99
+21-4-20 21:07:45.0|Info|MigrationLogger|*** 100: add_scene_season_number migrating ***
+21-4-20 21:07:45.0|Info|add_scene_season_number|Starting migration to 100
+21-4-20 21:07:45.0|Info|MigrationLogger|*** 101: add_ultrahd_quality_in_profiles migrating ***
+21-4-20 21:07:45.0|Info|add_ultrahd_quality_in_profiles|Starting migration to 101
+21-4-20 21:07:45.0|Info|MigrationLogger|*** 102: add_language_to_episodeFiles_history_and_blacklist migrating ***
+21-4-20 21:07:45.0|Info|add_language_to_episodeFiles_history_and_blacklist|Starting migration to 102
+21-4-20 21:07:45.1|Info|MigrationLogger|*** 103: fix_metadata_file_extensions migrating ***
+21-4-20 21:07:45.1|Info|fix_metadata_file_extensions|Starting migration to 103
+21-4-20 21:07:45.1|Info|MigrationLogger|*** 104: remove_kickass migrating ***
+21-4-20 21:07:45.1|Info|remove_kickass|Starting migration to 104
+21-4-20 21:07:45.1|Info|MigrationLogger|*** 105: rename_torrent_downloadstation migrating ***
+21-4-20 21:07:45.1|Info|rename_torrent_downloadstation|Starting migration to 105
+21-4-20 21:07:45.1|Info|MigrationLogger|*** 106: update_btn_url migrating ***
+21-4-20 21:07:45.1|Info|update_btn_url|Starting migration to 106
+21-4-20 21:07:45.1|Info|MigrationLogger|*** 107: remove_wombles migrating ***
+21-4-20 21:07:45.1|Info|remove_wombles|Starting migration to 107
+21-4-20 21:07:45.1|Info|MigrationLogger|*** 108: fix_extra_file_extension migrating ***
+21-4-20 21:07:45.1|Info|fix_extra_file_extension|Starting migration to 108
+21-4-20 21:07:45.1|Info|MigrationLogger|*** 109: import_extra_files migrating ***
+21-4-20 21:07:45.1|Info|import_extra_files|Starting migration to 109
+21-4-20 21:07:45.1|Info|MigrationLogger|*** 110: fix_extra_files_config migrating ***
+21-4-20 21:07:45.1|Info|fix_extra_files_config|Starting migration to 110
+21-4-20 21:07:45.1|Info|MigrationLogger|*** 111: create_language_profiles migrating ***
+21-4-20 21:07:45.1|Info|create_language_profiles|Starting migration to 111
+21-4-20 21:07:45.2|Info|MigrationLogger|*** 112: added_regex_to_scenemapping migrating ***
+21-4-20 21:07:45.2|Info|added_regex_to_scenemapping|Starting migration to 112
+21-4-20 21:07:45.2|Info|MigrationLogger|*** 113: consolidate_indexer_baseurl migrating ***
+21-4-20 21:07:45.2|Info|consolidate_indexer_baseurl|Starting migration to 113
+21-4-20 21:07:45.2|Info|MigrationLogger|*** 114: rename_indexer_status_id migrating ***
+21-4-20 21:07:45.2|Info|rename_indexer_status_id|Starting migration to 114
+21-4-20 21:07:45.2|Info|MigrationLogger|*** 115: add_downloadclient_status migrating ***
+21-4-20 21:07:45.2|Info|add_downloadclient_status|Starting migration to 115
+21-4-20 21:07:45.2|Info|MigrationLogger|*** 116: disable_nyaa migrating ***
+21-4-20 21:07:45.2|Info|disable_nyaa|Starting migration to 116
+21-4-20 21:07:45.3|Info|MigrationLogger|*** 117: add_webrip_and_br480_qualites_in_profile migrating ***
+21-4-20 21:07:45.3|Info|add_webrip_and_br480_qualites_in_profile|Starting migration to 117
+21-4-20 21:07:45.3|Info|MigrationLogger|*** 118: add_history_eventType_index migrating ***
+21-4-20 21:07:45.3|Info|add_history_eventType_index|Starting migration to 118
+21-4-20 21:07:45.3|Info|MigrationLogger|*** 119: separate_automatic_and_interactive_searches migrating ***
+21-4-20 21:07:45.3|Info|separate_automatic_and_interactive_searches|Starting migration to 119
+21-4-20 21:07:45.3|Info|MigrationLogger|*** 120: update_series_episodes_history_indexes migrating ***
+21-4-20 21:07:45.3|Info|update_series_episodes_history_indexes|Starting migration to 120
+21-4-20 21:07:45.3|Info|MigrationLogger|*** 121: update_animetosho_url migrating ***
+21-4-20 21:07:45.3|Info|update_animetosho_url|Starting migration to 121
+21-4-20 21:07:45.3|Info|MigrationLogger|*** 122: add_remux_qualities_in_profile migrating ***
+21-4-20 21:07:45.3|Info|add_remux_qualities_in_profile|Starting migration to 122
+21-4-20 21:07:45.3|Info|MigrationLogger|*** 123: add_history_seriesId_index migrating ***
+21-4-20 21:07:45.3|Info|add_history_seriesId_index|Starting migration to 123
+21-4-20 21:07:45.3|Info|MigrationLogger|*** 124: remove_media_browser_metadata migrating ***
+21-4-20 21:07:45.3|Info|remove_media_browser_metadata|Starting migration to 124
+21-4-20 21:07:45.3|Info|MigrationLogger|*** 125: remove_notify_my_android_and_pushalot_notifications migrating ***
+21-4-20 21:07:45.3|Info|remove_notify_my_android_and_pushalot_notifications|Starting migration to 125
+21-4-20 21:07:45.3|Info|MigrationLogger|*** 126: add_custom_filters migrating ***
+21-4-20 21:07:45.3|Info|add_custom_filters|Starting migration to 126
+21-4-20 21:07:45.3|Info|MigrationLogger|*** 127: rename_restrictions_to_release_profiles migrating ***
+21-4-20 21:07:45.3|Info|rename_restrictions_to_release_profiles|Starting migration to 127
+21-4-20 21:07:45.4|Info|MigrationLogger|*** 128: rename_quality_profiles_add_upgrade_allowed migrating ***
+21-4-20 21:07:45.4|Info|rename_quality_profiles_add_upgrade_allowed|Starting migration to 128
+21-4-20 21:07:45.4|Info|MigrationLogger|*** 129: add_relative_original_path_to_episode_file migrating ***
+21-4-20 21:07:45.4|Info|add_relative_original_path_to_episode_file|Starting migration to 129
+21-4-20 21:07:45.4|Info|MigrationLogger|*** 130: episode_last_searched_time migrating ***
+21-4-20 21:07:45.4|Info|episode_last_searched_time|Starting migration to 130
+21-4-20 21:07:45.4|Info|MigrationLogger|*** 131: download_propers_config migrating ***
+21-4-20 21:07:45.4|Info|download_propers_config|Starting migration to 131
+21-4-20 21:07:45.4|Info|MigrationLogger|*** 132: add_download_client_priority migrating ***
+21-4-20 21:07:45.4|Info|add_download_client_priority|Starting migration to 132
+21-4-20 21:07:45.4|Info|MigrationLogger|*** 134: add_specials_folder_format migrating ***
+21-4-20 21:07:45.4|Info|add_specials_folder_format|Starting migration to 134
+21-4-20 21:07:45.5|Info|MigrationLogger|*** 135: health_issue_notification migrating ***
+21-4-20 21:07:45.5|Info|health_issue_notification|Starting migration to 135
+21-4-20 21:07:45.6|Info|MigrationLogger|*** 136: add_indexer_and_enabled_to_release_profiles migrating ***
+21-4-20 21:07:45.6|Info|add_indexer_and_enabled_to_release_profiles|Starting migration to 136
+21-4-20 21:07:45.7|Info|MigrationLogger|*** 137: add_airedbefore_to_episodes migrating ***
+21-4-20 21:07:45.7|Info|add_airedbefore_to_episodes|Starting migration to 137
+21-4-20 21:07:45.7|Info|MigrationLogger|*** 138: remove_bitmetv migrating ***
+21-4-20 21:07:45.7|Info|remove_bitmetv|Starting migration to 138
+21-4-20 21:07:45.7|Info|MigrationLogger|*** 139: add_download_history migrating ***
+21-4-20 21:07:45.7|Info|add_download_history|Starting migration to 139
+21-4-20 21:07:45.7|Info|MigrationLogger|*** 140: remove_chown_and_folderchmod_config_v2 migrating ***
+21-4-20 21:07:45.7|Info|remove_chown_and_folderchmod_config_v2|Starting migration to 140
+21-4-20 21:07:45.8|Info|MigrationLogger|*** 141: add_update_history migrating ***
+21-4-20 21:07:45.8|Info|add_update_history|Starting migration to 141
+21-4-20 21:07:45.8|Info|MigrationLogger|*** 142: import_lists migrating ***
+21-4-20 21:07:45.8|Info|import_lists|Starting migration to 142
+21-4-20 21:07:45.8|Info|MigrationLogger|*** 143: add_priority_to_indexers migrating ***
+21-4-20 21:07:45.8|Info|add_priority_to_indexers|Starting migration to 143
+21-4-20 21:07:45.8|Info|MigrationLogger|*** 144: import_lists_series_type_and_season_folder migrating ***
+21-4-20 21:07:45.8|Info|import_lists_series_type_and_season_folder|Starting migration to 144
+21-4-20 21:07:45.8|Info|MigrationLogger|*** 145: remove_growl migrating ***
+21-4-20 21:07:45.8|Info|remove_growl|Starting migration to 145
+21-4-20 21:07:45.8|Info|MigrationLogger|*** 146: cleanup_duplicates_updatehistory migrating ***
+21-4-20 21:07:45.8|Info|cleanup_duplicates_updatehistory|Starting migration to 146
+21-4-20 21:07:45.8|Info|MigrationLogger|*** 147: swap_filechmod_for_folderchmod migrating ***
+21-4-20 21:07:45.8|Info|swap_filechmod_for_folderchmod|Starting migration to 147
+21-4-20 21:07:45.8|Info|MigrationLogger|*** 148: mediainfo_channels migrating ***
+21-4-20 21:07:45.8|Info|mediainfo_channels|Starting migration to 148
+21-4-20 21:07:45.8|Info|MigrationLogger|*** 149: add_on_delete_to_notifications migrating ***
+21-4-20 21:07:45.8|Info|add_on_delete_to_notifications|Starting migration to 149
+21-4-20 21:07:45.8|Info|MigrationLogger|*** 150: add_scene_mapping_origin migrating ***
+21-4-20 21:07:45.8|Info|add_scene_mapping_origin|Starting migration to 150
+21-4-20 21:07:45.8|Info|MigrationLogger|*** 151: remove_custom_filter_type migrating ***
+21-4-20 21:07:45.8|Info|remove_custom_filter_type|Starting migration to 151
+21-4-20 21:07:45.8|Info|MigrationLogger|*** 152: update_btn_url_to_https migrating ***
+21-4-20 21:07:45.8|Info|update_btn_url_to_https|Starting migration to 152
+21-4-20 21:07:45.9|Info|MigrationLogger|*** 153: add_on_episodefiledelete_for_upgrade migrating ***
+21-4-20 21:07:45.9|Info|add_on_episodefiledelete_for_upgrade|Starting migration to 153
+21-4-20 21:07:45.9|Info|MigrationLogger|*** 154: add_name_release_profile migrating ***
+21-4-20 21:07:45.9|Info|add_name_release_profile|Starting migration to 154
+21-4-20 21:07:45.9|Info|MigrationLogger|*** 155: add_arabic_and_hindi_languages migrating ***
+21-4-20 21:07:45.9|Info|add_arabic_and_hindi_languages|Starting migration to 155
+21-4-20 21:07:45.9|Info|MigrationLogger|*** 156: add_bypass_to_delay_profile migrating ***
+21-4-20 21:07:45.9|Info|add_bypass_to_delay_profile|Starting migration to 156
+21-4-20 21:07:45.9|Info|MigrationLogger|*** 157: email_multiple_addresses migrating ***
+21-4-20 21:07:45.9|Info|email_multiple_addresses|Starting migration to 157
+21-4-20 21:07:46.0|Info|MigrationLogger|*** Checking database for required migrations data source=/config/logs.db;cache size=-10000;datetimekind=Utc;journal mode=Wal;pooling=True;version=3 ***
+21-4-20 21:07:46.1|Info|MigrationLogger|*** VersionMigration migrating ***
+21-4-20 21:07:46.1|Info|MigrationLogger|*** VersionUniqueMigration migrating ***
+21-4-20 21:07:46.1|Info|MigrationLogger|*** VersionDescriptionMigration migrating ***
+21-4-20 21:07:46.1|Info|MigrationLogger|*** 1: InitialSetup migrating ***
+21-4-20 21:07:46.1|Info|InitialSetup|Starting migration to 1
+21-4-20 21:07:46.1|Info|MigrationLogger|*** 2: remove_tvrage_imdb_unique_constraint migrating ***
+21-4-20 21:07:46.1|Info|remove_tvrage_imdb_unique_constraint|Starting migration to 2
+21-4-20 21:07:46.1|Info|MigrationLogger|*** 3: remove_renamed_scene_mapping_columns migrating ***
+21-4-20 21:07:46.1|Info|remove_renamed_scene_mapping_columns|Starting migration to 3
+21-4-20 21:07:46.1|Info|MigrationLogger|*** 4: updated_history migrating ***
+21-4-20 21:07:46.1|Info|updated_history|Starting migration to 4
+21-4-20 21:07:46.1|Info|MigrationLogger|*** 5: added_eventtype_to_history migrating ***
+21-4-20 21:07:46.1|Info|added_eventtype_to_history|Starting migration to 5
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 6: add_index_to_log_time migrating ***
+21-4-20 21:07:46.2|Info|add_index_to_log_time|Starting migration to 6
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 7: add_renameEpisodes_to_naming migrating ***
+21-4-20 21:07:46.2|Info|add_renameEpisodes_to_naming|Starting migration to 7
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 8: remove_backlog migrating ***
+21-4-20 21:07:46.2|Info|remove_backlog|Starting migration to 8
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 9: fix_rename_episodes migrating ***
+21-4-20 21:07:46.2|Info|fix_rename_episodes|Starting migration to 9
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 10: add_monitored migrating ***
+21-4-20 21:07:46.2|Info|add_monitored|Starting migration to 10
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 11: remove_ignored migrating ***
+21-4-20 21:07:46.2|Info|remove_ignored|Starting migration to 11
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 12: remove_custom_start_date migrating ***
+21-4-20 21:07:46.2|Info|remove_custom_start_date|Starting migration to 12
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 13: add_air_date_utc migrating ***
+21-4-20 21:07:46.2|Info|add_air_date_utc|Starting migration to 13
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 14: drop_air_date migrating ***
+21-4-20 21:07:46.2|Info|drop_air_date|Starting migration to 14
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 15: add_air_date_as_string migrating ***
+21-4-20 21:07:46.2|Info|add_air_date_as_string|Starting migration to 15
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 16: updated_imported_history_item migrating ***
+21-4-20 21:07:46.2|Info|updated_imported_history_item|Starting migration to 16
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 17: reset_scene_names migrating ***
+21-4-20 21:07:46.2|Info|reset_scene_names|Starting migration to 17
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 18: remove_duplicates migrating ***
+21-4-20 21:07:46.2|Info|remove_duplicates|Starting migration to 18
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 19: restore_unique_constraints migrating ***
+21-4-20 21:07:46.2|Info|restore_unique_constraints|Starting migration to 19
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 20: add_year_and_seasons_to_series migrating ***
+21-4-20 21:07:46.2|Info|add_year_and_seasons_to_series|Starting migration to 20
+21-4-20 21:07:46.2|Info|MigrationLogger|*** 21: drop_seasons_table migrating ***
+21-4-20 21:07:46.2|Info|drop_seasons_table|Starting migration to 21
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 22: move_indexer_to_generic_provider migrating ***
+21-4-20 21:07:46.3|Info|move_indexer_to_generic_provider|Starting migration to 22
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 23: add_config_contract_to_indexers migrating ***
+21-4-20 21:07:46.3|Info|add_config_contract_to_indexers|Starting migration to 23
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 24: drop_tvdb_episodeid migrating ***
+21-4-20 21:07:46.3|Info|drop_tvdb_episodeid|Starting migration to 24
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 25: move_notification_to_generic_provider migrating ***
+21-4-20 21:07:46.3|Info|move_notification_to_generic_provider|Starting migration to 25
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 26: add_config_contract_to_notifications migrating ***
+21-4-20 21:07:46.3|Info|add_config_contract_to_notifications|Starting migration to 26
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 27: fix_omgwtfnzbs migrating ***
+21-4-20 21:07:46.3|Info|fix_omgwtfnzbs|Starting migration to 27
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 28: add_blacklist_table migrating ***
+21-4-20 21:07:46.3|Info|add_blacklist_table|Starting migration to 28
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 29: add_formats_to_naming_config migrating ***
+21-4-20 21:07:46.3|Info|add_formats_to_naming_config|Starting migration to 29
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 30: add_season_folder_format_to_naming_config migrating ***
+21-4-20 21:07:46.3|Info|add_season_folder_format_to_naming_config|Starting migration to 30
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 31: delete_old_naming_config_columns migrating ***
+21-4-20 21:07:46.3|Info|delete_old_naming_config_columns|Starting migration to 31
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 32: set_default_release_group migrating ***
+21-4-20 21:07:46.3|Info|set_default_release_group|Starting migration to 32
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 33: add_api_key_to_pushover migrating ***
+21-4-20 21:07:46.3|Info|add_api_key_to_pushover|Starting migration to 33
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 34: remove_series_contraints migrating ***
+21-4-20 21:07:46.3|Info|remove_series_contraints|Starting migration to 34
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 35: add_series_folder_format_to_naming_config migrating ***
+21-4-20 21:07:46.3|Info|add_series_folder_format_to_naming_config|Starting migration to 35
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 36: update_with_quality_converters migrating ***
+21-4-20 21:07:46.3|Info|update_with_quality_converters|Starting migration to 36
+21-4-20 21:07:46.3|Info|MigrationLogger|*** 37: add_configurable_qualities migrating ***
+21-4-20 21:07:46.3|Info|add_configurable_qualities|Starting migration to 37
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 38: add_on_upgrade_to_notifications migrating ***
+21-4-20 21:07:46.4|Info|add_on_upgrade_to_notifications|Starting migration to 38
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 39: add_metadata_tables migrating ***
+21-4-20 21:07:46.4|Info|add_metadata_tables|Starting migration to 39
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 40: add_metadata_to_episodes_and_series migrating ***
+21-4-20 21:07:46.4|Info|add_metadata_to_episodes_and_series|Starting migration to 40
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 41: fix_xbmc_season_images_metadata migrating ***
+21-4-20 21:07:46.4|Info|fix_xbmc_season_images_metadata|Starting migration to 41
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 42: add_download_clients_table migrating ***
+21-4-20 21:07:46.4|Info|add_download_clients_table|Starting migration to 42
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 43: convert_config_to_download_clients migrating ***
+21-4-20 21:07:46.4|Info|convert_config_to_download_clients|Starting migration to 43
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 44: fix_xbmc_episode_metadata migrating ***
+21-4-20 21:07:46.4|Info|fix_xbmc_episode_metadata|Starting migration to 44
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 45: add_indexes migrating ***
+21-4-20 21:07:46.4|Info|add_indexes|Starting migration to 45
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 46: fix_nzb_su_url migrating ***
+21-4-20 21:07:46.4|Info|fix_nzb_su_url|Starting migration to 46
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 47: add_temporary_blacklist_columns migrating ***
+21-4-20 21:07:46.4|Info|add_temporary_blacklist_columns|Starting migration to 47
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 48: add_title_to_scenemappings migrating ***
+21-4-20 21:07:46.4|Info|add_title_to_scenemappings|Starting migration to 48
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 49: fix_dognzb_url migrating ***
+21-4-20 21:07:46.4|Info|fix_dognzb_url|Starting migration to 49
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 50: add_hash_to_metadata_files migrating ***
+21-4-20 21:07:46.4|Info|add_hash_to_metadata_files|Starting migration to 50
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 51: download_client_import migrating ***
+21-4-20 21:07:46.4|Info|download_client_import|Starting migration to 51
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 52: add_columns_for_anime migrating ***
+21-4-20 21:07:46.4|Info|add_columns_for_anime|Starting migration to 52
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 53: add_series_sorttitle migrating ***
+21-4-20 21:07:46.4|Info|add_series_sorttitle|Starting migration to 53
+21-4-20 21:07:46.4|Info|MigrationLogger|*** 54: rename_profiles migrating ***
+21-4-20 21:07:46.4|Info|rename_profiles|Starting migration to 54
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 55: drop_old_profile_columns migrating ***
+21-4-20 21:07:46.5|Info|drop_old_profile_columns|Starting migration to 55
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 56: add_mediainfo_to_episodefile migrating ***
+21-4-20 21:07:46.5|Info|add_mediainfo_to_episodefile|Starting migration to 56
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 57: convert_episode_file_path_to_relative migrating ***
+21-4-20 21:07:46.5|Info|convert_episode_file_path_to_relative|Starting migration to 57
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 58: drop_episode_file_path migrating ***
+21-4-20 21:07:46.5|Info|drop_episode_file_path|Starting migration to 58
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 59: add_enable_options_to_indexers migrating ***
+21-4-20 21:07:46.5|Info|add_enable_options_to_indexers|Starting migration to 59
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 60: remove_enable_from_indexers migrating ***
+21-4-20 21:07:46.5|Info|remove_enable_from_indexers|Starting migration to 60
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 61: clear_bad_scene_names migrating ***
+21-4-20 21:07:46.5|Info|clear_bad_scene_names|Starting migration to 61
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 62: convert_quality_models migrating ***
+21-4-20 21:07:46.5|Info|convert_quality_models|Starting migration to 62
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 63: add_remotepathmappings migrating ***
+21-4-20 21:07:46.5|Info|add_remotepathmappings|Starting migration to 63
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 64: remove_method_from_logs migrating ***
+21-4-20 21:07:46.5|Info|remove_method_from_logs|Starting migration to 64
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 65: make_scene_numbering_nullable migrating ***
+21-4-20 21:07:46.5|Info|make_scene_numbering_nullable|Starting migration to 65
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 66: add_tags migrating ***
+21-4-20 21:07:46.5|Info|add_tags|Starting migration to 66
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 67: add_added_to_series migrating ***
+21-4-20 21:07:46.5|Info|add_added_to_series|Starting migration to 67
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 68: add_release_restrictions migrating ***
+21-4-20 21:07:46.5|Info|add_release_restrictions|Starting migration to 68
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 69: quality_proper migrating ***
+21-4-20 21:07:46.5|Info|quality_proper|Starting migration to 69
+21-4-20 21:07:46.5|Info|MigrationLogger|*** 70: delay_profile migrating ***
+21-4-20 21:07:46.5|Info|delay_profile|Starting migration to 70
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 71: unknown_quality_in_profile migrating ***
+21-4-20 21:07:46.6|Info|unknown_quality_in_profile|Starting migration to 71
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 72: history_downloadId migrating ***
+21-4-20 21:07:46.6|Info|history_downloadId|Starting migration to 72
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 73: clear_ratings migrating ***
+21-4-20 21:07:46.6|Info|clear_ratings|Starting migration to 73
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 74: disable_eztv migrating ***
+21-4-20 21:07:46.6|Info|disable_eztv|Starting migration to 74
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 75: force_lib_update migrating ***
+21-4-20 21:07:46.6|Info|force_lib_update|Starting migration to 75
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 76: add_users_table migrating ***
+21-4-20 21:07:46.6|Info|add_users_table|Starting migration to 76
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 77: add_add_options_to_series migrating ***
+21-4-20 21:07:46.6|Info|add_add_options_to_series|Starting migration to 77
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 78: add_commands_table migrating ***
+21-4-20 21:07:46.6|Info|add_commands_table|Starting migration to 78
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 79: dedupe_tags migrating ***
+21-4-20 21:07:46.6|Info|dedupe_tags|Starting migration to 79
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 81: move_dot_prefix_to_transmission_category migrating ***
+21-4-20 21:07:46.6|Info|move_dot_prefix_to_transmission_category|Starting migration to 81
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 82: add_fanzub_settings migrating ***
+21-4-20 21:07:46.6|Info|add_fanzub_settings|Starting migration to 82
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 83: additonal_blacklist_columns migrating ***
+21-4-20 21:07:46.6|Info|additonal_blacklist_columns|Starting migration to 83
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 84: update_quality_minmax_size migrating ***
+21-4-20 21:07:46.6|Info|update_quality_minmax_size|Starting migration to 84
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 85: expand_transmission_urlbase migrating ***
+21-4-20 21:07:46.6|Info|expand_transmission_urlbase|Starting migration to 85
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 86: pushbullet_device_ids migrating ***
+21-4-20 21:07:46.6|Info|pushbullet_device_ids|Starting migration to 86
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 87: remove_eztv migrating ***
+21-4-20 21:07:46.6|Info|remove_eztv|Starting migration to 87
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 88: pushbullet_devices_channels_list migrating ***
+21-4-20 21:07:46.6|Info|pushbullet_devices_channels_list|Starting migration to 88
+21-4-20 21:07:46.6|Info|MigrationLogger|*** 89: add_on_rename_to_notifcations migrating ***
+21-4-20 21:07:46.6|Info|add_on_rename_to_notifcations|Starting migration to 89
+21-4-20 21:07:46.7|Info|MigrationLogger|*** 90: update_kickass_url migrating ***
+21-4-20 21:07:46.7|Info|update_kickass_url|Starting migration to 90
+21-4-20 21:07:46.7|Info|MigrationLogger|*** 91: added_indexerstatus migrating ***
+21-4-20 21:07:46.7|Info|added_indexerstatus|Starting migration to 91
+21-4-20 21:07:46.7|Info|MigrationLogger|*** 92: add_unverifiedscenenumbering migrating ***
+21-4-20 21:07:46.7|Info|add_unverifiedscenenumbering|Starting migration to 92
+21-4-20 21:07:46.7|Info|MigrationLogger|*** 93: naming_config_replace_illegal_characters migrating ***
+21-4-20 21:07:46.7|Info|naming_config_replace_illegal_characters|Starting migration to 93
+21-4-20 21:07:46.7|Info|MigrationLogger|*** 94: add_tvmazeid migrating ***
+21-4-20 21:07:46.7|Info|add_tvmazeid|Starting migration to 94
+21-4-20 21:07:46.7|Info|MigrationLogger|*** 95: add_additional_episodes_index migrating ***
+21-4-20 21:07:46.7|Info|add_additional_episodes_index|Starting migration to 95
+21-4-20 21:07:46.7|Info|MigrationLogger|*** 96: disable_kickass migrating ***
+21-4-20 21:07:46.7|Info|disable_kickass|Starting migration to 96
+21-4-20 21:07:46.7|Info|MigrationLogger|*** 97: add_reason_to_pending_releases migrating ***
+21-4-20 21:07:46.7|Info|add_reason_to_pending_releases|Starting migration to 97
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 98: remove_titans_of_tv migrating ***
+21-4-20 21:07:46.8|Info|remove_titans_of_tv|Starting migration to 98
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 99: extra_and_subtitle_files migrating ***
+21-4-20 21:07:46.8|Info|extra_and_subtitle_files|Starting migration to 99
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 100: add_scene_season_number migrating ***
+21-4-20 21:07:46.8|Info|add_scene_season_number|Starting migration to 100
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 101: add_ultrahd_quality_in_profiles migrating ***
+21-4-20 21:07:46.8|Info|add_ultrahd_quality_in_profiles|Starting migration to 101
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 102: add_language_to_episodeFiles_history_and_blacklist migrating ***
+21-4-20 21:07:46.8|Info|add_language_to_episodeFiles_history_and_blacklist|Starting migration to 102
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 103: fix_metadata_file_extensions migrating ***
+21-4-20 21:07:46.8|Info|fix_metadata_file_extensions|Starting migration to 103
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 104: remove_kickass migrating ***
+21-4-20 21:07:46.8|Info|remove_kickass|Starting migration to 104
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 105: rename_torrent_downloadstation migrating ***
+21-4-20 21:07:46.8|Info|rename_torrent_downloadstation|Starting migration to 105
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 106: update_btn_url migrating ***
+21-4-20 21:07:46.8|Info|update_btn_url|Starting migration to 106
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 107: remove_wombles migrating ***
+21-4-20 21:07:46.8|Info|remove_wombles|Starting migration to 107
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 108: fix_extra_file_extension migrating ***
+21-4-20 21:07:46.8|Info|fix_extra_file_extension|Starting migration to 108
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 109: import_extra_files migrating ***
+21-4-20 21:07:46.8|Info|import_extra_files|Starting migration to 109
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 110: fix_extra_files_config migrating ***
+21-4-20 21:07:46.8|Info|fix_extra_files_config|Starting migration to 110
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 111: create_language_profiles migrating ***
+21-4-20 21:07:46.8|Info|create_language_profiles|Starting migration to 111
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 112: added_regex_to_scenemapping migrating ***
+21-4-20 21:07:46.8|Info|added_regex_to_scenemapping|Starting migration to 112
+21-4-20 21:07:46.8|Info|MigrationLogger|*** 113: consolidate_indexer_baseurl migrating ***
+21-4-20 21:07:46.8|Info|consolidate_indexer_baseurl|Starting migration to 113
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 114: rename_indexer_status_id migrating ***
+21-4-20 21:07:46.9|Info|rename_indexer_status_id|Starting migration to 114
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 115: add_downloadclient_status migrating ***
+21-4-20 21:07:46.9|Info|add_downloadclient_status|Starting migration to 115
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 116: disable_nyaa migrating ***
+21-4-20 21:07:46.9|Info|disable_nyaa|Starting migration to 116
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 117: add_webrip_and_br480_qualites_in_profile migrating ***
+21-4-20 21:07:46.9|Info|add_webrip_and_br480_qualites_in_profile|Starting migration to 117
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 118: add_history_eventType_index migrating ***
+21-4-20 21:07:46.9|Info|add_history_eventType_index|Starting migration to 118
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 119: separate_automatic_and_interactive_searches migrating ***
+21-4-20 21:07:46.9|Info|separate_automatic_and_interactive_searches|Starting migration to 119
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 120: update_series_episodes_history_indexes migrating ***
+21-4-20 21:07:46.9|Info|update_series_episodes_history_indexes|Starting migration to 120
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 121: update_animetosho_url migrating ***
+21-4-20 21:07:46.9|Info|update_animetosho_url|Starting migration to 121
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 122: add_remux_qualities_in_profile migrating ***
+21-4-20 21:07:46.9|Info|add_remux_qualities_in_profile|Starting migration to 122
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 123: add_history_seriesId_index migrating ***
+21-4-20 21:07:46.9|Info|add_history_seriesId_index|Starting migration to 123
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 124: remove_media_browser_metadata migrating ***
+21-4-20 21:07:46.9|Info|remove_media_browser_metadata|Starting migration to 124
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 125: remove_notify_my_android_and_pushalot_notifications migrating ***
+21-4-20 21:07:46.9|Info|remove_notify_my_android_and_pushalot_notifications|Starting migration to 125
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 126: add_custom_filters migrating ***
+21-4-20 21:07:46.9|Info|add_custom_filters|Starting migration to 126
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 127: rename_restrictions_to_release_profiles migrating ***
+21-4-20 21:07:46.9|Info|rename_restrictions_to_release_profiles|Starting migration to 127
+21-4-20 21:07:46.9|Info|MigrationLogger|*** 128: rename_quality_profiles_add_upgrade_allowed migrating ***
+21-4-20 21:07:46.9|Info|rename_quality_profiles_add_upgrade_allowed|Starting migration to 128
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 129: add_relative_original_path_to_episode_file migrating ***
+21-4-20 21:07:47.0|Info|add_relative_original_path_to_episode_file|Starting migration to 129
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 130: episode_last_searched_time migrating ***
+21-4-20 21:07:47.0|Info|episode_last_searched_time|Starting migration to 130
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 131: download_propers_config migrating ***
+21-4-20 21:07:47.0|Info|download_propers_config|Starting migration to 131
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 132: add_download_client_priority migrating ***
+21-4-20 21:07:47.0|Info|add_download_client_priority|Starting migration to 132
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 134: add_specials_folder_format migrating ***
+21-4-20 21:07:47.0|Info|add_specials_folder_format|Starting migration to 134
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 135: health_issue_notification migrating ***
+21-4-20 21:07:47.0|Info|health_issue_notification|Starting migration to 135
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 136: add_indexer_and_enabled_to_release_profiles migrating ***
+21-4-20 21:07:47.0|Info|add_indexer_and_enabled_to_release_profiles|Starting migration to 136
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 137: add_airedbefore_to_episodes migrating ***
+21-4-20 21:07:47.0|Info|add_airedbefore_to_episodes|Starting migration to 137
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 138: remove_bitmetv migrating ***
+21-4-20 21:07:47.0|Info|remove_bitmetv|Starting migration to 138
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 139: add_download_history migrating ***
+21-4-20 21:07:47.0|Info|add_download_history|Starting migration to 139
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 140: remove_chown_and_folderchmod_config_v2 migrating ***
+21-4-20 21:07:47.0|Info|remove_chown_and_folderchmod_config_v2|Starting migration to 140
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 141: add_update_history migrating ***
+21-4-20 21:07:47.0|Info|add_update_history|Starting migration to 141
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 142: import_lists migrating ***
+21-4-20 21:07:47.0|Info|import_lists|Starting migration to 142
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 143: add_priority_to_indexers migrating ***
+21-4-20 21:07:47.0|Info|add_priority_to_indexers|Starting migration to 143
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 144: import_lists_series_type_and_season_folder migrating ***
+21-4-20 21:07:47.0|Info|import_lists_series_type_and_season_folder|Starting migration to 144
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 145: remove_growl migrating ***
+21-4-20 21:07:47.0|Info|remove_growl|Starting migration to 145
+21-4-20 21:07:47.0|Info|MigrationLogger|*** 146: cleanup_duplicates_updatehistory migrating ***
+21-4-20 21:07:47.0|Info|cleanup_duplicates_updatehistory|Starting migration to 146
+21-4-20 21:07:47.1|Info|MigrationLogger|*** 147: swap_filechmod_for_folderchmod migrating ***
+21-4-20 21:07:47.1|Info|swap_filechmod_for_folderchmod|Starting migration to 147
+21-4-20 21:07:47.1|Info|MigrationLogger|*** 148: mediainfo_channels migrating ***
+21-4-20 21:07:47.1|Info|mediainfo_channels|Starting migration to 148
+21-4-20 21:07:47.1|Info|MigrationLogger|*** 149: add_on_delete_to_notifications migrating ***
+21-4-20 21:07:47.1|Info|add_on_delete_to_notifications|Starting migration to 149
+21-4-20 21:07:47.1|Info|MigrationLogger|*** 150: add_scene_mapping_origin migrating ***
+21-4-20 21:07:47.1|Info|add_scene_mapping_origin|Starting migration to 150
+21-4-20 21:07:47.1|Info|MigrationLogger|*** 151: remove_custom_filter_type migrating ***
+21-4-20 21:07:47.1|Info|remove_custom_filter_type|Starting migration to 151
+21-4-20 21:07:47.1|Info|MigrationLogger|*** 152: update_btn_url_to_https migrating ***
+21-4-20 21:07:47.1|Info|update_btn_url_to_https|Starting migration to 152
+21-4-20 21:07:47.1|Info|MigrationLogger|*** 153: add_on_episodefiledelete_for_upgrade migrating ***
+21-4-20 21:07:47.1|Info|add_on_episodefiledelete_for_upgrade|Starting migration to 153
+21-4-20 21:07:47.1|Info|MigrationLogger|*** 154: add_name_release_profile migrating ***
+21-4-20 21:07:47.1|Info|add_name_release_profile|Starting migration to 154
+21-4-20 21:07:47.1|Info|MigrationLogger|*** 155: add_arabic_and_hindi_languages migrating ***
+21-4-20 21:07:47.1|Info|add_arabic_and_hindi_languages|Starting migration to 155
+21-4-20 21:07:47.1|Info|MigrationLogger|*** 156: add_bypass_to_delay_profile migrating ***
+21-4-20 21:07:47.1|Info|add_bypass_to_delay_profile|Starting migration to 156
+21-4-20 21:07:47.1|Info|MigrationLogger|*** 157: email_multiple_addresses migrating ***
+21-4-20 21:07:47.1|Info|email_multiple_addresses|Starting migration to 157
+21-4-20 21:07:47.9|Info|OwinHostController|Listening on the following URLs:
+21-4-20 21:07:47.9|Info|OwinHostController|  http://*:8989/
+21-4-20 21:07:49.8|Info|SonarrBootstrapper|Starting Web Server
+21-4-20 21:07:51.2|Info|UpdaterConfigProvider|Update mechanism BuiltIn not supported in the current configuration, changing to Docker.
+21-4-20 21:07:51.3|Info|QualityProfileService|Setting up default quality profiles
+21-4-20 21:07:51.5|Info|LanguageProfileService|Setting up default language profiles
