@@ -1,0 +1,61 @@
+---
+- name: Include deploy for Debian systems
+  include: http_debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include: http_RedHat.yaml
+  when: ansible_os_family == 'RedHat'
+  
+- name: Copy first page
+  copy:
+    src: index.html
+    dest: "{{ ubuntu_default_home if (ansible_os_family == 'Debian') else centos_default_home}}"
+  notify:
+    - Restart nginx
+  
+- name: Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: print out
+  debug:
+    msg: "{{ out }}"
+    
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+
+- name: Check template
+  shell: |
+    cat /etc/hosts
+  register: out
+  changed_when: false
+
+- name: print out
+  debug:
+    msg: "{{ out.stdout_lines }}"
+    
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'Hoooray!' not in this.content"
+  tags:
+    check_url
+
+- name: print out
+  debug:
+    msg: "{{ this }}"
+  tags:
+    check_url   
+    
+    

@@ -1,0 +1,39 @@
+---
+- name: Nginx. Install packages to Centos
+  yum:
+    name: "{{ yum_http_packages }}"
+    state: present
+
+- name: Nginx. Enable and start service on Centos
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+ 
+- name: Copy nginx config
+  template:
+    src: centos.conf.j2
+    dest: "{{ nginx_config_path }}"
+  notify:
+    - Restart nginx 
+  
+- name: HTTPS. Enable firewall port on Centos
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+
+- name: reload service firewalld on Centos
+  systemd:
+    name: firewalld
+    state: reloaded
+
+  
+# - name: Set httpd_can_network_connect flag on and keep it persistent across reboots
+#   seboolean:
+#     name: httpd_can_network_connect
+#     state: yes
+#     persistent: yes
+#   tags:
+#   - tests
+

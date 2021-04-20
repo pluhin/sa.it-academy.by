@@ -1,0 +1,66 @@
+---
+- name: Check if we have SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+
+- name: Check if we have connection to public repositories
+  uri :
+    url: "{{ Ubuntu_repo if (ansible_os_family == 'Debian') else Centos_repo }}"
+    return_content: yes
+  register: result  
+  tags:
+    testing 
+- name: print out
+  debug:
+    msg: "{{ result.url, result.status, result.msg }}"
+  tags:
+    testing
+
+
+
+- name: Check if we have connection to docker hub
+  uri :
+    url: "{{ Docker_hub }}"
+    return_content: yes
+  register: result 
+  tags:
+    testing 
+- name: print out
+  debug:
+    msg: "{{ result.url, result.status, result.msg }}"
+  tags:
+    testing
+
+- name: Check if RAM is less 1024 MB
+  assert:
+    that:
+      - ansible_memtotal_mb | int >= 1024
+    fail_msg: "Out of RAM. {{ ansible_memtotal_mb }} Mb available. 1024 Mb required."
+  register: result
+  changed_when:
+    - result.evaluated_to is defined
+    - result.evaluated_to == False
+  failed_when: False
+  tags:
+    testing
+    
+    
+- name: Check if HDD is less 15 GB
+  assert:
+    that:  
+      - (ansible_facts.mounts[0].size_available /1024 /1024 /1024) | int >= 15 
+    fail_msg: "Out of HDD. {{ (ansible_facts.mounts[0].size_available /1024 /1024 /1024) | int }} Gb available. 15 Gb required."
+  register: result
+  changed_when:
+    - result.evaluated_to is defined
+    - result.evaluated_to == False
+  failed_when: False
+  tags:
+    testing
+    
+    
+  
+    
