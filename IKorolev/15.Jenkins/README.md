@@ -40,6 +40,6 @@ end
         msg: "{{ key.stdout }}"
 
 ```
-![Add user ]()
+![Add user ](https://github.com/Korolev731/sa.it-academy.by/blob/md-sa2-16-21/IKorolev/15.Jenkins/2.jpg)
 
-![Slack_module]()
+![Slack_module](https://github.com/Korolev731/sa.it-academy.by/blob/md-sa2-16-21/IKorolev/15.Jenkins/1.jpg)
