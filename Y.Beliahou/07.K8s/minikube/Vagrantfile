@@ -1,0 +1,67 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-16.04"
+  config.ssh.insert_key = false
+  config.vm.define "minikube" do |kube|
+  config.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
+      vb.cpus = "1"
+  end
+  config.vm.network "public_network", ip: "192.168.1.201",  bridge: "wlp2s0"
+  config.vm.network "forwarded_port",
+      guest: 30000,
+      host:  30000,
+      auto_correct: true
+
+  config.vm.network "forwarded_port",
+      guest: 80,
+      host:  80,
+      auto_correct: true
+
+  config.vm.network "forwarded_port",
+      guest: 443,
+      host:  443,
+      auto_correct: true
+  
+    config.vm.provision "kubectl", type: "shell",  inline: <<-SCRIPT
+echo "Installing kubectl"
+apt-get -qq update && apt-get install -qqy apt-transport-https conntrack
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubectl.list
+apt-get update -qq
+apt-get install -qqy kubectl
+SCRIPT
+
+
+    config.vm.provision "docker", type: "shell", inline: <<-SCRIPT
+sudo apt-get remove docker docker-engine docker.io
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) \
+    stable"
+sudo apt-get update -qq
+sudo apt-get install -yqq docker-ce
+usermod -aG docker vagrant
+sudo docker run hello-world
+SCRIPT
+
+    config.vm.provision "minikube", type: "shell", inline: <<-SCRIPT
+echo "Downloading minikube"
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin
+SCRIPT
+
+    config.vm.provision "k8s", type: "shell", inline: <<-SCRIPT
+echo "Setting up and starting K8S"
+sudo minikube start --vm-driver none
+sudo kubectl cluster-info
+sudo kubectl proxy --address='0.0.0.0' --disable-filter=true  &
+sudo minikube dashboard --url
+SCRIPT
+  end
+
+end
