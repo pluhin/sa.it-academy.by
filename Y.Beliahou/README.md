@@ -7,4 +7,4 @@ Home work
     4.Infra.Vagrant
     5.Docker
     6.Docker-compose.Teraform
-    7.
+    7.K8s
