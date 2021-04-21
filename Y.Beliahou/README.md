@@ -6,5 +6,5 @@ Home work
     3.GIT.hosting
     4.Infra.Vagrant
     5.Docker
-    6.06.Docker-compose.Teraform
+    6.Docker-compose.Teraform
     7.
