@@ -22,23 +22,6 @@ end
     - jenkins
     - nginx
 
-  tasks:
-    - name: Add nginx to jenkins group
-      shell: |
-        usermod -aG jenkins nginx
-
-    - name: Set httpd_can_network_connect
-      shell: |
-        setsebool -P httpd_can_network_connect 1
-
-    - name: Register Jenkins initial password
-      shell: cat /var/lib/jenkins/secrets/initialAdminPassword
-      register: key
-
-    - name: Show Jenkins password
-      debug:
-        msg: "{{ key.stdout }}"
-
 ```
 ![Add user ](https://github.com/Korolev731/sa.it-academy.by/blob/md-sa2-16-21/IKorolev/15.Jenkins/2.jpg)
 
