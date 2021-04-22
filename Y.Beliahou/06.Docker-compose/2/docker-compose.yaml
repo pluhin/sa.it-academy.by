@@ -1,0 +1,18 @@
+
+version: '3.3'
+
+services:
+  service_01:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: service01
+    ports:
+      - "8002:80"
+  service_02:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: service02
+    ports:
+      - "8001:80"
