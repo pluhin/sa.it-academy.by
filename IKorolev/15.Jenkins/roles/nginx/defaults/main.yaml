@@ -1,0 +1,2 @@
+domain_name: "jenkins-9.com"
+nginx_config_path: "/etc/nginx/conf.d/jekins.conf"
