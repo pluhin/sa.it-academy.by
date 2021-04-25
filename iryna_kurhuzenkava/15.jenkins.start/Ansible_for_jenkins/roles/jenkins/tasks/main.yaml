@@ -1,0 +1,92 @@
+---
+- name: Jenkins-master. Install packages to Centos
+  yum:
+    name: "{{ yum_jenkins_packages }}"
+    state: present
+  tags:
+    jenkins 
+
+- name: Jenkins-master. Add docker repo to Centos
+  get_url:
+    url: 'https://download.docker.com/linux/centos/docker-ce.repo'
+    dest: '/etc/yum.repos.d/docker-ce.repo'
+  tags:
+    docker
+
+- name: Jenkins-master. Install docker to Centos 
+  yum:
+    name: docker-ce
+  tags:
+    docker
+
+- name: Jenkins-master. Enable and start docker service on Centos
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+  tags:
+    docker
+    
+- name: Jenkins-master. Add jenkins repo to Centos
+  get_url:
+    url: 'https://pkg.jenkins.io/redhat-stable/jenkins.repo'
+    dest: '/etc/yum.repos.d/jenkins.repo'
+  tags:
+    jenkins
+    
+- name: Jenkins-master. Import key to Centos
+  rpm_key:
+    key: 'https://pkg.jenkins.io/redhat-stable/jenkins.io.key'
+    state: present
+  tags:
+    jenkins
+    
+- name: Jenkins-master. Install jenkins to Centos 
+  yum:
+    name: jenkins
+  tags:
+    jenkins  
+
+- name: Jenkins-master. Enable and start jenkins service on Centos
+  systemd:
+    name: jenkins
+    state: started
+    enabled: yes
+  tags:
+    jenkins
+         
+- name: Jenkins-master. Add jenkins user to docker group
+  shell: |
+    usermod -aG docker jenkins
+  tags:
+    group
+
+- name: Jenkins-master. Add nginx user to jenkins group
+  shell: |
+    usermod -aG jenkins nginx
+  tags:
+    group  
+           
+- name: Jenkins-master. Copy nginx config
+  template:
+    src: jenkins.conf.j2
+    dest: "{{ nginx_config_path }}"
+  notify:
+    - Restart nginx     
+  tags:
+    group
+
+- name: Jenkins-master. Jenkins password
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: key
+  tags:
+    pass
+
+- name: Jenkins-master. Show Jenkins password
+  debug:
+    msg: "{{ key.stdout }}"
+  tags:
+    pass   
+
+      
+      
