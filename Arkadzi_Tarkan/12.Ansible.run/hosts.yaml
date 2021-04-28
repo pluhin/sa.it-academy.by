@@ -1,0 +1,16 @@
+---
+ec_all:
+  vars:
+    date_01: 'Work_hosts'
+  children:
+    ec:
+      hosts:
+        worker_01:
+          ansible_host: 192.168.202.21
+        worker_02:
+          ansible_host: 192.168.202.22
+
+jump:
+  hosts:
+    jump_sa:
+      ansible_host: 178.124.206.53
