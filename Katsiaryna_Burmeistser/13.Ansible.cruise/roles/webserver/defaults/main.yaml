@@ -1,0 +1,23 @@
+---
+yum_nginx_packages:
+  - nginx
+apt_nginx_packages:
+  - nginx
+
+
+site1: "local-site1.site"
+site2: "local-site2.site"
+
+default_home: "/var/www/"
+
+
+virtual_hosts:
+  - { name: "{{ site1 }}", ip: "{{ hostvars[\"centos\"].ansible_host }}"}
+  - { name: "{{ site2 }}", ip: "{{ hostvars[\"ubuntu\"].ansible_host }}"}
+
+static_sites:
+  - site: local-site1.site
+    root: /var/www/local-site1.site/html
+
+  - site: local-site2.site
+    root: /var/www/local-site2.site/html
