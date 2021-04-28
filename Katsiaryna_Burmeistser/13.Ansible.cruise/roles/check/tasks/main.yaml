@@ -1,0 +1,53 @@
+- name: Check SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check public repositories
+  vars:
+    links_to_test:
+      - { url: ftp.by.debian.org, port: 80 }
+      - { url: ftp.byfly.by, port: 80 }
+      - { url: pypi.org, port: 443 }
+  wait_for:
+    host: "{{ item.url }}"
+    port: "{{ item.port }}"
+    timeout: 3
+  register: out
+  with_items: "{{ links_to_test }}"
+
+- name: Check connection to doker
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  register: out_uri
+  loop:
+    - https://registry.hub.docker.com
+
+- name: Print output
+  debug:
+    msg: "{{ output.status }}"
+  loop: "{{ out_uri.results }}"
+  loop_control:
+    loop_var: output
+    label: "{{ output.status }}"
+    pause: 3
+
+- name: Check RAM
+  assert:
+    that:
+      - ansible_memtotal_mb >= 2024
+    msg: Host has enough RAM
+  with_items:
+    - "{{ ansible_memory_mb }}"
+
+- name: Check free space
+  assert:
+    that:
+      - mount.size_available > mount.size_total|float * 0.2
+    msg: Disk space has reached 80% threshold
+  vars:
+    mount: "{{ ansible_mounts | selectattr('mount','equalto',item.mount) | list | first }}"
+  with_items:
+    - "{{ ansible_mounts }}"

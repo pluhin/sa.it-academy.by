@@ -1,0 +1,74 @@
+---
+- name: Add epel-release repo
+  yum:
+    name: epel-release
+    state: present
+
+- name: Nginx-RedHat. Install packages
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+
+- name: Nginx. Enable and start servce
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: CentOS. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+
+- name: Create sites-available for CentOS
+  become: true
+  file:
+    path: /etc/nginx/sites-available
+    state: directory
+
+- name: Create sites-enabled for CentOS
+  become: true
+  file:
+    path: /etc/nginx/sites-enabled
+    state: directory
+
+- name: Add Centos site config
+  template:
+    src: "centos.conf.j2"
+    dest: "/etc/nginx/sites-available/{{ item.site }}"
+    owner: root
+    group: root
+    mode: '0644'
+  with_items: "{{ static_sites }}"
+
+- name: Remove Centos nginx config
+  file:
+    path: "/etc/nginx/nginx.conf"
+    state: absent
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Add Centos nginx config
+  copy:
+    src: nginx.conf
+    dest: "/etc/nginx/nginx.conf"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create symlink nginx vhost Debian
+  become: true
+  file:
+    src: "/etc/nginx/sites-available/{{ item.site }}"
+    dest: "/etc/nginx/sites-enabled/{{ item.site }}"
+    state: link
+  with_items: "{{ static_sites }}"
+  notify:
+    - restart nginx
