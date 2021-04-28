@@ -1,0 +1,33 @@
+---
+- name: Nginx. Install packages to Centos
+  yum:
+    name: "{{ yum_http_packages }}"
+    state: present
+
+- name: Nginx. Enable and start service on Centos
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+ 
+#- name: HTTPS. Enable firewall port on Centos
+#  firewalld:
+#    port: 80/tcp
+#    permanent: yes
+#    state: enabled
+
+#- name: reload service firewalld on Centos
+#  systemd:
+#    name: firewalld
+#    state: reloaded
+    
+#- name: Check connection to Localhost
+#  wait_for:
+#    host: "localhost"
+#    port: "80"
+#    state: started
+#    timeout: 3
+#  register: out
+  
+
+
