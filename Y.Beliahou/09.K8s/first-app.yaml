@@ -128,4 +128,4 @@ metadata:
   name: secret
 type: Opaque
 data:
-  password: cGFzc3dvcmQK
+  password: XXXXXXXXXX
