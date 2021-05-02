@@ -7,6 +7,7 @@
  
  Mysql
 
+ Programming language: PHP SQL
 
  
 ```
@@ -25,9 +26,9 @@
 
 ## Automation tools: Kubectl
 
-## Kubeval
+## CSM: Github
 
-## Github
+## CI description: test by kubeval
 
 
 
