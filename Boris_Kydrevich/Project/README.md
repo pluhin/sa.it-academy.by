@@ -33,9 +33,6 @@ WordPress LAMP
 #### CI description: manual test
 
 #### How does new/upgrade deployment work
-User cloning git
-Manualy started ansible playbook, which will install wordpress
-Manualy started ansible playbook, which will upgrade wordpress
-When install/upgrade done, ansible send notification to slack channel
+User cloning git. Manualy started ansible playbook, which will install wordpress. Manualy started ansible playbook, which will upgrade wordpress. When install/upgrade done, ansible send notification to slack channel.
 
 [Github](https://github.com/SunBrooo/BorisK.git)
