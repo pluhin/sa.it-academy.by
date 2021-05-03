@@ -9,7 +9,7 @@
 - Used database: MySQL
 - [Link to GitHUB repository](git@github.com:Korolev731/Project.git)
 ### Pipeline. High Level Design
-![alt text]()
+![alt text](https://github.com/Korolev731/Project/blob/master/1.jpg)
 ### Technologies which were used in project
 
 **Orchestration:** Jenkins
