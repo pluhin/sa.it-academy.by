@@ -7,7 +7,7 @@
 - Name: Processwire
 - Application is written in PHP
 - Used database: MySQL
-- [Link to GitHUB repository]((https://github.com/Korolev731/Project.git)
+- [Link to GitHUB repository](https://github.com/Korolev731/Project.git)
 ### Pipeline. High Level Design
 ![alt text](https://github.com/Korolev731/Project/blob/master/1.jpg)
 ### Technologies which were used in project
