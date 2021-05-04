@@ -1,0 +1,5 @@
+---
+- hosts: ec_all
+  roles:
+  - webserver
+  - test
