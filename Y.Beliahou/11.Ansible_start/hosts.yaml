@@ -1,0 +1,15 @@
+---
+ec_all:
+hosts:
+  centos:
+    ansible_host: 192.168.202.1
+    ansible_user: root
+  ubuntu:
+    ansible_host: 192.168.202.2
+    ansible_user: root
+jump:
+hosts:
+  jump_sa:
+    ansible_host: 178.124.206.53
+    ansible_user: jump_sa
+    
