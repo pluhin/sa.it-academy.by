@@ -1,0 +1,9 @@
+---
+ec_all:
+  hosts:
+    centos:
+      ansible_host: 192.168.202.21
+      ansible_user: root
+    ubuntu:
+      ansible_host: 192.168.202.22
+      ansible_user: root

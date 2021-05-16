@@ -1,0 +1,20 @@
+---
+- name: Update and Install
+  apt: update_cache=yes name=nginx
+
+- name: Nginx. Enable and start
+  systemd:
+    name: nginx
+    state: started
+
+- name: Copy nginx config
+  template:
+    src: ubuntu.j2
+    dest: "{{ nginx_config_path }}"
+  notify:
+    - restart nginx
+
+- name: Copy index.html ubuntu
+  copy:
+    src: ubuntu/index.html
+    dest: "{{ debian_host_path }}"
