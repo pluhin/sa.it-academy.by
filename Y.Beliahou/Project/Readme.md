@@ -9,7 +9,7 @@
 ### Name: Wordpress
 ### Application is written in PHP, Web - Nginx
 ### Database: MariaDB
-### GitLAB [pipelines](https://gitlab.com/it-academy-project/pipelines/-/tree/master)
+### GitLAB [pipelines](https://github.com/)
 
 #
 ![Image 1](https://github.com/mrvaart23/screenshots/blob/main/1.jpg)
