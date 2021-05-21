@@ -2,9 +2,9 @@
   ---
   
  
- ** Project's reporter: **  Katsiaryna, Burmeistser
+ **Project's reporter:**  Katsiaryna, Burmeistser
 
- ** Group number: ** md-sa2-16-21
+ **Group number:** md-sa2-16-21
   
 ### Description of application for deployment
 
@@ -19,13 +19,13 @@
  
 
  ### Technologies which were used in project
-** Orchestration: ** FluxCD
+**Orchestration:** FluxCD
 
-** Automation tools: ** Kubectl, Source Controller, Kustomize Controller, Helm Controller, Notification Controller
+**Automation tools:** Kubectl, Source Controller, Kustomize Controller, Helm Controller, Notification Controller
 
-** CI description: ** by hook/schedule/pull, tests, checks ....
+**CI description:** by hook/schedule/pull, tests, checks ....
 
-** Deployment flows short description: ** GitHub events in repositories
+**Deployment flows short description:** GitHub events in repositories
 
 
 
