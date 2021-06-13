@@ -1,6 +1,6 @@
 # Git.Local
 
-'''bash
+```bash
   162  pwd
   163  mkdir Work
   164  cd Work/
@@ -67,53 +67,53 @@
   225  git checkout master 
   226  git log --oneline 
   227  history
-'''
+```
 
 ---
 
 # Master branch
 
-'''bash
+```bash
 f5096b9 (HEAD -> master) only one additional commit in hotfix branch
 3191e2c only one additional commit in features branch
 0af47d5 second additional commit in dev branch
 d48de1c first additional commit in dev branch
 6217ba2 second master commit
 2c43cb4 first master commit
-'''
+```
 
 ---
 
 # Dev branch
 
-'''bash
+```bash
 f2e4119 (HEAD -> dev) only one additional commit in hotfix branch
 0af47d5 second additional commit in dev branch
 d48de1c first additional commit in dev branch
 6217ba2 second master commit
 2c43cb4 first master commit
-'''
+```
 
 ---
 
 # features/do_one branch
 
-'''bash
+```bash
 d6664b4 (HEAD -> features/do_one) only one additional commit in hotfix branch
 3191e2c only one additional commit in features branch
 0af47d5 second additional commit in dev branch
 d48de1c first additional commit in dev branch
 6217ba2 second master commit
 2c43cb4 first master commit
-'''
+```
 
 ---
 
 # hotfix/we_gonna_die branch
 
-'''bash
+```bash
 94b2a37 (HEAD -> hotfix/we_gonna_die) only one additional commit in hotfix branch
 6217ba2 second master commit
 2c43cb4 first master commit
-'''
+```
 
