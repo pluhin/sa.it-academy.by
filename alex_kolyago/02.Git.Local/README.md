@@ -60,65 +60,65 @@
    63  git status
    64  git commit -m "second additional in dev commit"
    65  git log --oneline
-   76  cat file.txt
-   77  git checkout master
-   78  git log --oneline
-   79  git checkout dev
-   80  git checkout -b features/do_one
-   81  git branch -a
-   82  git log --oneline
-   83  cat file.txt
-   84  date >> file.txt
+   66  cat file.txt
+   67  git checkout master
+   68  git log --oneline
+   69  git checkout dev
+   70  git checkout -b features/do_one
+   71  git branch -a
+   72  git log --oneline
+   73  cat file.txt
+   74  date >> file.txt
+   75  cat file.txt
+   76  git add --all
+   77  git status
+   78  git commit -m "first additional in features/do_one commit"
+   79  git log --oneline
+   80  cat file.txt
+   81  git checkout dev
+   82  cat file.txt
+   83  git log --oneline
+   84  git checkout master
    85  cat file.txt
-   86  git add --all
-   87  git status
-   88  git commit -m "first additional in features/do_one commit"
-   89  git log --oneline
-   90  cat file.txt
-   91  git checkout dev
-   92  cat file.txt
-   93  git log --oneline
+   86  git log --oneline
+   87  git checkout -b hotfix/we_gonna_die
+   88  cat file.txt
+   89  date >> file.txt
+   90  git add --all
+   91  git status
+   92  git commit -m "first add in hotfix/we_gonna_die commit"
+   93  cat file.txt
    94  git checkout master
    95  cat file.txt
-   96  git log --oneline
-   97  git checkout -b hotfix/we_gonna_die
+   96  git rebase -i dev
    98  cat file.txt
-   99  date >> file.txt
-  100  git add --all
-  101  git status
-  102  git commit -m "first add in hotfix/we_gonna_die commit"
-  103  cat file.txt
+   99  git log --oneline
+  100  git rebase -i features/do_one
+  101  git log --oneline
+  102  git checkout hotfix/we_gonna_die
+  103  git log --oneline
   104  git checkout master
-  105  cat file.txt
-  106  git rebase -i dev
-  108  cat file.txt
-  109  git log --oneline
-  110  git rebase -i features/do_one
+  105  git cherry-pick e24a293
+  106  git status
+  107  cat file.txt
+  108  git add --all
+  109  cat file.txt
+  110  git status
   111  git log --oneline
-  112  git checkout hotfix/we_gonna_die
-  113  git log --oneline
-  114  git checkout master
-  115  git cherry-pick e24a293
-  116  git status
+  112  git checkout dev
+  113  git commit -m "hotfix_deploy in master commit"
+  114  cat file.txt
+  115  git checkout dev
   117  cat file.txt
-  118  git add --all
-  119  cat file.txt
-  120  git status
-  121  git log --oneline
-  122  git checkout dev
-  123  git commit -m "hotfix_deploy in master commit"
-  124  cat file.txt
-  125  git checkout dev
-  127  cat file.txt
-  128  git cherry-pick e24a293
-  129  git add --all
-  130  git commit -m "hotfix_deploy in dev commit"
-  131  cat file.txt
-  132  git checkout features/do_one
-  133  git cherry-pick e24a293
-  134  git add --all
-  135  git commit -m "hotfix_deploy in features/do_one commit"
-  136  cat file.txt
+  118  git cherry-pick e24a293
+  119  git add --all
+  120  git commit -m "hotfix_deploy in dev commit"
+  121  cat file.txt
+  122  git checkout features/do_one
+  123  git cherry-pick e24a293
+  124  git add --all
+  125  git commit -m "hotfix_deploy in features/do_one commit"
+  126  cat file.txt
 
 ```
 
