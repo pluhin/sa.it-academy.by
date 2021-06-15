@@ -1,11 +1,9 @@
 #!/bin/bash
  
- cd /c/project/sa.it-academy/alex_kolyago
+ cd /c/project/sa.it-academy.by/alex_kolyago
  
  for repos in $(git remote); do
-    if [["$repos" == *"origin"*]]; then
-        date >> log.log
-        git push -u $repos --all
-        echo "push in $repos" >> log.log
-    fi
+    date >> run.log
+    git push -u $repos --all
+    echo "push in $repos" >> run.log
     done
