@@ -59,7 +59,7 @@
    62  git add --all
    63  git status
    64  git commit -m "second additional in dev commit"
-   75  git log --oneline
+   65  git log --oneline
    76  cat file.txt
    77  git checkout master
    78  git log --oneline
