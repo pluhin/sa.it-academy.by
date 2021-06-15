@@ -3,9 +3,9 @@
  cd /c/project/sa.it-academy/alex_kolyago
  
  for repos in $(git remote); do
-    if [["$n" == *"origin"*]]; then
+    if [["$repos" == *"origin"*]]; then
         date >> log.log
-        git push -u $n --all
-        echo "push in $n" >> log.log
+        git push -u $repos --all
+        echo "push in $repos" >> log.log
     fi
     done
