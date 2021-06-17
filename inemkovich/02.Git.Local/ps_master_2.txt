@@ -1,4 +1,0 @@
-    PID TTY          TIME CMD
-  51975 pts/0    00:00:00 bash
-  51984 pts/0    00:00:00 zsh
-  52613 pts/0    00:00:00 ps
