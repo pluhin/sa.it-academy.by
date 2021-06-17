@@ -1,11 +1,7 @@
   494  cd C:\academy.by
-
   495  git clone https://github.com/Zhenyakuch/sa.it-academy.by
-
   496  git checkout -b md-sa2-17-21
-
   497  git checkout -b md-sa2-17-21
-  
   498  ls
   499  cd C:\academy.by\sa.it-academy.by
   500  cd sa.it-academy.by/
