@@ -1,12 +1,12 @@
   494  cd C:\academy.by
   495  git clone https://github.com/Zhenyakuch/sa.it-academy.by
-  496   git checkout -b md-sa2-17-21
-  497   git checkout -b md-sa2-17-21
+  496  git checkout -b md-sa2-17-21
+  497  git checkout -b md-sa2-17-21
   498  ls
   499  cd C:\academy.by\sa.it-academy.by
   500  cd sa.it-academy.by/
   501  LS
-  502   git checkout -b md-sa2-17-21
+  502  git checkout -b md-sa2-17-21
   503  mkdir Evgeniya_Pehota
   504  mkdir 02.Git.Local
   505  cd \Evgeniya_Pehota
@@ -51,8 +51,7 @@
   544  git -history
   545  history
   
-## master log --oneline
-
+### master log --oneline
 
 bc69a879 (HEAD -> master, origin/master, origin/HEAD) number 1
 ba81aa69 readme
@@ -68,9 +67,7 @@ a3f48fef Migration to wiki
 2c749044 init
 e06fc66d First commit
 
-
-
-## dev log --oneline
+### dev log --oneline
 
 fe8b6ad2 (HEAD -> dev, origin/dev) 2 commit dev
 d28fa444 1 commit dev
@@ -86,8 +83,7 @@ a3f48fef Migration to wiki
 2c749044 init
 e06fc66d First commit
 
-
-## features/do_one log --oneline
+### features/do_one log --oneline
 
 23c24c1b (HEAD -> features/do_one, origin/features/do_one) 1 commit features/do_one
 fe8b6ad2 (origin/dev, dev) 2 commit dev
@@ -104,7 +100,7 @@ a3f48fef Migration to wiki
 2c749044 init
 e06fc66d First commit
 
-## hotfix/we_gonna_die log --oneline
+### hotfix/we_gonna_die log --oneline
 
 28b76a6f (HEAD -> hotfix/we_gonna_die, origin/hotfix/we_gonna_die) 1 commit we_gonna_die
 2e30fc55 2 commit master
