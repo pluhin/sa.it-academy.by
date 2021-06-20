@@ -1,0 +1,209 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret
+type: Opaque
+data:
+  password: cGFzc3dvcmQK
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver
+  labels:
+    app: simple-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-web
+  template:
+    metadata:
+      labels:
+        app: simple-web
+    spec:
+      containers:
+      - name: php-apache
+        image: eboraas/apache-php
+        env:
+        - name: TEST
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: password
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 1000Mi
+          limits:
+            cpu: 5000m
+            memory: 5000Mi
+        volumeMounts:
+        - name: persistent-storage
+          mountPath: "/var/www/html/"
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: app01-pv-claim
+      - name: test-config
+        configMap:
+          name: test-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-web-service
+  labels:
+    run: simple-web-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: simple-web
+---
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-sa
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: ra.k8s-13.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: simple-web-service
+          servicePort: 80
+###################################
+
+#############################################
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: app01-pv-volume
+  labels:
+    type: nfs
+    name: app-nfs-vol
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-15-20/Ryabuhin-Artiom/html/
+    server: 192.168.37.105
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app01-pv-claim
+  labels:
+    app: simple-web
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+  selector:
+    matchLabels:
+      name: app-nfs-vol
+      type: nfs
+---
+---
+# mysql
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: mysql
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: mysql:5.6
+        name: mysql
+        env:
+          # Use secret in real usage
+        - name: "MYSQL_ROOT_PASSWORD"
+          value: "root_password"
+        - name: "MYSQL_DATABASE"
+          value: "hesk_db"
+        - name: "MYSQL_USER"
+          value: "hesk_user"
+        - name: "MYSQL_PASSWORD"
+          value: "hesk_password"
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
+---
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: nfs
+    name: mysql-nfs-vol
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-15-20/Ryabuhin-Artiom/sqldata/
+    server: 192.168.37.105
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+  labels:
+    app: mysql
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+  selector:
+    matchLabels:
+      name: mysql-nfs-vol
+      type: nfs

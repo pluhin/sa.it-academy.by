@@ -1,0 +1,29 @@
+pipeline {
+    agent { label 'Node1nfs' }
+    options {
+        buildDiscarder(logRotator(numToKeepStr:'5'))
+        ansiColor('xterm')
+    }
+    stages {
+        stage('01.start') {
+            steps {
+                echo 'start...'
+                sh """
+                cd /mnt/nfs/
+                mkdir html
+                cd html
+                ls -a
+                git init
+                git remote add HESK git@github.com:CHESTER-ART/HESK.git
+                git fetch HESK
+                git checkout master
+                """
+            }
+        }
+        stage('Done message') {
+            steps {
+                echo 'Done....'
+            }
+        }
+    }
+}

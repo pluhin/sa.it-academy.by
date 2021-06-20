@@ -1,0 +1,36 @@
+pipeline {
+    agent { label 'Node1nfs' }
+    triggers { 
+        cron('H * * * *')
+    }
+    options {
+        buildDiscarder(logRotator(numToKeepStr:'5'))
+        ansiColor('xterm')
+    }
+    stages {
+        stage('01.backup') {
+            steps {
+                echo 'backup..'
+                    sh """
+                    cd /mnt/nfs/scripts
+                    bash backup.sh
+                    """
+            }
+        }
+        stage('02.making backuplist.lst') {
+            steps {
+                echo 'making backuplist.lst...'
+                    sh """
+                    rm /mnt/nfs/backup_list.lst
+                    ls /mnt/nfs/backup/ > /mnt/nfs/backup_list.lst
+                    """
+            }
+        }
+        stage('Done message') {
+            steps {
+                echo 'Done....'
+            }
+        }
+
+    }
+} 
