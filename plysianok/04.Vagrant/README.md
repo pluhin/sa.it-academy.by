@@ -70,9 +70,35 @@ sudo bash -c "echo 'updater ALL=(ALL:ALL) NOPASSWD: ALL'>> /etc/sudoers"
 ```bash
 echo "updater ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 ```
-![](/pic/check_cent.png)
+![](./pic/check_cent.png)
 
 ---
 ## Install packages: vim, wget, curl
 
+---
+```bash
+yum install -y vim git wget curl
+apt-get install -y vim git wget curl
+```
+---
+## Push boxes to Vagrant cloud
 
+---
+```bash
+# Create box CentOS8
+vagrant package centos-vm --output centos8_nosudo.box
+# Create box Debian10
+vagrant package debian-10 --output debian10_nosudo.box
+# Login from cli in Vagrant Cloud
+# Enter token description
+# Push in Cloud Vagrant
+vagrant cloud publish --release WESTnik/debian-10 1.0.0 virtualbox debian10_nosudo.box
+#
+vagrant cloud publish --release WESTnik/centos-vm 1.0.0 virtualbox centos8_nosudo.box
+```
+
+[Debian10](https://app.vagrantup.com/WESTnik/boxes/debian-10)
+
+[CentOS8](https://app.vagrantup.com/WESTnik/boxes/centos-vm)
+
+---
