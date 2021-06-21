@@ -63,7 +63,7 @@ adduser updater -p vagrant
 ```bash
 sudo bash -c "echo 'updater ALL=(ALL:ALL) NOPASSWD: ALL'>> /etc/sudoers"
 ```
-![](/pic/check_deb10.png)
+![](./pic/check_deb10.png)
 ---
 ### CentOS
 ---
