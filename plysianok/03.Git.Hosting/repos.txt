@@ -1,3 +1,0 @@
-git@gitlab.com:WESTnik1/03.Git.Hosting.git
-git@github.com:WESTnik/03.Git.Hosting.git
-git@bitbucket.org:WESTnik5/03.git.hosting.git
