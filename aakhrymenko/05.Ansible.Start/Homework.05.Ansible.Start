@@ -1,0 +1,281 @@
+# Homework.05.Ansible.Start
+
+## Local
+
+```bash
+
+➜  ~ cat /etc/sudoers.d/andrei 
+andrei ALL=(ALL) NOPASSWD: /usr/bin/apt-get upgrade
+
+➜  ~ ansible localhost -m shell -a "sudo apt upgrade -y"
+[WARNING]: Consider using 'become', 'become_method', and 'become_user' rather than running sudo
+localhost | CHANGED | rc=0 >>
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+The following packages were automatically installed and are no longer required:
+  chromium-codecs-ffmpeg-extra gstreamer1.0-vaapi
+  libgstreamer-plugins-bad1.0-0 libva-wayland2
+Use 'sudo apt autoremove' to remove them.
+The following NEW packages will be installed:
+  distro-info linux-headers-5.8.0-59-generic linux-hwe-5.8-headers-5.8.0-59
+  linux-image-5.8.0-59-generic linux-modules-5.8.0-59-generic
+  linux-modules-extra-5.8.0-59-generic
+The following packages will be upgraded:
+  alsa-ucm-conf alsa-utils apt apt-utils dirmngr evince evince-common
+  evolution-data-server evolution-data-server-common fonts-noto-color-emoji
+  fonts-opensymbol fprintd friendly-recovery gir1.2-goa-1.0 gir1.2-mutter-6
+  gir1.2-secret-1 gjs gnome-control-center gnome-control-center-data
+...
+...
+...
+Found memtest86+ image: /boot/memtest86+.elf
+Found memtest86+ image: /boot/memtest86+.bin
+done
+Processing triggers for initramfs-tools (0.136ubuntu6.6) ...
+update-initramfs: Generating /boot/initrd.img-5.8.0-59-generic
+Processing triggers for libc-bin (2.31-0ubuntu9.2) ...
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+```
+
+## Remote
+
+```bash
+
+➜  ~ ssh-keygen 
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/andrei/.ssh/id_rsa): ^C
+➜  ~ ssh jump_server@178.124.206.53
+jump_server@178.124.206.53's password: 
+
+➜  ~ ssh jump_sa@178.124.206.53
+Last login: Tue Jun 22 13:34:55 2021 from 178.127.52.178
+[jump_sa@jump ~]$ 
+[jump_sa@jump ~]$ 
+[jump_sa@jump ~]$ cat /etc/os-release 
+NAME="CentOS Linux"
+VERSION="7 (Core)"
+ID="centos"
+ID_LIKE="rhel fedora"
+VERSION_ID="7"
+PRETTY_NAME="CentOS Linux 7 (Core)"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:centos:centos:7"
+HOME_URL="https://www.centos.org/"
+BUG_REPORT_URL="https://bugs.centos.org/"
+
+CENTOS_MANTISBT_PROJECT="CentOS-7"
+CENTOS_MANTISBT_PROJECT_VERSION="7"
+REDHAT_SUPPORT_PRODUCT="centos"
+REDHAT_SUPPORT_PRODUCT_VERSION="7"
+
+➜  ~ ssh root@192.168.202.19
+The authenticity of host '192.168.202.19 (<no hostip for proxy command>)' can't be established.
+ECDSA key fingerprint is SHA256:SF0ahV350eVY//dH2G1Y7idC+Ahwmr2KL35sRs47ew4.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.202.19' (ECDSA) to the list of known hosts.
+root@192.168.202.19's password: 
+Last login: Fri Jun 18 14:51:35 2021 from 192.168.222.11
+[root@sa-centos-19 ~]# cat /etc/os-release 
+NAME="CentOS Linux"
+VERSION="7 (Core)"
+ID="centos"
+ID_LIKE="rhel fedora"
+VERSION_ID="7"
+PRETTY_NAME="CentOS Linux 7 (Core)"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:centos:centos:7"
+HOME_URL="https://www.centos.org/"
+BUG_REPORT_URL="https://bugs.centos.org/"
+
+CENTOS_MANTISBT_PROJECT="CentOS-7"
+CENTOS_MANTISBT_PROJECT_VERSION="7"
+REDHAT_SUPPORT_PRODUCT="centos"
+REDHAT_SUPPORT_PRODUCT_VERSION="7"
+
+
+➜  ~ ansible -m ping all
+jump | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+work_host1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+k8s_host1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+workshop_host1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+work_host2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+k8s_host2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    },
+    "changed": false,
+    "ping": "pong"
+
+
+➜  ~ ansible Linux -m shell -a "hostname && hostname -i"
+workshop_host1 | CHANGED | rc=0 >>
+ws-10
+192.168.201.10
+work_host2 | CHANGED | rc=0 >>
+sa-ubuntu-20
+192.168.202.20
+[WARNING]: Platform linux on host k8s_host1 is using the discovered Python interpreter at /usr/bin/python, but future installation of another Python
+interpreter could change this. See https://docs.ansible.com/ansible/2.9/reference_appendices/interpreter_discovery.html for more information.
+k8s_host1 | CHANGED | rc=0 >>
+debian10
+127.0.1.1
+[WARNING]: Platform linux on host k8s_host2 is using the discovered Python interpreter at /usr/bin/python, but future installation of another Python
+interpreter could change this. See https://docs.ansible.com/ansible/2.9/reference_appendices/interpreter_discovery.html for more information.
+k8s_host2 | CHANGED | rc=0 >>
+debian10
+127.0.1.1
+work_host1 | CHANGED | rc=0 >>
+sa-centos-19
+192.168.202.19
+➜  ~ ansible k8s_host1  -m shell -a "apt update && apt upgrade -y"
+[WARNING]: Platform linux on host k8s_host1 is using the discovered Python interpreter at /usr/bin/python, but future installation of another Python
+interpreter could change this. See https://docs.ansible.com/ansible/2.9/reference_appendices/interpreter_discovery.html for more information.
+k8s_host1 | CHANGED | rc=0 >>
+Get:1 http://deb.debian.org/debian buster InRelease [122 kB]
+Get:2 http://security.debian.org/debian-security buster/updates InRelease [65.4 kB]
+...
+...
+...
+done
+Processing triggers for mime-support (3.62) ...
+Processing triggers for libc-bin (2.28-10) ...
+Processing triggers for man-db (2.8.5-2) ...
+Processing triggers for dbus (1.12.20-0+deb10u1) ...
+Processing triggers for initramfs-tools (0.133+deb10u1) ...
+update-initramfs: Generating /boot/initrd.img-4.19.0-17-amd64
+W: initramfs-tools configuration sets RESUME=UUID=6a827045-1d97-4d51-93a8-24f8ffdf7d58
+W: but no matching swap device is available.
+Processing triggers for ca-certificates (20200601~deb10u2) ...
+Updating certificates in /etc/ssl/certs...
+0 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d...
+done.
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+➜  ~
+➜  ~ ansible work_host1 -m shell -a "yum upgrade -y"
+[WARNING]: Consider using the yum module rather than running 'yum'.  If you need to use command because yum is insufficient you can add 'warn: false'
+to this command task or set 'command_warnings=False' in ansible.cfg to get rid of this message.
+work_host1 | CHANGED | rc=0 >>
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.datacenter.by
+ * epel: mirror.datacenter.by
+ * extras: mirror.datacenter.by
+ * updates: mirror.datacenter.by
+No packages marked for update
+
+```
+
+## Ansible Inventory
+
+```bash
+
+  ~ ansible-inventory --graph
+@all:
+  |--@Linux:
+  |  |--@k8s:
+  |  |  |--k8s_host1
+  |  |  |--k8s_host2
+  |  |--@work_hosts:
+  |  |  |--work_host1
+  |  |  |--work_host2
+  |  |--@workshop_hosts:
+  |  |  |--workshop_host1
+  |--@jump:
+  |  |--jump_server
+  |--@ungrouped:
+
+➜  ~ cat /etc/ansible/hosts
+Linux:
+  vars:
+    ansible_ssh_user: root
+  children:
+    work_hosts:
+      hosts:
+        work_host1:
+          ansible_host: 192.168.202.19
+        work_host2:
+          ansible_host: 192.168.202.20
+    workshop_hosts:
+      hosts:
+        workshop_host1:
+          ansible_host: 192.168.201.10
+    k8s:
+      hosts:
+        k8s_host1:
+          ansible_host: 192.168.203.19
+        k8s_host2 :
+          ansible_host: 192.168.203.20
+
+jump:
+  hosts:
+    jump_server:
+      ansible_host: 178.124.206.53
+      ansible_ssh_user: jump_sa
+
+
+
+
+
+#[Linux:children]
+#work_hosts
+#workshop_hosts
+#k8s
+
+#[Linux:vars]
+#ansible_ssh_user=root
+
+#[jump]
+#jump_server ansible_host=178.124.206.53 ansible_ssh_user=jump_sa
+
+#[work_hosts]
+#192.168.202.19
+#192.168.202.20
+
+#[workshop_hosts]
+#192.168.201.10
+
+#[k8s]
+#192.168.203.19
+#192.168.203.20
+
+
+
+```
