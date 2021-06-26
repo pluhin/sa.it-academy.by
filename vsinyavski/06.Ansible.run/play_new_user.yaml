@@ -1,0 +1,48 @@
+- hosts: work_hosts
+  vars:
+    user: asta
+  tasks:
+    - name: "Create new_user {{ user }}"
+      user:
+        name: "{{ user }}"
+    - name: "Add authorized keys"
+      authorized_key:
+        user: "{{ user }}"
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    - name: "Allow new_user {{ user }} to sudo without a password in CentOS"
+      when: ansible_distribution == 'CentOS'
+      lineinfile:
+        dest: "/etc/sudoers"
+        state: "present"
+        regexp: "{{ user }}"
+        line: "{{ user }}  ALL=(ALL) NOPASSWD: /usr/bin/yum"
+    - name: "Allow new_user {{ user }} to sudo without a password in Ubuntu"
+      when: ansible_distribution == 'Ubuntu'
+      lineinfile:
+        dest: "/etc/sudoers"
+        state: "present"
+        regexp: "{{ user }}"
+        line: "{{ user }}  ALL=(ALL) NOPASSWD: /usr/bin/apt"
+    - name: "Check creation"
+      shell: |
+        grep "{{ user }}" /etc/passwd
+        grep "{{ user }}" /etc/sudoers
+        date
+      register: out
+    - debug:
+        msg: "{{ out.stdout_lines }}"
+    - name: "New_user {{ user }} upgrade Ubuntu"
+      when: ansible_distribution == 'Ubuntu'
+      shell: |
+        sudo apt upgrade -y
+      register: ubuntu
+    - debug:
+        msg: "{{ ubuntu }}"
+    - name: "New_user {{ user }} upgrade CentOS"
+      remote_user: "{{ user }}"
+      when: ansible_distribution == 'CentOS'
+      shell: |
+        sudo yum upgrade -y
+      register: centos
+    - debug:
+        msg: "{{ centos }}"
