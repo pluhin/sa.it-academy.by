@@ -1,0 +1,16 @@
+- hosts: work_hosts
+  #  vars:
+  tasks:
+    - name: Print OS type and version
+      debug:
+        msg: "OS type - {{ ansible_distribution }}, OS version - {{ ansible_distribution_version }}"
+    - name: Print mount point, capacity and used space
+      debug:
+        msg: "Mount point - `{{ansible_facts.mounts[0].mount }}`, Space total - {{(ansible_facts.mounts[0].size_total/1024/1024/1024) | round(1,'common')}}GB, Space used - {{((ansible_facts.mounts[0].size_total-ansible_facts.mounts[0].size_available)/1024/1024/1024) | round(1,'common')}}GB"
+    - name: Print memory capacity and free
+      debug:
+        msg: "Memory total - {{ (ansible_facts.memtotal_mb/1024) | round }}GB, Memory free - {{ (ansible_facts.memfree_mb/1024) | round(1,'common') }}GB"
+
+
+
+

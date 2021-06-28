@@ -1,0 +1,68 @@
+- hosts: "{{ group }}"
+  tasks:
+
+  - name: Print variable
+    debug:
+      msg: "You gonna to create user - `{{ user_to_add }}`"
+
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      comment: Managed by Ansible
+      #password: '$6$h3l7fRg4r.Esw1O$pGnQKwsng8UNJ.Po/K4iUgPozMosY6E1t6PMhnxUUNwlMYk4EQBhSk5wCHF6KDisRBGjg5U6VWJRwxOYmAqYw0'
+      state: present
+
+  - name: Set authorized SSH key taken from file
+    authorized_key:
+      user: "{{ user_to_add }}"
+      state: present
+      key: "{{ item }}"
+    with_items:
+    - "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+  - name: "Assign sudo permissions for {{ user_to_add }} in CentOS"
+    when: ansible_distribution == 'CentOS'
+    lineinfile:
+      dest: "/etc/sudoers"
+      state: "present"
+      regexp: "{{ user_to_add }}"
+      line: "{{ user_to_add }}  ALL=(ALL) NOPASSWD: /usr/bin/yum"
+
+  - name: "Assign sudo permissions for {{ user_to_add }} in Ubuntu"
+    when: ansible_distribution == 'Ubuntu'
+    lineinfile:
+      dest: "/etc/sudoers"
+      state: "present"
+      regexp: "{{ user_to_add }}"
+      line: "{{ user_to_add }}  ALL=(ALL) NOPASSWD: /usr/bin/apt"
+
+  - name: Check
+    shell: |   
+      grep "{{ user_to_add }}" /etc/passwd
+      date
+      grep "{{ user_to_add }}" /etc/sudoers
+    register: out
+  - debug:
+      msg: "{{ out.stdout_lines }}"
+
+  - name: "Test upgrade Ubuntu"
+    when: ansible_distribution == 'Ubuntu'
+    shell: |
+      apt upgrade -y
+    register: out1
+  - debug:
+      msg: "{{ out1 }}"
+
+  - name: "Test upgrade CentOS"
+    when: ansible_distribution == 'CentOS'
+    shell: |
+      yum upgrade -y
+    register: out2
+  - debug:
+      msg: "{{ out2 }}"
+
+      #  - name: Removing user {{ user_to_add }}
+      #    user:
+      #      name: "{{ user_to_add }}"
+      #      state: absent
+
