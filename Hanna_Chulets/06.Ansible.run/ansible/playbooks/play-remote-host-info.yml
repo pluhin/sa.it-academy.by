@@ -1,0 +1,14 @@
+- hosts: work_hosts 
+  # gather_facts: False
+  # strategy: free
+  tasks:
+    - name: System OS and version
+      debug:
+        msg: "System OS {{ ansible_distribution }} | System OS version {{ ansible_distribution_version }} " 
+    - name: System mount info
+      debug:
+#        msg: "Host mount {{ ansible_mounts[0].mount }} | Host mount total size {{ (ansible_mounts[0].size_total / 1000000000) | round(1, 'common') }} GB |  Host mount available size {{ (ansible_mounts[0].size_available / 1000000000) | round(1, 'common')  }} GB"
+         msg: "Host mount {{ ansible_mounts[0].mount }} | Host mount total size {{ (ansible_mounts[0].size_total / 1000000000) | round(1, 'common') }} GB |  Host mount used size {{ (ansible_mounts[0].size_total / 1000000000 - ansible_mounts[0].size_available / 1000000000) | round(1, 'common')  }} GB"
+    - name: System RAM info
+      debug:
+        msg: "System RAM total {{ ansible_memory_mb.real.total }} MB | System RAM free {{ ansible_memory_mb.real.free }} MB"
