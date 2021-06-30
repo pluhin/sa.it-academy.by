@@ -1,0 +1,71 @@
+$script_debian = <<-SCRIPT
+export DEBIAN_FRONTEND=noninteractive
+useradd -m -G vagrant updater
+cat /tmp/pub_key.pub >> /home/vagrant/.ssh/authorized_keys
+chown vagrant:vagrant /home/vagrant/.ssh/authorized_keys
+chmod 600 /home/vagrant/.ssh/authorized_keys
+su updater
+mkdir /home/updater/.ssh
+cat /tmp/pub_key.pub >> /home/updater/.ssh/authorized_keys
+chown vagrant:updater /home/updater/.ssh/authorized_keys
+chmod 600 /home/updater/.ssh/authorized_keys
+apt-get update
+apt-get install vim wget curl
+SCRIPT
+
+$script_centos = <<-SCRIPT
+useradd -m -G vagrant updater
+cat /tmp/pub_key.pub >> /home/vagrant/.ssh/authorized_keys
+chown vagrant:vagrant /home/vagrant/.ssh/authorized_keys
+chmod 600 /home/vagrant/.ssh/authorized_keys
+su updater
+mkdir /home/updater/.ssh
+cat /tmp/pub_key.pub >> /home/updater/.ssh/authorized_keys
+chown vagrant:updater /home/updater/.ssh/authorized_keys
+chmod 600 /home/updater/.ssh/authorized_keys
+yum install vim wget curl
+SCRIPT
+
+
+PUB_KEY_PATH = "~/.ssh/id_rsa.pub"
+
+MACHINES = {
+  'debian'  =>  { vcpu: '1', ram: '512', ip: '192.168.30.20', os: 'debian/bullseye64'},
+  'centos' =>  { vcpu: '1', ram: '512', ip: '192.168.30.30', os: 'centos/8'},
+}
+
+INSTANCES = MACHINES.flat_map do |server_name, server|
+    server.merge({
+      :vagrant_name => "#{server_name}",
+    })
+
+  end
+
+Vagrant.configure("2") do |config|
+  INSTANCES.each do |instance|
+    config.vm.define instance[:vagrant_name] do |node|
+      node.vm.box = instance [:os]
+      node.vm.hostname = instance[:vagrant_name]
+      node.vm.network "private_network", ip: instance[:ip]
+
+
+      node.vm.provider "virtualbox" do |vb|
+        vb.gui = false
+        vb.memory = instance[:ram]
+        vb.cpus = instance[:vcpu]
+
+      end
+
+      node.vm.provision "file", source: PUB_KEY_PATH, destination: "/tmp/pub_key.pub"
+      if instance[:vagrant_name] == "debian"
+      node.vm.provision "shell", inline: $script_debian
+      end
+      if instance[:vagrant_name] == "centos"
+      node.vm.provision "shell", inline: $script_centos
+
+    end
+
+  end
+
+end
+end
