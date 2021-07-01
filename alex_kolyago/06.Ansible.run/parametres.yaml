@@ -1,0 +1,20 @@
+- hosts: work_hosts
+  # gather_facts: False
+  # strategy: free
+  # serial: 1
+  tasks:
+    - name: Print OS/version
+      debug:
+        msg: "OS: {{ ansible_distribution }} | version: {{ ansible_distribution_version }}"
+      tags:
+        - OS/version
+    - name: Print mount/capacity/free
+      debug:
+        msg: "Mount point: `{{ ansible_facts.mounts[0].mount }}`, capacity: {{ (ansible_facts.mounts[0].size_total / 1000000000 ) | int }} GB, Used: {{ ((ansible_facts.mounts[0].size_total - ansible_facts.mounts[0].size_available) / 1000000000) | int }} GB"
+      tags:
+        - Mount
+    - name: Print RAM/capacity/free
+      debug:
+        msg: "Total RAM: {{ (ansible_facts.memory_mb.real.total / 1000) }} GB | Free RAM: {{ (ansible_facts.memory_mb.real.free / 1000) }} GB"
+      tags:
+        - RAM
