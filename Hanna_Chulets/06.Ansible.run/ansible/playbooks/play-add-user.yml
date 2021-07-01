@@ -1,0 +1,60 @@
+- hosts: "{{ group }}"
+  tasks:
+  - name: Print variable
+    debug:
+      msg: "You requested user {{ user_to_add }}"
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      comment: Managed by ansible
+      state: present
+  - name: "Add authorized keys"
+    authorized_key:
+      user: "{{ user_to_add }}"
+      key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  - name: Check
+    shell: |
+      grep "{{ user_to_add }}" /etc/passwd
+      date
+    register: out
+  - debug:
+      msg: "{{ out.stdout_lines }}"
+  - name: Create /etc/sudoers.d/user file
+    when: ansible_facts['distribution'] == "Ubuntu"
+    copy:
+      content: ""
+      dest: /etc/sudoers.d/{{ user_to_add }}
+      force: no
+      group: sys
+      owner: root
+      mode: 0555
+  - name: Add to sudoers on Ubuntu
+    shell: |
+      echo "{{ user_to_add }} ALL=NOPASSWD: /usr/bin/apt" > /etc/sudoers.d/{{ user_to_add }}
+    register: out
+    when: ansible_facts['distribution'] == "Ubuntu"
+    become: true
+    become_method: sudo
+  - name: Try to upgrade Ubuntu using a new user
+    shell: |
+      sudo apt upgrade 
+    become: true
+    become_method: su
+    become_user: "{{ user_to_add }}"
+    when: ansible_facts['distribution'] == "Ubuntu"
+  - name: Add to sudoers on Centos
+    shell: |
+      echo "{{ user_to_add }} ALL=NOPASSWD: /usr/bin/yum" >> /etc/sudoers
+    register: out
+    when: ansible_facts['distribution'] == "CentOS"
+  - name: Try to upgrade Cemtos using a new user
+    shell: |
+      sudo yum upgrade 
+    become: true
+    become_method: su
+    become_user: "{{ user_to_add }}"
+    when: ansible_facts['distribution'] == "CentOS"
+  - name: Removing user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      state: absent  
