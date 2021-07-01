@@ -1,0 +1,5 @@
+- hosts: work_hosts
+  #strategy: free
+  roles:
+    - webserverNginx
+    - test

@@ -1,0 +1,22 @@
+---
+- name: Nginx. Install packeges to CentOS
+  yum:
+    name: "{{ yum_http_packeges }}"
+    state: present
+  tags:
+  - tests
+
+- name: Nginx. Enable firewall port on CentOS
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+  tags:
+  - tests
+
+- name: reload service firewalld on CentOS
+  systemd:
+    name: firewalld
+    state: reloaded
+  tags:
+  - tests

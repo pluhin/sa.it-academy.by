@@ -1,0 +1,17 @@
+---
+apt_http_packeges:
+  - nginx
+yum_http_packeges:
+  - epel-release
+  - nginx
+  - libsemanage-python
+  - libselinux-python
+
+default_home: "{{ '/var/www/html' if (ansible_os_family == 'Debian') else '/usr/share/nginx/html' }}"
+
+site_deb: "local-deb.site"
+site_cent: "local-cent.site"
+
+virtual_hosts:
+  - { name: "{{ site_cent }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}
+  - { name: "{{ site_deb }}", ip: "{{ hostvars[\"work_02\"].ansible_host }}"}
