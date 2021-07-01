@@ -1,0 +1,70 @@
+---
+- name: Install Nginx Web Server on CentOS
+  yum:
+    name=nginx
+    state=present
+  when:
+    ansible_distribution == "CentOS"
+  notify:
+    - nginx systemd
+- name: HTTP. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+  when:
+    ansible_distribution == "CentOS"
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  when:
+    ansible_distribution == "CentOS"
+- name: Install Nginx Web Server on Ubuntu
+  apt:
+    name=nginx
+    state=present
+  when:
+    ansible_distribution == "Ubuntu"
+  notify:
+    - nginx systemd
+- name: Copy start page
+  copy:
+    src: index.html
+    dest: "{{ default_home }}"
+    owner: root
+    group: root
+    mode: '0775'
+  notify:
+    - nginx restart
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+- name: Check template
+  shell: |
+    cat /etc/hosts
+  register: out
+  changed_when: false
+- name: print out
+  debug:
+    msg: "{{ out.stdout_lines }}"
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'We Gonna Die' not in this.content"
+- name: Check Sudo
+  include: sudo_no_paswd.yaml
+- name: Check repo
+  include: repos.yaml
+- name: Check Docker
+  include: docker.yaml
+- name: Min RAM/HDD free space notification
+  include: resources.yaml
