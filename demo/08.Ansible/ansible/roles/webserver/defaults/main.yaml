@@ -1,0 +1,16 @@
+---
+apt_http_packages: 
+  - apache2
+yum_http_packages:
+  - httpd
+  - libsemanage-python
+  - libselinux-python
+
+default_home: "/var/www/html"
+
+site_deb: "local-deb.site"
+site_cent: "local-cent.site"
+
+virtual_hosts:
+  - { name: "{{ site_cent }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}
+  - { name: "{{ site_deb }}", ip: "{{ hostvars[\"work_02\"].ansible_host }}"}

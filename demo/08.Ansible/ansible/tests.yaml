@@ -1,0 +1,27 @@
+- hosts: work_shop_01
+  tasks:
+  - debug:
+      msg: "192.168.201.{{ item }}"
+    loop: "{{ range(1, 17 +1)|list }}"
+  - name: Connect to website
+    uri:
+      url: "http://192.168.201.{{ output }}"
+      method: GET
+      return_content: yes
+      headers:
+        host: "redmine-{{ output }}.sa"
+    register: this
+    failed_when: "'Jean-Philippe Lang' not in this.content"
+    loop: "{{ range(17, 17 +1)|list }}"
+    loop_control:
+      loop_var: output
+    tags:
+      - test::url
+
+    loop: "{{ range(1, 17 + 1 )|list }}"
+  - name: Test port 80
+    wait_for:
+      host: "192.168.201.{{ item }}"
+      port: "80"
+      timeout: 1
+    loop: "{{ range(1, 17 +1)|list }}"
