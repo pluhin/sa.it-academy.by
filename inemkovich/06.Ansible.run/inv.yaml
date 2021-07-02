@@ -1,0 +1,16 @@
+vagrant:
+  vars:
+    ansible_ssh_user: root
+  children:
+    vagrant_hosts:
+      hosts:
+        host1_centos:
+          ansible_host: 192.168.100.10
+        host2_ubuntu:
+          ansible_host: 192.168.100.20
+jump:
+  vars:
+    ansible_ssh_user: admin
+  hosts:
+    rhel8:
+      ansible_host: 172.24.172.194

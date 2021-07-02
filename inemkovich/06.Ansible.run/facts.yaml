@@ -1,0 +1,16 @@
+- hosts: vagrant_hosts
+  gather_facts: True
+  tasks:
+    - name: Print facts OS/Version
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+      tags:
+        - facts
+    - name: Print facts Mount point/capacity/used
+      debug:
+        msg: "Mount point: {{ ansible_facts.mounts[0].mount }} | Capacity: {{ (ansible_facts.mounts[0].size_total/1024/1024/1024) | round(1,'common') }} GB | Free: {{ (ansible_facts.mounts[0].size_available/1024/1024/1024) | round(1,'common') }} GB"
+      tags:
+        - facts
+    - name: Print facts RAM/capacity/free
+      debug:
+        msg: "Memory total: {{ ansible_facts.memtotal_mb }} MB | Memory free: {{ ansible_facts.memfree_mb }} MB"
