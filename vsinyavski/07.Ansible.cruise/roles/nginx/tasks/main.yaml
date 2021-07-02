@@ -28,6 +28,22 @@
     ansible_distribution == "Ubuntu"
   notify:
     - nginx systemd
+- name: Copy nginx config to CentOS
+  template:
+    src: centos.j2
+    dest: "{{ nginx_config }}"
+  when:
+    ansible_distribution == "CentOS"  
+  notify:
+    - nginx restart
+- name: Copy nginx config to Ubuntu
+  template:
+    src: ubuntu.j2
+    dest: "{{ nginx_config }}"
+  when:
+    ansible_distribution == "Ubuntu"
+  notify:
+    - nginx restart
 - name: Copy start page
   copy:
     src: index.html
@@ -37,7 +53,7 @@
     mode: '0775'
   notify:
     - nginx restart
-- name: Templates
+- name: Templates for virtual_hosts
   template:
     src: "hosts.j2"
     dest: "/etc/hosts"
@@ -53,13 +69,21 @@
 - name: print out
   debug:
     msg: "{{ out.stdout_lines }}"
-- name: Check content to the sites
+- name: Check deploy nginx
   uri:
-    url: "http://{{ item.name }}"
-    return_content: yes
-  loop: "{{ virtual_hosts }}"
-  register: this
-  failed_when: "'We Gonna Die' not in this.content"
+    url: "http://{{ item }}"
+  with_items:
+    - local-ubuntu.site
+    - local-centos.site
+  register: out_uri
+- name: Print output
+  debug:
+    msg: "Status: {{ output.status }}"
+  loop: "{{ out_uri.results }}"
+  loop_control:
+    loop_var: output
+    label: "{{ output.status }}"
+    pause: 2
 - name: Check Sudo
   include: sudo_no_paswd.yaml
 - name: Check repo
