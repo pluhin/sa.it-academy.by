@@ -1,0 +1,26 @@
+--- 
+var_apt_nginx_ubuntu:
+  - nginx
+var_yum_nginx_centos:
+  - nginx
+  - libsemanage-python
+  - libselinux-python
+
+var_homepage_dir_ubuntu: "/var/www/html"
+var_homepage_dir_centos: "/usr/share/nginx/html"
+
+var_homepage2_dir: "/var/www/testsite2.com"
+
+#variable for variable
+site_centos: "centos.test.site"
+site_ubuntu: "ubuntu.test.site"
+site_centos2: "centos.testsite2.com"
+site_ubuntu2: "ubuntu.testsite2.com"
+
+# for domain use IP from inventory. ansible_host is IP
+var_virtual_hosts:
+  - { name: "{{ site_centos }}", ip: "{{ hostvars[\"work_host1\"].ansible_host}}"}
+  - { name: "{{ site_ubuntu }}", ip: "{{ hostvars[\"work_host2\"].ansible_host}}"}
+  - { name: "{{ site_centos2 }}", ip: "{{ hostvars[\"work_host1\"].ansible_host}}"}
+  - { name: "{{ site_ubuntu2 }}", ip: "{{ hostvars[\"work_host2\"].ansible_host}}"}
+
