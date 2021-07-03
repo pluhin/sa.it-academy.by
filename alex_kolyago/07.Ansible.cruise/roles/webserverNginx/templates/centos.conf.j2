@@ -1,0 +1,15 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name  {{ site_cent }} www.{{ site_cent }};
+    root {{ default_home }};
+    index index.html;
+
+    access_log /var/log/nginx/{{ site_cent }}_access_log;
+    error_log /var/log/nginx/{{ site_cent }}_error_log;
+
+
+    location ~* ^.+\.(jpg|jpeg|gif|png|css|zip|tgz|gz|rar|bz2|doc|docx|xls|xlsx|exe|pdf|ppt|tar|wav|bmp|rtf|js)$ {
+            expires modified +1w;
+    }
+}

@@ -6,6 +6,13 @@
   tags:
   - tests
 
+- name: Copy nginx config on CentOS
+  template:
+    src: centos.conf.j2
+    dest: "{{ nginx_config }}"
+  notify:
+    - restart nginx
+
 - name: Nginx. Enable firewall port on CentOS
   firewalld:
     port: 80/tcp

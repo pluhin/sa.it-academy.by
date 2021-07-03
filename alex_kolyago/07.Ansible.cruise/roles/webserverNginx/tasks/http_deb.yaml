@@ -6,3 +6,10 @@
     update_cache: yes
   notify:
     - nginx systemd
+
+- name: Copy nginx config - Ubuntu
+  template:
+    src: ubuntu.conf.j2
+    dest: "{{ nginx_config }}"
+  notify:
+    - restart nginx
