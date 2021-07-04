@@ -111,3 +111,86 @@ echo "ansible ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/ansible
 echo "ansible:ansible" | chpasswd
 ```
 
+### Ansible output
+#### Hostname and IP
+```bash
+root@vagrant:/etc/ansible# ansible work_hosts -m shell -a "hostname && hostname -I"
+192.168.202.2 | CHANGED | rc=0 >>
+sa-ubuntu-2
+192.168.202.2
+192.168.202.1 | CHANGED | rc=0 >>
+sa-centos-1
+192.168.202.1
+```
+
+#### Ubuntu upgrade
+```bash
+root@vagrant:/etc/ansible# ansible 192.168.202.2 -m shell -a "sudo apt update && sudo apt upgrade -y"
+192.168.202.2 | CHANGED | rc=0 >>
+Hit:1 http://packages.icinga.com/ubuntu icinga-bionic InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu bionic InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu bionic-security InRelease
+Reading package lists...
+Building dependency tree...
+Reading state information...
+3 packages can be upgraded. Run 'apt list --upgradable' to see them.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+The following NEW packages will be installed:
+  distro-info libllvm10 libnetplan0 python3-pkg-resources
+The following packages will be upgraded:
+  libgl1-mesa-dri netplan.io ubuntu-advantage-tools
+Preconfiguring packages ...
+3 upgraded, 4 newly installed, 0 to remove and 0 not upgraded.
+Need to get 0 B/25.6 MB of archives.
+After this operation, 189 MB of additional disk space will be used.
+...
+Setting up netplan.io (0.99-0ubuntu3~18.04.4) ...
+Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
+Processing triggers for dbus (1.12.2-1ubuntu1.2) ...
+Processing triggers for libc-bin (2.27-3ubuntu1.4) ...
+```
+
+#### Centos upgrade
+```bash
+root@vagrant:/etc/ansible# ansible 192.168.202.1 -m shell -a "sudo yum upgrade -y"
+192.168.202.1 | CHANGED | rc=0 >>
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: ftp.byfly.by
+ * epel: mirror.logol.ru
+ * extras: ftp.byfly.by
+ * updates: ftp.byfly.by
+Resolving Dependencies
+--> Running transaction check
+...
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package                      Arch    Version                    Repository
+                                                                           Size
+================================================================================
+Updating:
+...
+Transaction Summary
+================================================================================
+Install              ( 1 Dependent package)
+Upgrade  80 Packages
+
+Total download size: 56 M
+Downloading packages:
+Delta RPMs disabled because /usr/bin/applydeltarpm not installed.
+--------------------------------------------------------------------------------
+Total                                               32 MB/s |  56 MB  00:01
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+...
+Complete!newaliases: In sSMTP aliases are read from a plain text file
+```
