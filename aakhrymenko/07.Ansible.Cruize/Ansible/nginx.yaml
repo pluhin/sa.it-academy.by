@@ -1,0 +1,9 @@
+#'use to execute' 
+#ansible-playbook -i inv.yaml nginx.yaml
+#playbook to deploy nginx for 2 hosts - Ubuntu and Centos
+
+- hosts: work_hosts
+  #make for hosts in parallel. Faster. but printout not clear
+  #strategy: free 
+  roles:
+    - test_role1_nginx
