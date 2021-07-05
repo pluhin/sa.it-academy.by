@@ -1,0 +1,9 @@
+---
+- name: Check docker hub registry connection
+  uri:
+    url: "https://registry.hub.docker.com"
+    return_content: yes
+  register: out_uri
+- name: Print output
+  debug:
+    msg: "Status: {{ out_uri.status }}"
