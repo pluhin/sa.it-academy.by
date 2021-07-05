@@ -1,0 +1,11 @@
+---
+- name: nginx.Install
+  apt:
+    name: "{{ var_apt_nginx_ubuntu }}"
+    state: present
+    update_cache: yes
+- name: nginx.Enable\Start
+  service:
+    name: nginx
+    state: started
+    enabled: yes

@@ -1,0 +1,11 @@
+--- 
+var_users_list:
+  - avatar
+  - jajabinks
+  - test_user
+
+var_urls:
+  - http://by.archive.ubuntu.com/ubuntu/
+  - http://ftp.byfly.by/pub/CentOS/8.4.2105/isos/x86_64/
+  - https://pypi.org/simple
+  - https://hub.docker.com/_/registry

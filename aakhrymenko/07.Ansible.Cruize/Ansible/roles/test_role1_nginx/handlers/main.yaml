@@ -1,0 +1,5 @@
+---
+- name: handler_restart_nginx
+  service:
+    name: nginx
+    state: restarted
