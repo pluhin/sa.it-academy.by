@@ -28,20 +28,10 @@
     ansible_distribution == "Ubuntu"
   notify:
     - nginx systemd
-- name: Copy nginx config to CentOS
-  template:
-    src: centos.j2
-    dest: "{{ nginx_config }}"
-  when:
-    ansible_distribution == "CentOS"  
-  notify:
-    - nginx restart
-- name: Copy nginx config to Ubuntu
+- name: Copy nginx config to virtual hosts
   template:
     src: ubuntu.j2
     dest: "{{ nginx_config }}"
-  when:
-    ansible_distribution == "Ubuntu"
   notify:
     - nginx restart
 - name: Copy start page
