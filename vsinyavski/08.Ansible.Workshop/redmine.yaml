@@ -1,0 +1,63 @@
+---
+- hosts: work_shop
+  become: yes
+  pre_tasks:
+  - debug:
+      msg: "{{ ansible_host }}"
+  - name: Output hostname
+    shell: hostname
+    register: hostname
+  - debug:
+      msg: "{{ hostname.stdout }}"
+  - name: Install packages for db and application
+    apt:
+      name: "{{ apt_redmine_packages }}"
+      state: latest
+      update_cache: yes
+  roles:
+    - mysql_db
+    - application
+  tasks:
+  - name: "Add {{ app_fqdn }} to host file"
+    shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
+    tags: 
+      - test
+  - uri:
+      url: "http://{{ app_fqdn }}"
+      return_content: yes
+    register: this
+    failed_when: "'g' not in this.content"
+    tags: 
+      - test
+  - lineinfile:
+      path: /etc/hosts
+      state: absent
+      regexp: '^127.0.0.1       {{ app_fqdn }}'
+    tags: 
+      - test
+      - always
+  - name: Connectivity checks
+    block:
+      - name: Check connection
+        wait_for:
+          host: 'localhost'
+          port: '80'
+          timeout: 5
+        register: out
+    rescue:
+      - name: Send notification
+        slack:
+          token: "{{ slack_token }}"
+          msg: 'Checks: failed'
+          channel: '#ansible_channel'
+          username: 'Ansible sender'
+          icon_url: https://agardner.net/wp-content/uploads/2018/08/ansible-logo.png
+          parse: 'full'
+  - name: Test
+    uri:
+      url: "http://localhost"
+      return_content: yes
+    register: out_uri
+  - name: Print output
+    debug:
+      msg: "Status: {{ out_uri.status }}"
