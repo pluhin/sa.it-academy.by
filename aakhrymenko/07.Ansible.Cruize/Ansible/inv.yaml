@@ -1,0 +1,53 @@
+Linux:
+  vars:
+    ansible_ssh_user: root
+  children:
+    work_hosts:
+      hosts:
+        work_host1:
+          ansible_host: 192.168.202.19
+        work_host2:
+          ansible_host: 192.168.202.20
+    workshop_hosts:
+      hosts:
+        workshop_host1:
+          ansible_host: 192.168.201.10
+    k8s:
+      hosts:
+        k8s_host1:
+          ansible_host: 192.168.203.19
+        k8s_host2 :
+          ansible_host: 192.168.203.20
+
+jump:
+  hosts:
+    jump_server:
+      ansible_host: 178.124.206.53
+      ansible_ssh_user: jump_sa
+
+
+
+
+
+#[Linux:children]
+#work_hosts
+#workshop_hosts
+#k8s
+
+#[Linux:vars]
+#ansible_ssh_user=root
+
+#[jump]
+#jump_server ansible_host=178.124.206.53 ansible_ssh_user=jump_sa
+
+#[work_hosts]
+#192.168.202.19
+#192.168.202.20
+
+#[workshop_hosts]
+#192.168.201.10
+
+#[k8s]
+#192.168.203.19
+#192.168.203.20
+

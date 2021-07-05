@@ -1,0 +1,27 @@
+---
+- name: nginx.Install
+  yum:
+    name: "{{ var_yum_nginx_centos }}"
+    state: present
+
+    #- name: nginx.Remove welcome file
+    #  file:
+    #    path: 
+    #    state: absent
+
+- name: nginx.Enable\Start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: http.Open port
+  firewalld:
+   port: 80/tcp
+   permanent: yes
+   state: enabled
+
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded 
