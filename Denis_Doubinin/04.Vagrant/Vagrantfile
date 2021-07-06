@@ -1,29 +1,33 @@
 $script_debian = <<-SCRIPT
 export DEBIAN_FRONTEND=noninteractive
-useradd -m -G vagrant updater
+useradd -s /bin/bash -m updater
+echo "updater:vagrant" | chpasswd
+echo "updater ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/updater
+chmod ug+r /etc/sudoers.d/updater
+mkdir /home/updater/.ssh
 cat /tmp/pub_key.pub >> /home/vagrant/.ssh/authorized_keys
+cat /tmp/pub_key.pub >> /home/updater/.ssh/authorized_keys
 chown vagrant:vagrant /home/vagrant/.ssh/authorized_keys
 chmod 600 /home/vagrant/.ssh/authorized_keys
-su updater
-mkdir /home/updater/.ssh
-cat /tmp/pub_key.pub >> /home/updater/.ssh/authorized_keys
-chown vagrant:updater /home/updater/.ssh/authorized_keys
+chown -R updater:updater /home/updater
 chmod 600 /home/updater/.ssh/authorized_keys
 apt-get update
-apt-get install vim wget curl
+apt-get -yqq install vim wget curl
 SCRIPT
 
 $script_centos = <<-SCRIPT
-useradd -m -G vagrant updater
+useradd -s /bin/bash -m -G wheel updater
+echo "updater:vagrant" | chpasswd
+echo "updater ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/updater
+chmod ug+r /etc/sudoers.d/updater
+mkdir /home/updater/.ssh
 cat /tmp/pub_key.pub >> /home/vagrant/.ssh/authorized_keys
+cat /tmp/pub_key.pub >> /home/updater/.ssh/authorized_keys
 chown vagrant:vagrant /home/vagrant/.ssh/authorized_keys
 chmod 600 /home/vagrant/.ssh/authorized_keys
-su updater
-mkdir /home/updater/.ssh
-cat /tmp/pub_key.pub >> /home/updater/.ssh/authorized_keys
-chown vagrant:updater /home/updater/.ssh/authorized_keys
+chown -R updater:updater /home/updater
 chmod 600 /home/updater/.ssh/authorized_keys
-yum install vim wget curl
+yum install -y vim wget curl
 SCRIPT
 
 
