@@ -1,0 +1,97 @@
+---
+- name: Install Nginx on Ubuntu
+  apt:
+    name=nginx
+    state=present
+  when:
+    ansible_os_family == "Debian"
+  notify:
+    - nginx systemd
+
+- name: Install Nginx on CentOS
+  yum:
+    name=nginx
+    state=present
+  when:
+    ansible_os_family == "RedHat"
+  notify:
+    - nginx systemd
+
+- name: HTTP. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+  when:
+    ansible_os_family == "RedHat"
+
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  when:
+    ansible_os_family == "RedHat"
+
+- name: Copy nginx config to virtual hosts
+  template:
+    src: conf.j2
+    dest: "{{ nginx_config }}"
+  notify:
+    - restart nginx
+
+- name: Copy first page
+  copy:
+    src: index.html
+    dest: "{{ default_home }}"
+    owner: root
+    group: root
+    mode: '0775'
+  notify:
+    - restart nginx
+
+- name: Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: print out
+  debug:
+    msg: "{{ out }}"
+
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+- name: Check template
+  shell: |
+    cat /etc/hosts
+  register: out
+  changed_when: false
+
+- name: print out
+  debug:
+    msg: "{{ out.stdout_lines }}"
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'Hi' not in this.content"
+  tags:
+  - tests
+
+- name: print out
+  debug:
+    msg: "{{ this }}"
+  tags:
+  - tests
