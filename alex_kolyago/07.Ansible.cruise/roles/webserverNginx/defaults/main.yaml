@@ -1,12 +1,4 @@
 ---
-apt_http_packeges:
-  - nginx
-yum_http_packeges:
-  - epel-release
-  - nginx
-  - libsemanage-python
-  - libselinux-python
-
 nginx_config: etc/nginx/conf.d/
 
 default_home: "{{ '/var/www/html' if (ansible_os_family == 'Debian') else '/usr/share/nginx/html' }}"
