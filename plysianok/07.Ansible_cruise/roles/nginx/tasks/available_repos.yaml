@@ -1,0 +1,16 @@
+---
+- name: Check connection to public repositories
+  wait_for:
+    host: "{{ item }}"
+    timeout: 1
+  with_items:
+    - http://mirror.datacenter.by/pub/CentOS/
+    - ftp.debian.org
+- name: Check connection to DockerHub
+  uri:
+    url: "https://registry.hub.docker.com/v1/repositories/busybox/tags"
+    return_content: yes
+  register: out
+- name: Print output
+  debug:
+    msg: "Status: {{ out.status }}"
