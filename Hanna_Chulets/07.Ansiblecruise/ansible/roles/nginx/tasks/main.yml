@@ -1,0 +1,82 @@
+---
+- name: Nginx. Install packages on Debian
+  apt:
+    name: "{{ nginx_package }}"
+    state: present
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+- name: Nginx. Install packages on RedHat
+  yum:
+    name: "{{ nginx_package }}"
+    state: present
+    update_cache: yes
+  when: ansible_os_family == 'RedHat'
+- name: Nginx. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+- name: Nginx. Enable firewall port
+  when: ansible_os_family == 'RedHat'
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+  tags:
+  - tests
+- name: reload service firewalld
+  when: ansible_os_family == 'RedHat'
+  systemd:
+    name: firewalld
+    state: reloaded
+  tags:
+  - tests
+- name: Copy first page
+  copy:
+    src: index.html
+    dest: "{{ default_home }}"
+    owner: root
+    group: root
+    mode: '0775'
+  notify:
+    - restart nginx
+- name: Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+- name: print out
+  debug:
+    msg: "{{ out }}"   
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+- name: Check template
+  shell: |
+    cat /etc/hosts
+  register: out
+  changed_when: false
+- name: print out
+  debug:
+    msg: "{{ out.stdout_lines }}"
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'Tekila' not in this.content"
+  tags:
+  - tests
+- name: print out
+  debug:
+    msg: "{{ this }}"
+  tags:
+  - tests
