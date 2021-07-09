@@ -1,6 +1,8 @@
 ---
 nginx_home_path: "{{ '/var/www/html' if (ansible_distribution == 'Ubuntu') else '/usr/share/nginx/html' }}"
 
+nginx_conf_path: "/etc/nginx/nginx.conf"
+
 site_cent: "local-cent.site"
 site_deb: "local-deb.site"
 
