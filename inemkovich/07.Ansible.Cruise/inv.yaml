@@ -1,0 +1,26 @@
+ec_all:
+  vars: 
+    ansible_ssh_user: root
+  children:
+    work_hosts:
+      hosts:
+        work_01:
+          ansible_host: 192.168.202.17
+        work_02:
+          ansible_host: 192.168.202.18
+    workshop_hosts:
+      hosts:
+        work_shop_01:
+          ansible_host: 192.168.201.9
+    k8s:
+      hosts:
+        k8s_01:
+          ansible_host: 192.168.203.17
+        k8s_02:
+          ansible_host: 192.168.203.18
+jump:
+  vars:
+    ansible_ssh_user: jump_sa
+  hosts:
+    ec_jump:
+      ansible_host: 178.124.206.53
