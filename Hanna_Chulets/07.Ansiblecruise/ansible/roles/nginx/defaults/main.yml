@@ -2,6 +2,8 @@
 nginx_package:
   - nginx
 
+nginx_port: 80
+
 default_home: "{{ '/var/www/html' if (ansible_os_family == 'Debian') else '/usr/share/nginx/html' }}"
 
 site_deb: "local-deb.site"
