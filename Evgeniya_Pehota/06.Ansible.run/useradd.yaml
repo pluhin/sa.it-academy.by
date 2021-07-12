@@ -1,0 +1,65 @@
+- hosts: "{{ group }}"
+  vars:
+    user: "{{ add_user }}"
+  pre_tasks:
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: "{{ ansible_ssh_user }}"
+        state: present
+        key: "{{ item }}"
+      with_items:
+      - "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      tags:
+        - always
+  tasks:
+    - name: " useradd {{ user }} "
+      user:
+        name: "{{ user }}"
+        state: present
+
+    - name: "Add authorized keys"
+      authorized_key:
+        user: "{{ user }}"
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    - name: "Set sudo permissions to new user '{{ user }}' without a password in CentOS"
+      when: ansible_distribution == 'CentOS'
+      lineinfile:
+        dest: "/etc/sudoers"
+        state: "present"
+        regexp: "{{ user }}"
+        line: "{{ user }}  ALL=(ALL) NOPASSWD: /usr/bin/yum"
+
+    - name: "Set sudo permissions to new user '{{ user }}' without a password in Ubuntu"
+      when: ansible_distribution == 'Ubuntu'
+      lineinfile:
+        dest: "/etc/sudoers"
+        state: "present"
+        regexp: "{{ user }}"
+        line: "{{ user }}  ALL=(ALL) NOPASSWD: /usr/bin/apt"
+
+    - name: "Self test new user"
+      shell: |
+        grep "{{ user }}" /etc/passwd
+        grep "{{ user }}" /etc/sudoers
+      register: out
+      - debug:
+        msg: "{{ out.stdout_lines }}"
+
+    - name: " {{ user }} apt upgrade "
+      when: ansible_distribution == 'Ubuntu'
+      shell: |
+        sudo apt upgrade -y
+      register: ubuntu
+    - debug:
+        msg: "{{ ubuntu }}"
+
+    - name: " {{ user }} yum upgrade"
+      remote_user: "{{ user }}"
+      when: ansible_distribution == 'CentOS'
+      shell: |
+        sudo yum upgrade -y
+      register: centos
+    - debug:
+        msg: "{{ centos }}"
