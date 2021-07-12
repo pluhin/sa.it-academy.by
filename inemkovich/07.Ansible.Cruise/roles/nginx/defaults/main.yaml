@@ -1,0 +1,11 @@
+---
+nginx_home_path: "{{ '/var/www/html' if (ansible_distribution == 'Ubuntu') else '/usr/share/nginx/html' }}"
+
+nginx_conf_path: "/etc/nginx/nginx.conf"
+
+site_cent: "local-cent.site"
+site_deb: "local-deb.site"
+
+virtual_hosts:
+  - { name: "{{ site_cent }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}
+  - { name: "{{ site_deb }}", ip: "{{ hostvars[\"work_02\"].ansible_host }}"}

@@ -1,0 +1,12 @@
+---
+- name: Install Nginx package Ubuntu
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Enable & Start nginx service
+  service:
+    name: nginx
+    state: started
+    enabled: yes

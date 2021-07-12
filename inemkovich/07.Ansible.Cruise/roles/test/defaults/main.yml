@@ -1,0 +1,7 @@
+---
+# defaults file for test
+repos: 
+  - "{{ 'http://archive.ubuntu.com' if (ansible_os_family == 'Debian') else 'http://mirror.centos.org/centos' if (ansible_os_family == 'RedHat') else 'http://nl.alpinelinux.org/alpine/v3.7/main' }}" 
+  - "https://pypi.org/" 
+
+Docker_hub: "https://hub.docker.com/" 
