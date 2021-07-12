@@ -1,0 +1,14 @@
+---
+nginx_package:
+  - nginx
+
+nginx_port: 80
+
+default_home: "{{ '/var/www/html' if (ansible_os_family == 'Debian') else '/usr/share/nginx/html' }}"
+
+site_deb: "local-deb.site"
+site_cent: "local-cent.site"
+
+virtual_hosts:
+  - { name: "{{ site_cent }}", ip: "{{ hostvars[\"centos\"].ansible_host }}"}
+  - { name: "{{ site_deb }}", ip: "{{ hostvars[\"ubuntu\"].ansible_host }}"}

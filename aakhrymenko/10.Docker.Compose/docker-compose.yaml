@@ -1,0 +1,37 @@
+---
+version: '3.4'
+
+services:
+  server-nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+
+  sonarr:
+    container_name: sonarr
+    image: hotio/sonarr
+    ports:
+      - "8100:8989"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Etc/UTC
+    volumes:
+      - ./data_sonar:/config
+
+  radarr:
+    container_name: radarr
+    image: hotio/radarr
+    ports:
+      - "8200:7878"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Etc/UTC
+    volumes:
+      - ./data_radar:/config
