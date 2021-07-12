@@ -1,0 +1,20 @@
+---
+dependency:
+  name: galaxy
+driver:
+#  name: delegated
+  name: docker
+platforms:
+  - name: instance_centos
+    image: centos:latest
+#    pre_build_image: true
+  - name: instance_debian
+    image: debian:latest
+#    pre_build_image: true
+  - name: instance_alpine
+    image: alpine:latest
+#    pre_build_image: true
+provisioner:
+  name: ansible
+verifier:
+  name: ansible
