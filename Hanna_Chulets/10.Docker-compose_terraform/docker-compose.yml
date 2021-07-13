@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  webserver:
+    image: nginx
+    container_name: webserver
+    ports:
+    - '8080:80'
+    volumes:
+    - ./app:/usr/share/nginx/html:ro
+  radarr:
+    image: 'linuxserver/radarr:latest'
+    container_name: radarr
+    environment:
+      PUID: "1344"
+      PGID: "1344"
+      TZ: 'Europe/London'
+    volumes:
+      - './config/radarr:/config:rw'
+      - './data/radarr:/data:rw'
+    ports:
+      - '7878:7878'
+    restart: unless-stopped
+  sonarr:
+    image: 'linuxserver/sonarr:latest'
+    container_name: sonarr
+    environment:
+      PUID: "1344"
+      PGID: "1344"
+      TZ: 'Europe/London'
+    volumes:
+      - './config/sonarr:/config:rw'
+      - './data/sonarr:/data:rw'
+    ports:
+      - '8989:8989'
+    restart: unless-stopped
