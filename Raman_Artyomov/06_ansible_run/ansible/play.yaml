@@ -1,0 +1,77 @@
+# Display parameters from remote hosts
+- hosts: work_hosts
+  tasks:
+    - name: OS/Version.
+      debug:
+        msg:
+          - "OS: {{ ansible_distribution }}"
+          - "Version: {{ ansible_distribution_version }}"
+
+    - name: Mountpoint/Capacity/Used.
+      debug:
+        msg:
+          - "Mountpoint: {{ ansible_facts.mounts[0].mount }}"
+          - "Capacity: {{ ansible_facts.mounts[0].size_total / 1024 / 1024 / 1024 }} GB"
+          - "Used: {{ ansible_facts.mounts[0].size_total / 1024 / 1024 / 1024 - ansible_facts.mounts[0].size_available / 1024 / 1024 / 1024 }} GB"
+
+    - name: Ram/Capacity/Free.
+      debug:
+        msg:
+          - "RAM capacity: {{ ansible_facts.memory_mb.real.total / 1024 }} GB"
+          - "Ram Free: {{ ansible_facts.memory_mb.real.used / 1024 }} GB"
+
+# Create user
+- hosts: work_hosts
+  vars:
+    user: "tmpuser"
+  tasks:
+    - name: Create user.
+      user:
+        name: "{{ user }}"
+        shell: /bin/bash
+        create_home: True
+
+    - name: Added pub-key.
+      authorized_key:
+        user: "{{ user }}"
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+        state: present
+
+    - name: Install sudo
+      yum:
+        name: sudo
+        state: latest
+        update_cache: no
+      when: ansible_distribution == "CentOS"
+
+    - name: Adding allow for users in Centos host
+      lineinfile:
+        path: /etc/sudoers.d/{{ user }}
+        state: present
+        create: yes
+        line: "{{ user }} ALL=(ALL) NOPASSWD: /usr/bin/yum"
+      when: ansible_distribution == "CentOS"
+
+    - name: Adding allow for users in Ubuntu host 
+      lineinfile:
+        path: /etc/sudoers.d/{{ user }}
+        state: present
+        create: yes
+        line: "{{ user }} ALL=(ALL) NOPASSWD: /usr/bin/apt"
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Testing created user on hosts
+      shell: |
+        su - {{ user }} -c "whoami && date && grep "^NAME" /etc/os-release"
+      register: user_test
+
+    - name: testing undefined user
+      shell: |
+        su - user -c "whoami && date && grep "^NAME" /etc/os-release"
+      register: ud_user_test
+      ignore_errors: yes
+
+    - debug:
+        msg:
+          - "{{ user_test.stdout_lines }}"
+          - "{{ ud_user_test.stdout_lines }}"
