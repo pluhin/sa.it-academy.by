@@ -1,0 +1,7 @@
+/radarr
+/sonarr
+*.hcl
+*.tfstate
+*.backup
+.terraform
+
