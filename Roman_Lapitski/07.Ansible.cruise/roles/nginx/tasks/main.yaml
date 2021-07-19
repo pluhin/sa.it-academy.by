@@ -1,0 +1,69 @@
+---
+- name: Include deploy for Ubuntu systems
+  include: nginx_ubuntu.yaml
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Include deploy for CentOS systems
+  include: nginx_cent.yaml
+  when: ansible_distribution == 'CentOS'
+
+- name: Copy nginx config to virtual hosts
+  template:
+    src: nginx.conf.j2
+    dest: "/etc/nginx/nginx.conf"
+    owner: root
+    group: root
+    mode: '0775'
+    backup: yes
+  notify:
+    - restart nginx
+
+- name: Copy first page
+  template:
+    src: index.html
+    dest: "{{ default_home }}"
+  notify:
+    - restart nginx
+
+- name: Copy hosts file
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+- name: Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: print out
+  debug:
+    msg: "{{ out }}"
+
+- name: Check template
+  shell: |
+    cat /etc/hosts
+  register: output
+  changed_when: false
+
+- name: print output
+  debug:
+    msg: "{{ output.stdout_lines }}"
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'Roman' not in this.content"
+
+- name: print out
+  debug:
+    msg: "{{ this }}"
