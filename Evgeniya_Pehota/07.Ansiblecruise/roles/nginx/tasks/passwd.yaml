@@ -1,0 +1,6 @@
+---
+ - name:  Check sudo_nopasswd
+   command: "true"
+   become: yes
+   become_method: sudo
+   changed_when: false
