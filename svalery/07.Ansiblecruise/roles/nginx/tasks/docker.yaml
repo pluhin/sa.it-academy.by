@@ -1,0 +1,8 @@
+- name: Check connect to docker hub
+  uri:
+    url: "https://hub.docker.com"
+    return_content: yes
+  register: out_con_dock
+- name: Print output
+  debug:
+    msg: "Status: {{ out_con_dock.status }}"

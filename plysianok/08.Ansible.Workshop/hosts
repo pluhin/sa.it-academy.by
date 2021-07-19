@@ -1,0 +1,26 @@
+ec_all:
+  vars: 
+    ansible_ssh_user: root
+  children:
+    work_hosts:
+      hosts:
+        work_01:
+          ansible_host: 192.168.202.13
+        work_02:
+          ansible_host: 192.168.202.14
+    workshop_hosts:
+      hosts:
+        work_shop_01:
+          ansible_host: 192.168.201.7
+    k8s:
+      hosts:
+        k8s_01:
+          ansible_host: 192.168.203.13
+        k8s_02:
+          ansible_host: 192.168.203.14
+jump:
+  hosts:
+    ec_jump:
+      ansible_host: 178.124.206.53
+      ansible_ssh_user: jump_sa
+# This block is commented out so as not to accidentally break the Jump-server.

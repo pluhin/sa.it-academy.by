@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+    env_file:
+      - .env
+    networks:
+      - back
+  web:
+    image: eboraas/apache-php
+    container_name: web_app
+    links: 
+      - "db"
+      - "db:my.db.server"
+    depends_on:
+      - db
+    ports:
+      - "8300:80"
+    volumes:
+      - ./app:/var/www/html/
+    networks:
+      - front
+      - back
+networks:
+  front:
+  back:
