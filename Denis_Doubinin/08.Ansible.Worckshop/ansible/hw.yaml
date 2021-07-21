@@ -1,0 +1,74 @@
+- hosts: "{{ group }}"
+  # gather_facts: False
+  # strategy: free
+  # serial: 1
+  vars:
+    os_01: "OS Distribution"
+    os_02: "Version"
+    mount_01: "Mount Point"
+    mount_02: " Drive Capacity"
+    mount_03: "Used Drive Capacity"
+    ram_01: "RAM Capacity"
+    ram_02: "Used RAM Capacity"
+  tasks:
+    - name: Host OS Information
+      debug:
+        msg: "{{ os_01 }}  {{ ansible_distribution }}  {{ os_02 }}  {{ ansible_distribution_version }}"        
+    - name: Host HW Information
+      debug:
+        msg: "{{ mount_01 }} {{ ansible_mounts[0].mount }} {{mount_02 }} {{ ansible_mounts[0].size_total }} {{ mount_03 }} {{ ansible_mounts[0].size_total - ansible_mounts[0].size_available }} {{ ram_01 }} {{ ansible_memtotal_mb }} | {{ ram_02 }} {{ ansible_memtotal_mb - ansible_memfree_mb }}" 
+
+    - name: Create user "{{ my_user }}"
+      user:
+        name: "{{ my_user }}"
+        comment: Managed by ansible
+        shell: /bin/bash
+        state: present
+    - name: SSH connection configuration of "{{ my_user }}"
+      authorized_key:
+        user: "{{ my_user }}"
+        state: present
+        key: "{{ item }}"
+      with_items:
+      - "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    - name: Sudo no pass
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: "{{ my_user }}"
+        line: '{{ my_user }} ALL=(ALL) NOPASSWD: ALL'
+        validate: visudo -cf %s        
+    - name: Checking CentOS user and upgrade
+      yum:
+        name: '*'
+        state: latest  
+      become: True
+      become_method: sudo
+      become_user: "{{ my_user }}"
+      when: ansible_distribution == "CentOS"  
+    - name: Cheking Ubuntu user and upgrade
+      apt:        
+        update_cache: yes
+        upgrade: dist  
+      become: True
+      become_method: sudo
+      become_user: "{{ my_user }}"
+      when: ansible_distribution == "Ubuntu"
+    - name: Chek
+      when: ansible_distribution == "Ubuntu"  
+      command: whoami
+      become: True
+      become_user: "{{ my_user }}"
+      register: out
+    - debug:
+        msg: "{{ out }}"
+      tags:
+        - who      
+    - name: Removing user "{{ my_user }}"
+      user:
+        name: "{{ my_user }}"
+        state: absent
+      tags:
+        - remove        
+      
+                              

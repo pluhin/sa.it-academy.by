@@ -1,0 +1,12 @@
+- hosts: workshop_01
+  tasks:
+  - debug:
+      msg: "192.168.201.{{ item }}"
+    loop: "{{ range(1, 17+1)|list }}"
+  - name: Test port 80
+    wait_for:
+      host: "192.168.201.{{ item }}"
+      port: "80"
+      timeout: 1
+    loop: "{{ range(1, 17+1)|list }}"      
+
