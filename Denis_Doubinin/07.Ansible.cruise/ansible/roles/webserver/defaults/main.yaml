@@ -1,0 +1,14 @@
+  nginx_packages:
+    -  nginx
+  site: ".site"    
+  site_deb: "local-deb"
+  site_cent: "local-cent"  
+
+  virtual_hosts:
+    - { name: "{{ site_cent }}1{{ site }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}
+    - { name: "{{ site_deb }}1{{ site }}", ip: "{{ hostvars[\"work_02\"].ansible_host }}"}
+    - { name: "{{ site_cent }}2{{ site }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}
+    - { name: "{{ site_deb }}2{{ site }}", ip: "{{ hostvars[\"work_02\"].ansible_host }}"}
+
+
+

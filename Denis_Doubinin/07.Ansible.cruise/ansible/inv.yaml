@@ -1,0 +1,33 @@
+ec_denis:
+  vars:
+    ansible_ssh_user: root
+  children:
+    workshop_hosts:
+      hosts:
+        workshop_01:
+          ansible_host: 192.168.201.3 
+    work_hosts:
+      hosts:
+        work_01:
+          ansible_host: 192.168.202.5
+        work_02:
+          ansible_host: 192.168.202.6
+    k8s:
+      hosts:
+        k8s_01:
+          ansible_host: 192.168.203.5
+        k8s_02:
+          ansible_host: 192.168.203.6
+jump:
+  hosts:
+    ec_jump:
+      ansible_host: 178.124.206.53
+denis_local:
+  vars:
+    ansible_ssh_user: updater
+  hosts:
+    debian:
+      ansible_host: 192.168.30.20
+    centos: 
+      ansible_host: 192.168.30.30    
+

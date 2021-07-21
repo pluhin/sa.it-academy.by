@@ -1,0 +1,16 @@
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title> 08_Ansible cruise </title>
+</head>
+<body>
+        <script type="text/javascript">
+                document.write(Date());
+        </script>
+        {% if ansible_os_family == 'Debian' and item is defined %}
+            <h3> {{ site_deb }}{{ item }}{{ site }}   </h3>
+        {% elif ansible_os_family == 'RedHat' and item is defined %}
+            <h3> {{ site_cent }}{{ item }}{{ site }}   </h3>
+        {% endif %}
+
+        <iframe width="100%" height="100%" src="backup.txt"></iframe>
+</body
