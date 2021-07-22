@@ -1,0 +1,101 @@
+---
+- name: Install Nginx on CentOS
+  yum:
+    name=nginx
+    state=present
+  when:
+    ansible_distribution == "CentOS"
+  notify:
+    - nginx systemd
+
+- name: Enable & Start nginx service
+  service:
+      name: nginx
+      state: started
+      enabled: yes
+
+- name: HTTP. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+  when:
+    ansible_distribution == "CentOS"
+
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  when:
+    ansible_distribution == "CentOS"
+
+- name: Install Nginx  on Ubuntu
+  apt:
+    name=nginx
+    state=present
+  when:
+    ansible_os_family == "Debian"
+  notify:
+    - nginx systemd
+
+- name: Copy nginx config to virtual hosts
+  template:
+    src: domain.j2
+    dest: "/etc/nginx/conf.d/domain.j2"
+  notify:
+    - nginx restart
+
+- name: Copy start page
+  copy:
+    src: index.html
+    dest: "{{ default_path }}"
+    owner: root
+    group: root
+    mode: '0775'
+  notify:
+    - nginx restart
+
+- name: Templates for virtual_hosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+- name: Check template
+  shell: |
+    cat /etc/hosts
+  register: out
+  changed_when: false
+- name: print out
+  debug:
+    msg: "{{ out.stdout_lines }}"
+
+- name: Check deploy nginx
+  uri:
+    url: "http://{{ item }}"
+    return_content: yes
+  with_items:
+    - ubuntu.local
+    - centos.local
+  register: out_uri
+
+- name: Print output
+  debug:
+    msg: "Status: {{ output.status }}"
+  loop: "{{ out_uri.results }}"
+  loop_control:
+    loop_var: output
+    label: "{{ output.status }}"
+    pause: 2
+
+- name: Check sudo
+  include: passwd.yaml
+
+- name: Check repositories and DockerHub
+  include: avalible_repos.yaml
+
+- name: RAM/HDD free space notification
+  include: available_res.yaml

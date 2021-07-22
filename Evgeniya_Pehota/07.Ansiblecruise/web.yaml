@@ -1,0 +1,5 @@
+- hosts: work_01,work_02
+  vars:
+    nginx_user: nginx
+  roles:
+    - nginx

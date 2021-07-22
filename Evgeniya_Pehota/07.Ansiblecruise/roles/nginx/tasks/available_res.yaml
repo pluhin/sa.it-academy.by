@@ -1,0 +1,14 @@
+---
+- name: Check RAM
+  assert:
+    that:
+      - ansible_memfree_mb <= 4000
+      - ansible_memfree_mb >= 500
+    fail_msg: "You have not enough memory. Available {{ ansible_memfree_mb }} mb."
+    success_msg: "Ok. Your free  memory {{ ansible_memfree_mb }} mb"
+- name: Check disk space
+  assert:
+    that:
+      - (ansible_facts.mounts[0].size_available /1000000000) | int >= 10
+    fail_msg: "You have not enough free disk space. Available {{ (ansible_facts.mounts[0].size_available /1000000000) | int }} GB."
+    success_msg: "Ok. Your free disk space {{ (ansible_facts.mounts[0].size_available /1000000000) | int }} GB."
