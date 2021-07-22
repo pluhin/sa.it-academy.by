@@ -1,0 +1,50 @@
+hosts:
+  children:
+    work_hosts:
+      hosts:
+        host1:
+          ansible_host: 192.168.202.11
+        host2:
+          ansible_host: 192.168.202.12
+    ansible_host:
+      hosts:
+        ansible:
+          ansible_host: 192.168.201.6
+    k8s_hosts:
+      hosts:
+        k8s1:
+          ansible_host: 192.168.203.11
+        k8s2:
+          ansible_host: 192.168.203.12
+  vars:
+    ansible_ssh_user: root
+jump:
+  hosts:
+    ec_jump:
+      ansible_host: 178.124.206.53
+  vars:
+    ansible_ssh_user: jump_sa
+#[jump]
+#ec_jump ansible_host=178.124.206.53
+
+#[jump:vars]
+#ansible_ssh_user=jump_sa
+
+#[work_hosts]
+#host1 ansible_host=192.168.202.11
+#host2 ansible_host=192.168.202.12
+
+#[ansible_host]
+#ansible ansible_host=192.168.201.6
+
+#[k8s_hosts]
+#k8s1 ansible_host=192.168.203.11
+#k8s2 ansible_host=192.168.203.12
+
+#[hosts:children]
+#work_hosts
+#ansible_host
+#k8s_hosts
+
+#[hosts:vars]
+#ansible_ssh_user=root
