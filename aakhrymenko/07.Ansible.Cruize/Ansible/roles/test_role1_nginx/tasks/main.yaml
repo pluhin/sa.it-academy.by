@@ -1,0 +1,165 @@
+---
+- name: Include deployment for Ubuntu systems
+  include: task_nginx_ubuntu.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deployment for CentOS systems
+  include: task_nginx_centos.yaml
+  when: ansible_os_family == 'RedHat'
+
+  #- name: Creates directories for site1
+  #file:
+  # path: /var/www/{{ site_ubuntu if (ansible_os_family == 'Debian') else site_centos }}
+  # state: directory
+  # owner: root
+  # group: root
+  # mode: 0775
+  # recurse: yes
+
+- name: Creates directories for site1 and site2
+  file:
+    path: /var/www/{{ item.name }}
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+    recurse: yes
+  with_items: "{{var_virtual_hosts}}"
+  when: (ansible_os_family == 'RedHat' and "centos" in item.name) or
+        (ansible_os_family == 'Debian' and "ubuntu" in item.name)
+
+- name: Copy initial\home webpage for site2
+  copy:
+    src: index.html
+    dest: /var/www/{{ site_ubuntu if (ansible_os_family == 'Debian') else site_centos }}
+    owner: root
+    group: root
+    mode: '0775'
+
+
+- name: Copy initial\home webpage for site2
+  copy:
+    src: index2.html
+    dest: /var/www/{{ site_ubuntu2 if (ansible_os_family == 'Debian') else site_centos2 }}
+    owner: root
+    group: root
+    mode: '0775'
+
+- name: Creates directories in Centos
+  file:
+    path: "{{item}}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+    recurse: yes
+  when: ansible_os_family == 'RedHat'
+  with_items:
+     - /etc/nginx/sites-enabled
+     - /etc/nginx/sites-available
+
+
+- name: Copy nginx CFG 
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/
+    owner: root
+    group: root
+    mode: '0775'
+  when: ansible_os_family == 'RedHat'
+
+  #- name: Copy nginx CFG for site1
+  #  copy:
+  #    src: "{{ site_ubuntu if (ansible_os_family == 'Debian') else site_centos }}.conf"
+  #    dest: /etc/nginx/sites-available/
+  #    owner: root
+  #    group: root
+  #    mode: '0775'
+  #  when: ansible_os_family == 'RedHat'
+
+- name: Template for nginx  configs
+  template:                                         
+    src: template.conf                         
+    dest: "/etc/nginx/sites-available/{{ item.name }}.conf"    
+    owner: root  
+    group: root  
+    mode: '0644' 
+  with_items: "{{var_virtual_hosts}}"
+  when: (ansible_os_family == 'RedHat' and "centos" in item.name) or
+        (ansible_os_family == 'Debian' and "ubuntu" in item.name)
+
+- name: Make Link site1
+  file:
+    src: /etc/nginx/sites-available/{{ site_ubuntu if (ansible_os_family == 'Debian') else site_centos }}.conf
+    dest: /etc/nginx/sites-enabled/{{ site_ubuntu if (ansible_os_family == 'Debian') else site_centos }}.conf
+    owner: root
+    group: root
+    mode: '0775'
+    state: link
+  when: ansible_os_family == 'RedHat'
+
+
+- name: Make Link site2
+  file:
+    src: /etc/nginx/sites-available/{{ site_ubuntu2 if (ansible_os_family == 'Debian') else site_centos2 }}.conf
+    dest: /etc/nginx/sites-enabled/{{ site_ubuntu2 if (ansible_os_family == 'Debian') else site_centos2 }}.conf
+    owner: root
+    group: root
+    mode: '0775'
+    state: link
+  notify:
+    - handler_restart_nginx
+
+
+- name: Check connection to Localhost
+#aka telnet
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: output
+
+- name: print out
+  debug:
+    msg: "{{ output }}"
+
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+- name: Check templates
+  shell: |
+    cat /etc/hosts
+  register: output2
+  changed_when: false
+
+- name: print out
+  debug:
+    msg: "{{ output2.stdout_lines }}"
+
+- name: Check content to the sites
+#aka CURL
+#make for 4 URLs, 2 times for each
+# 'item' default variable for LOOP. each element
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ var_virtual_hosts }}"
+  register: this
+  failed_when: "'Ohrimenko' not in this.content" 
+  tags:
+  - tests
+
+- name: print out
+  debug:
+    msg: "{{ this.results[item].content }}"
+  with_items:
+  - [0,1,2,3]
+  tags: 
+  - tests

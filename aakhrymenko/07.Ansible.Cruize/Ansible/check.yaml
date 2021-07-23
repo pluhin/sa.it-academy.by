@@ -1,0 +1,7 @@
+#ansible-playbook -i inv.yaml check.yaml
+#playbook to check some parameters
+
+- hosts: work_host2
+  roles:
+    - test_role2_check
+

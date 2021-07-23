@@ -1,0 +1,50 @@
+---
+# tasks file for test
+- name: Check if we have SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check connections to public repositories
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  loop: "{{ repos }}"
+  register: repo_output
+  tags:
+  - tests
+
+- name: print out
+  debug:
+    msg: "{{ repo_output.msg }}"
+  tags:
+  - tests
+
+- name: Check if we have connection to docker hub registry
+  uri:
+    url: "{{ Docker_hub }}"
+    return_content: yes
+  register: docker_hub 
+  tags:
+    - tests
+
+- name: print out
+  debug:
+    msg: "{{ docker_hub.url, docker_hub.status, docker_hub.msg }}"
+  tags:
+    - tests
+
+- name: Check if we have enough RAM
+  assert:
+    that:
+      - ansible_facts.memfree_mb >= 512
+    fail_msg: "Not enough RAM. 512 MB is required. Available RAM {{ ansible_facts.memfree_mb }} MB."
+    success_msg: "Ok. RAM is enough. {{ ansible_facts.memfree_mb }} MB available."
+
+- name: Check if we have enough HDD
+  assert:
+    that:
+      - (ansible_facts.mounts[0].size_available/1024/1024/1024) | round(1,'common') >= 10
+    fail_msg: "10 GB is required. Avaliable {{ (ansible_facts.mounts[0].size_available/1024/1024/1024) | round(1,'common') }} GB."
+    success_msg: "Ok. HDD space is enough. Available {{ (ansible_facts.mounts[0].size_available/1024/1024/1024) | round(1,'common') }} GB."

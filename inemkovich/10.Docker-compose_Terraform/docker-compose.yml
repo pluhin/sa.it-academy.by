@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  nginx:
+    image: nginx
+    container_name: nginx
+    depends_on: 
+      - sonarr
+      - radarr
+    volumes: 
+      - ./nginx:/usr/share/nginx/html
+    ports:
+      - 8080:80
+    restart: always
+  sonarr:
+    image: linuxserver/sonarr:latest
+    container_name: sonarr
+    ports:
+      - 8989:8989
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Europe/London
+    volumes:
+      - ./sonarr/config:/config
+      - ./sonarr/tv:/tv
+      - ./sonarr/downloads:/downloads
+  radarr:
+    image: ghcr.io/linuxserver/radarr:latest
+    container_name: radarr
+    ports:
+      - 7878:7878
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Europe/London
+    volumes:
+      - ./radarr/config:/config
+      - ./radarr/movies:/movies
+      - ./radarr/downloads:/downloads
+  

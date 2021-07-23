@@ -1,0 +1,11 @@
+---
+- hosts: work_01
+  vars: 
+    nginx_user: www-data
+  roles:
+    - nginx
+- hosts: work_02
+  vars:
+    nginx_user: nginx
+  roles:
+    - nginx

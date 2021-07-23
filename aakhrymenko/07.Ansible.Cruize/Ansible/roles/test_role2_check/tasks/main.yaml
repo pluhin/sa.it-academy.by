@@ -1,0 +1,48 @@
+---
+- name: Check for Ubuntu and sudo permissions
+  when: ansible_os_family == 'Debian'
+  shell: |
+    sudo -l -U {{ item }} | grep NOPASSWD
+  register: out1
+  with_items: "{{ var_users_list }}"
+
+- name: Print output 
+  debug: 
+    msg: "{{ output.cmd }} {{ output.stdout_lines | join('\n') }} \n\n"
+  loop: "{{ out1.results }}"
+  loop_control:
+    # loop_var make rename for output - shorter
+    loop_var: output
+    label: "{{ output.stdout_lines }}"
+
+  #- name: print out
+  #  debug:
+  #    msg: "{{ item }}"
+  #  with_items: "{{ out1.results }}"
+
+- name: Not Ubuntu
+  when: ansible_os_family != 'Debian'
+  ansible.builtin.fail: msg="Dude, it is not Debian. Try better"
+
+- name: Test URLs
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  register: out_uri
+  with_items: "{{ var_urls }}"
+
+- name: Print output
+  debug:
+    msg: "Status: {{ output.status }}"
+  loop: "{{ out_uri.results }}"
+  loop_control:
+    loop_var: output
+    label: "{{ output.status }}"
+    pause: 2
+
+- name: Check free space
+  debug:
+    msg: "{{ 'Space enough more then 1000GB' if (ansible_facts.mounts[0].size_available > (1000*1024*1024*1024)) else 'We need more space. Clear it!' }}"
+- name: Check free memory
+  debug:
+    msg: "{{ 'Memory enough more then 1GB' if (ansible_facts.memfree_mb > 1024) else 'We need more memory. Stop something!' }}"

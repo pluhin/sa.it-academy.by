@@ -1,0 +1,10 @@
+### {{ ansible_managed }}
+<VirtualHost *:80>
+  ServerName {{ app_fqdn }}
+  DocumentRoot {{ app_home }}/public
+  <Directory {{ app_home }}/public>
+    AllowOverride all
+    Options -MultiViews
+    Require all granted
+  </Directory>
+</VirtualHost>

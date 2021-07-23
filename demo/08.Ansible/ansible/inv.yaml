@@ -1,0 +1,67 @@
+ec_all:
+  vars: 
+    ansible_ssh_user: root
+  children:
+    work_hosts:
+      hosts:
+        work_01:
+          ansible_host: 192.168.202.33
+        work_02:
+          ansible_host: 192.168.202.34
+    workshop_hosts:
+      hosts:
+        work_shop_01:
+          ansible_host: 192.168.201.17
+    k8s:
+      hosts:
+        k8s_01:
+          ansible_host: 192.168.203.33
+        k8s_02:
+          ansible_host: 192.168.203.34
+    sa_ansible:
+      hosts:
+        sa_ansible_01:
+          ansible_host: 192.168.201.1
+        sa_ansible_02:
+          ansible_host: 192.168.201.2
+        sa_ansible_03:
+          ansible_host: 192.168.201.3
+        sa_ansible_04:
+          ansible_host: 192.168.201.4
+        sa_ansible_05:
+          ansible_host: 192.168.201.5
+        sa_ansible_06:
+          ansible_host: 192.168.201.6
+        sa_ansible_07:
+          ansible_host: 192.168.201.7
+        sa_ansible_08:
+          ansible_host: 192.168.201.8
+        sa_ansible_09:
+          ansible_host: 192.168.201.9
+        sa_ansible_10:
+          ansible_host: 192.168.201.10
+        sa_ansible_11:
+          ansible_host: 192.168.201.11
+        sa_ansible_12:
+          ansible_host: 192.168.201.12
+        sa_ansible_13:
+          ansible_host: 192.168.201.13
+        sa_ansible_14:
+          ansible_host: 192.168.201.14
+        sa_ansible_15:
+          ansible_host: 192.168.201.15
+        sa_ansible_16:
+          ansible_host: 192.168.201.16
+        sa_ansible_17:
+          ansible_host: 192.168.201.17
+        sa_ansible_18:
+          ansible_host: 192.168.201.18
+        sa_ansible_19:
+          ansible_host: 192.168.201.19
+        sa_ansible_20:
+          ansible_host: 192.168.201.20
+jump:
+  hosts:
+    ec_jump:
+      ansible_host: 178.124.206.53
+

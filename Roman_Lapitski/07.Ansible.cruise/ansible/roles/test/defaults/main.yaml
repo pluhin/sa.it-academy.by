@@ -1,0 +1,5 @@
+---
+public_repo: 
+  - "{{ 'http://archive.ubuntu.com' if (ansible_os_family == 'Debian') else 'http://mirror.centos.org/centos' }}" 
+  - "https://pypi.org" 
+  - "https://hub.docker.com" 

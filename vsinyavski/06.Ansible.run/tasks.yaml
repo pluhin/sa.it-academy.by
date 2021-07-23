@@ -1,0 +1,19 @@
+- hosts: work_hosts
+  # gather_facts: False
+  #strategy: free
+   tasks:
+     - name: Print OS information
+       debug:
+         msg: "OS type: {{ ansible_distribution }} | OS version: {{ ansible_distribution_version }}"
+       tags:
+         - OS/version
+     - name: Print mount information
+       debug:
+         msg: "Mount point: {{ ansible_mounts[0].mount }} | Capacity: {{ ansible_mounts[0].size_total / 1000000000 }} GB | Used: {{ ansible_$
+       tags:
+         - Mount
+     - name: Print RAM information
+       debug:
+         msg: "Total RAM: {{ ansible_facts.memory_mb.real.total }} MB | Free RAM: {{ ansible_facts.memory_mb.real.free }} MB"
+       tags:
+         - RAM

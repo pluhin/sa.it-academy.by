@@ -1,0 +1,12 @@
+- name: Check RAM
+  assert:
+    that:
+      - ansible_memfree_mb >= 500
+    fail_msg: "ERROR! Required RAM space gt 500 mb. You have {{ ansible_memfree_mb }} mb."
+    success_msg: "OK. RAM {{ ansible_memfree_mb }} mb."
+- name: Check HDD
+  assert:
+    that:
+      - (ansible_facts.mounts[0].size_available /1000000000) | int >= 10
+    fail_msg: "ERROR! Required HDD space gt 500 mb. You have {{ (ansible_facts.mounts[0].size_available /1000000000) | int }} GB."
+    success_msg: "OK. HDD {{ (ansible_facts.mounts[0].size_available /1000000000) | int }} GB."

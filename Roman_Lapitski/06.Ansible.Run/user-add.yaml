@@ -1,0 +1,49 @@
+- hosts: work_hosts
+  tasks:
+    - name: " Create user {{ user }} "
+      user:
+        name: "{{ user }}"
+        comment: Managed by ansible
+        state: present
+
+    - name: "Copy SSH-keys"
+      authorized_key:
+        user: "{{ user }}"
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+        state: present
+
+    - name: "{{ user }} become sudoers without password CentOS"
+      when: ansible_distribution == 'CentOS'
+      lineinfile:
+        dest: /etc/sudoers.d/{{ user }}
+        create: yes
+        line: "{{ user }}  ALL=(ALL) NOPASSWD: /usr/bin/yum"
+        state: present
+
+    - name: "{{ user }} become sudoers without password Ubuntu"
+      when: ansible_distribution == 'Ubuntu'
+      lineinfile:
+        dest: /etc/sudoers.d/{{ user }}"
+        create: yes
+        line: "{{ user }}  ALL=(ALL) NOPASSWD: /usr/bin/apt"
+        state: present
+
+    - name: Disable Password Authentication
+      lineinfile:
+        dest=/etc/ssh/sshd_config
+        regexp='^#PasswordAuthentication'
+        insertbefore=BOF
+        line='PasswordAuthentication no'
+
+    - name: Test user CentOS
+      when: ansible_distribution == 'CentOS'
+      shell: |
+        sudo yum upgrade
+      become_user: "{{ user }}"
+
+    - name: Test user Ubuntu
+      when: ansible_distribution == 'Ubuntu'
+      shell: |
+        sudo apt upgrade
+      become_user: "{{ user }}"
+

@@ -1,0 +1,68 @@
+#ansible-playbook -i inv.yaml redmine2roles.yaml -e slack_token=TFBPBNB2L/B026QND8WLT/hSWjop1qX5yvxSN9w7NqMund
+#www.redmine-10.sa   verification
+
+- hosts: workshop_host1
+
+  vars:
+# no need ssh, use local
+    connection: local
+
+# make variables independent
+  vars_files:
+    - /home/andrei/ansible/var/sql_var.yaml
+ 
+#execute common tasks
+  pre_tasks:
+
+  - debug:
+      msg: "{{ ansible_host }}"
+
+  - name: Redmine. Install packages
+    apt:
+      name: "{{ apt_redmine_packages }}"
+      state: latest
+      update_cache: yes
+
+#execute roles
+  roles:
+    - mysql
+    - redmine_app
+
+#execute tasks - checks\notifications
+  tasks:
+
+    - name: "Add {{ app_fqdn }} to host file"
+      shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
+      tags: 
+        - test
+
+#if 'block' successfull - rescue do not work; else - execute 'rescue'
+    - name: Connectivity checks
+      block:
+        - uri:
+            url: "http://{{ app_fqdn }}"
+            return_content: yes
+            timeout: 2
+          register: this
+          #         failed_when: "'qqqqqqq'"
+          failed_when: "'Jean-Philippe Lang' not in this.content"
+          tags: 
+            - test
+            - always
+      rescue:
+        - name: Send notification
+          slack:
+            token: "{{ slack_token }}"
+            msg: 'Checks: failed for playbook redmine2roles.yaml'
+            channel: '#alerts'
+            username: 'Im your VM sent you:Ansible sender#' 
+            icon_url: https://agardner.net/wp-content/uploads/2018/08/ansible-logo.png
+            parse: 'full'
+
+    - lineinfile:
+        path: /etc/hosts
+        state: absent
+        regexp: '^127.0.0.1       {{ app_fqdn }}'
+      tags: 
+        - test
+        - always    

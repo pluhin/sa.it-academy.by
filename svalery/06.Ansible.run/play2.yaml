@@ -1,0 +1,45 @@
+- hosts: work_hosts
+  tasks:
+    - name: "You requested user {{ user_to_add }} use module ansible"
+      user:
+        name: "{{ user_to_add }}"
+        comment: Managed by ansible
+        state: present
+    - name: "Copy SSH-keys"
+      authorized_key:
+        user: "{{ user_to_add }}"
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    - name: "{{ user_to_add }} sudo without password CentOS"
+      when: ansible_distribution == 'CentOS'
+      lineinfile:
+        dest: "/etc/sudoers"
+        state: "present"
+        regexp: "{{ user_to_add }}"
+        line: "{{ user_to_add }}  ALL=(ALL) NOPASSWD: /usr/bin/yum"
+    - name: "{{ user_to_add }} sudo without password in Ubuntu"
+      when: ansible_distribution == 'Ubuntu'
+      lineinfile:
+        dest: "/etc/sudoers"
+        state: "present"
+        regexp: "{{ user_to_add }}"
+        line: "{{ user_to_add }}  ALL=(ALL) NOPASSWD: /usr/bin/apt"
+    - name: Disable Password Authentication part_1
+      lineinfile:
+        dest=/etc/ssh/sshd_config
+        regexp='^Match User {{ user_to_add }}'
+        line='Match User {{ user_to_add }}'
+        state=present
+    - name: Disable Password Authentication part_2
+      lineinfile:
+        dest=/etc/ssh/sshd_config
+        regexp='^Match User {{ user_to_add }} \n\tPasswordAuthentication'
+        line='\tPasswordAuthentication no'
+        state=present
+    - name: "Check creation"
+      shell: |
+        grep "{{ user_to_add }}" /etc/passwd
+        grep "{{ user_to_add }}" /etc/sudoers
+        date
+      register: out
+    - debug:
+        msg: "{{ out.stdout_lines }}"

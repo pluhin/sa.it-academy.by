@@ -1,0 +1,9 @@
+server {
+    listen       80;
+    server_name  "{{ 'ubuntu_host' if (ansible_distribution == 'Ubuntu') else 'centos_host' }}" www."{{ 'ubuntu_host' if (ansible_distribution == 'Ubuntu') else 'centos_host' }}";
+    root {{ nginx_home_path }};
+
+    access_log /var/log/nginx/{{ 'ubuntu_host' if (ansible_distribution == 'Ubuntu') else 'centos_host' }}_access_log;
+    error_log /var/log/nginx/{{ 'ubuntu_host' if (ansible_distribution == 'Ubuntu') else 'centos_host' }}_error_log;
+
+}
