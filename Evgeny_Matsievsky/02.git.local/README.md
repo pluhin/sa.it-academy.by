@@ -1,6 +1,6 @@
-    # Bash history
+# Bash history
 	
-	```bash
+```bash
 	4  git init
     5  git config --list
     6  git config user.name "Evgeny Matsievsky"
