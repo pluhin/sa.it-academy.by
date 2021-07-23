@@ -2,6 +2,7 @@
 
 ## Privilege escalation
 
+```ini
 [privilege_escalation]
 become=True
 become_method=sudo
@@ -44,16 +45,13 @@ denis_local:
       ansible_host: 192.168.30.20
     centos:
       ansible_host: 192.168.30.30
-
+```
 ## Group_vars
 
+```yaml
 env: "it-academy"
 ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53"'
-
-## Host_vars
-
-
-
+```
 
 # History
 
@@ -61,6 +59,7 @@ ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.5
 
 ### Localhost
 
+```bash
 ansible localhost -m shell -a "apt -q -y update && apt -q -y upgrade"
 localhost | CHANGED | rc=0 >>
 Hit:1 http://dl.google.com/linux/chrome/deb stable InRelease
@@ -110,9 +109,11 @@ WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
 
 
 WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+```
  
 ### VirtualBox VM
 
+```bash
 ansible debian -m shell -a "apt -q -y update && apt -q -y upgrade"
 [WARNING]: Platform linux on host debian is using the discovered Python
 interpreter at /usr/bin/python3, but future installation of another Python
@@ -162,9 +163,11 @@ need to use command because yum is insufficient you can add 'warn: false' to
 this command task or set 'command_warnings=False' in ansible.cfg to get rid of
 this message.
 centos | CHANGED | rc=0 >>
+```
 
 ## Remote connection
 
+```bash
 ansible work_02 -m apt -a "update_cache=yes upgrade=dist force_apt_get=yes"
 work_02 | SUCCESS => {
     "ansible_facts": {
@@ -306,6 +309,6 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
         RX errors 0  dropped 0  overruns 0  frame 0
         TX packets 2  bytes 304 (304.0 B)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-
+```
 
 

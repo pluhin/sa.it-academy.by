@@ -1,6 +1,6 @@
 # Git code
 
-
+```bash
    96  git init
    97  ls -la
    98  vim test1
@@ -48,47 +48,49 @@
   140  git log --oneline
   141  git cherry-pick e2cfd4f
   142  git log --oneline
+```
 
 
-# Commits in the master branch
 
+## Commits in the master branch
 
+```bash
 e2cfd4f (HEAD -> master) Hotfix commit
 5fa5931 Do one commit
 becd0d2 Dev commit 2
 0af97cc Dev commit 1
 a246e05 Master commit 2
 7ac629c "Master commit 1"
+```
 
+## Commits in the dev brunch
 
-# Commits in the dev brunch
-
-
+```bash
 b39bca7 (HEAD -> dev) Hotfix commit
 becd0d2 Dev commit 2
 0af97cc Dev commit 1
 a246e05 Master commit 2
 7ac629c "Master commit 1"
+```
 
 
+## Commits in the features/do_one brunch
 
-# Commits in the features/do_one brunch
-
-
+```bash
 3f88e33 (HEAD -> features/do_one) Hotfix commit
 5fa5931 Do one commit
 becd0d2 Dev commit 2
 0af97cc Dev commit 1
 a246e05 Master commit 2
 7ac629c "Master commit 1"
+```
+
+## Commits in the hotfix/we_gonna_die brunch
 
 
-# Commits in the hotfix/we_gonna_die brunch
-
-
-
+```bash
 4194f25 (HEAD -> hotfix/we_gonna_die) Hotfix commit
 a246e05 Master commit 2
 7ac629c "Master commit 1"
-
+```
 

@@ -1,4 +1,6 @@
 # Bash history
+
+```bash
   190  echo $PATH
   191  cd ~
   192  ls -la
@@ -8,9 +10,12 @@
   198  cd ~/test
   199  /usr/bin/push_to_all.sh
   217  history
+```
+
 
 # .git/config
 
+```ini
 [core]
         repositoryformatversion = 0
         filemode = false
@@ -30,9 +35,10 @@
 [branch "main"]
         remote = origin_gitlab
         merge = refs/heads/main
-
+```
 # Bash script
 
+```bash
 !/bin/bash
 echo "Push has started"
 for a in $(git remote show)
@@ -55,10 +61,12 @@ do
         fi
         done
 done
+```
 
 
 # Push results:
 
+```bash
 Push has started
 Switched to branch 'dev'
 Push has started in the origin_bitbucket. Branch dev
@@ -200,8 +208,9 @@ Push has started in the origin_gitlab. Branch show
 client_global_hostkeys_private_confirm: server gave bad signature for RSA key 0
 Everything up-to-date
 Push to origin_gitlab branch show completed successfully
+```
 
 
 # Questions
 
-I can't understand, why my script try to take all my files like brunches, it mast takes branches from 'git branch' (for b in $(git branch)), but it takes not oly branches. Why? 
+I can't understand, why my script try to take all my files like brunches, it mast takes branches from 'git branch' (for b in $(git branch)), but it takes not only branches. Why? 

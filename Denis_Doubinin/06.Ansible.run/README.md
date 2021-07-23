@@ -1,5 +1,6 @@
 # Output from playbook hw_1.yaml (with shell module on step of ugrade hosts with new user, there are no problems)
 
+```bash
 [denis@denis-PC ansible]$ vim hw_1.yaml 
 [denis@denis-PC ansible]$ ansible-playbook -i inv.yaml hw_1.yaml -e group=work_hosts -e my_user=den
 
@@ -160,10 +161,14 @@ Host OS Information ------------------------------------------------------------
 debug --------------------------------------------------------------------------------------------------------------------------------- 0.52s
 Host HW Information ------------------------------------------------------------------------------------------------------------------- 0.50s
 Playbook run took 0 days, 0 hours, 1 minutes, 9 seconds
+```
 
+
+---
 
 # Output from playbook hw.yaml (with yum and apt modules on step of ugrade hosts with new user, there is a problem with apt module: fatal: [work_02]: FAILED! => {"changed": false, "msg": "Failed to lock apt for exclusive operation: Failed to lock directory /var/lib/apt/lists/: E:Could not open lock file /var/lib/apt/lists/lock - open (13: Permission denied)"}) 
 
+```bash
 [denis@denis-PC ansible]$ ansible-playbook -i inv.yaml hw.yaml -e group=work_hosts -e my_user=den
 
 PLAY [work_hosts] ****************************************************************************************************************************
@@ -252,4 +257,4 @@ Host OS Information ------------------------------------------------------------
 debug --------------------------------------------------------------------------------------------------------------------------------- 0.29s
 Chek ---------------------------------------------------------------------------------------------------------------------------------- 0.27s
 Playbook run took 0 days, 0 hours, 0 minutes, 55 seconds
-
+```

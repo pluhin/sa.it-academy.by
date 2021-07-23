@@ -1,5 +1,6 @@
 ## Push to vagrantcloud error
 
+```bash
 [denis@denis-PC 2](md-sa2-17-21)$ vagrant cloud publish --release denisdoubinin/testd 1.0.0 virtualbox /tmp/deb2.box
 You are about to publish a box on Vagrant Cloud with the following options:
 denisdoubinin/testd:   (v1.0.0) for provider 'virtualbox'
@@ -21,6 +22,6 @@ Do you wish to continue? [y/N]y
 	from /opt/vagrant/embedded/gems/2.2.17/gems/vagrant-2.2.17/lib/vagrant/cli.rb:67:in `execute'
 	from /opt/vagrant/embedded/gems/2.2.17/gems/vagrant-2.2.17/lib/vagrant/environment.rb:290:in `cli'
 	from /opt/vagrant/embedded/gems/2.2.17/gems/vagrant-2.2.17/bin/vagrant:231:in `<main>'
+```
 
-
-Try to push different images (includ images from demo, have such error)
+Try to push different images (includ images from demo, have such error), google said, that some mistake in ruby. Vagrantfili have worked, all VM are creted with all config parametres, that describes in the Vagrantfile.
