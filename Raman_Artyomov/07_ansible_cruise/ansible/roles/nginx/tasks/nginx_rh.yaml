@@ -1,0 +1,27 @@
+---
+- name: RH - Installing epel-repository(required for nginx)
+  yum:
+    name: epel-release
+    state: present
+      
+- name: RH - Installing nginx
+  yum:
+    name: nginx
+    state: present
+
+- name: RH - Start and enabled nginx
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: RH - Enabled firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+
+- name: RH - reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded

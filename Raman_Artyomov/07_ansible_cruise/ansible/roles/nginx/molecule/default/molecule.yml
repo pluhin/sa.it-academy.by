@@ -4,10 +4,10 @@ dependency:
 driver:
   name: docker 
 platforms:
-  - name: instance_cent
+  - name: instance_centos
     image: docker.io/pycontribs/centos:7
     pre_build_image: true
-  - name: instance_deb
+  - name: instance_ubuntu
     image: docker.io/pycontribs/ubuntu:latest
     pre_build_image: true
 provisioner:
