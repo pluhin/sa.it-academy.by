@@ -1,0 +1,6 @@
+- hosts: work_shop_01
+  tasks:
+    - debug:
+        msg: "192.168.201.{{ item }}"
+      loop: "{{ range(1,17 +1)|list }}"
+
