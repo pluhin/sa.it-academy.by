@@ -1,0 +1,65 @@
+---
+- name: Include deploy for DEB-systems
+  include: nginx_deb.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RH-systems
+  include: nginx_rh.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Copying configuration template
+  template:
+    src: site.conf.j2 
+    dest: "{{ nginx_default_confs }}/{{ item.name }}.conf"
+  with_items: "{{ virtual_hosts }}"
+  when: (ansible_os_family == "RedHat" and "rh" in item.name) or
+        (ansible_os_family == "Debian" and "deb" in item.name)
+
+- name: Createing directory
+  file:
+    path: "{{ default_home }}/{{ item.name }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  with_items: "{{ virtual_hosts }}"
+  when: (ansible_os_family == "RedHat" and "rh" in item.name) or
+        (ansible_os_family == "Debian" and "deb" in item.name)
+
+- name: Copying first page.
+  template:
+    src: index.html.j2
+    dest: "{{ default_home }}/{{ item.name }}/index.html"
+  with_items: "{{ virtual_hosts }}"
+  when: (ansible_os_family == "RedHat" and "rh" in item.name) or
+        (ansible_os_family == "Debian" and "deb" in item.name)
+
+- name: Restarting nginx
+  systemd:
+    name: nginx
+    state: restarted
+
+- name: Copying hosts template
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'Hi' not in this.content"
+
+- name: Print out
+  debug:
+    msg:
+      - "{{ this.results[item].content }}"
+      - "{{ this.results[item].content }}"
+  with_items:
+    - [0, 1 ]

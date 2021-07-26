@@ -1,0 +1,32 @@
+---
+- name: Checking we have sudo with nopass
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Checking repository URL's
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  register: out_urls
+  with_items: "{{ test_urls }}"
+
+- name: Output cheked repository
+  debug:
+    msg: "{{ out_urls.msg }}"
+
+- name: Check free RAM space (1GB)
+  assert:
+    that:
+      - ansible_memory_mb.real.free | int >= 1024
+    fail_msg: "Bad. You have {{ ansible_memory_mb.real.free / 1024 }} Gb free RAM space. You need not less 1024 Mb free "
+    success_msg: "Good. Yoy have {{ ansible_memory_mb.real.free / 1024 }} Gb RAM free. It will serve"
+
+- name: Check free HDD space (10GB)
+  assert:
+    that:
+      - ansible_mounts[0].size_available | int >= 10240
+    fail_msg: "Bad. You have {{ ansible_mounts[0].size_available / 1024 / 1024 / 1024 }} Mb free HDD space. You need not less 1024 Mb free "
+    success_msg: "Good. Yoy have {{ ansible_mounts[0].size_available / 1024 / 1024 / 1024 }} Mb HDD free. It will serve"
+
