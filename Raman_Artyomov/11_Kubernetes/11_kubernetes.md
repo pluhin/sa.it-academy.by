@@ -14,7 +14,7 @@ kubeconfig: Configured
 
 ### Enabled ingress plugin
 ```bash
-minikube addons enable ingress\
+minikube addons enable ingress
 minikube addons list
 |-----------------------------|----------|--------------|-----------------------|
 |         ADDON NAME          | PROFILE  |    STATUS    |      MAINTAINER       |
