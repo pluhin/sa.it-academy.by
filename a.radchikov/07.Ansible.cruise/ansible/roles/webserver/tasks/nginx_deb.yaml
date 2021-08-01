@@ -3,6 +3,6 @@
     name: "{{ apt_nginx_packages }}"
     state: present
     update_cache: yes
+  become: yes
   notify:
     - nginx systemd
-  become: yes

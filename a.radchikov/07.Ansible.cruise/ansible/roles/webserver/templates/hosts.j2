@@ -4,7 +4,7 @@
 
 {% if virtual_hosts is defined %}
 {% for var in virtual_hosts %}
-{{ var.ip }}   {{ var.name }}
+{{ var.ip }}   {{ var.name }} www.{{ var.name }}
 {% endfor %}
 {% endif %}
 

@@ -17,6 +17,16 @@
     - restart nginx
   become: yes
 
+- name: Add virtualHosts
+  template:
+    src: "virtual_domain.j2"
+    dest: "/etc/nginx/nginx.conf"
+  become: yes
+  notify:
+    - restart nginx
+  tags:
+    - virt
+
 - name: Check connection to Localhost
   wait_for:
     host: "localhost"
@@ -27,6 +37,7 @@
 - name: print out
   debug:
     msg: "{{ out }}"
+
 - name: Templates
   template:
     src: "hosts.j2"
@@ -57,4 +68,4 @@
   debug:
     msg: "{{ this }}"
   tags:
-  - tests
+          - tests
