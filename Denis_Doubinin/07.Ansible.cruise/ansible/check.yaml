@@ -1,0 +1,24 @@
+- hosts: "{{ group }}"
+  # gather_facts: False
+  # strategy: free
+  # serial: 1
+  tasks:
+    - name: detect if vagrant
+      stat: path=/etc/sudoers.d/vagrant-nopasswd
+      register: vagrant_sudo_file
+
+    - name: fix vagrant sudo
+      lineinfile: dest=/etc/sudoers.d/vagrant-nopasswd
+                  state=present
+                  regexp='^%?vagrant ALL\='
+                  line='vagrant ALL=(ALL) NOPASSWD:ALL'
+                  validate='visudo -cf %s'
+      when: vagrant_sudo_file.stat.exists == True      
+    - name: Checking user
+      command: whoami
+      become: true
+      become_user: den
+      register: out
+    - debug:
+        msg: "{{ out.stdout_lines }}"
+

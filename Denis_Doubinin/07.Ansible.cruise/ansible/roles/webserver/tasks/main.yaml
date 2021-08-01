@@ -1,0 +1,166 @@
+- name: Deploy for Debian systems
+  include: http_deb.yaml
+  when: ansible_os_family == 'Debian'
+- name: Deploy for RedHat systems
+  include: http_rh.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Force all notified handlers to run at this point, not waiting for normal sync points
+  meta: flush_handlers  
+
+- name: Ubuntu www structure        
+  file:
+    path: /var/www/{{ site_deb }}{{ item }}{{ site }}/html
+    state: directory
+    mode: '0755'
+  loop: "{{ range(1, 2+1)|list }}"
+  when: ansible_os_family == 'Debian'
+
+- name: Centos www structure        
+  file:
+    path: /var/www/{{ site_cent }}{{ item }}{{ site }}/html
+    state: directory
+    mode: '0755'
+  loop: "{{ range(1, 2+1)|list }}"
+  when: ansible_os_family == 'RedHat'
+
+- name: mkdir sites-available
+  file:
+    path: /etc/nginx/sites-available
+    state: directory
+    mode: '0755'
+
+- name: mkdir sites-enabled
+  file:
+    path: /etc/nginx/sites-enabled
+    state: directory
+    mode: '0755'     
+
+- name: Copy Ubuntu sites
+  template:
+    src: "html.j2"
+    dest: "/var/www/{{ site_deb }}{{ item }}{{ site }}/html/index.html"
+    owner: root
+    group: root
+    mode: '0755'
+  loop: "{{ range(1, 2+1)|list }}"
+  when: ansible_os_family == 'Debian'
+  notify:
+    - restart nginx
+
+- name: Available Ubuntu sites
+  template:
+    src: "siteavailable.j2"
+    dest: "/etc/nginx/sites-available/{{ site_deb }}{{ item }}.conf"
+    owner: root
+    group: root
+    mode: '0755'
+  loop: "{{ range(1, 2+1)|list }}"
+  when: ansible_os_family == 'Debian'
+  notify:
+    - restart nginx
+
+- name: Enable Ubuntu sites
+  file:
+    src: "/etc/nginx/sites-available/{{ site_deb }}{{ item }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ site_deb }}{{ item }}.conf"
+    owner: root
+    group: root
+    state: link
+  loop: "{{ range(1, 2+1)|list }}"
+  when: ansible_os_family == 'Debian'
+  notify:
+    - restart nginx
+  
+
+- name: Copy Centos sites
+  template:
+    src: "html.j2"       
+    dest: "/var/www/{{ site_cent }}{{ item }}{{ site }}/html/index.html"   
+    owner: root
+    group: root
+    mode: '0755'   
+  loop: "{{ range(1, 2+1)|list }}"
+  when: ansible_os_family == 'RedHat'
+  notify:
+    - restart nginx
+
+- name: Modify nginx config 
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/
+    owner: root
+    group: root
+    mode: '0775'
+  when: ansible_os_family == 'RedHat'      
+
+- name: Available Centos sites
+  template:
+    src: "siteavailable.j2"
+    dest: "/etc/nginx/sites-available/{{ site_cent }}{{ item }}.conf"
+    owner: root
+    group: root
+    mode: '0755'
+  loop: "{{ range(1, 2+1)|list }}"
+  when: ansible_os_family == 'RedHat'
+  notify:
+    - restart nginx
+      
+- name: Enable Centos sites
+  file:
+    src: "/etc/nginx/sites-available/{{ site_cent }}{{ item }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ site_cent }}{{ item }}.conf"
+    owner: root
+    group: root
+    state: link
+  loop: "{{ range(1, 2+1)|list }}"
+  when: ansible_os_family == 'RedHat'
+  notify:
+    - restart nginx
+
+- name: Hosts modify
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+- name: Check hosts
+  shell: |
+    cat /etc/hosts
+  register: out
+  changed_when: false
+
+- name: print out
+  debug:
+    msg: "{{ out.stdout_lines }}"
+
+
+- name: Check www
+  shell: |
+    ls -la /var/www/
+  register: out
+  changed_when: false
+
+
+- name: print out
+  debug:
+    msg: "{{ out.stdout_lines }}"
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'{{ item.name }}' not in this.content"
+  tags:
+  - tests    
+
+- name: print out
+  debug:
+    msg: "{{ this }}"
+  tags:
+    - tests

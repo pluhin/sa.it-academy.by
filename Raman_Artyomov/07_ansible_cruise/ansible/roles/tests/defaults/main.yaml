@@ -1,0 +1,6 @@
+---
+test_urls:
+  - http://ftp.byfly.by/pub/CentOS/
+  - http://archive.ubuntu.com/ubuntu/
+  - https://pypi.org/simple
+  - https://hub.docker.com/_/registry

@@ -1,0 +1,12 @@
+---
+- name: DEB - Install nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: DEB - start and enabled nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes

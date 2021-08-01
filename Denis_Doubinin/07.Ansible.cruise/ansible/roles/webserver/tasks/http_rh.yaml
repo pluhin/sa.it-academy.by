@@ -1,0 +1,22 @@
+- name: nginx. install packeges
+  yum:
+    name: "{{ nginx_packages }}"
+    state: present
+- name: nginx. enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+- name: nginx. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+  tags:
+  - tests
+- name: reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  tags:
+  - tests    

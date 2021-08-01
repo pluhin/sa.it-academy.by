@@ -1,0 +1,9 @@
+---
+default_path: "{{ '/var/www/html' if (ansible_distribution == 'Ubuntu') else '/usr/share/nginx/html' }}"
+
+domain_ubuntu: "ubuntu.local"
+domain_centos: "centos.local"
+
+virtual_hosts:
+  - { name: "{{ domain_centos }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}
+  - { name: "{{ domain_ubuntu }}", ip: "{{ hostvars[\"work_02\"].ansible_host }}"}

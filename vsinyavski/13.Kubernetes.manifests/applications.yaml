@@ -1,0 +1,228 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: webserver
+        image: nginx
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 200m
+            memory: 400Mi
+        volumeMounts:
+        - name: persistent-storage
+          mountPath: "/usr/share/nginx/html"
+        - name: test-config-mount
+          mountPath: /tmp/test.txt
+          subPath: test.txt 
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: apps-pv-claim
+      - name: test-config-mount
+        configMap:
+          name: test-config   
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-radarr
+  labels:
+    app: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+      - name: radarr
+        image: linuxserver/radarr
+        ports:
+        - containerPort: 7878
+        env:
+          - name: TZ
+            value: Europe/Minsk
+          - name: PUID
+            value: "1000"
+          - name: PGID
+            value: "1000"
+        resources:
+          requests:
+            cpu: 50m
+            memory: 700Mi
+          limits:
+            cpu: 100m
+            memory: 1Gi         
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-sonarr
+  labels:
+    app: sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+      - name: sonarr
+        image: linuxserver/sonarr
+        ports:
+        - containerPort: 8989
+        env:
+          - name: TZ
+            value: Europe/Minsk
+          - name: PUID
+            value: "1000"
+          - name: PGID
+            value: "1000"
+        resources:
+          requests:
+            cpu: 50m
+            memory: 700Mi
+          limits:
+            cpu: 100m
+            memory: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-web-service
+  labels:
+    run: nginx-web-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr-service
+  labels:
+    run: radarr-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 7878
+    protocol: TCP
+  selector:
+    app: radarr
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarr-service
+  labels:
+    run: sonarr-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8989
+    protocol: TCP
+  selector:
+    app: sonarr
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-sa
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: webserver.k8s-27.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nginx-web-service
+          servicePort: 80
+  - host: radarr.k8s-27.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: radarr-service
+          servicePort: 7878
+  - host: sonarr.k8s-27.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: sonarr-service
+          servicePort: 8989
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: apps-pv-volume
+  labels:
+    type: nfs
+    name: app-nfs-vol
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-17-21/vsinyavski/apps
+    server: 192.168.37.105
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: apps-pv-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      name: app-nfs-vol
+      type: nfs
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-config
+data:
+  test.txt: |
+    Hello!!!!!!!!!
+    We Gonna Die!!!
