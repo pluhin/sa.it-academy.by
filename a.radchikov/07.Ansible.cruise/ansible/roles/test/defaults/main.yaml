@@ -1,0 +1,8 @@
+Rep_Ubuntu: "http://by.archive.ubuntu.com"
+Rep_CentOS: "http://centos.mirror.constant.com"
+Rep_DockerHub: "https://registry.hub.docker.com"
+Rep_pip: "https://pypi.org/simple"
+repositories:
+  - "{{ Rep_Ubuntu if (ansible_os_family == 'Debian') else Rep_CentOS }}" 
+  - "{{ Rep_DockerHub }}"
+  - "{{ Rep_pip }}"
