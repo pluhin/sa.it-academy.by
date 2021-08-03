@@ -1,0 +1,15 @@
+### {{ ansible_managed }}
+http {
+{% for var in '','www.' %}
+	server {
+	    listen 80;
+	    server_name {{ var }}{{ site_deb if ansible_os_family == 'Debian' else site_cent }};
+	    root {{ default_home }};
+	    access_log /var/log/nginx/access_log;
+	    error_log /var/log/nginx/error_log;
+	    location / {
+		index index.html
+		}
+	}
+{% endfor %}
+}

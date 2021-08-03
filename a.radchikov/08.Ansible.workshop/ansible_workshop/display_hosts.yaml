@@ -1,0 +1,13 @@
+- hosts: work_hosts 
+  # gather_facts: False
+  # strategy: free
+  tasks:
+    - name: OS Distribution & Version
+      debug:
+        msg: "OS {{ ansible_distribution }} {{ ansible_distribution_version }} " 
+    - name: mounts stats
+      debug:
+        msg: "mount on ' {{ ansible_mounts[0].mount }} ' capasity size  {{ (ansible_mounts[0].size_total / 1073741824)|round(0,'common')}} GB | used {{ 100-(ansible_mounts[0].size_available / ansible_mounts[0].size_total * 100)|int }} %"
+    - name: RAM stats
+      debug:
+        msg: "RAM total {{ ansible_memory_mb.real.total }} MB | free {{ ansible_memory_mb.real.free }} MB"

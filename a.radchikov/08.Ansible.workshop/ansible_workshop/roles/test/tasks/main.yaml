@@ -1,0 +1,39 @@
+---
+- name: Check if we have SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check connections to public repositories
+  uri :
+    url: "{{ item }}"
+    return_content: yes
+  loop: "{{ repositories }}"
+  register: result  
+  tags:
+    - test
+
+- name: print out
+  debug:
+    msg: "{{ result.url, result.status, result.msg }}"
+  tags:
+    - test
+
+- name: Check if we have enough RAM
+  assert:
+    that:
+      - ansible_memory_mb.real.free|int > 256
+    fail_msg: "We have not enough RAM size. {{ ansible_memory_mb.real.free }} MB available. 256 MB required."
+    success_msg: "We have enough RAM size. {{ ansible_memory_mb.real.free }} MB available."
+
+- name: Check if we have enough HDD
+  assert:
+    that:  
+      - (ansible_mounts[0].size_available / ansible_mounts[0].size_total * 100)|int > 20
+    fail_msg: "We have not enough size HDD. Less than {{ 100-(100-(ansible_mounts[0].size_available / ansible_mounts[0].size_total * 100))|int }} % free space of {{ ansible_mounts[0].size_total/1000000000|int }} GB .  min 20 % required."
+    success_msg: "We have enough size HDD. More than {{ (ansible_mounts[0].size_available / ansible_mounts[0].size_total * 100)|int }} % free space HDD."
+
+- name: RAM stats
+  debug:
+    msg: "RAM total {{ ansible_memory_mb.real.total }} MB | free {{ ansible_memory_mb.real.free }} MB"
