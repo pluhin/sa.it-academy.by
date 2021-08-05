@@ -1,0 +1,37 @@
+---
+version: "3.4"
+
+services:
+  service-nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./app/:/usr/share/nginx/html:ro
+  service-sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    ports:
+      - 8989:8989
+    volumes:
+      - ./sonarr/config:/config
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    restart: unless-stopped
+  service-radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    ports:
+      - 7878:7878
+    volumes:
+      - ./radarr/config:/config
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    restart: unless-stopped
+  
+

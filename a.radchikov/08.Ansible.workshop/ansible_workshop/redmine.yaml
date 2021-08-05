@@ -1,0 +1,7 @@
+- hosts: work_shop_15 
+  pre_tasks:
+  - debug:
+      msg: "{{ ansible_host }}"            
+  roles:
+    - redmine
+
