@@ -1,0 +1,343 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lazylibrarian
+  labels:
+    app: simple-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: simple-web
+  template:
+    metadata:
+      labels:
+        app: simple-web
+    spec:
+      containers:
+      - name: lazylibrarian
+        image: ghcr.io/linuxserver/lazylibrarian
+        ports:
+        - containerPort: 5299
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Europe/London"
+        resources:
+          requests:
+            cpu: 50m
+            memory: 200Mi
+          limits:
+            cpu: 100m
+            memory: 500Mi
+        volumeMounts:
+        - name: persistent-storage01
+          mountPath: "/config"
+        - name: persistent-storage02
+          mountPath: "/downloads"       
+      volumes:
+      - name: persistent-storage01
+        persistentVolumeClaim:
+          claimName: app01-pv-claim 
+      - name: persistent-storage02
+        persistentVolumeClaim:
+          claimName: app02-pv-claim             
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+  labels:
+    app: sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+      - name: sonarr
+        image: hotio/sonarr
+        ports:
+        - containerPort: 8989
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Etc/UTC"
+        resources:
+          requests:
+            cpu: 500m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        volumeMounts:
+        - name: persistent-storage
+          mountPath: "/config"       
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: app03-pv-claim 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  labels:
+    app: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+      - name: radarr
+        image: hotio/radarr
+        ports:
+        - containerPort: 7878
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Etc/UTC"
+        resources:
+          requests:
+            cpu: 500m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        volumeMounts:
+        - name: persistent-storage
+          mountPath: "/config"       
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: app04-pv-claim 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-web-service
+  labels:
+    run: simple-web-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 5299
+    protocol: TCP
+  selector:
+    app: simple-web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonar-service
+  labels:
+    run: sonar-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8989
+    protocol: TCP
+  selector:
+    app: sonarr
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: radar-service
+  labels:
+    run: radar-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 7878
+    protocol: TCP
+  selector:
+    app: radarr
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-sa
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: lazy.k8s-11.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: simple-web-service
+          servicePort: 5299
+  - host: sonar.k8s-11.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: sonar-service
+          servicePort: 8989
+  - host: radar.k8s-11.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: radar-service
+          servicePort: 7878
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: app01-pv-volume
+  labels:
+    type: nfs
+    name: app-nfs-vol
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-17-21/romalap/config
+    server: 192.168.37.105
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app01-pv-claim
+  labels:
+    app: simple-web
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      name: app-nfs-vol
+      type: nfs
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: app02-pv-volume
+  labels:
+    type: nfs
+    name: app2-nfs-vol
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-17-21/romalap/data
+    server: 192.168.37.105
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app02-pv-claim
+  labels:
+    app: simple-web
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      name: app2-nfs-vol
+      type: nfs
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: app03-pv-volume
+  labels:
+    type: nfs
+    name: app3-nfs-vol
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-17-21/romalap/sonarr
+    server: 192.168.37.105
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app03-pv-claim
+  labels:
+    app: sonarr
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      name: app3-nfs-vol
+      type: nfs
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: app04-pv-volume
+  labels:
+    type: nfs
+    name: app4-nfs-vol
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-17-21/romalap/radarr
+    server: 192.168.37.105
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app04-pv-claim
+  labels:
+    app: radarr
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      name: app4-nfs-vol
+      type: nfs
