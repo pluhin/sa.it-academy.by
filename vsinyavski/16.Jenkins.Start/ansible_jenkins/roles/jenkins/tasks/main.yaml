@@ -1,0 +1,39 @@
+---
+
+- name: Install packages and dependencies
+  apt: name={{ item }} update_cache={{ update_apt_cache }} state=present
+  with_items:
+    - openjdk-8-jdk  # this specific version is needed for Jenkins to run
+    - libfontconfig
+    - libffi-dev
+    - libncurses5-dev
+
+- name: Add the Jenkins public GPG key to the apt repo
+  apt_key: url=http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key
+           state=present
+
+- name: Add Jenkins apt repo to the trusted sources list
+  apt_repository: repo='deb http://pkg.jenkins-ci.org/debian binary/'
+                  update_cache={{ update_apt_cache }}
+                  state=present
+
+- name: Install Jenkins server
+  apt: 
+    name: jenkins
+    state: present
+    allow_unauthenticated: yes
+
+- name: Start and enable Jenkins service
+  systemd:
+    name: jenkins
+    state: started
+    enabled: yes
+
+- name: Init password Jenkins
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+
+- name: print init password Jenkins
+  debug:
+    var: result.stdout
