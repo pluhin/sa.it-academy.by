@@ -16,7 +16,7 @@ data:
     receivers:
     - name: slack
       slack_configs:
-      - api_url: https://hooks.slack.com/services/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
+      - api_url: https://hooks.slack.com/services/XXXX
         channel: '#alert_prometheus'
 ---
 apiVersion: v1
