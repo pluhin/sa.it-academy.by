@@ -14,4 +14,3 @@ __pycache__
 .env
 *.terraform*
 terraform*
-authorized_keys
