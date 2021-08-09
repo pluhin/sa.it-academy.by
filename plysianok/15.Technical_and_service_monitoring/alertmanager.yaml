@@ -17,7 +17,7 @@ data:
     receivers:
     - name: slack_demo
       slack_configs:
-      - api_url: https://hooks.slack.com/services/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
+      - api_url: $API_URL
         channel: '#100'
 ---
 apiVersion: v1
