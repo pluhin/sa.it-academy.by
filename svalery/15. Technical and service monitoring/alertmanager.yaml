@@ -1,3 +1,4 @@
+---
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -9,15 +10,16 @@ data:
     templates:
     - '/etc/alertmanager/*.tmpl'
     route:
-      receiver: slack
+      receiver: slack_demo
       group_by: ['alertname', 'priority']
       group_wait: 10s
-      repeat_interval: 3m
+      repeat_interval: 1m 
     receivers:
-    - name: slack
+    - name: slack_demo
       slack_configs:
-      - api_url: https://hooks.slack.com/services/XXXX
-        channel: '#alert_prometheus'
+      - api_url: https://hooks.slack.com/services/XXXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXXX
+        channel: '#alerts_2'
+        title: "CPU AVERAGE"
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -70,20 +72,12 @@ spec:
       containers:
       - name: alertmanager
         image: prom/alertmanager:v0.19.0
-        imagePullPolicy: IfNotPresent
         args:
           - "--config.file=/etc/alertmanager/config.yml"
           - "--storage.path=/alertmanager"
         ports:
         - name: alertmanager
           containerPort: 9093
-        resources:
-            requests:
-              cpu: 500m
-              memory: 500Mi
-            limits:
-              cpu: 500m
-              memory: 1Gi
         volumeMounts:
         - name: config-volume
           mountPath: /etc/alertmanager
@@ -121,15 +115,14 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: alertmanager-ingress
+  name: alertmanager-ingres
   namespace: monitoring
 spec:
   rules:
-  - host: alert.k8s-17.sa
+  - host: alertmanager.k8s-29.sa
     http:
       paths:
       - path: /
         backend:
           serviceName: alertmanager
           servicePort: 9093
-
