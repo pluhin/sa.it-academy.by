@@ -1,0 +1,41 @@
+---
+- name: Check if we have SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check connections to public repositories
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  loop: "{{ public_repo }}"
+  register: repo_output
+
+- name: print out
+  debug:
+    msg: "{{ repo_output.msg }}"
+
+- name: Check if we have connection to docker hub registry
+  uri:
+    url: "https://hub.docker.com"
+    return_content: yes
+  register: docker_hub
+
+- name: print out
+  debug:
+    msg: "{{ docker_hub.url, docker_hub.status, docker_hub.msg }}"
+
+- name: Check RAM usage
+  assert:
+    that:
+      - ansible_facts.memfree_mb >= 512
+    fail_msg: "It is not enough RAM. Available RAM {{ ansible_facts.memfree_mb }} MB."
+    success_msg: "RAM is enough. {{ ansible_facts.memfree_mb }} MB available."
+
+- name: Check HDD space
+  assert:
+    that:
+      - (ansible_facts.mounts[0].size_available/1024/1024/1024) | round(1,'common') >= 10
+    fail_msg: "It is not enough space. Avaliable {{ (ansible_facts.mounts[0].size_available/1024/1024/1024) | round(1,'common') }} GB."
+    success_msg: "HDD space is enough. Available {{ (ansible_facts.mounts[0].size_available/1024/1024/1024) | round(1,'common') }} GB."

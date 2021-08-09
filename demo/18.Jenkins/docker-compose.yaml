@@ -1,0 +1,17 @@
+---
+version: '3'
+
+services:
+  jenkins:
+    image: jfrog.it-academy.by/public/jenkins-ci:latest
+    container_name: jenkins_ci_cd_new
+    user: jenkins
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+    - PASS=pluplu
+    - JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
+    - CASC_JENKINS_CONFIG=/var/jenkins_home/casc_configs/jenkins.yaml
+    ports:
+      - "8080:8080"

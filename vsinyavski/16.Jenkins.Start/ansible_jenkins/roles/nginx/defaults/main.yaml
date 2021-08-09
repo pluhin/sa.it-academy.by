@@ -1,0 +1,6 @@
+---
+
+site: "redmine-14.sa"
+
+virtual_host:
+  - { name: "{{ site }}", ip: "{{ hostvars[\"work_shop\"].ansible_host }}"}

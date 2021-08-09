@@ -1,0 +1,12 @@
+---
+nginx_package: 
+  - nginx
+
+default_home: "{{ '/var/www/html' if (ansible_distribution == 'Ubuntu') else '/usr/share/nginx/html' }}"
+
+site_ubuntu: "local-ubuntu.site.lap"
+site_cent: "local-cent.site.lap"
+
+virtual_hosts:
+  - { name: "{{ site_cent }}", ip: "{{ hostvars[\"host1\"].ansible_host }}"}
+  - { name: "{{ site_ubuntu }}", ip: "{{ hostvars[\"host2\"].ansible_host }}"}

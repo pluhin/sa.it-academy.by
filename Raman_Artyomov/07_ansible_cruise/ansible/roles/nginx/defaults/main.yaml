@@ -1,0 +1,15 @@
+---
+default_home: "/var/www/"
+
+nginx_default_confs: "/etc/nginx/conf.d"
+
+site1_deb: "site1.deb.local"
+site2_deb: "site2.deb.local"
+site1_rh: "site1.rh.local"
+site2_rh: "site2.rh.local"
+
+virtual_hosts:
+  - { name: "{{ site1_deb }}", ip: "{{ hostvars[\"work_02\"].ansible_host }}"}
+  - { name: "{{ site2_deb }}", ip: "{{ hostvars[\"work_02\"].ansible_host }}"}
+  - { name: "{{ site1_rh }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}
+  - { name: "{{ site2_rh }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}

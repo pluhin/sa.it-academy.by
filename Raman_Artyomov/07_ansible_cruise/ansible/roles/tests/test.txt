@@ -1,0 +1,276 @@
+
+PLAY [Destroy] **************************************************************************************************
+
+TASK [Destroy molecule instance(s)] *****************************************************************************
+changed: [localhost] => (item=instance_centos)
+changed: [localhost] => (item=instance_ubuntu)
+changed: [localhost] => (item=instance_alpine)
+
+TASK [Wait for instance(s) deletion to complete] ****************************************************************
+changed: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '542293680727.14964', 'results_file': '/home/owl/.ansible_async/542293680727.14964', 'changed': True, 'failed': False, 'item': {'image': 'docker.io/pycontribs/centos:7', 'name': 'instance_centos', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+changed: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '953279933446.14989', 'results_file': '/home/owl/.ansible_async/953279933446.14989', 'changed': True, 'failed': False, 'item': {'image': 'docker.io/pycontribs/ubuntu:latest', 'name': 'instance_ubuntu', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+changed: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '960557652339.15015', 'results_file': '/home/owl/.ansible_async/960557652339.15015', 'changed': True, 'failed': False, 'item': {'image': 'docker.io/pycontribs/alpine', 'name': 'instance_alpine', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+
+TASK [Delete docker network(s)] *********************************************************************************
+
+PLAY RECAP ******************************************************************************************************
+localhost                  : ok=2    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+
+playbook: /home/owl/git/my/sa.it-academy.by/Raman_Artyomov/07_ansible_cruise/ansible/roles/tests/molecule/default/converge.yml
+
+Aborted!
+
+PLAY [Destroy] **************************************************************************************************
+
+TASK [Destroy molecule instance(s)] *****************************************************************************
+changed: [localhost] => (item=instance_centos)
+changed: [localhost] => (item=instance_ubuntu)
+changed: [localhost] => (item=instance_alpine)
+
+TASK [Wait for instance(s) deletion to complete] ****************************************************************
+ok: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '819222441866.15235', 'results_file': '/home/owl/.ansible_async/819222441866.15235', 'changed': True, 'failed': False, 'item': {'image': 'docker.io/pycontribs/centos:7', 'name': 'instance_centos', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+ok: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '805678260897.15261', 'results_file': '/home/owl/.ansible_async/805678260897.15261', 'changed': True, 'failed': False, 'item': {'image': 'docker.io/pycontribs/ubuntu:latest', 'name': 'instance_ubuntu', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+ok: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '281678814956.15291', 'results_file': '/home/owl/.ansible_async/281678814956.15291', 'changed': True, 'failed': False, 'item': {'image': 'docker.io/pycontribs/alpine', 'name': 'instance_alpine', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+
+TASK [Delete docker network(s)] *********************************************************************************
+
+PLAY RECAP ******************************************************************************************************
+localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+
+playbook: /home/owl/git/my/sa.it-academy.by/Raman_Artyomov/07_ansible_cruise/ansible/roles/tests/molecule/default/converge.yml
+
+PLAY [Create] ***************************************************************************************************
+
+TASK [Log into a Docker registry] *******************************************************************************
+skipping: [localhost] => (item={'image': 'docker.io/pycontribs/centos:7', 'name': 'instance_centos', 'pre_build_image': True})
+skipping: [localhost] => (item={'image': 'docker.io/pycontribs/ubuntu:latest', 'name': 'instance_ubuntu', 'pre_build_image': True})
+skipping: [localhost] => (item={'image': 'docker.io/pycontribs/alpine', 'name': 'instance_alpine', 'pre_build_image': True})
+
+TASK [Check presence of custom Dockerfiles] *********************************************************************
+ok: [localhost] => (item={'image': 'docker.io/pycontribs/centos:7', 'name': 'instance_centos', 'pre_build_image': True})
+ok: [localhost] => (item={'image': 'docker.io/pycontribs/ubuntu:latest', 'name': 'instance_ubuntu', 'pre_build_image': True})
+ok: [localhost] => (item={'image': 'docker.io/pycontribs/alpine', 'name': 'instance_alpine', 'pre_build_image': True})
+
+TASK [Create Dockerfiles from image names] **********************************************************************
+skipping: [localhost] => (item={'image': 'docker.io/pycontribs/centos:7', 'name': 'instance_centos', 'pre_build_image': True})
+skipping: [localhost] => (item={'image': 'docker.io/pycontribs/ubuntu:latest', 'name': 'instance_ubuntu', 'pre_build_image': True})
+skipping: [localhost] => (item={'image': 'docker.io/pycontribs/alpine', 'name': 'instance_alpine', 'pre_build_image': True})
+
+TASK [Discover local Docker images] *****************************************************************************
+ok: [localhost] => (item={'changed': False, 'skipped': True, 'skip_reason': 'Conditional result was False', 'item': {'image': 'docker.io/pycontribs/centos:7', 'name': 'instance_centos', 'pre_build_image': True}, 'ansible_loop_var': 'item', 'i': 0, 'ansible_index_var': 'i'})
+ok: [localhost] => (item={'changed': False, 'skipped': True, 'skip_reason': 'Conditional result was False', 'item': {'image': 'docker.io/pycontribs/ubuntu:latest', 'name': 'instance_ubuntu', 'pre_build_image': True}, 'ansible_loop_var': 'item', 'i': 1, 'ansible_index_var': 'i'})
+ok: [localhost] => (item={'changed': False, 'skipped': True, 'skip_reason': 'Conditional result was False', 'item': {'image': 'docker.io/pycontribs/alpine', 'name': 'instance_alpine', 'pre_build_image': True}, 'ansible_loop_var': 'item', 'i': 2, 'ansible_index_var': 'i'})
+
+TASK [Build an Ansible compatible image (new)] ******************************************************************
+skipping: [localhost] => (item=molecule_local/docker.io/pycontribs/centos:7)
+skipping: [localhost] => (item=molecule_local/docker.io/pycontribs/ubuntu:latest)
+skipping: [localhost] => (item=molecule_local/docker.io/pycontribs/alpine)
+
+TASK [Create docker network(s)] *********************************************************************************
+
+TASK [Determine the CMD directives] *****************************************************************************
+ok: [localhost] => (item={'image': 'docker.io/pycontribs/centos:7', 'name': 'instance_centos', 'pre_build_image': True})
+ok: [localhost] => (item={'image': 'docker.io/pycontribs/ubuntu:latest', 'name': 'instance_ubuntu', 'pre_build_image': True})
+ok: [localhost] => (item={'image': 'docker.io/pycontribs/alpine', 'name': 'instance_alpine', 'pre_build_image': True})
+
+TASK [Create molecule instance(s)] ******************************************************************************
+changed: [localhost] => (item=instance_centos)
+changed: [localhost] => (item=instance_ubuntu)
+changed: [localhost] => (item=instance_alpine)
+
+TASK [Wait for instance(s) creation to complete] ****************************************************************
+changed: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '500366695835.15629', 'results_file': '/home/owl/.ansible_async/500366695835.15629', 'changed': True, 'failed': False, 'item': {'image': 'docker.io/pycontribs/centos:7', 'name': 'instance_centos', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+changed: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '958352580148.15654', 'results_file': '/home/owl/.ansible_async/958352580148.15654', 'changed': True, 'failed': False, 'item': {'image': 'docker.io/pycontribs/ubuntu:latest', 'name': 'instance_ubuntu', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+changed: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '862842035869.15694', 'results_file': '/home/owl/.ansible_async/862842035869.15694', 'changed': True, 'failed': False, 'item': {'image': 'docker.io/pycontribs/alpine', 'name': 'instance_alpine', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+
+PLAY RECAP ******************************************************************************************************
+localhost                  : ok=5    changed=2    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0
+
+
+PLAY [Converge] *************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************
+ok: [instance_alpine]
+ok: [instance_ubuntu]
+ok: [instance_centos]
+
+TASK [Include tests] ********************************************************************************************
+
+TASK [tests : Checking we have sudo with nopass] ****************************************************************
+ok: [instance_alpine]
+ok: [instance_ubuntu]
+ok: [instance_centos]
+
+TASK [tests : Checking repository URL's] ************************************************************************
+ok: [instance_centos] => (item=http://ftp.byfly.by/pub/CentOS/)
+ok: [instance_ubuntu] => (item=http://ftp.byfly.by/pub/CentOS/)
+ok: [instance_alpine] => (item=http://ftp.byfly.by/pub/CentOS/)
+ok: [instance_centos] => (item=http://archive.ubuntu.com/ubuntu/)
+ok: [instance_ubuntu] => (item=http://archive.ubuntu.com/ubuntu/)
+ok: [instance_alpine] => (item=http://archive.ubuntu.com/ubuntu/)
+ok: [instance_alpine] => (item=https://pypi.org/simple)
+ok: [instance_alpine] => (item=https://hub.docker.com/_/registry)
+ok: [instance_ubuntu] => (item=https://pypi.org/simple)
+ok: [instance_centos] => (item=https://pypi.org/simple)
+ok: [instance_ubuntu] => (item=https://hub.docker.com/_/registry)
+ok: [instance_centos] => (item=https://hub.docker.com/_/registry)
+
+TASK [tests : Output cheked repository] *************************************************************************
+ok: [instance_alpine] => {
+    "msg": "All items completed"
+}
+ok: [instance_centos] => {
+    "msg": "All items completed"
+}
+ok: [instance_ubuntu] => {
+    "msg": "All items completed"
+}
+
+TASK [tests : Check free RAM space (1GB)] ***********************************************************************
+ok: [instance_alpine] => {
+    "changed": false,
+    "msg": "Good. Yoy have 2.0 Gb RAM free. It will serve"
+}
+ok: [instance_centos] => {
+    "changed": false,
+    "msg": "Good. Yoy have 2.0107421875 Gb RAM free. It will serve"
+}
+ok: [instance_ubuntu] => {
+    "changed": false,
+    "msg": "Good. Yoy have 2.0 Gb RAM free. It will serve"
+}
+
+TASK [tests : Check free HDD space (10GB)] **********************************************************************
+ok: [instance_alpine] => {
+    "changed": false,
+    "msg": "Good. Yoy have 43.851322174072266 Mb HDD free. It will serve"
+}
+ok: [instance_centos] => {
+    "changed": false,
+    "msg": "Good. Yoy have 43.851356506347656 Mb HDD free. It will serve"
+}
+ok: [instance_ubuntu] => {
+    "changed": false,
+    "msg": "Good. Yoy have 43.851322174072266 Mb HDD free. It will serve"
+}
+
+PLAY RECAP ******************************************************************************************************
+instance_alpine            : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+instance_centos            : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+instance_ubuntu            : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+
+PLAY [Converge] *************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************
+ok: [instance_alpine]
+ok: [instance_ubuntu]
+ok: [instance_centos]
+
+TASK [Include tests] ********************************************************************************************
+
+TASK [tests : Checking we have sudo with nopass] ****************************************************************
+ok: [instance_ubuntu]
+ok: [instance_alpine]
+ok: [instance_centos]
+
+TASK [tests : Checking repository URL's] ************************************************************************
+ok: [instance_centos] => (item=http://ftp.byfly.by/pub/CentOS/)
+ok: [instance_alpine] => (item=http://ftp.byfly.by/pub/CentOS/)
+ok: [instance_ubuntu] => (item=http://ftp.byfly.by/pub/CentOS/)
+ok: [instance_alpine] => (item=http://archive.ubuntu.com/ubuntu/)
+ok: [instance_centos] => (item=http://archive.ubuntu.com/ubuntu/)
+ok: [instance_ubuntu] => (item=http://archive.ubuntu.com/ubuntu/)
+ok: [instance_ubuntu] => (item=https://pypi.org/simple)
+ok: [instance_ubuntu] => (item=https://hub.docker.com/_/registry)
+ok: [instance_alpine] => (item=https://pypi.org/simple)
+ok: [instance_alpine] => (item=https://hub.docker.com/_/registry)
+ok: [instance_centos] => (item=https://pypi.org/simple)
+ok: [instance_centos] => (item=https://hub.docker.com/_/registry)
+
+TASK [tests : Output cheked repository] *************************************************************************
+ok: [instance_alpine] => {
+    "msg": "All items completed"
+}
+ok: [instance_centos] => {
+    "msg": "All items completed"
+}
+ok: [instance_ubuntu] => {
+    "msg": "All items completed"
+}
+
+TASK [tests : Check free RAM space (1GB)] ***********************************************************************
+ok: [instance_alpine] => {
+    "changed": false,
+    "msg": "Good. Yoy have 2.0244140625 Gb RAM free. It will serve"
+}
+ok: [instance_centos] => {
+    "changed": false,
+    "msg": "Good. Yoy have 2.033203125 Gb RAM free. It will serve"
+}
+ok: [instance_ubuntu] => {
+    "changed": false,
+    "msg": "Good. Yoy have 2.0283203125 Gb RAM free. It will serve"
+}
+
+TASK [tests : Check free HDD space (10GB)] **********************************************************************
+ok: [instance_alpine] => {
+    "changed": false,
+    "msg": "Good. Yoy have 43.85205078125 Mb HDD free. It will serve"
+}
+ok: [instance_centos] => {
+    "changed": false,
+    "msg": "Good. Yoy have 43.85205078125 Mb HDD free. It will serve"
+}
+ok: [instance_ubuntu] => {
+    "changed": false,
+    "msg": "Good. Yoy have 43.85205078125 Mb HDD free. It will serve"
+}
+
+PLAY RECAP ******************************************************************************************************
+instance_alpine            : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+instance_centos            : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+instance_ubuntu            : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+
+PLAY [Verify] ***************************************************************************************************
+
+TASK [Example assertion] ****************************************************************************************
+ok: [instance_ubuntu] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+ok: [instance_alpine] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+ok: [instance_centos] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY RECAP ******************************************************************************************************
+instance_alpine            : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+instance_centos            : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+instance_ubuntu            : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+
+PLAY [Destroy] **************************************************************************************************
+
+TASK [Destroy molecule instance(s)] *****************************************************************************
+changed: [localhost] => (item=instance_centos)
+changed: [localhost] => (item=instance_ubuntu)
+changed: [localhost] => (item=instance_alpine)
+
+TASK [Wait for instance(s) deletion to complete] ****************************************************************
+changed: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '262546535573.23979', 'results_file': '/home/owl/.ansible_async/262546535573.23979', 'changed': True, 'failed': False, 'item': {'image': 'docker.io/pycontribs/centos:7', 'name': 'instance_centos', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+changed: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '843787104521.24004', 'results_file': '/home/owl/.ansible_async/843787104521.24004', 'changed': True, 'failed': False, 'item': {'image': 'docker.io/pycontribs/ubuntu:latest', 'name': 'instance_ubuntu', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+changed: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '465904328083.24030', 'results_file': '/home/owl/.ansible_async/465904328083.24030', 'changed': True, 'failed': False, 'item': {'image': 'docker.io/pycontribs/alpine', 'name': 'instance_alpine', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+
+TASK [Delete docker network(s)] *********************************************************************************
+
+PLAY RECAP ******************************************************************************************************
+localhost                  : ok=2    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+

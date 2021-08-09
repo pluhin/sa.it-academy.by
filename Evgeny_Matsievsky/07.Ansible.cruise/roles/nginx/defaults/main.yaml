@@ -1,0 +1,11 @@
+default_home: "{{ '/var/www/html' if (ansible_distribution == 'Ubuntu') else '/usr/share/nginx/html' }}"
+
+
+site_on_ubuntu: "test_ubuntu.site"
+site_on_centos: "test_centos.site"
+
+virtual_hosts:
+  - { name: "{{ site_on_centos }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}
+  - { name: "{{ site_on_ubuntu }}", ip: "{{ hostvars[\"work_02\"].ansible_host }}"}
+
+nginx_config: /etc/nginx/conf.d/
