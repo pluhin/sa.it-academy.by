@@ -1,0 +1,32 @@
+---
+
+- name: Install Nginx
+  apt: 
+    name: nginx 
+    state: latest
+
+- name: Create the Nginx configuration file
+  template: src=jenkins.j2
+            dest=/etc/nginx/conf.d/jenkins.conf
+            backup=yes
+  notify: reload nginx
+
+- name: Ensure Nginx service is started
+  service: name=nginx state=started enabled=yes
+
+- name: Template for virtual_host
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+- name: Check template
+  shell: |
+    cat /etc/hosts
+  register: out
+  changed_when: false
+- name: print out
+  debug:
+    msg: "{{ out.stdout_lines }}"
