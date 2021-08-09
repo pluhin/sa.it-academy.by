@@ -1,0 +1,22 @@
+---
+dependency:
+  name: galaxy
+  
+driver:
+  name: docker
+  
+platforms:
+  - name: instance_centos
+    image: centos:latest
+
+  - name: instance_debian
+    image: debian:latest
+
+  - name: instance_alpine
+    image: alpine:latest
+
+provisioner:
+  name: ansible
+  
+verifier:
+  name: ansible
