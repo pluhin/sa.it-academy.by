@@ -1,0 +1,9 @@
+- name: Check connection to repos debian centos and pip
+  wait_for:
+    host: "{{ item }}"
+    port: "80"
+    timeout: 1
+  with_items:
+    - ftp.debian.org
+    - mirror.centos.org
+    - pypi.org

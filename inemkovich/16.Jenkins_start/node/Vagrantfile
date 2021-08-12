@@ -1,0 +1,21 @@
+$script = <<-SCRIPT
+yum -y install java-1.8.0-openjdk git -q
+useradd -d /var/lib/jenkins jenkins
+runuser -l jenkins -c 'echo -e "\n\n\n" | ssh-keygen -t rsa'
+runuser -l jenkins -c 'cat /tmp/authorized_keys > /var/lib/jenkins/.ssh/authorized_keys'
+chown jenkins:jenkins /var/lib/jenkins/.ssh/authorized_keys 
+chmod 600 /var/lib/jenkins/.ssh/authorized_keys
+rm -f /tmp/authorized_keys
+echo "Client done!"
+SCRIPT
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "centos/7"
+    config.vm.define "Jenkins_node"
+    config.vm.network "private_network", ip: "192.168.101.200" #, bridge: "enp3s0"
+    config.vm.provision "file", 
+        source: "authorized_keys", 
+        destination: "/tmp/authorized_keys"
+    config.vm.provision "shell", 
+        inline: $script
+end

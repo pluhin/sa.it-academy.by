@@ -1,0 +1,85 @@
+# 18.Jenkins.As_code
+
+
+## Jenkins
+
+```groovy
+
+pipeline {
+    agent {
+        node {
+            label "!master"
+        }
+    }
+    triggers { 
+        cron('H 2 * * 7')
+    }
+    stages {
+        stage('git clone') {
+            steps {
+               git url: 'git@github.com:AndreiAkhrymenko/test.git',
+                credentialsId: "ssh"
+            }
+        }
+            stage('network check') {
+            steps {
+                sh """
+                apt update
+                apt install -y nmap
+                apt install -y speedtest-cli
+                ip addr
+                nmap -sn 192.168.202.20-50 > Report.txt
+                speedtest-cli >> Report.txt
+                cat Report.txt
+                """
+            }
+        }
+        stage('git push') {
+            steps {
+                sh """
+                git add Report.txt
+                git config --global user.email "andreymailmail@mail.ru"
+                git config --global user.name "AndreiAkhrymenko"
+                git commit -m "add network report"
+                git push git@github.com:AndreiAkhrymenko/test.git
+                """
+                
+            }
+        }
+    }
+    post {
+        always {
+            deleteDir()
+        }
+    }
+}
+
+```
+
+## Report.txt
+
+```bash
+Starting Nmap 7.70 ( https://nmap.org ) at 2021-08-10 19:39 UTC
+Nmap scan report for 192.168.202.21
+Host is up (0.0013s latency).
+Nmap scan report for 192.168.202.27
+Host is up (0.0022s latency).
+Nmap scan report for 192.168.202.30
+Host is up (0.0022s latency).
+Nmap scan report for 192.168.202.39
+Host is up (0.0035s latency).
+Nmap scan report for 192.168.202.40
+Host is up (0.0035s latency).
+Nmap done: 31 IP addresses (5 hosts up) scanned in 2.43 seconds
+Retrieving speedtest.net configuration...
+Testing from COSMOS Telecom (178.172.195.18)...
+Retrieving speedtest.net server list...
+Selecting best server based on ping...
+Hosted by Beltelecom Minsk branch (Minsk) [0.29 km]: 2.785 ms
+Testing download speed................................................................................
+Download: 908.55 Mbit/s
+Testing upload speed......................................................................................................
+Upload: 885.23 Mbit/s
+
+```
+
