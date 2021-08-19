@@ -1,0 +1,31 @@
+---
+version: '3'
+services:
+  webserver_01:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webserver01
+    ports:
+      - "9090:80"
+    restart: always      
+  jenkins:
+    image: jfrog.it-academy.by/public/jenkins-ci:spishchyk
+    container_name: jenkins_ci_cd
+    user: jenkins
+    restart: always
+    volumes:
+      - ./jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8081:8080"
+networks:
+  bridge:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.27.0.0/16
+         gateway: 172.27.0.1
+         aux_addresses:
+           webserver_01: 172.27.0.2
+           jenkins: 172.27.0.3      
