@@ -7,7 +7,7 @@
 ![grafana](grafana.png)
 
 #### Prometheus
-![prometheus](orinetheus.png)
+![prometheus](prometheus.png)
 
 #### Slack notification
 ![slack](slack-alertmanager.png)
