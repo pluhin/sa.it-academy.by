@@ -1,0 +1,15 @@
+- hosts: work_hosts
+
+  tasks:
+
+    - name: Print OS information
+      debug:
+        msg: "OS: {{ ansible_distribution }} , Version: {{ ansible_distribution_version }}"
+
+    - name: Print mount information
+      debug:
+        msg: "Mount: {{ ansible_mounts[0].mount }} , Capacity: {{ ansible_mounts[0].size_total }} , Used: {{ ansible_mounts[0].size_total - ansible_mounts[0].size_available }}"
+
+    - name: Print RAM information
+      debug:
+        msg: "Total RAM: {{ ansible_memtotal_mb }} MB , Free RAM: {{ ansible_memfree_mb }} MB"

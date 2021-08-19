@@ -1,0 +1,301 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx1
+  template:
+    metadata:
+      labels:
+        app: nginx1
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+        - name: persistent-storage
+          mountPath: "/usr/share/nginx/html"       
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: home-app1-pv-claim         
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+  labels:
+    app: sonarr1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr1
+  template:
+    metadata:
+      labels:
+        app: sonarr1
+    spec:
+      containers:
+      - name: sonarr
+        image: hotio/sonarr
+        ports:
+        - containerPort: 8989
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: UMASK
+          value: "002"
+        - name: TZ
+          value: "Etc/UTC"
+        resources:
+          requests:
+            cpu: 500m
+            memory: 500Mi
+          limits:
+            cpu: 1000m
+            memory: 1000Mi
+        volumeMounts:
+        - name: persistent-storage
+          mountPath: "/config"       
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: home-app2-pv-claim 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  labels:
+    app: radarr1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr1
+  template:
+    metadata:
+      labels:
+        app: radarr1
+    spec:
+      containers:
+      - name: radarr
+        image: hotio/radarr
+        ports:
+        - containerPort: 7878
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: UMASK
+          value: "002"
+        - name: TZ
+          value: "Etc/UTC"
+        resources:
+          requests:
+            cpu: 500m
+            memory: 500Mi
+          limits:
+            cpu: 1000m
+            memory: 1000Mi
+        volumeMounts:
+        - name: persistent-storage
+          mountPath: "/config"       
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: home-app3-pv-claim 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    run: nginx-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: nginx1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonar-service
+  labels:
+    run: sonar-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8989
+    protocol: TCP
+  selector:
+    app: sonarr1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: radar-service
+  labels:
+    run: radar-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 7878
+    protocol: TCP
+  selector:
+    app: radarr1
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-home-sa
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: nginx.k8s-19.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nginx-service
+          servicePort: 80
+  - host: sonar.k8s-19.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: sonar-service
+          servicePort: 8989
+  - host: radar.k8s-19.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: radar-service
+          servicePort: 7878
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: home-app1-pv-volume
+  labels:
+    type: nfs
+    name: app1-nfs-vol
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-17-21/aakhrymenko
+    server: 192.168.37.105
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: home-app2-pv-volume
+  labels:
+    type: nfs
+    name: app2-nfs-vol
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-17-21/aakhrymenko/data_sonar
+    server: 192.168.37.105
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: home-app3-pv-volume
+  labels:
+    type: nfs
+    name: app3-nfs-vol
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-17-21/aakhrymenko/data_radar
+    server: 192.168.37.105
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: home-app1-pv-claim
+  labels:
+    app: nginx1
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      name: app1-nfs-vol
+      type: nfs
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: home-app2-pv-claim
+  labels:
+    app: sonarr1
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      name: app2-nfs-vol
+      type: nfs
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: home-app3-pv-claim
+  labels:
+    app: radarr1
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      name: app3-nfs-vol
+      type: nfs

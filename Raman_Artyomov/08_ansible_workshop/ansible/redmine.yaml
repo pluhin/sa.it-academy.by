@@ -1,0 +1,53 @@
+- hosts: work_shop_01
+  pre_tasks:
+  - debug:
+      msg: "{{ ansible_host }}"
+  roles:
+    - mysql
+    - redmine
+
+  tasks:
+  - name: "Add {{ app_fqdn }} to host file"
+    shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
+    tags: 
+      - test
+
+  - uri:
+      url: "http://{{ app_fqdn }}"
+      return_content: yes
+    register: this
+    failed_when: "'Jean-Philippe Lang' not in this.content"
+    tags:
+      - test
+
+  - name: Connectivity check
+    block:
+      - name: Checking
+        wait_for:
+          host: 'localhost'
+          port: 80
+          timeout: 3
+        register: out
+      - name: Cheked. Good
+        slack:
+          token: TFBPBNB2L/B0299KS1LJY/VJZdFzN0od6QbFKkeoX9P3IA
+          msg: "Redmine is upped. Good"
+          channel: "#test-artyomov"
+          username: "ansible sender"
+          parse: "full"
+    rescue:
+      - name: Cheked. Bad
+        slack:
+          token: 
+          msg: "Redmine down. Bad"
+          channel: "#test-artyomov"
+          username: "ansible sender"
+          parse: "full"
+
+  - lineinfile:
+      path: /etc/hosts
+      state: absent
+      regexp: '^127.0.0.1       {{ app_fqdn }}'
+    tags: 
+      - test
+      - always

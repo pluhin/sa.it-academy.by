@@ -1,0 +1,52 @@
+pipeline {
+  agent {
+    kubernetes {
+        containerTemplate {
+        name 'kubeval'
+        image 'garethr/kubeval:latest'
+        ttyEnabled true
+        command 'watch date'
+        }
+    }
+  }
+  stages {
+    stage('Clone repository') { 
+        steps { 
+                git url: 'https://github.com/WESTnik/19.Jenkins.git',
+                credentialsId: "github"
+        }
+    }
+    stage('Run kubeval in parallel') {
+        parallel {
+            stage('Check alertmanager.yaml') {
+                steps {
+                    container('kubeval') {
+                      sh """#!/bin/sh
+                        kubeval alertmanager.yaml
+                        
+                    """
+                    }
+                }
+            }
+            stage('Check ns.yaml') {
+                steps {
+                    container('kubeval') {
+                      sh """#!/bin/sh
+                        kubeval ns.yaml
+                        
+                    """
+                    }
+                }
+            }
+        }
+    }
+  }
+  post {
+    success {
+        slackSend (channel: "#100", color: "good", message: "SUCCESSFUL: Job '(${env.BUILD_URL})")
+        }
+    failure {
+        slackSend (channel: "#100", color: '#FF0000', message: "FAILED: Job '(${env.BUILD_URL})")
+        }
+    }
+}

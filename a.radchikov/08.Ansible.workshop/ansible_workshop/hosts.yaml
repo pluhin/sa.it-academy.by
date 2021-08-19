@@ -1,0 +1,19 @@
+work_site:
+  vars:
+    ansible_ssh_user: devops
+  children:
+    work_hosts:
+      hosts:
+        centos:
+          ansible_host: 10.10.10.102
+        ubuntu:
+          ansible_host: 10.10.10.101
+    workshop_hosts:
+      hosts:    
+        work_shop_15:
+          ansible_host: 10.10.10.103
+          ansible_ssh_user: root      
+jump:
+  hosts:
+    jump_host:
+      ansible_host: 200.200.200.229

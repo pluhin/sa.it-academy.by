@@ -5,19 +5,19 @@ ec_all:
     work_hosts:
       hosts:
         work_01:
-          ansible_host: 192.168.202.33
+          ansible_host: 192.168.202.1
         work_02:
-          ansible_host: 192.168.202.34
+          ansible_host: 192.168.202.2
     workshop_hosts:
       hosts:
         work_shop_01:
-          ansible_host: 192.168.201.17
+          ansible_host: 192.168.201.1
     k8s:
       hosts:
         k8s_01:
-          ansible_host: 192.168.203.33
+          ansible_host: 192.168.203.1
         k8s_02:
-          ansible_host: 192.168.203.34
+          ansible_host: 192.168.203.2
 jump:
   hosts:
     ec_jump:

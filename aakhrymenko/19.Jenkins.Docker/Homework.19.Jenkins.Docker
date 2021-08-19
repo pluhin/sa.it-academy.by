@@ -1,0 +1,225 @@
+# 19.Jenkins.Docker
+
+## Jenkins
+
+```groovy
+pipeline {
+     triggers { 
+        cron('H */2 * * *')
+    }
+  agent {
+    kubernetes {
+        containerTemplate {
+        name 'kubeval-test'
+        image 'cytopia/kubeval:latest'
+        ttyEnabled true
+        command 'watch date'
+        }
+    }
+  }
+  stages {
+       stage('git clone') {
+            steps {
+               git url: 'git@github.com:AndreiAkhrymenko/test.git',
+                credentialsId: "ssh"
+            }
+        }
+    stage('parallel') {
+    	parallel {
+    stage('git-check') {
+      steps {
+        container('kubeval-test'){
+            sh """#!/bin/sh 
+            kubeval ns.yaml
+            """ 
+            }
+        }
+        }
+      stage('git-check2') {
+      steps {
+        container('kubeval-test'){
+            sh """#!/bin/sh 
+            kubeval prometheus.yaml
+            """ 
+            }
+        }
+        }
+        }
+    }
+}
+post {
+    success {
+        slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '(${env.BUILD_URL})")
+        }
+    failure {
+        slackSend (color: '#FF0000', message: "FAILED: Job '(${env.BUILD_URL})")
+        }
+    }
+}
+
+```
+
+## LOG
+
+```
+Console Output
+
+Started by user admin
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] echo
+[WARNING] containerTemplate option is deprecated, use yaml syntax to define containers.
+[Pipeline] podTemplate
+[Pipeline] {
+[Pipeline] node
+Created Pod: kubernetes ci-cd/19-homework-17-cv4vx-85qmw-kgsrl
+[Normal][ci-cd/19-homework-17-cv4vx-85qmw-kgsrl][Scheduled] Successfully assigned ci-cd/19-homework-17-cv4vx-85qmw-kgsrl to node1
+[Normal][ci-cd/19-homework-17-cv4vx-85qmw-kgsrl][Pulled] Container image "cytopia/kubeval:latest" already present on machine
+[Normal][ci-cd/19-homework-17-cv4vx-85qmw-kgsrl][Created] Created container kubeval-test
+[Normal][ci-cd/19-homework-17-cv4vx-85qmw-kgsrl][Started] Started container kubeval-test
+[Normal][ci-cd/19-homework-17-cv4vx-85qmw-kgsrl][Pulled] Container image "jenkins/inbound-agent:4.3-4" already present on machine
+[Normal][ci-cd/19-homework-17-cv4vx-85qmw-kgsrl][Created] Created container jnlp
+[Normal][ci-cd/19-homework-17-cv4vx-85qmw-kgsrl][Started] Started container jnlp
+Agent 19-homework-17-cv4vx-85qmw-kgsrl is provisioned from template 19_Homework_17-cv4vx-85qmw
+---
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  annotations:
+    buildUrl: "http://jenkins:8080/job/19.Homework/17/"
+    runUrl: "job/19.Homework/17/"
+  labels:
+    jenkins: "slave"
+    jenkins/label-digest: "7f03f0408ef2e06acd8e4f6bc5e0f050bcebba87"
+    jenkins/label: "19_Homework_17-cv4vx"
+  name: "19-homework-17-cv4vx-85qmw-kgsrl"
+spec:
+  containers:
+  - command:
+    - "watch"
+    - "date"
+    image: "cytopia/kubeval:latest"
+    imagePullPolicy: "IfNotPresent"
+    name: "kubeval-test"
+    resources:
+      limits: {}
+      requests: {}
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  - env:
+    - name: "JENKINS_SECRET"
+      value: "********"
+    - name: "JENKINS_AGENT_NAME"
+      value: "19-homework-17-cv4vx-85qmw-kgsrl"
+    - name: "JENKINS_NAME"
+      value: "19-homework-17-cv4vx-85qmw-kgsrl"
+    - name: "JENKINS_AGENT_WORKDIR"
+      value: "/home/jenkins/agent"
+    - name: "JENKINS_URL"
+      value: "http://jenkins:8080/"
+    image: "jenkins/inbound-agent:4.3-4"
+    name: "jnlp"
+    resources:
+      limits: {}
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  nodeSelector:
+    kubernetes.io/os: "linux"
+  restartPolicy: "Never"
+  volumes:
+  - emptyDir:
+      medium: ""
+    name: "workspace-volume"
+
+Running on 19-homework-17-cv4vx-85qmw-kgsrl in /home/jenkins/agent/workspace/19.Homework
+[Pipeline] {
+[Pipeline] container
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (git clone)
+[Pipeline] git
+The recommended git tool is: NONE
+using credential ssh
+Warning: JENKINS-30600: special launcher org.csanchez.jenkins.plugins.kubernetes.pipeline.ContainerExecDecorator$1@461edbff; decorates RemoteLauncher[hudson.remoting.Channel@1c70366:JNLP4-connect connection from 10.233.90.99/10.233.90.99:52654] will be ignored (a typical symptom is the Git executable not being run inside a designated container)
+Cloning the remote Git repository
+Cloning repository git@github.com:AndreiAkhrymenko/test.git
+ > git init /home/jenkins/agent/workspace/19.Homework # timeout=10
+Fetching upstream changes from git@github.com:AndreiAkhrymenko/test.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+using GIT_SSH to set credentials ssh
+ > git fetch --tags --force --progress -- git@github.com:AndreiAkhrymenko/test.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision 9dc2baa4563caf2812b76b6edb9944def2fa81d6 (refs/remotes/origin/master)
+ > git config remote.origin.url git@github.com:AndreiAkhrymenko/test.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 9dc2baa4563caf2812b76b6edb9944def2fa81d6 # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b master 9dc2baa4563caf2812b76b6edb9944def2fa81d6 # timeout=10
+Commit message: "add network report"
+ > git rev-list --no-walk 9dc2baa4563caf2812b76b6edb9944def2fa81d6 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (parallel)
+[Pipeline] parallel
+[Pipeline] { (Branch: git-check)
+[Pipeline] { (Branch: git-check2)
+[Pipeline] stage
+[Pipeline] { (git-check)
+[Pipeline] stage
+[Pipeline] { (git-check2)
+[Pipeline] container
+[Pipeline] {
+[Pipeline] container
+[Pipeline] {
+[Pipeline] sh
+[Pipeline] sh
+PASS - ns.yaml contains a valid Namespace (monitoring)
+[Pipeline] }
+[Pipeline] // container
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+PASS - prometheus.yaml contains a valid ClusterRole (prometheus)
+PASS - prometheus.yaml contains a valid ClusterRoleBinding (prometheus)
+PASS - prometheus.yaml contains a valid ConfigMap (monitoring.prometheus-server-conf)
+PASS - prometheus.yaml contains a valid Deployment (monitoring.prometheus-deployment)
+PASS - prometheus.yaml contains a valid Service (monitoring.prometheus-service)
+PASS - prometheus.yaml contains a valid Ingress (monitoring.prometheus-ingres)
+[Pipeline] }
+[Pipeline] // container
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // parallel
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] slackSend
+Slack Send Pipeline step running, values are - baseUrl: https://hooks.slack.com/services/, teamDomain: sa-itacademy-by, channel: #aalarm, color: #00FF00, botUser: false, tokenCredentialId: slack, notifyCommitters: false, iconEmoji: <empty>, username: <empty>, timestamp: <empty>
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // container
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // podTemplate
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+
+
+```
+

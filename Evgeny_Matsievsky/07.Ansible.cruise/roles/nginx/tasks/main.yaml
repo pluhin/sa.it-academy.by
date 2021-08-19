@@ -1,0 +1,109 @@
+- name: Install nginx to CentOS
+  yum:
+    name=nginx
+    state=present
+  when:
+    ansible_distribution == "CentOS"
+  notify:
+    - nginx systemd
+    
+- name: Enable 80 port CentOS
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+  when:
+    ansible_distribution == "CentOS"
+    
+- name: Reload firewalld in CentOS
+  systemd:
+    name: firewalld
+    state: reloaded
+  when:
+    ansible_distribution == "CentOS"
+    
+- name: Install nginx to Ubuntu
+  apt:
+    name=nginx
+    state=present
+  when:
+    ansible_distribution == "Ubuntu"
+#    ansible_os_family == "Debian"
+  notify:
+    - nginx systemd
+    
+- name: Copy nginx config to all
+  template:
+    src: nginx_conf.j2
+    dest: "{{ nginx_config }}"
+  notify:
+    - nginx restart
+    
+- name: Copy index.html
+  copy:
+    src: index.html
+    dest: "{{ default_home }}"
+    owner: root
+    group: root
+    mode: '0775'
+  notify:
+    - nginx restart
+    
+- name: Copy hosts.j2
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+    
+- name: Check hosts file
+  shell: |
+    cat /etc/hosts
+  register: out_hosts
+  changed_when: false
+  
+- name: print out_hosts
+  debug:
+    msg: "{{ out_hosts.stdout_lines }}"
+    
+- name: Check nginx
+  uri:
+    url: "http://{{ item }}"
+    return_content: yes
+  with_items:
+    - test_ubuntu.site
+    - test_centos.site
+  register: out_site
+  
+- name: Print result check url
+  debug:
+    msg: "Status: {{ url_site.status }}"
+  loop: "{{ out_site.results }}"
+  loop_control:
+    loop_var: url_site
+    label: "{{ url_site.status }}"
+    pause: 2
+#  tags:
+#  - tests
+    
+- name: Check sudo no passwd
+  include: sudo_no_passwd.yaml
+#  tags:
+#  - tests 
+  
+- name: Check repo
+  include: rep.yaml
+#  tags:
+#  - tests
+  
+- name: Check docker
+  include: docker.yaml
+#  tags:
+#  - tests
+  
+- name: Check avalible RAM HDD
+  include: res.yaml
+#  tags:
+#  - tests
