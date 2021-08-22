@@ -57,7 +57,7 @@ data:
     receivers:
     - name: slack_alertmanager
       slack_configs:
-      - api_url: https://hooks.slack.com/services/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 
+      - api_url: https://hooks.slack.com/services/{SECRET_TOCKEN} 
         channel: '#test-artyomov'
         title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
         text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
