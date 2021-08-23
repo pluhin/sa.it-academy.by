@@ -10,7 +10,7 @@
 + [Wordpress site](https://wordpress.org/),[Wordpress docker hub](https://hub.docker.com/_/wordpress)
 
 #### Pipeline. High Level Design
-![plain]{plain.png}
+![plain](plain.png)
 
 #### Technologies which were used in project
 **Orchestration:** FluxCD
