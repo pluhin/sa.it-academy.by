@@ -20,7 +20,7 @@
 
 ## Pipeline. High Level Design
 
-![Image](Project_schema.png)
+![Image](Project_schema.PNG)
 
 ---
 
