@@ -63,7 +63,7 @@
   271  git cherry-pick hotfix/we_gonna_die
   272  history
 ```
-
+```
 #Commits list `master`
 
 25f91ea (HEAD -> master) Merge branch 'hotfix/we_gonna_die'
@@ -84,7 +84,6 @@ e4e334c Second commit
 
 #Commits list `features/do_one`
 
-
 679a07c (HEAD -> features/do_one) hotfix
 be41f03 First commit on features
 a13bf21 Second commit on dev
@@ -92,9 +91,7 @@ a13bf21 Second commit on dev
 e4e334c Second commit
 0dbd6c6 Init master and frist commit
 
-
 #Commits list `hotfix /we_gonna_die`
-
 
 33992ae (HEAD -> hotfix/we_gonna_die) hotfix
 e4e334c Second commit
