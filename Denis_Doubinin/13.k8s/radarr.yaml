@@ -1,0 +1,62 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  labels:
+    app: rad
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rad
+  template:
+    metadata:
+      labels:
+        app: rad
+    spec:
+      containers:
+      - name: radarr
+        image: linuxserver/radarr
+        ports:
+        - containerPort: 7878
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr-web-service
+  labels:
+    run: radarr-web-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 7878
+    protocol: TCP
+  selector:
+    app: rad
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:      
+  name: ingress-radarr
+spec:
+  rules:
+  - host: radarr.k8s-5.sa
+    http:
+      paths:
+      - pathType: Prefix        
+        path: "/"
+        backend:
+          service:
+            name: radarr-web-service
+            port:
+              number: 7878
+              

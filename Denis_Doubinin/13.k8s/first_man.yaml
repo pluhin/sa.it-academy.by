@@ -1,0 +1,140 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver
+  labels:
+    app: proxy-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proxy-web
+  template:
+    metadata:
+      labels:
+        app: proxy-web
+    spec:
+      containers:
+      - name: nginx
+        image: linuxserver/nginx
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 50m
+            memory: 50Mi
+        volumeMounts:
+        - name: config
+          mountPath: "/etc/nginx"
+        - name: website
+          mountPath: "/usr/share/nginx/html"     
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: conf-pv-claim
+      - name: website
+        persistentVolumeClaim:
+          claimName: web-pv-claim
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: conf-pv-volume
+  labels:
+    type: nfs
+    name: conf-nfs-vol
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-17-21/ddoubinin/config
+    server: 192.168.37.105
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: web-pv-volume
+  labels:
+    type: nfs
+    name: web-nfs-vol
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-17-21/ddoubinin/web
+    server: 192.168.37.105    
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: conf-pv-claim
+  labels:
+    app: proxy-web
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      name: conf-nfs-vol
+      type: nfs
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:        
+  name: web-pv-claim
+  labels:
+    app: proxy-web
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      name: web-nfs-vol
+      type: nfs
+---
+apiVersion: v1
+kind: Service
+metadata:        
+  name: proxy-web-service
+  labels:
+    run: proxy-web-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: proxy-web
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-site
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: nginx.k8s-5.sa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: proxy-web-service
+          servicePort: 80
