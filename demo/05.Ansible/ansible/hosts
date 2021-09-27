@@ -1,0 +1,6 @@
+[jump_sa]
+178.124.206.53 ansible_user="{{ jump_user }}"
+
+[work_sa]
+host21 ansible_host=192.168.202.21 ansible_user="{{ work_user }}"
+host22 ansible_host=192.168.202.22 ansible_user="{{ work_user }}"
