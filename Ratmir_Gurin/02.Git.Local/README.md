@@ -1,6 +1,7 @@
 # 02.Git.Local
-'''bash
-359  git init
+
+```bash
+  359  git init
   360  ls
   361  git status
   362  touch  1.txt
@@ -68,45 +69,44 @@
   424  git checkout features/do_one
   425  git cherry-pick 8458759
   426  git log --oneline --all
-'''
+```
 
-##Commits in branch master
+## Commits in branch master
 
-'''bash
+```bash
 34afbac (master) sixth commit hotfix/we_gonna_die branch 2.txt
 9285b02 add fifth commit features/do_one branch 4.txt
 b6090b1 fourth commit dev branch
 40ea2b1 third commit dev branch
 f0f39fc second commit master branch
 ff906f2 firat commit master branch
+```
 
-'''
+## Commits in branch dev
 
-##Commits in branch dev
-
-'''bash
+```bash
 215ae8b (dev) sixth commit hotfix/we_gonna_die branch 2.txt
 b6090b1 fourth commit dev branch
 40ea2b1 third commit dev branch
 f0f39fc second commit master branch
 ff906f2 firat commit master branch
-'''
+```
 
-##Commits in branch features/do_one
+## Commits in branch features/do_one
 
-'''bash
+```bash
 46fc9ee (HEAD -> features/do_one) sixth commit hotfix/we_gonna_die branch 2.txt
 9285b02 add fifth commit features/do_one branch 4.txt
 b6090b1 fourth commit dev branch
 40ea2b1 third commit dev branch
 f0f39fc second commit master branch
 ff906f2 firat commit master branch
-'''
+```
 
-##Commits in branch hotfix/we_gonna_die
+## Commits in branch hotfix/we_gonna_die
 
-'''bash
+```bash
 8458759 (hotfix/we_gonna_die) sixth commit hotfix/we_gonna_die branch 2.txt
 f0f39fc second commit master branch
 ff906f2 firat commit master branch
-'''
+```
