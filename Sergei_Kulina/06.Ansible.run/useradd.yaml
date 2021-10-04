@@ -1,0 +1,83 @@
+- name: Managed by ansible
+  hosts: work_sa_host 
+  tasks:
+    - name: Creating user  {{ user_to_add}}   
+      user:
+        name: "{{ user_to_add }}"
+        comment: User for test
+        generate_ssh_key: yes
+        ssh_key_file: .ssh/id_rsa
+        state: present
+
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: "{{ user_to_add }}"
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      ignore_errors: true
+
+    - name: Check user    
+      shell: |
+        grep "{{ user_to_add }}" /etc/passwd
+        date
+      register: out
+   
+    - debug:
+        msg: "{{ out.stdout_lines }}" 
+
+    - name: Nopasswd for command apt ubuntu
+      when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '{{ user_to_add }} ALL='
+        line: '{{ user_to_add}} ALL=(ALL) NOPASSWD: ALL'
+        validate: /usr/sbin/visudo -cf %s
+      
+      # ignore_errors: true
+
+    - name: Nopasswd for command yum centos
+      when: ansible_distribution == "CentOS" 
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '{{user_to_add }} ALL='
+        line: '{{user_to_add }} ALL=(ALL) NOPASSWD: ALL'
+        validate: /usr/sbin/visudo -cf %s
+      #ignore_errors: true
+
+    - name: test apt upgrade
+      when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+      become: true
+      #become_user: "{{ user_to_add}}"
+      become_method: sudo
+      apt:
+        name: "*"      
+        state: latest
+      register: result1
+ 
+    - name: test yum upgrade
+      when: ansible_distribution == "CentOS" 
+      become: yes
+      become_user: "{{ user_to_add }}"
+      become_method: sudo
+      yum:
+        name: "*"   
+        state: latest
+      register: result
+   
+       # ignore_errors: true
+
+    - name: check apt status
+      debug:
+        msg: "{{ result1 }}" 
+
+    - name: check yum status
+      debug:
+        msg: "{{ result }}"
+
+    - name: remove {{ user_to_add }} 
+      user:
+        name: " {{ user_to_add }}"     
+        state: absent   
+      tags: remove      
