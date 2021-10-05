@@ -48,8 +48,9 @@
 
     - name: test apt upgrade
       when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
-      become: true
-      #become_user: "{{ user_to_add}}"
+      remote_user: "{{ user_to_add }}"
+      become: yes
+      #become_user: "{{ user_to_add }}"
       become_method: sudo
       apt:
         name: "*"      
