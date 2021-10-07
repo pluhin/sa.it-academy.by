@@ -1,0 +1,56 @@
+- hosts: all_work_hosts
+  tasks:
+  - name: print variables
+    debug:
+      msg: "{{ user_add }}"
+
+
+  - name: Add the user "{{ user_add }}"
+    user:
+      name: "{{ user_add }}"
+      state: present
+
+
+  - name: Add SSH-Key
+    authorized_key:
+      user: "{{ user_add }}"
+      key: "{{ lookup('file','~/.ssh/id_rsa.pub') }}"
+      state: present
+
+
+  - name: add "{{ user_add }}" to visudo
+    when: ansible_distribution == 'Ubuntu'
+    lineinfile:
+      path: "/etc/sudoers"
+      regexp: "{{ user_add }}"
+      line: "{{ user_add }} ALL=(ALL) NOPASSWD: /usr/bin/apt-get up*"
+      state: present
+
+
+
+  - name: add "{{ user_add }}" to visudo
+    when: ansible_distribution == 'CentOS'
+    lineinfile:
+      path: "/etc/sudoers"
+      regexp: "{{ user_add }}"
+      line: "{{ user_add }} ALL=(ALL) NOPASSWD: /usr/bin/yum up*"
+      state: present
+
+
+
+  - name: Check create user
+    shell: |
+      grep "{{ user_add }}" /etc/passwd
+      grep "{{ user_add }}" /etc/sudoers
+      date +%F\ %T
+    register: out
+  - debug:
+      msg: "{{ out.stdout }}"
+
+
+
+  - name: Remove the user "{{ user_add }}"
+    user:
+      name: "{{ user_add }}"
+      state: absent
+      remove: yes
