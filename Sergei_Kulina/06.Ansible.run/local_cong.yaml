@@ -1,0 +1,17 @@
+- hosts: all 
+  tasks:
+    - name: OS/Realese version
+      debug:
+        msg: " OS: {{ ansible_distribution }} Realese: {{ ansible_distribution_version }} "
+    - name: Mount point
+      debug:
+        msg: " Mount point: {{ansible_mounts[0].mount }} Capacity: {{ ansible_mounts[0].size_total/1024/1024 }} Mb Used: {{ ansible_mounts[0].block_used * ansible_mounts[0].block_size/1024/1024 }} Mb "
+    - name:
+      debug:
+        msg: " RAM total mb: {{ ansible_memtotal_mb }} RAM free mb: {{ ansible_memfree_mb }} "
+
+
+
+
+
+     
