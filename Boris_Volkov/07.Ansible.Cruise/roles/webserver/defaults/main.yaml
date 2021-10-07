@@ -1,0 +1,19 @@
+apt_nginx_packages: 
+  - nginx
+yum_nginx_packages:
+  - nginx
+  - libsemanage-python
+  - libselinux-python
+
+vhosts_ubuntu:
+  - ubuntu-1.site
+  - ubuntu-2.site
+vhosts_cent:
+  - centos-1.site
+  - centos-2.site
+
+sites:
+  - { name: "{{ vhosts_ubuntu[0] }}", ip: "{{ hostvars[\"server2_u\"].ansible_host }}" }
+  - { name: "{{ vhosts_ubuntu[1] }}", ip: "{{ hostvars[\"server2_u\"].ansible_host }}" }
+  - { name: "{{ vhosts_cent[0] }}", ip: "{{ hostvars[\"server1_c\"].ansible_host }}" }
+  - { name: "{{ vhosts_cent[1] }}", ip: "{{ hostvars[\"server1_c\"].ansible_host }}" }
