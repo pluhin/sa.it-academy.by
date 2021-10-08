@@ -6,20 +6,10 @@
 
 
 
-- hosts: host12
+- hosts: all_work_hosts
   become: true
   become_method: sudo
   become_user: root
   remote_user: ansible
   roles:
-    - nginx
-
-
-- hosts: host11
-  become: true
-  become_method: sudo
-  become_user: root
-  remote_user: ansible
-  roles:
-    - epel
     - nginx
