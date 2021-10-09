@@ -1,0 +1,17 @@
+
+- name: Installation of NGINX packages
+  apt:
+    name: "{{ apt_nginx_packages }}"
+    state: present
+    update_cache: yes
+
+- name: Removing of default site
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+
+- name: Enabling and service starting
+  service:
+    name: nginx
+    state: started
+    enabled: yes

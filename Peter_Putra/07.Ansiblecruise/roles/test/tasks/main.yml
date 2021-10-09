@@ -1,0 +1,39 @@
+---
+- name: Check 1 (SUDO with NOPASSWD)
+  command: "true"
+  become: yes
+  become_method: sudo
+  register: result
+  changed_when: false
+
+- name: Check 2 (connections to public repositories)
+  wait_for:
+    host: "{{ item }}"
+    timeout: 1
+  with_items: "{{ repos }}"
+
+- name: Check 3 (connection to docker hub registry)
+  uri:
+    url: "{{ docker_hub }}"
+    return_content: yes
+  register: out
+
+- name: Print_output
+  debug:
+    msg: "Status: {{ out.status, out.url, out.msg }}"
+
+- name: Check 4 (RAM)
+  assert:
+    that:
+      - ansible_memtotal_mb >= 1024
+    fail_msg: "Not enough RAM. Total RAM {{ ansible_memtotal_mb }} Mb."
+    success_msg: "OK. Total RAM : {{ ansible_memtotal_mb }} Mb"
+
+- name: Check 5 (HDD)
+  vars:
+    - hdd: " {{ ( ansible_facts.mounts[0].size_available / 10 | pow (9) ) | round(2,'ceil') }}"
+  assert:
+    that:
+      - hdd | int  >= 2
+    fail_msg: "Not enough free disk space. Available {{ hdd }} GB."
+    success_msg: "OK. Free disk space {{ hdd }} GB."

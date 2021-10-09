@@ -1,0 +1,6 @@
+- hosts: servers
+  roles: 
+    - role: webserver
+      become: yes
+    - role: test
+
