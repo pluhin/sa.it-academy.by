@@ -1,0 +1,2 @@
+ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53"'
+slack_token: TFBPBNB2L/B02EW16JA5V/MbyS7ZKrqrTAVTqLWaICDiG2
