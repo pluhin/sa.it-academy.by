@@ -1,0 +1,51 @@
+
+PLAY [work_hosts] ********************************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************************
+ok: [host12]
+ok: [host11]
+
+TASK [testing : SUDO NOPASS] *********************************************************************************************************
+ok: [host11]
+ok: [host12]
+
+TASK [testing : URL] *****************************************************************************************************************
+ok: [host11] => (item=https://unet.by/local)
+ok: [host12] => (item=https://unet.by/local)
+ok: [host11] => (item=https://www.onliner.by)
+ok: [host12] => (item=https://www.onliner.by)
+ok: [host12] => (item=https://www.playground.ru)
+ok: [host11] => (item=https://www.playground.ru)
+
+TASK [testing : Repository] **********************************************************************************************************
+ok: [host11] => {
+    "msg": "All items completed"
+}
+ok: [host12] => {
+    "msg": "All items completed"
+}
+
+TASK [testing : RAM 256mb] ***********************************************************************************************************
+ok: [host11] => {
+    "changed": false,
+    "msg": "OK 3.3408203125"
+}
+ok: [host12] => {
+    "changed": false,
+    "msg": "OK 3.68359375"
+}
+
+TASK [testing : HDD 100mb] ***********************************************************************************************************
+ok: [host11] => {
+    "changed": false,
+    "msg": "OK 19054.73536"
+}
+ok: [host12] => {
+    "changed": false,
+    "msg": "OK 18821.7344"
+}
+
+PLAY RECAP ***************************************************************************************************************************
+host11                     : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+host12                     : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+

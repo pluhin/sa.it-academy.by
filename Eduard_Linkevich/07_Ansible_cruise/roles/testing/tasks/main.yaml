@@ -1,0 +1,31 @@
+---
+- name: SUDO NOPASS
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: URL
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  register: out_urls
+  with_items: "{{ test_urls }}"
+
+- name: Repository
+  debug:
+    msg: "{{ out_urls.msg }}"
+
+- name: RAM 256mb
+  assert:
+    that:
+      - ansible_memory_mb.real.free | int >= 256
+    fail_msg: "NOK {{ ansible_memory_mb.real.free / 1024 }}"
+    success_msg: "OK {{ ansible_memory_mb.real.free / 1024 }}"
+
+- name: HDD 100mb
+  assert:
+    that:
+      - ansible_mounts[0].size_available | int >= 100
+    fail_msg: "NOK {{ ansible_mounts[0].size_available / 100 / 100 / 100 }}"
+    success_msg: "OK {{ ansible_mounts[0].size_available / 100 / 100 / 100 }}"
