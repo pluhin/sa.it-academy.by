@@ -1,0 +1,18 @@
+---
+- name:  Deploy for Debian OS famaly
+  include: http_deb.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Deploy for REdhat Famaly
+  include: http_red.yaml
+  when: ansible_os_family == 'RedHat'
+- name: Setup virtual host
+  include: vhost.yaml
+ 
+- name: Create index.html vhost
+  include: index.yaml
+
+
+  
+
+

@@ -1,0 +1,6 @@
+---
+- hosts: work_sa_host
+  roles:
+    - web_ngix
+    
+
