@@ -1,0 +1,23 @@
+- hosts: all_work_hosts
+  vars:
+    var_01: "hello"
+    var_02: "world"
+  tasks:
+    - name: print variables
+      debug:
+        msg: "{{ var_01 }} | {{ var_02 }}"
+      tags:
+        - never
+
+    - name: Print OS information
+      debug:
+        msg: "OSNAme: {{ ansible_facts['distribution'] }}, OSVersion: {{ ansible_facts['distribution_version'] }}"
+
+    - name: Print Mount information
+      debug:
+        msg: "Mount: {{ ansible_facts['mounts'][0].mount }}, Volume: {{ ansible_facts['mounts'][0].size_total }}, Used: {{ ansible_facts['mounts'][0].size_total - ansible_facts['mounts'][0].size_available }}"
+        #msg: "{{ ansible_facts['mounts'][0].size_available }}"
+
+    - name: Print RAM information
+      debug:
+        msg: "RAM: {{ ansible_memtotal_mb }}, FREE_RAM: {{ ansible_memfree_mb }}"
