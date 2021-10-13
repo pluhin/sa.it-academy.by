@@ -1,0 +1,51 @@
+$ docker build . > build.log
+#1 [internal] load build definition from Dockerfile
+#1 sha256:4e4673b8b216582a6a630b09f53c349148ef2d091e10a7489287ea98a01baa54
+#1 transferring dockerfile: 32B done
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 sha256:7b797bb700ddb22e507cb033826cb8caf19850ac1b4fc0aa8fed98749b063156
+#2 transferring context: 2B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.8
+#3 sha256:edad251955f644c6004999f0af04035912392fa02db26821676452becbc715fb
+#3 DONE 1.6s
+
+#4 [1/6] FROM docker.io/library/python:3.8@sha256:5f6e589bf633cb4f82ab9b805df6075d422dc2ec09b4c1f3bce27f12aadd8416
+#4 sha256:3202798da20af033a54f7b4f43da306c383198ed88967cadf4b1f11ba33201be
+#4 DONE 0.0s
+
+#6 [internal] load build context
+#6 sha256:6c105a47a74159519810a501d31e5fe6d5bea03ce8188b7ac270887917055f6e
+#6 transferring context: 704B done
+#6 DONE 0.0s
+
+#5 [2/6] WORKDIR /app
+#5 sha256:3d4e6435516ffbf07702cc33b4fa5bbd5f7cb8e79d92d52a40514de77f3f0070
+#5 CACHED
+
+#7 [3/6] COPY ./requirements.txt ./
+#7 sha256:1813010194d3e01b7a2dc30eaa235dd549ac373f769c5ca8d3230e43a967680f
+#7 CACHED
+
+#8 [4/6] RUN pip3 install -r ./requirements.txt
+#8 sha256:ceb67716190636163fbfbab6ab43b86618d516c9b2cc0a516e98ac5c382a6dc3
+#8 CACHED
+
+#9 [5/6] COPY . /app
+#9 sha256:3326a5aa0b69c4ac1c573f25d373cc050d2606f6576fcc5b71b9450b361eed31
+#9 DONE 0.0s
+
+#10 [6/6] WORKDIR /app
+#10 sha256:f47fb747ed0ffa32efbab578a258e37d8c43406f418d64736c70287982bddbf1
+#10 DONE 0.0s
+
+#11 exporting to image
+#11 sha256:e8c613e07b0b7ff33893b694f7759a10d42e180f2b4dc349fb57dc6b71dcab00
+#11 exporting layers 0.0s done
+#11 writing image sha256:76169c5fa033b24931e2f6df381c6c20f3c8f35057aa65317903e5afc4163504 done
+#11 DONE 0.0s
+
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
