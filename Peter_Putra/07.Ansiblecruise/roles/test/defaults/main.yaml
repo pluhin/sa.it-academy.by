@@ -1,0 +1,7 @@
+---
+repos:
+  - http://mirror.datacenter.by/pub/CentOS/
+  - ftp.by.debian.org
+  - https://pypi.org/
+
+docker_hub: "https://hub.docker.com/_/registry"

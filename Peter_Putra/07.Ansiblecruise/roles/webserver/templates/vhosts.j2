@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+
+server {
+listen 80;
+root /var/www/{{ temp_vhost }}/html; # The path to the website files
+index index.html index.htm;
+server_name {{ temp_vhost }};
+location / {
+try_files $uri $uri/ =404;
+}
+}

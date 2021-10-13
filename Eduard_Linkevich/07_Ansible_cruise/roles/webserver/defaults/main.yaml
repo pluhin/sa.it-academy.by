@@ -1,0 +1,9 @@
+---
+site_deb: "local-deb.site"
+site_cent: "local-cent.site"
+
+html_home: "{{ '/var/www/html' if (ansible_os_family == 'Debian') else '/usr/share/nginx/html' }}"
+
+virtual_hosts:
+  - { name: "{{ site_cent }}", ip: "{{ hostvars[\"host11\"].ansible_host }}"}
+  - { name: "{{ site_deb }}", ip: "{{ hostvars[\"host12\"].ansible_host }}"}

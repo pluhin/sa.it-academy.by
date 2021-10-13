@@ -1,0 +1,48 @@
+---
+- name: Copy or Replace Page
+  copy:
+    src: index.html
+    dest: "{{ html_home }}"
+    owner: root
+    group: root
+    mode: '0755'
+  notify:
+    - restart nginx
+
+- name: Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: print out
+  debug:
+    msg: "{{ out }}"
+
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: out2
+  failed_when: "'Hello' not in out2.content"
+  tags:
+  - tests
+
+- name: print out2
+  debug:
+    msg: "{{ out2 }}"
+  tags:
+  - tests

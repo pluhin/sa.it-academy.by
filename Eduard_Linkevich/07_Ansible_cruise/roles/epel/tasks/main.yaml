@@ -1,0 +1,5 @@
+---
+- name: Install EPEL Repo
+  yum:
+    name=epel-release
+    state=present
