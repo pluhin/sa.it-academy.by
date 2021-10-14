@@ -1,0 +1,21 @@
+jump_sa:
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.53
+      ansible_user: jump_sa
+
+all_workers:
+  vars:
+    ansible_user: root
+    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53"'
+  children:
+    ansible_ws:
+      hosts:
+        redmine:
+          ansible_host: 192.168.201.9
+    work_sa:
+      hosts:
+        host21:
+          ansible_host: 192.168.202.17
+        host22:
+          ansible_host: 192.168.202.18
