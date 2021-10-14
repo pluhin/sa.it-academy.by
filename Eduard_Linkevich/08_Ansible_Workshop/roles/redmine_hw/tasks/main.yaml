@@ -1,0 +1,83 @@
+---
+- name: Redmine. Install packages
+  apt:
+    name: "{{ apt_redmine_packages }}"
+    state: latest
+    update_cache: yes
+
+
+- name: Redmine. Clone repository
+  git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_home }}"
+    version: '{{ app_version }}'
+    accept_hostkey: yes
+    update: no
+
+- name: Redmine. Change permissions
+  file:
+    path: "{{ app_home }}/public"
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: Redmine. Change permissions
+  file:
+    path: "{{ app_home }}/tmp"
+    mode: '777'
+    recurse: yes
+
+
+- name: Copy db.properties
+  copy:
+    src: "/opt/db/config/database.yaml"
+    dest: "{{ app_home }}/config/database.yml"
+    remote_src: yes
+
+
+- name: Redmine. Setup 01
+  shell: |
+    gem install bundler
+    bundle update
+  args:
+    executable: /bin/bash
+    chdir: "{{ app_home }}"
+  tags:
+    - setup
+
+- name: Session store secret generation
+  shell: rake generate_secret_token
+  args:
+    chdir: "{{ app_home }}"
+    creates: "{{ app_home }}/config/initializers/secret_token.rb"
+  tags:
+    - setup
+
+
+- name: Redmine. Setup 02
+  shell: |
+    bundle exec rake db:migrate RAILS_ENV=production
+    bundle exec rake redmine:plugins:migrate RAILS_ENV=production
+    bundle install --without development test
+    RAILS_ENV=production rake db:migrate
+    RAILS_ENV=production REDMINE_LANG='{{ app_lang }}' rake redmine:load_default_data
+  args:
+    chdir: "{{ app_home }}"
+  tags:
+    - setup
+
+- name: Clean apache config
+  file:
+    path: "/etc/apache2/sites-enabled/redmine.site.conf"
+    state: absent
+  tags:
+    - never
+
+- name: Configuration files for virtualhost
+  template:
+    src: redmine_hw.site.conf
+    dest: "/etc/apache2/sites-enabled/redmine.site.conf"
+  notify:
+    - apache restart
+
+- meta: flush_handlers

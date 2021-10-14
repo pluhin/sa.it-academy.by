@@ -1,0 +1,7 @@
+### {{ ansible_managed }}
+production:
+  adapter: mysql2
+  database: redmine_ws
+  host: 127.0.0.1
+  username: redmine_ws
+  password: redmine_ws
