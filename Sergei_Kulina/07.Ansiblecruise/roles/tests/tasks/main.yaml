@@ -1,0 +1,36 @@
+---
+- name: Check  SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check connections to public
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  loop: "{{ repos }}"
+  register: repo
+
+- name: print status connection
+  debug:
+    msg: "{{ repo.msg }}"
+
+- name: check connection Docker hub
+  uri: 
+    url: https://hub.docker.com/
+    return_content: yes 
+  register: dock
+
+- name: print status connection 
+  debug: 
+    msg: "{{ dock.content }}"
+
+- name:  check RAM
+  debug: 
+    msg: "{% if ansible_memfree_mb >= 1024 %} RAM available on '{{ inventory_hostname }}' Good 
+      {% else %} RAM available on '{{inventory_hostname}}' is not Good!!{% endif %}"
+
+- name: Check disk space
+  debug: 
+    msg: "{% if ansible_mounts[0].size_available/1024/1024 >= 350 %} Disk space  aviable on '{{ inventory_hostname }}'Good  {% else %} Clean Disk  space  '{{inventory_hostname}}' !! {% endif %}"

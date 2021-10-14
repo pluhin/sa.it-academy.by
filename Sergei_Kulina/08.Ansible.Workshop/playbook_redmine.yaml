@@ -1,0 +1,62 @@
+- hosts: all
+  vars_files: roles/mysql/defaults/main.yaml
+
+  pre_tasks:
+    - name: where are you
+      debug:
+         msg: "{{ ansible_host }}"
+
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: "{{ ansible_ssh_user }}"
+        state: present
+        key: "{{ item }}"
+      with_items:
+      - "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      tags:
+        - never
+
+    - name: Install packages
+      apt:
+        name: "{{ apt_redmine_packages }}"
+        state: latest
+        update_cache: yes
+    
+  roles:
+   - mysql
+   - redmine
+  tasks: 
+    - name: Clean apache config
+      file:
+        path: "/etc/apache2/sites-enabled/redmine.site.conf"
+        state: absent
+      tags:
+        - never
+
+    - name: "Add {{ app_fqdn }} to host file"
+      shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
+      tags:
+        - test
+
+    - name: Check deploy
+      block:
+         - uri:
+             url: "http://{{ app_fqdn }}"
+             return_content: yes
+           register: this
+           failed_when: "'Jean-Philippe Lang' not in this.content"
+      rescue:
+        - name: Send notification
+          debug:
+            msg: " {{ ansible_host }} Deploy failed"
+      tags:
+        - test
+  
+    - lineinfile:
+        path: /etc/hosts
+        state: absent
+        regexp: '^127.0.0.1       {{ app_fqdn }}'
+      tags:
+        - test
+        - always
+

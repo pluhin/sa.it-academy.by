@@ -1,0 +1,23 @@
+---
+- name: Install Nginx server Debian
+  apt: 
+    name: "{{ apt_http_packages }}" 
+    state: latest
+    update_cache: yes
+    
+- name: service enable & start debian
+  service: 
+    name: nginx
+    state: started
+    enabled: yes
+
+#- name: Enable firewall port debian
+#  firewalld:
+#    port: 80/tcp
+#    permanent: yes
+#    state: enabled
+
+#- name: Reload service firewall debian
+#  systemd:
+#    name: firewalld
+#    state: reloaded
