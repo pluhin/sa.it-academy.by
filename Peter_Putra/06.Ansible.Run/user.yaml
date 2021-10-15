@@ -1,0 +1,52 @@
+- hosts: "{{ group }}"
+  become: yes
+  tasks:
+  - name: Print variable
+    debug:
+      msg: "You requested user {{ user_to_add }}"
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      comment: Managed by ansible
+      state: present
+  - name: "Add authorized keys"
+    authorized_key:
+      user: "{{ user_to_add }}"
+      key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  - name: Check
+    shell: |
+      grep "{{ user_to_add }}" /etc/passwd
+      date
+    register: out
+  - debug:
+      msg: "{{ out.stdout_lines }}"
+  - name: Create /etc/sudoers.d/user file
+    ansible.builtin.file:
+      path: /etc/sudoers.d/{{ user_to_add }}
+      state: touch
+      mode: '0440'
+      owner: root
+      group: root
+  - name: Add to sudoers Ubuntu
+    shell: |
+      echo "{{ user_to_add }} ALL=(ALL:ALL) NOPASSWD: /usr/bin/apt" > /etc/sudoers.d/{{ user_to_add }}
+    when: ansible_facts['distribution'] == "Ubuntu"
+
+  - name: Add to sudoers CentOS
+    shell: |
+      echo "{{ user_to_add }} ALL=(ALL:ALL) NOPASSWD: /usr/bin/yum" > /etc/sudoers.d/{{ user_to_add }}
+    when: ansible_facts['distribution'] == "CentOS"
+  - name: Upgrade Ubuntu by "{{ user_to_add }}"
+    shell: |
+      sudo apt upgrade
+    when: ansible_facts['distribution'] == "Ubuntu"
+    become_user: "{{ user_to_add }}"
+  - name: Upgrade CentOS by "{{ user_to_add }}"
+    shell: |
+      sudo yum upgrade
+    when: ansible_facts['distribution'] == "CentOS"
+    become_user: "{{ user_to_add }}"
+  - name: Remove user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      state: absent

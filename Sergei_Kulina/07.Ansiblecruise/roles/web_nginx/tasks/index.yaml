@@ -1,0 +1,50 @@
+- name: Create index.html
+  template:
+    src: "index.html.j2"
+    dest: "{{ default_home }}/index.html"
+    owner: root
+    group: root
+    mode: '0755'
+    backup: yes
+  with_items: " {{ virtual_hosts }}"
+  when: (ansible_os_family == "RedHat" and "cent" in item.name) or
+        (ansible_os_family == "Debian" and "deb" in item.name)
+  notify:
+    - restart nginx 
+#- name: Check create index.html
+#  shell: |
+#    cat "{{ default_home }}"
+#  register: out1
+
+#- name: print out
+#  debug:
+#    msg: "{{ out1 }}"
+
+- name: Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: print out
+  debug:
+    msg: "{{ out }}"
+
+- name: Check content creat site
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: test
+#  failed_when: "'Website' not in this.content"
+  tags:
+    - tests
+- name: print out
+  debug: 
+    msg:
+      - "{{ test.results[0].content }}"
+      - "{{ test.results[1].content }}"
+  tags:
+    - tests

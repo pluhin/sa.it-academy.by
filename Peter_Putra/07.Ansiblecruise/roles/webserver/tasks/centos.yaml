@@ -1,0 +1,36 @@
+
+- name: Epel_rep
+  yum:
+    name: epel-release
+    state: present
+    update_cache: yes
+  tags:
+  - tests
+- name: Installing Nginx packages
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+  tags:
+  - tests
+
+- name: Removing of default site
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+
+- name: Enabling and service starting
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Enabling firewall 
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+
+- name: Firewall reload
+  systemd:
+    name: firewalld
+    state: reloaded 

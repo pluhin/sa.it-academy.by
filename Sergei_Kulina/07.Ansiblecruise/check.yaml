@@ -1,0 +1,3 @@
+- hosts: work_sa_host
+  roles:
+    - tests

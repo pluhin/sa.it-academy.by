@@ -1,0 +1,9 @@
+[0;1;32m●[0m docker.service - Docker Application Container Engine
+   Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
+   Active: [0;1;32mactive (running)[0m since Mon 2021-10-11 08:15:32 +03; 39min ago
+     Docs: https://docs.docker.com
+ Main PID: 947 (dockerd)
+    Tasks: 9
+   Memory: 118.3M
+   CGroup: /system.slice/docker.service
+           └─947 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock

@@ -1,0 +1,32 @@
+---
+- name: Install Mysql
+  apt:
+    name=mysql-server
+    state=latest
+    name=mysql-client
+    state=latest
+
+- mysql_db:
+    name: "redmine_ws"
+    encoding: utf8
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+
+- mysql_user:
+    name: "redmine_ws"
+    password: "redmine_ws"
+    priv: "redmine_ws.*:ALL"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: yes
+
+
+- name: Creates directory
+  file:
+    path: /opt/db/config/
+    state: directory
+
+- name: Templates
+  template:
+    src: database.yaml
+    dest: /opt/db/config/database.yaml
+

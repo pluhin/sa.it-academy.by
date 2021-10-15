@@ -1,0 +1,15 @@
+- hosts: all_work_hosts
+  tasks:
+    - name: Print OS information
+      debug:
+        msg: "OSNAme: {{ ansible_facts['distribution'] }}, OSFamily: {{ ansible_facts['distribution_file_variety'] }}"
+
+
+
+- hosts: all_work_hosts
+  become: true
+  become_method: sudo
+  become_user: root
+  remote_user: ansible
+  roles:
+    - nginx

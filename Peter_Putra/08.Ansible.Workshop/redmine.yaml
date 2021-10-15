@@ -1,0 +1,36 @@
+- hosts: redmine
+  vars_files: vars/config.yaml
+
+  pre_tasks:
+  - debug:
+      msg: "{{ ansible_host }}"
+
+  roles:
+    - mysql
+    - redmine
+
+  tasks:
+    - name: "Add {{ app_fqdn }} to host file"
+      shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
+      tags:
+        - test
+
+    - name: Redmine deployment check
+      block:
+        - name: Content
+          uri:
+            url: "http://{{ app_fqdn }}"
+            return_content: yes
+          register: this
+          failed_when: "'Jean-Philippe Lang' not in this.content"
+          tags:
+            - test
+
+    - name: "Remove {{ app_fqdn }} from host file"
+      lineinfile:
+        path: /etc/hosts
+        state: absent
+        regexp: '^127.0.0.1       {{ app_fqdn }}'
+      tags:
+        - test
+        - always

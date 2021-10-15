@@ -1,0 +1,36 @@
+- name: CentOS. Epel repo
+  yum:
+    name: epel-release
+    state: present
+    update_cache: yes
+  tags:
+  - tests
+- name: NGINX. Install packages
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+  tags:
+  - tests
+
+- name: NGINX. Remove default site
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+
+- name: NGINX. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: NGINX. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+
+- name: NGINX. reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+
