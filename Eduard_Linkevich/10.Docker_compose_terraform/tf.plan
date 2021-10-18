@@ -1,0 +1,275 @@
+[0m[1mdocker_image.sonarr: Refreshing state... [id=sha256:030f350092dfb744d9435b8ae5165239411255e3279453e3b7cc83b59a08b392linuxserver/sonarr][0m
+[0m[1mdocker_image.apache2: Refreshing state... [id=sha256:25e8adc2e5f272e504e92e8dee68a444aa75ed96b36ca222ff61a782a1550d58ubuntu/apache2][0m
+[0m[1mdocker_image.radarr: Refreshing state... [id=sha256:040acfe07efced14a30c3992ff559b883c6920800b2f291f7f28650d3857860dlinuxserver/radarr][0m
+[0m[1mdocker_container.apache2: Refreshing state... [id=22fa0ceb37fdd6a069ac51d3bd2dc16031dd79e850dc2415b22c0a79e8851b2f][0m
+[0m
+[1m[36mNote:[0m[1m Objects have changed outside of Terraform[0m
+
+[0mTerraform detected the following changes made outside of Terraform since the
+last "terraform apply":
+
+[1m  # docker_container.apache2[0m has been deleted[0m[0m
+[0m  [31m-[0m[0m resource "docker_container" "apache2" {
+      [31m-[0m [0m[1m[0mattach[0m[0m            = false [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mcommand[0m[0m           = [
+          [31m-[0m [0m"apache2-foreground",
+        ] [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mcpu_shares[0m[0m        = 0 [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mentrypoint[0m[0m        = [] [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0menv[0m[0m               = [] [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mgateway[0m[0m           = "172.17.0.1" [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mhostname[0m[0m          = "22fa0ceb37fd" [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mid[0m[0m                = "22fa0ceb37fdd6a069ac51d3bd2dc16031dd79e850dc2415b22c0a79e8851b2f" [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mimage[0m[0m             = "sha256:25e8adc2e5f272e504e92e8dee68a444aa75ed96b36ca222ff61a782a1550d58" [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0minit[0m[0m              = false [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mip_address[0m[0m        = "172.17.0.2" [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mip_prefix_length[0m[0m  = 16 [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mipc_mode[0m[0m          = "private" [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mlog_driver[0m[0m        = "json-file" [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mlogs[0m[0m              = false [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mmax_retry_count[0m[0m   = 0 [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mmemory[0m[0m            = 0 [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mmemory_swap[0m[0m       = 0 [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mmust_run[0m[0m          = true [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mname[0m[0m              = "apache2" [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mnetwork_data[0m[0m      = [
+          [31m-[0m [0m{
+              [31m-[0m [0mgateway                   = "172.17.0.1"
+              [31m-[0m [0mglobal_ipv6_address       = ""
+              [31m-[0m [0mglobal_ipv6_prefix_length = 0
+              [31m-[0m [0mip_address                = "172.17.0.2"
+              [31m-[0m [0mip_prefix_length          = 16
+              [31m-[0m [0mipv6_gateway              = ""
+              [31m-[0m [0mnetwork_name              = "bridge"
+            },
+        ] [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mnetwork_mode[0m[0m      = "default" [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mprivileged[0m[0m        = false [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mpublish_all_ports[0m[0m = false [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mread_only[0m[0m         = false [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mremove_volumes[0m[0m    = true [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mrestart[0m[0m           = "always" [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mrm[0m[0m                = false [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0msecurity_opts[0m[0m     = [] [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mshm_size[0m[0m          = 64 [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mstart[0m[0m             = true [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mstdin_open[0m[0m        = false [90m->[0m [0m[90mnull[0m[0m
+      [31m-[0m [0m[1m[0mtty[0m[0m               = false [90m->[0m [0m[90mnull[0m[0m
+
+      [31m-[0m [0mports {
+          [31m-[0m [0m[1m[0mexternal[0m[0m = 8080 [90m->[0m [0m[90mnull[0m[0m
+          [31m-[0m [0m[1m[0minternal[0m[0m = 80 [90m->[0m [0m[90mnull[0m[0m
+          [31m-[0m [0m[1m[0mip[0m[0m       = "0.0.0.0" [90m->[0m [0m[90mnull[0m[0m
+          [31m-[0m [0m[1m[0mprotocol[0m[0m = "tcp" [90m->[0m [0m[90mnull[0m[0m
+        }
+
+      [31m-[0m [0mvolumes {
+          [31m-[0m [0m[1m[0mcontainer_path[0m[0m = "/var/www/html" [90m->[0m [0m[90mnull[0m[0m
+          [31m-[0m [0m[1m[0mhost_path[0m[0m      = "/home/eduard/10.Docker_compose_terraform" [90m->[0m [0m[90mnull[0m[0m
+          [31m-[0m [0m[1m[0mread_only[0m[0m      = true [90m->[0m [0m[90mnull[0m[0m
+        }
+    }
+
+Unless you have made equivalent changes to your configuration, or ignored the
+relevant attributes using ignore_changes, the following plan may include
+actions to undo or respond to these changes.
+[90m
+─────────────────────────────────────────────────────────────────────────────[0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create
+[0m
+Terraform will perform the following actions:
+
+[1m  # docker_container.apache2[0m will be created[0m[0m
+[0m  [32m+[0m[0m resource "docker_container" "apache2" {
+      [32m+[0m [0m[1m[0mattach[0m[0m           = false
+      [32m+[0m [0m[1m[0mbridge[0m[0m           = (known after apply)
+      [32m+[0m [0m[1m[0mcommand[0m[0m          = (known after apply)
+      [32m+[0m [0m[1m[0mcontainer_logs[0m[0m   = (known after apply)
+      [32m+[0m [0m[1m[0mentrypoint[0m[0m       = (known after apply)
+      [32m+[0m [0m[1m[0menv[0m[0m              = (known after apply)
+      [32m+[0m [0m[1m[0mexit_code[0m[0m        = (known after apply)
+      [32m+[0m [0m[1m[0mgateway[0m[0m          = (known after apply)
+      [32m+[0m [0m[1m[0mhostname[0m[0m         = (known after apply)
+      [32m+[0m [0m[1m[0mid[0m[0m               = (known after apply)
+      [32m+[0m [0m[1m[0mimage[0m[0m            = "sha256:25e8adc2e5f272e504e92e8dee68a444aa75ed96b36ca222ff61a782a1550d58"
+      [32m+[0m [0m[1m[0minit[0m[0m             = (known after apply)
+      [32m+[0m [0m[1m[0mip_address[0m[0m       = (known after apply)
+      [32m+[0m [0m[1m[0mip_prefix_length[0m[0m = (known after apply)
+      [32m+[0m [0m[1m[0mipc_mode[0m[0m         = (known after apply)
+      [32m+[0m [0m[1m[0mlog_driver[0m[0m       = "json-file"
+      [32m+[0m [0m[1m[0mlogs[0m[0m             = false
+      [32m+[0m [0m[1m[0mmust_run[0m[0m         = true
+      [32m+[0m [0m[1m[0mname[0m[0m             = "apache2"
+      [32m+[0m [0m[1m[0mnetwork_data[0m[0m     = (known after apply)
+      [32m+[0m [0m[1m[0mread_only[0m[0m        = false
+      [32m+[0m [0m[1m[0mremove_volumes[0m[0m   = true
+      [32m+[0m [0m[1m[0mrestart[0m[0m          = "always"
+      [32m+[0m [0m[1m[0mrm[0m[0m               = false
+      [32m+[0m [0m[1m[0msecurity_opts[0m[0m    = (known after apply)
+      [32m+[0m [0m[1m[0mshm_size[0m[0m         = (known after apply)
+      [32m+[0m [0m[1m[0mstart[0m[0m            = true
+      [32m+[0m [0m[1m[0mstdin_open[0m[0m       = false
+      [32m+[0m [0m[1m[0mtty[0m[0m              = false
+
+      [32m+[0m [0mhealthcheck {
+          [32m+[0m [0m[1m[0minterval[0m[0m     = (known after apply)
+          [32m+[0m [0m[1m[0mretries[0m[0m      = (known after apply)
+          [32m+[0m [0m[1m[0mstart_period[0m[0m = (known after apply)
+          [32m+[0m [0m[1m[0mtest[0m[0m         = (known after apply)
+          [32m+[0m [0m[1m[0mtimeout[0m[0m      = (known after apply)
+        }
+
+      [32m+[0m [0mlabels {
+          [32m+[0m [0m[1m[0mlabel[0m[0m = (known after apply)
+          [32m+[0m [0m[1m[0mvalue[0m[0m = (known after apply)
+        }
+
+      [32m+[0m [0mports {
+          [32m+[0m [0m[1m[0mexternal[0m[0m = 8080
+          [32m+[0m [0m[1m[0minternal[0m[0m = 80
+          [32m+[0m [0m[1m[0mip[0m[0m       = "0.0.0.0"
+          [32m+[0m [0m[1m[0mprotocol[0m[0m = "tcp"
+        }
+
+      [32m+[0m [0mvolumes {
+          [32m+[0m [0m[1m[0mcontainer_path[0m[0m = "/var/www/html"
+          [32m+[0m [0m[1m[0mhost_path[0m[0m      = "/home/eduard/10.Docker_compose_terraform"
+          [32m+[0m [0m[1m[0mread_only[0m[0m      = true
+        }
+    }
+
+[1m  # docker_container.radarr[0m will be created[0m[0m
+[0m  [32m+[0m[0m resource "docker_container" "radarr" {
+      [32m+[0m [0m[1m[0mattach[0m[0m           = false
+      [32m+[0m [0m[1m[0mbridge[0m[0m           = (known after apply)
+      [32m+[0m [0m[1m[0mcommand[0m[0m          = (known after apply)
+      [32m+[0m [0m[1m[0mcontainer_logs[0m[0m   = (known after apply)
+      [32m+[0m [0m[1m[0mentrypoint[0m[0m       = (known after apply)
+      [32m+[0m [0m[1m[0menv[0m[0m              = [
+          [32m+[0m [0m"PGID=1000",
+          [32m+[0m [0m"PUID=1000",
+          [32m+[0m [0m"TZ='Europe/London'",
+        ]
+      [32m+[0m [0m[1m[0mexit_code[0m[0m        = (known after apply)
+      [32m+[0m [0m[1m[0mgateway[0m[0m          = (known after apply)
+      [32m+[0m [0m[1m[0mhostname[0m[0m         = (known after apply)
+      [32m+[0m [0m[1m[0mid[0m[0m               = (known after apply)
+      [32m+[0m [0m[1m[0mimage[0m[0m            = "sha256:040acfe07efced14a30c3992ff559b883c6920800b2f291f7f28650d3857860d"
+      [32m+[0m [0m[1m[0minit[0m[0m             = (known after apply)
+      [32m+[0m [0m[1m[0mip_address[0m[0m       = (known after apply)
+      [32m+[0m [0m[1m[0mip_prefix_length[0m[0m = (known after apply)
+      [32m+[0m [0m[1m[0mipc_mode[0m[0m         = (known after apply)
+      [32m+[0m [0m[1m[0mlog_driver[0m[0m       = "json-file"
+      [32m+[0m [0m[1m[0mlogs[0m[0m             = false
+      [32m+[0m [0m[1m[0mmust_run[0m[0m         = true
+      [32m+[0m [0m[1m[0mname[0m[0m             = "radarr"
+      [32m+[0m [0m[1m[0mnetwork_data[0m[0m     = (known after apply)
+      [32m+[0m [0m[1m[0mread_only[0m[0m        = false
+      [32m+[0m [0m[1m[0mremove_volumes[0m[0m   = true
+      [32m+[0m [0m[1m[0mrestart[0m[0m          = "unless-stopped"
+      [32m+[0m [0m[1m[0mrm[0m[0m               = false
+      [32m+[0m [0m[1m[0msecurity_opts[0m[0m    = (known after apply)
+      [32m+[0m [0m[1m[0mshm_size[0m[0m         = (known after apply)
+      [32m+[0m [0m[1m[0mstart[0m[0m            = true
+      [32m+[0m [0m[1m[0mstdin_open[0m[0m       = false
+      [32m+[0m [0m[1m[0mtty[0m[0m              = false
+
+      [32m+[0m [0mhealthcheck {
+          [32m+[0m [0m[1m[0minterval[0m[0m     = (known after apply)
+          [32m+[0m [0m[1m[0mretries[0m[0m      = (known after apply)
+          [32m+[0m [0m[1m[0mstart_period[0m[0m = (known after apply)
+          [32m+[0m [0m[1m[0mtest[0m[0m         = (known after apply)
+          [32m+[0m [0m[1m[0mtimeout[0m[0m      = (known after apply)
+        }
+
+      [32m+[0m [0mlabels {
+          [32m+[0m [0m[1m[0mlabel[0m[0m = (known after apply)
+          [32m+[0m [0m[1m[0mvalue[0m[0m = (known after apply)
+        }
+
+      [32m+[0m [0mports {
+          [32m+[0m [0m[1m[0mexternal[0m[0m = 7878
+          [32m+[0m [0m[1m[0minternal[0m[0m = 7878
+          [32m+[0m [0m[1m[0mip[0m[0m       = "0.0.0.0"
+          [32m+[0m [0m[1m[0mprotocol[0m[0m = "tcp"
+        }
+
+      [32m+[0m [0mvolumes {
+          [32m+[0m [0m[1m[0mcontainer_path[0m[0m = "/data"
+          [32m+[0m [0m[1m[0mhost_path[0m[0m      = "/home/eduard/10.Docker_compose_terraform/radarr"
+          [32m+[0m [0m[1m[0mread_only[0m[0m      = false
+        }
+    }
+
+[1m  # docker_container.sonarr[0m will be created[0m[0m
+[0m  [32m+[0m[0m resource "docker_container" "sonarr" {
+      [32m+[0m [0m[1m[0mattach[0m[0m           = false
+      [32m+[0m [0m[1m[0mbridge[0m[0m           = (known after apply)
+      [32m+[0m [0m[1m[0mcommand[0m[0m          = (known after apply)
+      [32m+[0m [0m[1m[0mcontainer_logs[0m[0m   = (known after apply)
+      [32m+[0m [0m[1m[0mentrypoint[0m[0m       = (known after apply)
+      [32m+[0m [0m[1m[0menv[0m[0m              = [
+          [32m+[0m [0m"PGID=1000",
+          [32m+[0m [0m"PUID=1000",
+          [32m+[0m [0m"TZ='Europe/London'",
+        ]
+      [32m+[0m [0m[1m[0mexit_code[0m[0m        = (known after apply)
+      [32m+[0m [0m[1m[0mgateway[0m[0m          = (known after apply)
+      [32m+[0m [0m[1m[0mhostname[0m[0m         = (known after apply)
+      [32m+[0m [0m[1m[0mid[0m[0m               = (known after apply)
+      [32m+[0m [0m[1m[0mimage[0m[0m            = "sha256:030f350092dfb744d9435b8ae5165239411255e3279453e3b7cc83b59a08b392"
+      [32m+[0m [0m[1m[0minit[0m[0m             = (known after apply)
+      [32m+[0m [0m[1m[0mip_address[0m[0m       = (known after apply)
+      [32m+[0m [0m[1m[0mip_prefix_length[0m[0m = (known after apply)
+      [32m+[0m [0m[1m[0mipc_mode[0m[0m         = (known after apply)
+      [32m+[0m [0m[1m[0mlog_driver[0m[0m       = "json-file"
+      [32m+[0m [0m[1m[0mlogs[0m[0m             = false
+      [32m+[0m [0m[1m[0mmust_run[0m[0m         = true
+      [32m+[0m [0m[1m[0mname[0m[0m             = "sonarr"
+      [32m+[0m [0m[1m[0mnetwork_data[0m[0m     = (known after apply)
+      [32m+[0m [0m[1m[0mread_only[0m[0m        = false
+      [32m+[0m [0m[1m[0mremove_volumes[0m[0m   = true
+      [32m+[0m [0m[1m[0mrestart[0m[0m          = "unless-stopped"
+      [32m+[0m [0m[1m[0mrm[0m[0m               = false
+      [32m+[0m [0m[1m[0msecurity_opts[0m[0m    = (known after apply)
+      [32m+[0m [0m[1m[0mshm_size[0m[0m         = (known after apply)
+      [32m+[0m [0m[1m[0mstart[0m[0m            = true
+      [32m+[0m [0m[1m[0mstdin_open[0m[0m       = false
+      [32m+[0m [0m[1m[0mtty[0m[0m              = false
+
+      [32m+[0m [0mhealthcheck {
+          [32m+[0m [0m[1m[0minterval[0m[0m     = (known after apply)
+          [32m+[0m [0m[1m[0mretries[0m[0m      = (known after apply)
+          [32m+[0m [0m[1m[0mstart_period[0m[0m = (known after apply)
+          [32m+[0m [0m[1m[0mtest[0m[0m         = (known after apply)
+          [32m+[0m [0m[1m[0mtimeout[0m[0m      = (known after apply)
+        }
+
+      [32m+[0m [0mlabels {
+          [32m+[0m [0m[1m[0mlabel[0m[0m = (known after apply)
+          [32m+[0m [0m[1m[0mvalue[0m[0m = (known after apply)
+        }
+
+      [32m+[0m [0mports {
+          [32m+[0m [0m[1m[0mexternal[0m[0m = 8989
+          [32m+[0m [0m[1m[0minternal[0m[0m = 8989
+          [32m+[0m [0m[1m[0mip[0m[0m       = "0.0.0.0"
+          [32m+[0m [0m[1m[0mprotocol[0m[0m = "tcp"
+        }
+
+      [32m+[0m [0mvolumes {
+          [32m+[0m [0m[1m[0mcontainer_path[0m[0m = "/data"
+          [32m+[0m [0m[1m[0mhost_path[0m[0m      = "/home/eduard/10.Docker_compose_terraform/sonarr"
+          [32m+[0m [0m[1m[0mread_only[0m[0m      = false
+        }
+    }
+
+[0m[1mPlan:[0m 3 to add, 0 to change, 0 to destroy.
+[0m[90m
+─────────────────────────────────────────────────────────────────────────────[0m
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
