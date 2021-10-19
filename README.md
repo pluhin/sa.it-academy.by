@@ -5,7 +5,7 @@ Main purpose of this repository is collaboration of homework for study groups
 ## Links
 
 - How to join to the course [IT Academy site](https://www.it-academy.by/)
-- Shared slides (with recorded webinars): [GDRIVE](https://drive.google.com/drive/folders/0B7-pec-Rldg3fmZyRTdHb1NzUmwzcUxGdVNBNEpndTFVa00wcHFVLUlIbHpiS0FrbEd5QzQ?resourcekey=0-bg8qXtJYAoSAf_pm7El02g&usp=sharing)
+- Shared slides (with recorded webinars): [GDRIVE](https://drive.google.com/open?id=0B7-pec-Rldg3fmZyRTdHb1NzUmwzcUxGdVNBNEpndTFVa00wcHFVLUlIbHpiS0FrbEd5QzQ)
 - Our [Calendar](https://calendar.google.com/calendar/embed?src=g0hu9oa3gerlib7gmo74ghbvsk@group.calendar.google.com&ctz=Europe/Minsk&pli=1)
 
 ## Contacts & communication
