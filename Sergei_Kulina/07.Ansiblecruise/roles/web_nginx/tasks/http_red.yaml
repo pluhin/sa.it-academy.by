@@ -1,0 +1,30 @@
+- name: Install repos for redhat os
+  yum:
+    name: epel-release
+    state: latest
+    
+- name: Install nginx for Redhat os
+  yum:
+    name: "{{ red_http_packages }}"
+    state: latest
+    update_cache: yes
+    
+- name: Start & enable service Redhat
+  service:
+    name: nginx
+    state: started
+    enabled: yes 
+
+- name: Enable firewall port Redhat
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+
+- name: Reload service firewall Redhat
+  systemd:
+    name: firewalld
+    state: reloaded  
+  
+
+    

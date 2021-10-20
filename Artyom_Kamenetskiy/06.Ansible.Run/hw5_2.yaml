@@ -1,0 +1,30 @@
+- hosts: "{{ group }}"
+  become: yes
+  tasks:
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      comment: Managed by ansible
+      state: present
+  - name: "Add authorized keys"
+    authorized_key:
+      user: "{{ user_to_add }}"
+      key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  - name: "Add to sudoers on machine7"
+    shell: |
+      echo "{{ user_to_add }} ALL=(ALL:ALL) NOPASSWD: ALL" | tee -a /etc/sudoers
+    when: ansible_facts['distribution'] == "CentOS"
+  - name: "Add to sudoers on machine8"
+    shell: |
+      echo "{{ user_to_add }} ALL=(ALL:ALL) NOPASSWD: ALL" | tee -a /etc/sudoers
+    when: ansible_facts['distribution'] == "Ubuntu"
+  - name: "{{ user_to_add }} trying to upgrade machine7-centos"
+    shell: |
+      yum upgrade;
+    when: ansible_facts['distribution'] == "CentOS"
+    become_user: "{{ user_to_add }}"
+  - name: "{{ user_to_add }} trying to upgrade machine8-ubuntu"
+    shell: |
+      sudo apt-get upgrade;
+    when: ansible_facts['distribution'] == "Ubuntu"
+    become_user: "{{ user_to_add }}"

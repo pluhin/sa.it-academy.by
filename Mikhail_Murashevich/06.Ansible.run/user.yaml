@@ -1,0 +1,69 @@
+- hosts: all_workers                                                                     
+  tasks:
+     - name: Print variable                                                       
+       debug:
+          msg: "You requested user {{ user_to_add }}"              
+              
+     - name: Creating user {{ user_to_add }}                           
+       user:
+          name: "{{ user_to_add }}"                                           
+          comment: Managed by ansible                                    
+          state: present                                                                 
+                    
+     - name: Set authorized key taken from file
+       authorized_key:
+          user: "{{ user_to_add }}"
+          key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+          state: present
+                      
+     - name: add {{ user_to_add }} and sudo:nopasswd to /etc/sudoers
+       become: yes
+       ansible.builtin.lineinfile:
+          dest: /etc/sudoers
+          state: present
+          regexp: '^{{ user_to_add }} ALL='
+          line: '{{ user_to_add }} ALL=(ALL) NOPASSWD: ALL'
+          validate: 'visudo -cf %s'
+
+     - name:  output shell register   
+       shell: cat /etc/sudoers
+       register: check_user
+     - name: chesk_user
+       debug:
+          msg: "{{ check_user.stdout_lines }}"
+           
+     - name: using facts to upgrade Ubuntu
+       become: yes 
+       become_user: root
+       become_method: sudo
+       shell: apt-get upgrade 
+       when: ansible_facts['distribution'] == "Ubuntu"
+       register: out
+
+#     - name: upgrade Ubuntu
+#       debug:
+#          msg: "{{ out.stdout_lines }}"
+
+
+     - name: using facts to upgrade CentOS
+       become: yes
+       become_user: root               
+       become_method: sudo
+       shell: yum -y upgrade 
+       when: ansible_facts['distribution'] == "CentOS"
+       register: out2
+
+#     - name: upgrade CentOS
+#       debug:
+#          msg: "{{ out2.stdout_lines }}"
+
+
+     - name: Removing user {{ user_to_add }}
+       user:
+         name: "{{ user_to_add }}"
+         state: absent 
+
+     #- name: test output sudoers
+     #debug:
+          #msg: "{{ check_user.stdout_lines }}"
+          #msg: "{{ out.stdout_line }}"

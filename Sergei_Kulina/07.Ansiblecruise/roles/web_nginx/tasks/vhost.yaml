@@ -1,0 +1,30 @@
+- name: Create hosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+- name: Check creat hosts
+  shell: |
+    cat /etc/hosts
+  register: out
+  changed_when: false
+- name: print out
+  debug:
+    msg: "{{ out.stdout_lines }} "
+  
+- name: Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: print out
+  debug:
+    msg: "{{ out }}"
+  

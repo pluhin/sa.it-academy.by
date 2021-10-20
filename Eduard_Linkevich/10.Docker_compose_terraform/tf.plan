@@ -1,0 +1,93 @@
+eduard@srvvirteos:~/10.Docker_compose_terraform$ terraform plan | tee tf.plan
+docker_image.apache2: Refreshing state... [id=sha256:25e8adc2e5f272e504e92e8dee68a444aa75ed96b36ca222ff61a782a1550d58ubuntu/apache2]
+docker_image.radarr: Refreshing state... [id=sha256:040acfe07efced14a30c3992ff559b883c6920800b2f291f7f28650d3857860dlinuxserver/radarr]
+docker_image.sonarr: Refreshing state... [id=sha256:030f350092dfb744d9435b8ae5165239411255e3279453e3b7cc83b59a08b392linuxserver/sonarr]
+docker_container.sonarr: Refreshing state... [id=92ae157daa754d74bab47f293a90327d0704e557b398a2e90539d4000ef93d21]
+docker_container.radarr: Refreshing state... [id=9299c129e74c4f736a3cca51b94ee9a2b75c3608886d1f76bf1f7170d4435b58]
+docker_container.apache2: Refreshing state... [id=f3abdb7149fb16176ca1f3dfd865840acfb1a4fc1f99714789e1e5623d692aa7]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the
+last "terraform apply":
+
+  # docker_container.sonarr has been changed
+  ~ resource "docker_container" "sonarr" {
+      + dns               = []
+      + dns_opts          = []
+      + dns_search        = []
+      + group_add         = []
+        id                = "92ae157daa754d74bab47f293a90327d0704e557b398a2e90539d4000ef93d21"
+      + links             = []
+      + log_opts          = {}
+        name              = "sonarr"
+      + storage_opts      = {}
+      + sysctls           = {}
+      + tmpfs             = {}
+        # (31 unchanged attributes hidden)
+
+
+        # (2 unchanged blocks hidden)
+    }
+  # docker_container.apache2 has been changed
+  ~ resource "docker_container" "apache2" {
+      + dns               = []
+      + dns_opts          = []
+      + dns_search        = []
+      + group_add         = []
+        id                = "f3abdb7149fb16176ca1f3dfd865840acfb1a4fc1f99714789e1e5623d692aa7"
+      ~ ip_address        = "172.17.0.3" -> "172.17.0.2"
+      + links             = []
+      + log_opts          = {}
+        name              = "apache2"
+      ~ network_data      = [
+          ~ {
+              ~ ip_address                = "172.17.0.3" -> "172.17.0.2"
+                # (6 unchanged elements hidden)
+            },
+        ]
+      + storage_opts      = {}
+      + sysctls           = {}
+      + tmpfs             = {}
+        # (29 unchanged attributes hidden)
+
+
+        # (2 unchanged blocks hidden)
+    }
+  # docker_container.radarr has been changed
+  ~ resource "docker_container" "radarr" {
+      + dns               = []
+      + dns_opts          = []
+      + dns_search        = []
+      + group_add         = []
+        id                = "9299c129e74c4f736a3cca51b94ee9a2b75c3608886d1f76bf1f7170d4435b58"
+      ~ ip_address        = "172.17.0.2" -> "172.17.0.3"
+      + links             = []
+      + log_opts          = {}
+        name              = "radarr"
+      ~ network_data      = [
+          ~ {
+              ~ ip_address                = "172.17.0.2" -> "172.17.0.3"
+                # (6 unchanged elements hidden)
+            },
+        ]
+      + storage_opts      = {}
+      + sysctls           = {}
+      + tmpfs             = {}
+        # (29 unchanged attributes hidden)
+
+
+        # (2 unchanged blocks hidden)
+    }
+
+Unless you have made equivalent changes to your configuration, or ignored the
+relevant attributes using ignore_changes, the following plan may include
+actions to undo or respond to these changes.
+
+─────────────────────────────────────────────────────────────────────────────
+
+No changes. Your infrastructure matches the configuration.
+
+Your configuration already matches the changes detected above. If you'd like
+to update the Terraform state to match, create and apply a refresh-only plan:
+  terraform apply -refresh-only

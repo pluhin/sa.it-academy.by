@@ -1,0 +1,32 @@
+---
+- name: Install Nginx RedHat
+  yum:
+    name=epel-release
+    state=present
+    name=nginx
+    state=latest
+  when:
+    ansible_os_family == "RedHat"
+
+
+- name: Install Nginx Debian
+  apt:
+    name=nginx
+    state=latest
+  when:
+    ansible_os_family == "Debian"
+
+
+- name: Start Nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Firewall RedHat
+  shell: |
+    firewall-cmd --zone=public --permanent --add-service=http
+    firewall-cmd --zone=public --permanent --add-service=https
+    firewall-cmd --reload
+  when:
+    ansible_os_family == "RedHat"

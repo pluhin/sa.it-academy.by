@@ -1,0 +1,125 @@
+- name: Include deploy for Ubuntu system
+  include: ubuntu.yaml
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Include deploy for CentOS system
+  include: centos.yaml
+  when: ansible_distribution == 'CentOS'
+
+- name: Checking connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: Out 
+  debug:
+    msg: "{{ out }}"
+
+- name: Templates virthosts Ubuntu
+  template:
+    src: "vhosts.j2"
+    dest: "/etc/nginx/sites-available/{{ item }}"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  loop: "{{ vhosts_ubuntu }}"
+  vars:
+    temp_vhost: "{{ item }}"
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Templates virthosts Centos
+  template:
+    src: "vhosts.j2"
+    dest: "/etc/nginx/conf.d/{{ item }}.conf"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  loop: "{{ vhosts_cent }}"
+  vars:
+    temp_vhost: "{{ item }}"
+  when: ansible_distribution == 'CentOS'
+
+- name: Enabling Ubuntu sites
+  file:
+    src: "/etc/nginx/sites-available/{{ item }}"
+    dest: "/etc/nginx/sites-enabled/{{ item }}"
+    state: link
+  loop: "{{ vhosts_ubuntu }}"
+  when: ansible_distribution == 'Ubuntu'
+
+
+- name: First page Ubuntu copy
+  copy:
+    src: "{{ item }}.html"
+    dest: "/var/www/{{ item }}/html/index.html"
+    owner: root
+    group: root
+    mode: '0755'
+  loop: "{{ vhosts_ubuntu }}"
+  when: ansible_distribution == 'Ubuntu'
+  notify:
+    - restart nginx
+
+- name: Creation of Centos sites folder 
+  file: 
+    path: "/var/www/{{ item }}/html/"
+    state: directory
+  when: ansible_distribution == 'CentOS'
+  loop: "{{ vhosts_cent }}"
+
+- name: First page CentOS copy
+  copy:
+    src: "{{ item }}.html"
+    dest: "/var/www/{{ item }}/html/index.html"
+    owner: root
+    group: root
+    mode: '0755'
+  loop: "{{ vhosts_cent }}"
+  when: ansible_distribution == 'CentOS'
+  notify:
+    - restart nginx
+
+- name: Hosts file creation
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+- name: Template hosts check
+  shell: |
+    cat /etc/hosts
+  register: out
+  changed_when: false
+
+- name: Print out
+  debug:
+    msg: "{{ out.stdout_lines }}"
+
+- name: Checking content to the sites
+  uri:
+    url: "http://{{ item }}"
+    return_content: yes
+  loop: "{{ vhosts_ubuntu + vhosts_cent}}"
+  register: this
+  tags:
+    - test
+
+- name: Output
+  debug:
+    msg: "Content: {{ output.content }}"
+  loop: "{{ this.results }}"
+  loop_control:
+    loop_var: output
+    label: "{{ output.url }}"
+    pause: 2
+  tags:
+    - test
+

@@ -11,3 +11,7 @@ __pycache__
 *.iml
 .project
 .vagrant
+<<<<<<< HEAD
+=======
+.DS_Store
+>>>>>>> c45f9e554fb423b8fe8dda0d4c0f83bdff405066
