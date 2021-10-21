@@ -1,0 +1,6 @@
+---
+apt_mysql_packages:
+  - mysql-server
+  - mysql-client
+  - python-pymysql
+  - python-mysqldb
