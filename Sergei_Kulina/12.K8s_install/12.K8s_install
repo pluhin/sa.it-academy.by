@@ -1,0 +1,10 @@
+# 12. Kubernetes instalation
+
+## Alias  for k8s
+```bash
+alias kga='kubectl get all'
+alias kgn='kubectl get nodes --all-namespaces'
+alias kgp='kubectl get pods --all-namespaces'
+alias kgs='kubectl get services --all-namespaces'
+```
+
