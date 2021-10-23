@@ -1,0 +1,19 @@
+jump_sa:
+   hosts:
+     bastion:
+        ansible_host: 178.124.206.53
+        ansible_user: jump_sa
+all_workers:
+  vars:
+     ansible_user: root
+  children:
+     ansible_ws:
+        hosts:
+          redmine:
+              ansible_host: 192.168.201.8
+     work_sa:
+        hosts: 
+          host15:
+              ansible_host: 192.168.202.15
+          host16:
+              ansible_host: 192.168.202.16
