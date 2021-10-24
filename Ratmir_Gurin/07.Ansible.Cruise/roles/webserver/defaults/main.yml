@@ -1,0 +1,18 @@
+---
+# defaults file for webserver
+
+apt_nginx_packages: 
+  - nginx  
+yum_nginx_packages:
+  - nginx
+  - libsemanage-python
+  - libselinux-python
+
+default_home: "{{ '/var/www/html' if (ansible_os_family == 'Debian') else '/usr/share/nginx/html' }}"
+
+site_deb: "local-deb.site"
+site_red: "local-cent.site"
+
+virtual_hosts:
+  - { name: "{{ site_red }}", ip: "{{ hostvars[\"host19\"].ansible_host }}"}
+  - { name: "{{ site_deb }}", ip: "{{ hostvars[\"host20\"].ansible_host }}"}

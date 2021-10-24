@@ -1,0 +1,43 @@
+---
+# tasks file for test
+- name: Check SUDO with NOPASSWORD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check connections to public repositories (Debian/CentOS and pip package repository)
+  uri:
+   url: "{{ item }}"
+  with_items: "{{ test_urls }}"
+  register: out_urls
+  
+- name: print status connection to public repositories (Debian/CentOS and pip package repository)
+  debug:
+    msg: "{{ out_urls.msg }}"  
+
+- name: Check if we have connection to docker hub registry (return content check) 
+  uri:
+   url: "https://hub.docker.com/_/registry"
+   return_content: yes
+  register: out_docker_hub
+
+- name: print if we have connection to docker hub registry (return content check)  
+  debug:
+    msg: "{{out_docker_hub.content}}"      
+
+- name: Check if we have enough RAM (you can create thresholds by yourself)
+  assert:
+   that:
+     - ansible_memtotal_mb >= 512
+   fail_msg: "we have not enough RAM"
+   success_msg: "we have enough RAM"
+
+- name: Check if we have enough HDD (you can create thresholds by yourself)
+  assert:
+   that:
+      - ansible_mounts[0].size_available  >= 2
+   fail_msg: "we have not enough HDD"
+   success_msg: "we have enough HDD"
+
+   

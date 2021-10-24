@@ -1,0 +1,19 @@
+---
+ - name: Create hosts
+   template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+ - name: Check create
+   shell: |
+    cat /etc/hosts
+   register: out
+   changed_when: false
+
+ - name: print out
+   debug:
+    msg: "{{ out.stdout_lines }}"
