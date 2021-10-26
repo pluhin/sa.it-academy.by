@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  webserver:
+    image: nginx
+    container_name: web
+    ports:
+      - "8000:80"
+    volumes:
+      - ./app/index.html:/usr/share/nginx/html/index.html   
+  
+  sonarr:
+    depends_on:
+      - webserver
+    image: linuxserver/sonarr
+    container_name: sonarr
+    ports:
+      - "8081:8989"   
+ 
+  radarr:
+    depends_on:
+      - webserver
+    image: linuxserver/radarr
+    container_name: radarr
+    ports:
+      - "8082:7878"
+    
