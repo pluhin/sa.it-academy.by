@@ -1,0 +1,16 @@
+- hosts: all_workers
+  tasks:
+    - name: Print facts 1
+      debug:
+        msg: "{{ ansible_facts }}"
+      tags:
+        - never
+    - name: Print OS/version
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+    - name: Print Mount/capacity/used
+      debug:
+        msg: "Mount point: {{ansible_facts.mounts[0].mount}} Capacity: {{(ansible_facts.mounts[0].size_total / 10 | pow (9))| round(2,'ceil')}} Gb Used: {{ ( (ansible_facts.mounts[0].size_total - ansible_facts.mounts[0].size_available) / 10 | pow (9) ) | round(2,'ceil') }} Gb"
+    - name: Print RAM/capacity/free
+      debug:
+        msg: "RAM total: {{ansible_facts.memtotal_mb}} Mb free: {{ansible_facts.memfree_mb}} Mb"

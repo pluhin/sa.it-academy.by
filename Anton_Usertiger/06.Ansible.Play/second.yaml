@@ -1,0 +1,75 @@
+- hosts: all_workers
+  tasks:
+
+  - name: Print variable
+    debug:
+      msg: "You new user {{ user_to_add }}"
+
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      comment: Managed by ansible
+      state: present
+    become: yes
+
+  - name: Check user
+    shell: |
+      grep "{{ user_to_add }}" /etc/passwd
+      date
+    register: out
+  - debug:
+      msg: "{{ out.stdout_lines }}"
+
+  - name: Add SSH-keys to new user
+    authorized_key:
+      user: "{{ user_to_add }}"
+      key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      state: present
+    become: yes
+
+  - name: Add to sudoers Ubuntu
+    lineinfile:
+      path: "/etc/sudoers"
+      regexp: "{{ user_to_add }}"
+      line: "{{ user_to_add }} ALL=(ALL) NOPASSWD: /usr/bin/apt update -y"
+      state: present    
+    when: ansible_distribution == "Ubuntu"
+    become: yes
+
+  - name: Add to sudoers CentOS
+    lineinfile:
+      path: "/etc/sudoers"
+      regexp: "{{ user_to_add }}"
+      line: "{{ user_to_add }} ALL=(ALL) NOPASSWD: /usr/bin/yum update -y"
+      state: present
+    when: ansible_distribution == "CentOS"
+    become: yes
+
+  - name: Check sudoers
+    shell: |
+      grep "{{ user_to_add }}" /etc/sudoers
+      date
+    register: out
+    become: yes
+  - debug:
+      msg: "{{ out.stdout_lines }}"
+
+  - name: Update Ubuntu
+    shell:
+      sudo apt update -y
+    when: ansible_distribution == "Ubuntu" 
+    become_user: "{{ user_to_add }}"
+    register: out
+  - debug:
+      msg: "{{ out.stdout_lines }}"
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Update CentOS
+    shell:
+      sudo yum update -y
+    when: ansible_distribution == "CentOS"
+    become_user: "{{ user_to_add }}"
+    register: out
+  - debug:
+      msg: "{{ out.stdout_lines }}"
+    when: ansible_distribution == "CentOS"
