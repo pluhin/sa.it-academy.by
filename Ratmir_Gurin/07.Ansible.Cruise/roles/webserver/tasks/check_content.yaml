@@ -1,0 +1,16 @@
+---
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'Hi' not in this.content"
+  tags:
+  - test
+
+- name: print out
+  debug:
+    msg: "{{ this }}"
+  tags:
+  - test

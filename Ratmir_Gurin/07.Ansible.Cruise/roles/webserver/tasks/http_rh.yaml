@@ -1,0 +1,33 @@
+---
+- name: Redhat. Apache2 disable & stop.
+  yum:
+    name: apache2
+    state: absent
+    update_cache: yes
+
+- name: Redhat. Install nginx.
+  yum :
+    name        : "{{ yum_nginx_packages }}"
+    state       : latest
+    update_cache: yes
+
+- name: Redhat. Start & enable service.
+  service:
+    name: nginx
+    state: started
+    enabled: yes 
+
+- name: Redhat. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+  tags:
+  - tests
+
+- name: Redhat. Reload service firewall
+  systemd:
+    name: firewalld
+    state: reloaded
+  tags:
+  - tests

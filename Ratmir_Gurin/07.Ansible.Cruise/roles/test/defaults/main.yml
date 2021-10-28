@@ -1,0 +1,8 @@
+---
+# defaults file for test
+test_urls:   
+  - http://ftp.by.debian.org/debian
+  - http://mirror.lanet.network/centos/8.4.2105/isos/x86_64/ 
+  - https://pypi.org/simple
+
+ansible_memory_mb:    

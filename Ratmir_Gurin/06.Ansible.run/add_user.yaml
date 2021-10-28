@@ -1,0 +1,44 @@
+- hosts:  all_workers
+  tasks:
+
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      comment: Managed by ansible
+      state: present
+
+  - name: New user authorization by SSH key
+    authorized_key:
+      user: "{{ user_to_add }}"
+      key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      state: present
+
+  - name: add "{{ user_to_add }}" to visudo
+    become: yes
+    lineinfile:
+      path: /etc/sudoers
+      regexp: "{{ user_to_add }}"
+      line: "{{ user_to_add }} ALL=(ALL) NOPASSWD: ALL"
+      state: present
+      validate: 'visudo -cf %s'
+
+  - name: Upgrade CentOS
+    when: ansible_facts['distribution'] == "CentOS"
+    shell: |
+         yum upgrade
+    become: yes
+
+
+  - name: Upgrade Ubuntu
+    when: ansible_facts['distribution'] == "Ubuntu"
+    shell: |
+     sudo apt-get upgrade
+    become: yes
+    become_method: su
+    become_user: "{{ user_to_add }}"
+
+  - name: Removing user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      state: absent
+  

@@ -1,0 +1,7 @@
+---
+# handlers file for redmine
+
+- name: apache restart
+  service:
+    name: apache2
+    state: restarted

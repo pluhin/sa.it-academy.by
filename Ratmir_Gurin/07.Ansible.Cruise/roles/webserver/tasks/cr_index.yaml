@@ -1,0 +1,12 @@
+---
+- name: Copy first page index.html 
+  copy:
+    src: index.html
+    dest: "{{ default_home }}"
+    owner: root
+    group: root
+    mode: '0755'
+# with_items: "{{ virtual_hosts }}"
+  notify:
+   - restart ngnix    
+
