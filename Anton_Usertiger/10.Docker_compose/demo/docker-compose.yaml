@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  apache2:
+    image: ubuntu/apache2
+    container_name: pache2
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Kiev
+    volumes:
+      - './:/var/www/html:rw'
+    ports:
+      - 8080:80
+    restart: unless-stopped
+  sonarr:
+    image: lscr.io/linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Kiev
+    volumes:
+      - './sonarr:/data_sonarr:rw'
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+  radarr:
+    image: lscr.io/linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Kiev
+    volumes:
+      - './radarr:/data_radarr:rw'
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - WEBUI_PORT=8068
+    volumes:
+      - ./qbittorrent:/config
+      - ./downloads:/downloads
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8068:8068
+    restart: always

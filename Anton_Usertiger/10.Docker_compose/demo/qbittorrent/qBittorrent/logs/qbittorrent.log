@@ -1,0 +1,23 @@
+(N) 2021-10-25T21:46:17 - qBittorrent v4.3.8 started
+(N) 2021-10-25T21:46:17 - Using config directory: /config/qBittorrent/
+(I) 2021-10-25T21:46:17 - Trying to listen on: 0.0.0.0:6881,[::]:6881
+(N) 2021-10-25T21:46:17 - Peer ID: -qB4380-
+(N) 2021-10-25T21:46:17 - HTTP User-Agent is 'qBittorrent/4.3.8'
+(I) 2021-10-25T21:46:17 - DHT support [ON]
+(I) 2021-10-25T21:46:17 - Local Peer Discovery support [ON]
+(I) 2021-10-25T21:46:17 - PeX support [ON]
+(I) 2021-10-25T21:46:17 - Anonymous mode [OFF]
+(I) 2021-10-25T21:46:17 - Encryption support [ON]
+(W) 2021-10-25T21:46:17 - Couldn't load IP geolocation database. Reason: No such file or directory
+(N) 2021-10-25T21:46:17 - Using built-in Web UI.
+(N) 2021-10-25T21:46:17 - Web UI translation for selected locale (en_US) has been successfully loaded.
+(N) 2021-10-25T21:46:17 - Web UI: Now listening on IP: *, port: 8068
+(W) 2021-10-25T21:46:17 - Couldn't load torrents queue from '/config/qBittorrent/BT_backup/queue'. Error: No such file or directory
+(I) 2021-10-25T21:46:17 - Successfully listening on IP: 127.0.0.1, port: TCP/6881
+(I) 2021-10-25T21:46:17 - Successfully listening on IP: 127.0.0.1, port: UDP/6881
+(I) 2021-10-25T21:46:17 - Successfully listening on IP: 172.18.0.5, port: TCP/6881
+(I) 2021-10-25T21:46:17 - Successfully listening on IP: 172.18.0.5, port: UDP/6881
+(I) 2021-10-25T21:46:18 - Detected external IP: 46.216.10.211
+(I) 2021-10-25T21:46:18 - IP geolocation database loaded. Type: DBIP-Country-Lite. Build time: Fri Oct 1 00:06:22 2021.
+(I) 2021-10-25T21:46:18 - Successfully updated IP geolocation database.
+(I) 2021-10-25T22:46:48 - UPnP / NAT-PMP support [OFF]

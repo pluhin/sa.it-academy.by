@@ -1,0 +1,6 @@
+---
+- hosts: all_workers
+  become: yes
+  roles:
+    - test
+

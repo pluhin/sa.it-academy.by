@@ -1,0 +1,285 @@
+  # docker_container.apache2 will be created
+  + resource "docker_container" "apache2" {
+      + attach           = false
+      + bridge           = (known after apply)
+      + command          = (known after apply)
+      + container_logs   = (known after apply)
+      + entrypoint       = (known after apply)
+      + env              = (known after apply)
+      + exit_code        = (known after apply)
+      + gateway          = (known after apply)
+      + hostname         = (known after apply)
+      + id               = (known after apply)
+      + image            = (known after apply)
+      + init             = (known after apply)
+      + ip_address       = (known after apply)
+      + ip_prefix_length = (known after apply)
+      + ipc_mode         = (known after apply)
+      + log_driver       = "json-file"
+      + logs             = false
+      + must_run         = true
+      + name             = "apache2"
+      + network_data     = (known after apply)
+      + read_only        = false
+      + remove_volumes   = true
+      + restart          = "always"
+      + rm               = false
+      + security_opts    = (known after apply)
+      + shm_size         = (known after apply)
+      + start            = true
+      + stdin_open       = false
+      + tty              = false
+
+      + healthcheck {
+          + interval     = (known after apply)
+          + retries      = (known after apply)
+          + start_period = (known after apply)
+          + test         = (known after apply)
+          + timeout      = (known after apply)
+        }
+
+      + labels {
+          + label = (known after apply)
+          + value = (known after apply)
+        }
+
+      + ports {
+          + external = 8080
+          + internal = 80
+          + ip       = "0.0.0.0"
+          + protocol = "tcp"
+        }
+
+      + volumes {
+          + container_path = "/var/www/html"
+          + host_path      = "/1/"
+          + read_only      = true
+        }
+    }
+
+  # docker_container.qbittorrent will be created
+  + resource "docker_container" "qbittorrent" {
+      + attach           = false
+      + bridge           = (known after apply)
+      + command          = (known after apply)
+      + container_logs   = (known after apply)
+      + entrypoint       = (known after apply)
+      + env              = [
+          + "PGID=1000",
+          + "PUID=1000",
+          + "TZ='Europe/Kiev'",
+        ]
+      + exit_code        = (known after apply)
+      + gateway          = (known after apply)
+      + hostname         = (known after apply)
+      + id               = (known after apply)
+      + image            = (known after apply)
+      + init             = (known after apply)
+      + ip_address       = (known after apply)
+      + ip_prefix_length = (known after apply)
+      + ipc_mode         = (known after apply)
+      + log_driver       = "json-file"
+      + logs             = false
+      + must_run         = true
+      + name             = "qbittorrent"
+      + network_data     = (known after apply)
+      + read_only        = false
+      + remove_volumes   = true
+      + restart          = "unless-stopped"
+      + rm               = false
+      + security_opts    = (known after apply)
+      + shm_size         = (known after apply)
+      + start            = true
+      + stdin_open       = false
+      + tty              = false
+
+      + healthcheck {
+          + interval     = (known after apply)
+          + retries      = (known after apply)
+          + start_period = (known after apply)
+          + test         = (known after apply)
+          + timeout      = (known after apply)
+        }
+
+      + labels {
+          + label = (known after apply)
+          + value = (known after apply)
+        }
+
+      + ports {
+          + external = 6881
+          + internal = 6068
+          + ip       = "0.0.0.0"
+          + protocol = "tcp"
+        }
+
+      + volumes {
+          + container_path = "/data"
+          + host_path      = "/4/"
+          + read_only      = false
+        }
+    }
+
+  # docker_container.radarr will be created
+  + resource "docker_container" "radarr" {
+      + attach           = false
+      + bridge           = (known after apply)
+      + command          = (known after apply)
+      + container_logs   = (known after apply)
+      + entrypoint       = (known after apply)
+      + env              = [
+          + "PGID=1000",
+          + "PUID=1000",
+          + "TZ='Europe/Kiev'",
+        ]
+      + exit_code        = (known after apply)
+      + gateway          = (known after apply)
+      + hostname         = (known after apply)
+      + id               = (known after apply)
+      + image            = (known after apply)
+      + init             = (known after apply)
+      + ip_address       = (known after apply)
+      + ip_prefix_length = (known after apply)
+      + ipc_mode         = (known after apply)
+      + log_driver       = "json-file"
+      + logs             = false
+      + must_run         = true
+      + name             = "radarr"
+      + network_data     = (known after apply)
+      + read_only        = false
+      + remove_volumes   = true
+      + restart          = "unless-stopped"
+      + rm               = false
+      + security_opts    = (known after apply)
+      + shm_size         = (known after apply)
+      + start            = true
+      + stdin_open       = false
+      + tty              = false
+
+      + healthcheck {
+          + interval     = (known after apply)
+          + retries      = (known after apply)
+          + start_period = (known after apply)
+          + test         = (known after apply)
+          + timeout      = (known after apply)
+        }
+
+      + labels {
+          + label = (known after apply)
+          + value = (known after apply)
+        }
+
+      + ports {
+          + external = 7878
+          + internal = 7878
+          + ip       = "0.0.0.0"
+          + protocol = "tcp"
+        }
+
+      + volumes {
+          + container_path = "/data"
+          + host_path      = "/2/"
+          + read_only      = false
+        }
+    }
+
+  # docker_container.sonarr will be created
+  + resource "docker_container" "sonarr" {
+      + attach           = false
+      + bridge           = (known after apply)
+      + command          = (known after apply)
+      + container_logs   = (known after apply)
+      + entrypoint       = (known after apply)
+      + env              = [
+          + "PGID=1000",
+          + "PUID=1000",
+          + "TZ='Europe/Kiev'",
+        ]
+      + exit_code        = (known after apply)
+      + gateway          = (known after apply)
+      + hostname         = (known after apply)
+      + id               = (known after apply)
+      + image            = (known after apply)
+      + init             = (known after apply)
+      + ip_address       = (known after apply)
+      + ip_prefix_length = (known after apply)
+      + ipc_mode         = (known after apply)
+      + log_driver       = "json-file"
+      + logs             = false
+      + must_run         = true
+      + name             = "sonarr"
+      + network_data     = (known after apply)
+      + read_only        = false
+      + remove_volumes   = true
+      + restart          = "unless-stopped"
+      + rm               = false
+      + security_opts    = (known after apply)
+      + shm_size         = (known after apply)
+      + start            = true
+      + stdin_open       = false
+      + tty              = false
+
+      + healthcheck {
+          + interval     = (known after apply)
+          + retries      = (known after apply)
+          + start_period = (known after apply)
+          + test         = (known after apply)
+          + timeout      = (known after apply)
+        }
+
+      + labels {
+          + label = (known after apply)
+          + value = (known after apply)
+        }
+
+      + ports {
+          + external = 8989
+          + internal = 8989
+          + ip       = "0.0.0.0"
+          + protocol = "tcp"
+        }
+
+      + volumes {
+          + container_path = "/data"
+          + host_path      = "/3/"
+          + read_only      = false
+        }
+    }
+
+  # docker_image.apache2 will be created
+  + resource "docker_image" "apache2" {
+      + id          = (known after apply)
+      + latest      = (known after apply)
+      + name        = "ubuntu/apache2"
+      + output      = (known after apply)
+      + repo_digest = (known after apply)
+    }
+
+  # docker_image.qbittorrent will be created
+  + resource "docker_image" "qbittorrent" {
+      + id          = (known after apply)
+      + latest      = (known after apply)
+      + name        = "linuxserver/qbittorrent"
+      + output      = (known after apply)
+      + repo_digest = (known after apply)
+    }
+
+  # docker_image.radarr will be created
+  + resource "docker_image" "radarr" {
+      + id          = (known after apply)
+      + latest      = (known after apply)
+      + name        = "linuxserver/radarr"
+      + output      = (known after apply)
+      + repo_digest = (known after apply)
+    }
+
+  # docker_image.sonarr will be created
+  + resource "docker_image" "sonarr" {
+      + id          = (known after apply)
+      + latest      = (known after apply)
+      + name        = "linuxserver/sonarr"
+      + output      = (known after apply)
+      + repo_digest = (known after apply)
+    }
+
+Plan: 8 to add, 0 to change, 0 to destroy.

@@ -1,0 +1,17 @@
+  GNU nano 4.8                                                                                     inv.yaml                                                                                      Modified  
+jump_sa:
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.53
+      ansible_user: jump_sa
+
+all_workers:
+  vars:
+    ansible_user: root
+  children:
+    work_sa:
+      hosts:
+        host13:
+          ansible_host: 192.168.202.13
+        host14:
+          ansible_host: 192.168.202.14
