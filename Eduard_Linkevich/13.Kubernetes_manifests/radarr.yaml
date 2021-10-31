@@ -1,0 +1,72 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  labels:
+    app: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+      - name: radarr
+        image: linuxserver/radarr:latest
+        ports:
+        - containerPort: 7878
+        env:
+          - name: TZ
+            value: Europe/London
+          - name: PUID
+            value: "0"
+          - name: PGID
+            value: "0"
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi    
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr-service
+  labels:
+    run: radarr-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 7878
+    protocol: TCP
+  selector:
+    app: radarr
+
+---     
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-sa
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-alias: "radarr.k8s-11.sa"
+spec:
+  rules:
+    - host: radarr.k8s-11.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: radarr-service
+                port:
+                  number: 7878
