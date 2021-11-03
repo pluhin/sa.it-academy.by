@@ -1,0 +1,32 @@
+version: '3.4'
+  
+services:
+  webserver:
+    image: nginx
+    container_name: webserver
+    ports:
+    - "127.0.0.1:8001:80"
+    volumes:
+    - ./app:/usr/share/nginx/html:ro
+
+  sonarr:
+    depends_on:
+    - webserver
+    image: lscr.io/linuxserver/sonarr
+    container_name: sonarr
+    volumes:
+    - './sonarr:/config_sonarr:rw'
+    ports:
+    - 8010:8989
+    restart: unless-stopped
+
+  radarr:
+    depends_on:
+    - webserver
+    image: lscr.io/linuxserver/radarr
+    container_name: radarr
+    volumes:
+    - './radarr:/config_radarr:rw'
+    ports:
+    - 8012:7878
+    restart: unless-stopped
