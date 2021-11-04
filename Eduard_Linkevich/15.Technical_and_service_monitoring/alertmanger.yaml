@@ -19,7 +19,7 @@ data:
     receivers:
     - name: slack_prometheus
       slack_configs:
-      - api_url: https://hooks.slack.com/services/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
+      - api_url: https://hooks.slack.com/services/---webhook---
         channel: '#edlink911_alert'
         title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
         text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
