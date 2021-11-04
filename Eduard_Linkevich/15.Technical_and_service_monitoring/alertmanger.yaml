@@ -1,0 +1,109 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  config.yml: |-
+    global: {}
+    route:
+      receiver: slack_prometheus
+      group_by: ['alertname', 'datacenter', 'app']
+      group_wait: 10s
+      repeat_interval: 1m
+      routes:
+        - receiver: slack_prometheus
+          match:
+            severity: slack
+    receivers:
+    - name: slack_prometheus
+      slack_configs:
+      - api_url: https://hooks.slack.com/services/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
+        channel: '#edlink911_alert'
+        title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
+        text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+  labels:
+    app: alertmanager
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      labels:
+        app: alertmanager
+    spec:
+      containers:
+      - name: alertmanager
+        image: prom/alertmanager:latest
+        args:
+          - "--config.file=/etc/alertmanager/config.yml"
+          - "--storage.path=/alertmanager"
+        ports:
+        - containerPort: 9093
+        resources:
+          requests:
+            cpu: 10m
+            memory: 50Mi
+          limits:
+            cpu: 10m
+            memory: 50Mi
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/alertmanager
+        - name: alertmanager
+          mountPath: /alertmanager
+      volumes:
+      - name: config-volume
+        configMap:
+          name: alertmanager-config
+      - name: alertmanager
+        emptyDir: {}
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager
+  namespace: monitoring
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/path:   /
+      prometheus.io/port:   '9093'
+spec:
+  selector: 
+    app: alertmanager
+  type: NodePort  
+  ports:
+    - port: 9093
+      targetPort: 9093
+      nodePort: 31000
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: ingress-alertmanager
+  namespace: monitoring
+spec:
+  rules:
+  - host: alertmanager.k8s-11.sa
+    http:
+      paths:
+      - backend:
+          service:
+            name: alertmanager
+            port:
+              number: 9093
+        path: /
+        pathType: Prefix
