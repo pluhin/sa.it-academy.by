@@ -1,0 +1,64 @@
+- name: NGINX. Install packages
+  yum:
+    name: nginx
+    state: present
+
+- name: NGINX. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: NGINX. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+
+- name: NGINX. Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: NGINX. Print out connection test
+  debug:
+    msg: "{{ out }}"
+
+- name: NGINX. Create user jenkins and add in group nginx
+  user:
+    name: jenkins
+    shell: /bin/bash
+    groups: nginx
+    append: yes
+
+- name: NGINX. Template nginx.conf
+  template:
+    src: "jenkins.j2"
+    dest: "/etc/nginx/nginx.conf"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  notify: restart nginx
+
+- name: NGINX. Create nginx log directory for jenkins
+  file:
+    path: /var/log/nginx/jenkins/
+    state: directory
+    mode: '0755'
+
+- name: NGINX. Set jenkins listen address
+  lineinfile:
+    path: /etc/sysconfig/jenkins
+    regexp: 'JENKINS_LISTEN_ADDRESS'
+    line: 'JENKINS_LISTEN_ADDRESS=127.0.0.1'
+    backup: yes
+  notify: jenkins restart
+
+- name: NGINX. Disable SELinux
+  selinux:
+    state: disabled
