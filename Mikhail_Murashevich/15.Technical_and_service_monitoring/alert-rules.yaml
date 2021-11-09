@@ -20,7 +20,7 @@ data:
     receivers:
     - name: slack_alert
       slack_configs:
-      - api_url: https://hooks.slack.com/services/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
+      - api_url: https://hooks.slack.com/services/xxxxxxx/xxxxxx/xxxxxxxxx
         channel: '#mike_events'
         title: |-
           [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }} for {{ .CommonLabels.job }}
