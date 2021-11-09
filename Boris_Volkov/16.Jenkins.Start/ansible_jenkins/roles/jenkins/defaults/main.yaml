@@ -1,0 +1,6 @@
+---
+yum_jenkins_packages:
+  - java
+  - wget
+  - git
+  - epel-release
