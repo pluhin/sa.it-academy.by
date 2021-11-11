@@ -1,6 +1,5 @@
 ```bash
-
-export API_AUTH_HEADER='admin:110b68bae5aa1d9a614076a3f888381dab'
+export API_AUTH_HEADER='admin:XXXXX'
 curl -X POST -u ${API_AUTH_HEADER}  http://jenkins.k8s-21.sa/job/10.Print.env/build
 curl -X GET -u ${API_AUTH_HEADER}  http://jenkins.k8s-21.sa/job/10.Print.env/config.xml -o config.xml
 vim config.xml
