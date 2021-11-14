@@ -4,7 +4,7 @@
 ```bash
 repo: https://github.com/usertiger/flux_demo
 /// installing flux by bash
-export GITHUB_TOKEN=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
+export GITHUB_TOKEN=____TOKEN____
 export GITHUB_USER=usertiger
 export GITHUB_REPO=flux_demo
 [root@sa-centos-13 flux_demo]# flux create source git jenkins \\n  --url=https://github.com/usertiger/flux_demo.git \\n  --branch=main \\n  --interval=1m \\n  --export > ./clusters/jenkins-source.yaml
