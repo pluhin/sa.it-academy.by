@@ -1,0 +1,67 @@
+---
+- name: Jenkins. Install required packages
+  yum:
+    name: "{{ yum_jenkins_packages }}"
+    state: latest
+    disable_gpg_check: yes
+    update_cache: yes
+
+- name: Jenkins. Add repository
+  get_url:
+    url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+    validate_certs: no
+
+- name: Jenkins. Import jenkins key from url
+  rpm_key:
+    state: present
+    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+    validate_certs: no
+
+- name: Jenkins. Install jenkins
+  yum:
+    name: jenkins
+    state: latest
+    disable_gpg_check: yes
+    update_cache: yes
+
+- name: Jenkins. Add firewall rule
+  firewalld:
+    permanent: yes
+    service: jenkins
+    state: enabled
+    immediate: yes
+
+- name: Jenkins. Add firewall rule 2
+  firewalld:
+    port: 8080/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+
+- name: Jenkins. Start and enable service
+  systemd:
+    state: started
+    name: jenkins
+    enabled: yes
+
+- name: Jenkins. Wait until the file is present before continuing
+  wait_for:
+    path: /var/lib/jenkins/secrets/initialAdminPassword
+
+- name: Jenkins. Init password Jenkins
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+
+- name: Jenkins. Print init password
+  debug:
+    var: result.stdout
+
+- name: Jenkins. Test port availability
+  wait_for:
+    host: "127.0.0.1"
+    port: "8080"
+    timeout: 10
+  tags:
+    - test
