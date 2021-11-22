@@ -1,0 +1,49 @@
+jenkins:
+  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n"
+  numExecutors: 5
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+        - string:
+            description: "Slack integration token"
+            id: "slack_token"
+            scope: GLOBAL
+            secret: "XXX"
+        - usernamePassword:
+            description: "For github"
+            id: "github-https"
+            password: "XXX"
+            scope: GLOBAL
+            username: "XXX"
+        - basicSSHUserPrivateKey:
+            id: "github-ssh"
+            privateKeySource:
+              directEntry:
+                privateKey: |
+                  -----BEGIN OPENSSH PRIVATE KEY-----
+                  -----END OPENSSH PRIVATE KEY-----
+            scope: GLOBAL
+            username: "github-jenkins"
+unclassified:
+  mailer:
+    authentication:
+      password: "XXX"
+      username: "XXX"
+    charset: "UTF-8"
+    replyToAddress: "no-reply@it-academy.by"
+    smtpHost: "mailbe01.hoster.by"
+    smtpPort: "2525"
+    useSsl: false
+    useTls: false
+  slackNotifier:
+    botUser: false
+    room: "integration"
+    sendAsText: false
+    teamDomain: "sa-itacademy-by"
+    tokenCredentialId: "slack_token"
+  location:
+    adminAddress: "pluhin@gmail.com"
+    url: "http://jenkinsci.it-academy.by/"
+  shell:
+    shell: "/bin/bash"

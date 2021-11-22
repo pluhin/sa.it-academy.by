@@ -1,0 +1,8 @@
+servers:
+  vars:
+    ansible_user: root
+  children:
+    home_centos:
+      hosts:
+        jenkins:
+          ansible_host: 192.168.56.4
