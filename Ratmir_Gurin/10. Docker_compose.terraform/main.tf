@@ -23,7 +23,7 @@ resource "docker_image" "radarr" {
 
 resource "docker_container" "nginx" {
   image    = docker_image.nginx.latest
-  name   = "nginx"
+  name   = "nginx">
   restart = "always"
   ports {
     internal = "80"
