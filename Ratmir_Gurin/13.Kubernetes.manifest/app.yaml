@@ -1,0 +1,172 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi         
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+        - name: persistent-storage
+          mountPath: "/var/www/html"
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: app01-pv-claim
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webservice
+  labels:
+    run: webservice
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: nginx
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarr-service
+  labels:
+    run: sonarr-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8989
+    protocol: TCP
+  selector:
+      app: sonarr
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr-service
+  labels:
+    run: radarr-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 7878
+    protocol: TCP
+  selector:
+      app: radarr
+      
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr-deployment
+  labels:
+    app: sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata: 
+      labels:
+        app: sonarr
+    spec:
+      containers:
+      - name: sonarr-image
+        image: linuxserver/sonarr:latest
+        ports:
+        - containerPort: 8989
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: 1000m
+            memory: 2Gi     
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr-deployment
+  labels:
+    app: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+      - name: sonarr-image
+        image: linuxserver/radarr:latest
+        ports:
+        - containerPort: 7878
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: 1000m
+            memory: 2Gi           
+
+---
+apiVersion:  networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-sa
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-alias: "pvr.app.k8s-19.sa"
+spec:
+  rules:
+    - host: sonarr.app.k8s-19.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sonarr-service
+                port:
+                  number: 8989
+    - host: radarr.app.k8s-19.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: radarr-service
+                port:
+                  number: 7878            
