@@ -1,0 +1,62 @@
+peline{
+    agent{
+        kubernetes{
+           yaml"""
+        apiVersion: v1
+        kind: Pod
+        metadata:
+        spec:
+          containers:
+          - name: kubeval
+            image: garethr/kubeval:latest
+            imagePullPolicy: IfNotPresent
+            command:
+            - "watch"
+            - "date"
+            tty: true
+        """
+            }
+        }
+    
+    stages {
+        stage('Clone git') {
+            steps{ 
+                git url: 'https://github.com/Kulinych/test.git', branch: 'master'
+            }
+        }    
+        stage ('Validations') {
+            parallel{
+                stage ('validation Deploy.yaml'){    
+                    steps {
+                        container ('kubeval') { 
+                            sh """#!/bin/sh
+                            kubeval Deploy.yaml 
+                            """
+                        }
+                    }
+                }    
+                stage ('validation Deploy1.yaml'){    
+                    steps {                 
+                        container ('kubeval') {
+                            sh """#!/bin/sh
+                            kubeval Deploy1.yaml 
+                            """
+                               }
+                        }  
+                    }
+                }
+            }
+        }
+    post {
+        success {
+        slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        failure {
+            slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            // mail to: 'pluhin@gmail.com',
+            // subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+            // body: "Something is wrong with ${env.BUILD_URL}"
+            }
+        }
+    }     
+
