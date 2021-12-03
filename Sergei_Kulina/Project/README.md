@@ -12,11 +12,11 @@
     
 ## Pipeline. High Level Design
 
-![plot](./scheme.png)
+![plot](./schema.png)
 
 ### Technologies which were used in project:
 
-Orchestration: Kubernetes
+Orchestration: Jenkins, Kubernetes
 
 Automation tools: Docker, Kubernetes, Github, Helm
 
@@ -28,14 +28,11 @@ Fist deployment application Whith Jenkins pipeline SCM. Start upgrade applicatio
 Jenkins pipeline runing clone apllication, build Docker image with our application, after run unit test if unit test complited pushing on DockerHub
 and wrapping Helm. Helm deployment application, testing application. If all test complited Slack send notification successfull.       
 
-How does new/upgrade deployment work
-
 ### Rollback flow description and implementation:
 
 If unit test fail runing application don't upgrade. If Helm test failed Helm runing rollback application of previos release.
 All fails Jenkins send of Slack failed. 
 
-How does rollback work, triggers ...
 
 ## Links
 
