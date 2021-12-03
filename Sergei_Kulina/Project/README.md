@@ -38,6 +38,5 @@ All fails Jenkins send of Slack failed.
 
 [Links repository of Pipeline](https://github.com/Kulinych/Project)  [Django-Todolist](https://github.com/rtzll/django-todolist)
 
-The link your repository of Pipeline code Another links Another links
 
 
