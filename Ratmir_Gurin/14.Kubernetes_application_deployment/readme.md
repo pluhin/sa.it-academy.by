@@ -6,11 +6,6 @@ build -t jfrog.it-academy.by/public/jenkins-ci:rgurin .
 docker push jjfrog.it-academy.by/public/jenkins-ci:rgurin
 ```
 
-![](Screenshot_2021-12-20.png)
-![](Screenshot_2021-12-01.png)
-
-
-
 ## Run test on Jenkins
 ### Output pipeline
 ```bash
@@ -126,3 +121,7 @@ Running on sample-app-344q7-lw77f in /home/jenkins/agent/workspace/test
 [Pipeline] End of Pipeline
 Finished: SUCCESS
 ```
+
+## Deployment screenshots
+![](Screenshot_2021-12-20.png)
+![](Screenshot_2021-12-01.png)
