@@ -36,7 +36,7 @@
    87  git rebase --onto master dev
 ```
 
-##Branch master
+## Branch master
 ```
 *   066d9b6 (HEAD -> master, features/do_one, dev) Merge branch 'hotfix/we_gonna_die'
 |\
