@@ -33,4 +33,50 @@
    84  cat 2.txt
    85  git rebase --onto master dev features/do_one
    86  git log --oneline --graph
+   87  git rebase --onto master dev
+```
+
+## Branch master
+```
+*   066d9b6 (HEAD -> master, features/do_one, dev) Merge branch 'hotfix/we_gonna_die'
+|\
+| * 7eaf0ad (hotfix/we_gonna_die) First commit in hotfix/we_gonna_die branch
+* | a325106 Fist commit in features/do_one branch
+* | ec54f7a Second commit in dev branch
+* | ca17359 First commit in dev branch
+|/
+* fdb20e8 Second commit in master
+* fcf5051 First commit in master
+```
+
+## Branch dev
+```
+*   066d9b6 (HEAD -> dev, master, features/do_one) Merge branch 'hotfix/we_gonna_die'
+|\
+| * 7eaf0ad (hotfix/we_gonna_die) First commit in hotfix/we_gonna_die branch
+* | a325106 Fist commit in features/do_one branch
+* | ec54f7a Second commit in dev branch
+* | ca17359 First commit in dev branch
+|/
+* fdb20e8 Second commit in master
+* fcf5051 First commit in master
+```
+
+## Branch features/do_one
+```
+*   066d9b6 (HEAD -> features/do_one, master, dev) Merge branch 'hotfix/we_gonna_die'
+|\
+| * 7eaf0ad (hotfix/we_gonna_die) First commit in hotfix/we_gonna_die branch
+* | a325106 Fist commit in features/do_one branch
+* | ec54f7a Second commit in dev branch
+* | ca17359 First commit in dev branch
+|/
+* fdb20e8 Second commit in master
+* fcf5051 First commit in master
+```
+## Branch hotfix/we_gonna_die
+```
+* 7eaf0ad (HEAD -> hotfix/we_gonna_die) First commit in hotfix/we_gonna_die branch
+* fdb20e8 Second commit in master
+* fcf5051 First commit in master
 ```
