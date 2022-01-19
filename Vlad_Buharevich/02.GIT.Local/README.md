@@ -1,3 +1,6 @@
+  # Bash history
+
+```bash
   254  cd test2.0/
   255  git init
   256  git config user.name "Vlad Buharevich"
@@ -55,8 +58,11 @@
   308  git rebase -i master
   309  git checkout master
   310  history
+  ```
 
-# master commits
+## MASTER commits
+
+```bash
 
 69eb1f6 (HEAD -> master) 1st in hotfix
 410ff12 (features/do_one) 1st in features
@@ -64,30 +70,35 @@
 29f1cdf 1st in dev
 128e22e 2nd in master
 0725fc6 1st in master
+```
 
-# dev commits
+## DEV commits
 
+```bash
 69eb1f6 (HEAD -> dev, master) 1st in hotfix
 410ff12 (features/do_one) 1st in features
 16e9c2a 2 in dev
 29f1cdf 1st in dev
 128e22e 2nd in master
 0725fc6 1st in master
+```
 
+## features/do_one commits
 
-# features/do_one commits
+```bash
 
 410ff12 (HEAD -> master, features/do_one) 1st in features
 16e9c2a (dev) 2 in dev
 29f1cdf 1st in dev
 128e22e 2nd in master
 0725fc6 1st in master
+```
 
-# hotfix/we_gonna_die commits
+## hotfix/we_gonna_die commits
+
+```bash
 
 c4dc3e3 (HEAD -> hotfix/we_gonna_die) 1st in hotfix
 128e22e 2nd in master
 0725fc6 1st in master
-
-
-
+```
