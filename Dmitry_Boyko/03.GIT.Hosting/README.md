@@ -39,3 +39,7 @@ for origin in $(git remote); do
     git push --all $origin
 done
 ```
+
+## GitHub integration to Slack
+
+Screenshot from Slack in the current directory.
