@@ -1,5 +1,6 @@
 #02.GIT.Local
 
+'''
  1635 git init
  1636  git config user.name "Artem Labin" && git config user.email "artsiomlabin@gmail.com"
  1637  cat .git/config 
@@ -45,10 +46,11 @@
  1677  git checkout master 
  1678  git log --oneline
  1679  history 
+'''
 
 
 ## Master
-
+'''
 *   7217690 (HEAD -> master) Merge branch 'hotfix/we_gonna_die'
 |\  
 | * 9a14cdc (hotfix/we_gonna_die) First commit in hotfix
@@ -58,10 +60,10 @@
 |/  
 * 0aabe7e second commit
 * 3b1048f Init commit
-
+'''
 
 ## dev
-
+'''
 *   8b4e806 (HEAD -> dev, features/do_one) Merge branch 'hotfix/we_gonna_die' into dev
 |\  
 | * 9a14cdc (hotfix/we_gonna_die) First commit in hotfix
@@ -71,10 +73,10 @@
 |/  
 * 0aabe7e second commit
 * 3b1048f Init commit
-
+'''
 
 ## features/do_one
-
+'''
 *   8b4e806 (HEAD -> features/do_one, dev) Merge branch 'hotfix/we_gonna_die' into dev
 |\  
 | * 9a14cdc (hotfix/we_gonna_die) First commit in hotfix
@@ -84,10 +86,11 @@
 |/  
 * 0aabe7e second commit
 * 3b1048f Init commit
-
+'''
 
 ## hotfix/we_gonna_die
-
+'''
 * 9a14cdc (HEAD -> hotfix/we_gonna_die) First commit in hotfix
 * 0aabe7e second commit
 * 3b1048f Init commit
+'''
