@@ -31,9 +31,9 @@
 
 ## Repo's
 
-Bitbucket git@bitbucket.org:redman27/git_remote_repo.git
-GitLab git@gitlab.com:redman27/03git_task_gitlab.git
-GitHub git@github.com:redman27/git_remote_repo.git
+1. Bitbucket git@bitbucket.org:redman27/git_remote_repo.git
+2. GitLab git@gitlab.com:redman27/03git_task_gitlab.git
+3. GitHub git@github.com:redman27/git_remote_repo.git
 
 ## Integration git in slack
 git_integration_slack.png
