@@ -2,7 +2,7 @@
 
 ## Urls repositories
 
-[GitHub](https://gitlab.com/DmitryTryput/git_demo.git)
+[GitHub](https://github.com/DmitryTryput/git_demo)
 
 [GitLab](https://gitlab.com/DmitryTryput/git_demo.git)
 
