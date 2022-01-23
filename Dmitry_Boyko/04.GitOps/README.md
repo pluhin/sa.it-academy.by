@@ -4,7 +4,7 @@
 
 
 
-## [Pipeline logs]
+## Pipeline logs
 ```bash
 2022-01-23T20:09:24.2589423Z Waiting for a runner to pick up this job...
 2022-01-23T20:09:24.8941920Z Job is about to start running on the runner: ubuntu_runner (repository)
