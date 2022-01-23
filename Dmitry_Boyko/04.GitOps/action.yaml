@@ -1,0 +1,35 @@
+name: Check tabs in modified files
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: [my_runner]
+    steps:
+      - run: echo "The ${{ github.repository }} repository will be cloned to the runner."
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Check tabs in modified files
+        run: |
+          mkdir Artifacts
+          for file in $(git diff --name-only origin/main); do
+          (
+            a=$(awk '{print gsub(/\t/,"")}' $file | awk '{s+=$1} END { print s }')  
+            if ((a>0)); then
+              echo "Found '$file' with tabs"
+              echo "Checking file $file" > Artifacts/${file}_artifacts
+              echo "Count $a" >> Artifacts/${file}_artifacts  
+            fi
+          ) & 
+          done
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Artifacts
+          path: ./Artifacts/ 
+
+
+
