@@ -1,0 +1,36 @@
+name: Gets all changed files, find tabs, generate report
+
+on: [pull_request]
+
+jobs:
+  find-changed-files:
+    runs-on: ubuntu-latest
+    outputs:
+      files: ${{ steps.files.outputs.all }}  
+    steps:
+      - name: Get changed files
+        uses: jitterbit/get-changed-files@v1
+        id: files
+        with:
+          format: 'json'
+          token: ${{ secrets.GITHUB_TOKEN }}  
+      - run: | 
+              echo "List of changed files got succesfully"
+              echo "${{ steps.files.outputs.all }}"
+  find-tabs:
+    needs: find-changed-files
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        changed-files: ${{fromJson(needs.find-changed-files.outputs.files)}}
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - name: Find tabs
+        run: |
+              echo "${{matrix.changed-files}}"
+              cat ${{matrix.changed-files}} | grep -P "\t" > ${{matrix.changed-files}}.log 2>&1 || echo "Tabs not found"
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ matrix.changed-files }}.log
