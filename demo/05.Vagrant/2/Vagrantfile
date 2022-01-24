@@ -1,0 +1,31 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "host1" do |ubuntu|
+    ubuntu.vm.box = "ubuntu/bionic64"
+    ubuntu.vm.network "forwarded_port", guest: 80, host: 8083
+    ubuntu.vm.network "private_network", ip: "192.168.56.213"
+    #ubuntu.vm.synced_folder ".", "/vagrant_data"
+    ubuntu.vm.provider "virtualbox" do |vb|
+       vb.gui = false
+       vb.memory = "2048"
+    end
+    ubuntu.vm.provision "shell", inline: <<-SHELL
+      apt-get update
+      apt-get install -yqq apache2
+    SHELL
+  end
+  config.vm.define "host2" do |centos|
+    centos.vm.box = "centos/7"
+    centos.vm.network "forwarded_port", guest: 80, host: 8084
+    centos.vm.network "private_network", ip: "192.168.56.214"
+    #/config1.vm.synced_folder ".", "/vagrant_data"
+    centos.vm.provider "virtualbox" do |vb|
+       vb.gui = false
+       vb.memory = "1024"
+    end
+    centos.vm.provision "shell", inline: <<-SHELL
+      yum install -y httpd
+      systemctl enable httpd
+      systemctl start httpd
+    SHELL
+  end
+end
