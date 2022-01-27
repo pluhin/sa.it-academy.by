@@ -1,0 +1,52 @@
+name: Check modified files
+
+on:
+  pull_request:
+    branches:
+    - main 
+
+jobs:
+  check-files:
+    runs-on: ubuntu-latest 
+    steps:
+      - name: Get changed files
+        id: files
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'json'
+
+      - name: List Changed Files
+        run: |
+          readarray -t added_file <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.added }}')"
+          for added_file in ${added_file[@]}; do
+            echo "Added files: ${added_file}." >> check_file_report.log
+          done
+
+      - run: |
+          readarray -t changed_file <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.changed }}')"
+          for changed_file in ${changed_file[@]}; do
+            echo "Changed files: ${changed_file}." >> check_file_report.log
+          done
+
+      - run: |
+          readarray -t modified_file <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.modified }}')"
+          for modified_file in ${modified_file[@]}; do
+            echo "Modified files: ${modified_file}." >> check_file_report.log
+          done
+      
+      - run: |
+          readarray -t removed_file <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.removed }}')"
+          for removed_file in ${removed_file[@]}; do
+            echo "removed files: ${removed_file}." >> check_file_report.log
+          done
+
+      - run: |
+          readarray -t renamed_file <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.renamed }}')"
+          for renamed_file in ${renamed_file[@]}; do
+            echo "renamed files: ${renamed_file}." >> check_file_report.log
+          done    
+      
+      - name: Upload report to log file
+        uses: actions/upload-artifact@v2
+        with:
+          path: check_file_report.log
