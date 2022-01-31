@@ -38,40 +38,6 @@ host02 | CHANGED => {
     "stderr_lines": [],
     "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nThe following NEW packages will be installed:\n  nginx\n0 upgraded, 1 newly installed, 0 to remove and 201 not upgraded.\nNeed to get 0 B/3596 B of archives.\nAfter this operation, 44.0 kB of additional disk space will be used.\nSelecting previously unselected package nginx.\r\n(Reading database ... \r(Reading database ... 5%\r(Reading database ... 10%\r(Reading database ... 15%\r(Reading database ... 20%\r(Reading database ... 25%\r(Reading database ... 30%\r(Reading database ... 35%\r(Reading database ... 40%\r(Reading database ... 45%\r(Reading database ... 50%\r(Reading database ... 55%\r(Reading database ... 60%\r(Reading database ... 65%\r(Reading database ... 70%\r(Reading database ... 75%\r(Reading database ... 80%\r(Reading database ... 85%\r(Reading database ... 90%\r(Reading database ... 95%\r(Reading database ... 100%\r(Reading database ... 22118 files and directories currently installed.)\r\nPreparing to unpack .../nginx_1.14.0-0ubuntu1.9_all.deb ...\r\nUnpacking nginx (1.14.0-0ubuntu1.9) ...\r\nSetting up nginx (1.14.0-0ubuntu1.9) ...\r\n",
     "stdout_lines": [
-        "Reading package lists...",
-        "Building dependency tree...",
-        "Reading state information...",
-        "The following NEW packages will be installed:",
-        "  nginx",
-        "0 upgraded, 1 newly installed, 0 to remove and 201 not upgraded.",
-        "Need to get 0 B/3596 B of archives.",
-        "After this operation, 44.0 kB of additional disk space will be used.",
-        "Selecting previously unselected package nginx.",
-        "(Reading database ... ",
-        "(Reading database ... 5%",
-        "(Reading database ... 10%",
-        "(Reading database ... 15%",
-        "(Reading database ... 20%",
-        "(Reading database ... 25%",
-        "(Reading database ... 30%",
-        "(Reading database ... 35%",
-        "(Reading database ... 40%",
-        "(Reading database ... 45%",
-        "(Reading database ... 50%",
-        "(Reading database ... 55%",
-        "(Reading database ... 60%",
-        "(Reading database ... 65%",
-        "(Reading database ... 70%",
-        "(Reading database ... 75%",
-        "(Reading database ... 80%",
-        "(Reading database ... 85%",
-        "(Reading database ... 90%",
-        "(Reading database ... 95%",
-        "(Reading database ... 100%",
-        "(Reading database ... 22118 files and directories currently installed.)",
-        "Preparing to unpack .../nginx_1.14.0-0ubuntu1.9_all.deb ...",
-        "Unpacking nginx (1.14.0-0ubuntu1.9) ...",
-        "Setting up nginx (1.14.0-0ubuntu1.9) ..."
     ]
 }
 host01 | CHANGED => {
@@ -85,14 +51,8 @@ host01 | CHANGED => {
         ],
         "updated": []
     },
-    "msg": "warning: /var/cache/yum/x86_64/7/epel/packages/nginx-1.20.1-9.el7.x86_64.rpm: Header V4 RSA/SHA256 Signature, key ID 352c64e5: NOKEY\nImporting GPG key 0x352C64E5:\n Userid     : \"Fedora EPEL (7) <epel@fedoraproject.org>\"\n Fingerprint: 91e9 7d7c 4a5e 96f1 7f3e 888f 6a2f aea2 352c 64e5\n Package    : epel-release-7-11.noarch (@extras)\n From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7\n",
     "rc": 0,
     "results": [
-        "Loaded plugins: fastestmirror\nLoading mirror speeds from cached hostfile\n * base: ftp.byfly.by\n * epel: mirror.imt-systems.com\n * extras: ftp.byfly.by\n * updates: ftp.man.poznan.pl\nResolving Dependencies\n--> Running transaction check\n---> Package nginx.x86_64 1:1.20.1-9.el7 will be installed\n--> Processing Dependency: nginx-filesystem = 1:1.20.1-9.el7 for package: 1:nginx-1.20.1-9.el7.x86_64\n--> Processing Dependency: libcrypto.so.1.1(OPENSSL_1_1_0)(64bit) for package: 1:nginx-1.20.1-9.el7.x86_64\n--> Processing Dependency: libssl.so.1.1(OPENSSL_1_1_0)(64bit) for package: 1:nginx-1.20.1-9.el7.x86_64\n--> Processing Dependency: libssl.so.1.1(OPENSSL_1_1_1)(64bit) for package: 1:nginx-1.20.1-9.el7.x86_64\n--> Processing Dependency: nginx-filesystem for package: 1:nginx-1.20.1-9.el7.x86_64\n--> Processing Dependency: openssl for package: 1:nginx-1.20.1-9.el7.x86_64\n--> Processing Dependency: redhat-indexhtml for package: 1:nginx-1.20.1-9.el7.x86_64\n--> Processing Dependency: system-logos for package: 1:nginx-1.20.1-9.el7.x86_64\n--> Processing Dependency: libcrypto.so.1.1()(64bit) for package: 1:nginx-1.20.1-9.el7.x86_64\n--> Processing Dependency: libprofiler.so.0()(64bit) for package: 1:nginx-1.20.1-9.el7.x86_64\n--> Processing Dependency: libssl.so.1.1()(64bit) for package: 1:nginx-1.20.1-9.el7.x86_64\n--> Running transaction check\n---> Package centos-indexhtml.noarch 0:7-9.el7.centos will be installed\n---> Package centos-logos.noarch 0:70.0.6-3.el7.centos will be installed\n---> Package gperftools-libs.x86_64 0:2.6.1-1.el7 will be installed\n---> Package nginx-filesystem.noarch 1:1.20.1-9.el7 will be installed\n---> Package openssl.x86_64 1:1.0.2k-24.el7_9 will be installed\n--> Processing Dependency: openssl-libs(x86-64) = 1:1.0.2k-24.el7_9 for package: 1:openssl-1.0.2k-24.el7_9.x86_64\n--> Processing Dependency: make for package: 1:openssl-1.0.2k-24.el7_9.x86_64\n---> Package openssl11-libs.x86_64 1:1.1.1k-2.el7 will be installed\n--> Running transaction check\n---> Package make.x86_64 1:3.82-24.el7 will be installed\n---> Package openssl-libs.x86_64 1:1.0.2k-19.el7 will be updated\n---> Package openssl-libs.x86_64 1:1.0.2k-24.el7_9 will be an update\n--> Finished Dependency Resolution\n\nDependencies Resolved\n\n================================================================================\n Package               Arch        Version                   Repository    Size\n================================================================================\nInstalling:\n nginx                 x86_64      1:1.20.1-9.el7            epel         587 k\nInstalling for dependencies:\n centos-indexhtml      noarch      7-9.el7.centos            base          92 k\n centos-logos          noarch      70.0.6-3.el7.centos       base          21 M\n gperftools-libs       x86_64      2.6.1-1.el7               base         272 k\n make                  x86_64      1:3.82-24.el7             base         421 k\n nginx-filesystem      noarch      1:1.20.1-9.el7            epel          24 k\n openssl               x86_64      1:1.0.2k-24.el7_9         updates      494 k\n openssl11-libs        x86_64      1:1.1.1k-2.el7            epel         1.5 M\nUpdating for dependencies:\n openssl-libs          x86_64      1:1.0.2k-24.el7_9         updates      1.2 M\n\nTransaction Summary\n================================================================================\nInstall  1 Package  (+7 Dependent packages)\nUpgrade             ( 1 Dependent package)\n\nTotal download size: 26 M\nDownloading packages:\nDelta RPMs disabled because /usr/bin/applydeltarpm not installed.\nPublic key for nginx-1.20.1-9.el7.x86_64.rpm is not installed\n--------------------------------------------------------------------------------\nTotal                                              8.7 MB/s |  26 MB  00:02     \nRetrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7\nRunning transaction check\nRunning transaction test\nTransaction test succeeded\nRunning transaction\n  Installing : centos-logos-70.0.6-3.el7.centos.noarch                     1/10 \n  Installing : centos-indexhtml-7-9.el7.centos.noarch                      2/10 \n  Installing : 1:make-3.82-24.el7.x86_64                                   3/10 \n  Installing : gperftools-libs-2.6.1-1.el7.x86_64                          4/10 \n  Installing : 1:openssl11-libs-1.1.1k-2.el7.x86_64                        5/10 \n  Updating   : 1:openssl-libs-1.0.2k-24.el7_9.x86_64                       6/10 \n  Installing : 1:openssl-1.0.2k-24.el7_9.x86_64                            7/10 \n  Installing : 1:nginx-filesystem-1.20.1-9.el7.noarch                      8/10 \n  Installing : 1:nginx-1.20.1-9.el7.x86_64                                 9/10 \n  Cleanup    : 1:openssl-libs-1.0.2k-19.el7.x86_64                        10/10 \n  Verifying  : 1:nginx-filesystem-1.20.1-9.el7.noarch                      1/10 \n  Verifying  : 1:nginx-1.20.1-9.el7.x86_64                                 2/10 \n  Verifying  : 1:openssl-libs-1.0.2k-24.el7_9.x86_64                       3/10 \n  Verifying  : 1:openssl11-libs-1.1.1k-2.el7.x86_64                        4/10 \n  Verifying  : gperftools-libs-2.6.1-1.el7.x86_64                          5/10 \n  Verifying  : 1:make-3.82-24.el7.x86_64                                   6/10 \n  Verifying  : 1:openssl-1.0.2k-24.el7_9.x86_64                            7/10 \n  Verifying  : centos-indexhtml-7-9.el7.centos.noarch                      8/10 \n  Verifying  : centos-logos-70.0.6-3.el7.centos.noarch                     9/10 \n  Verifying  : 1:openssl-libs-1.0.2k-19.el7.x86_64                        10/10 \n\nInstalled:\n  nginx.x86_64 1:1.20.1-9.el7                                                   \n\nDependency Installed:\n  centos-indexhtml.noarch 0:7-9.el7.centos
-   \n  centos-logos.noarch 0:70.0.6-3.el7.centos                                     \n  gperftools-libs.x86_64 0:2.6.1-1.el7
-    \n  make.x86_64 1:3.82-24.el7                                                     \n  nginx-filesystem.noarch 1:1.20.1-9.el7
-     \n  openssl.x86_64 1:1.0.2k-24.el7_9                                              \n  openssl11-libs.x86_64 1:1.1.1k-2.el7
-      \n\nDependency Updated:\n  openssl-libs.x86_64 1:1.0.2k-24.el7_9                                         \n\nComplete!\n"
     ]
 }
 ```
