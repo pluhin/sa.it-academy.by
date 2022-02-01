@@ -1,0 +1,16 @@
+gateway: 
+  hosts:
+    jump_host:
+      ansible_host: 178.124.206.53
+      ansible_user: jump_sa
+
+ustinovich_hosts:
+  vars:
+    ansible_user: root
+  children:
+    servers:
+      hosts:
+        host01:
+          ansible_host: 192.168.202.21
+        host02:
+          ansible_host: 192.168.202.22
