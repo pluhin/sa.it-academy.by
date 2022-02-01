@@ -1,0 +1,20 @@
+- hosts: all_workers
+  gather_facts: true
+  #strategy: free
+  #serial: 3
+
+  tasks:
+    - name: 'Show OS Version'
+      debug:
+        msg: "OS Version = {{ ansible_distribution }}  {{ ansible_distribution_version }} {{ ansible_distribution_release }}"
+
+    - name: 'Show Mount point/capacity/used'
+      command: df -h
+      register: storage
+    - debug: var=storage.stdout_lines
+
+    - name: 'Show RAM Memory'
+      debug:
+        msg: 
+          - "Total Memory = {{ ansible_memtotal_mb }} MB" 
+          - "Free Memory = {{ ansible_memfree_mb }} MB"
