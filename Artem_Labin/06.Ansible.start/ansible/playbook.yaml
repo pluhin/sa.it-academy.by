@@ -1,0 +1,24 @@
+---
+- hosts: all_workers
+  tasks:
+    - name: OS | version
+      debug: msg="{{ item }}" 
+      with_items: 
+      - "{{ ansible_distribution }}"
+      - "{{ ansible_distribution_version }}"
+      - "{{ ansible_distribution_major_version }}"
+    - name: Mount point | capacity | used
+      debug: msg="{{ item }}" 
+      msg: 
+      - "Device name     = {{ item.device }}"
+      - "FileSystem type = {{ item.fstype }}"
+      - "Capacity        = {{ (item.size_total/1048576)|int }}MB"
+      - "Used space      = {{ ((item.size_total - item.size_available) / 1000000)|int }} MB"
+      when: item.mount == '/'
+      with_items:
+      - "{{ ansible_mounts }}"
+    - name: RAM | capacity | free
+      debug: msg="{{ item }}" 
+      with_items: 
+      - "Total memory = {{ ansible_memtotal_mb }}MB"
+      - "Free memory  = {{ ansible_memfree_mb }}MB"
