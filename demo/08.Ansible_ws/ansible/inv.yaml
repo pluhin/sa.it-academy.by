@@ -1,0 +1,44 @@
+jump_sa:
+  vars:
+    env: "it-academy"
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.53 
+      ansible_user: jump_sa
+
+all_workers:
+  children:
+    work_sa:
+      hosts:
+        host23:
+          ansible_host: 192.168.202.23
+        host24:
+          ansible_host: 192.168.202.24
+        redmine:
+          ansible_host: 192.168.201.XX
+    ansible_ws:
+      hosts:
+        ansible01:
+          ansible_host: 192.168.201.1
+        ansible02:
+          ansible_host: 192.168.201.2
+        ansible03:
+          ansible_host: 192.168.201.3
+        ansible04:
+          ansible_host: 192.168.201.4
+        ansible05:
+          ansible_host: 192.168.201.5
+        ansible06:
+          ansible_host: 192.168.201.6
+        ansible07:
+          ansible_host: 192.168.201.7
+        ansible08:
+          ansible_host: 192.168.201.8
+        ansible09:
+          ansible_host: 192.168.201.9
+        ansible10:
+          ansible_host: 192.168.201.10
+        ansible11:
+          ansible_host: 192.168.201.11
+        ansible12:
+          ansible_host: 192.168.201.12
