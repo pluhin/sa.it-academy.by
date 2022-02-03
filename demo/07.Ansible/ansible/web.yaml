@@ -1,0 +1,6 @@
+---
+- hosts: all_workers
+  #strategy: free
+  #serial: 1
+  roles: 
+    - webserver
