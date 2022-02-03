@@ -1,0 +1,5 @@
+---
+- hosts: all_hosts
+  roles: 
+    - webserver
+
