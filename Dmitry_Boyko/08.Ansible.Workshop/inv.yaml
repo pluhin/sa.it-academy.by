@@ -1,0 +1,19 @@
+gateway: 
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.53
+      ansible_user: jump_sa
+
+all_workers:
+  vars:
+    ansible_user: root
+  children:
+    pc:
+      hosts:
+        host01:
+          ansible_host: 192.168.202.1
+        host02:
+          ansible_host: 192.168.202.2
+        redmine:
+          ansible_host: 192.168.201.1
+
