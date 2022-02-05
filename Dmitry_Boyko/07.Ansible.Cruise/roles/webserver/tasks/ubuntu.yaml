@@ -1,0 +1,57 @@
+---
+- name: "[Ubuntu] Include common variables"
+  include_vars: roles/webserver/defaults/common.yaml
+  tags:
+    - deploy
+   
+- name: "[Ubuntu] Include specifics variables"
+  include_vars: roles/webserver/defaults/ubuntu.yaml
+  tags:
+    - deploy
+    - testing
+
+- name: "[Ubuntu] Nginx. Install packages"
+  apt:
+    name: nginx
+    state: latest
+    update_cache: yes
+  tags:
+    - deploy
+
+- name: "[Ubuntu] Nginx. Enable and start service"
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  tags:
+    - deploy
+
+- name: "[Ubuntu] Nginx. Deploy"
+  include_tasks: 
+    file: roles/webserver/tasks/deploy.yaml
+    apply:
+      tags:
+        - deploy
+  with_items: "{{ virtual_hosts }}"
+  tags:
+    - deploy
+    - ubuntu
+
+- name: "[Ubuntu] Restart nginx"
+  include_tasks:
+    file: roles/webserver/tasks/restart.yaml
+    apply:
+      tags:
+        - restart
+  tags:
+    - deploy
+
+- name: "[Ubuntu] Nginx. vHosts testing"
+  include_tasks:
+    file: roles/webserver/tasks/testing.yaml
+    apply:
+      tags:
+        - testing
+  with_items: "{{ virtual_hosts }}"
+  tags:
+    - testing

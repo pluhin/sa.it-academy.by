@@ -1,0 +1,8 @@
+---
+- name: Restart WebServer
+  service:
+    name: nginx
+    state: restarted
+  tags:
+    - restart
+

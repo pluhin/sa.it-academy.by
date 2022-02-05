@@ -1,0 +1,7 @@
+server {
+        listen   80;
+        root {{ nginx_html_dir }}/{{ virtual_host }};
+        index {{ virtual_host }}.html;
+        server_name {{ virtual_host }};
+}
+

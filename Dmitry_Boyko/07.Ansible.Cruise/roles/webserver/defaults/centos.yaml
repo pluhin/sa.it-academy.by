@@ -1,0 +1,7 @@
+virtual_hosts:
+  - "centos-01.site"
+  - "centos-02.site"
+
+nginx_vhosts_conf_dir: "/etc/nginx/conf.d"
+
+nginx_html_dir: "/usr/share/nginx/html"
