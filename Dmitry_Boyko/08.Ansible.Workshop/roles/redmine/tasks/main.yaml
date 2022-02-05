@@ -1,29 +1,12 @@
 ---
-- name: Redmine. Install packages
-  apt:
-    name: "{{ apt_redmine_packages }}"
-    state: latest
-    update_cache: yes
-
-- mysql_db:
-    name: "{{ app_db_name }}"
-    encoding: utf8
-    login_unix_socket: /var/run/mysqld/mysqld.sock
-
-- mysql_user:
-    name: "{{ app_db_user }}"
-    password: "{{ app_db_pass }}"
-    priv: "{{ app_db_name }}.*:ALL"
-    login_unix_socket: /var/run/mysqld/mysqld.sock
-  no_log: yes
-
 - name: Redmine. Clone repository
   git:
     repo: "{{ app_repo }}"
     dest: "{{ app_home }}"
     version: '{{ app_version }}'
     accept_hostkey: yes
-    update: no
+    update: yes
+    force: yes
 
 - name: Redmine. Change permissions
   file:
@@ -36,8 +19,6 @@
   file:
     path: "{{ app_home }}/tmp"
     mode: '777'
-
-
 
 - name: Config database
   template:
@@ -90,23 +71,3 @@
 - meta: flush_handlers
 
 
-- name: "Add {{ app_fqdn }} to host file"
-  shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
-  tags: 
-    - test
-    
-- uri:
-    url: "http://{{ app_fqdn }}"
-    return_content: yes
-  register: this
-  failed_when: "'Jean-Philippe Lang' not in this.content"
-  tags: 
-    - test
-
-- lineinfile:
-    path: /etc/hosts
-    state: absent
-    regexp: '^127.0.0.1       {{ app_fqdn }}'
-  tags: 
-    - test
-    - always
