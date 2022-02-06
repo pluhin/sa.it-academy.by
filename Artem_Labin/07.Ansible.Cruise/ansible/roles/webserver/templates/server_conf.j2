@@ -1,0 +1,6 @@
+server {
+        listen   80;
+        root {{ html_dir }}/{{ virtual_host }};
+        index {{ virtual_host }}.html;
+        server_name {{ virtual_host }};
+}

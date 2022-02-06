@@ -1,0 +1,25 @@
+---
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: NGINX. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: NGINX. Deploy 
+  vars:
+    virtual_hosts: "{{ deb_vhosts }}"
+    conf_dir: "{{ nginx_conf_dir }}"
+    html_dir: "{{ deb_nginx_html_dir }}"
+  include_tasks: deploy.yaml
+  with_items: "{{ virtual_hosts }}"
+
+- name: Restart nginx 
+  service:
+    name: nginx
+    state: restarted
