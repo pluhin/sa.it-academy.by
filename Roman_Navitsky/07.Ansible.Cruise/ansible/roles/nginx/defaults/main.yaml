@@ -1,0 +1,15 @@
+#Variables
+default_home: "/var/www/"
+
+nginx_default_confs: "/etc/nginx/conf.d"
+
+site_ubuntu1: "local-ubuntu1.test"
+site_ubuntu2: "local-ubuntu2.test"
+site_centos1: "local-centos1.test"
+site_centos2: "local-centos2.test"
+
+virtual_hosts:
+  - { name: "{{ site_ubuntu1 }}", ip: "{{ hostvars[\"host10\"].ansible_host }}"}
+  - { name: "{{ site_ubuntu2 }}", ip: "{{ hostvars[\"host10\"].ansible_host }}"}
+  - { name: "{{ site_centos1 }}", ip: "{{ hostvars[\"host9\"].ansible_host }}"}
+  - { name: "{{ site_centos2 }}", ip: "{{ hostvars[\"host9\"].ansible_host }}"}

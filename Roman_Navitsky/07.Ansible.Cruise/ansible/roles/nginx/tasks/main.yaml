@@ -1,0 +1,80 @@
+#Tasks
+---
+- name: 'Install Eple-Release on CentOS'
+  yum: name=epel-release state=latest update_cache=yes
+  when: ansible_distribution == 'CentOS'
+
+- name: 'Install NGINX on CentOS'
+  yum: name=nginx state=latest update_cache=yes
+  when: ansible_distribution == 'CentOS'
+  notify:
+    - nginx start
+
+- name: 'Install NGINX on Ubuntu'
+  apt: name=nginx state=latest update_cache=yes
+  when: ansible_distribution == 'Ubuntu'
+  notify:
+    - nginx start
+
+- name: Createing directory
+  file:
+    path: "{{ default_home }}/{{ item.name }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop: "{{ virtual_hosts }}"
+  when: (ansible_distribution == "CentOS" and "centos" in item.name) or
+    (ansible_distribution == "Ubuntu" and "ubuntu" in item.name)
+
+- name: Copying configuration template
+  template:
+    src: site.conf.j2 
+    dest: "{{ nginx_default_confs }}/{{ item.name }}.conf"
+  loop: "{{ virtual_hosts }}"
+  notify:
+    - nginx restart
+  when: (ansible_distribution == "CentOS" and "centos" in item.name) or
+    (ansible_distribution == "Ubuntu" and "ubuntu" in item.name)
+
+- name: Copying first page.
+  template:
+    src: index.html.j2
+    dest: "{{ default_home }}/{{ item.name }}/index.html"
+  loop: "{{ virtual_hosts }}"
+  notify:
+    - nginx restart
+  when: (ansible_distribution == "CentOS" and "centos" in item.name) or
+    (ansible_distribution == "Ubuntu" and "ubuntu" in item.name)
+
+- name: Copying hosts template
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'My Test' not in this.content"
+  when: (ansible_distribution == "CentOS" and "centos" in item.name) or
+    (ansible_distribution == "Ubuntu" and "ubuntu" in item.name)
+  tags:
+  - tests
+
+- name: print out
+  debug:
+    msg: "{{ this }}"
+  tags:
+  - tests
+
+
+
+
+
