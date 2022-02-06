@@ -1,0 +1,31 @@
+---
+- name: Nginx. Install packages
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Nginx. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Nginx. Deploy ubuntu
+  vars:
+    virtual_hosts: "{{ ubuntu_virtual_hosts }}"
+    html_dir: "{{ ubuntu_nginx_html_dir }}"
+  include_tasks: deploy.yaml
+  with_items: "{{ virtual_hosts }}"
+
+- name: Restart nginx ubuntu
+  service:
+    name: nginx
+    state: restarted
+
+- name: Nginx. Test ubuntu
+  vars:
+    virtual_hosts: "{{ ubuntu_virtual_hosts }}"
+  include_tasks: test.yaml
+  with_items: "{{ virtual_hosts }}"
+
