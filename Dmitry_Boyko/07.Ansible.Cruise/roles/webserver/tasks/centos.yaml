@@ -1,0 +1,63 @@
+---
+- name: "[CentOS] Include common variables"
+  include_vars: "roles/webserver/defaults/common.yaml"
+  tags: 
+    - deploy
+
+- name: "[CentOS] Include specifics variables"
+  include_vars: "roles/webserver/defaults/centos.yaml"
+  tags:
+    - deploy
+    - testing
+
+- name: "[CentOS] Install EPEL Repo"
+  yum:
+    name: epel-release
+    state: latest
+  tags:
+    - deploy
+
+- name: "[CentOS] Nginx. Install packages"
+  yum:
+    name: nginx
+    state: latest
+  tags:
+    - deploy
+
+- name: "[CentOS] Nginx. Enable and start service"
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  tags:
+    - deploy
+
+- name: "[CentOS] Nginx. Deploy"
+  include_tasks: 
+    file: roles/webserver/tasks/deploy.yaml
+    apply:
+      tags:
+        - deploy
+        - centos
+  with_items: "{{ virtual_hosts }}"
+  tags:
+    - deploy 
+
+- name: "[CentOS] Restart nginx"
+  include_tasks:
+    file: roles/webserver/tasks/restart.yaml
+    apply:
+      tags:
+        - restart
+  tags:
+    - deploy
+
+- name: "[CentOS] Nginx. vHosts testing"
+  include_tasks:
+    file: roles/webserver/tasks/testing.yaml
+    apply:
+      tags:
+        - testing
+  with_items: "{{ virtual_hosts }}"
+  tags:
+    - testing

@@ -1,0 +1,8 @@
+virtual_hosts:
+  - "ubuntu-01.site"
+  - "ubuntu-02.site"
+
+nginx_vhosts_conf_dir: "/etc/nginx/sites-enabled"
+
+nginx_html_dir: "/var/www"
+

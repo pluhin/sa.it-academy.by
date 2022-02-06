@@ -1,0 +1,28 @@
+---
+- name: "[{{ item }}] Checking if exists directory"
+  file:
+    path: "{{ nginx_html_dir }}/{{ item }}"
+    state: directory
+  tags: 
+    - deploy
+
+- name: "[{{ item }}] Add {{ item }}.html"
+  vars:
+    virtual_host: "{{ item }}"
+  template:
+    src: "index.html.j2"
+    dest: "{{ nginx_html_dir }}/{{ virtual_host }}/{{ virtual_host }}.html"
+    mode: "0755"
+  tags:
+    - deploy
+
+- name: "[{{ item }}] Creating configuration files"
+  vars:
+    virtual_host: "{{ item }}"
+  template:
+    src: "server_conf.j2"
+    dest: "{{ nginx_vhosts_conf_dir }}/{{ virtual_host }}.conf"
+    mode: "0644"
+  tags:
+    - centos
+

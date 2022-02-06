@@ -1,0 +1,39 @@
+---
+- name: Checking NOPASSWD in Sudoers
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Checking Debian/CentOS repositories
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  with_items: 
+    - http://centos.mirror.liquidtelecom.com/
+    - http://ftp.is.co.za/mirror/centos/
+    - http://mirror.hostart.az/CentOS/
+    - http://ftp.byfly.by/debian/
+    - http://deb.debian.org/debian/
+    - http://ftp.debian.org/debian/
+
+- name: Checking Docker Hub
+  uri: 
+    url: "https://hub.docker.com"
+    return_content: yes 
+  register: response
+  failed_when: "'<div id=\"app\"></div>' not in response.content"
+
+- name: Checking free space in storage
+  assert:
+    that: item.size_available > item.size_total|float * 0.2
+    msg: "disk space has reached 80% threshold"
+  with_items: '{{ ansible_mounts }}'
+  ignore_errors: yes
+
+- name: Checking free memory
+  assert:
+    that: ansible_memory_mb.real.free > ansible_memory_mb.real.total|float * 0.25
+    msg: "Memory using has reached 75% threshold"
+  ignore_errors: yes
+

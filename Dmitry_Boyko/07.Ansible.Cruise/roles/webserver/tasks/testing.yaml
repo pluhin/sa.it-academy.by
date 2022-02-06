@@ -1,0 +1,35 @@
+---
+- name: "[{{ item }}] Create record in /etc/hosts"
+  lineinfile:
+    dest: /etc/hosts
+    line: "127.0.0.1 {{ item }}"
+    state: present
+  tags:
+    - testing
+
+- name: "[{{ item }}] Checking is opening HTTP port 80"
+  wait_for:
+    host: "{{ item }}"
+    port: 80
+    state: started
+    delay: 0
+    timeout: 3
+  tags:
+    - testing
+
+- name: "[{{ item }}] Checking Url"
+  uri:
+    url: "http://{{ item }}:80"
+    method: GET
+    timeout: 30
+    return_content: yes
+  register: out
+  ignore_errors: yes
+
+- name: "[{{ item }}] Delete record from /etc/hosts"
+  command: sed -i".bak" "/{{ item }}/d" /etc/hosts
+  tags:
+    - testing
+
+    
+
