@@ -1,0 +1,27 @@
+---
+- name: Make sure destination dir exists
+  file:
+    path: "{{ html_dir }}{{ item }}"
+    state: directory
+
+- name: Add index.html
+  vars:
+    virtual_host: "{{ item }}"
+  template:
+    src: "index.html.j2"
+    dest: "{{ html_dir }}{{ virtual_host }}/index.html"
+    mode: "0755"
+
+- name: Add conf
+  vars:
+    virtual_host: "{{ item }}"
+    html_dir: "{{ html_dir }}"
+  template:
+    src: "server_conf.j2"
+    dest: "{{ conf_dir }}{{ virtual_host }}.conf"
+    mode: "0755"
+
+- name: Debug
+  debug:
+    msg: "Virtual host: {{ item }}"
+
