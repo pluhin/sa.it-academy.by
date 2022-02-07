@@ -1,0 +1,49 @@
+- hosts: redmine
+  pre_tasks:
+  - debug:
+     msg: "{{ ansible_host }}"
+
+  - name: Redmine. Install packages
+    apt:
+      name: 
+      - git
+      - ruby-full
+      - build-essential
+      - libmysqlclient-dev
+      - imagemagick
+      - libmagickwand-dev
+      - apache2
+      - libapache2-mod-passenger
+      - mysql-server
+      - mysql-client
+      - python3-pymysql
+      - python3-mysqldb 
+      state: latest
+      update_cache: yes
+  roles:
+#    - redmine
+    - mysql
+    - app
+  tasks:
+  - name: "Add redmine-7.sa to host file"
+    shell: echo "127.0.0.1       redmine-7.sa" >> /etc/hosts
+    tags:
+      - test
+
+  - uri:
+      url: "http://redmine-7.sa"
+      return_content: yes
+    register: this
+  #failed_when: "'pipi' not in this.content"
+    failed_when: "'Jean-Philippe Lang' not in this.content"
+    tags:
+      - test
+
+  - lineinfile:
+      path: /etc/hosts
+      state: absent
+      regexp: '^127.0.0.1       redmine-7.sa'
+    tags:
+      - test
+      - always
+
