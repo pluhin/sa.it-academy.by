@@ -1,0 +1,8 @@
+- hosts: all_workers
+  pre_tasks:
+  - debug:
+      msg: "{{ ansible_host }}"
+  roles:
+    - web_server
+
+
