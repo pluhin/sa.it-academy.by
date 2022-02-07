@@ -1,0 +1,17 @@
+---
+
+nginx_conf_dir: "/etc/nginx/"
+
+#debian
+deb_nginx_html_dir: "/vat/www/"
+vhosts_conf_dir: "/etc/nginx/conf.d/"
+deb_vhosts:
+  - "site1.debian"
+  - "site2.debian"
+
+#rhel
+rh_nginx_html_dir: "/usr/share/nginx/html"
+vhosts_conf_dir: "/etc/nginx/conf.d/"
+rh_vhosts:
+  - "site1.centos"
+  - "site2.centos"
