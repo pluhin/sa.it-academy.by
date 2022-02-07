@@ -1,0 +1,26 @@
+- hosts: all_hosts 
+  # gather_facts: False
+  # strategy: free
+  # serial: 1
+  tasks: 
+    - name: Print OS | Version
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+      tags:
+        - facts
+    - name: Print Mount point device | capacity | used
+      debug:
+        msg: "{{ item.device }} | {{ (item.size_total / 1000000)|int }} MB | {{ ((item.size_total - item.size_available) / 1000000)|int }} MB"
+      when: item.mount == '/'  
+      with_items:
+        - "{{ ansible_mounts }}"   
+      tags:
+        - facts
+    - name: Print RAM capacity | free
+      debug:
+        msg: "{{ ansible_memtotal_mb }} MB | {{ ansible_memfree_mb }} MB"
+      tags:
+        - facts
+      
+
+
