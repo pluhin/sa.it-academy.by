@@ -1,0 +1,6 @@
+---
+- hosts: web_hosts
+  #strategy: free
+  #serial: 1
+  roles: 
+    - webservers
