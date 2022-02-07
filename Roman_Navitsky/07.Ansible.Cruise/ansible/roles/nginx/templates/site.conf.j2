@@ -1,0 +1,8 @@
+server {
+	listen 80;
+{% if virtual_hosts is defined %}
+	server_name {{ item.name }} www.{{ item.name }};
+	root {{ default_home }}/{{ item.name }};
+{% endif %}
+	index index.html;
+}
