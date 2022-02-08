@@ -1,7 +1,10 @@
  ## Git.Local
   438  cd Pavel_Sergeev/
+  
   439  ls
+  
   440  cd 02.Git/
+  
   441  vim
   442  ls
   443  git init
