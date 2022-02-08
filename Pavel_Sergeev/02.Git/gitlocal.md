@@ -1,13 +1,10 @@
  ## Git.Local
-  438  cd Pavel_Sergeev/
-  
-  439  ls
-  
-  440  cd 02.Git/
-  
-  441  vim
-  442  ls
-  443  git init
+  438  cd Pavel_Sergeev/  
+  439  ls  
+  440  cd 02.Git/  
+  441  vim  
+  442  ls  
+  443  git init  
   444  git config user.name "Pavel Sergeev"
   445  git config user.email "pavel.sergeev@softswiss.com"
   446  vem 1.txt
