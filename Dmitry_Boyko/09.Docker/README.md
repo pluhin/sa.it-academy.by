@@ -75,9 +75,8 @@ INFO:root:Starting httpd...
 
 ### Testing connection
 ```
-vagrant@ubuntu-jammy:~$ curl http://127.0.0.1:8888
+vagrant@ubuntu-jammy:~$ curl -I http://127.0.0.1:8888
 
-GET request for /vagrant@ubuntu-jammy:~$ curl -I http://127.0.0.1:8888
 HTTP/1.0 501 Unsupported method ('HEAD')
 Server: BaseHTTP/0.6 Python/3.10.2
 Date: Tue, 08 Feb 2022 16:04:51 GMT
