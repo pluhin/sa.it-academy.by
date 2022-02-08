@@ -1,4 +1,5 @@
- ## Git.Local
+ ## Git.Local History
+ ```bash
   438  cd Pavel_Sergeev/  
   439  ls  
   440  cd 02.Git/  
@@ -66,3 +67,21 @@
   502  git checkout features/do_one  
   503  git merg dev  
   504  history  
+```
+## master commits
+```bash
+master
+``` 
+
+## DEV commits
+```bash
+DEV
+``` 
+## features/do_one commits
+```bash
+features/do_one
+``` 
+## hotfix/we_gonna_die commits
+```bash
+hotfix/we_gonna_die
+``` 
