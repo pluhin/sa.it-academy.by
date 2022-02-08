@@ -1,4 +1,4 @@
-438  cd Pavel_Sergeev/
+  438  cd Pavel_Sergeev/
   439  ls
   440  cd 02.Git/
   441  vim
@@ -65,3 +65,4 @@
   502  git checkout features/do_one
   503  git merg dev
   504  history
+  
