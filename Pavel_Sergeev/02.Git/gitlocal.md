@@ -70,18 +70,30 @@
 ```
 ## master commits
 ```bash
-master
+15826e0f (HEAD -> md-sa2-19-22, origin/md-sa2-19-22) correct6
+7fffa64f (origin/hotfix/we_gonna_die, hotfix/we_gonna_die) correct5
+1b0e2b94 correct4
+ab525724 correct3
 ``` 
 
 ## DEV commits
 ```bash
-DEV
+cf53c430 (HEAD -> dev, origin/dev) 2 in dev
+35f73b1c 1 in dev
+7fffa64f (origin/hotfix/we_gonna_die, hotfix/we_gonna_die) correct5
 ``` 
 ## features/do_one commits
 ```bash
-features/do_one
+5604fe5d (HEAD -> features/do_one, origin/features/do_one) 1 Futures
+cf53c430 (origin/dev, dev) 2 in dev
+35f73b1c 1 in dev
+7fffa64f (origin/hotfix/we_gonna_die, hotfix/we_gonna_die) correct5
+
 ``` 
 ## hotfix/we_gonna_die commits
 ```bash
-hotfix/we_gonna_die
+7fffa64f (HEAD -> hotfix/we_gonna_die, origin/hotfix/we_gonna_die) correct5
+1b0e2b94 correct4
+ab525724 correct3
+b9bf2619 correct2
 ``` 
