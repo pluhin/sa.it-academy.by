@@ -1,0 +1,19 @@
+gateway: 
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.53
+      ansible_user: jump_sa
+
+vbuh_hosts:
+  vars:
+    ansible_user: root
+  children:
+    servers:
+      hosts:
+        host03:
+          ansible_host: 192.168.202.3
+        host04:
+          ansible_host: 192.168.202.4
+        redmine:
+          ansible_host: 192.168.201.2
+
