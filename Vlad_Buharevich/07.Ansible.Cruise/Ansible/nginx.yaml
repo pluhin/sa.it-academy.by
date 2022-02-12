@@ -1,0 +1,4 @@
+---
+- hosts: vbuh_hosts
+  roles: 
+    - nginx

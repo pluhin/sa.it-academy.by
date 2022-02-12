@@ -1,0 +1,51 @@
+#Tasks
+---
+- name: Check we have SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: "Check connections to public repositories (Debian/CentOS and pip package repository)"
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  register: check_response
+  failed_when: check_response.status != 200
+  loop: "{{ repos_check }}"
+  tags:
+  - check
+
+- name: "Check if we have connection to docker hub registry"
+  uri:
+    url: "{{ docker_hub_check }}"
+    return_content: yes
+  register: docker_response
+  tags:
+  - docker-check
+
+- name: "print out docker response"
+  debug:
+    msg: "{{ docker_response.url }} - STATUS Code: {{ docker_response.status }}"
+  tags:
+  - docker-check
+
+- name: 'Check free HDD space (More than 1024 MB)'
+  assert:
+    that:
+      - (ansible_mounts[0].size_available/1024/1024) | round(1,'common') >= 1024
+    fail_msg: "FAIL. You have not enough HDD memory. You HDD memory = {{ ansible_mounts[0].size_available/1024/1024 }} MB, it is less than 1024 Mb"
+    success_msg: "SUCCESS. You HDD memory = {{ ansible_mounts[0].size_available/1024/1024 }} Mb. it is more than 1024 MB"
+
+- name: 'Check free RAM space (More than 256 MB)'
+  assert:
+    that:
+      - ansible_memfree_mb >= 256
+    fail_msg: "FAIL. You have not enough RAM memory. You RAM memory = {{ ansible_memfree_mb }} MB, it is less than 256 Mb"
+    success_msg: "SUCCESS. You RAM memory = {{ ansible_memfree_mb }} Mb. it is more than 256 MB"
+
+
+
+
+
+
