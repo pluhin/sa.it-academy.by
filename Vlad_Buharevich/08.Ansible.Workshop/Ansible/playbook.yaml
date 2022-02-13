@@ -1,0 +1,21 @@
+- hosts: vbuh_hosts
+  tasks: 
+    - name: OS Info
+      debug: 
+        msg:
+          - "OS Name = {{ ansible_distribution }}"
+          - "Version = {{ ansible_distribution_version }}"
+    - name: Mounts Info
+      debug:
+        msg: 
+          - "Mount point     = {{ item.mount }}"
+          - "Capacity        = {{ (item.size_total/1048576)|int }}MB"
+          - "Used space      = {{ ((item.size_total-item.size_available)/1048576)|int }}MB"
+      when: item.mount == '/'
+      with_items:
+        - "{{ ansible_mounts }}"
+    - name: RAM Info
+      debug:
+        msg: 
+          - "Memory Capacity = {{ ansible_memtotal_mb }}MB"
+          - "Memory Free  = {{ ansible_memfree_mb }}MB"

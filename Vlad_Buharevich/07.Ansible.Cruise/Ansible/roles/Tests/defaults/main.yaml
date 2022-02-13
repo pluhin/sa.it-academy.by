@@ -1,0 +1,7 @@
+#Variables
+repos_check:
+  - "http://archive.ubuntu.com"
+  - "http://mirror.centos.org"
+  - "https://pypi.org"
+
+docker_hub_check: "https://hub.docker.com"
