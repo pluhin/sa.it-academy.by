@@ -1,0 +1,54 @@
+---
+- name: Nginx. Install packages
+  yum:
+    name: "{{ yum_nginx_packages }}"
+    state: present
+  tags:
+  - tests
+
+- name: Nginx. Remove welcome file
+  file:
+    path: "/etc/nginx/conf.d/default.conf"
+    state: absent
+
+- name: Nginx. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Nginx. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+  tags:
+  - tests
+- name: Nginx. reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  tags:
+  - tests
+
+- name: Templates
+  template:
+    src: "server_conf_rh.j2"
+    dest: "/etc/nginx/conf.d/test.conf"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  tags:
+  - tests
+
+- name: Copy first page
+  copy:
+    src: index.html
+    dest: "{{ default_home }}"
+    owner: root
+    group: root
+    mode: '0755'
+  notify:
+    - restart nginx
+

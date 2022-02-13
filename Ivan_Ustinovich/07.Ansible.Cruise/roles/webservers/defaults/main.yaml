@@ -1,0 +1,17 @@
+---
+apt_nginx_packages: 
+  - nginx
+yum_nginx_packages:
+  - nginx
+  - libsemanage-python
+  - libselinux-python
+
+default_home: "/usr/share/nginx/html"
+default_home_deb: "/var/www/html"
+
+site_deb: "local-deb.site"
+site_cent: "local-cent.site"
+
+virtual_hosts:
+  - { name: "{{ site_cent }}", ip: "{{ hostvars[\"host21\"].ansible_host }}"}
+  - { name: "{{ site_deb }}", ip: "{{ hostvars[\"host22\"].ansible_host }}"}

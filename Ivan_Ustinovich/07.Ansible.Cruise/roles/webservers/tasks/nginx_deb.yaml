@@ -1,0 +1,40 @@
+---
+- name: Nginx. Install packages
+  apt:
+    name: "{{ apt_nginx_packages }}"
+    state: present
+    update_cache: yes
+- name: Nginx. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Nginx. Remove welcome file
+  file:
+    path: "/etc/nginx/sites-available/default.conf"
+    state: absent
+
+- name: Templates
+  template:
+    src: "server_conf.j2"
+    dest: "/etc/nginx/sites-enabled/test.conf"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  tags:
+  - tests
+
+- name: Copy first page
+  copy:
+    src: index.html
+    dest: "{{ default_home_deb }}"
+    owner: root
+    group: root
+    mode: '0755'
+  notify:
+    - restart nginx
+
+
+
