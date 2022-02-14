@@ -1,0 +1,39 @@
+---
+- name: Check SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check access to repositories
+  uri:
+    url: "{{ item }}"
+    validate_certs: no
+    status_code: 200
+  loop: "{{ repositories }}"
+
+- name: Check access to the Docker Hub
+  uri: 
+    url: "{{ docker_hub_url }}"
+    return_content: yes 
+  register: docker_hub_resp
+  failed_when: "'Docker Hub' not in docker_hub_resp.content"
+
+- name: Check Mount point
+  vars:
+    mp_used_pers:  "{{ ((item.size_available / item.size_total) | round(4)) * 100}} "
+  assert:
+    that: mp_used_pers | int >= 40
+    success_msg: "Available {{ mp_used_pers }}% of disk space."
+    fail_msg: "Fail. Available {{ mp_used_pers }}%."
+  when: item.mount == '/'  
+  with_items:
+    - "{{ ansible_mounts }}"   
+
+- name: Check RAM
+  vars:
+    ram_used_pers: "{{ ((ansible_memory_mb.real.free / ansible_memory_mb.real.total) | round(4)) * 100 }}"
+  assert:
+    that: ram_used_pers | int >= 50
+    success_msg: "OK. Available {{ ram_used_pers }}% of RAM."
+    fail_msg: "Fail. Available {{ ram_used_pers }}%."
