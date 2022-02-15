@@ -1,11 +1,11 @@
 apiVersion: v1
 clusters:
 - cluster:
-    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJlRENDQVIyZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQWpNU0V3SHdZRFZRUUREQmhyTTNNdGMyVnkKZG1WeUxXTmhRREUyTkRRNE5qTTFOemd3SGhjTk1qSXdNakUwTVRnek1qVTRXaGNOTXpJd01qRXlNVGd6TWpVNApXakF$
+    certificate-authority-data: DATA+OMITTED
     server: https://192.168.203.34:6443
   name: cluster.k3s
 - cluster:
-    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUMvakNDQWVhZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJeU1ESXhNREl3TWpjek5sb1hEVE15TURJd09ESXdNamN6Tmxvd0ZURVRNQkVHQTFVRQpBeE1$
+    certificate-authority-data: DATA+OMITTED
     server: https://192.168.203.20:6443
   name: cluster.local
 contexts:
@@ -17,17 +17,15 @@ contexts:
     cluster: cluster.local
     user: kubernetes-admin
   name: kubernetes-admin@cluster.local
-current-context: k3s@cluster.k3s
+current-context: kubernetes-admin@cluster.local
 kind: Config
 preferences: {}
 users:
 - name: k3s
   user:
-    client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJrRENDQVRlZ0F3SUJBZ0lJRHZKRVg1Z0w2ZVV3Q2dZSUtvWkl6ajBFQXdJd0l6RWhNQjhHQTFVRUF3d1kKYXpOekxXTnNhV1Z1ZEMxallVQXhOalEwT0RZek5UYzRNQjRYRFRJeU1ESXhOREU0TXpJMU9Gb1hEVEl6TURJeApOREU0TX$
-    client-key-data: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUVGMTY0cHdRMjB5TVJkbk5GcjRoR2FnTzJFY0V3OWx1MVBEbVBPMlNzWFFvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFRjYzNkhYZXl4eVhCb1VDbEVEQlBaVW5iTzMxRHR5Sko2V3JTcEE3NmorQS8yTkMwZ0FTSQo2M1JRTW9EOT$
+    client-certificate-data: REDACTED
+    client-key-data: REDACTED
 - name: kubernetes-admin
   user:
-    client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURJVENDQWdtZ0F3SUJBZ0lJTko4cmVPL011VFl3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TWpBeU1UQXlNREkzTXpaYUZ3MHlNekF5TVRBeU1ESTNNemRhTURReApGekFWQm$
-    client-key-data: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcEFJQkFBS0NBUUVBdFB1S28yT0V1WWZUekw0VjFqcmROSXp4VjNuK2JueVYzSFMzSVd6S1B3aC8zSTB4CnA1dFpsU0x4NCs5b1FETWZ4YVRQYXdlb0dGTzZYT0pBL1A5UmNlZjdRNDlJVCtVOTgrajVScWxvWVBjSldNNlUKTFV6TzZCK2$
-
-
+    client-certificate-data: REDACTED
+    client-key-data: REDACTED
