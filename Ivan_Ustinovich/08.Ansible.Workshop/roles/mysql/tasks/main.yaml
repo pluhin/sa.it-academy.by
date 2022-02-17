@@ -1,0 +1,13 @@
+---
+- mysql_db:
+    name: "{{ app_db_name }}"
+    encoding: utf8
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- mysql_user:
+    name: "{{ app_db_user }}"
+    password: "{{ app_db_pass }}"
+    priv: "{{ app_db_name }}.*:ALL"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: yes
+
