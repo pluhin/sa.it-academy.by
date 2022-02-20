@@ -39,3 +39,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/docker_image:v0.1
 ```
+### Run image as container
+![image](https://raw.githubusercontent.com/Buharevich/sa.it-academy.by/md-sa2-19-22/Vlad_Buharevich/09.Docker/Run%20image%20as%20container.png)
+### Connection tests
+![image](https://github.com/Buharevich/sa.it-academy.by/blob/md-sa2-19-22/Vlad_Buharevich/09.Docker/Telnet.png?raw=true)
