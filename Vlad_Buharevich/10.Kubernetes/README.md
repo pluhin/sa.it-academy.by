@@ -27,5 +27,8 @@
    71  history
 ```
 ## Addons list
+![image](https://github.com/Buharevich/sa.it-academy.by/blob/md-sa2-19-22/Vlad_Buharevich/10.Kubernetes/addons%20list.png?raw=true)
 ## Dashboard
+![image](https://github.com/Buharevich/sa.it-academy.by/blob/md-sa2-19-22/Vlad_Buharevich/10.Kubernetes/Dashboard.png?raw=true)
 ## IT-ACADEMY environment
+![image](https://github.com/Buharevich/sa.it-academy.by/blob/md-sa2-19-22/Vlad_Buharevich/10.Kubernetes/Play%20Recap.png?raw=true)
