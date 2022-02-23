@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-runner
+  labels:
+    app: github-runner
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: github-runner
+  template:
+    metadata:
+      labels:
+        app: github-runner
+    spec:
+      containers:
+      - name: github-runner
+        image: sanderknape/github-runner:latest
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: GITHUB_OWNER
+          value: dmitrytriput
+        - name: GITHUB_REPOSITORY
+          value: docker_demo
+        - name: GITHUB_PAT # stored separately in a Kubernetes Secret
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: pat    
