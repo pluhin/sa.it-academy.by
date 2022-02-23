@@ -4,7 +4,7 @@ kubectl apply -f https://github.com/actions-runner-controller/actions-runner-con
 
 kubectl create secret generic controller-manager \
     -n actions-runner-system \
-    --from-literal=github_token=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
+    --from-literal=github_token=${TOKEN}
 
 kubectl apply -f github-runner.yaml
 
