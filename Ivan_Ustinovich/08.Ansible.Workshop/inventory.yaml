@@ -1,0 +1,18 @@
+proxy_host: 
+  hosts:
+    jump_host:
+      ansible_host: 178.124.206.53
+      ansible_user: jump_sa
+
+web_hosts:
+#  vars:
+#    ansible_user: root
+  children:
+    servers:
+      hosts:
+        host21:
+          ansible_host: 192.168.202.21
+        host22:
+          ansible_host: 192.168.202.22
+        redmine:
+          ansible_host: 192.168.201.11

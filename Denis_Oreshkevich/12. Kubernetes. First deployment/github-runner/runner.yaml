@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runner
+  namespace: gitaction
+  labels:
+    app: runner
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: runner
+  template:
+    metadata:
+      labels:
+        app: runner
+    spec:
+      containers:
+      - name: runner
+        image: denisareshkevich/runner:latest
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1000Mi
+          limits:
+            cpu: 1000m
+            memory: 1500Mi
+        env:
+        - name: GITHUB_OWNER
+          value: denis-oreshkevich
+        - name: GITHUB_REPOSITORY
+          value: git-hosting-github
+        - name: GITHUB_PERSONAL_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: github-secret
+              key: GITHUB_PERSONAL_TOKEN
+
