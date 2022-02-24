@@ -1,0 +1,7 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: Runner
+metadata:
+  name: github-runner
+spec:
+  repository: devel0ne/04.GitOps
+  env: []
