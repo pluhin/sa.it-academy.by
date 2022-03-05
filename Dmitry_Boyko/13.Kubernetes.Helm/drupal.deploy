@@ -1,0 +1,10 @@
+kubectl create namespace drupal
+
+helm install drupal --namespace drupal \
+  --set drupalUsername=admin \
+  --set drupalPassword=pa$$word \
+  --set allowEmptyPassword=false \
+  --set mariadb.auth.rootPassword=db_pa$$word \
+  --set allowEmptyPassword=false \
+  --set global.storageClass="nfs-client" \
+    bitnami/drupal
