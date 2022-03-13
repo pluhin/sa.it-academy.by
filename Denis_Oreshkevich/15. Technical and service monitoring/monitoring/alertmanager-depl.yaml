@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager-deployment
+  labels:
+     app: alertmanager
+  namespace: monitoring
+spec:
+   replicas: 1
+   selector:
+     matchLabels:
+       app: alertmanager
+   template:
+      metadata:
+         labels:
+           app: alertmanager
+      spec:
+        containers:
+         - name: alertmanager
+           image: prom/alertmanager
+           volumeMounts:
+              - name: alertmanager-config
+                mountPath: /etc/alertmanager/alertmanager.yml
+                subPath: alertmanager.yml
+           ports:
+           - containerPort: 9093
+        volumes:
+         - name: alertmanager-config
+           configMap:
+             name: alertmanager-config
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: alertmanager-service
+  namespace: monitoring
+spec:
+  selector:
+    app: alertmanager
+  ports:
+  - name: alertui
+    protocol: TCP
+    port: 9093
+    targetPort: 9093
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  labels:
+    name: alertmanager-config
+  namespace: monitoring
+data:
+ alertmanager.yml: |-
+  route:
+    group_by: ['alertname']
+    group_wait: 10s
+    group_interval: 10s
+    repeat_interval: 24h
+    receiver: 'slack-notifications'
+  receivers:
+  - name: 'slack-notifications'
+    slack_configs:
+    - api_url: ##### webhook url #####
+      channel: '#oreshkevich-git'
+      send_resolved: false
