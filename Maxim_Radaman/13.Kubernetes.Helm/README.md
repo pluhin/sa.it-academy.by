@@ -1,6 +1,7 @@
 # 13.Kubernetes.Helm Maxim Radaman
 ## History
-'''bash
+```bash
+
  1653  sshuttle -r ec_bastion 192.168.0.0/16 &
  1654  helm install opencart  --set global.storageClass=nfs-client,opencartUsername=admin,opencartPassword=password,ingress.enabled=True,ingress.hostname=opencart-sa.k8s-13.sa,ingress.path="/",ingress.annotations=["kubernetes.io/ingress.class: nginx"],serviceType=ClusterIP bitnami/opencart
  1655  helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -31,7 +32,7 @@
  1684  kubectl apply -f drupal-ingress.yaml
  1685  history
 
-'''
+```
 ## Screenshots 
 ![alt text](13dr.png)
 ![alt text](14wp.png)
