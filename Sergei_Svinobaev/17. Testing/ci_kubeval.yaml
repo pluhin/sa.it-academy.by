@@ -1,0 +1,29 @@
+on: [push, pull_request]
+name: Validate
+jobs:
+  kubeval:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        manifests: [prometheus.yaml, grafana.yaml]      
+    steps:
+    - uses: actions/checkout@master
+    - name: test manifests folder
+      uses: instrumenta/kubeval-action@master
+      with: 
+       files: ${{matrix.manifests}}
+  slack:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: monitoring-sergei-sv
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_MESSAGE: 'Post Content :rocket:'
+        SLACK_TITLE: 'Looks like job is done :)'
+        SLACK_USERNAME: sergei.svinobaev
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK1 }}       

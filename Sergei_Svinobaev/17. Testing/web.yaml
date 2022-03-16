@@ -1,0 +1,4 @@
+---
+- hosts: work_hosts
+  roles:
+    - webserver       
