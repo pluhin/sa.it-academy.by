@@ -1,0 +1,20 @@
+---
+- name: Check Mount point
+  vars:
+    mp_av_pers:  "{{ ((item.size_available / item.size_total) | round(4)) * 100}} "
+  assert:
+    that: mp_av_pers | int >= 20
+    success_msg: "OK. Available {{ mp_av_pers }}% of disk space."
+    fail_msg: "NOT ENOUGH DISK SPACE. Available {{ mp_av_pers }}%."
+  when: item.mount == '/'  
+  with_items:
+    - "{{ ansible_mounts }}"   
+
+- name: Check RAM
+  vars:
+    ram_av_pers: "{{ ((ansible_memory_mb.real.free / ansible_memory_mb.real.total) | round(4)) * 100 }}"
+  assert:
+    that: ram_av_pers | int >= 20
+    success_msg: "OK. Available {{ ram_av_pers }}% of RAM."
+    fail_msg: "NOT ENOUGH RAM. Available {{ ram_av_pers }}%."
+
