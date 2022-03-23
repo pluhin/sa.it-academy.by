@@ -1,7 +1,7 @@
 # 18.Jenkins.Start by Maxim.Radaman
 
 ## Jenkins with nginx proxy
-[!alt](nginx_jenkins.png)
+![alt](nginx_jenkins.png)
 ```bash
 1) add jenkins.conf file to /etc/nginx/conf.d/
 2) disable SELinux
