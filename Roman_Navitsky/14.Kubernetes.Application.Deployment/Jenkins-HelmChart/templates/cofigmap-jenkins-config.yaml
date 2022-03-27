@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.name }}-config
+  namespace: {{ .Values.namespace }}
+data:
+  jenkins.yaml: |
+        jenkins:
+          numExecutors: 2
+          clouds:
+          - kubernetes:
+              containerCapStr: "10"
+              maxRequestsPerHostStr: "32"
+              jenkinsUrl: "http://jenkins:8080"
+              name: "kubernetes"
+              namespace: "ci-cd"
+              skipTlsVerify: true
+        credentials:
+          system:
+            domainCredentials:
+            - credentials:
+              - usernamePassword:
+                  description: "Githubuser"
+                  id: "some_randome"
+                  password: "password"
+                  scope: GLOBAL
+                  username: "git_hub_user"
+        unclassified:
+          location:
+            adminAddress: "{{ .Values.configmap.useremail }}"
+            url: "{{ .Values.ingress.host }}"
+          shell:
+            shell: "/bin/bash"

@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+        - name: {{ .Values.name }}
+          image: {{ .Values.image }}
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: JAVA_OPTS
+              value: "-Djenkins.install.runSetupWizard=false"
+            - name: PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.name }}-secret
+                  key: password
+            - name: CASC_JENKINS_CONFIG
+              value: /var/jenkins_home/casc_configs/jenkins.yaml
+          ports:
+            - name: http-port
+              containerPort: 8080
+            - name: jnlp-port
+              containerPort: 50000
+          securityContext:
+            runAsUser: 0
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+          volumeMounts:
+            - name: docker-sock
+              mountPath: /var/run
+            - name: jenkins-auth-config
+              mountPath: /var/jenkins_home/init.groovy.d/basic-security.groovy
+              subPath: basic-security.groovy
+            - name: jenkins-config-yaml
+              mountPath: /var/jenkins_home/casc_configs/jenkins.yaml
+              subPath: jenkins.yaml
+            - name: {{ .Values.name }}-config
+              mountPath: /var/jenkins_home  
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run
+        - name: jenkins-auth-config
+          configMap:
+            name: {{ .Values.name }}-basic-security
+        - name: jenkins-config-yaml
+          configMap:
+            name: {{ .Values.name }}-config
+        - name: {{ .Values.name }}-config
+          nfs:
+            server: {{ .Values.nfs.server }}
+            path: {{ .Values.nfs.path }}
