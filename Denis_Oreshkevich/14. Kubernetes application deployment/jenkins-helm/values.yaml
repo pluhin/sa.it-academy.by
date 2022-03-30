@@ -1,0 +1,87 @@
+# Default values for jenkins-helm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  registry: jfrog.it-academy.by
+  repository: jfrog.it-academy.by/public/jenkins-ci:doreshkevich
+  tag: dorehkevich
+  puillPolicy: IfNotPresent
+  imageCredentials:
+    registry: jfrog.it-academy.by
+    username: #####
+    password: #####
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+basic_security_path: /var/jenkins_home/init.groovy.d/basic-security.groovy
+jenkins_yaml_path: /var/jenkins_home/casc_configs/jenkins.yaml
+jenkins_path: /var/jenkins_home
+docker_sock_path: /var/run
+nfs_server: 192.168.37.105
+admin_email: orehden@mail.ru
+nfs_path: /mnt/IT-Academy/nfs-data/sa2-19-22/Denis_Oreshkevich/jenkins-helm
+
+containerPort:
+  http-port: 8080
+  jnlp-port: 50000
+
+host:
+  main_host: jenkins-helm.k8s-11.sa
+  second_host: jenkins-helm.k8s-12.sa
+
+url:
+  main_host_url: http://jenkins-helm.k8s-11.sa/
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+  hosts:
+    - host: jenkins-helm.k8s-11.sa
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+resources:
+  limits:
+    cpu: 3000m
+    memory: 3000Mi
+  requests:
+    cpu: 2000m
+    memory: 2000Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
