@@ -63,9 +63,9 @@ data:
   config.yml: |-
     global:
       resolve_timeout: 1m
-      slack_api_url: 'https://hooks.slack.com/services/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'    
+      slack_api_url: '####################################'    
     route:
-      receiver: 'slack-notifications'
+      receiver: '#channel-name#'
     receivers:
     - name: 'slack-notifications'
       slack_configs:
