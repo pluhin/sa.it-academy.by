@@ -85,7 +85,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: web-pv-claim
   labels:
-    app: wordpress
+    app: simple-web
     name: web-pv-claim
 spec:
   accessModes:
