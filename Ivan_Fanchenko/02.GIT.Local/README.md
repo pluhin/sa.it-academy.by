@@ -1,6 +1,6 @@
-02.GIT.local
+#02.GIT.local
 
-#Commands
+##Commands
 
 ```bash
   334  git config user.email "ivan.fanchenko@gmail.com"
@@ -53,8 +53,10 @@
   373  git log --oneline --graph
   374  history
 ```
-```
+
+
 #Commits list in master
+```bash
 *   d7df158 (HEAD -> master) Merge branch 'hotfix/we_gonna_die' firstly to master branch
 |\
 | * 31cab26 (hotfix/we_gonna_die) One commit in hotfix
@@ -64,24 +66,31 @@
 |/
 * 0f1c77e Second commit in master
 * 125aaac First commit in master
+```
 
 #Commits list in dev
+```bash
 * dabbbc8 (HEAD -> dev) One commit in hotfix
 * f7802c5 Second commit in dev
 * a1912a8 First commit in dev
 * 0f1c77e Second commit in master
 * 125aaac First commit in master
+```
 
 #Commits list in features/do_one
+```bash
 * 2ba7765 (HEAD -> features/do_one) One commit in hotfix
 * 63cd259 One commit in features
 * f7802c5 Second commit in dev
 * a1912a8 First commit in dev
 * 0f1c77e Second commit in master
 * 125aaac First commit in master
+```
 
 
 #Commits list hotfix
+```bash
 * 31cab26 (HEAD -> hotfix/we_gonna_die) One commit in hotfix
 * 0f1c77e Second commit in master
 * 125aaac First commit in master
+```

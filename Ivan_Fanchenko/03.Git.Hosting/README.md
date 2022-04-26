@@ -1,4 +1,4 @@
-##03.GIT.hosting
+#	03.GIT.hosting
 
 ## Links to repositoies:
 [GitHub](https://github.com/voyager1122/sa.it-academy.by/tree/md-sa2-20-22 "GitHub")
@@ -8,8 +8,8 @@
 [BitBucket](https://bitbucket.org/voyager1122/03.git.hosting/src/main/ "BitBucket")
 
 
-#Commands
-
+##Commands
+``` bash
   523  mkdir 03.GIT.hosting
   524  cd 03.GIT.hosting/
   525  vi git_bulk_push.sh
@@ -24,11 +24,12 @@
   534  git remote add bitbucket git@bitbucket.org:voyager1122/03.git.hosting.git
   535  git push gitlab -f
   536  git push bitbucket -f
+``` 
   
-  
-#Automate pushing script
-
+##Automate pushing script
+``` bash
 #!/bin/bash 
 git push -u origin;
 git push -u gitlab;
 git push -u bitbucket;
+```
