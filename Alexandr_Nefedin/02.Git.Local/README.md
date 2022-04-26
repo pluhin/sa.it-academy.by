@@ -62,7 +62,7 @@
 
 ```
 
-<h1>master</h1> 
+# master 
 
 ```bash
 *   308ef27 2022-04-26 | Merge branch 'hotfix/we_gonna_die' (HEAD -> master) [Alexandr Nefedin]
@@ -76,7 +76,7 @@
 * 1696300 2022-04-26 | My 1st commit master [Alexandr Nefedin]
 ```
 
-<h1>dev</h1>
+# dev
 
 ```bash
 *   3098c29 2022-04-26 | Merge branch 'hotfix/we_gonna_die' into dev (HEAD -> dev) [Alexandr Nefedin]
@@ -90,7 +90,7 @@
 * 1696300 2022-04-26 | My 1st commit master [Alexandr Nefedin]
 ```
 
-<h1>features/do_one</h1>
+# features/do_one
 
 ```bash
 *   b48c3d9 2022-04-26 | Merge branch 'hotfix/we_gonna_die' into features/do_one (HEAD -> features/do_one) [Alexandr Nefedin]
@@ -105,7 +105,7 @@
 ```
 
 
-<h1>hotfix/we_gonna_die</h1>
+# hotfix/we_gonna_die
 
 ```bash
 
