@@ -2,7 +2,7 @@
 
 * Group is md-sa2-20-22.
 
-* Mentor is Siarhei Pluhin.
+* Mentor is Siarhei Pishchyk.
 
 ## Contacts & communication
 
