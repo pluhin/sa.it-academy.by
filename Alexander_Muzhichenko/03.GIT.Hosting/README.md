@@ -1,4 +1,4 @@
-##Repositories
+#### Repositories
 
 [GitHub repository](https://github.com/amuzhichenko/sa.it-academy.by)
 
@@ -7,7 +7,7 @@
 [Bitbucket repository](https://bitbucket.org/amuzhichenko/bit_repo)
 
 
-##Script
+####  Script
 
 ```bash
 
