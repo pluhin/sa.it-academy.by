@@ -1,6 +1,6 @@
 
 ## Link to action files
-
+[https://github.com/kirilltd/sa.it-academy.by/blob/md-sa2-20-22/Kirill_Kuksa/04.GitOps/find_tabs.yml](https://github.com/kirilltd/sa.it-academy.by/blob/md-sa2-20-22/Kirill_Kuksa/04.GitOps/find_tabs.yml)
 
 ## Testing repository
 [https://github.com/kirilltd/04.GitOps](https://github.com/kirilltd/04.GitOps)
