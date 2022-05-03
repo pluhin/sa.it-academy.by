@@ -1,0 +1,24 @@
+# This is a workflow to do 04.GitOps homework
+
+name: 04.GitOps
+
+on:
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  find_tabs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone my repository from Git
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Find changed files and TABs
+        run : for changed_file in $(git diff --name-only HEAD^ HEAD); do echo $changed_file >> tab.log; if [ ! "$(grep $'\t' $changed_file)"]; then echo "Doesn't contain tabs" >> tab.log; else grep $'\t' $changed_file >> tab.log; fi; done 
+      - name: Upload report
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          path: tab.log
