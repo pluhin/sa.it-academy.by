@@ -1,0 +1,30 @@
+name: 04_Gitops
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  
+    name: Check_changed_files
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v19
+
+      - name: Get_list_of_changed_fiels
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed" >> report.txt 2>&1
+            echo "Tabs quantity: `grep -P '\t' $file | wc -l`" >> report.txt 2>&1 
+          done
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: report.txt
