@@ -1,0 +1,31 @@
+name: Search tab
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: changed-files-tabs
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v19
+
+      - name: Search tab in modified files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+            tab=`grep -P "\t" "$file" | wc -l`
+            echo "In the modified file $file found number of tabs $tab" >> report.log 2>&1
+          done
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: report.log
