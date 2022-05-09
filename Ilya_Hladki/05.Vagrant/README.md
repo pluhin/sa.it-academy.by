@@ -8,7 +8,7 @@ https://app.vagrantup.com/ilya_hladki/boxes/my_debian_box
 https://app.vagrantup.com/ilya_hladki/boxes/my_centos_box
 ```
 ### My Vagrantfile
-```bash
+```ruby
 Vagrant.configure("2") do |config|
   config.vm.define "host1" do |debian|
     debian.vm.box = "debian/bullseye64"
