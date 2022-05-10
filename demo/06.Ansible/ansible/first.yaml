@@ -1,0 +1,46 @@
+- hosts: all_workers 
+  #  gather_facts: False
+  #strategy: free
+  serial: 1
+  vars:
+    var_01: "Hi"
+    var_02: True
+    var_03: 42
+  pre_tasks:
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: "{{ ansible_user }}"
+        state: present
+        key: "{{ item }}"
+      with_items:
+      - "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      tags:
+        - never
+  tasks:
+    - name: Print variables 
+      debug:
+        msg: "{{ var_01 }} | {{ var_02 }} | {{ var_03 }}"
+      tags:
+        - no_facts
+        - always
+    - name: Print facts 1
+      debug:
+        #msg: "{{ ansible_facts }}"
+        msg: "{{ ansible_facts.mounts[0].block_available }}"
+      tags:
+        - facts
+    - name: Print facts 2
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+      tags:
+        - facts
+    - name: Debug
+      debug:
+        msg: "Hi from {{ inventory_hostname }}"
+      tags:
+        - no_facts
+    - name: Debug
+      debug:
+        msg: "{{ hostvars[inventory_hostname].ansible_user }}" 
+      tags:
+        - no_facts
