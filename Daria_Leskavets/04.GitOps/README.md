@@ -4,7 +4,7 @@
 
 ## Link to file
 
-[main.yaml](https://github.com/kirilltd/sa.it-academy.by/blob/md-sa2-20-22/DariaLeskavets/04.GitOps/main.yaml)
+[main.yaml](https://github.com/DariaLeskavets/sa.it-academy.by/blob/md-sa2-20-22/Daria_Leskavets/04.GitOps/main.yaml)
 
 ## log
 
