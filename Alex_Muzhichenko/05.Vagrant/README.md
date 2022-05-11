@@ -1,14 +1,14 @@
-###05.Vagrant_Alex_Muzhichenko
+### 05.Vagrant_Alex_Muzhichenko
 
 ---
 
-###Vagrant Cloud Links
+### Vagrant Cloud Links
 
 [Centos](https://app.vagrantup.com/amuzhichenko/boxes/centos8)
 
 [Debian](https://app.vagrantup.com/amuzhichenko/boxes/Debian_latest)
 
-###Centos Vagrantfile
+### Centos Vagrantfile
 
 ```bash
 
@@ -34,7 +34,7 @@ end
 
 ```
 
-###Debian Vagrantfile
+### Debian Vagrantfile
 
 ```bash
 
