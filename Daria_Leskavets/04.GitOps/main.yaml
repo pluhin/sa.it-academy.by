@@ -1,0 +1,32 @@
+name: find tabs in code
+
+on :
+  push:
+    branches: 
+      - main  
+
+jobs:
+  prepare: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get changes files
+        id: files
+        uses: tj-actions/changed-files@v19
+
+      - name: Scan files
+        run: |
+          for file in ${{ steps.files.outputs.all_changed_files }}
+            do   
+              if [[ "$file" != *"yaml"* ]]; then
+               
+                echo $file >> file.log
+                grep $'\t' $file >> file.log 
+              fi
+            done
+      
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: file.log
