@@ -1,0 +1,44 @@
+- hosts: localhost
+  gather_facts: False
+  vars:
+    connection: local
+    links_to_tests:
+      - {url: google.com, port: 80}
+      - {url: google.com, port: 6443}
+    urls:
+      - https://google.com
+      - https://github.com
+      - https://onliner.by
+  tasks:
+  - name: Connectivity checks
+    block:
+      - name: Check connection
+        wait_for:
+          host: "{{ item.url }}"
+          port: "{{ item.port }}"
+          timeout: 3
+        register: out
+        with_items: "{{ links_to_tests }}"
+    rescue:
+      - name: Send notification
+        slack:
+          token: "{{ slack_token | default('No_data') }}"
+          msg: 'Checks: failed'
+          channel: '#ansible_test'
+          username: 'Ansible sender'
+          icon_url: https://agardner.net/wp-content/uploads/2018/08/ansible-logo.png
+          parse: 'full'
+  - name: Test
+    uri:
+      url: "{{ item }}"
+      return_content: yes
+    register: out_uri
+    with_items: "{{ urls }}"
+  - name: Print output
+    debug:
+      msg: "Status: {{ output.status }}"
+    loop: "{{ out_uri.results }}"
+    loop_control:
+      loop_var: output
+      label: "{{ output.status }}"
+      pause: 2
