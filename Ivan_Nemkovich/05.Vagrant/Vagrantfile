@@ -1,0 +1,39 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "deb" do |debian|
+    debian.vm.box = "debian/bullseye64"
+    debian.vm.network "forwarded_port", guest: 80, host: 8083
+    debian.vm.network "private_network", ip: "192.168.2.101"
+    debian.vm.provider "virtualbox" do |vb|
+       vb.gui = false
+       vb.memory = "2048"
+       vb.cpus = "2"
+    end
+    debian.vm.provision "file", source: "index.html", destination: "/tmp/"
+    debian.vm.provision "shell", inline: <<-SHELL
+      apt update
+      apt-get install -yqq vim git wget curl nginx
+      cp /tmp/index.html /var/www/html/index.nginx-debian.html
+      systemctl restart nginx
+    SHELL
+  end
+  config.vm.define "cent" do |centos|
+    centos.vm.box = "centos/8"
+    centos.vm.network "forwarded_port", guest: 80, host: 8084
+    centos.vm.network "private_network", ip: "192.168.2.102"
+    centos.vm.provider "virtualbox" do |vb|
+       vb.gui = false
+       vb.memory = "2048"
+       vb.cpus = "2"
+    end
+    centos.vm.provision "file", source: "index.html", destination: "/tmp/"
+    centos.vm.provision "shell", inline: <<-SHELL
+      dnf --disablerepo '*' --enablerepo=extras swap centos-linux-repos centos-stream-repos -y
+      dnf distro-sync -y
+      dnf update -y
+      dnf install -y vim git wget curl nginx
+      cp /tmp/index.html /usr/share/nginx/html/index.html
+      systemctl enable nginx
+      systemctl start nginx
+    SHELL
+  end
+end

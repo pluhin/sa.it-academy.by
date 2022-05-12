@@ -1,0 +1,29 @@
+name: CI-by-Aleksei-Alekseichik
+
+on: [ pull_request ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name   : find-tabs
+    
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
+
+      - name: find
+        id: files
+        uses: jitterbit/get-changed-files@v1
+        
+      - name: tab
+        run: |
+         for changed_file in ${{ steps.files.outputs.all }}; do
+         echo "File ${changed_file} checked, tab found" >> TAB.log
+         grep -P '\t' ${changed_file} | sort -n >> TAB.log
+         done
+         
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: TAB.log
