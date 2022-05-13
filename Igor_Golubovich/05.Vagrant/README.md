@@ -9,7 +9,7 @@
 ## Vagrant files:
 
 ### debian:
-```go
+```ruby
 Vagrant.configure("2") do |config|
   config.vm.define "Debian" do |web_debian|
     config.vm.box = "debian/bullseye64"
@@ -38,7 +38,7 @@ end
 ```
 
 ### centos:
-```go
+```ruby
 Vagrant.configure("2") do |config|
   config.vm.define "centos" do |web_centos|
     config.vm.box = "generic/centos8"
