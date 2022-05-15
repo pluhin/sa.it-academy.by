@@ -1,0 +1,14 @@
+all_workers:
+      hosts:
+        redhat:
+          ansible_host: 192.168.20.114
+          ansible_user: ec2-user
+        ubuntu:
+          ansible_host: 192.168.20.169
+          ansible_user: ubuntu
+jump_sa:
+  hosts:
+    bastion:
+      ansible_host: 13.51.186.190
+      ansible_user: ec2-user
+      ansible_ssh_private_key_file : ../create_aws_instance/igoz-keys-stockholm.pem

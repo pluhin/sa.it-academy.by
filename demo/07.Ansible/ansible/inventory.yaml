@@ -1,0 +1,21 @@
+all_workers:
+  children:
+    work_sa:
+      vars:
+        site_deb: "local-deb.site"
+        site_cent: "local-cent.site"
+        virtual_hosts:
+          - { name: "{{ site_cent }}", ip: "{{ hostvars[\"host57\"].ansible_host }}"}
+          - { name: "{{ site_deb }}", ip: "{{ hostvars[\"host58\"].ansible_host }}"}
+      hosts:
+        host57:
+          ansible_host: 192.168.202.57
+        host58:
+          ansible_host: 192.168.202.58
+jump_sa:
+  vars:
+    env: "it-academy"
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.53 
+      ansible_user: jump_sa

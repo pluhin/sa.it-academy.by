@@ -1,0 +1,2 @@
+ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -i ../create_aws_instance/igoz-keys-stockholm.pem ec2-user@13.51.186.190"'
+ansible_ssh_private_key_file : ../create_aws_instance/igoz-keys-stockholm.pem

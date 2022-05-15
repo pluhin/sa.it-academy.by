@@ -1,0 +1,31 @@
+name: GitOps_CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Changed_files
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
+
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v19
+
+      - name: List of all changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed" >> list_of_changed_files.log 2>&1
+            echo "Count Tab in files: `awk '{print gsub(/\t/,"")}' $file | awk '{s+=$1} END { print s }'`" >> list_of_changed_files.log 2>&1
+          done
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: list_of_changed_files.log
