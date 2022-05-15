@@ -1,0 +1,10 @@
+---
+# tasks file for websrv
+
+- name: Include deploy for Debian systems
+  include_tasks: ubuntu.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include_tasks: centos.yaml
+  when: ansible_os_family == 'RedHat'
