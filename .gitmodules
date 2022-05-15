@@ -1,6 +1,3 @@
-[submodule "Artsiom_Dziavitski/02.Git_local"]
-	path = Artsiom_Dziavitski/02.Git_local
-	url = git@github.com:artem-devitsky/02.git_local.git
 [submodule "Artsiom_Dziavitski/03.git_hosting"]
 	path = Artsiom_Dziavitski/03.git_hosting
 	url = git@github.com:artem-devitsky/03.git_hosting.git
