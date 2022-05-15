@@ -1,0 +1,3 @@
+[submodule "Artsiom_Dziavitski/02.Git_local"]
+	path = Artsiom_Dziavitski/02.Git_local
+	url = git@github.com:artem-devitsky/02.git_local.git
