@@ -1,0 +1,9 @@
+---
+- name: Include deploy for Debian systems
+  include_tasks: nginx_deb.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include_tasks: nginx_rh.yaml
+  when: ansible_os_family == 'RedHat'
+
