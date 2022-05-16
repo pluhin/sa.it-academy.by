@@ -1,0 +1,15 @@
+all_workers2:
+  children:
+    work_sa2:
+      hosts:
+        host9:
+          ansible_host: 192.168.202.9
+        host10:
+          ansible_host: 192.168.202.10
+jump_sa:
+  vars:
+    env: "it-academy"
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.53
+      ansible_user: jump_sa
