@@ -1,0 +1,14 @@
+---
+- name: Include deploy for Debian systems
+  include_tasks: http_ubuntu.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include_tasks: http_redhat.yml
+  when: ansible_os_family == 'RedHat'
+
+- name: Nginx. Set up
+  include_tasks: setup_nginx.yml
+
+- name: Test
+  include_tasks: http_test.yml
