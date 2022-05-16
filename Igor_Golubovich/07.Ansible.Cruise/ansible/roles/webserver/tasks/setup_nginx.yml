@@ -1,0 +1,25 @@
+---
+- name: Nginx. Remove welcome file
+  file:
+    path: "{% if ansible_os_family == 'Debian'%}{{ ubuntu_path }}/default.conf{% else %}{{ redhat_path }}/default.conf{% endif %}"
+    state: absent
+
+- name: Nginx. Copy config file
+  template:
+    src: "server_conf.j2"
+    dest: "{% if ansible_os_family == 'Debian'%}{{ ubuntu_path }}/test.conf{% else %}{{ redhat_path }}/test.conf{% endif %}"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+
+- name: Nginx. Copy first page
+  template:
+    src: "index.j2"
+    dest: "{% if ansible_os_family == 'Debian'%}{{ default_home_ubuntu }}/index.html{% else %}{{ default_home_redhat }}/index.html{% endif %}"
+    owner: root
+    group: root
+    mode: '0755'
+  notify:
+    - restart nginx
