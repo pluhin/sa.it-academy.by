@@ -1,0 +1,6 @@
+FROM python:latest
+RUN mkdir ./app
+WORKDIR ./app
+COPY ./app/* .
+EXPOSE 8899
+CMD ["python3", "listener.py"]
