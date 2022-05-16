@@ -1,0 +1,46 @@
+---
+- name: Install epel repo
+  yum:
+    name: epel-release
+    state: present
+
+- name: NGINX. Install packages
+  yum:
+    name: nginx
+    state: present
+
+- name: NGINX. Enable and start servce
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: NGINX. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+
+- name: NGINX. reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+
+- name: Nginx. Deploy CentOS
+  vars:
+    virtual_hosts: "{{ centos_virtual_hosts }}"
+    html_dir: "{{ centos_home }}"
+    conf_dir: "{{ nginx_conf_dir }}"
+  include_tasks: deploy.yaml
+  with_items: "{{ virtual_hosts }}"
+
+- name: Restart nginx CentOS
+  service:
+    name: nginx
+    state: restarted
+
+- name: Nginx. Check CentOS virtualhosts
+  vars:
+    virtual_hosts: "{{ centos_virtual_hosts }}"
+  include_tasks: check.yaml
+  with_items: "{{ virtual_hosts }}"
