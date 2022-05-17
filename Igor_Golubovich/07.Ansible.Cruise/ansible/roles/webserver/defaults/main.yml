@@ -1,0 +1,11 @@
+---
+apt_nginx_packages:
+  - nginx
+yum_nginx_packages:
+  - nginx
+
+default_home_redhat: "/usr/share/nginx/html"
+default_home_ubuntu: "/var/www/html"
+
+ubuntu_path: "/etc/nginx/sites-available/"
+redhat_path: "/etc/nginx/conf.d/" 

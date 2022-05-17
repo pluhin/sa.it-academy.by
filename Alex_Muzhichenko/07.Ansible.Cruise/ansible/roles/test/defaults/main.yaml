@@ -1,0 +1,7 @@
+---
+repos:
+  - https://deb.debian.org/debian
+  - http://mirror.centos.org/centos/
+  - https://pypi.org/simple
+
+docker_hub: https://hub.docker.com

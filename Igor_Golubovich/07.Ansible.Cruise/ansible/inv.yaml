@@ -1,0 +1,20 @@
+all_workers:
+      vars:
+        site_ubuntu: "local-ubuntu.site"
+        site_redhat: "local-redhat.site"
+        virtual_hosts:
+          - { name: "{{ site_redhat }}", ip: "{{ hostvars[\"redhat\"].ansible_host }}"}
+          - { name: "{{ site_ubuntu }}", ip: "{{ hostvars[\"ubuntu\"].ansible_host }}"}
+      hosts:
+         redhat:
+           ansible_host: 192.168.20.173
+           ansible_user: ec2-user
+         ubuntu:
+           ansible_host: 192.168.20.165
+           ansible_user: ubuntu
+jump_sa:
+  hosts:
+    bastion:
+      ansible_host: 13.49.197.127
+      ansible_user: ec2-user
+      ansible_ssh_private_key_file : ../create_aws_instance/igoz-keys-stockholm.pem

@@ -1,0 +1,31 @@
+name: 04.GitOps - Tab find
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: File_check
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: File_get
+        id: changed-files
+        uses: tj-actions/changed-files@v19
+
+      - name: File_process
+        run: |
+          for file_name in ${{ steps.changed-files.outputs.all_changed_files }}
+          do
+            tabs_count=$(grep -P "\t" "${file_name}"|wc -l)
+            echo "File: ${file_name} changed and content ${tabs_count} of tabs"|tee -a report.log
+          done
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: report.log

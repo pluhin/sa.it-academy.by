@@ -1,0 +1,10 @@
+---
+# defaults file for test
+
+repos:
+  - https://deb.debian.org/debian
+  - https://cloud.centos.org/centos 
+  - https://pypi.org/simple
+
+docker_hub_url: https://hub.docker.com
+

@@ -1,0 +1,16 @@
+---
+# defaults file for websrv
+
+nginx_conf_dir: "/etc/nginx/conf.d/"
+
+ubuntu_virtual_hosts:
+  - "local-debian1.site"
+  - "local-debian2.site"
+
+ubuntu_nginx_html_dir: "/var/www/"
+
+centos_virtual_hosts:
+  - "local-centos1.site"
+  - "local-centos2.site"
+
+centos_nginx_html_dir: "/usr/share/nginx/html/"

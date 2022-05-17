@@ -1,0 +1,40 @@
+---
+- name: Check SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check connections to public repositories
+  uri:
+    url: "{{ item }}"
+    validate_certs: no
+    status_code: 200
+  loop: "{{ repo }}"
+
+
+- name: Check connection to docker hub registry
+  uri:
+    url: "{{ docker_url }}"
+    return_content: yes
+  register: docker_url_resp
+  failed_when: "'Docker Inc.' not in docker_url_resp.content"
+
+- name: Check HDD
+  vars:
+    hdd_used:  "{{ ((item.size_available / item.size_total) | round(4)) * 100}} "
+  assert:
+    that: hdd_used | int >= 40
+    success_msg: "Available {{ hdd_used | int }}% of disk space."
+    fail_msg: "Fail. Available {{ hdd_used | int }}%."
+  when: item.mount == '/'
+  with_items:
+    - "{{ ansible_mounts }}"
+
+- name: Check RAM
+  vars:
+    ram_used: "{{ ((ansible_memory_mb.real.free / ansible_memory_mb.real.total) | round(4)) * 100 }}"
+  assert:
+    that: ram_used | int >= 30
+    success_msg: "OK. Available {{ ram_used | int }}% of RAM."
+    fail_msg: "Fail. Available {{ ram_used | int }}%."
