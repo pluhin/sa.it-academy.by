@@ -1,7 +1,7 @@
 
 ## 08.Ansible_Workshop
 
-###Output_from_playbook
+### Output_from_playbook
 
 ```bash
 
@@ -117,3 +117,4 @@ Playbook run took 0 days, 0 hours, 0 minutes, 47 seconds
 ### Printscreen my project in application (redmine-16.sa)
 
 
+![alt text](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/08.Ansible.Workshop/redmine_hm.JPG)
