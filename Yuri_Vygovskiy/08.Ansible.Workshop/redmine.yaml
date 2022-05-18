@@ -1,0 +1,45 @@
+- hosts: redmine
+  pre_tasks:
+  - debug:
+      msg: "{{ ansible_host }}"
+  
+  - name: Include pre_tasks vars
+    include_vars: "vars.yaml"
+
+  - name: Redmine. Install packages
+    apt:
+      name: "{{ redmine_packages }}"
+      state: latest
+      update_cache: yes    
+
+  roles:
+    - mysql
+    - redmine
+
+  post_tasks:
+  - name: Include post_tasks variables
+    include_vars: "vars.yaml"
+    tags:
+      - test
+
+  - name: "Add {{ app_fqdn }} to host file"
+    shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
+    tags:
+      - test
+
+  - uri:   
+      url: "http://{{ app_fqdn }}"
+      return_content: yes
+    register: this
+    failed_when: "'Jean-Philippe Lang' not in this.content"
+    tags:
+      - test
+
+  - lineinfile:
+      path: /etc/hosts
+      state: absent
+      regexp: '^127.0.0.1       {{ app_fqdn }}'
+    tags:  
+      - test
+      - always  
+
