@@ -16,7 +16,7 @@
   rescue:
       - name: Send notification
         slack:
-          token: TFBPBNB2L/BGC9H7L8Y/GKKHqDjnXOBvvmk0YELNs7gV
+          token: ***
           msg: 'Test Redmine Page - failed'
           channel: '#igoz_ansible_channel'
           username: 'Ansible sender'
