@@ -1,0 +1,32 @@
+---
+- name: Nginx. Install packages
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Nginx. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Nginx. Deploy debian
+  vars:
+    virtual_hosts: "{{ debian_virtual_hosts }}"
+    conf_dir: "{{ nginx_conf_dir }}"
+    html_dir: "{{ debian_nginx_html_dir }}"
+  include_tasks: deploy.yaml
+  with_items: "{{ virtual_hosts }}"
+
+- name: Restart nginx debian
+  service:
+    name: nginx
+    state: restarted
+
+- name: Nginx. Test debian
+  vars:
+    virtual_hosts: "{{ debian_virtual_hosts }}"
+  include_tasks: test.yaml
+  with_items: "{{ virtual_hosts }}"
+
