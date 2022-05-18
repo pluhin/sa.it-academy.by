@@ -1,0 +1,11 @@
+nginx_conf_dir: "/etc/nginx/conf.d/"
+
+ubuntu_virtual_hosts:
+  - ubuntu1.site
+  - ubuntu2.site
+centos_virtual_hosts:
+  - centos1.site
+  - centos2.site
+
+centos_home: "/usr/share/nginx/html"
+ubuntu_home: "/var/www"
