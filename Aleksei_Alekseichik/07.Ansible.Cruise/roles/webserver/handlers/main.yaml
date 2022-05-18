@@ -1,0 +1,12 @@
+---
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted
+
+- name: Reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  tags:
+  - tests

@@ -1,0 +1,11 @@
+---
+- name: Nginx install
+  apt:
+    name: "{{ apt_packages }}"
+    state: present
+    update_cache: yes
+- name: Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
