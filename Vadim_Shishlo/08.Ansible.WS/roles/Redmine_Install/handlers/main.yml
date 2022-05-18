@@ -1,0 +1,7 @@
+---
+# handlers file for Redmine_Install
+
+- name: apache restart
+  service:
+    name: apache2
+    state: restarted

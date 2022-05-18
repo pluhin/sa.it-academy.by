@@ -1,0 +1,9 @@
+---
+# defaults file for Redmine_Install
+
+app_repo: "https://github.com/redmine/redmine.git"
+app_home: /opt/redmine
+app_version: 4.1-stable
+
+app_lang: "ru"
+
