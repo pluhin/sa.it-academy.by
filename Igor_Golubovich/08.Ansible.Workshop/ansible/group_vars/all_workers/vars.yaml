@@ -1,0 +1,18 @@
+ansible_user: root
+ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53"'
+
+apt_redmine_packages:
+  - git
+  - ruby-full
+  - build-essential
+  - libmysqlclient-dev
+  - imagemagick
+  - libmagickwand-dev
+  - apache2
+  - libapache2-mod-passenger
+  - mysql-server
+  - mysql-client
+  - python3-pymysql
+  - python3-mysqldb
+
+app_fqdn: redmine-26.sa

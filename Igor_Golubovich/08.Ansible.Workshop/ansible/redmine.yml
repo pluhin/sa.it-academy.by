@@ -1,0 +1,15 @@
+- hosts: host11
+  pre_tasks:
+  - debug:
+      msg: "{{ ansible_host }}"
+
+  - name: Install packages
+    include_tasks: install_pack.yml
+
+  roles:
+    - application
+    - sql
+
+  tasks:
+  - name: Test
+    include_tasks: test.yml
