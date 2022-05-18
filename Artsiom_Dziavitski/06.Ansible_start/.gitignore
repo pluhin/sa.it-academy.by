@@ -1,0 +1,4 @@
+inventory
+ansible_files/inventory
+*.log
+*.tmp
