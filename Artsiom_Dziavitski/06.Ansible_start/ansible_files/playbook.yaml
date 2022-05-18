@@ -1,0 +1,19 @@
+---
+    - hosts: ocloud
+
+      tasks:
+        - name: "OS/version"
+          debug:
+            msg:
+                      - "ansible_distribution {{ hostvars[inventory_hostname].ansible_distribution }}"
+                      - "major version {{ hostvars[inventory_hostname].ansible_distribution_major_version }}"
+        - name: "FS mount points & capacity"
+          debug:
+            msg:
+              - "Mount_point: {{ item.mount }} | Total_capacity: {{ (item.size_total)/1000000  }} Mbyte | Used_capacity: {{ ((item.size_total-item.size_available)/1000000) }} Mbyte"
+          with_items:
+            - "{{ ansible_mounts }}"
+        - name: "RAM stat"
+          debug:
+            msg: 
+              - "RAM_total: {{ ansible_memory_mb.real.total }} Mbyte | RAM_free: {{ ansible_memory_mb.real.free }} Mbyte "
