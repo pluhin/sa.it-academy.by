@@ -1,0 +1,7 @@
+---
+repos:
+  - https://cloud.debian.org/images/cloud/
+  - http://mirror.centos.org/centos/
+  - https://pypi.org/
+  
+dockerhub: https://hub.docker.com/

@@ -1,0 +1,6 @@
+---
+- name: restart_nginx
+  service: 
+    name: nginx
+    state: restarted
+  become: yes
