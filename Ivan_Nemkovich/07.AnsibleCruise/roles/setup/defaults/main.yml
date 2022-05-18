@@ -1,0 +1,4 @@
+---
+virtual_domain:
+  - "{{ ansible_os_family|lower }}1.local"
+  - "{{ ansible_os_family|lower }}2.local"

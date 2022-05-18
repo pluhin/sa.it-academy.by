@@ -1,0 +1,19 @@
+# Managed by Ansible
+#
+server {
+    listen 80;
+    listen [::]:80;
+
+    root /var/www/{{ item  }};
+
+    index index.html;
+
+    server_name {{ item  }} www.{{ item  }};
+
+    access_log /var/log/nginx/{{ item  }}.access.log;
+    error_log /var/log/nginx/{{ item  }}.error.log;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}

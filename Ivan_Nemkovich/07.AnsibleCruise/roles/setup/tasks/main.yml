@@ -1,0 +1,22 @@
+---
+- name: Install Nginx on Debian Family
+  include_tasks: nginx_deb.yml
+  when: ansible_os_family == "Debian"
+  
+- name: Install Nginx on RedHat Family
+  include_tasks: nginx_red.yml
+  when: ansible_os_family == "RedHat"
+  
+- name: Edit hosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  become: yes
+  
+- name: Check deployment/validate functionality of virtualhosts
+  include_tasks: check.yml
+  loop: "{{ virtual_domain }}"

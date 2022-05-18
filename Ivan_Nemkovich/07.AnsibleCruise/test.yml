@@ -1,0 +1,4 @@
+---
+- hosts: work_sa
+  roles:
+    - test

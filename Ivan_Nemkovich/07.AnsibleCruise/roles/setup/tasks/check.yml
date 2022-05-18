@@ -1,0 +1,11 @@
+---
+- name: Check deployment/validate functionality of virtualhosts
+  uri:
+    url: "http://{{ item }}"
+    return_content: yes
+  register: this
+  failed_when: "'Welcome' not in this.content"
+
+- name: print out
+  debug:
+    msg: "{{ this }}"
