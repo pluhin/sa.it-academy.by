@@ -1,0 +1,33 @@
+#---------------------------------
+# Github actions
+#---------------------------------
+name: GitOPS
+
+on: [pull_request]
+
+jobs:
+  prod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone my repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v20
+
+      - name: List all changed files
+        run: |
+          sum=0
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+            count=$(awk '{print gsub(/\t/,"")}' $file | wc -l)
+            sum=$((sum + count))
+            done
+            echo $sum >> count.txt
+      - name: Upload rep
+        uses: actions/upload-artifact@v2
+        with:
+          path: count.txt
