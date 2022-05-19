@@ -1,0 +1,20 @@
+---
+- name: MySQL.Install MYSQL
+  apt:
+    name: "{{ apt_mysql_packages }}"
+    state: latest
+    update_cache: yes
+
+- name: MySQL.Create DB
+  mysql_db:
+    name: "{{ app_db_name }}"
+    encoding: utf8
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: MySQL.Create DB User
+  mysql_user:
+    name: "{{ app_db_user }}"
+    password: "{{ app_db_pass }}"
+    priv: "{{ app_db_name }}.*:ALL"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: yes
