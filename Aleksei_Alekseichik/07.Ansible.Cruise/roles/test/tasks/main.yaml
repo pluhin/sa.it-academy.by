@@ -1,0 +1,42 @@
+---
+- name: Check if we have SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check connection repo
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  loop: "{{ repo }}"
+  register: out
+
+- name: Print out
+  debug:
+    msg: "{{ out.msg }}"
+
+- name: Check Docker
+  uri:
+    url: "{{ doc }}"
+    return_content: yes
+  register: hub
+
+- name: Status connection
+  debug:
+    msg: "{{ hub.content }}"
+
+- name: Check RAM
+  assert:
+    that:
+      - ansible_memfree_mb <= 100
+      - ansible_memfree_mb >= 50
+    fail_msg: "You have not enough memory. Available {{ ansible_memfree_mb }} mb."
+    success_msg: "Ok. Your free  memory {{ ansible_memfree_mb }} mb"
+
+- name: Check disk
+  assert:
+    that:
+      - (ansible_facts.mounts[0].size_available /1000000000) | int >= 100
+    fail_msg: "You have not enough free disk space. Available {{ (ansible_facts.mounts[0].size_available /1000000000) | int }} GB."
+    success_msg: "Ok. Your free disk space {{ (ansible_facts.mounts[0].size_available /1000000000) | int }} GB."  

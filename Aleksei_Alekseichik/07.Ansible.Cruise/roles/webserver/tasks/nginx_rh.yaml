@@ -1,0 +1,30 @@
+---
+- name: Epel install 
+  yum:
+    name: epel-release
+    state: latest 
+    update_cache: yes
+
+- name: Nginx install packages
+  yum:
+    name: "{{ yum_packages }}"
+    state: latest
+    update_cache: yes
+  tags:
+  - tests
+
+- name: Nginx enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+  notify:
+  - Reload service firewalld
+  tags:
+  - tests

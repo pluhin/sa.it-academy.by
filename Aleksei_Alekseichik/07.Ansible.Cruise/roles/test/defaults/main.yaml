@@ -1,0 +1,7 @@
+---
+repo:
+- "http://archive.ubuntu.com"
+- "http://mirror.centos.org/centos/" 
+- "https://pypi.org/simple"
+
+doc: "https://hub.docker.com"

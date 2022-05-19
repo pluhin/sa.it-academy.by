@@ -1,0 +1,24 @@
+---
+apt_packages: 
+  - nginx
+
+yum_packages:
+  - nginx
+  - libsemanage-python
+  - libselinux-python
+
+ubuntu_conf_dir: "/etc/nginx/sites-available/"
+rh_conf_dir: "/etc/nginx/conf.d/"  
+
+ubuntu_www_dir: "/var/www/html/"
+
+rh_www_dir: "/usr/share/nginx/html/"  
+
+site_deb: "ubuntu-local"
+site_cent: "rh-local"
+site: ".site"
+virtual_hosts:
+  - { name: "{{ site_cent }}1{{ site }}", ip: "{{ hostvars[\"host1\"].ansible_host }}"}
+  - { name: "{{ site_deb }}1{{ site }}", ip: "{{ hostvars[\"host2\"].ansible_host }}"}
+  - { name: "{{ site_cent }}2{{ site }}", ip: "{{ hostvars[\"host1\"].ansible_host }}"}
+  - { name: "{{ site_deb }}2{{ site }}", ip: "{{ hostvars[\"host2\"].ansible_host }}"}

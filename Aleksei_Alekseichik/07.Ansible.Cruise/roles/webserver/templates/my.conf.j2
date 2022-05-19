@@ -1,0 +1,17 @@
+server {
+        listen 80;
+        {% if ansible_os_family == 'Debian' and item is defined %}
+        root /var/www/{{ site_deb }}{{ item }}{{ site }}/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name {{ site_deb }}{{ item }}{{ site }} www.{{ site_deb }}{{ item }}{{ site }};
+        {% elif ansible_os_family == 'RedHat' and item is defined %}
+        root /usr/share/nginx/{{ site_cent }}{{ item }}{{ site }}/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name {{ site_cent }}{{ item }}{{ site }} www.{{ site_cent }}{{ item }}{{ site }};
+        {% endif %}
+	location = /50x.html {  
+		root /usr/share/nginx/html;  
+	}  
+}

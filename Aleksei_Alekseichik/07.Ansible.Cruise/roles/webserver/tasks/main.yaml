@@ -1,0 +1,74 @@
+---
+- name: Include deploy for Debian systems
+  include_tasks: nginx_deb.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include_tasks: nginx_rh.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Copy index.html
+  template:
+    src: index.html.j2
+    dest: "{% if ansible_os_family == 'Debian'%}{{ ubuntu_www_dir }}/index.html{% else %}{{ rh_www_dir }}/index.html{% endif %}"
+    owner: root
+    group: root
+    mode: '0755'
+  notify:
+    - Restart nginx
+
+- name: Remove default config
+  file:
+    path: "{% if ansible_os_family == 'Debian'%}{{ ubuntu_conf_dir }}/default.conf{% else %}{{ rh_conf_dir }}/default.conf{% endif %}"
+    state: absent
+
+- name: Copy my config 
+  template:
+    src: "my.conf.j2"
+    dest: "{% if ansible_os_family == 'Debian'%}{{ ubuntu_conf_dir }}/my.conf{% else %}{{ rh_conf_dir }}/my.conf{% endif %}"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  notify:
+    - Restart nginx
+
+
+- name: Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: print out
+  debug:
+    msg: "{{ out }}"
+    
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  tags:
+  - tests
+
+- name: Check content to the sites
+  uri:
+    url:  "http://{{ item.name  }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'Hi' not in this.content"
+  tags:
+  - tests
+
+- name: print out
+  debug:
+    msg: "{{ this }}"
+  tags:
+  - tests
