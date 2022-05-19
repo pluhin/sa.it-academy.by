@@ -1,0 +1,27 @@
+---
+- name: Check SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check connections to public repos
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  loop: "{{ repos }}"
+  register: repo
+
+- name: Check connection Docker hub
+  uri:
+    url: "{{ docker_hub }}"
+    return_content: yes
+  register: dock
+
+- name: Check HDD
+  vars:
+    hdd_used:  "{{ ((item.size_available / item.size_total) | round(4)) * 100}} "
+  assert:
+    that: hdd_used | int >= 40
+    success_msg: "OK. Available disk space: {{ hdd_used | int }}% of disk space."
+    fail_msg: "Not enough disk space. Available disk space: {{ hdd_used | int }}%."

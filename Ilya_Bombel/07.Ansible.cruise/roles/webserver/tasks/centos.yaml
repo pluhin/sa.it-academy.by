@@ -1,0 +1,27 @@
+---
+- name: Install epel repo
+  yum:
+    name: epel-release
+    state: present
+
+- name: NGINX. Install packages
+  yum:
+    name: nginx
+    state: present
+
+- name: NGINX. Enable and start servce
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: NGINX. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+
+- name: NGINX. reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
