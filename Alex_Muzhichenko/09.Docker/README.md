@@ -3,6 +3,9 @@
 
 ---
 
+[Github](https://github.com/amuzhichenko/docker)
+[Dockerhub](https://hub.docker.com/repository/docker/amuzhichenko/amuzhichenko_docker)
+
 
 ### Dockerfile
 
@@ -22,11 +25,14 @@ CMD ["python", "myapp.py"]
 
 ```bash
 
-FROM python:3.4
-RUN pip install Flask==0.10.1
-WORKDIR /app
-COPY app /app
-CMD ["python", "myapp.py"]
+
+from flask import Flask
+app = Flask(__name__)
+@app.route('/')
+def hello_world():
+return 'Hello World!\n'
+if __name__ == '__main__':
+  app.run(debug=True, host='0.0.0.0')
 
 
 ```
