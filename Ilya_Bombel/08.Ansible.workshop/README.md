@@ -1,16 +1,18 @@
 # 08.Ansible.workshop homework
 ## To do:
 * Complete deployment of workshop application
-* Split deployment into two independent roles
-* MySQL deployment/upgrade
-- Application deployment/upgrade
-- All pre and post task you can put into playbook directly (see structure example below)
+* Split deployment into two independent roles:
+- _MySQL deployment/upgrade_
+- _Application deployment/upgrade_
+* All pre and post task you can put into playbook directly (see structure example below)
 * Create any project with initials in application
 * Create printscreen of the project in application
 * Add this printscreen and ansible project
 
 ### My project printscreen
+![redmine_test_project.JPG](./redmine_test_project.JPG)
 
+### Playbook
 
 ```bash
 ansible-playbook -i inventory.yaml redmine.yaml
