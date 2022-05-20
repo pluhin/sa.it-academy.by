@@ -80,4 +80,4 @@ jobs:
 ```
 
 ### Run and test my Docker image (screen).
-![Image 1](screen.jpg)
+![Image 1](screen.JPG)
