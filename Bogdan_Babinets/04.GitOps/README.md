@@ -10,6 +10,7 @@ https://github.com/BB8312/git_test/
 
 ### log of pipeline
 
+```bash
 Current runner version: '2.291.1'
 Operating System
   Ubuntu
@@ -316,3 +317,4 @@ http.https://github.com/.extraheader
 /usr/bin/git submodule foreach --recursive git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :
 0s
 Cleaning up orphan processes
+```
