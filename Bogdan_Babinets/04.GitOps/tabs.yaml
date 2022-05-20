@@ -1,0 +1,31 @@
+name: tab_search
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    name: Investigate
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v20
+
+      - name: Search tabs
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$changed!" >> investigate.log 2>&1
+            echo "Tabs: `grep -P '\t' $file | wc -l`" >> investigate.log 2>&1 
+          done
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: investigate.log
