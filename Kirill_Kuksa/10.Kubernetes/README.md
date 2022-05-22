@@ -57,3 +57,32 @@ kirill@kirills-MacBook-Pro 10.Kubernetes % minikube start --memory 4096 --cpus 2
 ```
 
 # k8s cluster
+```
+PLAY RECAP ***************************************************************************************************
+localhost                  : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+node1                      : ok=768  changed=144  unreachable=0    failed=0    skipped=1315 rescued=0    ignored=6   
+node2                      : ok=506  changed=87   unreachable=0    failed=0    skipped=773  rescued=0    ignored=2   
+
+воскресенье 22 мая 2022  22:59:49 +0300 (0:00:00.085)       0:45:10.714 ******* 
+=============================================================================== 
+kubernetes/preinstall : Install packages requirements ----------------------------------------------- 192.40s
+download : download_file | Validate mirrors ---------------------------------------------------------- 73.37s
+download : download_file | Download item ------------------------------------------------------------- 57.94s
+kubernetes/preinstall : Remove search/domain/nameserver options before block ------------------------- 52.55s
+kubernetes-apps/ansible : Kubernetes Apps | Lay Down CoreDNS templates ------------------------------- 51.31s
+download : download_file | Download item ------------------------------------------------------------- 49.84s
+container-engine/containerd : download_file | Download item ------------------------------------------ 46.62s
+kubernetes-apps/ansible : Kubernetes Apps | Start Resources ------------------------------------------ 37.81s
+download : download_file | Download item ------------------------------------------------------------- 34.22s
+download : download_container | Download image if required ------------------------------------------- 30.86s
+network_plugin/calico : Calico | Create calico manifests --------------------------------------------- 30.06s
+download : download_container | Download image if required ------------------------------------------- 28.87s
+download : download_container | Download image if required ------------------------------------------- 28.76s
+container-engine/nerdctl : download_file | Download item --------------------------------------------- 28.65s
+download : download_container | Download image if required ------------------------------------------- 28.48s
+kubernetes/control-plane : kubeadm | Initialize first master ----------------------------------------- 27.66s
+bootstrap-os : Assign inventory name to unconfigured hostnames (non-CoreOS, non-Flatcar, Suse and ClearLinux, non-Fedora) -- 23.77s
+kubernetes/kubeadm : Join to cluster ----------------------------------------------------------------- 21.33s
+download : download_container | Download image if required ------------------------------------------- 21.32s
+policy_controller/calico : Create calico-kube-controllers manifests ---------------------------------- 20.55s
+```
