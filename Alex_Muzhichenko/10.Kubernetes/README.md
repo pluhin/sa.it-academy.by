@@ -93,7 +93,7 @@ alex@ubntukab:~$ minikube start --memory 2200 --cpus 2    # Run with memory and 
 ```
 
 ### Dashboard screen:
-![minikube](Minikube_Alex_Muzhichenko.jpg)
+![minikube](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/10.Kubernetes/Minikube_Alex_Muzhichenko.JPG)
 
 
 ### Final summary of ansible play kubespray (IT-ACADEMY environment) 
