@@ -63,6 +63,8 @@
 🌟  Enabled addons: storage-provisioner, ingress, default-storageclass
 🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 ```
+## Dashboard screen:
+![minikube](minikube.png)
 
 ## Final stage of deployment k8s
 ```bash
