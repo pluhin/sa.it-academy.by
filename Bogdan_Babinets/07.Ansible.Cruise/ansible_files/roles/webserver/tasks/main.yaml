@@ -1,0 +1,7 @@
+- name: Debian systems
+  include_tasks: nginx_ubuntu.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: RedHat systems
+  include_tasks: nginx_cent.yaml
+  when: ansible_os_family == 'RedHat'

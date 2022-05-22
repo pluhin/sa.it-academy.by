@@ -1,0 +1,32 @@
+- hosts: redmine
+  pre_tasks:
+  - debug:
+      msg: "{{ ansible_host }}"
+  - debug:
+      msg: "OS: {{ ansible_distribution }} | Version: {{ ansible_distribution_version }}"
+
+  roles:
+    - mysql
+    - redmine
+
+  tasks:
+  - name: Fix host file
+    shell: echo "127.0.0.1 {{ app_fqdn }}" >> /etc/hosts
+    tags:
+      - test
+
+  - uri:
+      url: "http://{{ app_fqdn }}"
+      return_content: yes
+    register: this
+    failed_when: "'Jean-Philippe Lang' not in this.content"
+    tags:
+      - test
+
+  - lineinfile:
+      path: /etc/hosts
+      state: absent
+      regexp: '^127.0.0.1  {{ app_fqdn }}'
+    tags:
+      - test
+      - always
