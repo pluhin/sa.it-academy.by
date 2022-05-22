@@ -1,12 +1,12 @@
 # 10.Kubernetes
 
 ## minikube commands:
-![minikube](minikube.jpg)
+![minikube](minikube.png)
 
 ## dashboard screen:
 
-![minikube](dashboard.jpg)
+![minikube](dashboard.png)
 
 ## IT-ACADEMY environment:
 
-![minikube](environment.jpg)
+![minikube](environment.png)
