@@ -1,0 +1,23 @@
+- hosts: workers, masters
+  gather_facts: yes
+
+- name: 00-sethostname.yml
+  import_playbook: ansible_playbooks/00-sethostname.yml
+   
+- name: 01-set_etc-hosts.yml
+  import_playbook: ansible_playbooks/01-set_etc-hosts.yml
+   
+- name: 02-users_add.yml
+  import_playbook: ansible_playbooks/02-users_add.yml
+      
+- name: 03-install-k8s-masters.yml
+  import_playbook: ansible_playbooks/03-install-k8s-masters.yml
+   
+- name: 04-install-k8s-workers.yml
+  import_playbook: ansible_playbooks/04-install-k8s-workers.yml
+   
+- name: 05-initcluster-k8s.yml
+  import_playbook: ansible_playbooks/05-initcluster-k8s.yml
+   
+- name: 06-joinworkers.yml
+  import_playbook: ansible_playbooks/06-joinworkers.yml 

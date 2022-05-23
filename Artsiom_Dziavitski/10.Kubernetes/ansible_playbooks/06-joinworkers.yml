@@ -1,0 +1,37 @@
+- hosts: master1
+  become: yes
+  gather_facts: false
+  tasks:
+    - name: Wait for nodes to be ready
+      shell: "/usr/bin/kubectl get nodes"
+      register: nodes
+      until:
+        - '" Ready "  in nodes.stdout'
+      retries: 6
+      delay: 2
+
+    - name: get join command
+      shell: kubeadm token create --print-join-command
+      register: join_command_raw
+
+    - name: set join command
+      set_fact:
+        join_command: "{{ join_command_raw.stdout_lines[0] }}"
+
+
+- hosts: workers
+  become: yes
+  tasks:
+    - name: remove containerd/config.toml
+      file:
+        path: /etc/containerd/config.toml
+        state: absent
+
+    - name: restart containerd
+      shell: systemctl restart containerd
+
+    - name: join cluster
+      shell: "{{ hostvars['master1'].join_command }} | tee node_joined.txt"
+      args:
+        chdir: $HOME
+        creates: node_joined.txt

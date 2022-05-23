@@ -1,0 +1,16 @@
+- hosts: workers, masters
+  gather_facts: yes 
+  become: yes
+  become_user: root
+  tasks:
+    - name: Reset Kubernetes cluster
+      shell: "kubeadm reset --force"
+      ignore_errors: True
+
+    - name: Remove docker images
+      shell: "docker rmi -f $(docker images -aq)"
+      ignore_errors: True
+
+    - name: Reset docker
+      shell: "docker system prune --force"
+      ignore_errors: True

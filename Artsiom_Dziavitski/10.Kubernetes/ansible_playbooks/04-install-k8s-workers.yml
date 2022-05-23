@@ -1,0 +1,64 @@
+- hosts: workers 
+  become: yes
+
+  tasks:
+    - name: set the swap off
+      shell:
+        cmd: swapoff -a
+
+    - name: switch nftables to iptables 
+      shell:
+        cmd: "{{ item }}"
+      loop:
+        - update-alternatives --set iptables /usr/sbin/iptables-legacy
+        - update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+
+    - name: install packages with apt
+      apt:
+        name: ['apt-transport-https', 'gnupg2', 'ca-certificates', 'software-properties-common']
+        state: present
+
+    - name: add apt-key for Docker
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
+
+    - name: add apt repo for Docker
+      apt_repository:
+        repo: deb https://download.docker.com/linux/debian buster stable
+        state: present
+        filename: 'docker'
+
+    - name: install Docker
+      apt:
+        name: docker-ce
+        state: present
+        update_cache: true
+
+    - name: add Kubernetes apt-key
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        state: present
+
+    - name: add Kubernetes' APT repository
+      apt_repository:
+        repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+        state: present
+        filename: 'kubernetes'
+
+    - name: install kubelet
+      apt:
+        name: kubelet
+        state: present
+        update_cache: true
+
+    - name: install kubeadm
+      apt:
+        name: kubeadm
+        state: present
+
+    - name: install kubectl
+      apt:
+        name: kubectl
+        state: present
+        force: yes

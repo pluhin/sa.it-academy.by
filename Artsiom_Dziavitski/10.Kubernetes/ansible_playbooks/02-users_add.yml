@@ -1,0 +1,45 @@
+---
+- hosts: masters, workers
+  remote_user: root
+
+  handlers:
+  - name: "Restart sshd"
+    service:
+      name: "sshd"
+      state: "restarted"
+
+  tasks:
+  - name: releaseinfo change
+    shell:
+      cmd: apt-get --allow-releaseinfo-change-suite update
+
+  - name: install sudo
+    apt: 
+      name: sudo
+      state: present
+      update_cache: yes
+
+  - name: Ensure group "ansible" exists
+    group:
+      name: ansible
+      state: present
+
+  - name: "Create user accounts"
+    user:
+      name: "ansible"
+      groups: "ansible"
+      state: "present"
+      shell: /bin/bash
+    
+  - name: "Add authorized keys"
+    authorized_key:
+      user: "ansible"
+      key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    
+  - name: "Allow admin users to sudo without a password"
+    lineinfile:
+      dest: "/etc/sudoers" 
+      state: "present"
+      regexp: "^%root"
+      insertafter: "^#root"
+      line: "ansible ALL=(ALL) NOPASSWD: ALL"
