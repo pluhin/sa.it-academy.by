@@ -99,7 +99,7 @@ vagrant@vagrant:~$
 ```
 ---
 ## Screen
-[Screen](www)
+[Screen](https://github.com/alexfiz/sa.it-academy.by/blob/md-sa2-20-22/Aleksei_Alekseichik/10.Kubernetes/Dashboard.jpg)
 ---
 ## Final summary of ansible play (IT-ACADEMY environment)
 ``` bash
