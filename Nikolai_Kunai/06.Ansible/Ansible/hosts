@@ -1,0 +1,5 @@
+```
+[prod]
+host25 ansible_host=192.168.202.25
+host26 ansible_host=192.168.202.26
+```
