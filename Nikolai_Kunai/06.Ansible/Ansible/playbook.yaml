@@ -1,0 +1,24 @@
+- name: first playbook
+  hosts: prod
+  become: yes
+
+  tasks:
+
+  - name: OS/Version
+    debug: msg="{{ ansible_distribution }}/{{ansible_distribution_version}}"
+
+  - name: Mount points
+    debug:
+      msg:
+        - "Mount point: {{ item.mount }}"
+        - "Capacity: {{ ((item.size_total)/1073741824)|int }}GB"
+        - "Used space: {{ ((item.size_total-item.size_available)/1073741824)|int }}GB"
+    when: item.mount == '/'
+    with_items:
+      - "{{ ansible_mounts }}"
+
+  - name: Check RAM
+    debug:
+      msg:
+        - "RAM capacity: {{ ansible_memtotal_mb }}MB"
+        - "RAM free: {{ ansible_memfree_mb }}MB"
