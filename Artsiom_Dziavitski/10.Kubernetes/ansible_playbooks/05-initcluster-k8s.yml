@@ -1,0 +1,62 @@
+- hosts: master1
+  become: yes
+  become_user: root
+  tasks:
+    - name: remove containerd/config.toml
+      file:
+        path: /etc/containerd/config.toml
+        state: absent
+
+    - name: restart containerd
+      shell: systemctl restart containerd
+
+    - name: initialize the cluster with standard Flannel subnet
+      shell: kubeadm init --pod-network-cidr=10.10.0.0/16 >> cluster_initialized.txt
+      args:
+        chdir: $HOME
+        creates: cluster_initialized.txt
+
+    - name: create .kube directory for ansible
+      file:
+        path: /home/ansible/.kube
+        state: directory
+        mode: 0755
+        owner: ansible
+        group: ansible
+
+    - name: copy admin.conf to ansible user home inside kube folder config
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/ansible/.kube/config
+        remote_src: yes
+        owner: ansible
+
+    - name: create .kube directory for root
+      file:
+        path: /root/.kube
+        state: directory
+        mode: 0700
+        owner: root
+        group: root
+
+    - name: copy admin.conf to root user home inside kube folder config
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /root/.kube/config
+        remote_src: yes
+        owner: root
+
+
+    - name: install Pod networ
+      become: yes
+      become_user: ansible
+      shell: kubectl apply -f https://docs.projectcalico.org/manifests/calico-typha.yaml >> calico_pod_network_setup.txt
+      args:
+        creates: calico_pod_network_setup.txt
+
+    - name: check Pod state
+      become: yes
+      become_user: ansible
+      shell: kubectl get pods -o wide
+      register: out
+    - debug: var=out.stdout_lines

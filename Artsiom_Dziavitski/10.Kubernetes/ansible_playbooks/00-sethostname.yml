@@ -1,0 +1,7 @@
+ - hosts: masters, workers
+   become: yes
+   become_user: root
+   tasks:
+     - name: Set hostname
+       shell:
+         cmd: hostnamectl set-hostname {{ inventory_hostname }}

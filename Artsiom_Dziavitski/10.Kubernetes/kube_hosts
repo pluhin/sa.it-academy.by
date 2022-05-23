@@ -1,0 +1,12 @@
+[jumphost]
+jump_host ansible_host=178.124.206.53 ansible_user=jump_sa
+
+[masters]
+master1 ansible_host=192.168.203.19 ansible_user=root
+
+[workers]
+worker1 ansible_host=192.168.203.20 ansible_user=root
+
+
+[masters:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -p 22 -W %h:%p -q jump_sa@178.124.206.53"'
