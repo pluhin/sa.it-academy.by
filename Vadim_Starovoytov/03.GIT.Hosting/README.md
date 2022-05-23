@@ -1,8 +1,7 @@
-github
-https://github.com/starihx/vadim
+# 03.GIT.Hosting
 
-gitlab
-https://gitlab.com/starihx/vadim/-/tree/master
+[github](https://github.com/starihx/vadim)
 
-bitbucket
-https://bitbucket.org/starihx/vadim/src/master/
+[gitlab](https://gitlab.com/starihx/vadim/-/tree/master)
+
+[bitbucket](https://bitbucket.org/starihx/vadim/src/master/)
