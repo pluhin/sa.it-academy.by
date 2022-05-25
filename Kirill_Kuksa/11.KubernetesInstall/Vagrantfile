@@ -1,0 +1,15 @@
+Vagrant.configure("2") do |config|
+    config.vm.box = "bento/ubuntu-20.04"
+    config.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+      vb.cpus = "2"
+    end
+    config.vm.network "forwarded_port", guest: 6443, host: 16443
+    config.vm.provision "shell", inline: <<-SHELL
+      apt-get update
+      apt-get install -y curl
+      runuser -l vagrant -c 'curl -sfL https://get.k3s.io | sh -'
+      chmod 644 /etc/rancher/k3s/k3s.yaml
+      runuser -l vagrant -c 'kubectl get nodes'
+    SHELL
+  end
