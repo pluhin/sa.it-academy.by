@@ -1,0 +1,31 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: {}
+    server: https://127.0.0.1:6443
+  name: k3s
+- cluster:
+    certificate-authority-data: {}
+    server: https://127.0.0.1:16443
+  name: k8s
+contexts:
+- context:
+    cluster: k3s
+    user: user.k3s
+  name: k3s
+- context:
+    cluster: k8s
+    user: user.k8s
+  name: k8s
+current-context: k3s
+kind: Config
+preferences: {}
+users:
+- name: user.k3s
+  user:
+    client-certificate-data: {}
+    client-key-data: {}
+- name: user.k8s
+  user:
+    client-certificate-data: {}
+    client-key-data: {}
