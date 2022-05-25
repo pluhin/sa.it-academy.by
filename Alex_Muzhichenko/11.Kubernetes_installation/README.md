@@ -5,7 +5,7 @@
 
 ### k9s screenshot
 
-![k9s](k9s.jpg)
+![k9s](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/11.Kubernetes_installation/k9s.JPG)
 
 ### kubectl config view
 
@@ -64,6 +64,10 @@ node2   Ready    <none>                 3d    v1.23.6
 
 alex@ubntukab:~/k8s$ kubectl config use-context default
 Switched to context "default".
+alex@ubntukab:~/k8s$ kubectl config get-contexts
+CURRENT   NAME                             CLUSTER         AUTHINFO           NAMESPACE
+*         default                          default         default
+          kubernetes-admin@cluster.local   cluster.local   kubernetes-admin
 alex@ubntukab:~/k8s$ kubectl get nodes
 NAME    STATUS   ROLES                  AGE   VERSION
 test2   Ready    control-plane,master   25h   v1.23.6+k3s1
