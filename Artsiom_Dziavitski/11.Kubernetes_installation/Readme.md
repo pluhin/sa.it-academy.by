@@ -1,12 +1,12 @@
 ###11. Kubernetes installation
 
-#K3s deployment
+##K3s deployment
 ```bash
 cd ./vagrant
 vagrant up
 ```
 
-#aliases
+##aliases
 ```bash
  alias k=kubectl
  alias k.all='k get all --all-namespaces'
@@ -15,7 +15,7 @@ vagrant up
  complete -F __start_kubectl k
 ```
 
-###Kubeconfig merge
+##Kubeconfig merge
 ```bash
  1035  cd ~/.kube/
  1036  cp ~/.kube/config ~/.kube/config.bak 
@@ -29,5 +29,5 @@ CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPAC
 *         kubernetes-admin@kubernetes   kubernetes   kubernetes-admin 
  1042  kubectl config use-context default
 ```
-
+##Screen k9s
 ![k9s Screen](Screenshot_20220526_175132.png)
