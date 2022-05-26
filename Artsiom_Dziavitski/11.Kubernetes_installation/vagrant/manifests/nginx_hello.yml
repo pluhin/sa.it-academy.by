@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+   name: nginxdemos-hello-pod
+spec:
+   containers:
+   - name: nginxdemos-hello
+     image: nginxdemos/hello:latest
+     ports:
+     - containerPort: 80 
+     - containerPort: 443
