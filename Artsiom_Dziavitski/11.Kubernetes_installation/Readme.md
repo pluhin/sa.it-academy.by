@@ -1,5 +1,11 @@
 ###11. Kubernetes installation
 
+#K3s deployment
+```bash
+cd ./vagrant
+vagrant up
+```
+
 #aliases
 ```bash
  alias k=kubectl
