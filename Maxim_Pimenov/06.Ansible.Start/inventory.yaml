@@ -1,0 +1,6 @@
+all_workers:
+  children:
+    group01:
+      hosts:
+        host47:
+          ansible_host: 192.168.1.47

@@ -1,0 +1,307 @@
+Current runner version: '2.291.1'
+Operating System
+  Ubuntu
+  20.04.4
+  LTS
+Virtual Environment
+  Environment: ubuntu-20.04
+  Version: 20220515.1
+  Included Software: https://github.com/actions/virtual-environments/blob/ubuntu20/20220515.1/images/linux/Ubuntu2004-Readme.md
+  Image Release: https://github.com/actions/virtual-environments/releases/tag/ubuntu20%2F20220515.1
+Virtual Environment Provisioner
+  1.0.0.0-main-20220421-1
+GITHUB_TOKEN Permissions
+  Actions: write
+  Checks: write
+  Contents: write
+  Deployments: write
+  Discussions: write
+  Issues: write
+  Metadata: read
+  Packages: write
+  Pages: write
+  PullRequests: write
+  RepositoryProjects: write
+  SecurityEvents: write
+  Statuses: write
+Secret source: Actions
+Prepare workflow directory
+Prepare all required actions
+Getting action download info
+Download action repository 'docker/login-action@v1' (SHA:dd4fa0671be5250ee6f50aedf4cb05514abda2c7)
+Download action repository 'docker/build-push-action@v2' (SHA:ac9327eae2b366085ac7f6a2d02df8aa8ead720a)
+1s
+Run docker/login-action@v1
+  with:
+    username: bb8312
+    password: ***
+    ecr: auto
+    logout: true
+Logging into Docker Hub...
+Login Succeeded!
+21s
+Run docker/build-push-action@v2
+  with:
+    push: true
+    tags: bb8312/09.docker:bb8312v1
+    load: false
+    no-cache: false
+    pull: false
+    github-token: ***
+Docker info
+  /usr/bin/docker version
+  Client:
+   Version:           20.10.15+azure-1
+   API version:       1.41
+   Go version:        go1.16.15
+   Git commit:        fd82621d35d2d9662854c8351976d5cc1e4186ce
+   Built:             Thu Apr 21 14:44:35 2022
+   OS/Arch:           linux/amd64
+   Context:           default
+   Experimental:      true
+  
+  Server:
+   Engine:
+    Version:          20.10.15+azure-2
+    API version:      1.41 (minimum version 1.12)
+    Go version:       go1.16.15
+    Git commit:       4433bf67ba0a3f686ffffce04d0709135e0b37eb
+    Built:            Wed May  4 18:25:18 2022
+    OS/Arch:          linux/amd64
+    Experimental:     false
+   containerd:
+    Version:          1.5.11+azure-1
+    GitCommit:        3df54a852345ae127d1fa3092b95168e4a88e2f8
+   runc:
+    Version:          1.0.3
+    GitCommit:        f46b6ba2c9314cfc8caae24a32ec5fe9ef1059fe
+   docker-init:
+    Version:          0.19.0
+    GitCommit:        
+  /usr/bin/docker info
+  Client:
+   Context:    default
+   Debug Mode: false
+   Plugins:
+    buildx: Docker Buildx (Docker Inc., 0.8.2+azure-1)
+    compose: Docker Compose (Docker Inc., 2.4.1+azure-1)
+  
+  Server:
+   Containers: 0
+    Running: 0
+    Paused: 0
+    Stopped: 0
+   Images: 19
+   Server Version: 20.10.15+azure-2
+   Storage Driver: overlay2
+    Backing Filesystem: extfs
+    Supports d_type: true
+    Native Overlay Diff: false
+    userxattr: false
+   Logging Driver: json-file
+   Cgroup Driver: cgroupfs
+   Cgroup Version: 1
+   Plugins:
+    Volume: local
+    Network: bridge host ipvlan macvlan null overlay
+    Log: awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog
+   Swarm: inactive
+   Runtimes: io.containerd.runtime.v1.linux runc io.containerd.runc.v2
+   Default Runtime: runc
+   Init Binary: docker-init
+   containerd version: 3df54a852345ae127d1fa3092b95168e4a88e2f8
+   runc version: f46b6ba2c9314cfc8caae24a32ec5fe9ef1059fe
+   init version: 
+   Security Options:
+    apparmor
+    seccomp
+     Profile: default
+   Kernel Version: 5.13.0-1023-azure
+   Operating System: Ubuntu 20.04.4 LTS
+   OSType: linux
+   Architecture: x86_64
+   CPUs: 2
+   Total Memory: 6.784GiB
+   Name: fv-az190-718
+   ID: HBH2:4GTI:TVZO:RQE3:2FY4:V7R3:4FOX:5VLT:UXT2:VE6W:FUZ6:UTYB
+   Docker Root Dir: /var/lib/docker
+   Debug Mode: false
+   Username: bb8312
+   Registry: https://index.docker.io/v1/
+   Labels:
+   Experimental: false
+   Insecure Registries:
+    127.0.0.0/8
+   Live Restore Enabled: false
+  
+/usr/bin/docker buildx build --iidfile /tmp/docker-build-push-TYd5p5/iidfile --secret id=GIT_AUTH_TOKEN,src=/tmp/docker-build-push-TYd5p5/tmp-1546-RIf7qEmuK8z3 --tag bb8312/09.docker:bb8312v1 --metadata-file /tmp/docker-build-push-TYd5p5/metadata-file --push https://github.com/BB8312/docker_files.git#48b5b8753b9eb3466f34aadc934dac12d6753e3d
+#1 [internal] load git source https://github.com/BB8312/docker_files.git#48b5b8753b9eb3466f34aadc934dac12d6753e3d
+#0 0.024 hint: Using 'master' as the name for the initial branch. This default branch name
+#0 0.024 hint: is subject to change. To configure the initial branch name to use in all
+#0 0.024 hint: of your new repositories, which will suppress this warning, call:
+#0 0.024 hint: 
+#0 0.024 hint: 	git config --global init.defaultBranch <name>
+#0 0.024 hint: 
+#0 0.024 hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+#0 0.024 hint: 'development'. The just-created branch can be renamed via this command:
+#0 0.024 hint: 
+#0 0.024 hint: 	git branch -m <name>
+#0 0.025 Initialized empty Git repository in /var/lib/docker/overlay2/1aa9vicgpe2tsll4yhdv68qr8/diff/
+#0 0.036 fatal: Not a valid object name 48b5b8753b9eb3466f34aadc934dac12d6753e3d^{commit}
+#1 0.305 From https://github.com/BB8312/docker_files
+#1 0.305  * [new branch]      main       -> origin/main
+#1 DONE 0.3s
+
+#2 [auth] library/alpine:pull token for registry-1.docker.io
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/alpine:latest
+#3 DONE 0.3s
+
+#4 [1/5] FROM docker.io/library/alpine@sha256:686d8c9dfa6f3ccfc8230bc3178d23f84eeaf7e457f36f271ab1acc53015037c
+#4 resolve docker.io/library/alpine@sha256:686d8c9dfa6f3ccfc8230bc3178d23f84eeaf7e457f36f271ab1acc53015037c done
+#4 extracting sha256:2408cc74d12b6cd092bb8b516ba7d5e290f485d3eb9672efc00f0583730179e8 0.1s done
+#4 sha256:686d8c9dfa6f3ccfc8230bc3178d23f84eeaf7e457f36f271ab1acc53015037c 1.64kB / 1.64kB done
+#4 sha256:4ff3ca91275773af45cb4b0834e12b7eb47d1c18f770a0b151381cd227f4c253 528B / 528B done
+#4 sha256:e66264b98777e12192600bf9b4d663655c98a090072e1bab49e233d7531d1294 1.47kB / 1.47kB done
+#4 sha256:2408cc74d12b6cd092bb8b516ba7d5e290f485d3eb9672efc00f0583730179e8 2.80MB / 2.80MB 0.1s done
+#4 DONE 0.2s
+
+#5 [2/5] RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
+#5 0.220 fetch https://dl-cdn.alpinelinux.org/alpine/v3.16/main/x86_64/APKINDEX.tar.gz
+#5 0.290 fetch https://dl-cdn.alpinelinux.org/alpine/v3.16/community/x86_64/APKINDEX.tar.gz
+#5 0.505 (1/13) Installing libbz2 (1.0.8-r1)
+#5 0.508 (2/13) Installing expat (2.4.8-r0)
+#5 0.512 (3/13) Installing libffi (3.4.2-r1)
+#5 0.514 (4/13) Installing gdbm (1.23-r0)
+#5 0.516 (5/13) Installing xz-libs (5.2.5-r1)
+#5 0.519 (6/13) Installing libgcc (11.2.1_git20220219-r2)
+#5 0.522 (7/13) Installing libstdc++ (11.2.1_git20220219-r2)
+#5 0.537 (8/13) Installing mpdecimal (2.5.1-r1)
+#5 0.541 (9/13) Installing ncurses-terminfo-base (6.3_p20220521-r0)
+#5 0.546 (10/13) Installing ncurses-libs (6.3_p20220521-r0)
+#5 0.569 (11/13) Installing readline (8.1.2-r0)
+#5 0.574 (12/13) Installing sqlite-libs (3.38.5-r0)
+#5 0.587 (13/13) Installing python3 (3.10.4-r0)
+#5 1.056 Executing busybox-1.35.0-r13.trigger
+#5 1.061 OK: 57 MiB in 27 packages
+#5 DONE 1.2s
+
+#6 [3/5] RUN python3 -m ensurepip
+#6 3.401 Looking in links: /tmp/tmpistrb8ak
+#6 3.405 Processing /tmp/tmpistrb8ak/setuptools-58.1.0-py3-none-any.whl
+#6 3.410 Processing /tmp/tmpistrb8ak/pip-22.0.4-py3-none-any.whl
+#6 3.499 Installing collected packages: setuptools, pip
+#6 6.091 Successfully installed pip-22.0.4 setuptools-58.1.0
+#6 6.091 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#6 DONE 6.2s
+
+#7 [4/5] RUN pip3 install --no-cache --upgrade pip setuptools
+#7 0.928 Requirement already satisfied: pip in /usr/lib/python3.10/site-packages (22.0.4)
+#7 1.042 Collecting pip
+#7 1.064   Downloading pip-22.1.1-py3-none-any.whl (2.1 MB)
+#7 1.088      ???????????????????????????????????????? 2.1/2.1 MB 102.4 MB/s eta 0:00:00
+#7 1.106 Requirement already satisfied: setuptools in /usr/lib/python3.10/site-packages (58.1.0)
+#7 1.494 Collecting setuptools
+#7 1.498   Downloading setuptools-62.3.2-py3-none-any.whl (1.2 MB)
+#7 1.511      ???????????????????????????????????????? 1.2/1.2 MB 134.3 MB/s eta 0:00:00
+#7 1.677 Installing collected packages: setuptools, pip
+#7 1.677   Attempting uninstall: setuptools
+#7 1.678     Found existing installation: setuptools 58.1.0
+#7 1.742     Uninstalling setuptools-58.1.0:
+#7 1.759       Successfully uninstalled setuptools-58.1.0
+#7 2.678   Attempting uninstall: pip
+#7 2.679     Found existing installation: pip 22.0.4
+#7 2.907     Uninstalling pip-22.0.4:
+#7 2.923       Successfully uninstalled pip-22.0.4
+#7 5.021 Successfully installed pip-22.1.1 setuptools-62.3.2
+#7 5.021 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#7 DONE 5.3s
+
+#8 [5/5] COPY se80.py /se80.py
+#8 DONE 0.0s
+
+#9 exporting to image
+#9 exporting layers
+#9 exporting layers 0.8s done
+#9 writing image sha256:60e92a4e1cf9c584c044424c530b9a47aec6fff665014f62a5a987d3d8e039ba done
+#9 naming to docker.io/bb8312/09.docker:bb8312v1 done
+#9 DONE 0.8s
+
+#10 pushing bb8312/09.docker:bb8312v1 with docker
+#10 pushing layer 6c3139c996b2
+#10 pushing layer aa3893837c71
+#10 pushing layer f2dd5288acba
+#10 pushing layer 48b464d4804f
+#10 pushing layer 24302eb7d908
+#10 pushing layer 6c3139c996b2 2.05kB / 331B 0.4s
+#10 pushing layer aa3893837c71 1.15MB / 18.98MB 0.6s
+#10 pushing layer f2dd5288acba 1.60MB / 16.83MB 0.5s
+#10 pushing layer 48b464d4804f 2.47MB / 47.83MB 0.5s
+#10 pushing layer f2dd5288acba 2.64MB / 16.83MB 0.7s
+#10 pushing layer aa3893837c71 2.74MB / 18.98MB 1.0s
+#10 pushing layer f2dd5288acba 3.88MB / 16.83MB 0.9s
+#10 pushing layer 48b464d4804f 6.42MB / 47.83MB 0.9s
+#10 pushing layer aa3893837c71 3.76MB / 18.98MB 1.2s
+#10 pushing layer f2dd5288acba 5.50MB / 16.83MB 1.1s
+#10 pushing layer 48b464d4804f 11.35MB / 47.83MB 1.3s
+#10 pushing layer aa3893837c71 4.97MB / 18.98MB 1.4s
+#10 pushing layer f2dd5288acba 6.83MB / 16.83MB 1.3s
+#10 pushing layer 48b464d4804f 13.85MB / 47.83MB 1.5s
+#10 pushing layer aa3893837c71 6.38MB / 18.98MB 1.6s
+#10 pushing layer f2dd5288acba 7.73MB / 16.83MB 1.5s
+#10 pushing layer 48b464d4804f 16.78MB / 47.83MB 1.7s
+#10 pushing layer aa3893837c71 7.63MB / 18.98MB 1.8s
+#10 pushing layer f2dd5288acba 8.61MB / 16.83MB 1.7s
+#10 pushing layer 48b464d4804f 19.20MB / 47.83MB 1.9s
+#10 pushing layer f2dd5288acba 9.52MB / 16.83MB 1.9s
+#10 pushing layer 48b464d4804f 21.62MB / 47.83MB 2.1s
+#10 pushing layer aa3893837c71 9.67MB / 18.98MB 2.2s
+#10 pushing layer f2dd5288acba 10.59MB / 16.83MB 2.1s
+#10 pushing layer 48b464d4804f 24.54MB / 47.83MB 2.3s
+#10 pushing layer 48b464d4804f 27.92MB / 47.83MB 2.5s
+#10 pushing layer 6c3139c996b2 1.8s done
+#10 pushing layer aa3893837c71 11.64MB / 18.98MB 2.6s
+#10 pushing layer f2dd5288acba 12.36MB / 16.83MB 2.6s
+#10 pushing layer 48b464d4804f 30.88MB / 47.83MB 2.7s
+#10 pushing layer f2dd5288acba 13.27MB / 16.83MB 2.8s
+#10 pushing layer 48b464d4804f 33.32MB / 47.83MB 2.9s
+#10 pushing layer aa3893837c71 12.85MB / 18.98MB 3.0s
+#10 pushing layer aa3893837c71 13.83MB / 18.98MB 3.2s
+#10 pushing layer f2dd5288acba 14.89MB / 16.83MB 3.2s
+#10 pushing layer 48b464d4804f 35.77MB / 47.83MB 3.1s
+#10 pushing layer aa3893837c71 14.86MB / 18.98MB 3.4s
+#10 pushing layer f2dd5288acba 15.75MB / 16.83MB 3.4s
+#10 pushing layer 48b464d4804f 38.23MB / 47.83MB 3.4s
+#10 pushing layer f2dd5288acba 17.04MB / 16.83MB 3.6s
+#10 pushing layer 48b464d4804f 41.16MB / 47.83MB 3.6s
+#10 pushing layer aa3893837c71 17.28MB / 18.98MB 3.8s
+#10 pushing layer f2dd5288acba 17.94MB / 16.83MB 3.8s
+#10 pushing layer 48b464d4804f 43.63MB / 47.83MB 3.8s
+#10 pushing layer aa3893837c71 19.47MB / 18.98MB 4.0s
+#10 pushing layer 48b464d4804f 46.14MB / 47.83MB 4.0s
+#10 pushing layer 48b464d4804f 50.00MB / 47.83MB 4.3s
+#10 pushing layer f2dd5288acba 5.0s done
+#10 pushing layer aa3893837c71 5.3s done
+#10 pushing layer 48b464d4804f 5.6s done
+#10 pushing layer 24302eb7d908 5.3s done
+#10 DONE 5.2s
+ImageID
+  sha256:60e92a4e1cf9c584c044424c530b9a47aec6fff665014f62a5a987d3d8e039ba
+Digest
+  sha256:866c48df9bdf0ac5fabd2f1a83cd1fed08fd5a555109e8d3252ea0c81785ab59
+Metadata
+  {
+    "containerimage.config.digest": "sha256:60e92a4e1cf9c584c044424c530b9a47aec6fff665014f62a5a987d3d8e039ba",
+    "containerimage.digest": "sha256:866c48df9bdf0ac5fabd2f1a83cd1fed08fd5a555109e8d3252ea0c81785ab59"
+  }
+0s
+Post job cleanup.
+Removing temp folder /tmp/docker-build-push-TYd5p5
+  
+0s
+Post job cleanup.
+/usr/bin/docker logout 
+Removing login credentials for https://index.docker.io/v1/
+0s
+Cleaning up orphan processes
