@@ -29,7 +29,7 @@ spec:
           value: kirilltd
         - name: GITHUB_REPOSITORY
           value: sa.it-academy.by
-        - name: GITHUB_PAT # stored separately in a Kubernetes secret
+        - name: GITHUB_PAT
           valueFrom:
             secretKeyRef:
               name: github-secrets
