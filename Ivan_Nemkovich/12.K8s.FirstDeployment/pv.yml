@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: app01-pv-volume
+  labels:
+    type: nfs
+    name: app-nfs-vol
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-20-22/Ivan_Nemkovich
+    server: 192.168.37.105
