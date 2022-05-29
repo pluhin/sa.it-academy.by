@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-runner
+  labels:
+    app: github-runner
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: github-runner
+  template:
+    metadata:
+      labels:
+        app: github-runner
+    spec:
+      containers:
+      - name: github-runner
+        image: sanderknape/github-runner:latest
+        resources:
+          requests:
+            cpu: 60m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: GITHUB_OWNER
+          value: bb8312
+        - name: GITHUB_REPOSITORY
+          value: git_test
+        - name: GITHUB_PAT
+          valueFrom:
+            secretKeyRef:
+              name: ghspat
+              key: pat
