@@ -1,7 +1,9 @@
 ## K8s.First Deployment
 
-### App Screenshots
+### Screenshots
 ![Image 1](deploy_k8s/index.png)
+
+ 
 ![Image 2](deploy_k8s/mnt.png)
 
 ### Main task
