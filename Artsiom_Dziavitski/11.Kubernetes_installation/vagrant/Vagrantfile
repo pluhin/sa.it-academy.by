@@ -1,0 +1,38 @@
+Vagrant.configure("2") do |config|
+### Centos
+config.vm.define "VM-CentosK3S" do |centos|
+    centos.vm.box = "generic/centos8"
+    centos.vm.network "forwarded_port", guest: 6443, host: 6443
+    # Expose NodePort ports
+    for p in 30000..30100
+       centos.vm.network "forwarded_port", guest: p, host: p, protocol: "tcp"
+    end
+    centos.vm.hostname = "www-centos"
+    centos.vm.provider "virtualbox" do |vb|
+       vb.gui = false
+       vb.cpus = "1"
+       vb.memory = "1024"
+    end
+    centos.vm.provision "shell", inline: <<-SHELL
+      sudo -i
+      yum install -y epel-release
+      yum update -y
+      yum install -y snapd curl
+      yum clean all
+      firewall-cmd --permanent --add-port=6443/tcp
+      firewall-cmd --permanent --add-port=30000-30100/tcp
+      firewall-cmd --reload
+      systemctl enable --now snapd.socket
+      ln -s /var/lib/snapd/snap /snap
+      curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.19.5+k3s1 K3S_KUBECONFIG_MODE="644" sh -
+      mkdir ~/.kube
+      cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+      sleep 10s
+      /usr/local/bin/kubectl create -f /manifests/*.yml
+      sleep 10s
+      /usr/local/bin/kubectl get all --all-namespaces
+    SHELL
+  end
+config.vm.synced_folder "./manifests", "/manifests",owner: "vagrant", group: "vagrant"
+
+end
