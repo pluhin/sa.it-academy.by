@@ -4,10 +4,10 @@
 
 ### Screenshots_Main_Task:
 
-![Image 1]()
+![Image 1](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/12.Kubernetes_First_deployment/31.PNG)
 
  
-![Image 2]()
+![Image 2](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/12.Kubernetes_First_deployment/32.PNG)
 
 
 ###  Deployment of nginx service
@@ -140,10 +140,10 @@ spec:
               name: github-token
               key: token
 
-
 ```
 
-![Image 1]()
+![Image 1](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/12.Kubernetes_First_deployment/runner%20install.JPG)
 
 
-![Image 2]()
+
+![Image 2](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/12.Kubernetes_First_deployment/runner_github.JPG)
