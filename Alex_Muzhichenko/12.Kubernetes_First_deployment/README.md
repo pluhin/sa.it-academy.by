@@ -102,48 +102,10 @@ data:
 
 ### Additional task:
 
-```bash
-apiVersion: v1
-kind: Secret
-metadata:
-  name: github-token
-data:
-  token: ***** 
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: github-runner
-  labels:
-    app: github-runner
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: github-runner
-  template:
-    metadata:
-      labels:
-        app: github-runner
-    spec:
-      containers:
-      - name: github-runner
-        image: sanderknape/github-runner:latest
-        env:
-        - name: GITHUB_OWNER
-          value: amuzhichenko
-        - name: GITHUB_REPOSITORY
-          value: self-hosted-runner_kub
-        - name: GITHUB_PAT
-          valueFrom:
-            secretKeyRef:
-              name: github-token
-              key: token
-
-```
 
 ![Image 1](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/12.Kubernetes_First_deployment/runner%20install.JPG)
 
-
-
 ![Image 2](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/12.Kubernetes_First_deployment/runner_github.JPG)
+
+![Image 3](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/12.Kubernetes_First_deployment/runner_github.JPG)
+
