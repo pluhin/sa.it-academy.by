@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runner
+  namespace: gitaction
+  labels:
+    app: runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: runner
+  template:
+    metadata:
+      labels:
+        app: runner
+    spec:
+      containers:
+      - name: runner
+        image: voyager1122/12docker_runner:latest
+        env:
+        - name: GITHUB_OWNER
+          value: voyager1122
+        - name: GITHUB_REPOSITORY
+          value: 04.Gitops
+        - name: GITHUB_PAT
+          valueFrom:
+            secretKeyRef:
+              name: github-secret
+              key: GITHUB_PAT
