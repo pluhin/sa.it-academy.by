@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-token
+data:
+  token: # Variable github PAT
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-runner
+  labels:
+    app: github-runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: github-runner
+  template:
+    metadata:
+      labels:
+        app: github-runner
+    spec:
+      containers:
+      - name: github-runner
+        image: sanderknape/github-runner:latest
+        env:
+        - name: GITHUB_OWNER
+          value: NEM1GA
+        - name: GITHUB_REPOSITORY
+          value: K8s-self-runner
+        - name: GITHUB_PAT
+          valueFrom:
+            secretKeyRef:
+              name: github-token
+              key: token
