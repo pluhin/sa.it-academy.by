@@ -107,5 +107,5 @@ data:
 
 ![Image 2](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/12.Kubernetes_First_deployment/runner_github.JPG)
 
-![Image 3](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/12.Kubernetes_First_deployment/runner_github.JPG)
+![Image 3](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/12.Kubernetes_First_deployment/action.JPG)
 
