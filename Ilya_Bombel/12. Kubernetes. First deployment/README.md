@@ -3,13 +3,13 @@
 #### Main task. Create deployment of nginx service:
 * replicas: 3
 * custom index file is mounted inside as configmap
-* ingress rule for host name (<NAME_APP>.k8s-<NUMBER>.sa)
+* ingress rule for host name (<NAME_APP>.k8s-xx.sa)
 #### Additional task:
 * deploy pod inside k8s which should be connected to github as self-hosted runner
 
 ### Screenshots of webpages:
 ![app.k8s-9.sa.JPG](./app.k8s-9.sa.JPG)
-![app.k8s-10.sa.JPG](./app.k8s-9.sa.JPG)
+![app.k8s-10.sa.JPG](./app.k8s-10.sa.JPG)
 
 ### kubectl report
 ```
