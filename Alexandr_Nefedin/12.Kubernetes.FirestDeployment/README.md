@@ -6,6 +6,9 @@
  
 ![Image 2](deploy_k8s/mnt.png)
 
+
+![Image 2](deploy_k8s/runner/git_runner.png)
+
 ### Main task
 ```bash
 ---
@@ -151,4 +154,49 @@ data:
     
     </body>
     </HTML>
+```
+
+### GitHub runner 
+
+```bash
+ kubectl logs  -n gitaction runner-65f87498f9-7lkpt
+Requesting token at 'https://api.github.com/repos/Demo2886/GitOPS/actions/runners/registration-token'
+
+--------------------------------------------------------------------------------
+|        ____ _ _   _   _       _          _        _   _                      |
+|       / ___(_) |_| | | |_   _| |__      / \   ___| |_(_) ___  _ __  ___      |
+|      | |  _| | __| |_| | | | | '_ \    / _ \ / __| __| |/ _ \| '_ \/ __|     |
+|      | |_| | | |_|  _  | |_| | |_) |  / ___ \ (__| |_| | (_) | | | \__ \     |
+|       \____|_|\__|_| |_|\__,_|_.__/  /_/   \_\___|\__|_|\___/|_| |_|___/     |
+|                                                                              |
+|                       Self-hosted runner registration                        |
+|                                                                              |
+--------------------------------------------------------------------------------
+
+# Authentication
+
+
+√ Connected to GitHub
+
+# Runner Registration
+
+
+
+√ Runner successfully added
+√ Runner connection is good
+
+# Runner settings
+
+
+√ Settings Saved.
+
+.path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Starting Runner listener with startup type: service
+Started listener process, pid: 77
+Started running service
+
+√ Connected to GitHub
+
+2022-05-30 10:35:45Z: Listening for Jobs
+
 ```
