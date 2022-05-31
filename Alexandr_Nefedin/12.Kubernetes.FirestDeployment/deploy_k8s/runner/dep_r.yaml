@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runner
+  namespace: gitaction
+  labels:
+    app: runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: runner
+  template:
+    metadata:
+      labels:
+        app: runner
+    spec:
+      containers:
+      - name: runner
+        image: sanderknape/github-runner:latest
+        env:
+        - name: GITHUB_OWNER
+          value: Demo2886
+        - name: GITHUB_REPOSITORY
+          value: GitOPS
+        - name: GITHUB_PAT 
+          valueFrom:
+            secretKeyRef:
+              name: github-secret
+              key: GITHUB_PAT
