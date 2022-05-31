@@ -1,0 +1,100 @@
+  956  if ( sshpass -p $FTP_PASS sftp -oPort="$FTP_PORT" -o StrictHostKeyChecking=NO -o ConnectTimeout=3 -o ProxyCommand="nc -X connect -x "$PROXY" %h %p" "${FTP_USER}@${FTP_ADDR}" <<< "put ${OUTDIR}/blablabla ${FTP_IN}"|func_timestamp);        then {            echo 1213441513;            rm -fv ${OUTDIR}/blablabla;        }; fi
+  957  if ( sshpass -p $FTP_PASS sftp -oPort="$FTP_PORT" -o StrictHostKeyChecking=NO -o ConnectTimeout=3 -o ProxyCommand="nc -X connect -x "$PROXY" %h %p" "${FTP_USER}@${FTP_ADDR}" <<< "put ${OUTDIR}/blablabla ${FTP_IN}");        then {            echo 1213441513;            rm -fv ${OUTDIR}/blablabla;        }; fi
+  958  sshpass -p $FTP_PASS sftp -oPort="$FTP_PORT" -o StrictHostKeyChecking=NO -o ConnectTimeout=3 -o ProxyCommand="nc -X connect -x "$PROXY" %h %p" "${FTP_USER}@${FTP_ADDR}" <<< "put ${OUTDIR}/blablabla ${FTP_IN}"
+  959  echo $?
+  960  echo $FTP_PASS 
+  961  sftp -oPort="$FTP_PORT" -o StrictHostKeyChecking=NO -o ConnectTimeout=3 -o ProxyCommand="nc -X connect -x "$PROXY" %h %p" "${FTP_USER}@${FTP_ADDR}" <<< "put ${OUTDIR}/blablabla ${FTP_IN}"
+  962  echo $?
+  963  echo ${PIPESTATUS[1]}
+  964  sftp -oPort="$FTP_PORT" -o StrictHostKeyChecking=NO -o ConnectTimeout=3 -o ProxyCommand="nc -X connect -x "$PROXY" %h %p" "${FTP_USER}@${FTP_ADDR}" <<< "put ${OUTDIR}/blablabla ${FTP_IN}"
+  965  echo ${PIPESTATUS[1]}
+  966  echo $?
+  967  sftp -oPort="$FTP_PORT" -o StrictHostKeyChecking=NO -o ConnectTimeout=3 -o ProxyCommand="nc -X connect -x "$PROXY" %h %p" "${FTP_USER}@${FTP_ADDR}" <<< "put ${OUTDIR}/blablabla ${FTP_IN}"
+  968  echo $?
+  969  sftp -oPort="$FTP_PORT4" -o StrictHostKeyChecking=NO -o ConnectTimeout=3 -o ProxyCommand="nc -X connect -x "$PROXY" %h %p" "${FTP_USER}@${FTP_ADDR}" <<< "put ${OUTDIR}/test_file3 ${FTP_IN}"
+  970  echo $?
+  971  sftp -oPort="$FTP_PORT4" -o StrictHostKeyChecking=NO -o ConnectTimeout=3 -o ProxyCommand="nc -X connect -x "$PROXY" %h %p" "${FTP_USER}@${FTP_ADDR}" <<< "put ${OUTDIR}/test_file3 ${FTP_IN}"|func_timestamp
+  972  echo $?
+  973  ll /contra/melius/OUT_MELIUS
+  974  ./melius3.rc send
+  975  ll /contra/melius/OUT_MELIUS
+  976  ./melius3.rc send
+  977  ll /contra/melius/OUT_MELIUS
+  978  touch /contra/melius/OUT_MELIUS/test_file1 /contra/melius/OUT_MELIUS/test_file2 /contra/melius/OUT_MELIUS/test_file3 /contra/melius/OUT_MELIUS/test_file4 /contra/melius/OUT_MELIUS/test_file5
+  979  ll /contra/melius/OUT_MELIUS
+  980  sshpass -p $FTP_PASS sftp -oPort="$FTP_PORT" -o StrictHostKeyChecking=NO -o ConnectTimeout=3 -o ProxyCommand="nc -X connect -x "$PROXY" %h %p" "${FTP_USER}@${FTP_ADDR}" 
+  981  ll ${INDIR}
+  982  rm \$\{INDIR\}/*
+  983  rm ${INDIR}/*
+  984  ll ${INDIR}
+  985  ./melius3.rc get
+  986  ll ${INDIR}
+  987  ssh root@192.168.152.254
+  988  cd ~/Documents/Wrk_Doc/kpsis/
+  989  ll
+  990  cd 2022
+  991  cd 20220
+  992  cd 20220511/
+  993  ll
+  994  scp ./terminal.zip root@192.168.152.253:/root/kpsis_upd
+  995  ping rancher.lwo.by
+  996  ssh root@192.168.51.110
+  997  cd /home/devitskiy_a/edu/202205_devops/10.Kubernetes
+  998  ssh root@192.168.203.19
+  999  ping 10.45.148.18
+ 1000  cd 13.Kubernetes.Helm/
+ 1001  ll
+ 1002  helm repo add bitnami https://charts.bitnami.com/bitnami
+ 1003  alias |grep -i kube
+ 1004  export KUBECONFIG=~/.kube/config_it_sa
+ 1005  alias kubectl="kubectl --insecure-skip-tls-verify"
+ 1006  helm search repo
+ 1007  helm search repo nfs
+ 1008  helm search repo *nfs*
+ 1009  helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+ 1010  helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=192.168.37.105 --set nfs.path=/mnt/IT-Academy/nfs-data/sa2-20-22/ArtsiomDziavitski
+ 1011  helm --insecure-skip-tls-verify install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=192.168.37.105 --set nfs.path=/mnt/IT-Academy/nfs-data/sa2-20-22/ArtsiomDziavitski
+ 1012  helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=192.168.37.105 --set nfs.path=/mnt/IT-Academy/nfs-data/sa2-20-22/ArtsiomDziavitski --insecure-skip-tls-verify
+ 1013  man helm
+ 1014  helm --help
+ 1015  helm --help |grep tls
+ 1016  vi $KUBECONFIG 
+ 1017  helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=192.168.37.105 --set nfs.path=/mnt/IT-Academy/nfs-data/sa2-20-22/ArtsiomDziavitski
+ 1018  vi $KUBECONFIG 
+ 1019  helm install --insecure-skip-tls-verify nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=192.168.37.105 --set nfs.path=/mnt/IT-Academy/nfs-data/sa2-20-22/ArtsiomDziavitski
+ 1020  helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=192.168.37.105 --set nfs.path=/mnt/IT-Academy/nfs-data/sa2-20-22/ArtsiomDziavitski
+ 1021  ssh root@192.168.203.19
+ 1022  telnet 192.168.203.19 6443
+ 1023  vi $KUBECONFIG 
+ 1024  fg
+ 1025  kubectl get all
+ 1026  helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=192.168.37.105 --set nfs.path=/mnt/IT-Academy/nfs-data/sa2-20-22/ArtsiomDziavitski
+ 1027  helm remove nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=192.168.37.105 --set nfs.path=/mnt/IT-Academy/nfs-data/sa2-20-22/ArtsiomDziavitski
+ 1028  helm uninstall nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=192.168.37.105 --set nfs.path=/mnt/IT-Academy/nfs-data/sa2-20-22/ArtsiomDziavitski
+ 1029  helm uninstall nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner 
+ 1030  helm uninstall nfs-subdir-external-provisioner 
+ 1031  helm uninstall nfs-subdir-external-provisioner/nfs-subdir-external-provisioner 
+ 1032  cp ../12.Kubernetes.First_deployment/manifests/00-namespace.yml ./
+ 1033  vi 00-namespace.yml 
+ 1034  kubectl apply -f ./00-namespace.yml 
+ 1035  helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=192.168.37.105 --set nfs.path=/mnt/IT-Academy/nfs-data/sa2-20-22/ArtsiomDziavitski --namespace hw-13
+ 1036  helm search wordpress
+ 1037  helm search repo wordpress
+ 1038  helm install adev_wpress bitnami/wordpress --namespace hw-13 --set
+ 1039  helm install adev_wpress bitnami/wordpress --namespace hw-13 --set global.storageClass=nfs-client,wordpressUsername=wp_admin,wordpressPassword=7CsAvwa2rUWDsEWu
+ 1040  helm install adev-wpress bitnami/wordpress --namespace hw-13 --set global.storageClass=nfs-client,wordpressUsername=wp_admin,wordpressPassword=7CsAvwa2rUWDsEWu
+ 1041  ll
+ 1042  helm uninstall adev-wpress bitnami/wordpress --namespace hw-13 
+ 1043  helm uninstall nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --namespace hw-13
+ 1044  helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=192.168.37.105 --set nfs.path=/mnt/IT-Academy/nfs-data/sa2-20-22/ArtsiomDziavitski --namespace hw-13
+ 1045  helm install adev-wpress bitnami/wordpress --namespace hw-13 --set global.storageClass=nfs-client,wordpressUsername=wp_admin,wordpressPassword=7CsAvwa2rUWDsEWu
+ 1046  cd ..
+ 1047  fg
+ 1048  mv 13.Kubernetes.Helm sa.it-academy.by/Artsiom_Dziavitski/
+ 1049  cd sa.it-academy.by/
+ 1050  git add -all
+ 1051  git add --all
+ 1052  git commit -m "Commit #1 HW 13 Kubernetes.Helm"
+ 1053  history |less
+ 1054  history |tail -n 100|less
+ 1055  history |tail -n 100 >> Artsiom_Dziavitski/13.Kubernetes.Helm/bash_log 
