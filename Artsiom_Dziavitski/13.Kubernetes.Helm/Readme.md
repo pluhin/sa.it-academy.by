@@ -13,7 +13,7 @@ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs
 helm install adev-wpress bitnami/wordpress --namespace hw-13 --set global.storageClass=nfs-client,wordpressUsername=wp_admin,wordpressPassword=$Password,mariadb.auth.rootPassword=$Password
 kubectl apply -f ./manifests/01-ingress-wordpress.yml
 ```
-![Wordpress screen](Screenshot_20220531_221234.png)
+![Wordpress screen](Screenshot_20220601_100753.png)
 
 
 ## Drupal deploy
