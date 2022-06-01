@@ -29,5 +29,5 @@
 
 ### Screenshots 
 
-![wordpress](wp.jpg)
-![drupal](dr.jpg)
+![wordpress](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/13.Kubernetes.Helm/wp.JPG)
+![drupal](https://github.com/amuzhichenko/sa.it-academy.by/blob/md-sa2-20-22/Alex_Muzhichenko/13.Kubernetes.Helm/dr.JPG)
