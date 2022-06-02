@@ -1,0 +1,22 @@
+- name: Create home directory
+  file:
+    path: "{{ home_dir }}/{{ item }}"
+    state: directory
+
+- name: Copy start page
+  vars:
+    srv_block: "{{ item }}"
+  template:
+    src: "index.html.j2"
+    dest: "{{ home_dir }}/{{ srv_block }}/index.html"
+    mode: "0755"
+
+- name: Copy config server block
+  vars:
+    srv_block: "{{ item }}"
+  template:
+    src: "server_block.j2"
+    dest: "{{ cfg_dir }}/{{ srv_block }}.conf"
+    mode: "0644"
+  notify:
+    - restart nginx

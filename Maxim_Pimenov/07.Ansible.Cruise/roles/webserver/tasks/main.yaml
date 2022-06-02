@@ -1,0 +1,9 @@
+---
+- name: Include deploy for Ubuntu systems
+  include_tasks: http_ubuntu.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for CentOS systems
+  include_tasks: http_centos.yaml
+  when: ansible_os_family == 'RedHat'
+

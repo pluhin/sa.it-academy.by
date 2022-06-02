@@ -1,0 +1,31 @@
+- name: NGINX. Install packages
+  yum:
+    name: "{{ yum_http_packages }}"
+    state: latest
+    update_cache: yes
+
+- name: NGINX. Enable & start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Configure srv blocks
+  vars:
+    srv_blocks: "{{ srv_blocks_centos }}"
+    cfg_dir: "{{ cfg_dir_centos }}"
+    home_dir: "{{ home_dir_centos }}"
+  include_tasks: srv_block.yaml
+  with_items: "{{ srv_blocks }}"
+
+      #- name: Restart nginx
+      #  service:
+      #    name: nginx
+      #    state: restarted
+
+- name: Check connection to srv_blocks
+  vars:
+    srv_blocks: "{{ srv_blocks_centos }}"
+  include_tasks: check.yaml
+  with_items: "{{ srv_blocks }}"
+

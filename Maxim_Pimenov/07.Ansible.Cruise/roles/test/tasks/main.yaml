@@ -1,0 +1,43 @@
+---
+- name: Check connection to docker hub registry
+  uri:
+    url: "{{ dockerhub }}"
+    return_content: yes
+  register: result
+  failed_when: "'Docker Hub' not in result.content"
+
+- name: print out
+  debug:
+    msg: "{{ result.status }}"
+
+- name: Check connections to public repositories
+  uri:
+    url: "{{ item }}"
+    status_code: 200
+    validate_certs: no
+  loop: "{{ repos }}"
+
+- name: Check if we have SUDO with NOPASSWD
+  command: pwd 
+  become: yes
+  ignore_errors: yes
+  register: result
+
+- name: print out
+  debug:
+    msg: "{{ result.stdout_lines }}"
+
+- name: Ensure that free space on HDD is enough
+  assert:
+    that: "{{ item.size_available > item.size_total|float * 0.3 }}"
+    fail_msg: "disk space has reached 70% treshold"
+    success_msg: "disk space is enough"
+  when: item.mount == '/'
+  with_items: "{{ ansible_mounts }}"
+  ignore_errors: yes
+                                
+- name: Ensure that RAM is enough
+  assert:
+    that: "{{ ansible_memfree_mb > 500 }}"
+    fail_msg: "RAM space is not enough"
+    success_msg: "RAM space is enough"
