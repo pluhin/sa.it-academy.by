@@ -3,7 +3,7 @@
 ## Screenshots K9s&K3s:
 
 ##Contexts
-![Contexts](Contexts.png)
+![Contexts](contexts.png)
 
 ##pods
 ![pods](pods.png)
