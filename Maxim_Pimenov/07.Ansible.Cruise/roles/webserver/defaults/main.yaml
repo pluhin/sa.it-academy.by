@@ -1,0 +1,19 @@
+---
+apt_http_packages:
+  - nginx
+yum_http_packages:
+  - http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
+  - nginx
+
+home_dir_centos: "/usr/share/nginx/html"
+home_dir_ubuntu: "/var/www/html"
+
+cfg_dir_ubuntu: "/etc/nginx/sites-available/"
+cfg_dir_centos: "/etc/nginx/conf.d/"
+
+srv_blocks_ubuntu:
+  - ubuntu_site_1
+  - ubuntu_site_2
+srv_blocks_centos:
+  - centos_site_1
+  - centos_site_2

@@ -1,0 +1,7 @@
+---
+repos:
+  - http://ftp.debian.org/debian/
+  - https://cloud.centos.org/
+  - https://pypi.org/
+
+dockerhub: https://hub.docker.com/

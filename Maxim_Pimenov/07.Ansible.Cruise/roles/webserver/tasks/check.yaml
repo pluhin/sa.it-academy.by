@@ -1,0 +1,13 @@
+---
+- name: Check connection to sites
+  uri:
+    url: "http://127.0.0.1"
+    headers:
+      host: "{{ item }}"
+    return_content: yes
+  register: this
+  failed_when: "'Welcome' not in this.content"
+
+- name: Print out
+  debug:
+    msg: "Host: {{ item }}"  

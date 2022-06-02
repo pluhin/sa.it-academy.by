@@ -1,0 +1,31 @@
+- name: NGINX. Install packages
+  apt:
+    name: "{{ apt_http_packages }}"
+    state: present
+    update_cache: yes
+
+- name: NGINX. Enable & start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Configure server blocks
+  vars:
+    srv_blocks: "{{ srv_blocks_ubuntu }}"
+    cfg_dir: "{{ cfg_dir_ubuntu }}"
+    home_dir: "{{ home_dir_ubuntu }}"
+  include_tasks: srv_block.yaml
+  with_items: "{{ srv_blocks }}"
+
+      #- name: Restart nginx
+      #  service:
+      #    name: nginx
+      #    state: restarted
+
+- name: Check connection to server blocks
+  vars:
+    srv_blocks: "{{ srv_blocks_ubuntu }}"
+  include_tasks: check.yaml
+  with_items: "{{ srv_blocks }}"
+
