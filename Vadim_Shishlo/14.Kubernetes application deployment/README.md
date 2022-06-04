@@ -1,5 +1,5 @@
 ## 14. Kubernetes application deployment
-* [GitHub](https://github.com/mnogosemok/jenkins)
+* [GitHub](https://github.com/mnogosemok/JenkinsHelm)
 ## Run commands
 ``` Bash
 ---
