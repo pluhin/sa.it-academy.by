@@ -5,8 +5,8 @@
 project: default
 source:
   repoURL: 'https://github.com/mnogosemok/JenkinsHelm'
-  targetRevision: 0.2.0
-  chart: jenkins-app
+  targetRevision: 0.1.0
+  chart: jenkins
 destination:
   server: 'https://kubernetes.default.svc'
   namespace: ci-cd-helm
