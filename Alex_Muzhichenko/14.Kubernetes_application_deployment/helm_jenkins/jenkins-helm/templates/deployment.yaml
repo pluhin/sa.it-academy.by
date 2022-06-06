@@ -1,0 +1,147 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: jenkins-helm
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-helm
+  namespace: jenkins-helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins-helm
+  template:
+    metadata:
+      labels:
+        app: jenkins-helm
+    spec:
+      containers:
+        - name: jenkins
+          image: {{ .Values.image.repository }}
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: JAVA_OPTS
+              value: "-Djenkins.install.runSetupWizard=false"
+            - name: PASS
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins-secret
+                  key: password
+            - name: CASC_JENKINS_CONFIG
+              value: {{ .Values.jenkins_yaml_path }}
+          ports:
+            - name: http-port
+              containerPort: {{ index .Values "containerPort" "http-port" }}
+            - name: jnlp-port
+              containerPort: {{ index .Values "containerPort" "jnlp-port" }}
+          securityContext:
+            runAsUser: 0
+          resources:
+              {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: docker-sock
+              mountPath: {{ .Values.docker_sock_path }}
+            - name: jenkins-auth-config
+              mountPath: {{ .Values.basic_security_path }}
+              subPath: basic-security.groovy
+            - name: jenkins-config-yaml
+              mountPath: {{ .Values.jenkins_yaml_path }}
+              subPath: jenkins.yaml
+            - name: jenkins-config
+              mountPath: {{ .Values.jenkins_path }}
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: {{ .Values.docker_sock_path }}
+        - name: jenkins-auth-config
+          configMap:
+            name: basic-security
+        - name: jenkins-config-yaml
+          configMap:
+            name: jenkins-config
+        - name: jenkins-config
+          nfs:
+            server: {{ .Values.nfs_server }}
+            path: {{ .Values.nfs_path }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: basic-security
+  namespace: jenkins-helm
+data:
+  basic-security.groovy: |
+    #!groovy
+    import jenkins.model.*
+    import hudson.security.*
+    def instance = Jenkins.getInstance()
+    println "--> creating local user 'admin'"
+    dev password = System.getenv("PASS")
+    def hudsonRealm = new HudsonPrivateSecurityRealm(false)
+    hudsonRealm.createAccount('admin',"admin")
+    instance.setSecurityRealm(hudsonRealm)
+    def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
+    strategy.setAllowAnonymousRead(true)
+    instance.setAuthorizationStrategy(strategy)
+    instance.save()
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-config
+  namespace: jenkins-helm
+data:
+  jenkins.yaml: |
+        jenkins:
+          numExecutors: 2
+          clouds:
+          - kubernetes:
+              containerCapStr: "10"
+              maxRequestsPerHostStr: "32"
+              jenkinsUrl: "http://jenkins-helm:8080"
+              name: "kubernetes"
+              namespace: "jenkins-helm"
+              skipTlsVerify: true
+        credentials:
+          system:
+            domainCredentials:
+            - credentials:
+              - usernamePassword:
+                  description: "Githubuser"
+                  id: "some_randome"
+                  password: "password"
+                  scope: GLOBAL
+                  username: "git_hub_user"
+        unclassified:
+          location:
+            adminAddress: {{ .Values.admin_email }}
+            url: {{ index .Values "url" "main_host_url" }}
+          shell:
+            shell: "/bin/bash"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: jenkins-secret
+  namespace: jenkins-helm
+type: Opaque
+data:
+  password: YWRtaW4=
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: jenkins-helm
+  namespace: jenkins-helm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: jenkins-helm
