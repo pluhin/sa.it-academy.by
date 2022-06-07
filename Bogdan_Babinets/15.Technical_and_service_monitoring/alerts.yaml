@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  labels:
+    monitor: alertmanager
+  namespace: monitoring
+data:
+  alertmanager.yml: |
+    route:
+      group_by: ['alertname']
+      group_wait: 3s
+      group_interval: 3s
+      repeat_interval: 3m
+      receiver: 'slack-notifications'
+    receivers:
+    - name: 'slack-notifications'
+      slack_configs:
+      - api_url: <hook_url>
+        channel: '#notification-plan'
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+  labels:
+     app: alertmanager
+  namespace: monitoring
+spec:
+   replicas: 1
+   selector:
+     matchLabels:
+       app: alertmanager
+   template:
+      metadata:
+         labels:
+           app: alertmanager
+      spec:
+        containers:
+         - name: alertmanager
+           image: prom/alertmanager:latest
+           volumeMounts:
+              - name: alertmanager-config
+                mountPath: /etc/alertmanager/alertmanager.yml
+                subPath: alertmanager.yml
+           ports:
+           - containerPort: 9093
+        volumes:
+         - name: alertmanager-config
+           configMap:
+             name: alertmanager-config
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  selector:
+    app: alertmanager
+  ports:
+  - port: 9093
+    protocol: TCP
+    targetPort: 9093
