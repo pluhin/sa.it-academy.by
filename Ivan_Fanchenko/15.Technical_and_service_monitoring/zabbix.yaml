@@ -1,0 +1,72 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zabbix-server
+  namespace: monitoring
+  labels:
+    app: zabbix-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zabbix-server
+  template:
+    metadata:
+      labels:
+        app: zabbix-server
+    spec:
+      containers:
+      - name: zabbix-server
+        image: zabbix/zabbix-appliance
+        ports:
+          - name: web
+            containerPort: 80
+          - name: connect
+            containerPort: 10050
+        resources:
+          requests:
+            cpu: 500m
+            memory: 100Mi
+          limits:
+            cpu: 1000m
+            memory: 500Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zabbix-service
+  namespace: monitoring
+  labels:
+    run: zabbix-service
+spec:
+  type: ClusterIP
+  selector:
+    app: zabbix-server
+  ports:
+    - name: web
+      port: 80
+      targetPort: web
+    - name: connect
+      port: 10050
+      targetPort: connect
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-zabbix
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: zabbix.k8s-53.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: zabbix-service
+                port:
+                  number: 80
