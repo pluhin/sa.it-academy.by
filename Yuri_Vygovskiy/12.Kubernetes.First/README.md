@@ -1,7 +1,7 @@
 ## 12. Kubernetes. First deployment
 
 ### Screenshot wp
-![alt text](screenshot1.png)
+![alt text](screenshot1.html.png)
 
 ### Console
 ```log
@@ -170,5 +170,5 @@ data:
 ## Additional task 
 ##git runner screenshots:
 
-![git_runner_1](runner.jpg)
-![git_runner_2](runner1.jpg)
+![git_runner_1](runner.png)
+![git_runner_2](runner1.png)
