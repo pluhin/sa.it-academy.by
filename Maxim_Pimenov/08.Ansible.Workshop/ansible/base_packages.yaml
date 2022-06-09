@@ -1,0 +1,6 @@
+---
+- name: Redmine. Install base packages
+  apt:
+    name: "{{ apt_base_packages }}"
+    state: latest
+    update_cache: yes

@@ -1,0 +1,16 @@
+---
+- hosts: redmine_23
+
+  pre_tasks:
+  - debug:
+      msg: "{{ ansible_host }}"  
+  - name: Base packages
+    include_tasks: base_packages.yaml
+
+  roles:
+  - mysql
+  - redmine
+  
+  tasks:
+  - name: Validation & notification
+    include_tasks: validation.yaml
