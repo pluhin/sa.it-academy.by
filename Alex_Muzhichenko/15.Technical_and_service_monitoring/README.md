@@ -4,8 +4,8 @@
 
 ### Screenshots:
 
- ![slack](alerts_slack.JPG)
- ![prometheus](prometheus.JPG)
- ![alertmanager](alertmanager.JPG)
- ![grafana](grafana.JPG)
+ ![slack](alerts_slack.jpg)
+ ![prometheus](prometheus.jpg)
+ ![alertmanager](alertmanager.jpg)
+ ![grafana](grafana.jpg)
 
