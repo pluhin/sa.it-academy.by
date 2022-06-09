@@ -1,7 +1,7 @@
 ## 12. Kubernetes. First deployment
 
 ### Screenshot wp
-![alt text](screenshot1.html.png)
+![alt text](Screenshot1.html.png)
 
 ### Console
 ```log
