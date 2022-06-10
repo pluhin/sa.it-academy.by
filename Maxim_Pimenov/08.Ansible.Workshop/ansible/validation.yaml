@@ -1,0 +1,47 @@
+---
+- name: "Add {{ app_fqdn }} to host file"
+  shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
+  tags:
+    - test
+
+- name: Validation
+  block:
+    - uri:
+        url: "http://{{ app_fqdn }}"
+        return_content: yes
+      register: this
+      failed_when: "'Jean-Philippe Lang' not in this.content"
+      tags:
+        - test
+    - name: Send success notification
+      slack:
+        token: *****
+        msg: |
+            ### StatusUpdate ###
+            --------------------------------------
+            ``
+            `Server`: {{ app_fqdn }}
+            `Status`: Redmine app is ready
+            --------------------------------------        
+        channel: '#ansible'
+  rescue:
+    - name: Send failed notification
+      slack:
+        token: *****
+        msg: |
+            ### StatusUpdate ###
+            --------------------------------------
+            ``
+            `Server`: {{ app_fqdn }}
+            `Status`: Redmine validation FAILED!
+            --------------------------------------        
+        channel: '#ansible'
+
+- name: Remove {{ app_fqdn }} record from hosts file
+  lineinfile:
+    path: /etc/hosts
+    state: absent
+    regexp: '^127.0.0.1       {{ app_fqdn }}'
+  tags:
+    - test
+    - always

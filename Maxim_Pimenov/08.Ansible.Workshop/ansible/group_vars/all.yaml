@@ -1,0 +1,6 @@
+apt_base_packages:
+  - git
+  - ruby-full
+  - build-essential
+
+app_fqdn: redmine-23.sa
