@@ -22,7 +22,7 @@ data:
     receivers:
     - name: 'slack-notifications'
       slack_configs:
-      - api_url: 'https://hooks.slack.com/services/xxx/xxx/xxx'
+      - api_url: 'https://hooks.slack.com/services/here-is-a-link/'
         channel: '#sa_academy_deployments'
         send_resolved: true
         icon_url: https://avatars3.githubusercontent.com/u/3380462
@@ -107,3 +107,7 @@ spec:
   type: NodePort
   ports:
     - port: 9093
+      targetPort: 9093
+      nodePort: 31000
+
+---
