@@ -21,7 +21,7 @@ data:
     receivers:
     - name: slack_prometheus
       slack_configs:
-      - api_url: 'https://hooks.slack.com/services/XX*XX*XX*/X*XX*X*X/x*x*xx*x*
+      - api_url: '#####*** webhook ***#####'
         channel: '#monitoring-shishlo'
         title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
         text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
