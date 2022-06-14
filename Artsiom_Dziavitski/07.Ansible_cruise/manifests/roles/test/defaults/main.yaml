@@ -1,0 +1,6 @@
+repositories:
+- http://debian.mur.at/debian/
+- http://mirror.centos.org/
+- https://pypi.org/
+
+docker: https://hub.docker.com/

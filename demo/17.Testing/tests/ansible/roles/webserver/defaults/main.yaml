@@ -1,0 +1,9 @@
+---
+apt_http_packages: 
+  - apache2
+yum_http_packages:
+  - httpd
+  - libsemanage-python
+  - libselinux-python
+
+default_home: "/var/www/html"

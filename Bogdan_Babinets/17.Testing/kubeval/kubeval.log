@@ -1,0 +1,154 @@
+kubeval succeeded 17 minutes ago in 9s
+3s
+Current runner version: '2.292.0'
+Operating System
+  Ubuntu
+  20.04.4
+  LTS
+Virtual Environment
+  Environment: ubuntu-20.04
+  Version: 20220605.1
+  Included Software: https://github.com/actions/virtual-environments/blob/ubuntu20/20220605.1/images/linux/Ubuntu2004-Readme.md
+  Image Release: https://github.com/actions/virtual-environments/releases/tag/ubuntu20%2F20220605.1
+Virtual Environment Provisioner
+  1.0.0.0-main-20220531-1
+GITHUB_TOKEN Permissions
+  Actions: write
+  Checks: write
+  Contents: write
+  Deployments: write
+  Discussions: write
+  Issues: write
+  Metadata: read
+  Packages: write
+  Pages: write
+  PullRequests: write
+  RepositoryProjects: write
+  SecurityEvents: write
+  Statuses: write
+Secret source: Actions
+Prepare workflow directory
+Prepare all required actions
+Getting action download info
+Download action repository 'actions/checkout@v2' (SHA:7884fcad6b5d53d10323aee724dc68d8b9096a2e)
+Download action repository 'instrumenta/kubeval-action@master' (SHA:5915e4adba5adccac07cb156b82e54c3fed74921)
+3s
+Pull down action image 'garethr/kubeval:latest'
+  /usr/bin/docker pull garethr/kubeval:latest
+  latest: Pulling from garethr/kubeval
+  aad63a933944: Pulling fs layer
+  a0a08f27e1a8: Pulling fs layer
+  df13e863e10c: Pulling fs layer
+  f5fd8a61dc1e: Pulling fs layer
+  f5fd8a61dc1e: Waiting
+  aad63a933944: Verifying Checksum
+  aad63a933944: Download complete
+  a0a08f27e1a8: Verifying Checksum
+  a0a08f27e1a8: Download complete
+  df13e863e10c: Verifying Checksum
+  df13e863e10c: Download complete
+  aad63a933944: Pull complete
+  a0a08f27e1a8: Pull complete
+  f5fd8a61dc1e: Verifying Checksum
+  f5fd8a61dc1e: Download complete
+  df13e863e10c: Pull complete
+  f5fd8a61dc1e: Pull complete
+  Digest: sha256:6962d8ecbb7839637667f66e6703e6ebaae0c29dfe93a31d9968fba4324c7b8d
+  Status: Downloaded newer image for garethr/kubeval:latest
+  docker.io/garethr/kubeval:latest
+1s
+Run actions/checkout@v2
+  with:
+    repository: BB8312/17_Tests
+    token: ***
+    ssh-strict: true
+    persist-credentials: true
+    clean: true
+    fetch-depth: 1
+    lfs: false
+    submodules: false
+    set-safe-directory: true
+Syncing repository: BB8312/17_Tests
+Getting Git version info
+  Working directory is '/home/runner/work/17_Tests/17_Tests'
+  /usr/bin/git version
+  git version 2.36.1
+Temporarily overriding HOME='/home/runner/work/_temp/74ed9280-c7bc-48d1-914d-0f985842f284' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+/usr/bin/git config --global --add safe.directory /home/runner/work/17_Tests/17_Tests
+Deleting the contents of '/home/runner/work/17_Tests/17_Tests'
+Initializing the repository
+  /usr/bin/git init /home/runner/work/17_Tests/17_Tests
+  hint: Using 'master' as the name for the initial branch. This default branch name
+  hint: is subject to change. To configure the initial branch name to use in all
+  hint: of your new repositories, which will suppress this warning, call:
+  hint: 
+  hint: 	git config --global init.defaultBranch <name>
+  hint: 
+  hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+  hint: 'development'. The just-created branch can be renamed via this command:
+  hint: 
+  hint: 	git branch -m <name>
+  Initialized empty Git repository in /home/runner/work/17_Tests/17_Tests/.git/
+  /usr/bin/git remote add origin https://github.com/BB8312/17_Tests
+Disabling automatic garbage collection
+  /usr/bin/git config --local gc.auto 0
+Setting up auth
+  /usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+  /usr/bin/git submodule foreach --recursive git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :
+  /usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+  /usr/bin/git submodule foreach --recursive git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :
+  /usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Fetching the repository
+  /usr/bin/git -c protocol.version=2 fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin +1c52dbe0193e5e8bc3762a594ca4c7f1ddcf62c3:refs/remotes/origin/main
+  remote: Enumerating objects: 7, done.        
+  remote: Counting objects:  14% (1/7)        
+  remote: Counting objects:  28% (2/7)        
+  remote: Counting objects:  42% (3/7)        
+  remote: Counting objects:  57% (4/7)        
+  remote: Counting objects:  71% (5/7)        
+  remote: Counting objects:  85% (6/7)        
+  remote: Counting objects: 100% (7/7)        
+  remote: Counting objects: 100% (7/7), done.        
+  remote: Compressing objects:  25% (1/4)        
+  remote: Compressing objects:  50% (2/4)        
+  remote: Compressing objects:  75% (3/4)        
+  remote: Compressing objects: 100% (4/4)        
+  remote: Compressing objects: 100% (4/4), done.        
+  remote: Total 7 (delta 0), reused 6 (delta 0), pack-reused 0        
+  From https://github.com/BB8312/17_Tests
+   * [new ref]         1c52dbe0193e5e8bc3762a594ca4c7f1ddcf62c3 -> origin/main
+Determining the checkout info
+Checking out the ref
+  /usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+  Switched to a new branch 'main'
+  branch 'main' set up to track 'origin/main'.
+/usr/bin/git log -1 --format='%H'
+'1c52dbe0193e5e8bc3762a594ca4c7f1ddcf62c3'
+0s
+Run instrumenta/kubeval-action@master
+  with:
+    files: node-exporter.yaml
+    output: stdout
+    version: master
+    strict: true
+    openshift: false
+    ignore_missing_schemas: true
+/usr/bin/docker run --name garethrkubevallatest_e0657e --label 6f1554 --workdir /github/workspace --rm -e INPUT_FILES -e INPUT_OUTPUT -e INPUT_VERSION -e INPUT_STRICT -e INPUT_OPENSHIFT -e INPUT_IGNORE_MISSING_SCHEMAS -e HOME -e GITHUB_JOB -e GITHUB_REF -e GITHUB_SHA -e GITHUB_REPOSITORY -e GITHUB_REPOSITORY_OWNER -e GITHUB_RUN_ID -e GITHUB_RUN_NUMBER -e GITHUB_RETENTION_DAYS -e GITHUB_RUN_ATTEMPT -e GITHUB_ACTOR -e GITHUB_WORKFLOW -e GITHUB_HEAD_REF -e GITHUB_BASE_REF -e GITHUB_EVENT_NAME -e GITHUB_SERVER_URL -e GITHUB_API_URL -e GITHUB_GRAPHQL_URL -e GITHUB_REF_NAME -e GITHUB_REF_PROTECTED -e GITHUB_REF_TYPE -e GITHUB_WORKSPACE -e GITHUB_ACTION -e GITHUB_EVENT_PATH -e GITHUB_ACTION_REPOSITORY -e GITHUB_ACTION_REF -e GITHUB_PATH -e GITHUB_ENV -e GITHUB_STEP_SUMMARY -e RUNNER_OS -e RUNNER_ARCH -e RUNNER_NAME -e RUNNER_TOOL_CACHE -e RUNNER_TEMP -e RUNNER_WORKSPACE -e ACTIONS_RUNTIME_URL -e ACTIONS_RUNTIME_TOKEN -e ACTIONS_CACHE_URL -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" -v "/home/runner/work/_temp/_runner_file_commands":"/github/file_commands" -v "/home/runner/work/17_Tests/17_Tests":"/github/workspace" garethr/kubeval:latest  "-d" "node-exporter.yaml" "-o" "stdout" "--strict=true" "--kubernetes-version" "master" "--openshift=false" "--ignore-missing-schemas=true"
+WARN - Set to ignore missing schemas
+PASS - node-exporter.yaml contains a valid DaemonSet (monitoring.node-exporter)
+0s
+Post job cleanup.
+/usr/bin/git version
+git version 2.36.1
+Temporarily overriding HOME='/home/runner/work/_temp/fb90fa92-af45-4c28-bd7d-e846251b2165' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+/usr/bin/git config --global --add safe.directory /home/runner/work/17_Tests/17_Tests
+/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+/usr/bin/git submodule foreach --recursive git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :
+/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+http.https://github.com/.extraheader
+/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+/usr/bin/git submodule foreach --recursive git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :
+0s
+Cleaning up orphan processes

@@ -1,0 +1,16 @@
+---
+redmine_packages:
+  - git
+  - ruby-full
+  - build-essential
+  - libmysqlclient-dev
+  - imagemagick
+  - libmagickwand-dev
+  - apache2
+  - libapache2-mod-passenger
+  - mysql-server
+  - mysql-client
+  - python3-pymysql
+  - python3-mysqldb
+
+app_fqdn: redmine-10.sa
