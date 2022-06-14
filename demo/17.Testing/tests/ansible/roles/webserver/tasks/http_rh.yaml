@@ -1,0 +1,28 @@
+---
+- name: HTTPD. Install packages
+  yum:
+    name: "{{ yum_http_packages }}"
+    state: present
+  tags:
+  - tests
+
+- name: HTTPD. Remove welcome file
+  file:
+    path: "/etc/httpd/conf.d/welcome.conf"
+    state: absent
+
+- name: HTTPD. Enable and start service
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: HTTPD. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+  notify:
+  - HTTPD. reload service firewalld
+  tags:
+  - tests
