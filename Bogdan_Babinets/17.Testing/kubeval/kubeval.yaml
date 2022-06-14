@@ -1,0 +1,26 @@
+on: push
+name: test
+jobs:
+  kubeval:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: manifest
+      uses: instrumenta/kubeval-action@master
+      with:
+       files: node-exporter.yaml
+  slack:
+    name: notify
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: notify
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: notification-plan
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_MESSAGE: 'Look at your test results, they are amazing!'
+        SLACK_TITLE: 'OMG!'
+        SLACK_USERNAME: SuperHook
+        SLACK_WEBHOOK: ${{ secrets.URL }}
