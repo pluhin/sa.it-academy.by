@@ -1,0 +1,28 @@
+- name: Check SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check repos
+  uri:
+    url: "{{ item }}"
+    validate_certs: no
+    status_code: 200
+  loop: "{{ repository }}"
+
+- name: Checking free spase
+  assert:
+    that: 
+      - item.size_available > item.size_total|float * 0.3
+    msg: "70% HDD!"
+  with_items: '{{ ansible_mounts }}'
+  ignore_errors: yes
+  
+- name: Checking free memory
+  assert:
+    that: 
+      - ansible_memory_mb.real.free > ansible_memory_mb.real.total|float * 0.15
+    msg: "85% RAM!"
+  with_items: '{{ ansible_mounts }}'
+  ignore_errors: yes

@@ -1,0 +1,14 @@
+- name: Check content to the sites
+  uri:
+    url: "http://127.0.0.1"
+    headers:
+      Host: "{{ item }}"
+    return_content: yes
+  register: rep
+  failed_when: "'OK' not in rep.content"
+  tags:
+  - tests
+
+- name: Debug test
+  debug:
+    msg: "Virtual host: {{ item }}"
