@@ -1,0 +1,43 @@
+name: Test k8s manifests
+
+on: [push, pull_request]
+
+jobs:
+  find-k8s-files:
+    runs-on: ubuntu-latest
+    outputs:
+      files: ${{ env.files }}
+    steps:
+      - name: Get k8s files
+        uses: actions/checkout@v2
+        id: files
+      - run: |
+              FILES="$(ls -d ./k8s/* | jq -R -s -c 'split("\n")[:-1]')"
+              echo "files=`echo -n $FILES`" >> $GITHUB_ENV
+  test-files:
+    needs: find-k8s-files
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        k8s-files: ${{fromJson(needs.find-k8s-files.outputs.files)}}
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v2 
+    - name: Test files with kubeval
+      uses: instrumenta/kubeval-action@master
+      with: 
+       files: ${{matrix.k8s-files}}
+  notification:
+    needs: test-files
+    runs-on: ubuntu-latest
+    steps:
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: monitoring-nefedin
+        SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_MESSAGE: 'Post Content :rocket:'
+        SLACK_TITLE: Kubeval checks
+        SLACK_USERNAME: GitHub
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
