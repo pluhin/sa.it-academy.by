@@ -1,0 +1,36 @@
+- name: Check SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check access to repositories
+  uri:
+    url: "{{ item }}"
+    validate_certs: no
+    status_code: 200
+  loop: "{{ repositories }}"
+
+- name: Check access to the Docker Hub
+  uri: 
+    url: "{{ docker }}"
+    method: GET
+    status_code: 200
+    return_content: yes
+    timeout: 30
+  register: docker
+
+- name: Check disk space
+  assert:
+    that: item.size_available > item.size_total|float * 0.2
+    msg: "Used 80% of disk space"
+  with_items: '{{ ansible_mounts }}'
+  ignore_errors: yes
+
+- name: RAM
+  assert:
+    that:
+      - ansible_memory_mb.real.free > ansible_memory_mb.real.total|float * 0.2
+    msg: "Used 80% of RAM"
+  with_items: '{{ ansible_mounts }}'
+  ignore_errors: yes
