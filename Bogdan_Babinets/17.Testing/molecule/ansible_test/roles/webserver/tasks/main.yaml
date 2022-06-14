@@ -1,0 +1,14 @@
+---
+- name: OS/version
+  debug:
+    msg:
+      - "OS/version: {{ ansible_distribution }}/{{ ansible_distribution_version }}"
+- name: Mount point/capacity/used
+  debug:
+    msg:
+      - "Mountpoint/capacity/used: '{{ item.mount }}'/{{ (item.size_total/1073741824)|int }}GB/{{ ((item.size_total - item.size_available)/1073741824)|int }}GB"
+  loop: "{{ ansible_mounts }}"
+- name: RAM/capacity/free
+  debug:
+    msg:
+      - "RAM capacity/free: {{ ansible_memtotal_mb }}MB/{{ ansible_memfree_mb }}MB"
