@@ -1,0 +1,26 @@
+on: [push, pull_request]
+name: validate
+jobs:
+  kubeval:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: manifest
+      uses: instrumenta/kubeval-action@master
+      with:
+       files: jenkins.yaml
+  slack:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: igoz_notification_channel
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_ICON: https://img.icons8.com/nolan/344/github.png
+        SLACK_MESSAGE: 'Kubeval test'
+        SLACK_TITLE: 'job is done!!!'
+        SLACK_USERNAME: kubeval
+        SLACK_WEBHOOK: ${{ secrets.WEBHOOK }}
