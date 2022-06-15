@@ -1,27 +1,21 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: jenkins-helm
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jenkins-helm
-  namespace: jenkins-helm
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: jenkins-helm
+      app: {{ .Values.name }}
   template:
     metadata:
       labels:
-        app: jenkins-helm
+        app: {{ .Values.name }}
     spec:
       containers:
-        - name: jenkins
-          image: {{ .Values.image.repository }}
+        - name: {{ .Values.name }}
+          image: {{ .Values.image }}
           imagePullPolicy: IfNotPresent
           env:
             - name: JAVA_OPTS
@@ -29,10 +23,10 @@ spec:
             - name: PASS
               valueFrom:
                 secretKeyRef:
-                  name: jenkins-secret
+                  name: {{ .Values.name }}
                   key: password
             - name: CASC_JENKINS_CONFIG
-              value: {{ .Values.jenkins_yaml_path }}
+              value: {{ .Values.deployment.jenkins_yaml_path }}
           ports:
             - name: http-port
               containerPort: {{ index .Values "containerPort" "http-port" }}
@@ -44,19 +38,19 @@ spec:
               {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: docker-sock
-              mountPath: {{ .Values.docker_sock_path }}
+              mountPath: {{ .Values.deployment.docker_sock_path }}
             - name: jenkins-auth-config
-              mountPath: {{ .Values.basic_security_path }}
+              mountPath: {{ .Values.deployment.basic_security_path }}
               subPath: basic-security.groovy
             - name: jenkins-config-yaml
-              mountPath: {{ .Values.jenkins_yaml_path }}
+              mountPath: {{ .Values.deployment.jenkins_yaml_path }}
               subPath: jenkins.yaml
             - name: jenkins-config
-              mountPath: {{ .Values.jenkins_path }}
+              mountPath: {{ .Values.deployment.jenkins_path }}
       volumes:
         - name: docker-sock
           hostPath:
-            path: {{ .Values.docker_sock_path }}
+            path: {{ .Values.deployment.docker_sock_path }}
         - name: jenkins-auth-config
           configMap:
             name: basic-security
@@ -65,8 +59,8 @@ spec:
             name: jenkins-config
         - name: jenkins-config
           nfs:
-            server: {{ .Values.nfs_server }}
-            path: {{ .Values.nfs_path }}
+            server: {{ .Values.deployment.nfs_server }}
+            path: {{ .Values.deployment.nfs_path }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -93,7 +87,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: jenkins-config
-  namespace: jenkins-helm
+  namespace: {{ .Values.namespace }}
 data:
   jenkins.yaml: |
         jenkins:
@@ -102,9 +96,9 @@ data:
           - kubernetes:
               containerCapStr: "10"
               maxRequestsPerHostStr: "32"
-              jenkinsUrl: "http://jenkins-helm:8080"
+              jenkinsUrl: "http://{{ .Values.name }}:8080"
               name: "kubernetes"
-              namespace: "jenkins-helm"
+              namespace: "{{ .Values.name }}"
               skipTlsVerify: true
         credentials:
           system:
@@ -119,29 +113,15 @@ data:
         unclassified:
           location:
             adminAddress: {{ .Values.admin_email }}
-            url: {{ index .Values "url" "main_host_url" }}
+            url: {{ index .Values "url" "host_url" }}
           shell:
             shell: "/bin/bash"
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: jenkins-secret
-  namespace: jenkins-helm
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
 type: Opaque
 data:
-  password: YWRtaW4=
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: jenkins-helm
-  namespace: jenkins-helm
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: default
-  namespace: jenkins-helm
+  password: Password

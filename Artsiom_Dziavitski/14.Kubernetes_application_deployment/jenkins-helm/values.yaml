@@ -1,0 +1,42 @@
+name: jenkins-helm
+namespace: jenkins-helm
+admin_email: a.devitsky@gmail.com
+image: jfrog.it-academy.by/public/jenkins-ci:artsiomdziavitski
+replicaCount: 1
+
+deployment:
+  basic_security_path: /var/jenkins_home/init.groovy.d/basic-security.groovy
+  jenkins_yaml_path: /var/jenkins_home/casc_configs/jenkins.yaml
+  jenkins_path: /var/jenkins_home
+  docker_sock_path: /var/run
+  nfs_server: 192.168.37.105
+  nfs_path: /mnt/IT-Academy/nfs-data/sa2-20-22/ArtsiomDziavitski/jenkins-helm
+
+
+containerPort:
+  http-port: 8080
+  jnlp-port: 50000
+
+url:
+  host_url: http://jenkins-helm.k8s-20.sa/
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: "nginx"
+
+hosts:
+  main_host: jenkins-helm.k8s-19.sa
+  second_host: jenkins-helm.k8s-20.sa
+
+resources:
+  requests:
+    cpu: 1000m
+    memory: 1100Mi
+  limits:
+    cpu: 2000m
+    memory: 2000Mi
+
