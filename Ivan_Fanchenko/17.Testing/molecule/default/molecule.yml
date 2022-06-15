@@ -1,0 +1,16 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: instance-debian
+    image: debian:stable
+    pre_build_image: true
+  - name: instance-centos
+    image: centos:7
+    pre_build_image: true
+provisioner:
+  name: ansible
+verifier:
+  name: ansible
