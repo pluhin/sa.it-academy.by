@@ -1,0 +1,80 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  config.yml: |-
+    global: {}
+    route:
+      receiver: 'slack-notifications'
+      group_by: ['alertname']
+      group_wait: 5s
+      group_interval: 5s
+      repeat_interval: 24h
+      routes:
+        - receiver: 'slack-notifications'
+          match:
+            severity: slack
+          group_wait: 5s
+          repeat_interval: 24h
+    receivers:
+    - name: 'slack-notifications'
+      slack_configs:
+      - api_url: 'https://hooks.slack.com/services/XXXX/YYYYY/ZZZZZ'
+        channel: 'monitoring-adziavitski'
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      name: alertmanager
+      labels:
+        app: alertmanager
+    spec:
+      containers:
+      - name: alertmanager
+        image: prom/alertmanager:latest
+        args:
+          - "--config.file=/etc/alertmanager/config.yml"
+          - "--storage.path=/alertmanager"
+        ports:
+        - name: alertmanager
+          containerPort: 9093
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/alertmanager
+        - name: alertmanager
+          mountPath: /alertmanager
+      volumes:
+      - name: config-volume
+        configMap:
+          name: alertmanager-config
+      - name: alertmanager
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager
+  namespace: monitoring
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/path:   /
+      prometheus.io/port:   '8080'
+spec:
+  selector: 
+    app: alertmanager
+  type: NodePort  
+  ports:
+    - port: 9093
+      targetPort: 9093
+      nodePort: 31000
