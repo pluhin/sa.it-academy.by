@@ -1,10 +1,10 @@
-#15. Technical and service monitoring
+# 15. Technical and service monitoring
 
-##Slack notification screen
+## Slack notification screen
 ![slack_screen](Screenshot_20220615_163259.jpg)
 
-##Grafana dashboard screen
+## Grafana dashboard screen
 ![grafana_screen](Screenshot_20220615_164649.jpg)
 
-##Manifests
+## Manifests
 [monitoring](monitoring)
