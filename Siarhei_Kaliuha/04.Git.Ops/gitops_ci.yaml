@@ -1,0 +1,62 @@
+name: Check changed files in parallel to find TABs and push report
+
+on:
+#  push:
+  pull_request:
+    branches:
+    - main
+    - second
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+
+    outputs:
+      all-changed-files: ${{ steps.setting-output.outputs.all-changed-files }}
+
+    steps:
+    
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v23
+        with:
+          separator: " "
+
+      - name: List all changed files
+        run: echo "${{ steps.changed-files.outputs.all_changed_files }}" >> changed-files-list.log
+
+      - name: Setting output
+        id: setting-output
+        run: |
+          sudo apt-get install jq
+          files=`printf '%s\n' ${{ steps.changed-files.outputs.all_changed_files }} | jq -R . | jq -cs .`
+          echo "::set-output name=all-changed-files::$files"
+
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: changed-files-list.log
+
+  check:
+    runs-on: ubuntu-latest
+    needs: prepare
+    strategy:
+      matrix:
+        check-files: ${{fromJSON(needs.prepare.outputs.all-changed-files)}}
+
+    steps:
+
+      - uses: actions/checkout@v2
+      - name: Check file for TABs
+        run: |
+            tab_str=`grep -P '\t' ${{ matrix.check-files }} | wc -l`
+            echo "$tab_str strings with TABs in changed file: ${{ matrix.check-files }}" >> build_${{ matrix.check-files }}.log
+
+      - name: Upload result report
+        uses: actions/upload-artifact@v2
+        with:
+          path: build_${{ matrix.check-files }}.log
