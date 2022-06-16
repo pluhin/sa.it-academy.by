@@ -8,3 +8,5 @@ limitsCPU: 1200m
 limitsMEM: 1200Mi
 nfsServer: 192.168.37.105
 nfsPath: /mnt/IT-Academy/nfs-data/sa2-20-22/Nikolai_Kunai/argo-prod
+hostname: jenkins.k8s-25.sa
+aliasname: jenkins.k8s-26.sa
