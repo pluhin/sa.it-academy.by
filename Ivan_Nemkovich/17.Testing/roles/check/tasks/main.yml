@@ -1,0 +1,17 @@
+  - name: Print OS versions
+    ansible.builtin.debug:
+      msg:
+        - "OS     : {{ ansible_distribution }}"
+        - "Version: {{ ansible_distribution_version }}"
+  - name: Print mount point/capacity/used
+    ansible.builtin.debug:
+      msg:
+        - "Mount   : {{ item.mount }}"
+        - "Capacity: {{ ( item.size_total / 1048576 ) | int }} MB"
+        - "Used    : {{ (( item.size_total - item.size_available ) / 1048576 ) | int }} MB"
+    loop: "{{ ansible_mounts }}"
+  - name: Print RAM capacity/free
+    ansible.builtin.debug:
+      msg:
+        - "RAM total: {{ ansible_memtotal_mb }} MB"
+        - "RAM free : {{ ansible_memfree_mb }} MB"
