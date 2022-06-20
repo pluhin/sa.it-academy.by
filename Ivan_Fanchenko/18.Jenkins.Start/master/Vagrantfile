@@ -1,0 +1,6 @@
+Vagrant.configure("2") do |config|
+    config.vm.box = "centos/7"
+    config.vm.define "Jenkins"
+    config.vm.network "public_network", ip: "192.168.1.150",  bridge: "en0: Wi-Fi" ## TO CHANGE
+    config.vm.provision :shell, :path => "bootstrap.sh"
+end
