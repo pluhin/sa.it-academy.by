@@ -1,4 +1,4 @@
 # 16. Log monitoring
 
-## Screenshot of dashboard:
+## Screen of dashboard:
 <br>![dash.png](dash.png)
