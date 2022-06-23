@@ -1,0 +1,131 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  config.yml: |-
+    global:
+      resolve_timeout: 1m
+    route:
+      receiver: 'slack-notifications'
+      group_by: ['alertname', 'priority']
+      group_wait: 10s
+      repeat_interval: 20s
+      routes:
+        - receiver: slack-notifications
+          match:
+            severity: slack
+          group_wait: 10s
+          repeat_interval: 20s
+    receivers:
+    - name: 'slack-notifications'
+      slack_configs:
+    - api_url: 'https://hooks.slack.com/service/xxxxxxxx'
+        channel: '#monitoring'
+        send_resolved: true
+        icon_url: https://avatars3.githubusercontent.com/u/3380462
+        title: |-
+         [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }} for {{ .CommonLabels.job }}
+         {{- if gt (len .CommonLabels) (len .GroupLabels) -}}
+           {{" "}}(
+           {{- with .CommonLabels.Remove .GroupLabels.Names }}
+             {{- range $index, $label := .SortedPairs -}}
+               {{ if $index }}, {{ end }}
+               {{- $label.Name }}="{{ $label.Value -}}"
+             {{- end }}
+           {{- end -}}
+           )
+         {{- end }}
+        text: >-
+         {{ range .Alerts -}}
+         *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+         *Description:* {{ .Annotations.description }}
+         *Details:*
+           {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+           {{ end }}
+         {{ end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+  labels:
+    app: alertmanager
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      labels:
+        app: alertmanager
+    spec:
+      containers:
+      - name: alertmanager
+        image: prom/alertmanager:latest
+        args:
+          - "--config.file=/etc/alertmanager/config.yml"
+          - "--storage.path=/alertmanager"
+        ports:
+        - containerPort: 9093
+        resources:
+          requests:
+            cpu: 10m
+            memory: 50Mi
+          limits:
+            cpu: 10m
+            memory: 50Mi
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/alertmanager
+        - name: alertmanager
+          mountPath: /alertmanager
+      volumes:
+      - name: config-volume
+        configMap:
+          name: alertmanager-config
+      - name: alertmanager
+        emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager
+  namespace: monitoring
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/path:   /
+      prometheus.io/port:   '9093'
+spec:
+  selector:
+    app: alertmanager
+  type: NodePort
+  ports:
+    - port: 9093
+      targetPort: 9093
+      nodePort: 31000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-alertmanager
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: alertmanager.k8s-13.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: alertmanager
+                port:
+                  number: 9093
