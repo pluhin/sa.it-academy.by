@@ -1,0 +1,38 @@
+pipeline {
+    agent { node { label 'slave' } }
+    triggers {
+        cron('00 02 * * 7')
+    }
+    stages {
+        stage('NMAPpining') {
+            steps {
+                sh 'nmap -p22 -sV 192.168.153.127-190 > report.txt && echo "\n\n" >> report.txt'
+            }
+        }
+        stage('Speedtesting') {
+            steps {
+                sh 'speedtest >> report.txt'
+            }
+        }
+        stage('Gitcloning') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'some_randome', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    script {
+                        env.encodedPass=URLEncoder.encode(PASS, "UTF-8")
+                    }
+                    sh 'if [ -d jac ]; then rm -R jac; fi && git clone https://${USER}:${encodedPass}@github.com/bb8312/jac.git'
+                }
+            }
+        }
+        stage('Gitpushing') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'some_randome', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    script {
+                        env.encodedPass=URLEncoder.encode(PASS, "UTF-8")
+                    }
+                    sh 'STAMP="$(date +"%T; %D")" && cp report.txt jac/report.txt && cd jac && git config user.email "jenkins@jen.jen" && git config user.name "Jenkins Slave" && git add --all && git commit -m "$STAMP" && git push https://${USER}:${encodedPass}@github.com/bb8312/jac.git'
+                }
+            }
+        }
+    }
+}
