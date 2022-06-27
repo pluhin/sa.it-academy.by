@@ -1,0 +1,50 @@
+pipeline {
+    agent { node { label 'node_ub' } }
+    triggers {
+        cron('00 02 * * 0')
+    }    
+    options {
+        buildDiscarder(logRotator(numToKeepStr:'3'))
+        
+    }
+    stages {
+        stage('tests') {
+            steps {
+                sh """
+                echo "start testing"
+                date >> net_test.log
+                nmap -sP 192.168.0.1/24 >> net_test.log
+                speedtest >> net_test.log
+                echo -e ".\n.\n.\n" >> net_test.log
+                """
+            }
+        }
+        stage('check_repo') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'git_nmap_speed', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    script {
+                        env.encodedPass=URLEncoder.encode(PASS, "UTF-8")
+                    }
+                    sh 'if [ -d speed_nmap ]; then rm -R speed_nmap; fi && git clone https://${USER}:${encodedPass}@github.com/igor-golubovich/speed_nmap.git'
+                }
+            }
+        }
+        stage('push_files') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'git_nmap_speed', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    script {
+                        env.encodedPass=URLEncoder.encode(PASS, "UTF-8")
+                    }
+                    sh """
+                    cp net_test.log speed_nmap/net_test.log
+                    cd speed_nmap
+                    echo "start pushing"
+                    git add --all
+                    git commit -m "test \$(date)"
+                    git push https://${USER}:${encodedPass}@github.com/igor-golubovich/speed_nmap.git master
+                    """
+                }
+            }
+        }
+    }
+}
