@@ -1,0 +1,48 @@
+Starting Nmap 7.70 ( https://nmap.org ) at 2022-06-24 15:50 +03
+Nmap scan report for 192.168.153.128
+Host is up (0.0028s latency).
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 5.3 (protocol 2.0)
+
+Nmap scan report for 192.168.153.147
+Host is up (0.00064s latency).
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.4 (protocol 2.0)
+
+Nmap scan report for 192.168.153.156
+Host is up (0.0019s latency).
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.9p1 Debian 10+deb10u2 (protocol 2.0)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Nmap scan report for 192.168.153.186
+Host is up (0.0013s latency).
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.4p1 Debian 5 (protocol 2.0)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Nmap scan report for 192.168.153.189
+Host is up (0.0010s latency).
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 6.7p1 Debian 5+deb8u3 (protocol 2.0)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 64 IP addresses (5 hosts up) scanned in 2.88 seconds
+
+
+
+Retrieving speedtest.net configuration...
+Testing from Unknown (113.30.188.107)...
+Retrieving speedtest.net server list...
+Selecting best server based on ping...
+Hosted by RelAix Networks GmbH (Aachen) [6967.61 km]: 150.067 ms
+Testing download speed................................................................................
+Download: 7.43 Mbit/s
+Testing upload speed......................................................................................................
+Upload: 20.71 Mbit/s
