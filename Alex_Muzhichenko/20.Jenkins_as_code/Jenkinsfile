@@ -1,0 +1,49 @@
+peline {
+    agent { node { label 'slave' } }
+    triggers {
+        cron('H 02 * * 7')
+    }
+    stages {
+		stage('Install_nmap') {
+            steps {
+				sh 'sudo apt-get install nmap -y'
+            }
+        }
+        stage('NMAPpining') {
+            steps {
+                sh 'nmap -sP 192.168.2.1/24 -oN report.log && echo "\n\n" >> report.log'
+            }
+        }
+		stage('Install_speedtest') {
+            steps {
+				sh 'sudo apt-get install python3-pip -y'
+				sh 'sudo pip3 install speedtest-cli'
+            }
+        }
+        stage('Test speed') {
+            steps {
+                sh 'speedtest-cli >> report.log'
+            }
+        }
+        stage('Clone_git') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'some_randome', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    script {
+                        env.encodedPass=URLEncoder.encode(PASS, "UTF-8")
+                    }
+                    sh 'if [ -d  jenkins_as_code]; then rm -R jenkins_as_code; fi && git clone https://${USER}:${encodedPass}@github.com/amuzhichenko/jenkins_as_code.git'
+                }
+            }
+        }
+        stage('Push_git') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'some_randome', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    script {
+                        env.encodedPass=URLEncoder.encode(PASS, "UTF-8")
+                    }
+                    sh 'DATE_TEST="$(date +"%T; %D")" && cp report.log jenkins_as_code/report.log && cd jenkins_as_code && git config user.email "muzhichenko@alex.sa" && git config user.name "Jenkins" && git add --all && git commit -m "$DATE_TEST" && git push https://${USER}:${encodedPass}@github.com/amuzhichenko/jenkins_as_code.git'
+                }
+            }
+        }
+    }
+} 
