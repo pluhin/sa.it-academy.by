@@ -1,0 +1,87 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.34">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>HOST</name>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>192.168.2.201</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>USERNAME</name>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>alex</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.PasswordParameterDefinition>
+          <name>PASSWORD</name>
+          <defaultValue>{AQAAABAAAAAQffE6x4m+tfx1WZh4HHYUim57JVTBXBsVNrVrZngX9uI=}</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+echo &quot;-----Ping Remote host-----&quot;
+ping -c 5 $HOST</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+echo &quot;-----NMAP install-----&quot;
+/usr/bin/sshpass -p $PASSWORD ssh -t -t $USERNAME@$HOST
+sudo apt update -y
+sudo apt install nmap
+</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+echo &quot;------scan-----&quot;
+/usr/bin/sshpass -p $PASSWORD ssh -t -t $USERNAME@$HOST
+nmap -sP 192.168.2.* -oN log.log
+
+</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+echo &quot;------Remove nmap------&quot;
+/usr/bin/sshpass -p $PASSWORD ssh -t -t $USERNAME@$HOST
+sudo apt remove nmap -y
+
+</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+echo &quot;------Print log------&quot;
+cat log.log
+</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

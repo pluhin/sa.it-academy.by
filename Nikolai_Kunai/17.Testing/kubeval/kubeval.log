@@ -1,0 +1,184 @@
+```
+2022-06-24T11:41:09.5990236Z Requested labels: self-hosted
+2022-06-24T11:41:09.5990379Z Job defined at: nikolaikunai/docker_build/.github/workflows/runner.yaml@refs/pull/1/merge
+2022-06-24T11:41:09.5990409Z Waiting for a runner to pick up this job...
+2022-06-24T11:41:10.2214045Z Job is about to start running on the runner: runner-deployment-hkfkp-fjnkl (repository)
+2022-06-24T11:41:16.0531723Z Current runner version: '2.294.0'
+2022-06-24T11:41:16.0543039Z Runner name: 'runner-deployment-hkfkp-fjnkl'
+2022-06-24T11:41:16.0544061Z Runner group name: 'Default'
+2022-06-24T11:41:16.0544944Z Machine name: 'runner-deployment-hkfkp-fjnkl'
+2022-06-24T11:41:16.0547782Z ##[group]GITHUB_TOKEN Permissions
+2022-06-24T11:41:16.0548799Z Actions: write
+2022-06-24T11:41:16.0549116Z Checks: write
+2022-06-24T11:41:16.0549405Z Contents: write
+2022-06-24T11:41:16.0549693Z Deployments: write
+2022-06-24T11:41:16.0549999Z Discussions: write
+2022-06-24T11:41:16.0550281Z Issues: write
+2022-06-24T11:41:16.0550547Z Metadata: read
+2022-06-24T11:41:16.0550856Z Packages: write
+2022-06-24T11:41:16.0551152Z Pages: write
+2022-06-24T11:41:16.0551440Z PullRequests: write
+2022-06-24T11:41:16.0551775Z RepositoryProjects: write
+2022-06-24T11:41:16.0552119Z SecurityEvents: write
+2022-06-24T11:41:16.0552402Z Statuses: write
+2022-06-24T11:41:16.0552682Z ##[endgroup]
+2022-06-24T11:41:16.0559697Z Secret source: Actions
+2022-06-24T11:41:16.0560426Z Prepare workflow directory
+2022-06-24T11:41:16.1664871Z Prepare all required actions
+2022-06-24T11:41:16.1924992Z Getting action download info
+2022-06-24T11:41:16.5357584Z Download action repository 'actions/checkout@master' (SHA:2541b1294d2704b0964813337f33b291d3f8596b)
+2022-06-24T11:41:17.4148505Z Download action repository 'instrumenta/kubeval-action@master' (SHA:5915e4adba5adccac07cb156b82e54c3fed74921)
+2022-06-24T11:41:18.2992717Z ##[group]Pull down action image 'garethr/kubeval:latest'
+2022-06-24T11:41:18.3025483Z ##[command]/usr/local/bin/docker pull garethr/kubeval:latest
+2022-06-24T11:41:20.7018338Z latest: Pulling from garethr/kubeval
+2022-06-24T11:41:20.7021985Z aad63a933944: Pulling fs layer
+2022-06-24T11:41:20.7022392Z a0a08f27e1a8: Pulling fs layer
+2022-06-24T11:41:20.7022748Z df13e863e10c: Pulling fs layer
+2022-06-24T11:41:20.7022999Z f5fd8a61dc1e: Pulling fs layer
+2022-06-24T11:41:20.7023219Z f5fd8a61dc1e: Waiting
+2022-06-24T11:41:21.4901949Z aad63a933944: Verifying Checksum
+2022-06-24T11:41:21.4902482Z aad63a933944: Download complete
+2022-06-24T11:41:21.5014310Z a0a08f27e1a8: Verifying Checksum
+2022-06-24T11:41:21.5014817Z a0a08f27e1a8: Download complete
+2022-06-24T11:41:21.8174411Z aad63a933944: Pull complete
+2022-06-24T11:41:21.8440550Z df13e863e10c: Verifying Checksum
+2022-06-24T11:41:21.8441650Z df13e863e10c: Download complete
+2022-06-24T11:41:21.9906935Z a0a08f27e1a8: Pull complete
+2022-06-24T11:41:22.2303101Z df13e863e10c: Pull complete
+2022-06-24T11:41:22.2786066Z f5fd8a61dc1e: Verifying Checksum
+2022-06-24T11:41:22.2786450Z f5fd8a61dc1e: Download complete
+2022-06-24T11:41:22.3692748Z f5fd8a61dc1e: Pull complete
+2022-06-24T11:41:22.3758110Z Digest: sha256:6962d8ecbb7839637667f66e6703e6ebaae0c29dfe93a31d9968fba4324c7b8d
+2022-06-24T11:41:22.3776366Z Status: Downloaded newer image for garethr/kubeval:latest
+2022-06-24T11:41:22.3790339Z docker.io/garethr/kubeval:latest
+2022-06-24T11:41:22.3819840Z ##[endgroup]
+2022-06-24T11:41:22.4417267Z ##[group]Run actions/checkout@master
+2022-06-24T11:41:22.4417639Z with:
+2022-06-24T11:41:22.4417885Z   repository: nikolaikunai/docker_build
+2022-06-24T11:41:22.4418529Z   token: ***
+2022-06-24T11:41:22.4418792Z   ssh-strict: true
+2022-06-24T11:41:22.4419037Z   persist-credentials: true
+2022-06-24T11:41:22.4419260Z   clean: true
+2022-06-24T11:41:22.4419472Z   fetch-depth: 1
+2022-06-24T11:41:22.4419678Z   lfs: false
+2022-06-24T11:41:22.4419872Z   submodules: false
+2022-06-24T11:41:22.4420103Z   set-safe-directory: true
+2022-06-24T11:41:22.4420331Z ##[endgroup]
+2022-06-24T11:41:22.6934745Z Syncing repository: nikolaikunai/docker_build
+2022-06-24T11:41:22.6937575Z ##[group]Getting Git version info
+2022-06-24T11:41:22.6938476Z Working directory is '/runner/_work/docker_build/docker_build'
+2022-06-24T11:41:22.6939812Z [command]/usr/bin/git version
+2022-06-24T11:41:22.6940382Z git version 2.36.1
+2022-06-24T11:41:22.6950528Z ##[endgroup]
+2022-06-24T11:41:22.6993466Z Temporarily overriding HOME='/runner/_work/_temp/a8f063ae-fa19-48b8-948c-a00554589650' before making global git config changes
+2022-06-24T11:41:22.6998036Z Adding repository directory to the temporary git global config as a safe directory
+2022-06-24T11:41:22.7008934Z [command]/usr/bin/git config --global --add safe.directory /runner/_work/docker_build/docker_build
+2022-06-24T11:41:22.7081890Z Deleting the contents of '/runner/_work/docker_build/docker_build'
+2022-06-24T11:41:22.7083670Z ##[group]Initializing the repository
+2022-06-24T11:41:22.7084610Z [command]/usr/bin/git init /runner/_work/docker_build/docker_build
+2022-06-24T11:41:22.7146200Z hint: Using 'master' as the name for the initial branch. This default branch name
+2022-06-24T11:41:22.7146854Z hint: is subject to change. To configure the initial branch name to use in all
+2022-06-24T11:41:22.7148428Z hint: of your new repositories, which will suppress this warning, call:
+2022-06-24T11:41:22.7201765Z hint: 
+2022-06-24T11:41:22.7204350Z hint: 	git config --global init.defaultBranch <name>
+2022-06-24T11:41:22.7205011Z hint: 
+2022-06-24T11:41:22.7205608Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2022-06-24T11:41:22.7211291Z hint: 'development'. The just-created branch can be renamed via this command:
+2022-06-24T11:41:22.7211896Z hint: 
+2022-06-24T11:41:22.7212659Z hint: 	git branch -m <name>
+2022-06-24T11:41:22.7213136Z Initialized empty Git repository in /runner/_work/docker_build/docker_build/.git/
+2022-06-24T11:41:22.7213817Z [command]/usr/bin/git remote add origin https://github.com/nikolaikunai/docker_build
+2022-06-24T11:41:22.7274057Z ##[endgroup]
+2022-06-24T11:41:22.7274801Z ##[group]Disabling automatic garbage collection
+2022-06-24T11:41:22.7302071Z [command]/usr/bin/git config --local gc.auto 0
+2022-06-24T11:41:22.7363664Z ##[endgroup]
+2022-06-24T11:41:22.7364615Z ##[group]Setting up auth
+2022-06-24T11:41:22.7370817Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2022-06-24T11:41:22.7461719Z [command]/usr/bin/git submodule foreach --recursive git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :
+2022-06-24T11:41:22.7879478Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2022-06-24T11:41:22.8032566Z [command]/usr/bin/git submodule foreach --recursive git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :
+2022-06-24T11:41:22.8325777Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2022-06-24T11:41:22.8407248Z ##[endgroup]
+2022-06-24T11:41:22.8409222Z ##[group]Fetching the repository
+2022-06-24T11:41:22.8422586Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin +4eb8fa27a037ca2bc912534e79952184d66a831a:refs/remotes/pull/1/merge
+2022-06-24T11:41:23.3295616Z remote: Enumerating objects: 10, done.        
+2022-06-24T11:41:23.3296372Z remote: Counting objects:  10% (1/10)        
+2022-06-24T11:41:23.3296961Z remote: Counting objects:  20% (2/10)        
+2022-06-24T11:41:23.3297241Z remote: Counting objects:  30% (3/10)        
+2022-06-24T11:41:23.3297521Z remote: Counting objects:  40% (4/10)        
+2022-06-24T11:41:23.3297790Z remote: Counting objects:  50% (5/10)        
+2022-06-24T11:41:23.3298061Z remote: Counting objects:  60% (6/10)        
+2022-06-24T11:41:23.3298309Z remote: Counting objects:  70% (7/10)        
+2022-06-24T11:41:23.3298691Z remote: Counting objects:  80% (8/10)        
+2022-06-24T11:41:23.3299076Z remote: Counting objects:  90% (9/10)        
+2022-06-24T11:41:23.3299454Z remote: Counting objects: 100% (10/10)        
+2022-06-24T11:41:23.3299878Z remote: Counting objects: 100% (10/10), done.        
+2022-06-24T11:41:23.3300256Z remote: Compressing objects:  12% (1/8)        
+2022-06-24T11:41:23.3300586Z remote: Compressing objects:  25% (2/8)        
+2022-06-24T11:41:23.3301029Z remote: Compressing objects:  37% (3/8)        
+2022-06-24T11:41:23.3301760Z remote: Compressing objects:  50% (4/8)        
+2022-06-24T11:41:23.3302022Z remote: Compressing objects:  62% (5/8)        
+2022-06-24T11:41:23.3302298Z remote: Compressing objects:  75% (6/8)        
+2022-06-24T11:41:23.3302577Z remote: Compressing objects:  87% (7/8)        
+2022-06-24T11:41:23.3302850Z remote: Compressing objects: 100% (8/8)        
+2022-06-24T11:41:23.3303629Z remote: Compressing objects: 100% (8/8), done.        
+2022-06-24T11:41:23.3304489Z remote: Total 10 (delta 0), reused 2 (delta 0), pack-reused 0        
+2022-06-24T11:41:23.3410964Z From https://github.com/nikolaikunai/docker_build
+2022-06-24T11:41:23.3413075Z  * [new ref]         4eb8fa27a037ca2bc912534e79952184d66a831a -> pull/1/merge
+2022-06-24T11:41:23.3420359Z ##[endgroup]
+2022-06-24T11:41:23.3424192Z ##[group]Determining the checkout info
+2022-06-24T11:41:23.3448142Z ##[endgroup]
+2022-06-24T11:41:23.3449111Z ##[group]Checking out the ref
+2022-06-24T11:41:23.3449789Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/1/merge
+2022-06-24T11:41:23.3511298Z Note: switching to 'refs/remotes/pull/1/merge'.
+2022-06-24T11:41:23.3511515Z 
+2022-06-24T11:41:23.3511775Z You are in 'detached HEAD' state. You can look around, make experimental
+2022-06-24T11:41:23.3512167Z changes and commit them, and you can discard any commits you make in this
+2022-06-24T11:41:23.3512547Z state without impacting any branches by switching back to a branch.
+2022-06-24T11:41:23.3512756Z 
+2022-06-24T11:41:23.3512955Z If you want to create a new branch to retain commits you create, you may
+2022-06-24T11:41:23.3513382Z do so (now or later) by using -c with the switch command. Example:
+2022-06-24T11:41:23.3513583Z 
+2022-06-24T11:41:23.3513820Z   git switch -c <new-branch-name>
+2022-06-24T11:41:23.3514093Z 
+2022-06-24T11:41:23.3514241Z Or undo this operation with:
+2022-06-24T11:41:23.3514453Z 
+2022-06-24T11:41:23.3514562Z   git switch -
+2022-06-24T11:41:23.3514807Z 
+2022-06-24T11:41:23.3515008Z Turn off this advice by setting config variable advice.detachedHead to false
+2022-06-24T11:41:23.3515241Z 
+2022-06-24T11:41:23.3515475Z HEAD is now at 4eb8fa2 Merge 53ea99983ce5da7568d595722ee84ce1649e593b into b0719f500a584442e85ce1bcef3bacda3a218c9a
+2022-06-24T11:41:23.3516158Z ##[endgroup]
+2022-06-24T11:41:23.3590103Z [command]/usr/bin/git log -1 --format='%H'
+2022-06-24T11:41:23.3642938Z '4eb8fa27a037ca2bc912534e79952184d66a831a'
+2022-06-24T11:41:23.4054059Z ##[group]Run instrumenta/kubeval-action@master
+2022-06-24T11:41:23.4054361Z with:
+2022-06-24T11:41:23.4054557Z   files: ./manifests
+2022-06-24T11:41:23.4054761Z   output: stdout
+2022-06-24T11:41:23.4054962Z   version: master
+2022-06-24T11:41:23.4055173Z   strict: true
+2022-06-24T11:41:23.4055375Z   openshift: false
+2022-06-24T11:41:23.4055586Z   ignore_missing_schemas: true
+2022-06-24T11:41:23.4055806Z ##[endgroup]
+2022-06-24T11:41:23.4400548Z ##[command]/usr/local/bin/docker run --name garethrkubevallatest_04400d --label 60e226 --workdir /github/workspace --rm -e INPUT_FILES -e INPUT_OUTPUT -e INPUT_VERSION -e INPUT_STRICT -e INPUT_OPENSHIFT -e INPUT_IGNORE_MISSING_SCHEMAS -e HOME -e GITHUB_JOB -e GITHUB_REF -e GITHUB_SHA -e GITHUB_REPOSITORY -e GITHUB_REPOSITORY_OWNER -e GITHUB_RUN_ID -e GITHUB_RUN_NUMBER -e GITHUB_RETENTION_DAYS -e GITHUB_RUN_ATTEMPT -e GITHUB_ACTOR -e GITHUB_WORKFLOW -e GITHUB_HEAD_REF -e GITHUB_BASE_REF -e GITHUB_EVENT_NAME -e GITHUB_SERVER_URL -e GITHUB_API_URL -e GITHUB_GRAPHQL_URL -e GITHUB_REF_NAME -e GITHUB_REF_PROTECTED -e GITHUB_REF_TYPE -e GITHUB_WORKSPACE -e GITHUB_ACTION -e GITHUB_EVENT_PATH -e GITHUB_ACTION_REPOSITORY -e GITHUB_ACTION_REF -e GITHUB_PATH -e GITHUB_ENV -e GITHUB_STEP_SUMMARY -e RUNNER_OS -e RUNNER_ARCH -e RUNNER_NAME -e RUNNER_TOOL_CACHE -e RUNNER_TEMP -e RUNNER_WORKSPACE -e ACTIONS_RUNTIME_URL -e ACTIONS_RUNTIME_TOKEN -e ACTIONS_CACHE_URL -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/runner/_work/_temp/_github_home":"/github/home" -v "/runner/_work/_temp/_github_workflow":"/github/workflow" -v "/runner/_work/_temp/_runner_file_commands":"/github/file_commands" -v "/runner/_work/docker_build/docker_build":"/github/workspace" garethr/kubeval:latest  "-d" "./manifests" "-o" "stdout" "--strict=true" "--kubernetes-version" "master" "--openshift=false" "--ignore-missing-schemas=true"
+2022-06-24T11:41:24.0062746Z WARN - Set to ignore missing schemas
+2022-06-24T11:41:24.6777053Z PASS - manifests/jenkins.yaml contains a valid Namespace (ci-cd)
+2022-06-24T11:41:24.6777586Z PASS - manifests/jenkins.yaml contains a valid Deployment (ci-cd.jenkins)
+2022-06-24T11:41:24.6778086Z PASS - manifests/jenkins.yaml contains a valid ConfigMap (ci-cd.basic-security)
+2022-06-24T11:41:24.6778580Z PASS - manifests/jenkins.yaml contains a valid ConfigMap (ci-cd.jenkins-config)
+2022-06-24T11:41:24.6779080Z PASS - manifests/jenkins.yaml contains a valid ClusterRoleBinding (ci-cd.jenkins)
+2022-06-24T11:41:24.6780218Z PASS - manifests/jenkins.yaml contains a valid Service (ci-cd.jenkins)
+2022-06-24T11:41:24.9264996Z Post job cleanup.
+2022-06-24T11:41:25.1428445Z [command]/usr/bin/git version
+2022-06-24T11:41:25.1515004Z git version 2.36.1
+2022-06-24T11:41:25.1633252Z Temporarily overriding HOME='/runner/_work/_temp/107c37bc-f6da-4c9b-a6ee-9263fc2c176c' before making global git config changes
+2022-06-24T11:41:25.1633969Z Adding repository directory to the temporary git global config as a safe directory
+2022-06-24T11:41:25.1641528Z [command]/usr/bin/git config --global --add safe.directory /runner/_work/docker_build/docker_build
+2022-06-24T11:41:25.1716392Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2022-06-24T11:41:25.1780007Z [command]/usr/bin/git submodule foreach --recursive git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :
+2022-06-24T11:41:25.2150267Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2022-06-24T11:41:25.2205389Z http.https://github.com/.extraheader
+2022-06-24T11:41:25.2224819Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2022-06-24T11:41:25.2294435Z [command]/usr/bin/git submodule foreach --recursive git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :
+2022-06-24T11:41:25.3030459Z Cleaning up orphan processes
+```

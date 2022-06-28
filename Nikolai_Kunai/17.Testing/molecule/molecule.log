@@ -1,0 +1,218 @@
+```
+INFO     default scenario test matrix: dependency, lint, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
+INFO     Performing prerun with role_name_check=0...
+INFO     Set ANSIBLE_LIBRARY=/root/.cache/ansible-compat/b03f51/modules:/root/.ansible/plugins/modules:/usr/share/ansible/plugins/modules
+INFO     Set ANSIBLE_COLLECTIONS_PATH=/root/.cache/ansible-compat/b03f51/collections:/root/.ansible/collections:/usr/share/ansible/collections
+INFO     Set ANSIBLE_ROLES_PATH=/root/.cache/ansible-compat/b03f51/roles:/root/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
+INFO     Using /root/.cache/ansible-compat/b03f51/roles/acme.testrole symlink to current repository in order to enable Ansible to find the role using its expected full name.
+INFO     Running default > dependency
+WARNING  Skipping, missing the requirements file.
+WARNING  Skipping, missing the requirements file.
+INFO     Running default > lint
+INFO     Lint is disabled.
+INFO     Running default > cleanup
+WARNING  Skipping, cleanup playbook not configured.
+INFO     Running default > destroy
+INFO     Sanity checks: 'docker'
+
+PLAY [Destroy] *****************************************************************
+
+TASK [Destroy molecule instance(s)] ********************************************
+changed: [localhost] => (item=instance1)
+changed: [localhost] => (item=instance2)
+
+TASK [Wait for instance(s) deletion to complete] *******************************
+ok: [localhost] => (item=instance1)
+ok: [localhost] => (item=instance2)
+
+TASK [Delete docker networks(s)] ***********************************************
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+INFO     Running default > syntax
+
+playbook: /root/SA/sa.it-academy.by/Nikolai_Kunai/17.testing/testrole/molecule/default/converge.yml
+INFO     Running default > create
+
+PLAY [Create] ******************************************************************
+
+TASK [Log into a Docker registry] **********************************************
+skipping: [localhost] => (item=None)
+skipping: [localhost] => (item=None)
+skipping: [localhost]
+
+TASK [Check presence of custom Dockerfiles] ************************************
+ok: [localhost] => (item={'image': 'python:3.9.13-bullseye', 'name': 'instance1', 'pre_build_image': True})
+ok: [localhost] => (item={'image': 'centos:7', 'name': 'instance2', 'pre_build_image': True})
+
+TASK [Create Dockerfiles from image names] *************************************
+skipping: [localhost] => (item={'image': 'python:3.9.13-bullseye', 'name': 'instance1', 'pre_build_image': True})
+skipping: [localhost] => (item={'image': 'centos:7', 'name': 'instance2', 'pre_build_image': True})
+
+TASK [Discover local Docker images] ********************************************
+ok: [localhost] => (item={'changed': False, 'skipped': True, 'skip_reason': 'Conditional result was False', 'item': {'image': 'python:3.9.13-bullseye', 'name': 'instance1', 'pre_build_image': True}, 'ansible_loop_var': 'item', 'i': 0, 'ansible_index_var': 'i'})
+ok: [localhost] => (item={'changed': False, 'skipped': True, 'skip_reason': 'Conditional result was False', 'item': {'image': 'centos:7', 'name': 'instance2', 'pre_build_image': True}, 'ansible_loop_var': 'item', 'i': 1, 'ansible_index_var': 'i'})
+
+TASK [Build an Ansible compatible image (new)] *********************************
+skipping: [localhost] => (item=molecule_local/python:3.9.13-bullseye)
+skipping: [localhost] => (item=molecule_local/centos:7)
+
+TASK [Create docker network(s)] ************************************************
+
+TASK [Determine the CMD directives] ********************************************
+ok: [localhost] => (item={'image': 'python:3.9.13-bullseye', 'name': 'instance1', 'pre_build_image': True})
+ok: [localhost] => (item={'image': 'centos:7', 'name': 'instance2', 'pre_build_image': True})
+
+TASK [Create molecule instance(s)] *********************************************
+changed: [localhost] => (item=instance1)
+changed: [localhost] => (item=instance2)
+
+TASK [Wait for instance(s) creation to complete] *******************************
+FAILED - RETRYING: [localhost]: Wait for instance(s) creation to complete (300 retries left).
+changed: [localhost] => (item={'failed': 0, 'started': 1, 'finished': 0, 'ansible_job_id': '614009112484.1987771', 'results_file': '/root/.ansible_async/614009112484.1987771', 'changed': True, 'item': {'image': 'python:3.9.13-bullseye', 'name': 'instance1', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+changed: [localhost] => (item={'failed': 0, 'started': 1, 'finished': 0, 'ansible_job_id': '353048608835.1987799', 'results_file': '/root/.ansible_async/353048608835.1987799', 'changed': True, 'item': {'image': 'centos:7', 'name': 'instance2', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=5    changed=2    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0
+
+INFO     Running default > prepare
+WARNING  Skipping, prepare playbook not configured.
+INFO     Running default > converge
+
+PLAY [Converge] ****************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [instance1]
+ok: [instance2]
+
+TASK [Include acme.testrole] ***************************************************
+
+TASK [acme.testrole : OS/Version] **********************************************
+ok: [instance1] => {
+    "msg": "Debian/11"
+}
+ok: [instance2] => {
+    "msg": "CentOS/7.9"
+}
+
+TASK [acme.testrole : Mount points] ********************************************
+skipping: [instance1] => (item={'mount': '/etc/resolv.conf', 'device': '/dev/mapper/ubuntu--vg-ubuntu--lv', 'fstype': 'ext4', 'options': 'rw,relatime,bind', 'size_total': 42137255936, 'size_available': 14432993280, 'block_size': 4096, 'block_total': 10287416, 'block_available': 3523680, 'block_used': 6763736, 'inode_total': 2621440, 'inode_available': 2054073, 'inode_used': 567367, 'uuid': 'N/A'})
+skipping: [instance1] => (item={'mount': '/etc/hostname', 'device': '/dev/mapper/ubuntu--vg-ubuntu--lv', 'fstype': 'ext4', 'options': 'rw,relatime,bind', 'size_total': 42137255936, 'size_available': 14432993280, 'block_size': 4096, 'block_total': 10287416, 'block_available': 3523680, 'block_used': 6763736, 'inode_total': 2621440, 'inode_available': 2054073, 'inode_used': 567367, 'uuid': 'N/A'})
+skipping: [instance1] => (item={'mount': '/etc/hosts', 'device': '/dev/mapper/ubuntu--vg-ubuntu--lv', 'fstype': 'ext4', 'options': 'rw,relatime,bind', 'size_total': 42137255936, 'size_available': 14432993280, 'block_size': 4096, 'block_total': 10287416, 'block_available': 3523680, 'block_used': 6763736, 'inode_total': 2621440, 'inode_available': 2054073, 'inode_used': 567367, 'uuid': 'N/A'})
+skipping: [instance1]
+skipping: [instance2] => (item={'block_used': 6763609, 'uuid': 'N/A', 'size_total': 42137255936, 'block_total': 10287416, 'mount': '/etc/resolv.conf', 'block_available': 3523807, 'size_available': 14433513472, 'fstype': 'ext4', 'inode_total': 2621440, 'options': 'rw,relatime,bind', 'device': '/dev/mapper/ubuntu--vg-ubuntu--lv', 'inode_used': 567363, 'block_size': 4096, 'inode_available': 2054077})
+skipping: [instance2] => (item={'block_used': 6763609, 'uuid': 'N/A', 'size_total': 42137255936, 'block_total': 10287416, 'mount': '/etc/hostname', 'block_available': 3523807, 'size_available': 14433513472, 'fstype': 'ext4', 'inode_total': 2621440, 'options': 'rw,relatime,bind', 'device': '/dev/mapper/ubuntu--vg-ubuntu--lv', 'inode_used': 567363, 'block_size': 4096, 'inode_available': 2054077})
+skipping: [instance2] => (item={'block_used': 6763609, 'uuid': 'N/A', 'size_total': 42137255936, 'block_total': 10287416, 'mount': '/etc/hosts', 'block_available': 3523807, 'size_available': 14433513472, 'fstype': 'ext4', 'inode_total': 2621440, 'options': 'rw,relatime,bind', 'device': '/dev/mapper/ubuntu--vg-ubuntu--lv', 'inode_used': 567363, 'block_size': 4096, 'inode_available': 2054077})
+skipping: [instance2]
+
+TASK [acme.testrole : Check RAM] ***********************************************
+ok: [instance1] => {
+    "msg": [
+        "RAM capacity: 4903MB",
+        "RAM free: 153MB"
+    ]
+}
+ok: [instance2] => {
+    "msg": [
+        "RAM capacity: 4903MB",
+        "RAM free: 202MB"
+    ]
+}
+
+PLAY RECAP *********************************************************************
+instance1                  : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+instance2                  : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+INFO     Running default > idempotence
+
+PLAY [Converge] ****************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [instance1]
+ok: [instance2]
+
+TASK [Include acme.testrole] ***************************************************
+
+TASK [acme.testrole : OS/Version] **********************************************
+ok: [instance1] => {
+    "msg": "Debian/11"
+}
+ok: [instance2] => {
+    "msg": "CentOS/7.9"
+}
+
+TASK [acme.testrole : Mount points] ********************************************
+skipping: [instance1] => (item={'mount': '/etc/resolv.conf', 'device': '/dev/mapper/ubuntu--vg-ubuntu--lv', 'fstype': 'ext4', 'options': 'rw,relatime,bind', 'size_total': 42137255936, 'size_available': 14432989184, 'block_size': 4096, 'block_total': 10287416, 'block_available': 3523679, 'block_used': 6763737, 'inode_total': 2621440, 'inode_available': 2054073, 'inode_used': 567367, 'uuid': 'N/A'})
+skipping: [instance1] => (item={'mount': '/etc/hostname', 'device': '/dev/mapper/ubuntu--vg-ubuntu--lv', 'fstype': 'ext4', 'options': 'rw,relatime,bind', 'size_total': 42137255936, 'size_available': 14432989184, 'block_size': 4096, 'block_total': 10287416, 'block_available': 3523679, 'block_used': 6763737, 'inode_total': 2621440, 'inode_available': 2054073, 'inode_used': 567367, 'uuid': 'N/A'})
+skipping: [instance1] => (item={'mount': '/etc/hosts', 'device': '/dev/mapper/ubuntu--vg-ubuntu--lv', 'fstype': 'ext4', 'options': 'rw,relatime,bind', 'size_total': 42137255936, 'size_available': 14432989184, 'block_size': 4096, 'block_total': 10287416, 'block_available': 3523679, 'block_used': 6763737, 'inode_total': 2621440, 'inode_available': 2054073, 'inode_used': 567367, 'uuid': 'N/A'})
+skipping: [instance1]
+skipping: [instance2] => (item={'block_used': 6763610, 'uuid': 'N/A', 'size_total': 42137255936, 'block_total': 10287416, 'mount': '/etc/resolv.conf', 'block_available': 3523806, 'size_available': 14433509376, 'fstype': 'ext4', 'inode_total': 2621440, 'options': 'rw,relatime,bind', 'device': '/dev/mapper/ubuntu--vg-ubuntu--lv', 'inode_used': 567363, 'block_size': 4096, 'inode_available': 2054077})
+skipping: [instance2] => (item={'block_used': 6763610, 'uuid': 'N/A', 'size_total': 42137255936, 'block_total': 10287416, 'mount': '/etc/hostname', 'block_available': 3523806, 'size_available': 14433509376, 'fstype': 'ext4', 'inode_total': 2621440, 'options': 'rw,relatime,bind', 'device': '/dev/mapper/ubuntu--vg-ubuntu--lv', 'inode_used': 567363, 'block_size': 4096, 'inode_available': 2054077})
+skipping: [instance2] => (item={'block_used': 6763610, 'uuid': 'N/A', 'size_total': 42137255936, 'block_total': 10287416, 'mount': '/etc/hosts', 'block_available': 3523806, 'size_available': 14433509376, 'fstype': 'ext4', 'inode_total': 2621440, 'options': 'rw,relatime,bind', 'device': '/dev/mapper/ubuntu--vg-ubuntu--lv', 'inode_used': 567363, 'block_size': 4096, 'inode_available': 2054077})
+skipping: [instance2]
+
+TASK [acme.testrole : Check RAM] ***********************************************
+ok: [instance1] => {
+    "msg": [
+        "RAM capacity: 4903MB",
+        "RAM free: 152MB"
+    ]
+}
+ok: [instance2] => {
+    "msg": [
+        "RAM capacity: 4903MB",
+        "RAM free: 195MB"
+    ]
+}
+
+PLAY RECAP *********************************************************************
+instance1                  : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+instance2                  : ok=3    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+INFO     Idempotence completed successfully.
+INFO     Running default > side_effect
+WARNING  Skipping, side effect playbook not configured.
+INFO     Running default > verify
+INFO     Running Ansible Verifier
+
+PLAY [Verify] ******************************************************************
+
+TASK [Example assertion] *******************************************************
+ok: [instance1] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+ok: [instance2] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY RECAP *********************************************************************
+instance1                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+instance2                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+INFO     Verifier completed successfully.
+INFO     Running default > cleanup
+WARNING  Skipping, cleanup playbook not configured.
+INFO     Running default > destroy
+
+PLAY [Destroy] *****************************************************************
+
+TASK [Destroy molecule instance(s)] ********************************************
+changed: [localhost] => (item=instance1)
+changed: [localhost] => (item=instance2)
+
+TASK [Wait for instance(s) deletion to complete] *******************************
+FAILED - RETRYING: [localhost]: Wait for instance(s) deletion to complete (300 retries left).
+changed: [localhost] => (item=instance1)
+changed: [localhost] => (item=instance2)
+
+TASK [Delete docker networks(s)] ***********************************************
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=2    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+INFO     Pruning extra files from scenario ephemeral directory
+
+```

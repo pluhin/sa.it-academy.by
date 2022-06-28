@@ -1,0 +1,91 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>1</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.34">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>IP</name>
+          <description>Enter IP address for PING and SSH check (This /24 subnet will be used for the nmap test):</description>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>USERNAME</name>
+          <description>Enter USERNAME for SSH check:</description>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.PasswordParameterDefinition>
+          <name>PASSWORD</name>
+          <description>Enter PASSWORD for SSH check:</description>
+          <defaultValue>{AQAAABAAAABALC7cX2Yqb36JvZpLjr5G2pxtMVvzb3Tyi7iTDJE0Y9/lRW8lH/KiTBfTNTuMPh9OBxn1xtVeXf4PGWxt2PainiRosS/wDZYDWCkrHuo4q9I=}</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+echo &quot;***Start ping check***&quot;
+ping -c 4 $IP || echo &quot;Host is not available&quot;</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+echo &quot;***Start ssh check***&quot;
+sshpass -p $PASSWORD ssh -q -o StrictHostKeyChecking=no -o ConnectTimeout=5 $USERNAME@$IP &apos;exit 0&apos;
+if [ $? == 0 ];then
+echo &quot;Host is available via ssh&quot;
+else
+echo &quot;Host is not available via ssh&quot;
+fi</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+echo &quot;***Start installing nmap***&quot;
+sudo yum install nmap -y</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+echo &quot;***Checks all online hosts***&quot;
+nmap -sP $IP/24 -oN nmap_host.log</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+echo &quot;***Start uninstalling nmap***&quot;
+sudo yum remove nmap -y</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+echo &quot;***Print list of host***&quot;
+echo &quot;IP adresses of hosts:&quot;
+cat nmap_host.log | grep &quot;Nmap scan&quot; | cut -d&apos; &apos; -f5</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>

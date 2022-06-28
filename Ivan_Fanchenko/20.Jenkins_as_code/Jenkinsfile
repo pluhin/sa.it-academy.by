@@ -1,0 +1,49 @@
+pipeline {
+    agent { node { label 'slave' } }
+    triggers {
+        cron('H 02 * * 7')
+    }
+    stages {
+		stage('Install_nmap') {
+            steps {
+				sh 'sudo apt-get install nmap -y'
+            }
+        }
+        stage('NMAPpining') {
+            steps {
+                sh 'nmap -sP 192.168.1.1/24 -oN report.log && echo "\n\n" >> report.log'
+            }
+        }
+		stage('Install_speedtest') {
+            steps {
+				sh 'sudo apt-get install python3-pip -y'
+				sh 'sudo pip3 install speedtest-cli'
+            }
+        }
+        stage('Test speed') {
+            steps {
+                sh 'speedtest-cli >> report.log'
+            }
+        }
+        stage('Clone_git') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'some_randome', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    script {
+                        env.encodedPass=URLEncoder.encode(PASS, "UTF-8")
+                    }
+                    sh 'if [ -d 20.jks ]; then rm -R 20.jks; fi && git clone https://${USER}:${encodedPass}@github.com/voyager1122/20.jks.git'
+                }
+            }
+        }
+        stage('Push_git') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'some_randome', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    script {
+                        env.encodedPass=URLEncoder.encode(PASS, "UTF-8")
+                    }
+                    sh 'STAMP="$(date +"%T; %D")" && cp report.log 20.jks/report.log && cd 20.jks && git config user.email "test@test.sa" && git config user.name "Jenkins Slave" && git add --all && git commit -m "$STAMP" && git push https://${USER}:${encodedPass}@github.com/voyager1122/20.jks.git'
+                }
+            }
+        }
+    }
+}
