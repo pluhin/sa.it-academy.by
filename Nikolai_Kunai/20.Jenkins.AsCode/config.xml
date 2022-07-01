@@ -1,0 +1,84 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1189.va_d37a_e9e4eda_">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2097.v33db_b_de764b_e"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2097.v33db_b_de764b_e">
+      <jobProperties>
+        <string>jenkins.model.BuildDiscarderProperty</string>
+      </jobProperties>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>3</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <hudson.triggers.TimerTrigger>
+          <spec>0 2 * * 7</spec>
+        </hudson.triggers.TimerTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2725.v7b_c717eb_12ce">
+    <script>pipeline {
+    agent { node { label &apos;node1&apos; } }
+    options {
+        buildDiscarder(logRotator(numToKeepStr:&apos;3&apos;))
+    }
+	stages {
+        stage(&apos;Clone repository&apos;) {
+            steps {
+                    deleteDir()
+                    git url: &apos;https://github.com/nikolaikunai/jenkins.git&apos;, branch: &apos;main&apos;
+            }
+		}
+        stage(&apos;Check online hosts&apos;) {
+            steps {
+                sh &quot;&quot;&quot;
+                sudo apt-get update
+                sudo apt-get install nmap -y
+                nmap -sP -n -oN ./nmap_speedtest.txt 192.168.10.55-65
+				&quot;&quot;&quot;
+            }
+        }
+        stage(&apos;Check speed test&apos;){
+            steps {
+                 sh &quot;&quot;&quot;
+                 echo &quot;----------result of speedtest----------&quot; &gt;&gt; ./nmap_speedtest.txt
+                 speedtest-cli &gt;&gt; ./nmap_speedtest.txt
+                 &quot;&quot;&quot;
+            }  
+        }		
+        stage(&apos;Push to branch&apos;) {
+            steps {
+                withCredentials([usernamePassword(credentialsId: &apos;github&apos;, usernameVariable: &apos;USER&apos;, passwordVariable: &apos;PASS&apos;)]) {
+                    script {
+                        env.encodedPass=URLEncoder.encode(PASS, &quot;UTF-8&quot;)
+                    }
+                    sh &quot;&quot;&quot;
+                        git add .
+						git commit -m &quot;Add results file&quot;
+                        git push https://${USER}:${encodedPass}@github.com/nikolaikunai/jenkins.git main
+					&quot;&quot;&quot;
+					deleteDir()
+			    }
+            }
+        }
+	}		
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
