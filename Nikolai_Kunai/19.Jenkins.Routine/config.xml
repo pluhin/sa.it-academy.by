@@ -1,0 +1,70 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>5</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>IP</name>
+          <defaultValue>192.168.10.26</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>USER</name>
+          <defaultValue>root</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.PasswordParameterDefinition>
+          <name>PASS</name>
+          <defaultValue>{AQAAABAAAAAQbg3VP1TXoGhtH2LLuCpA0f8rCr3C62E4wPMGShfimx0=}</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+echo &quot;-----------CHECKING PING  CONNECTION  TO THE HOST-----------&quot;
+ping -c 4 $IP
+echo &quot;-----------CHECKING SSH CONNECTION TO THE HOST-----------&quot;
+connect=$(sshpass -p $PASS ssh -o StrictHostKeyChecking=no $USER@$IP echo ok 2&gt;&amp;1)
+if [[ $connect == ok ]] ; then
+  echo host is accessible via SSH
+else
+  echo host is not accessible via SSH
+fi
+echo &quot;-----------INSTALL NMAP-----------&quot;
+sudo apt-get udpdate
+sudo apt-get install nmap -y
+nmap --version
+echo &quot;-----------CHECKS ONLINE HOSTS IN NETWORK-----------&quot;
+nmap -sP -n -oN ~/nmap.txt 192.168.10.20-65
+echo &quot;-----------Remove nmap-----------&quot;
+sudo apt-get remove nmap --purge -y
+echo &quot;-----------PRINT LIST OF ONLINE HOSTS-----------&quot;
+cat ~/nmap.txt
+echo &quot;-----------DELETE FILE-----------&quot;
+rm -rf ~/nmap.txt</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
