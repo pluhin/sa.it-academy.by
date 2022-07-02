@@ -1,0 +1,47 @@
+---
+- name: Check if have SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check connections to public repositories
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+    validate_certs: no
+    status_code: 200
+  loop: "{{ pub_repos }}"
+  register: repos
+
+- name: Print status connection
+  debug:
+    msg: "{{ repos.msg }}"
+
+- name: Check connection to Docker hub
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+    validate_certs: no
+    status_code: 200
+  loop: "{{ docker_hub }}"
+  register: docker
+  failed_when: "'Docker Hub' not in docker.content"
+
+- name: Check RAM/capacity/free
+  debug:
+    msg: "RAM total capacity: {{ ansible_facts.memory_mb.real.total }} MB | Free: {{ ansible_facts.memory_mb.real.free }} MB"
+
+- name: Check is RAM enough
+  fail:
+    msg: "Not enough RAM installed"
+  when: ansible_facts.memory_mb.real.total < 2048
+
+- name: Check is HDD space enough
+  vars:
+    hdd_free_gb: "{{((ansible_facts.mounts[0].size_available)/1000000000) | round(1) }}"
+    hdd_need_gb: "{{ 1 }}"
+  assert:
+    that: hdd_free_gb >= hdd_need_gb
+    success_msg: "Available HDD free space: {{ hdd_free_gb }} GB is enough."
+    fail_msg: "Not enough HDD free space! Available: {{ hdd_free_gb }} GB | Required: {{ hdd_need_gb }} GB"

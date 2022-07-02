@@ -1,0 +1,15 @@
+---
+apt_http_packages:
+  - nginx
+  - curl
+yum_http_packages:
+  - nginx
+  - curl
+  - sudo
+
+debian_virtual_hosts:
+  - "{{ site1_deb }}"
+  - "{{ site2_deb }}"
+redhat_virtual_hosts:
+  - "{{ site1_cent }}"
+  - "{{ site2_cent }}"
