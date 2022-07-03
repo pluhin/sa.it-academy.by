@@ -132,3 +132,12 @@ Pretask. Hostname validation ---------------------------------------------------
 Playbook run took 0 days, 0 hours, 0 minutes, 47 seconds
 ```
 
+### Printscreen of test project in Redmine application on host redmine-11.sa
+
+![alt text](https://github.com/s-kalyuga/sa.it-academy.by/blob/md-sa2-20-22/Siarhei_Kaliuha/08.Ansible.Workshop/redmine.jpg)
+
+
+### Printscreen of Slack notification message
+
+![alt text](https://github.com/s-kalyuga/sa.it-academy.by/blob/md-sa2-20-22/Siarhei_Kaliuha/08.Ansible.Workshop/slack.jpg)
+
