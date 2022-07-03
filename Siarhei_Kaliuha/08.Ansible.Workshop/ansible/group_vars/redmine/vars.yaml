@@ -1,0 +1,11 @@
+ansible_user: root
+ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53"'
+
+apt_default_packages:
+  - git
+  - ruby-full
+  - build-essential
+
+app_fqdn: redmine-11.sa
+
+slack_token: 

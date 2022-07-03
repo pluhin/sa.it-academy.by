@@ -1,0 +1,12 @@
+apt_app_packages:
+  - imagemagick
+  - libmagickwand-dev
+  - apache2
+  - libapache2-mod-passenger
+
+app_repo: "https://github.com/redmine/redmine.git"
+app_home: /opt/redmine
+app_version: 4.1-stable
+
+app_lang: "ru"
+
