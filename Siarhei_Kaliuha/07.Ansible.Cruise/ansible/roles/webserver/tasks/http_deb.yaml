@@ -1,0 +1,21 @@
+---
+- name: Nginx. Install packages
+  apt:
+    name: "{{ apt_http_packages }}"
+    state: present
+    update_cache: yes
+
+- name: Nginx. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Nginx. Deploy on debian
+  vars:
+    virtual_hosts: "{{ debian_virtual_hosts }}"
+    config_dir: "{{ virtual_hosts_config_dir }}"
+    html_dir: "{{ virtual_hosts_home_dir }}"
+    symlink_dir: "{{virtual_hosts_symlink_dir}}"
+  include_tasks: nginx_setup.yaml
+  with_items: "{{ virtual_hosts }}"

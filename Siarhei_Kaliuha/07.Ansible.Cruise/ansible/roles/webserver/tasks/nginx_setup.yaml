@@ -1,0 +1,58 @@
+---
+- name: Nginx. Remove default index.html file
+  file:
+    path: "{% if ansible_os_family == 'Debian'%}{{ default_home_debian }}/index.html{% else %}{{ default_home_redhat }}/index.html{% endif %}"
+    state: absent
+
+- name: Nginx. Creating site directory
+  file:
+    path: "{{html_dir}}{{item}}/html/"
+    state: directory
+    mode: 0755
+    group: root
+    owner: root
+
+- name: Nginx. Creating new config directory for sites
+  file:
+    path: "{{config_dir}}{{item}}"
+    state: directory
+    mode: 0755
+    group: root
+    owner: root
+  notify:
+    - Nginx. Update /etc/nginx/nginx.conf
+
+- name: Nginx. Creating symlink directory
+  file:
+    path: "{{symlink_dir}}"
+    state: directory
+    mode: 0755
+    group: root
+    owner: root
+
+- name: Nginx. Copy index.html file
+  vars:
+    virtual_host: "{{ item }}"
+  template:
+    src: "index.html.j2"
+    dest: "{{html_dir}}{{item}}/html/index.html"
+    mode: "0755"
+    group: root
+    owner: root
+
+- name: Nginx. Copy site configuration file
+  vars:
+    virtual_host: "{{ item }}"
+  template:
+    src: "nginx.conf.j2"
+    dest: "{{config_dir}}{{item}}/{{item}}.conf"
+    mode: "0755"
+    group: root
+    owner: root
+  register: config_file
+
+- name: Nginx. Creating symlink for site
+  shell: sudo ln -sf "{{config_dir}}{{item}}/{{item}}.conf" /etc/nginx/sites-enabled/
+  when: config_file.changed
+  notify:
+    - Restart nginx

@@ -1,0 +1,8 @@
+---
+- name: Nginx. Update /etc/nginx/nginx.conf
+  shell: sudo sed -i '/^http {*/a \    include {{virtual_hosts_symlink_dir}}*.conf;' /etc/nginx/nginx.conf
+
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted

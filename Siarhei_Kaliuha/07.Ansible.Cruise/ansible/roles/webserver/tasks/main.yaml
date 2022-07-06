@@ -1,0 +1,11 @@
+---
+- name: Include deploy for Debian systems
+  include_tasks: http_deb.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include_tasks: http_rh.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Check deploy
+  include_tasks: check_deploy.yaml

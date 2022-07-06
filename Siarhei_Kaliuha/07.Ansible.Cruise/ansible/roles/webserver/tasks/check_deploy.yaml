@@ -1,0 +1,33 @@
+---
+- name: Check deploy. Check connection to Localhost
+  wait_for:
+    host: "localhost"
+    port: "80"
+    state: started
+    timeout: 3
+  register: out
+
+- name: print out
+  debug:
+    msg: "port: {{ out.port }} | state: {{ out.state }}"
+
+- name: Check deploy. Modifying /etc/hosts file
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  tags:
+  - tests
+
+- name: Check deploy. Check content of the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'working on host sa-' not in this.content"
+  tags:
+  - tests

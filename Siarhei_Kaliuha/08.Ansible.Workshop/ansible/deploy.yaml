@@ -1,0 +1,48 @@
+- hosts: redmine
+  pre_tasks:
+    - name: Pretask. Hostname validation
+      debug:
+        msg: "{{ ansible_host }}"            
+    - name: Pretask. Default packages installation
+      apt:
+        name: "{{ apt_default_packages }}"
+        state: latest
+        update_cache: yes
+
+  roles:
+    - mysql
+    - app
+
+  tasks:
+    - name: Test. Add {{ app_fqdn }} to /etc/hosts file
+      shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
+      tags:
+        - test
+
+    - name: Test. Content check
+      uri:
+        url: "http://{{ app_fqdn }}"
+        return_content: yes
+      register: this
+      failed_when: "'Jean-Philippe Lang' not in this.content"
+      tags:
+        - test
+
+    - name: Test. Cleanup {{ app_fqdn }} from /etc/hosts file
+      lineinfile:
+        path: /etc/hosts
+        state: absent
+        regexp: '^127.0.0.1       {{ app_fqdn }}'
+      tags:
+        - test
+        - always
+
+    - name: Notification. Slack message send
+      slack:
+        token: "{{ slack_token }}"
+        msg: "Application deployment at {{ inventory_hostname }} host completed, url for access: http://{{ app_fqdn }}"
+        channel: "#integration"
+        username: "Ansible sender"
+        icon_url: https://agardner.net/wp-content/uploads/2018/08/ansible-logo.png
+      delegate_to: localhost
+

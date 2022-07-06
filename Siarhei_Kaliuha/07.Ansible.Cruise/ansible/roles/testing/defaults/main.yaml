@@ -1,0 +1,9 @@
+---
+pub_repos:
+  - http://deb.debian.org/debian
+  - http://mirror.centos.org/centos/
+  - https://pypi.org/
+
+docker_hub:
+  - https://hub.docker.com
+  - https://registry.hub.docker.com

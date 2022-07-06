@@ -1,0 +1,39 @@
+---
+- name: Add repository
+  ansible.builtin.yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+
+- name: Nginx. Install packages
+  yum:
+    name: "{{ yum_http_packages }}"
+    state: present
+    disable_gpg_check: yes
+  tags:
+  - tests
+
+- name: Nginx. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Nginx. Enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+  notify:
+    - Restart nginx
+  tags:
+  - tests
+
+- name: Nginx. Deploy on redhat
+  vars:
+    virtual_hosts: "{{ redhat_virtual_hosts }}"
+    config_dir: "{{ virtual_hosts_config_dir }}"
+    html_dir: "{{ virtual_hosts_home_dir }}"
+    symlink_dir: "{{virtual_hosts_symlink_dir}}"
+  include_tasks: nginx_setup.yaml
+  with_items: "{{ virtual_hosts }}"
