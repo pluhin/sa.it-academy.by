@@ -23,3 +23,4 @@ runuser -l jenkins -c 'cat ~/.ssh/id_rsa.pub'
 
 echo "##### Secret here"
 cat /var/lib/jenkins/secrets/initialAdminPassword
+
