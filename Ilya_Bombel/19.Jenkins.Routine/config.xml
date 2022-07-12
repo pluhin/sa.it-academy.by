@@ -1,0 +1,60 @@
+```
+<project>
+<actions/>
+<description/>
+<keepDependencies>false</keepDependencies>
+<properties>
+<com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.34">
+<autoRebuild>false</autoRebuild>
+<rebuildDisabled>false</rebuildDisabled>
+</com.sonyericsson.rebuild.RebuildSettings>
+<hudson.model.ParametersDefinitionProperty>
+<parameterDefinitions>
+<hudson.model.ChoiceParameterDefinition>
+<name>HOST</name>
+<choices class="java.util.Arrays$ArrayList">
+<a class="string-array">
+<string>192.168.100.3</string>
+<string>192.168.100.4</string>
+</a>
+</choices>
+</hudson.model.ChoiceParameterDefinition>
+<hudson.model.ChoiceParameterDefinition>
+<name>USERNAME</name>
+<choices class="java.util.Arrays$ArrayList">
+<a class="string-array">
+<string>vagrant</string>
+</a>
+</choices>
+</hudson.model.ChoiceParameterDefinition>
+<hudson.model.PasswordParameterDefinition>
+<name>PASSWORD</name>
+<defaultValue>{AQAAABAAAAAQ4dwlXsmYOktN5F8H6ywoWZ6Ma1cAIuHfG+HKkyrJhtI=}</defaultValue>
+</hudson.model.PasswordParameterDefinition>
+</parameterDefinitions>
+</hudson.model.ParametersDefinitionProperty>
+</properties>
+<scm class="hudson.scm.NullSCM"/>
+<canRoam>true</canRoam>
+<disabled>false</disabled>
+<blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+<blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+<triggers/>
+<concurrentBuild>false</concurrentBuild>
+<builders>
+<hudson.tasks.Shell>
+<command>#!/bin/bash echo "==========Ping Remote host==========" ping -c 4 $HOST echo
+"==========SSH check==========" connect=$(sshpass -p $PASSWORD ssh -o
+StrictHostKeyChecking=no $USERNAME@$HOST echo ok 2>&1) if [[ $connect == ok ]] ; then echo
+host is accessible via SSH else echo host is not accessible via SSH fi echo "==========NMAP
+install==========" sudo yum install nmap -y nmap --version echo "==========Checks all online
+hosts==========" nmap -sP $HOST/24 -oN nmap_host.log echo "==========Remove NMAP=========="
+sudo yum remove nmap -y echo "==========Print list of hosts==========" echo "Hosts IPs:" cat
+nmap_host.log | grep "Nmap scan"</command>
+<configuredLocalRules/>
+</hudson.tasks.Shell>
+</builders>
+<publishers/>
+<buildWrappers/>
+</project>
+``
