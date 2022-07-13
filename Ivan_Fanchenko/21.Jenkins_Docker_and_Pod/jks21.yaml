@@ -1,0 +1,37 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jks21
+  labels:
+    app: jks21
+spec:
+  ports:
+    - port: 5000
+  selector:
+    app: jks21
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jks21
+  labels:
+    app: jks21
+spec:
+  selector:
+    matchLabels:
+      app: jks21
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: jks21
+    spec:
+      containers:
+      - image: voyager1122/jks21:latest
+        name: jks21
+        env:
+        ports:
+        - containerPort: 5000
+          name: jks21
