@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+    triggers {
+        cron('00 02 * * 0')
+    }    
+    options {
+        buildDiscarder(logRotator(numToKeepStr:'3'))
+        
+    }
+    stages {
+        stage('tests') {
+            steps {
+                sh """
+                echo "start testing"
+                date >> netest.log
+                nmap -sP 192.168.100.3/24 >> netest.log
+                speedtest-cli >> netest.log
+                echo -e ".\n.\n.\n" >> netest.log
+                """
+            }
+        }
+        stage('check_repo') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'git-hub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    script {
+                        env.encodedPass=URLEncoder.encode(PASS, "UTF-8")
+                    }
+                    sh 'if [ -d nmap ]; then rm -R nmap; fi && git clone https://${USER}:${encodedPass}@github.com/NEM1GA/nmap.git'
+                }
+            }
+        }
+        stage('push_files') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'git-hub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    script {
+                        env.encodedPass=URLEncoder.encode(PASS, "UTF-8")
+                    }
+                    sh """
+                    cp netest.log nmap/netest.log
+                    cd nmap
+                    echo "start push"
+                    git add --all
+                    git commit -m "test \$(date)"
+                    git push https://${USER}:${encodedPass}@github.com/NEM1GA/nmap.git master
+                    """
+                }
+            }
+        }
+    }
+}

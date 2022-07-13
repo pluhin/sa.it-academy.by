@@ -1,0 +1,64 @@
+Tue Jul 12 15:41:27 UTC 2022
+Tue Jul 12 15:42:45 UTC 2022
+
+Starting Nmap 6.40 ( http://nmap.org ) at 2022-07-12 15:42 UTC
+Nmap scan report for 192.168.100.1 (192.168.100.1)
+Host is up (0.0015s latency).
+Nmap scan report for galaxy-enote8 (192.168.100.3)
+Host is up (0.00050s latency).
+Nmap done: 256 IP addresses (2 hosts up) scanned in 9.81 seconds
+Tue Jul 12 15:49:05 UTC 2022
+
+Starting Nmap 6.40 ( http://nmap.org ) at 2022-07-12 15:49 UTC
+Nmap scan report for 192.168.100.1 (192.168.100.1)
+Host is up (0.0015s latency).
+Nmap scan report for galaxy-enote8 (192.168.100.3)
+Host is up (0.00038s latency).
+Nmap scan report for 192.168.100.4 (192.168.100.4)
+Host is up (0.00064s latency).
+Nmap done: 256 IP addresses (3 hosts up) scanned in 6.97 seconds
+Tue Jul 12 15:49:31 UTC 2022
+
+Starting Nmap 6.40 ( http://nmap.org ) at 2022-07-12 15:49 UTC
+Nmap scan report for 192.168.100.1 (192.168.100.1)
+Host is up (0.0016s latency).
+Nmap scan report for galaxy-enote8 (192.168.100.3)
+Host is up (0.00078s latency).
+Nmap scan report for 192.168.100.4 (192.168.100.4)
+Host is up (0.00049s latency).
+Nmap done: 256 IP addresses (3 hosts up) scanned in 3.07 seconds
+Retrieving speedtest.net configuration...
+Testing from Beltelecom (37.214.75.240)...
+Retrieving speedtest.net server list...
+Selecting best server based on ping...
+Hosted by Orange Polska S.A. (Bialystok) [303.95 km]: 67.551 ms
+Testing download speed................................................................................
+Download: 79.05 Mbit/s
+Testing upload speed......................................................................................................
+Upload: 45.60 Mbit/s
+.
+.
+.
+
+Tue Jul 12 15:52:19 UTC 2022
+
+Starting Nmap 6.40 ( http://nmap.org ) at 2022-07-12 15:52 UTC
+Nmap scan report for 192.168.100.1 (192.168.100.1)
+Host is up (0.0016s latency).
+Nmap scan report for galaxy-enote8 (192.168.100.3)
+Host is up (0.00035s latency).
+Nmap scan report for 192.168.100.4 (192.168.100.4)
+Host is up (0.00029s latency).
+Nmap done: 256 IP addresses (3 hosts up) scanned in 3.17 seconds
+Retrieving speedtest.net configuration...
+Testing from Beltelecom (37.214.75.240)...
+Retrieving speedtest.net server list...
+Selecting best server based on ping...
+Hosted by Orange Polska S.A. (Bialystok) [303.95 km]: 67.872 ms
+Testing download speed................................................................................
+Download: 73.67 Mbit/s
+Testing upload speed.....................................................................................................
+.Upload: 42.74 Mbit/s
+.
+.
+.
