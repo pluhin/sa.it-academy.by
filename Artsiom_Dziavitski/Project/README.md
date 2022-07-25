@@ -30,7 +30,8 @@ Deployment of WordPress with all necessary infrastructure in Google Cloud like n
 ### CI/CD description:
 Admin clone GHub repo with all necesary manifests for infrastructure and run ansible playbook to deploy nodes, k8s cluster, network and firewall rules in GCP. After that need manually deploy Jenkins (fix this later) and setup necessery plugins, multibranch pipeline with webhooks from infrastructure repo and WordPress repo. First time run pipeline to start image building and deployment of WordPress and MariaDB. If all done right pipeline would start after any commit.
 Repos:
-- [Infrastructure](https://github.com/artem-devitsky/it-sa-project-private) (private right now)
-- [Wordpress](https://github.com/artem-devitsky/project-WordPress)
+- [Infrastructure repo](https://github.com/artem-devitsky/it-sa-project-private) (private right now)
+- [Wordpress repo](https://github.com/artem-devitsky/project-WordPress)
+- [WordPress](http://itsawordpress.mooo.com/?p=1)
 
 ![Project Scheme](project-sa-it-scheme.png)
