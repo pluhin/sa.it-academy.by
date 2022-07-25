@@ -15,7 +15,7 @@ Deployment of WordPress with all necessary infrastructure in Google Cloud like n
 - MariaDB ver. 10.6.4
 
 ### CI/CD:
-- Jenkins (plugins: )
+- Jenkins
 - GitHub Repository (infrastructure and app)
 - DockerHub (image storage)
 - Kubernetes (archestration)
