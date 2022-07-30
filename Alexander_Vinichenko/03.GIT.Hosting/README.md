@@ -1,7 +1,9 @@
 ## Remote repositories
 
 [GitHub](https://github.com/alexv8888/03git/)
+
 [GitLab](https://gitlab.com/alexv8288/03git)
+
 [Bitbucket](https://bitbucket.org/alexv8288/03git/)
 
 ## Script
@@ -16,4 +18,4 @@ done
 
 ## Slack
 
-![slack](slack.png)
+![slack](Slack.png)
