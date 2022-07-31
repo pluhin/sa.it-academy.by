@@ -17,3 +17,5 @@ git push rem_repo
 done
 ```
 ## Slack
+
+![image](https://user-images.githubusercontent.com/110092772/182028281-fb350d03-520c-45df-8f23-ffe8afce87bc.png)
