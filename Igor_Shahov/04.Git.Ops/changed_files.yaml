@@ -1,0 +1,32 @@
+#!/bin/bash
+# Acton in to github, what see chandes in files
+
+name: Change-files
+
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: changed_files
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
+
+      - name: Get files
+        id: changed-files
+        uses: tj-actions/changed-files@v24
+
+      - name: List files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed" >> file.log 2>&1
+            echo "Count Tab in files: `grep -P '\t' $file | wc -l`" >> file.log 2>&1
+          done
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+
+          path: file.log
