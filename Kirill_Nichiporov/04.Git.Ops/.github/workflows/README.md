@@ -1,10 +1,42 @@
 ## Repository
 
-[repo](https://github.com/KirillNichiporov/03)
+[TestRepo](https://github.com/KirillNichiporov/03)
 
 ## Action
 
+```bash
+name: Scan all changed files
+
+on: pull_request
+
+jobs:
+  checkfiles:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+    
+      - id: files
+        uses: Ana06/get-changed-files@v2.1.0
+        with:
+          format: 'csv'
+          filter: '*'
+      - run: |
+          mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
+          for added_modified_file in "${added_modified_files[@]}"; do
+          echo $(grep -o $'\t' ${added_modified_file} | wc -l) tabs - ${added_modified_file} >> 04gitops.log 2>&1 
+          done
+
+        name: Upload gitops  
+      - uses: actions/upload-artifact@v3
+        with:
+          path: 04gitops.log
+
+```
+
 ## Logs
+
+```bash
 
 2022-08-03T12:59:15.0803512Z Requested labels: ubuntu-latest
 2022-08-03T12:59:15.0803543Z Job defined at: KirillNichiporov/03/.github/workflows/04gitops.yml@refs/pull/7/merge
@@ -208,3 +240,4 @@
 2022-08-03T12:59:24.4347641Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
 2022-08-03T12:59:24.4389483Z [command]/usr/bin/git submodule foreach --recursive git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :
 2022-08-03T12:59:24.4833876Z Cleaning up orphan processes
+```
