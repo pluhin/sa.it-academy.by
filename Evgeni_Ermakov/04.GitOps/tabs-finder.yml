@@ -1,0 +1,29 @@
+name: evgeni-ermakov-tabs-finder
+
+on: [ pull_request ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: pull modified files
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: search for changed files
+        id: files
+        uses: jitterbit/get-changed-files@v1
+
+      - name: find tab
+        run: |
+          for changed_file in ${{ steps.files.outputs.added_modified }}; do
+          echo "File ${changed_file} has been checked and count of tabs : " >> tabs.log
+          grep -P '\t' ${changed_file} | wc -l >> tabs.log
+          done
+
+      - name: upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: tabs.log
