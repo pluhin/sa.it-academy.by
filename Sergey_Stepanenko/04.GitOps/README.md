@@ -6,7 +6,13 @@ https://github.com/S-Stepanenko/Homework_04/blob/main/.github/workflows/tab_coun
 ## Testing repository
 https://github.com/S-Stepanenko/Homework_04
 
-### My pipeline log
+## Artifact file output
+```bash
+Tabs in file .github/workflows/tab_counter.yml: 0
+Tabs in file test.txt: 12
+```
+
+## My pipeline log
 ```bash
 2022-08-04T10:26:21.0479317Z Requested labels: ubuntu-latest
 2022-08-04T10:26:21.0479355Z Job defined at: S-Stepanenko/Homework_04/.github/workflows/tab_counter.yml@refs/pull/1/merge
@@ -300,3 +306,4 @@ https://github.com/S-Stepanenko/Homework_04
 2022-08-04T10:26:35.4616978Z [command]/usr/bin/git submodule foreach --recursive git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :
 2022-08-04T10:26:35.5052808Z Cleaning up orphan processes
 ```
+
