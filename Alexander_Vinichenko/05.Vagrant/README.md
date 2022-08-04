@@ -1,8 +1,8 @@
 ## urls to vagrant boxes 
 
-(debian)[https://app.vagrantup.com/alexv8288/boxes/deb11]
+* [debian](https://app.vagrantup.com/alexv8288/boxes/deb11)
 
-(centos)[https://app.vagrantup.com/alexv8288/boxes/cent8]
+* [centos](https://app.vagrantup.com/alexv8288/boxes/cent8)
 
 ## Vagrantfile
 
