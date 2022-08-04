@@ -1,0 +1,32 @@
+# This is a workflow to do 04.GitOps homework_04
+
+name: 04.GitOps
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v24
+
+      - name: List all changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+            echo "Tabs in file $file: $(grep -P -o '\t' $file | wc -l)" >> count_tabs.txt 2>&1
+          done
+      - uses: actions/upload-artifact@v3
+        with:
+          name: artifact
+          path: count_tabs.txt
