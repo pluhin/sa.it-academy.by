@@ -1,10 +1,16 @@
 # 04git
 # This is log of action
 
+<<<<<<< HEAD
 ```
 Set up job
 ```
 
+=======
+Set up job
+
+```
+>>>>>>> f2c0de33b5d724539eb368916039995c062c2442
 Current runner version: '2.294.0'
 Operating System
   Ubuntu
@@ -40,11 +46,19 @@ Download action repository 'tj-actions/changed-files@v24' (SHA:6c44eb8294bb9c93d
 Download action repository 'actions/upload-artifact@v2' (SHA:82c141cc518b40d92cc801eee768e7aafc9c2fa2)
 Getting action download info
 Download action repository 'tj-actions/glob@v9.2' (SHA:8852971095f57bebf1912233304340b43a79d3e3)
+<<<<<<< HEAD
 
 ```
 Run Action
 ```
 
+=======
+```
+
+Run Action
+
+```
+>>>>>>> f2c0de33b5d724539eb368916039995c062c2442
 Run actions/checkout@v3
   with:
     fetch-depth: 0
@@ -111,11 +125,19 @@ Checking out the ref
   HEAD is now at 46c8f88 Merge f62c2f3ade9424077102afd1fb91539b8dfe421e into b8da306dd3e1e01386c42ec67bf63ecdc6206694
 /usr/bin/git log -1 --format='%H'
 '46c8f8842d36a9fc5fb4c9f1f8cf16aad26f0a24'
+<<<<<<< HEAD
 
 ```
 Get Files
 ```
 
+=======
+```
+
+Get Files
+
+```
+>>>>>>> f2c0de33b5d724539eb368916039995c062c2442
 Run tj-actions/changed-files@v24
   with:
     token: ***
@@ -204,9 +226,16 @@ Run bash $GITHUB_ACTION_PATH/entrypoint.sh
     INPUT_DIFF_RELATIVE: 
     INPUT_DIR_NAMES: false
 changed-files
+<<<<<<< HEAD
 
 ```
 List Files
+=======
+```
+
+List Files
+
+>>>>>>> f2c0de33b5d724539eb368916039995c062c2442
 ```
 Run for file in .github/workflows/changed_files.yaml; do
   for file in .github/workflows/changed_files.yaml; do
@@ -215,10 +244,18 @@ Run for file in .github/workflows/changed_files.yaml; do
     echo "Count Tab in files: `grep -P '\t' $file | wc -l`" >> file.log 2>&1
   
   done
+<<<<<<< HEAD
   shell: /usr/bin/bash -e {0}
   
 ```
 Upload report
+=======
+  shell: /usr/bin/bash -e {0}  
+```
+
+Upload report
+
+>>>>>>> f2c0de33b5d724539eb368916039995c062c2442
 ```
 
 Run actions/upload-artifact@v2
@@ -241,11 +278,19 @@ The size of all the files that were uploaded is 71 bytes. This takes into accoun
 Note: The size of downloaded zips can differ significantly from the reported size. For more information see: https://github.com/actions/upload-artifact#zipped-artifact-downloads 
 
 Artifact artifact has been successfully uploaded!  
+<<<<<<< HEAD
 
 ```
 Post Run
 ```
 
+=======
+```
+
+Post Run
+
+```
+>>>>>>> f2c0de33b5d724539eb368916039995c062c2442
  Post job cleanup.
 /usr/bin/git version
 git version 2.37.1
@@ -259,4 +304,8 @@ Adding repository directory to the temporary git global config as a safe directo
 http.https://github.com/.extraheader
 /usr/bin/git config --local --unset-all http.https://github.com/.extraheader
 /usr/bin/git submodule foreach --recursive git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :
+<<<<<<< HEAD
   
+=======
+```
+>>>>>>> f2c0de33b5d724539eb368916039995c062c2442
