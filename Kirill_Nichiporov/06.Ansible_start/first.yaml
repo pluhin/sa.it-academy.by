@@ -1,0 +1,21 @@
+---
+- name: output OS-version, Mount points, RAM
+  hosts: all
+  become: yes
+
+  tasks:
+
+  - name: OS-version
+    shell: "{{ item }}"
+    loop:
+      - "cat /etc/*release"
+      - "df -h"
+      - "free -m"
+    register: result
+
+  - debug:
+      var: result.results[0].stdout_lines
+  - debug:
+      var: result.results[1].stdout_lines
+  - debug:
+      var: result.results[2].stdout_lines
