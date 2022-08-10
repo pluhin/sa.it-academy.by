@@ -1,0 +1,31 @@
+name: Find tabs in code and push reports
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    name: Find changed-files
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v25
+      - name: List all changed files & found tabs
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+            echo "Calc tab for $file: `od -c $file | grep -o "\t" | wc -l`" >> files.log 2>&1
+          done
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./files.log
