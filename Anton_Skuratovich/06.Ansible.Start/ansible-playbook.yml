@@ -1,0 +1,14 @@
+---
+- hosts: all_workers
+  tasks: 
+    - name: Print OS/Version
+      debug:
+        msg: "OS family: {{ ansible_os_family }} | Distribution: {{ ansible_distribution }} | Version: {{ ansible_distribution_major_version }}"
+
+    - name: Print mount point
+      debug:
+        msg: "Mount poin capacity: {{ (ansible_mounts[0].size_total /1024 /1024 /1024)|round(2) }} GB, used: {{ ((ansible_mounts[0].size_total - ansible_mounts[0].size_available) /1024 /1024 /1024)|round(2) }} GB"
+
+    - name: Print RAM 
+      debug:
+        msg: "RAM capasity: {{ ansible_memory_mb.real.total }} MB, free: {{ ansible_memory_mb.real.free }} MB"
