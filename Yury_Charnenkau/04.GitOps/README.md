@@ -44,7 +44,7 @@ jobs:
 
 ### Log of pipeline:
 
-[https://pipelines.actions.githubusercontent.com/serviceHosts/6f52d5a2-eb5b-46ec-9d76-cb74f73d0ab8/_apis/pipelines/1/runs/23/signedlogcontent/2?urlExpires=2022-08-10T15%3A02%3A06.2133755Z&urlSigningMethod=HMACV1&urlSignature=KqQ%2FZPdIAwqhNjpwRwT80jpxhs0GgtOqvQUChg0abYY%3D](raw logs)
+[raw logs](https://pipelines.actions.githubusercontent.com/serviceHosts/6f52d5a2-eb5b-46ec-9d76-cb74f73d0ab8/_apis/pipelines/1/runs/23/signedlogcontent/2?urlExpires=2022-08-10T15%3A02%3A06.2133755Z&urlSigningMethod=HMACV1&urlSignature=KqQ%2FZPdIAwqhNjpwRwT80jpxhs0GgtOqvQUChg0abYY%3D)
 
 ### Artifact logfile:
 
