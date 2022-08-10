@@ -1,0 +1,12 @@
+ - name: 06.ansible start
+   hosts: work_sa
+   tasks:
+    - name: OS/version
+      debug:
+        msg: "OS: {{ ansible_facts.distribution }} version: {{ansible_facts.distribution_version}}"
+    - name: Mount point/capacity/used
+      debug:
+        msg: "Mount point: '{{ ansible_facts.mounts[0].mount }}' | Size total: {{ (ansible_facts.mounts[0].size_total/1073741824) |round(2)}} GB | Used: {{ ((ansible_facts.mounts[0].size_total-ansible_facts.mounts[0].size_available)/1073741824) |round(2) }} GB"
+    - name: RAM/capacity/free
+      debug:
+        msg: "RAM total: {{ ansible_facts.memtotal_mb }} MB, RAM free: {{ ansible_facts.memfree_mb }} MB"
