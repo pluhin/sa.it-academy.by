@@ -2,7 +2,7 @@
 
 ### Link to action file:
 
-[https://github.com/yurycher/04.GitOPS/blob/main/.github/workflows/changed-files.yml](changed-files.yml)
+[https://github.com/yurycher/sa.it-academy.by/blob/md-sa2-21-22/Yury_Charnenkau/04.GitOps/changed-files.yml](https://github.com/yurycher/sa.it-academy.by/blob/md-sa2-21-22/Yury_Charnenkau/04.GitOps/changed-files.yml)
 
 ```bash
 name: Find tabs in code and push reports
@@ -44,7 +44,7 @@ jobs:
 
 ### Log of pipeline:
 
-[raw logs](https://pipelines.actions.githubusercontent.com/serviceHosts/6f52d5a2-eb5b-46ec-9d76-cb74f73d0ab8/_apis/pipelines/1/runs/23/signedlogcontent/2?urlExpires=2022-08-10T15%3A02%3A06.2133755Z&urlSigningMethod=HMACV1&urlSignature=KqQ%2FZPdIAwqhNjpwRwT80jpxhs0GgtOqvQUChg0abYY%3D)
+[https://github.com/yurycher/04.GitOPS/runs/7769453358](https://github.com/yurycher/04.GitOPS/runs/7769453358)
 
 ### Artifact logfile:
 
