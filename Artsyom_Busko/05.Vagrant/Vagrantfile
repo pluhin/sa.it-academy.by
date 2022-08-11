@@ -1,0 +1,44 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+	config.vm.define "vagrantvm-01" do |config|
+		config.vm.box = "debian11"
+		config.vm.provider "hyperv" do |h|
+			h.vm_integration_services = {
+				guest_service_interface: true,
+				CustomVMSRV: true
+			}
+			h.vmname = "vagrantvm-01"
+			h.memory = "2048"
+			h.cpus = 1 
+		end 
+
+		config.vm.hostname = "vagrantvm-01"
+		config.vm.network "forwarded_port", guest: 80, host: 8000
+		config.vm.network "public_network", bridge: "BridgeSwitch"
+
+		config.vm.provision "shell", path: "provision_debian.sh"
+	end
+end
+
+Vagrant.configure("2") do |config|
+	config.vm.define "vagrantvm-02" do |config|
+		config.vm.box = "centos8"
+		config.vm.provider "hyperv" do |h|
+			h.vm_integration_services = {
+				guest_service_interface: true,
+				CustomVMSRV: true
+			}
+			h.vmname = "vagrantvm-02"
+			h.memory = "2048"
+			h.cpus = 1 
+		end 
+
+		config.vm.hostname = "vagrantvm-02"
+		config.vm.network "forwarded_port", guest: 80, host: 8000
+		config.vm.network "public_network", bridge: "BridgeSwitch"
+
+		config.vm.provision "shell", path: "provision_centos.sh"
+	end
+end
