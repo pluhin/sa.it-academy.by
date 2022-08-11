@@ -1,7 +1,7 @@
 # 05. Vagrant
 ## My boxes Vagrant cloud
-(Debian)[https://app.vagrantup.com/AlexeyBY/boxes/debian11]
-(CentOS)[https://app.vagrantup.com/AlexeyBY/boxes/centos7] 
+[Debian](https://app.vagrantup.com/AlexeyBY/boxes/debian11)
+[CentOS](https://app.vagrantup.com/AlexeyBY/boxes/centos7)
 
 ## My VAGRANT file
 ```ruby
