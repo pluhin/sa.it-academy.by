@@ -1,0 +1,46 @@
+---
+- name: install nginx for debian
+  include_tasks: nginx_deb.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: install nginx for centos
+  include_tasks: nginx_cent.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: create home directory
+  file:
+    path: /var/www/{{ item }}
+    state: directory
+  loop: "{{ vhost  }}"
+
+- name: copy index.html
+  template:
+    src: index.html.j2
+    dest: /var/www/{{ item }}/index.html
+  loop: "{{ vhost }}"
+
+- name: create vhost configuration from the template
+  template:
+    src:  vhost.conf.j2
+    dest: /etc/nginx/conf.d/{{item}}.conf
+  loop: "{{ vhost }}"
+  notify: nginx.enable
+
+- name: create file /etc/hosts
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+- name: test vhosts
+  uri:
+    url: "http://{{ item }}"
+    return_content: yes
+  loop: "{{ vhost  }}"
+  register: page
+  failed_when: "'hostname=' not in page.content"
+
+
