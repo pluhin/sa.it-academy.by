@@ -1,0 +1,16 @@
+# display parameters from remote host
+# OS/version
+# Mount point/capacity/used
+# RAM/capacity/free
+
+- hosts: all_workers
+  tasks:
+    - name: OS
+      debug:
+        msg: "{{ ansible_distribution }} | {{ansible_distribution_major_version}}"
+    - name: Mount point
+      debug:
+        msg: "{{ ansible_mounts }}"
+    - name: RAM/capacity/free
+      debug:
+        msg: "{{ ansible_memfree_mb }} | {{ ansible_memory_mb }}"

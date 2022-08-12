@@ -1,0 +1,44 @@
+ansible -i inventory.yaml -m shell -a "systemctl restart nginx.service" all_workers
+ubuntu | CHANGED | rc=0 >>
+
+centos | CHANGED | rc=0 >>
+
+migel@migel:~/.ansible$ ansible -i inventory.yaml -m shell -a "systemctl status nginx.service" all_workers
+ubuntu | CHANGED | rc=0 >>
+* nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-08-10 16:13:42 UTC; 1min 29s ago
+       Docs: man:nginx(8)
+    Process: 8609 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+    Process: 8611 ExecStart=/usr/sbin/nginx -g daemon on; master_process on; (code=exited, status=0/SUCCESS)
+   Main PID: 8612 (nginx)
+      Tasks: 3 (limit: 309018)
+     Memory: 3.0M
+        CPU: 24ms
+     CGroup: /system.slice/nginx.service
+             |-8612 nginx: master process /usr/sbin/nginx -g daemon on; master_process on;
+             |-8613 nginx: worker process
+             `-8614 nginx: worker process
+
+Aug 10 16:13:42 sa-ubuntu-32 systemd[1]: Starting A high performance web server and a reverse proxy server...
+Aug 10 16:13:42 sa-ubuntu-32 systemd[1]: Started A high performance web server and a reverse proxy server.
+centos | CHANGED | rc=0 >>
+● nginx.service - The nginx HTTP and reverse proxy server
+   Loaded: loaded (/usr/lib/systemd/system/nginx.service; disabled; vendor preset: disabled)
+   Active: active (running) since Wed 2022-08-10 16:13:42 UTC; 1min 29s ago
+  Process: 7758 ExecStart=/usr/sbin/nginx (code=exited, status=0/SUCCESS)
+  Process: 7756 ExecStartPre=/usr/sbin/nginx -t (code=exited, status=0/SUCCESS)
+  Process: 7755 ExecStartPre=/usr/bin/rm -f /run/nginx.pid (code=exited, status=0/SUCCESS)
+ Main PID: 7759 (nginx)
+    Tasks: 3 (limit: 1648100)
+   Memory: 5.0M
+   CGroup: /system.slice/nginx.service
+           ├─7759 nginx: master process /usr/sbin/nginx
+           ├─7760 nginx: worker process
+           └─7761 nginx: worker process
+
+жні 10 16:13:42 sa-centos-31 systemd[1]: Starting The nginx HTTP and reverse proxy server...
+жні 10 16:13:42 sa-centos-31 nginx[7756]: nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+жні 10 16:13:42 sa-centos-31 nginx[7756]: nginx: configuration file /etc/nginx/nginx.conf test is successful
+жні 10 16:13:42 sa-centos-31 systemd[1]: Started The nginx HTTP and reverse proxy server.
+
