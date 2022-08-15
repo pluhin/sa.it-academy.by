@@ -1,0 +1,6 @@
+server {
+        listen   80;
+        root {{ default_home }}{{ item.name }};
+        index index.html;
+        server_name {{ item.name }} www.{{ item.name }};
+}
