@@ -1,0 +1,17 @@
+- hosts: all_workers
+  tasks:
+    - name: OS/version
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+      tags:
+        - facts
+    - name: Mount point/total/available
+      debug:
+        msg: "{{ ansible_facts.mounts[0].mount }} | {{ ansible_facts.mounts[0].size_total }} | {{ ansible_facts.mounts[0].block_available }}"
+      tags:
+        - facts
+    - name: RAM total/used/free
+      debug:
+        msg: "{{ ansible_facts.memory_mb.real.total }} | {{ ansible_facts.memory_mb.real.used }} | {{ ansible_facts.memory_mb.real.free }}"
+      tags:
+        - facts
