@@ -1,0 +1,4 @@
+[v_hosts]
+debian ansible_host=192.168.207.134 ansible_user=root ansible_ssh_public_key_file=/home/kirill/.ssh/authorized_keys
+
+centos ansible_host=192.168.207.133 ansible_user=root ansible_ssh_public_key_file=/home/kirill/.ssh/authorized_keys

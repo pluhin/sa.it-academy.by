@@ -1,0 +1,88 @@
+---
+- name: Install nginx for Debian systems
+  include: debian.yaml
+  when: ansible_os_family == 'Debian'
+  notify:
+    - restart nginx
+
+- name: Install nginx for Centos systems
+  include: centos.yaml
+  when: ansible_os_family == 'RedHat'
+  notify:
+    - restart nginx
+
+- name: Copy first page for Debian
+  copy:
+    src: index.html
+    dest: "{{ default_home }}"
+  tags:
+    - copy::files
+  when: ansible_os_family == 'Debian'
+
+- name: Copy first page for Centos
+  copy:
+    src: index.html
+    dest: "{{ default_home1 }}"
+  tags:
+    - copy::files
+  when: ansible_os_family == 'RedHat'
+
+
+- name: template for virtual hosts
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    backup: yes
+  become: yes
+
+- name: Check connections to public repositories (Debian/CentOS and pip package repository)
+  uri:
+    url: "{{ item }}"
+  loop: "{{ public_repo }}"
+  ignore_errors: yes
+
+- name: Check if we have connection to docker hub registry
+  uri:
+    url: "{{ docker_hub_registry }}" 
+    return_content: yes
+  register: site
+
+- name: Return content check
+  debug:
+    var: site.content 
+  ignore_errors: yes
+
+- name: Check if we have enough RAM
+  block:
+    - name: Check if we have enough RAM
+      debug:
+        msg: "Check if RAM > 512"
+      failed_when:  ansible_facts.memfree_mb | int < 512
+  
+  rescue: 
+    - name: Not enough RAM
+      debug:
+        msg: "Not enough RAM"
+
+- name: Check if we have enough HDD
+  block:
+    - name: Check if we have enough HDD
+      debug:
+        msg: "Check if HDD space > 3000"
+      failed_when: ansible_facts.mounts[0].size_available/1024/1024 < 3000
+
+  rescue:
+    - name: Not enough disk space
+      debug:
+        msg: "Not enough disk space"
+         
+- name: Check if we have SUDO with NOPASSWD
+  block:
+    - name: Check SUDO password
+      command: "true"
+      become: yes
+
+  rescue:
+    - name: Password required
+      debug:
+         msg: 'sudo-password required'
