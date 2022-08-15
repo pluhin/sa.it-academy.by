@@ -1,0 +1,16 @@
+apt_nginx_packages:
+  - nginx
+
+yum_nginx_packages:
+  - nginx
+
+default_home: "/var/www/html/"
+default_home1: "/usr/share/nginx/html"
+
+
+public_repo:
+  - https://pypi.org
+  - http://ftp.debian.org/debian
+  - http://mirror.centos.org
+
+docker_hub_registry: "https://hub.docker.com/_/registry"

@@ -1,0 +1,10 @@
+---
+- name: Install Nginx on Debian
+  apt:
+    name: "{{ apt_nginx_packages }}"
+    state: present
+- name: Enable and start Nginx 
+  service:
+    name: nginx
+    state: started
+    enabled: yes
