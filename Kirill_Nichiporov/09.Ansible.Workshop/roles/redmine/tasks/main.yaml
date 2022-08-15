@@ -1,0 +1,110 @@
+---
+- name: Redmine. Install packages
+  apt:
+    name: "{{ apt_redmine_packages }}"
+    state: latest
+    update_cache: yes
+  environment:
+    noninteractive
+  
+
+- mysql_db:
+    name: "{{ app_db_name }}"
+    encoding: utf8
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- mysql_user:
+    name: "{{ app_db_user }}"
+    password: "{{ app_db_pass }}"
+    priv: "{{ app_db_name }}.*:ALL"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: yes
+
+- name: Redmine. Clone repository
+  git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_home }}"
+    version: '{{ app_version }}'
+    accept_hostkey: yes
+    update: no
+
+- name: Redmine. Change permissions
+  file:
+    path: "{{ app_home }}/public"
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: Redmine. Change permissions
+  file:
+    path: "{{ app_home }}/tmp"
+    mode: '777'
+    recurse: yes
+
+- name: Config database
+  template:
+    src: database.yml.j2
+    dest: "{{ app_home }}/config/database.yml"
+
+- name: Redmine. Setup 01
+  shell: |
+    gem install bundler
+    bundle update
+  args:
+    executable: /bin/bash
+    chdir: "{{ app_home }}"
+  tags:
+    - setup
+  environment:
+    noninteractive
+
+- name: Session store secret generation
+  shell: rake generate_secret_token
+  args:
+   chdir: "{{ app_home }}"
+   creates: "{{ app_home }}/config/initializers/secret_token.rb"
+  tags:
+    - setup
+
+- name: Redmine. Setup 02
+  shell: |
+    bundle exec rake db:migrate RAILS_ENV=production
+    bundle exec rake redmine:plugins:migrate RAILS_ENV=production
+    bundle install --without development test
+    RAILS_ENV=production rake db:migrate
+    RAILS_ENV=production REDMINE_LANG='{{ app_lang }}' rake redmine:load_default_data
+  args:
+    chdir: "{{ app_home }}"
+  tags:
+    - setup
+
+- name: Configuration files for virtualhost
+  template:
+    src: redmine.site.conf.j2
+    dest: "/etc/apache2/sites-enabled/redmine.site.conf"
+  notify:
+    - apache restart
+
+- meta: flush_handlers
+
+
+- name: "Add {{ app_fqdn }} to host file"
+  shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
+  tags: 
+    - test
+    
+- uri:
+    url: "http://{{ app_fqdn }}"
+    return_content: yes
+  register: this
+  failed_when: "'Jean-Philippe Lang' not in this.content"
+  tags: 
+    - test
+
+- lineinfile:
+    path: /etc/hosts
+    state: absent
+    regexp: '^127.0.0.1       {{ app_fqdn }}'
+  tags: 
+    - test
+    - always

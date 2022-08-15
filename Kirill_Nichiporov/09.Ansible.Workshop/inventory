@@ -1,0 +1,7 @@
+redmine:
+  vars:
+    ansible_user: root
+    ansible_ssh_public_key_file: /home/kirill/.ssh/authorized_keys
+  hosts:
+    redmine_135:
+      ansible_host: 192.168.207.135
