@@ -1,0 +1,13 @@
+- hosts: all_hosts
+  vars:
+    app_db_host: 127.0.0.1
+    app_db_name: redmine
+    app_db_user: redmine
+    app_db_pass: redmine
+  pre_tasks:
+  - debug:
+      msg: "{{ ansible_host }}"            
+  roles:
+    - mysql
+    - redmine
+
