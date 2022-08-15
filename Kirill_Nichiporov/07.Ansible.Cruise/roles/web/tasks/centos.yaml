@@ -1,0 +1,16 @@
+---
+
+- name: Install Nginx on Centos
+  yum:
+    name: epel-release
+    state: present
+    name: "{{ yum_nginx_packages }}"
+    state: present
+    update_cache: yes
+
+- name: firewall port enable
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
