@@ -1,0 +1,9 @@
+---
+- name: nginx.install.deb
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+  notify:
+    - nginx.enable

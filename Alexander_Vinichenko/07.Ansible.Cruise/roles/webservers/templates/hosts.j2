@@ -1,0 +1,8 @@
+127.0.0.1	localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1		localhost localhost.localdomain localhost6 localhost6.localldomain6
+
+{% if vhost is defined %}
+{% for var in vhost  %}
+127.0.0.1	{{ var }}
+{% endfor %}
+{% endif %}

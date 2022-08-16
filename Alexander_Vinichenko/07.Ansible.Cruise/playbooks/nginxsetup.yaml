@@ -1,0 +1,5 @@
+---
+- name: nginx setup
+  hosts: work_sa
+  remote_user: root
+  roles: [webservers]

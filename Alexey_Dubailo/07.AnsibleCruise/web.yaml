@@ -1,0 +1,5 @@
+- hosts: all_workers
+  remote_user: root
+  roles:
+    - webserver
+  

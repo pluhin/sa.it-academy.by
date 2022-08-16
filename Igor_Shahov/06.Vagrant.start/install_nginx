@@ -1,0 +1,12 @@
+# Installer nginx to 
+# ansible -i inventory.yaml -m shell -a "yum -y install epel-release" centos -u root  <-----before installing it---
+
+- hosts: "all_workers"
+  become: true
+  tasks:
+  - name: "Install nginx"
+    ansible.builtin.package:
+      name: "nginx"
+      state: "latest"
+      update_cache: true
+

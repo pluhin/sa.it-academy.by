@@ -1,0 +1,18 @@
+
+migel@migel:~/.ansible$ ansible -i inventory.yaml -m shell -a "cat /etc/hosts" all_workers -u root
+
+ubuntu | CHANGED | rc=0 >>
+127.0.0.1	localhost
+::1		localhost ip6-localhost ip6-loopback
+ff02::1		ip6-allnodes
+ff02::2		ip6-allrouters
+# --- BEGIN PVE ---
+192.168.202.32 sa-ubuntu-32.it-academy.local sa-ubuntu-32
+# --- END PVE ---
+centos | CHANGED | rc=0 >>
+127.0.1.1	LXC_NAME
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+# --- BEGIN PVE ---
+192.168.202.31 sa-centos-31.it-academy.local sa-centos-31
+# --- END PVE ---

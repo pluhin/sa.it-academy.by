@@ -1,0 +1,14 @@
+---
+- name: nginx.install.cent
+  yum:
+    name: nginx
+    state: present
+    update_cache: yes
+  notify: nginx.enable
+
+- name: firewall port enable
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes

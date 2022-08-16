@@ -1,0 +1,17 @@
+work_sa:
+  vars:
+    vhost:
+      - vhost1
+      - vhost2
+  hosts:
+    host3:
+      ansible_host: 192.168.202.3
+    host4:
+      ansible_host: 192.168.202.4
+jump_sa:
+  vars:
+    env: "it-academy"
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.53
+      ansible_user: jump_sa  

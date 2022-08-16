@@ -1,0 +1,13 @@
+---
+- name: nginx.enable
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: firewall port enable
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
