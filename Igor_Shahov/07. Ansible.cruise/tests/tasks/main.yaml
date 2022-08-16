@@ -1,0 +1,32 @@
+---
+- name: Check SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check connection
+  uri:
+    url: "{{ item }}"
+    timeout: 3
+  with_items: "{{ repo_test }}"
+
+- name: Check Dock
+  uri:
+    url: "{{ docker_test }}"
+    return_content: yes
+
+- name: Check RAM
+  debug:
+    msg: "ram less then 512mb"
+  failed_when:  ansible_facts.memfree_mb | int < 512
+  ignore_errors: yes
+
+- name: Check HDD
+  debug:
+    msg: "HDD less then 10GB"
+  failed_when: ansible_facts.mounts[0].size_available/1024/1024 < 10240
+  ignore_errors: yes
+
+
+
