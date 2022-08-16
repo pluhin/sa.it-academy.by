@@ -1,0 +1,16 @@
+all_workers:
+   children:
+      homelab:
+        hosts:
+           debian:
+             ansible_host: 192.168.56.105
+             ansible_user: vagrant
+             ansible_ssh_private_key_file: /home/anton/07_debian11_key
+             vhost: "debian.site"
+             http_port: 80
+           centos:
+             ansible_host: 192.168.56.106
+             ansible_user: vagrant
+             ansible_ssh_private_key_file: /home/anton/07_centos8_key
+             vhost: "centos.site"
+             http_port: 80 
