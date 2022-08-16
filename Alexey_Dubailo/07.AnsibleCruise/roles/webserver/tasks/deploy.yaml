@@ -1,0 +1,20 @@
+- name: Check if directory exists
+  file:
+    path: "{{ html_dir }}{{ item }}"
+    state: directory
+
+- name: Copy index.html
+  vars:
+    virtual_host: "{{ item }}"
+  template:
+    src: "index.html.j2"
+    dest: "{{ html_dir }}{{ virtual_host }}/index.html"
+    mode: "0755"
+
+- name: Templates virtual_hosts
+  vars:
+    virtual_host: "{{ item }}"
+  template:
+    src: "vhosts_conf.j2"
+    dest: "{{ conf_dir }}{{ virtual_host }}.conf"
+    mode: "0755"
