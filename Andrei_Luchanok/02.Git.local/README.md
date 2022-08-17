@@ -1,6 +1,6 @@
 ## Git local
 
-History
+## History
 
 ```bash
     1  ls
@@ -53,4 +53,49 @@ History
    48   git checkout features/do_one 
    49  git merge hotfix/we_gonna_die 
    50  history >> README.md
+```
+
+## Branches and commits:
+
+## master
+
+```bash
+f9339ed Merge branch 'hotfix/we_gonna_die'
+8b22f43 6 commit
+a1ecb79 5 commit
+aa5c719 4 commit
+bb67d57 3 commit
+d23f8c3 second commit
+e21a3bc first commit
+```
+
+## dev
+
+```bash
+9ae1b3d Merge branch 'hotfix/we_gonna_die' into dev
+8b22f43 6 commit
+aa5c719 4 commit
+bb67d57 3 commit
+d23f8c3 second commit
+e21a3bc first commit
+```
+
+## features/do_one
+
+```bash
+59b522a Merge branch 'hotfix/we_gonna_die' into features/do_one
+8b22f43 6 commit
+a1ecb79 5 commit
+aa5c719 4 commit
+bb67d57 3 commit
+d23f8c3 second commit
+e21a3bc first commit
+```
+
+## hotfix/we_gonna_die
+
+```bash
+8b22f43 6 commit
+d23f8c3 second commit
+e21a3bc first commit
 ```
