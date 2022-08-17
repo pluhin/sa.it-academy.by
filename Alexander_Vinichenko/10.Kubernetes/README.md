@@ -104,7 +104,7 @@ az@az-HP:~$ minikube start --memory 4096 --cpus 2
 
 ```
 ## Dashboard
-[Dashboard](Dashboard.png)
+![Dashboard](Dashboard.png)
 
 ## Ansible play
 
