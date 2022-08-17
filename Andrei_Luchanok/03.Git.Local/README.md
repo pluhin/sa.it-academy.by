@@ -319,23 +319,6 @@
   314  history > 03.GIT.Local/README.md
 ```
 
-##git log--oneline
-```bash
-$ git log --oneline
-e95a82a (HEAD -> master, origin_gitlab/master, origin_github/master, origin_bitbucket/master) update_script
-aba1517 add script update repository
-e763979 add readme on 02.git
-60032e5 update structure repository 2
-76c9ce8 update structure reposiroty
-f9339ed Merge branch 'hotfix/we_gonna_die'
-8b22f43 (origin_gitlab/hotfix/we_gonna_die, origin_github/hotfix/we_gonna_die, origin_bitbucket/hotfix/we_gonna_die, hotfix/we_gonna_die) 6 commit
-a1ecb79 5 commit
-aa5c719 4 commit
-bb67d57 3 commit
-d23f8c3 second commit
-e21a3bc first commit
-```
-
 ##Script update_all_git.sh
 ```bash
 #!/bin/bash
