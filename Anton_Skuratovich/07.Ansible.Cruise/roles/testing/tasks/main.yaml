@@ -1,0 +1,44 @@
+---
+- name: Check SUDO with NOPASSWD
+  shell:
+    cmd: sudo -l -U {{ ansible_user }}
+  register: sudo
+  failed_when: "'NOPASSWD' not in sudo.stdout"
+  
+- name: Print out
+  debug:
+    msg: "{{ sudo }}"  
+
+- name: Check connections to public repositories
+  wait_for:
+    host: "{{ item }}"
+    port: 443
+    timeout: 3
+  register: out
+  with_items: "{{ repositories }}"  
+
+- name: Check connection to docker hub registry
+  uri:
+    url: "{{ dockerhub }}"
+    return_content: yes
+  register: output
+  failed_when: "'Docker Hub' not in output.content"
+
+- name: Print out
+  debug:
+    msg: "{{ output }}"  
+
+- name: Check HDD
+  assert:
+    that: 
+      - "{{ ( ansible_mounts[0].size_available) > ( disk_threshold | float )  }}"
+    fail_msg: "Not enough disk capacity {{ (ansible_mounts[0].size_available /1024 /1024 /1024)|round(2) }} GB must be over {{ disk_threshold }}"
+    success_msg: "Disk capacity is OK! Avalible {{ (ansible_mounts[0].size_available /1024 /1024 /1024)|round(2) }} GB. Threshold {{ disk_threshold }} GB " 
+
+- name: Check RAM
+  assert:
+    that:
+      - "{{ (ansible_memory_mb.real.free) > ( ram_threshold | int ) }}"
+    fail_msg: "Not enough memory {{ ansible_memory_mb.real.free }} MB must be min {{ ram_threshold }} MB"
+    success_msg: "Memory is OK! Free {{ ansible_memory_mb.real.free }} MB. Threshold {{ ram_threshold }} MB"   
+

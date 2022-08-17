@@ -1,0 +1,10 @@
+server {
+         listen {{ http_port }};
+         listen [::]:{{ http_port }};
+         root {{ default_home }}/{{ vhost }}/; # The path to the website files
+         index index.html index.htm;
+         server_name {{ vhost }};
+         location / {
+         try_files $uri $uri/ =404;
+         }
+}
