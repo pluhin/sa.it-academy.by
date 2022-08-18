@@ -25,6 +25,32 @@ http://192.168.1.201:8001/api/v1/namespaces/kubernetes-dashboard/services/http:k
 
 ### Full k8s
 
+#### History
+
+```bash
+ 426  cd 10.K8s/
+  427  ls
+  428  git clone git@github.com:kubernetes-sigs/kubespray.git
+  429  git clone https://github.com/kubernetes-sigs/kubespray.git
+  430  cd kubespray/
+  431  ls
+  432  cp -rfp inventory/sample inventory/plu
+  433  declare -a IPS=(192.168.203.35 192.168.203.36)
+  434  CONFIG_FILE=inventory/plu/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
+  435  sudo pip3 install ruamel
+  436  sudo pip3 install ruamel.yaml
+  437  CONFIG_FILE=inventory/plu/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
+  438  vim inventory/plu/hosts.yaml
+  439  ansible-playbook -i inventory/plu/hosts.yaml -b cluster.yml --ask-pass
+  440  ansible --version
+  441  vim req.txt
+  442  sudo pip3 install -r req.txt
+  443  ansible-playbook -i inventory/plu/hosts.yaml -b cluster.yml --ask-pass
+  444  history
+```
+
+#### Ansible result
+
 ```bash
 PLAY RECAP **************************************************************************************************************************************
 localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
@@ -56,7 +82,7 @@ etcd : Check certs | Register ca and etcd node certs on kubernetes hosts -------
 
 ```
 
-Inventory file
+##### Inventory file
 
 ```yaml
 all:
