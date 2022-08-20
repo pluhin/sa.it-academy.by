@@ -1,0 +1,42 @@
+- hosts: redmine
+  pre_tasks:
+  - debug:
+      msg: "{{ ansible_host }}"  
+                
+  roles:
+    - db 
+    - redmine
+
+  tasks:
+  - name: "Add {{ app_fqdn }} to host file"
+    shell: echo "127.0.0.1       {{ app_fqdn }}" >> /etc/hosts
+    tags: 
+      - test
+      
+  - name: Check application & send notification if failed
+    block:
+     - name: Check content
+       uri:
+         url: "http://{{ app_fqdn }}"
+         return_content: yes
+       register: this
+       failed_when: "'Jean-Philippe Lang' not in this.content"
+    rescue:
+      - name: Send notification
+        slack:
+          token: "{{ slack_token | default('No_data') }}"
+          msg: 'Application {{ app_fqdn }} version: {{ app_version }} deploy: failed'
+          channel: '#notifications'
+          username: 'Ansible sender'
+          icon_url: https://agardner.net/wp-content/uploads/2018/08/ansible-logo.png
+          parse: 'full'
+    tags:
+      - test      
+
+  - lineinfile:
+      path: /etc/hosts
+      state: absent
+      regexp: '^127.0.0.1       {{ app_fqdn }}'
+    tags: 
+      - test
+      - always  
