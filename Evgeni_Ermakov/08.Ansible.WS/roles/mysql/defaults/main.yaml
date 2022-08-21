@@ -1,0 +1,11 @@
+apt_database_packages:
+  - libmysqlclient-dev
+  - mysql-server
+  - mysql-client
+  - python3-pymysql
+  - python3-mysqldb
+
+app_database_host: "127.0.0.1"
+app_database_name: "redmine"
+app_database_user: "redmine"
+app_database_pass: "redmine"
