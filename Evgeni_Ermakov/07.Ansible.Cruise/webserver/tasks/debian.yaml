@@ -1,0 +1,51 @@
+---
+- name: install nginx
+  apt:
+    name: "{{ apt_http_packages }}"
+    state: present
+    update_cache: yes
+- name: nginx enable
+  service:
+    name: nginx
+    enabled: yes
+- name: restart nginx
+  shell: "service nginx restart"
+
+- name: creating home directory
+  file:
+    path: "{{ default_home }}/{{ item.name }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop: "{{ virtual_hosts_ubuntu }}"
+
+- name: copying configuration template
+  template:
+    src: debian.j2
+    dest: "{{ nginx_default_confs }}/{{ item.name }}.conf"
+  loop: "{{ virtual_hosts_ubuntu }}"
+
+- name: copy index.html
+  copy:
+    src: index.html
+    dest: "{{ default_home }}{{ item.name }}/index.html"
+  loop: "{{ virtual_hosts_ubuntu }}"
+- name: nginx restart
+  shell: "service nginx restart"
+
+- name: check index.html
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts_ubuntu }}"
+  register: this
+  failed_when: "'Host' not in this.content"
+  tags:
+  - tests
+
+- name: print info
+  debug:
+    msg: "{{ this }}"
+  tags:
+  - tests

@@ -1,0 +1,7 @@
+---
+repo_test:
+  - https://deb.debian.org/debian
+  - https://cloud.centos.org/centos
+  - https://pypi.org/simple
+
+docker_test: https://hub.docker.com

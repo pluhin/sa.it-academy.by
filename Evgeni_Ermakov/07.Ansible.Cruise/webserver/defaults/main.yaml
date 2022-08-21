@@ -1,0 +1,21 @@
+---
+apt_http_packages: 
+  - nginx 
+yum_http_packages:
+  - nginx
+default_home: "/var/www/"
+default_home_cent: "/usr/share/nginx/"
+
+nginx_default_confs: "/etc/nginx/conf.d"
+
+site_ubuntu1: "ubuntu1.test"
+site_ubuntu2: "ubuntu2.test"
+site_centos1: "cent1.test"
+site_centos2: "cent2.test"
+
+virtual_hosts_ubuntu:
+  - { name: "{{ site_ubuntu1 }}", ip: "{{ hostvars[\"ubuntu\"].ansible_host }}"}
+  - { name: "{{ site_ubuntu2 }}", ip: "{{ hostvars[\"ubuntu\"].ansible_host }}"}
+virtual_hosts_cent:
+  - { name: "{{ site_centos1 }}", ip: "{{ hostvars[\"centos\"].ansible_host }}"}
+  - { name: "{{ site_centos2 }}", ip: "{{ hostvars[\"centos\"].ansible_host }}"}
