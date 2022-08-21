@@ -1,0 +1,7 @@
+- name: deploy for debian system
+  include_tasks: debian.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: deploy for Centos system
+  include_tasks: centos.yaml
+  when: ansible_os_family == 'RedHat'

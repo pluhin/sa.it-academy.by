@@ -1,0 +1,29 @@
+---
+- name: сheck sudo with nopassword
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: check connection
+  uri:
+    url: "{{ item }}"
+    timeout: 3
+  with_items: "{{ repo_test }}"
+
+- name: check docker
+  uri:
+    url: "{{ docker_test }}"
+    return_content: yes
+
+- name: check random-access memory
+  debug:
+    msg: "ram > 512mb"
+  failed_when:  ansible_facts.memfree_mb | int < 512
+  ignore_errors: yes
+
+- name: check Hard disk drive
+  debug:
+    msg: "HDD > 15GB"
+  failed_when: ansible_facts.mounts[0].size_available/1024/1024 < 15360
+  ignore_errors: yes
