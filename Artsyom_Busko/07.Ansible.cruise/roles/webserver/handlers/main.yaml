@@ -1,0 +1,6 @@
+- name: NGINX. reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  tags:
+  - tests
