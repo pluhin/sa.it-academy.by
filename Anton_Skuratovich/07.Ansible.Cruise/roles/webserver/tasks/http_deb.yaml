@@ -1,0 +1,17 @@
+---
+- name: NGINX. Install packages
+  apt:
+    name: "{{ apt_http_packages }}"
+    state: present
+    update_cache: yes
+
+- name: NGINX. Disable default page
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent 
+
+- name: NGINX. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes

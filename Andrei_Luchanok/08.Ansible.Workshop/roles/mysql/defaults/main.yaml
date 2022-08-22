@@ -1,0 +1,5 @@
+apt_redmine_packages:
+  - mysql-server
+  - mysql-client
+  - python3-pymysql
+  - python3-mysqldb

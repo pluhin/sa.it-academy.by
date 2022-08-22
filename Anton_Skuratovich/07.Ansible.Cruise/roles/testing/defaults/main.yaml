@@ -1,0 +1,12 @@
+# Disk threshold in GBytes
+disk_threshold: 5
+# RAM threshold in MBytes
+ram_threshold: 1024
+
+# Linux repo
+repositories:
+ - deb.debian.org
+ - pypi.org
+
+#Dockerhub
+dockerhub: https://hub.docker.com/

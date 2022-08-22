@@ -1,0 +1,40 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "host1" do |debian|
+    debian.vm.box = "generic/debian11"
+    debian.vm.network "forwarded_port", guest: 80, host: 8085
+    debian.vm.network "private_network", ip: "192.168.56.213"
+    debian.vm.synced_folder "site/", "/site/",  owner: "www-data", group: "www-data"
+    debian.vm.provider "virtualbox" do |vb|
+       vb.gui = false
+       vb.memory = "1248"
+       vb.cpus = "2"
+    end
+    debian.vm.provision "shell", inline: <<-SHELL
+      apt-get update
+      apt-get install -yqq apache2
+      cp /site/* /var/www/html/
+      rm -rf /var/lib/apt/lists/*  /tmp/*  /var/tmp/* /usr/share/man /usr/share/doc /usr/share/doc-base
+      cat /dev/null > ~/.bash_history && history -c && exit
+    SHELL
+  end
+  config.vm.define "host2" do |centos|
+    centos.vm.box = "generic/centos9s"
+    centos.vm.network "forwarded_port", guest: 80, host: 8084
+    centos.vm.network "private_network", ip: "192.168.56.214"
+    centos.vm.synced_folder "site/", "/site/"
+    centos.vm.provider "virtualbox" do |vb|
+       vb.gui = false
+       vb.memory = "1224"
+    end
+    centos.vm.provision "shell", inline: <<-SHELL
+      yum install -y httpd
+      systemctl enable httpd
+      systemctl start httpd
+      firewall-cmd --zone=public --permanent --add-service=http
+      firewall-cmd --reload
+      cp /site/* /var/www/html/
+      rm -rf /var/lib/apt/lists/*  /tmp/*  /var/tmp/* /usr/share/man /usr/share/doc /usr/share/doc-base
+      cat /dev/null > ~/.bash_history && history -c && exit
+    SHELL
+  end
+end
