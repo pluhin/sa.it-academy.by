@@ -1,0 +1,3 @@
+- hosts: all_workers
+  roles: 
+    - test

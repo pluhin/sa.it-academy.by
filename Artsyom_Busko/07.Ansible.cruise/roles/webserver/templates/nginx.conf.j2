@@ -1,0 +1,14 @@
+worker_processes  10;
+error_log   /var/log/nginx/error.log;
+events {
+    worker_connections  1024;
+}
+
+http {
+    server {
+        listen 8080;
+        root {{ default_home }};
+        index index.html;
+        server_name  {{ virtual_host }};
+    }
+}

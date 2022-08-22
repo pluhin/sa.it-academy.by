@@ -1,0 +1,33 @@
+- name: Check SUDO with NOPASSWD
+  command: "true"
+  become: yes
+  become_method: sudo
+  changed_when: false
+
+- name: Check connections to public repositories
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  loop: "{{ repos }}"
+  register: repo
+
+- name: Check connection Docker hub
+  uri:
+    url: "{{ docker_hub }}"
+    return_content: yes
+  register: docker
+
+- name: Check RAM
+  assert:
+    that:
+      - ansible_memory_mb.real.free > ansible_memory_mb.real.total|float * 0.2
+    msg: "Used 80% of RAM"
+  with_items: '{{ ansible_mounts }}'
+  ignore_errors: yes
+
+- name: Check HDD
+  assert:
+    that: item.size_available > item.size_total|float * 0.2
+    msg: "Used 80% of HDD"
+  with_items: '{{ ansible_mounts }}'
+  ignore_errors: yes

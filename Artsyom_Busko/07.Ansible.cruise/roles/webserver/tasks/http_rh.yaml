@@ -1,0 +1,26 @@
+- name: NGINX. Install packages
+  yum:
+    name: "{{ yum_http_packages }}"
+    state: present
+  tags:
+  - tests
+
+- name: NGINX. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: NGINX. Enable firewall port
+  firewalld:
+    port: "{{ item }}"
+    permanent: yes
+    state: enabled
+    immediate: yes
+  with_items:
+    - "80/tcp"
+    - "8080/tcp"
+  notify:
+  - NGINX. reload service firewalld
+  tags:
+  - tests

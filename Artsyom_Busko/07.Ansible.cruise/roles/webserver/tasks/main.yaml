@@ -1,0 +1,51 @@
+- name: Include deploy for Debian systems
+  include_tasks: http_deb.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include_tasks: http_rh.yaml
+  when: ansible_os_family == 'RedHat'
+ 
+- name: Template index.html
+  vars:
+    virtual_host: "{{ item.name }}"
+  template:
+    src: "index.html.j2"
+    dest: "{{ default_home }}/index.html"
+    owner: root
+    group: root
+    mode: '0755'
+    backup: yes
+  with_items: "{{ virtual_hosts }}"
+  tags:
+  - tests
+
+- name: Template nginx.conf
+  vars:
+    virtual_host: "{{ item.name }}"
+  template:
+    src: "nginx.conf.j2"
+    dest: "{{ nginx_path }}/nginx.conf"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  with_items: "{{ virtual_hosts }}"
+  tags:
+  - tests
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'Hello' not in this.content"
+  tags:
+  - tests
+
+- name: print out
+  debug:
+    msg: "{{ this }}"
+  tags:
+  - tests
