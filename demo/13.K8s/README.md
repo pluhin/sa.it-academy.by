@@ -144,3 +144,73 @@ here XX - last octet of your master, XY last octet of your node
    50  vim /mnt/test/sa2-21-22/demo_app/index.php
    51  history
 ```
+---
+
+Looks like we have problem with mysql deployment in k8s. Please deploy separate db host on your ansible host, which we used for ansible, installing webservers, please use ubuntu host.
+
+Below the ansible code for that, please change `<YOUR HOST>` to your ubuntu host:
+
+```yaml
+---
+- hosts: <YOUR HOST>
+  vars:
+    app_packages:
+      - mariadb-server
+      - mariadb-client
+      - python3-pymysql
+      - python3-mysqldb
+    db_name: "bitnami_joomla"
+    db_user: "bn_joomla"
+    db_pass: "joomla"
+  pre_tasks:
+  - name: Prepare. Install packages
+    apt:
+      name: "curl"
+      state: latest
+      update_cache: yes
+  tasks:
+  - name: Add MariaDB repos
+    shell: |
+      curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+      bash mariadb_repo_setup --mariadb-server-version=10.6
+  - name: MySQL. Install packages
+    apt:
+      name: "{{ app_packages }}"
+      state: latest
+      update_cache: yes
+    environment:
+      DEBIAN_FRONTEND: noninteractive
+  - name: MySQL. add bind-address
+    ini_file:
+      dest: /etc/mysql/my.cnf
+      section: mysqld
+      option: "bind-address"
+      value: "{{ ansible_host }}"
+
+  - name: restart mysql if necessary
+    command: service mysql restart
+
+  - mysql_db:
+      name: "{{ db_name }}"
+      state: absent
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+
+  - mysql_db:
+      name: "{{ db_name }}"
+      encoding: utf8
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+
+  - mysql_user:
+      name: "{{ db_user }}"
+      host: "%"
+      password: "{{ db_pass }}"
+      priv: "{{ db_name }}.*:ALL"
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+    no_log: yes
+```
+
+Then you can start deployment of your application with disabled embedded mariadb:
+
+```bash
+helm install sa-joomla  --set mariadb.enabled=false,externalDatabase.host=<ID_DB>,externalDatabase.password=joomla,global.storageClass=nfs-client,joomlaUsername=admin,joomlaPassword=password bitnami/joomla
+```
