@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: githubrunner
+  namespace: github
+  labels:
+    app: runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: runner
+  template:
+    metadata:
+      labels:
+        app: runner
+      namespace: github
+    spec:
+      containers:
+      - name: github-runner
+        image: tcardonne/github-runner     
+        env:
+        - name: RUNNER_NAME
+          value: github-runner
+        - name: RUNNER_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: TOKEN
+        - name: RUNNER_REPOSITORY_URL
+          value: https://github.com/alexv8888/03git
+
+---
+apiVersion: v1
+data:
+  TOKEN: QVN...
+kind: Secret
+metadata:
+  name: mysecret
+  namespace: github
+type: Opaque
