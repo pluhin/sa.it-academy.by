@@ -6,7 +6,7 @@ metadata:
   labels:
     app: simple-web
 spec:
-  replicas: 4
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -23,6 +23,12 @@ spec:
       containers:
       - name: php-apache
         image: eboraas/apache-php
+        env:
+        - name: TEST_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret-from-manifest
+              key: password
         ports:
         - containerPort: 80
         resources:
@@ -124,3 +130,11 @@ spec:
     matchLabels:
       name: app-nfs-vol
       type: nfs
+#---
+#apiVersion: v1
+#kind: Secret
+#metadata:
+  #name: secret-from-manifest
+  #type: Opaque
+#data:
+  #password: XXXXXXXXX
