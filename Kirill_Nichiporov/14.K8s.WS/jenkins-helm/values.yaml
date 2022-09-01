@@ -22,11 +22,12 @@ ingress_port: 8080
 main_host_url: http://jenkins-helm.k8s-21.sa/
 
 resources:
-requests_cpu: 2000m
-requests_memory: 2000Mi
-limits_cpu: 2000m
-limits_memory: 3000Mi
-
+  limits:
+    cpu: 2000m
+    memory: 3000Mi
+  requests:
+    cpu: 2000m
+    memory: 2000Mi
 
 master_port: 8080
 master_targetport: 8080
