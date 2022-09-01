@@ -1,0 +1,47 @@
+replicaCount: 1
+namespace: ci-cd
+app: jenkins
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci:alexv8288
+  pullPolicy: IfNotPresent
+
+service:
+  port: 8080
+  jnlpport: 50000
+
+jenkinsAuthConfig: /var/jenkins_home/init.groovy.d/basic-security.groovy
+ACsubPath: basic-security.groovy
+jenkinsConfigYaml: /var/jenkins_home/casc_configs/jenkins.yaml
+JCsubPath: jenkins.yaml
+jenkinsConfig: /var/jenkins_home
+configMap:
+  name_basic: basic-security
+  name_config: jenkins-config
+nfs:
+  server: 192.168.37.105
+  path: /mnt/IT-Academy/nfs-data/sa2-21-22/alexv8288/jenkins
+
+location:
+  adminAddress: "alexv8288@gmail.com"
+  url: "http://jenkins.k8s-4.sa/"
+
+ingress:
+  enabled: true
+  className: ""
+  annotations:
+     class: nginx
+     alias: "jenkins.k8s-4.sa"
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    host: jenkins.k8s-3.sa
+    paths:
+      path: /
+      pathType: Prefix
+
+resources: 
+  requests:
+    cpu: 3000m
+    memory: 3000Mi
+  limits:
+    cpu: 3000m
+    memory: 4000Mi
