@@ -36,12 +36,7 @@ spec:
           securityContext:
             runAsUser: 0
           resources:
-            requests:
-              cpu: {{ .Values.requests_cpu }}
-              memory: {{ .Values.requests_memory }}
-            limits:
-              cpu: {{ .Values.limits_cpu }}
-              memory: {{ .Values.limits_memory }}
+          {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: jenkins-auth-config
               mountPath: {{ .Values.basic_security_path }}
