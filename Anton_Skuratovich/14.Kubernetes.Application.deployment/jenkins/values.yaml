@@ -1,0 +1,45 @@
+# Default values for jenkins.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image: jfrog.it-academy.by/public/jenkins-ci:askuratovich
+
+ports:
+   http_port: 8080
+   jnlp_port: 50000
+nfs:
+   server: 192.168.37.105
+   path: /mnt/IT-Academy/nfs-data/sa2-21-22/a_skuratovich/jenkins
+
+resources:
+   limits:
+     cpu: 2000m
+     memory: 3000Mi
+   requests:
+     cpu: 2000m
+     memory: 2000Mi
+
+adminAddress: "iantonio.by@gmail.com"
+url: "http://jenkins.k8s-25.sa/"
+
+ingress:
+  enabled: enable
+  className: ""
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-alias: "jenkins.k8s-26.sa"
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: jenkins.k8s-25.sa
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+
+

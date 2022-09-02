@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace  }}
+spec:
+  ports:
+    - name: master
+      port: {{ .Values.ports.http_port }}
+      targetPort: {{ .Values.ports.http_port}}
+    - name: slave
+      port: {{ .Values.ports.jnlp_port }}
+      targetPort: {{ .Values.ports.jnlp_port }}
+  selector:
+    app: {{ .Release.Name }}
