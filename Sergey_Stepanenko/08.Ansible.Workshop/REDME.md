@@ -106,3 +106,5 @@ Playbook run took 0 days, 0 hours, 0 minutes, 32 seconds
 ```
 
 ### Printscreen my project in application (redmine-14.sa)
+![my_project_redmine](https://user-images.githubusercontent.com/49452234/188276350-5b27d0ec-3280-48b6-9a73-22579648a8f5.jpg)
+
