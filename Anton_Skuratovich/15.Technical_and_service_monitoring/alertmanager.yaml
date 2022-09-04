@@ -1,0 +1,234 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  config.yml: |-
+    global:
+    templates:
+    - '/etc/alertmanager/*.tmpl'
+    route:
+      receiver: slack_demo
+      group_by: ['alertname', 'priority']
+      group_wait: 10s
+      repeat_interval: 1m
+ 
+    receivers:
+    - name: slack_demo
+      slack_configs:
+      - api_url: https://hooks.slack.com/services/T03R.......
+        channel: '#notifications'
+        text: "<!channel> \nsummary: {{ .CommonAnnotations.summary }}\ndescription: {{ .CommonAnnotations.description }}"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: alertmanager-templates
+  namespace: monitoring
+data:
+  default.tmpl: |
+    {{ define "__alertmanager" }}Alertmanager{{ end }}
+    {{ define "__alertmanagerURL" }}{{ .ExternalURL }}/#/alerts?receiver={{ .Receiver | urlquery }}{{ end }}
+
+    {{ define "__subject" }}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.SortedPairs.Values | join " " }} {{ if gt (len .CommonLabels) (len .GroupLabels) }}({{ with .CommonLabels.Remove .GroupLabels.Names }}{{ .Values | join " " }}{{ end }}){{ end }}{{ end }}
+    {{ define "__description" }}{{ end }}
+
+    {{ define "__text_alert_list" }}{{ range . }}Labels:
+    {{ range .Labels.SortedPairs }} - {{ .Name }} = {{ .Value }}
+    {{ end }}Annotations:
+    {{ range .Annotations.SortedPairs }} - {{ .Name }} = {{ .Value }}
+    {{ end }}Source: {{ .GeneratorURL }}
+    {{ end }}{{ end }}
+
+
+    {{ define "slack.default.title" }}{{ template "__subject" . }}{{ end }}
+    {{ define "slack.default.username" }}{{ template "__alertmanager" . }}{{ end }}
+    {{ define "slack.default.fallback" }}{{ template "slack.default.title" . }} | {{ template "slack.default.titlelink" . }}{{ end }}
+    {{ define "slack.default.callbackid" }}{{ end }}
+    {{ define "slack.default.pretext" }}{{ end }}
+    {{ define "slack.default.titlelink" }}{{ template "__alertmanagerURL" . }}{{ end }}
+    {{ define "slack.default.iconemoji" }}{{ end }}
+    {{ define "slack.default.iconurl" }}{{ end }}
+    {{ define "slack.default.text" }}{{ end }}
+    {{ define "slack.default.footer" }}{{ end }}
+
+
+    {{ define "pagerduty.default.description" }}{{ template "__subject" . }}{{ end }}
+    {{ define "pagerduty.default.client" }}{{ template "__alertmanager" . }}{{ end }}
+    {{ define "pagerduty.default.clientURL" }}{{ template "__alertmanagerURL" . }}{{ end }}
+    {{ define "pagerduty.default.instances" }}{{ template "__text_alert_list" . }}{{ end }}
+
+
+    {{ define "opsgenie.default.message" }}{{ template "__subject" . }}{{ end }}
+    {{ define "opsgenie.default.description" }}{{ .CommonAnnotations.SortedPairs.Values | join " " }}
+    {{ if gt (len .Alerts.Firing) 0 -}}
+    Alerts Firing:
+    {{ template "__text_alert_list" .Alerts.Firing }}
+    {{- end }}
+    {{ if gt (len .Alerts.Resolved) 0 -}}
+    Alerts Resolved:
+    {{ template "__text_alert_list" .Alerts.Resolved }}
+    {{- end }}
+    {{- end }}
+    {{ define "opsgenie.default.source" }}{{ template "__alertmanagerURL" . }}{{ end }}
+
+
+    {{ define "wechat.default.message" }}{{ template "__subject" . }}
+    {{ .CommonAnnotations.SortedPairs.Values | join " " }}
+    {{ if gt (len .Alerts.Firing) 0 -}}
+    Alerts Firing:
+    {{ template "__text_alert_list" .Alerts.Firing }}
+    {{- end }}
+    {{ if gt (len .Alerts.Resolved) 0 -}}
+    Alerts Resolved:
+    {{ template "__text_alert_list" .Alerts.Resolved }}
+    {{- end }}
+    AlertmanagerUrl:
+    {{ template "__alertmanagerURL" . }}
+    {{- end }}
+    {{ define "wechat.default.to_user" }}{{ end }}
+    {{ define "wechat.default.to_party" }}{{ end }}
+    {{ define "wechat.default.to_tag" }}{{ end }}
+    {{ define "wechat.default.agent_id" }}{{ end }}
+
+
+
+    {{ define "victorops.default.state_message" }}{{ .CommonAnnotations.SortedPairs.Values | join " " }}
+    {{ if gt (len .Alerts.Firing) 0 -}}
+    Alerts Firing:
+    {{ template "__text_alert_list" .Alerts.Firing }}
+    {{- end }}
+    {{ if gt (len .Alerts.Resolved) 0 -}}
+    Alerts Resolved:
+    {{ template "__text_alert_list" .Alerts.Resolved }}
+    {{- end }}
+    {{- end }}
+    {{ define "victorops.default.entity_display_name" }}{{ template "__subject" . }}{{ end }}
+    {{ define "victorops.default.monitoring_tool" }}{{ template "__alertmanager" . }}{{ end }}
+
+    {{ define "pushover.default.title" }}{{ template "__subject" . }}{{ end }}
+    {{ define "pushover.default.message" }}{{ .CommonAnnotations.SortedPairs.Values | join " " }}
+    {{ if gt (len .Alerts.Firing) 0 }}
+    Alerts Firing:
+    {{ template "__text_alert_list" .Alerts.Firing }}
+    {{ end }}
+    {{ if gt (len .Alerts.Resolved) 0 }}
+    Alerts Resolved:
+    {{ template "__text_alert_list" .Alerts.Resolved }}
+    {{ end }}
+    {{ end }}
+    {{ define "pushover.default.url" }}{{ template "__alertmanagerURL" . }}{{ end }}
+
+    {{ define "sns.default.subject" }}{{ template "__subject" . }}{{ end }}
+    {{ define "sns.default.message" }}{{ .CommonAnnotations.SortedPairs.Values | join " " }}
+    {{ if gt (len .Alerts.Firing) 0 }}
+    Alerts Firing:
+    {{ template "__text_alert_list" .Alerts.Firing }}
+    {{ end }}
+    {{ if gt (len .Alerts.Resolved) 0 }}
+    Alerts Resolved:
+    {{ template "__text_alert_list" .Alerts.Resolved }}
+    {{ end }}
+    {{ end }}
+
+    {{ define "telegram.default.message" }}
+    {{ if gt (len .Alerts.Firing) 0 }}
+    Alerts Firing:
+    {{ template "__text_alert_list" .Alerts.Firing }}
+    {{ end }}
+    {{ if gt (len .Alerts.Resolved) 0 }}
+    Alerts Resolved:
+    {{ template "__text_alert_list" .Alerts.Resolved }}
+    {{ end }}
+    {{ end }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      name: alertmanager
+      labels:
+        app: alertmanager
+    spec:
+      containers:
+      - name: alertmanager
+        image: prom/alertmanager:latest
+        args:
+          - "--config.file=/etc/alertmanager/config.yml"
+          - "--storage.path=/alertmanager"
+        ports:
+        - name: alertmanager
+          containerPort: 9093
+        resources:
+            requests:
+              cpu: 500m
+              memory: 500M
+            limits:
+              cpu: 1
+              memory: 1Gi
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/alertmanager
+        - name: templates-volume
+          mountPath: /etc/alertmanager-templates
+        - name: alertmanager
+          mountPath: /alertmanager
+      volumes:
+      - name: config-volume
+        configMap:
+          name: alertmanager-config
+      - name: templates-volume
+        configMap:
+          name: alertmanager-templates
+      - name: alertmanager
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager
+  namespace: monitoring
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/port:   '9093'
+spec:
+  selector: 
+    app: alertmanager
+  type: NodePort  
+  ports:
+    - port: 9093
+      targetPort: 9093
+      #nodePort: 31000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-alertmanager
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: alertmanager.k8s-25.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: alertmanager
+                port:
+                  number: 9093                                            
+
