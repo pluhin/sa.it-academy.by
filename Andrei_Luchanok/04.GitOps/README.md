@@ -2,10 +2,7 @@
 ```bash
 name: find_tabs
 
-on:
-  push:
-    branches:
-    - master
+on: [ pull_request ]
 
 jobs:
   build:
