@@ -1,0 +1,8 @@
+ 
+---
+apt_http_packages:
+  - apache2
+yum_http_packages:
+  - httpd
+  - python3-firewall
+default_home: "/var/www/html"

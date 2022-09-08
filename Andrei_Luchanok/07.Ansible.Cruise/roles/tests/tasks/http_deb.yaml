@@ -1,0 +1,17 @@
+---
+- name: Apache2. Install packages
+  apt:
+    name: "{{ apt_http_packages }}"
+    state: present
+    update_cache: yes
+- name: Apache2. Disable and stop service
+  service:
+    name: apache2
+    state: stopped
+    enabled: False
+- name: Nginx. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+

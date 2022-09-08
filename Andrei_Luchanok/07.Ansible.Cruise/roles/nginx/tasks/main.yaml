@@ -1,0 +1,69 @@
+---
+- name: Include deploy for Debian systems
+  include_tasks: http_deb.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include_tasks: http_rh.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Copy first page Debian
+  copy:
+    src: index.html
+    dest: "{{ default_home_debian }}"
+    owner: root
+    group: root
+    mode: '0755'
+  notify:
+    - stop apache
+    - restart nginx
+
+- name: Copy first page Centos
+  copy:
+    src: index.html
+    dest: "{{ default_home_centos }}"
+    owner: root
+    group: root
+    mode: '0755'
+  notify:
+    - stop apache
+    - restart nginx
+
+- name: Check connection to Localhost
+  wait_for:
+    host: localhost
+    port: 80
+    state: started
+    timeout: 3
+  register: out
+
+- name: print out
+  debug:
+    msg: "{{ out }}"
+
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  tags:
+  - tests
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: this
+  failed_when: "'Nginx' not in this.content"
+  tags:
+  - tests
+
+- name: print out
+  debug:
+    msg: "{{ this }}"
+  tags:
+  - tests

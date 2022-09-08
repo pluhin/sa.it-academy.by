@@ -1,0 +1,25 @@
+name: Check remote hosts and push reports
+
+on:
+    push:
+      branches:
+      - main
+
+jobs:
+    prepare:
+      runs-on: ubuntu-latest
+      strategy:
+	matrix:
+          check-sites: [onliner.by, google.com, github.com]
+    steps:
+	 - name: Install netcat
+          run: sudo apt update && sudo apt install -y netcat
+ 	- run: echo "netcat has been installed"
+ 	- run: |
+            nc -z -v -w2 ${{ matrix.check-sites }} 443 > ${{ matrix.check-sites }}.log 2>&1
+            ls -la
+	- name: Upload report
+	  uses: actions/upload-artifact@v2	
+	 with:
+	path: ${{ matrix.check-sites }}.log
+Tab1	Tab2	Tab3	Tab4
