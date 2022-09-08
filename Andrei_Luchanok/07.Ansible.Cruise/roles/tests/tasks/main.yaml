@@ -1,0 +1,40 @@
+---
+- name: Check if we have SUDO with NOPASSWD
+  block:
+    - name: run command
+      command: "true"
+      become: yes
+
+  rescue:
+    - name: print if password required
+      debug:
+         msg: 'SUDO password required'
+
+- name: Check connections to public repositories
+  uri:
+    url: "{{ item }}"
+  loop: "{{ repos }}"
+  ignore_errors: yes
+
+- name: Check if we have connection to docker hub registry
+  uri:
+    url: "{{ docker_hub }}"
+    return_content: yes
+  register: page
+
+- name: Check if we have enough RAM
+  debug:
+    msg: "Total RAM is {{ ansible_memory_mb.real.total }}MB. Free RAM > 800MB"
+  failed_when:  ansible_facts.memfree_mb | int < 800
+  ignore_errors: yes
+
+- name: Check if we have enough HDD
+  debug:
+    msg: "Total space on HDD {{ ansible_facts.mounts[0].size_available/1024/1024|round(1, 'common') }}MB. Free  space > 1Gb"
+  failed_when: ansible_facts.mounts[0].size_available/1024/1024 < 1000
+  ignore_errors: yes
+
+- name: Check we have RAM
+  debug:
+    msg: "total RAM is {{ ansible_memory_mb.real.total }}"
+  ignore_errors: yes

@@ -1,0 +1,21 @@
+---
+- name: restart nginx #restart
+  service:
+    name: "{{ 'nginx' }}"
+    state: restarted
+
+- name: stop apache #restart
+  service:
+    name: "{{ 'apache2' if (ansible_os_family == 'Debian') else 'httpd' }}"
+#    state: restarted
+    state: stop
+
+- name: HTTPD. reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  tags:
+  - tests
+
+
+

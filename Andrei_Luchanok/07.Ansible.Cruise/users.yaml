@@ -1,0 +1,24 @@
+- hosts: "{{ group }}"
+  tasks:
+  - name: Print variable
+    debug:
+      msg: "You requested user {{ user_to_add }}"
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      comment: Managed by ansible
+      state: present
+  - name: Check
+    shell: |
+      grep "{{ user_to_add }}" /etc/passwd
+      date
+    register: out
+
+  - debug:
+      msg: "{{ out.stdout_lines }}"
+      #msg: "{{ out }}"
+
+  - name: Removing user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      state: absent

@@ -1,0 +1,15 @@
+---
+- name: restart apache
+  service:
+    name: "{{ 'apache2' if (ansible_os_family == 'Debian') else 'httpd' }}"
+    state: restarted
+
+- name: HTTPD. reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  tags:
+  - tests
+
+
+
