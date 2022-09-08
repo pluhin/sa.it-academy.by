@@ -1,0 +1,7 @@
+public_repo:
+  - {url: https://packages.debian.org/}
+  - {url: https://centos.pkgs.org/}
+  - {url: https://pypi.org/project/pip/}
+
+docker_hub_registry:
+  - https://hub.docker.com/_/registry

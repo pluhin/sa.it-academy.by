@@ -1,0 +1,22 @@
+- name: Check connections to public repositories
+  wait_for:
+    host: "{{ item.url }}"
+    timeout: 3
+  register: out
+  with_items: "{{ public_repo }}"
+
+- name: Check connection to docker hub registry
+  uri:
+    url: "{{ item }}"
+    return_content: yes
+  register: out_uri
+  with_items: "{{ docker_hub_registry }}"
+
+- name: Print output
+  debug:
+    msg: "Status: {{ output.status }}"
+  loop: "{{ out_uri.results }}"
+  loop_control:
+    loop_var: output
+    label: "{{ output.status }}"
+    pause: 2

@@ -1,0 +1,20 @@
+---
+- name: Nginx. Install packages
+  apt:
+    name: "{{ apt_http_packages }}"
+    state: present
+    update_cache: yes
+
+- name: Copy first page
+  template:
+    src: index.html.j2
+    dest: "{{ default_home_debian }}/index.html"
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Nginx. Enable and start service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
