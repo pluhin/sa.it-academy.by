@@ -1,0 +1,34 @@
+namespace: jenkins
+name: jenkins-helm
+image: jfrog.it-academy.by/public/jenkins-ci:stepanenko
+
+
+nfs_path: /mnt/IT-Academy/nfs-data/sa2-21-22/stepanenko/jenkins
+nfs_server: 192.168.37.105
+
+basic_security_path: /var/jenkins_home/init.groovy.d/basic-security.groovy
+jenkins_yaml_path: /var/jenkins_home/casc_configs/jenkins.yaml
+jenkins_config_path: /var/jenkins_home
+admin_address: carex83@gmail.com
+
+
+ingress:
+  enabled: enabled
+server_alias: "jenkins-helm.k8s-28.sa"
+web_host: jenkins-helm.k8s-27.sa
+ingress_port: 8080
+main_host_url: http://jenkins-helm.k8s-27.sa/
+
+resources:
+  limits:
+    cpu: 2000m
+    memory: 3000Mi
+  requests:
+    cpu: 2000m
+    memory: 2000Mi
+
+
+master_port: 8080
+master_targetport: 8080
+slave_port: 50000
+slave_targetport: 50000 
