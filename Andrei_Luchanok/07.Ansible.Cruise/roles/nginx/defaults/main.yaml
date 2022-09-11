@@ -1,0 +1,10 @@
+ 
+---
+default_home_centos: "/usr/share/nginx/html"
+default_home_debian: "/var/www/html"
+apt_http_packages:
+  - nginx
+yum_http_packages:
+  - nginx
+  - python3-firewall
+
