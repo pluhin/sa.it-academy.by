@@ -1,0 +1,27 @@
+# Default values for jenkins-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+rules:
+  host: jenkins2.k8s-19.sa
+nginx:
+  alias: jenkins2.k8s-20.sa
+name: jenkins2
+service:
+  port: 8080
+containerPort: 50000
+namespace: ci-cd2
+metadata:
+  name: ingress-jenkins2
+nfs:
+  server: 192.168.37.105
+  path: /mnt/IT-Academy/nfs-data/sa2-21-22/luchik/jenkins
+
+resources:
+  limits:
+    cpu: 2000m
+    memory: 2048Mi
+  requests:
+    cpu: 1000m
+    memory: 1024Mi
