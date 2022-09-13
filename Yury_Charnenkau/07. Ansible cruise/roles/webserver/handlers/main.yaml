@@ -1,0 +1,12 @@
+---
+- name: restart nginx
+  service:
+    name: "{{ 'nginx' }}"
+    state: restarted
+
+- name: HTTPD. reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  tags:
+  - tests

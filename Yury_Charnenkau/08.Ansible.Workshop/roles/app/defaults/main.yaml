@@ -1,0 +1,16 @@
+apt_app_packages:
+  - git
+  - ruby-full
+  - build-essential
+  - imagemagick
+  - libmagickwand-dev
+  - apache2
+  - libapache2-mod-passenger
+
+app_repo: "https://github.com/redmine/redmine.git"
+app_home: /opt/redmine
+app_version: 5.0.2
+
+app_lang: "ru"
+
+app_fqdn: redmine-15.sa

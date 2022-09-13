@@ -1,0 +1,24 @@
+- hosts: all_workers
+  tasks:
+
+  - name: Check if we have SUDO with NOPASSWD
+    block:
+      - name: Check SUDO with NOPASSWD
+        command: "true"
+        become: yes
+    rescue:
+      - name: SUDO password required
+        debug:
+           msg: 'SUDO password required'
+
+  - name: Check if we have enough RAM
+    debug:
+      msg: "Check if RAM > 1024"
+    failed_when:  ansible_facts.memfree_mb | int < 1024
+    ignore_errors: yes
+
+  - name: Check if we have enough HDD
+    debug:
+      msg: "Check if HDD space > 5120"
+    failed_when: ansible_facts.mounts[0].size_available/1024/1024 < 5120
+    ignore_errors: yes
