@@ -1,0 +1,25 @@
+namespace: ci-cd
+name: jenkins
+image: jfrog.it-academy.by/public/jenkins-ci:ermakov
+
+nfs_path: /mnt/IT-Academy/nfs-data/sa2-21-22/ermakov/jenkins
+nfs_server: 192.168.37.105
+
+admin_address: evgeniermakov1994@gmail.com
+
+ingress:
+  enabled: enabled
+ingress_alias: "jenkins-helm.k8s-10.sa"
+ingress_host: jenkins-helm.k8s-9.sa
+ingress_port: 8080
+
+resources:
+requests_cpu: 3000m
+requests_memory: 3000Mi
+limits_cpu: 3000m
+limits_memory: 4000Mi
+
+master_port: 8080
+master_targetport: 8080
+slave_port: 50000
+slave_targetport: 50000
