@@ -1,0 +1,61 @@
+---
+- hosts: host36
+  vars:
+    app_packages:
+      - mariadb-server
+      - mariadb-client
+      - python3-pymysql
+      - python3-mysqldb
+    db_users:
+      - { db: zabbix,  user: zabbix, pass: zabbix }
+      - { db: zabbix1,  user: zabbix1, pass: zabbix1 }
+        #db_name: "zabbix"
+        #db_user: "zabbix"
+        #db_pass: "zabbix"
+  pre_tasks: 
+  - name: Prepare. Install packages
+    apt:
+      name: "curl"
+      state: latest
+      update_cache: yes 
+  tasks:
+  - name: Add MariaDB repos
+    shell: | 
+      curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+      bash mariadb_repo_setup --mariadb-server-version=10.6
+  - name: MySQL. Install packages
+    apt:
+      name: "{{ app_packages }}"
+      state: latest
+      update_cache: yes
+    environment:
+      DEBIAN_FRONTEND: noninteractive
+  - name: MySQL. add bind-address 
+    ini_file:
+      dest: /etc/mysql/my.cnf
+      section: mysqld
+      option: "bind-address"
+      value: "{{ ansible_host }}"
+
+  - name: restart mysql if necessary
+    command: service mysql restart
+
+  #- mysql_db:
+  # name: "{{ item.db }}"
+  #    state: absent
+  #    login_unix_socket: /var/run/mysqld/mysqld.sock
+  #  with_items: "{{ db_users }}"
+
+  - mysql_db:
+      name: "{{ item.db }}"
+      encoding: utf8
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+    with_items: "{{ db_users }}"
+  - mysql_user:
+      name: "{{ item.user }}"
+      host: "%"
+      password: "{{ item.pass }}"
+      priv: "{{ item.db }}.*:ALL"
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+    no_log: yes
+    with_items: "{{ db_users }}"
