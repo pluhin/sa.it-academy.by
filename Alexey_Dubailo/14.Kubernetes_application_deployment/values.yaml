@@ -1,0 +1,36 @@
+# Default values for jenkins_tmp.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+metadata:
+  name: jenkins
+  namespace: ci-cd
+
+image:
+  name: jenkins
+  repository: jfrog.it-academy.by/public/jenkins-ci:adubailo
+  pullpolicy: IfNotPresent
+
+nfs:
+  server: 192.168.37.105
+  path: /mnt/IT-Academy/nfs-data/sa2-21-22/adubailo/jenkins
+
+service:
+  type: ClusterIP
+  masterport: 8080
+  mastertargetport: 8080
+  slaveport: 5000
+  slavetargetport: 5000
+
+ingress:
+  host: jenkins.k8s-7.sa
+  alias: "jenkins.k8s-8.sa"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
