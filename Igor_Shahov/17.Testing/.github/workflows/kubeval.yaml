@@ -1,0 +1,29 @@
+name: Pull Request Check
+
+on: push
+
+
+jobs:
+  kubeval:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: test
+      uses: instrumenta/kubeval-action@master
+      with:
+        files: jenkins.yaml
+  slack:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: migelalfa-it
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_ICON: https://img.icons8.com/nolan/344/github.png
+        SLACK_MESSAGE: 'Kubeval test'
+        SLACK_TITLE: 'job is done!!!'
+        SLACK_USERNAME: kubeval
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

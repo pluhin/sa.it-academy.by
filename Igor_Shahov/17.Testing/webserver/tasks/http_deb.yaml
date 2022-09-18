@@ -1,0 +1,55 @@
+---
+- name: Install nginx
+  apt:
+    name: "{{ apt_http_packages }}"
+    state: present
+    update_cache: yes
+- name: Nginx Enable
+  service:
+    name: nginx
+    enabled: yes
+- name: Nginx restart
+  shell: "service nginx restart"
+
+- name: Createing directory
+  file:
+    path: "{{ default_home }}/{{ item.name }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop: "{{ virtual_hosts_ubuntu }}"
+
+- name: Copying configuration template
+  template:
+    src: siteU.j2
+    dest: "{{ nginx_default_confs }}/{{ item.name }}.conf"
+  loop: "{{ virtual_hosts_ubuntu }}"
+
+  
+- name: Copy my site 
+  copy:
+    src: index2.html
+    dest: "{{ default_home }}{{ item.name }}/index.html"
+  loop: "{{ virtual_hosts_ubuntu }}"
+- name: nginx restart
+  shell: "service nginx restart"
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts_ubuntu }}"
+  register: this
+  failed_when: "'Host' not in this.content"
+  tags:
+  - tests
+
+- name: print out
+  debug:
+    msg: "{{ this }}"
+  tags:
+  - tests
+
+
+

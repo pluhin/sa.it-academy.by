@@ -1,0 +1,4 @@
+---
+- name: nginx restart
+  shell: "service nginx restart"
+    #name: "{{ 'apache2' if (ansible_os_family == 'Debian') else 'httpd' }}"
