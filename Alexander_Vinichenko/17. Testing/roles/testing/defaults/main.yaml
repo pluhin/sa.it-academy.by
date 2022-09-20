@@ -1,0 +1,6 @@
+public_repo:
+  - https://pypi.org
+  - http://ftp.debian.org/debian
+
+docker_hub_registry: "https://hub.docker.com/_/registry"
+
