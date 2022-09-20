@@ -1,0 +1,25 @@
+namespace: ci-cd-new
+name: jenkins-helm
+image: jfrog.it-academy.by/public/jenkins-ci:agbusko
+
+nfs_path: /mnt/IT-Academy/nfs-data/sa2-21-22/agbusko/jenkins
+nfs_server: 192.168.37.105
+
+ingress:
+  enabled: enabled
+alias: "jenkins-helm.k8s-2.sa"
+host: jenkins-helm.k8s-1.sa
+port: 8080
+
+resources:
+  limits:
+    cpu: 3000m
+    memory: 4000Mi
+  requests:
+    cpu: 3000m
+    memory: 4000Mi
+
+master_port: 8080
+master_targetport: 8080
+slave_port: 50000
+slave_targetport: 50000
