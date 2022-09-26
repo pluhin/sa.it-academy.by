@@ -1,0 +1,16 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: instance-centos
+    image: quay.io/centos/centos:stream8
+    pre_build_image: true
+  - name: instance-debian
+    image: debian:11
+    pre_build_image: true    
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

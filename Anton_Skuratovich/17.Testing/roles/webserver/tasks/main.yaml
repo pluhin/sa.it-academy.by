@@ -1,0 +1,83 @@
+---
+- name: Include deploy for Debian systems
+  include_tasks: http_deb.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include_tasks: http_rh.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: Create directory for website
+  file:
+    path: "{{ default_home }}/{{ vhost }}"
+    state: directory
+    mode: '0755'  
+
+- name: Copy first page
+  template:
+    src: index.html.j2
+    dest: "{{ default_home }}/{{ vhost }}/index.html"
+    owner: root
+    group: root
+    mode: '0755'
+  notify:
+    - restart nginx
+
+- name: Copy vhost config file
+  template:
+    src: vhost.conf.j2
+    dest: "/etc/nginx/sites-available/{{ vhost }}.conf"
+    owner: root
+    group: root
+    mode: '0755'
+  notify:
+    - restart nginx 
+
+- name: NGINX. Enable virtualhost config
+  file:
+    src: "/etc/nginx/sites-available/{{ vhost }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ vhost }}.conf"
+    owner: root
+    group: root
+    state: link
+  notify: 
+    - restart nginx
+
+- name: Check connection to Localhost
+  wait_for:
+    host: localhost
+    port: "{{ http_port }}"
+    state: started
+    timeout: 3
+  register: out
+
+- name: print out
+  debug:
+    msg: "{{ out }}"
+
+- name: Templates
+  template:
+    src: "hosts.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  tags:
+  - tests
+
+- name: Check content to the sites
+  uri:
+    url: "http://{{ vhost }}:{{ http_port }}"
+    return_content: yes
+  register: this
+  failed_when: "'Hello!' not in this.content"
+  tags:
+  - tests
+
+- name: print out
+  debug:
+    msg: "{{ this }}"
+  tags:
+  - tests
+      
