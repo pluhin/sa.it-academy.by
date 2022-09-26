@@ -15,7 +15,7 @@ data:
     receivers:
     - name: slack_demo
       slack_configs:
-      - api_url: https://hooks.slack.com/services/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 
+      - api_url: https://hooks.slack.com/XXX
         channel: '#my-monitoring'
         title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
         text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
