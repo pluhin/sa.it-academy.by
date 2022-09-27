@@ -1,0 +1,42 @@
+name: k8s manifests validation
+
+on: push
+
+jobs:
+  list-manifests:
+    runs-on: ubuntu-latest
+    outputs:
+       matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.2
+      - id: set-matrix
+        run: echo "::set-output name=matrix::$(ls manifests/*.yaml | jq -R -s -c 'split("\n")[:-1]')" 
+  kubeval:
+     needs: list-manifests
+     runs-on: ubuntu-latest
+     strategy:
+         matrix:
+             manifest: ${{ fromJson(needs.list-manifests.outputs.matrix) }}
+     steps:
+       - uses: actions/checkout@v2.4.2     
+       - name: Validate manifests by kubeval 
+         uses: instrumenta/kubeval-action@master
+         with:
+           files: ${{ matrix.manifest }}
+  slackNotification:
+      needs: kubeval
+      runs-on: ubuntu-latest
+      steps:
+      - name: Slack Notify
+        uses: rtCamp/action-slack-notify@v2.2.0
+        env:
+          SLACK_CHANNEL: notifications
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_MESSAGE: '${{ job.status }} :rocket:'
+          SLACK_TITLE: Manifests validation (kubeval)
+          SLACK_USERNAME: rtCamp
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}          
+
+

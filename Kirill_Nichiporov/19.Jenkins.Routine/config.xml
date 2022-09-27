@@ -1,0 +1,64 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>3</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>IP_ADDR</name>
+          <description>Enter IP for test connection</description>
+          <defaultValue>192.168.207.134</defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>USERNAME</name>
+          <description>Enter username</description>
+          <defaultValue>root</defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.PasswordParameterDefinition>
+          <name>PASSWORD</name>
+          <description>Enter password</description>
+          <defaultValue>{AQAAABAAAAAQMOot8iiCt79NLmndFChoKq13PjCzUdYFzxl8Ge+kiog=}</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+echo &quot;######Start ping check######&quot;
+ping -c 3 $IP_ADDR 
+echo &quot;######Start SSH check######&quot;
+sshpass -p $PASSWORD ssh -o StrictHostKeyChecking=no $USERNAME@$IP_ADDR echo ok 2&gt;&amp;1
+echo &quot;######Install nmap######&quot;
+echo &quot;$PASSWORD&quot; | sudo -S apt install -y nmap
+echo &quot;######Checks all online hosts######&quot;
+nmap -sP $IP_ADDR/24 -oN nmap_host.log
+echo &quot;######Remove nmap######&quot;
+echo &quot;$PASSWORD&quot; | sudo -S apt purge -y nmap
+echo &quot;######Print list of collected/online hosts######&quot;
+cat nmap_host.log | grep &quot;Nmap scan&quot;</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
