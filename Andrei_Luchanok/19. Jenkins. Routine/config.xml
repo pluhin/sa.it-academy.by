@@ -1,0 +1,40 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.34">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+ssh jump_sa@178.124.206.53 &quot;nc -vnz 192.168.202.20 22&quot;
+if [ $? -eq 0 ]; then
+echo &quot;Host ON&quot;
+ssh ansib &quot;apt -y update \
+           &amp;&amp; echo &apos;###############install nmap###############&apos; \
+           &amp;&amp; apt -y install nmap \
+           &amp;&amp; echo &apos;###############start scanning lan###############&apos; \
+           &amp;&amp; nmap -sP 192.168.202.0/24 192.168.203.0/24 \
+           &amp;&amp; echo &apos;###############remove nmap###############&apos;  \
+           &amp;&amp; apt -y autoremove nmap&quot;
+else
+echo &quot;Host OFF - build not start&quot;
+fi</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
