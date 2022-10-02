@@ -1,0 +1,83 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1236.vc3a_d1602f439">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2114.v2654ca_721309"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2114.v2654ca_721309">
+      <jobProperties/>
+      <triggers>
+        <string>hudson.triggers.TimerTrigger</string>
+      </triggers>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.34">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <hudson.triggers.TimerTrigger>
+          <spec>H 02 * * 7</spec>
+        </hudson.triggers.TimerTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2759.v87459c4eea_ca_">
+    <script>pipeline {
+    agent { node { label &apos;slave&apos; } }
+    triggers {
+        cron(&apos;H 02 * * 7&apos;)
+    }
+    stages {
+		stage(&apos;Install_nmap&apos;) {
+            steps {
+				sh &apos;sudo apt-get install nmap -y&apos;
+            }
+        }
+        stage(&apos;NMAPpining&apos;) {
+            steps {
+                sh &apos;nmap -sP 192.168.1.1/24 -oN report.log &amp;&amp; echo &quot;\n\n&quot; &gt;&gt; report.log&apos;
+            }
+        }
+		stage(&apos;Install_speedtest&apos;) {
+            steps {
+				sh &apos;sudo apt-get install python3-pip -y&apos;
+				sh &apos;sudo pip3 install speedtest-cli&apos;
+            }
+        }
+        stage(&apos;Test speed&apos;) {
+            steps {
+                sh &apos;speedtest-cli --secure &gt;&gt; report.log&apos;
+            }
+        }
+        stage(&apos;Clone_git&apos;) {
+            steps {
+                withCredentials([usernamePassword(credentialsId: &apos;some_randome&apos;, usernameVariable: &apos;USER&apos;, passwordVariable: &apos;PASS&apos;)]) {
+                    script {
+                        env.encodedPass=URLEncoder.encode(PASS, &quot;UTF-8&quot;)
+                    }
+                    sh &apos;if [ -d  jenkins_as_code]; then rm -R jenkins_as_code; fi &amp;&amp; git clone https://${USER}:${encodedPass}@github.com/S-Stepanenko/jenkins_as_code.git&apos;
+                }
+            }
+        }
+        stage(&apos;Push_git&apos;) {
+            steps {
+                withCredentials([usernamePassword(credentialsId: &apos;some_randome&apos;, usernameVariable: &apos;USER&apos;, passwordVariable: &apos;PASS&apos;)]) {
+                    script {
+                        env.encodedPass=URLEncoder.encode(PASS, &quot;UTF-8&quot;)
+                    }
+                    sh &apos;DATE_TEST=&quot;$(date +&quot;%T; %D&quot;)&quot; &amp;&amp; cp report.log jenkins_as_code/report.log &amp;&amp; cd jenkins_as_code &amp;&amp; git config user.email &quot;carex83@gmail.com&quot; &amp;&amp; git config user.name &quot;Jenkins&quot; &amp;&amp; git add --all &amp;&amp; git commit -m &quot;$DATE_TEST&quot; &amp;&amp; git push https://${USER}:${encodedPass}@github.com/S-Stepanenko/jenkins_as_code.git&apos;
+                }
+            }
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
