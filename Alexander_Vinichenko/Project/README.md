@@ -29,6 +29,9 @@ CI pipeline is triggered by pushing commits in the main branch of alexv8888/proj
 
 
 ### Project links
+
 [Project](https://github.com/alexv8888/project)
+
 [Manifests](https://github.com/alexv8888/manifests)
+
 [Dockerhub](https://hub.docker.com/repository/docker/alexv8288/wordpress_app)
