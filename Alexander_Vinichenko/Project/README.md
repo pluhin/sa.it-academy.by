@@ -15,7 +15,7 @@
 
 ![pipeline](pipeline.jpg)
 
-###Technologies which were used in the project
+### Technologies which were used in the project
 
 - Orchestration: Kubernetes
 
