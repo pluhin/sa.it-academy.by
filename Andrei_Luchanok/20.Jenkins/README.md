@@ -10,4 +10,4 @@ In file [config.xml](config.xml)
 In file [report.txt](report.txt) 
 
 ## Jenkins end job:
-![alt text](figures/SUCCESS.png)
+![alt text](figures/SUCCESS.jpg)
