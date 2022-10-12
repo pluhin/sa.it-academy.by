@@ -1,0 +1,64 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.34">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@4.12.1">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>git@github.com:Luchik51/homework.git</url>
+        <credentialsId>jenkins_node</credentialsId>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="empty-list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>ssh jump_sa@178.124.206.53 &quot;nc -vnz 192.168.202.20 22&quot;
+                if [ $? -eq 0 ]; then
+                echo &quot;Host ON&quot;
+                ssh ansib &quot;apt -y update \
+                           &amp;&amp; echo &apos;###############install nmap###############&apos; \
+                           &amp;&amp; apt -y install nmap \
+                           &amp;&amp; echo &apos;###############install speedtest###############&apos; \
+                           &amp;&amp; apt -y install curl \
+                           &amp;&amp; curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash \
+                           &amp;&amp; apt -y install speedtest \
+                           &amp;&amp; echo &apos;###############start scanning lan###############&apos; \
+                           &amp;&amp; nmap -sP 192.168.202.0/24 192.168.203.0/24 &gt; report.txt \
+                           &amp;&amp; speedtest &gt;&gt; report.txt \
+                           &amp;&amp; echo &apos;###############remove nmap###############&apos;  \
+                           &amp;&amp; apt -y autoremove nmap&quot;
+                scp ansib:/root/report.txt .
+                else
+                echo &quot;Host OFF - build not start&quot;
+                fi
+scp ansib:/root/report.txt ./20.Jenkins
+git add --all
+git commit -m &quot;20.Jenkins report 2&quot;
+git push origin HEAD:master</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
