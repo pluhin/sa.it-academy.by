@@ -1,0 +1,63 @@
+---
+- name: install nginx
+  yum:
+    name: "{{ yum_http_packages }}"
+    state: present
+  tags:
+  - tests
+
+- name: nginx enable
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: enable firewall port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+- name: nginx restart
+  shell: "service nginx restart"
+
+- name: creating home directory
+  file:
+    path: "{{ default_home_cent }}/{{ item.name }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop: "{{ virtual_hosts_cent }}"
+
+- name: copying configuration template
+  template:
+    src: centos.j2
+    dest: "{{ nginx_default_confs }}/{{ item.name }}.conf"
+  loop: "{{ virtual_hosts_cent }}"
+- name: nginx restart
+  shell: "service nginx restart"
+
+- name: copy index.html
+  copy:
+    src: index.html
+    dest: "{{ default_home_cent }}{{ item.name }}/index.html"
+  loop: "{{ virtual_hosts_cent }}"
+- name: nginx restart
+  shell: "service nginx restart"
+
+- name: check index.html
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts_cent }}"
+  register: this
+  failed_when: "'Host' not in this.content"
+  tags:
+  - tests
+
+- name: print info
+  debug:
+    msg: "{{ this }}"
+  tags:
+  - tests
