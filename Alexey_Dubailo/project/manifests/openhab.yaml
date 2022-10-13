@@ -1,0 +1,98 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openhab
+  labels:
+    app: openhab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openhab
+  template:
+    metadata:
+      labels:
+        app: openhab
+    spec:
+      hostNetwork: true
+      securityContext:
+        fsGroup: 1000
+      containers:
+      - name: openhab
+        image: openhab/openhab:3.3.0-alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        - containerPort: 8443
+        - containerPort: 8101
+        volumeMounts:
+        - name: etc-localtime
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: openhab
+          mountPath: /openhab/conf
+          subPath: conf
+          readOnly: false
+        - name: openhab
+          mountPath: /openhab/userdata
+          subPath: userdata
+          readOnly: false
+        - name: openhab
+          mountPath: /openhab/addons
+          subPath: addons
+          readOnly: false
+        - name: openhab
+          mountPath: /openhab/.java
+          subPath: java
+          readOnly: false
+        - name: openhab
+          mountPath: /openhab/.karaf
+          subPath: karaf
+          readOnly: false      
+      volumes:
+        - name: etc-localtime
+          hostPath:
+            path: /usr/share/zoneinfo/Europe/Minsk
+        - name: openhab
+          hostPath:
+            path: /mnt/openhab/share
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: openhab
+  labels:
+    app: openhab
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+    - name: https
+      protocol: TCP
+      port: 8443
+    - name: console
+      port: 8101
+      protocol: TCP
+  selector:
+      app: openhab
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-openhab
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: openhab.k8s.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: openhab
+                port:
+                  number: 8080

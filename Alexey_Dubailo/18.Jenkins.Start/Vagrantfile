@@ -1,0 +1,57 @@
+$script = <<-SCRIPT
+apt update && apt upgrade -yqq && apt install -yqq openjdk-11-jdk wget git curl
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+echo deb https://pkg.jenkins.io/debian binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list
+apt update && apt install -yqq jenkins
+service jenkins stop
+#####################################
+echo 'JAVA_ARGS="-Djenkins.install.runSetupWizard=false"' >> /etc/default/jenkins
+rm -rf /var/lib/jenkins/init.groovy.d && mkdir /var/lib/jenkins/init.groovy.d
+cp -v /vagrant/01_AuthorizationStrategy.groovy /var/lib/jenkins/init.groovy.d/
+cp -v /vagrant/02_addUser.groovy /var/lib/jenkins/init.groovy.d/
+service jenkins start
+sleep 1m
+####################################
+JENKINSPWD=$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
+rm -f jenkins_cli.jar.*
+wget -q http://localhost:8080/jnlpJars/jenkins-cli.jar
+while IFS= read -r line
+do
+  list=$list' '$line
+done < /vagrant/jenkinsPlugins.txt
+java -jar ./jenkins-cli.jar -auth admin:$JENKINSPWD -s http://localhost:8080 install-plugin $list
+service jenkins restart
+sleep 1m
+####################################
+runuser -l jenkins -c 'echo -e "\n\n\n" | ssh-keygen -t rsa'
+runuser -l jenkins -c 'cat ~/.ssh/id_rsa'
+runuser -l jenkins -c 'cat ~/.ssh/id_rsa.pub'
+echo "Master ready!"
+SCRIPT
+
+
+Vagrant.configure("2") do |config|
+    # config.vm.box = "bento/ubuntu-20.04"
+    # config.vm.box = "rethinc-oss/ubuntu-2204"
+    # config.vm.box_version = "20220819"
+    config.vm.box = "roboxes/ubuntu2004"
+    config.vm.box_version = "4.1.12"
+    config.vm.define "Jenkins"
+    config.vm.network "public_network", ip: "10.44.44.20"
+    config.vm.provider :vmware_esxi do |esxi|
+        esxi.esxi_hostname = '10.10.10.10'
+        esxi.esxi_username = 'root'
+    #  IMPORTANT!  Set ESXi password.
+    #    1) 'prompt:'
+    #    2) 'file:'  or  'file:my_secret_file'
+    #    3) 'env:'  or 'env:my_secret_env_var'
+    #    4) 'key:'  or  key:~/.ssh/some_ssh_private_key'
+    #    5) or esxi.esxi_password = 'my_esxi_password'
+        esxi.esxi_password = '********' #secret_need_to_hide 
+        esxi.esxi_virtual_network = 'K8s_LAN'
+        esxi.esxi_disk_store = 'int_Sas-R6_4d'
+        esxi.guest_name = 'K8s_Jenkins'         
+    end
+    config.vm.provision "shell",
+        inline: $script
+end
