@@ -1,0 +1,235 @@
+Starting Nmap 7.80 ( https://nmap.org ) at 2022-10-12 21:54 UTC
+Nmap scan report for 192.168.202.1
+Host is up (0.00053s latency).
+MAC Address: A2:66:35:59:41:93 (Unknown)
+Nmap scan report for 192.168.202.2
+Host is up (0.00036s latency).
+MAC Address: 9A:18:AF:E1:12:12 (Unknown)
+Nmap scan report for 192.168.202.3
+Host is up (0.00037s latency).
+MAC Address: DA:61:71:65:98:3D (Unknown)
+Nmap scan report for 192.168.202.4
+Host is up (0.00040s latency).
+MAC Address: 0E:80:33:9D:53:77 (Unknown)
+Nmap scan report for 192.168.202.5
+Host is up (0.00035s latency).
+MAC Address: B2:7A:6E:5F:3A:E3 (Unknown)
+Nmap scan report for 192.168.202.6
+Host is up (0.00035s latency).
+MAC Address: 4A:8B:21:C1:E0:2E (Unknown)
+Nmap scan report for 192.168.202.7
+Host is up (0.00039s latency).
+MAC Address: 22:98:D3:B5:BF:8F (Unknown)
+Nmap scan report for 192.168.202.8
+Host is up (0.00044s latency).
+MAC Address: DA:AA:85:E3:44:28 (Unknown)
+Nmap scan report for 192.168.202.9
+Host is up (0.00034s latency).
+MAC Address: BA:B5:0C:22:B2:DE (Unknown)
+Nmap scan report for 192.168.202.10
+Host is up (0.00034s latency).
+MAC Address: 06:8C:C3:14:DA:2C (Unknown)
+Nmap scan report for 192.168.202.11
+Host is up (0.00032s latency).
+MAC Address: D2:04:FE:B0:E7:66 (Unknown)
+Nmap scan report for 192.168.202.12
+Host is up (0.00035s latency).
+MAC Address: 92:81:42:E4:DA:6A (Unknown)
+Nmap scan report for 192.168.202.13
+Host is up (0.00035s latency).
+MAC Address: E6:BF:4D:90:42:FC (Unknown)
+Nmap scan report for 192.168.202.14
+Host is up (0.00032s latency).
+MAC Address: 0A:A7:C5:A4:16:74 (Unknown)
+Nmap scan report for 192.168.202.15
+Host is up (0.00037s latency).
+MAC Address: 0A:2D:1D:17:86:A9 (Unknown)
+Nmap scan report for 192.168.202.16
+Host is up (0.00033s latency).
+MAC Address: D6:4C:C0:FA:A9:FF (Unknown)
+Nmap scan report for 192.168.202.17
+Host is up (0.00038s latency).
+MAC Address: 5A:E5:D1:9D:39:74 (Unknown)
+Nmap scan report for 192.168.202.18
+Host is up (0.00037s latency).
+MAC Address: 56:CE:93:35:CC:C1 (Unknown)
+Nmap scan report for local-cent.site (192.168.202.19)
+Host is up (0.00035s latency).
+MAC Address: FE:E8:78:4C:CA:3F (Unknown)
+Nmap scan report for 192.168.202.21
+Host is up (0.00034s latency).
+MAC Address: A2:B4:D1:CD:FF:30 (Unknown)
+Nmap scan report for 192.168.202.22
+Host is up (0.00040s latency).
+MAC Address: E6:77:58:C2:C9:E4 (Unknown)
+Nmap scan report for 192.168.202.23
+Host is up (0.00036s latency).
+MAC Address: C6:AA:95:E4:99:A2 (Unknown)
+Nmap scan report for 192.168.202.24
+Host is up (0.00035s latency).
+MAC Address: A6:51:18:61:28:E1 (Unknown)
+Nmap scan report for 192.168.202.25
+Host is up (0.00035s latency).
+MAC Address: 26:8E:65:6C:D2:A4 (Unknown)
+Nmap scan report for 192.168.202.26
+Host is up (0.00033s latency).
+MAC Address: 7E:65:6D:E9:B4:5E (Unknown)
+Nmap scan report for 192.168.202.27
+Host is up (0.00034s latency).
+MAC Address: F6:58:40:B7:B5:C3 (Unknown)
+Nmap scan report for 192.168.202.28
+Host is up (0.00035s latency).
+MAC Address: AA:3D:4D:E5:D0:C0 (Unknown)
+Nmap scan report for 192.168.202.29
+Host is up (0.00035s latency).
+MAC Address: 66:4E:00:04:BA:9C (Unknown)
+Nmap scan report for 192.168.202.30
+Host is up (0.00036s latency).
+MAC Address: BA:34:62:F9:CF:60 (Unknown)
+Nmap scan report for 192.168.202.31
+Host is up (0.00034s latency).
+MAC Address: D2:1F:05:3D:6C:D6 (Unknown)
+Nmap scan report for 192.168.202.32
+Host is up (0.00033s latency).
+MAC Address: 32:92:59:02:8D:88 (Unknown)
+Nmap scan report for 192.168.202.33
+Host is up (0.00035s latency).
+MAC Address: C6:A7:6E:CD:BD:36 (Unknown)
+Nmap scan report for 192.168.202.34
+Host is up (0.00034s latency).
+MAC Address: EE:5C:3C:43:57:E7 (Unknown)
+Nmap scan report for 192.168.202.35
+Host is up (0.00036s latency).
+MAC Address: 86:3F:EA:B9:B1:18 (Unknown)
+Nmap scan report for 192.168.202.36
+Host is up (0.00044s latency).
+MAC Address: EE:D5:EB:EA:87:0E (Unknown)
+Nmap scan report for 192.168.202.37
+Host is up (0.00036s latency).
+MAC Address: 9A:B3:0D:96:A2:CA (Unknown)
+Nmap scan report for 192.168.202.38
+Host is up (0.00034s latency).
+MAC Address: C6:4C:2D:4F:5C:47 (Unknown)
+Nmap scan report for 192.168.203.1
+Host is up (0.00024s latency).
+MAC Address: B2:8F:6F:1C:11:3A (Unknown)
+Nmap scan report for 192.168.203.2
+Host is up (0.00020s latency).
+MAC Address: 3A:15:3A:04:E1:FB (Unknown)
+Nmap scan report for 192.168.203.3
+Host is up (0.00041s latency).
+MAC Address: 2A:1E:1C:03:9D:E2 (Unknown)
+Nmap scan report for 192.168.203.4
+Host is up (0.00039s latency).
+MAC Address: C2:51:0B:17:8B:CC (Unknown)
+Nmap scan report for 192.168.203.5
+Host is up (0.00050s latency).
+MAC Address: BA:47:50:FF:7B:0E (Unknown)
+Nmap scan report for 192.168.203.6
+Host is up (0.00065s latency).
+MAC Address: 96:15:F6:97:A2:AB (Unknown)
+Nmap scan report for 192.168.203.7
+Host is up (0.00042s latency).
+MAC Address: E2:31:0A:BA:87:3D (Unknown)
+Nmap scan report for 192.168.203.8
+Host is up (0.00039s latency).
+MAC Address: 82:23:06:BA:51:A8 (Unknown)
+Nmap scan report for 192.168.203.9
+Host is up (0.00035s latency).
+MAC Address: 72:8E:9A:5B:19:CF (Unknown)
+Nmap scan report for 192.168.203.10
+Host is up (0.00033s latency).
+MAC Address: 8A:36:AD:C1:63:AE (Unknown)
+Nmap scan report for 192.168.203.11
+Host is up (0.00044s latency).
+MAC Address: AE:2B:1D:3E:CB:20 (Unknown)
+Nmap scan report for 192.168.203.12
+Host is up (0.00044s latency).
+MAC Address: 0A:72:9A:C5:19:20 (Unknown)
+Nmap scan report for 192.168.203.13
+Host is up (0.00049s latency).
+MAC Address: 82:1A:EE:F1:36:E5 (Unknown)
+Nmap scan report for 192.168.203.14
+Host is up (0.00048s latency).
+MAC Address: E6:11:77:48:89:12 (Unknown)
+Nmap scan report for 192.168.203.15
+Host is up (0.00041s latency).
+MAC Address: CE:1C:2E:8F:12:2D (Unknown)
+Nmap scan report for 192.168.203.16
+Host is up (0.00049s latency).
+MAC Address: E6:82:84:A2:FF:B3 (Unknown)
+Nmap scan report for 192.168.203.17
+Host is up (0.00046s latency).
+MAC Address: 8E:06:1B:F7:67:E9 (Unknown)
+Nmap scan report for 192.168.203.18
+Host is up (0.00044s latency).
+MAC Address: B2:AC:6B:B1:17:9E (Unknown)
+Nmap scan report for 192.168.203.19
+Host is up (0.00016s latency).
+MAC Address: 42:3D:10:D7:EC:2C (Unknown)
+Nmap scan report for 192.168.203.20
+Host is up (0.00015s latency).
+MAC Address: 2A:32:07:36:EE:90 (Unknown)
+Nmap scan report for 192.168.203.21
+Host is up (0.00031s latency).
+MAC Address: AE:00:B9:BE:04:A0 (Unknown)
+Nmap scan report for 192.168.203.22
+Host is up (0.00035s latency).
+MAC Address: 92:F9:6E:6F:72:BB (Unknown)
+Nmap scan report for 192.168.203.23
+Host is up (0.00046s latency).
+MAC Address: D2:FC:8D:BC:2F:55 (Unknown)
+Nmap scan report for 192.168.203.24
+Host is up (0.00050s latency).
+MAC Address: 52:87:BA:B6:30:88 (Unknown)
+Nmap scan report for 192.168.203.25
+Host is up (0.00028s latency).
+MAC Address: C6:5A:07:67:E3:BF (Unknown)
+Nmap scan report for 192.168.203.26
+Host is up (0.00016s latency).
+MAC Address: BA:FD:CE:85:1E:11 (Unknown)
+Nmap scan report for 192.168.203.27
+Host is up (0.00017s latency).
+MAC Address: D2:80:8B:68:C9:65 (Unknown)
+Nmap scan report for 192.168.203.28
+Host is up (0.00016s latency).
+MAC Address: 0A:E3:47:FB:C3:63 (Unknown)
+Nmap scan report for 192.168.203.29
+Host is up (0.00023s latency).
+MAC Address: E6:26:4B:66:2C:0C (Unknown)
+Nmap scan report for 192.168.203.30
+Host is up (0.00022s latency).
+MAC Address: F2:1B:0B:E7:F7:38 (Unknown)
+Nmap scan report for 192.168.203.31
+Host is up (0.00013s latency).
+MAC Address: 46:15:16:B2:14:4A (Unknown)
+Nmap scan report for 192.168.203.32
+Host is up (0.00022s latency).
+MAC Address: A2:C0:03:EA:F6:3A (Unknown)
+Nmap scan report for 192.168.203.33
+Host is up (0.00029s latency).
+MAC Address: 0E:31:79:30:7D:04 (Unknown)
+Nmap scan report for 192.168.203.34
+Host is up (0.00031s latency).
+MAC Address: 76:67:22:A3:09:EE (Unknown)
+Nmap scan report for 192.168.203.37
+Host is up (0.00017s latency).
+MAC Address: BE:CC:C5:3C:B1:7C (Unknown)
+Nmap scan report for 192.168.203.38
+Host is up (0.00017s latency).
+MAC Address: AE:F9:F0:33:87:32 (Unknown)
+Nmap scan report for local-deb.site (192.168.202.20)
+Host is up.
+Nmap done: 512 IP addresses (74 hosts up) scanned in 1.61 seconds
+
+   Speedtest by Ookla
+
+      Server: A1 - Minsk (id: 27486)
+         ISP: COSMOS Telecom
+Idle Latency:     0.72 ms   (jitter: 0.25ms, low: 0.54ms, high: 0.91ms)
+    Download:   879.66 Mbps (data used: 570.3 MB)                                                   
+                 40.13 ms   (jitter: 47.27ms, low: 0.77ms, high: 318.56ms)
+      Upload:   927.81 Mbps (data used: 1.2 GB)                                                   
+                  1.96 ms   (jitter: 8.72ms, low: 0.58ms, high: 215.97ms)
+ Packet Loss:     1.0%
+  Result URL: https://www.speedtest.net/result/c/66525a74-613e-4a95-9637-28667f5a5fbb
