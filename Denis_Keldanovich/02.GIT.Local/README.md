@@ -1,3 +1,5 @@
+# 02.GIT.Local###
+```bash
   667  mkdir local_repository
   668  cd local_repository/
   669  git init
@@ -76,4 +78,4 @@
   742  git branch
   743  git merge hotfix/we_gonna_die
   744  ls
- 
+``` 
