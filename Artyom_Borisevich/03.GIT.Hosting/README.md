@@ -16,6 +16,9 @@ for (const repo of reposArray) {
 }
 ```
 
+![script](Script.png)
+
+
 ## Slack
 
 ![slack](Slack.png)
