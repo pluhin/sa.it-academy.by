@@ -1,76 +1,148 @@
 02.GIT.local
 -------------
+## add 2 commits in master
 ```bash
     $ history 
-    1  mkdir test02
-    2  cd /test02
-    3  cd test02
-    4  git init
-    5  config user.name "Haroshka"
-    6  ls -la
-    7  git config user.name "Haroshka"
-    8  git config user.email "vargosclash@gmail.com"
-    9  ls -la
-   10  nano .git/config 
-   11  git add.
-   12  git add.gitkeep
-   13  git commit -m "created test02"
-   14  git add file.txt
-   15  nano file1.txt
-   16  ls -la
-   17  nano file1.txt
-   18  ls -la
-   19  git add file1.txt
-   20  ls -la
-   21  git commit -m "file added, named file1"
-   22  git checkout -b dev
-   23  git log
-   24  ls -la
-   25  mkdir dev
-   26  cd dev
-   27  ls -la
-   28  nano dev1.txt
-   29  nano dev2.txt
-   30  ls -la
-   31  git commit -m "created folder to dev branch"
-   32  git commit -m "add 2 file in folder dev, the file dev1 dev2"
-   33  git checkout -d features/do_one
-   34  git checkout -b features/do_one
-   35  nano features/do_one.txt
-   36  git log
-   37  nano features/do_one.txt
-   38  mrdir features/do_one
-   39  mrdir features_do_one
-   40  mrdir features1
-   41  mkdir features_do_one
-   42  ls -la
-   43  nano
-   44  git log
-   45  git checkout -b features/do_one
-   46  git checkout -b features/do_one
-   47  mkdir featur
-   48  git checkout -b features/do_one
-   49  git checkout - features/do_one
-   50  git checkout -
-   51  git checkout - features/do_one
-   52  git checkout -b features/do_one
-   53  git branch features/do_one
-   54  cd features/do_one
-   55  git add features/do_one
-   56  cat features/do_one
-   57  git pull
-   58  git checkout -b features/do_one
-   59  git -r features/do_one
-   60  git checkout
-   61  git checkout features/do_one
-   62  git branch -a
-   63  git status
-   64  nano file.txt
-   65  git commit -m "create new branch features/do_one"
-   66  git checkout master
-   67  git checkout -b hotfix/we_gonna_die
-   68  git commit -m "created new branch hotfix/we_gonna_die"
-   69  git checkout master
-   70  git branch -a
-   71  history
-```   
+   1  git init 
+    2  git config user.name "Haroshka"
+    3  ls -la
+    4  git config user.email "vargosclash@gmail.com"
+    5  git add .
+    6  git commit -m "created test02"
+    7  git add .
+    8  git commit -m "add file"
+```
+## add 2 commits in dev
+```bash
+   9  git checkout -b dev
+   10  git add .
+   11  git commit -m "add file name dev"
+   12  git add .
+   13  git commit -m "change file dev"
+```
+## add commit in features/do_one
+```bash
+   14  git checkout -b features/do_one
+   15  git add .
+   16  git commit -m "add file features/do_one"
+```
+## add commit in hotfix/we_gonna_die
+```bash
+   17  git checkout master
+   18  git checkout -b hotfix/we_gonna_die
+   19  git add .
+   20  git commit -m "add file hotfix/we_gonna_die"
+```
+```bash
+   21  git checkout master
+   22  git merge dev
+   23  git reset HEAD~
+   24  git reset HEAD~
+   25  git add .
+   26  git commit -c ORIG_HEAD
+   27  git commit -c ORIG_HEAD
+   28  git reset --hard HEAD~1
+```
+## merge features/do_one to dev
+```bash
+   29  git checkout dev
+   30  history
+   31  git merge features/do_one
+```
+## merge dev to master
+```bash
+   32  git checkout master
+   33  git merge dev
+   34  git log --oneline
+```
+## second task
+```bash 
+   35  git checkout dev
+   36  git log --oneline
+   37  git checkout features/do_one
+   38  git log --oneline
+   39  git checkout hotfix/we_gonna_die
+   40  git log --oneline
+   41  git checkout master
+   42  git merge hotfix/we_gonna_die
+   43  git log --oneline
+   44  git checkout dev
+   45  git rebase master
+   46  git log --oneline
+   47  git checkout features/do_one
+   48  git log --oneline
+   49  git rebase dev
+   50  git log --oneline
+   51  history
+``` 
+Play of the situations number 1
+-------------
+## master
+```bash
+$ git log --oneline
+f30d1cf (HEAD -> master, features/do_one, dev) add file features/do_one
+cfdc236 change file dev
+41b3600 add file name dev
+98704e4 add file
+74058ee created test02
+```
+## dev
+```bash
+$ git log --oneline 
+f30d1cf (HEAD -> dev, master, features/do_one) add file features/do_one
+cfdc236 change file dev
+41b3600 add file name dev
+98704e4 add file
+74058ee created test02
+```
+## features/do_one
+```bash
+$ git log --oneline
+f30d1cf (HEAD -> features/do_one, master, dev) add file features/do_one
+cfdc236 change file dev
+41b3600 add file name dev
+98704e4 add file
+74058ee created test02
+```
+## hotfix/we_gonna_die
+```bash
+$ git log --oneline
+0d4e2e8 (HEAD -> hotfix/we_gonna_die) add file hotfix/we_gonna_die
+98704e4 add file
+74058ee created test02
+```
+Play of the situations number 2
+-------------
+## master
+```bash
+$ git log --oneline 
+2e124bf (HEAD -> master) Merge branch 'hotfix/we_gonna_die'
+0d4e2e8 (hotfix/we_gonna_die) add file hotfix/we_gonna_die
+f30d1cf (features/do_one, dev) add file features/do_one
+cfdc236 change file dev
+41b3600 add file name dev
+98704e4 add file
+74058ee created test02
+```
+## dev
+```bash
+$ git log --oneline 
+2e124bf (HEAD -> dev, master) Merge branch 'hotfix/we_gonna_die'
+0d4e2e8 (hotfix/we_gonna_die) add file hotfix/we_gonna_die
+f30d1cf (features/do_one) add file features/do_one
+cfdc236 change file dev
+41b3600 add file name dev
+98704e4 add file
+74058ee created test02
+```
+## features/do_one
+```bash
+$ git log --oneline 
+2e124bf (HEAD -> features/do_one, master, dev) Merge branch 'hotfix/we_gonna_die'
+0d4e2e8 (hotfix/we_gonna_die) add file hotfix/we_gonna_die
+f30d1cf add file features/do_one
+cfdc236 change file dev
+41b3600 add file name dev
+98704e4 add file
+74058ee created test02
+```
