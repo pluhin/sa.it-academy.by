@@ -15,7 +15,6 @@
 
 ## Script
 
-# Script
 
 ```bash
 #!/bin/bash
@@ -31,7 +30,7 @@ done
 
 ```
 
-# Output
+## Output
 
 ```bash
 Enter text for commit: Homework.v.0.5
