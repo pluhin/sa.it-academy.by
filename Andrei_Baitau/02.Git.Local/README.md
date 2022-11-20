@@ -1,4 +1,4 @@
-### GIT LOCAL
+# GIT LOCAL
 
 ## Full history
 
@@ -71,7 +71,7 @@
   202  git log --oneline
 ```
 
-# Master commits (after play2)
+### Master commits (after play2)
 
 ```bash
 17b00f2 (HEAD -> master, features/do_one, dev) Merge branch 'hotfix/we_gonna_die'
@@ -83,7 +83,7 @@ f1c4aa3 The first commit in dev
 95f1fa8 The first commit in master
 ```
 
-# dev commits (after play2)
+### dev commits (after play2)
 ```bash
 17b00f2 (HEAD -> dev, master, features/do_one) Merge branch 'hotfix/we_gonna_die'
 44a6633 (hotfix/we_gonna_die) Commit in hotfix/we_gonna_die
@@ -94,7 +94,7 @@ f1c4aa3 The first commit in dev
 95f1fa8 The first commit in master
 ```
 
-# feature/do_one (after play2)
+### feature/do_one (after play2)
 
 ```bash
 17b00f2 (HEAD -> features/do_one, master, dev) Merge branch 'hotfix/we_gonna_die'
@@ -106,7 +106,7 @@ f1c4aa3 The first commit in dev
 95f1fa8 The first commit in master
 ```
 
-# hotfix commits
+### hotfix commits
 
 ```bash
 44a6633 (HEAD -> hotfix/we_gonna_die) Commit in hotfix/we_gonna_die
@@ -114,7 +114,7 @@ f1c4aa3 The first commit in dev
 95f1fa8 The first commit in master
 ```
 
-# Play 2 commands 
+## Play 2 commands 
    
 ```bash
     git checkout master 
@@ -127,7 +127,7 @@ f1c4aa3 The first commit in dev
 
 ## Play 1 
 
-# History
+### History
 
 ```bash
   186  git checkout master
@@ -135,7 +135,7 @@ f1c4aa3 The first commit in dev
   188  git log --oneline
 ```
 
-# Master commits 
+### Master commits 
 
 ```bash
 fb87457 (HEAD -> master, features/do_one) Commit in features/do_one
@@ -147,14 +147,14 @@ f1c4aa3 The first commit in dev
 
 ## Before play
 
-# master commits
+### master commits
 
 ```bash
 843745e (HEAD -> master) The second commit in master
 95f1fa8 The first commit in master
 ```
 
-# dev commits
+### dev commits
 
 ```bash
 e79845f (HEAD -> dev) The second commit in dev
@@ -163,7 +163,7 @@ f1c4aa3 The first commit in dev
 95f1fa8 The first commit in master
 ```
 
-# feature/do_one commits
+### feature/do_one commits
 
 ```bash
 fb87457 (HEAD -> features/do_one) Commit in features/do_one
@@ -173,7 +173,7 @@ f1c4aa3 The first commit in dev
 95f1fa8 The first commit in master
 ```
 
-# hotfix/we_gonna_die commits
+### hotfix/we_gonna_die commits
 
 ```bash
 44a6633 (HEAD -> hotfix/we_gonna_die) Commit in hotfix/we_gonna_die
@@ -183,7 +183,7 @@ f1c4aa3 The first commit in dev
 
 ## Additional commit in hotfix/we_gonna_die for cherry-pick later
 
-#history
+### history
 
 ```bash
   246  touch additional.txt
@@ -200,7 +200,7 @@ f1c4aa3 The first commit in dev
   257  git log --oneline
 ```
 
-#Commits in hotfix/we_gonna_die
+### Commits in hotfix/we_gonna_die
 
 ```bash
 5c2ba29 (HEAD -> hotfix/we_gonna_die) Additional commit in hotfix/we_gonna_die
@@ -209,7 +209,7 @@ f1c4aa3 The first commit in dev
 95f1fa8 The first commit in master
 ```
 
-#Commits in master
+### Commits in master
 
 ```bash
 9219d87 (HEAD -> master) Additional commit in hotfix/we_gonna_die
