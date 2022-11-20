@@ -11,7 +11,7 @@
 
 ## Slack/email integration
 
-![script](slack.png)
+![script](image.png)
 
 ## Script
 
