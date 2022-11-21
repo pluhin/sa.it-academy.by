@@ -22,4 +22,5 @@ done
 ```
 
 #### Slack integration
+![image](https://user-images.githubusercontent.com/60076685/203067145-480fe349-58fe-4e2c-8c5d-c80c8021b187.png)
 
