@@ -29,11 +29,11 @@
 
 ## Urls Github, Gitlab, Bitbucket
 
-GitHub (https://github.com/Pavel167988/03GitHosting/tree/master)
+GitHub (https://github.com/Pavel167988/03GitHosting/tree/master);
 
-GitLab (https://gitlab.com/Pavel167988/githosting/-/tree/master)
+GitLab (https://gitlab.com/Pavel167988/githosting/-/tree/master);
 
-BitBucket (https://bitbucket.org/pavelogs/3githosting/src/master)
+BitBucket (https://bitbucket.org/pavelogs/3githosting/src/master);
 
 
 
