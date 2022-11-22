@@ -65,6 +65,7 @@ CLI History
     
 Release phase
 ------
+### Merge phase
 
     1  git branch 
     2  git merge dev
@@ -73,7 +74,7 @@ Release phase
     5  git merge features/do_one 
     6  git status
  
-# Hotfix phase
+### Hotfix phase
 
     1 git branch 
     2 git log --oneline 
@@ -88,6 +89,7 @@ Release phase
     
 logs
 ------
+### cli
 
     1  git branch 
     2  git checkout master 
@@ -98,7 +100,8 @@ logs
     7  git log --oneline 
     8  git checkout hotfix/we_gonna_die 
     9  git log --oneline 
-# list commits
+
+### list commits
     e_solovey@nss:~/test-repository$ git branch
     dev
     features/do_one
@@ -152,16 +155,3 @@ logs
     ce44bbe added datafile
     c516ec6 added folder
     e_solovey@nss:~/test-repository$
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
->>>>>>> ccf28c86 (add 02.Git.local/README.md)
