@@ -1,7 +1,7 @@
-<<<<<<< HEAD
-=======
-    # 02.GIT.Local
-    Alt-CLI History
+02.GIT.Local
+======
+CLI History
+------
     1  git init
     2  mkdir 02.Git.Local
     3  cd 02.Git.Local/
@@ -62,14 +62,19 @@
     58 echo hotfix-test >> /home/e_solovey/test-repository/02.Git.Local/hotfix_data.txt
     59 git add --all
     60 git commit -m "added hotfix_data"
-    # Alt-Release phase
+    
+Release phase
+------
+
     1  git branch 
     2  git merge dev
     3  git branch 
     4  git log --oneline 
     5  git merge features/do_one 
-    6  git status 
-    # Alt-Hotfix phase
+    6  git status
+ 
+# Hotfix phase
+
     1 git branch 
     2 git log --oneline 
     3 git checkout master 
@@ -80,7 +85,10 @@
     8 git checkout features/do_one 
     9 git cherry-pick 43240f9
     10 git log --oneline
-    # Alt-logs
+    
+logs
+------
+
     1  git branch 
     2  git checkout master 
     3  git log --oneline 
@@ -90,13 +98,15 @@
     7  git log --oneline 
     8  git checkout hotfix/we_gonna_die 
     9  git log --oneline 
-    #
+# list commits
     e_solovey@nss:~/test-repository$ git branch
     dev
     features/do_one
     hotfix/we_gonna_die
     * master
-    #### master
+
+### master
+
     e_solovey@nss:~/test-repository$ git log --oneline
     68ee0f6 (HEAD -> master) report 02.GIT.Local.md
     2d81aac end work
@@ -106,7 +116,9 @@
     8b6e1bc added dev_datafile
     ce44bbe added datafile
     c516ec6 added folder
-    #### dev
+
+### dev
+
     e_solovey@nss:~/test-repository$ git checkout dev
     Switched to branch 'dev'
     e_solovey@nss:~/test-repository$ git log --oneline
@@ -115,7 +127,9 @@
     8b6e1bc added dev_datafile
     ce44bbe added datafile
     c516ec6 added folder
-    #### features/do_one
+
+### features/do_one
+
     e_solovey@nss:~/test-repository$ git checkout features/do_one
     Switched to branch 'features/do_one'
     e_solovey@nss:~/test-repository$ git log --oneline
@@ -125,7 +139,9 @@
     8b6e1bc added dev_datafile
     ce44bbe added datafile
     c516ec6 added folder
-    #### hotfix/we_gonna_die
+
+### hotfix/we_gonna_die
+
     e_solovey@nss:~/test-repository$ git checkout hotfix/we_gonna_die
     Switched to branch 'hotfix/we_gonna_die'
     e_solovey@nss:~/test-repository$ git log --oneline
