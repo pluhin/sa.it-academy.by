@@ -13,8 +13,8 @@
 ```
 
 ### Link to GitHub and GitLab
-* [GitHub](https://gitlab.com/mhryhoryeu/git-hosting)
-* [GitLab](https://github.com/mhryhoryeu/git-hosting)
+* [GitHub](https://github.com/mhryhoryeu/git-hosting)
+* [GitLab](https://gitlab.com/mhryhoryeu/git-hosting)
 
 
 ### Script
