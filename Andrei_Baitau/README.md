@@ -6,5 +6,6 @@ Belarus, Minsk
 
 20 Years old
 
-E-mail: baitovandrei@gmail.com
+E-mail: baitovandrei@gmail.com 
+<br/>
 [Telegram: @baitovandrei](t.me/baitovandrei)
