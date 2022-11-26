@@ -8,4 +8,4 @@ Belarus, Minsk
 
 E-mail: baitovandrei@gmail.com 
 <br/>
-[Telegram: @baitovandrei](t.me/baitovandrei)
+Telegram: [@baitovandrei](t.me/baitovandrei)
