@@ -1,6 +1,6 @@
 # 04.GitOps
 
-[Repo](https://github.com/AndreiBaitau/sa2-22-22-git)
+[GitHub Repo](https://github.com/AndreiBaitau/sa2-22-22-git)
 
 [Git Action](https://github.com/AndreiBaitau/sa2-22-22-git/actions/runs/3555602061)
 
