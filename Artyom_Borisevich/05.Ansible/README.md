@@ -1,5 +1,20 @@
 # 05. Ansible.start
 
+## Install ansible, ansible-core minimum 2.13
+
+```bash 
+artem@serverart:~/sa.it-academy.by/Artyom_Borisevich/05.Ansible$ ansible --version
+ansible [core 2.13.6]
+  config file = /home/artem/sa.it-academy.by/Artyom_Borisevich/05.Ansible/ansible.cfg
+  configured module search path = ['/home/artem/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  ansible collection location = /home/artem/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible
+  python version = 3.10.6 (main, Nov  2 2022, 18:53:38) [GCC 11.3.0]
+  jinja version = 3.0.3
+  libyaml = True
+```
+
 ## Setup your ssh environment to work with hosts in it-academy datacenter
 
 
