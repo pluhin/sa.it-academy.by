@@ -13,7 +13,8 @@ ansible 2.9.6
  ```
 
 
-## config.cfg```bash
+## config.cfg
+```bash
 [defaults]
 inventory      = ./host.yaml
 # remote_tmp     = /tmp/.ansible/tmp
