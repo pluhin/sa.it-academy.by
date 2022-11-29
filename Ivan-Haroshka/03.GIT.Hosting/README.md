@@ -22,6 +22,7 @@
 
 ## GITHIB, GITLUB
 Github (https://github.com/Haroshka/sa.it-academy.by.git)
+
 Gitlab (https://gitlab.com/Haroshka/03.git.hosting.git)
 
 ## Script
@@ -37,4 +38,4 @@ done
 ## Slack
 |screenshot|
 | :------------ |
-|[git remote -v](https://ibb.co/s5sBWTF)|
+|[Slack](https://ibb.co/s5sBWTF)|
