@@ -9,6 +9,7 @@ on:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Install netcat
         run: sudo apt update && sudo apt install -y netcat
@@ -20,4 +21,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: nc_report.log
-        -run: echo "report has been created"
+          - run: echo "report has been created"
