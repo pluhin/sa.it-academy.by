@@ -3,8 +3,8 @@ name: test yml file for github check tabs
 on:
   push:
     branches:
-      - md-sa2-22-22
-
+      - origin/md-sa2-22-22
+        
 
 jobs:
   prepare:
