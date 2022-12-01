@@ -1,6 +1,3 @@
-# PIPELINE
-## GitOpsAction
-```yml
 name: count tab
 
 on:
@@ -31,7 +28,3 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: count.log
-```
-
-[GitAction](https://github.com/frame0310/git_/actions/runs/3596176574)
-[GitRepo](https://github.com/frame0310/git_)
