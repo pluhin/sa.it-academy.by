@@ -1,28 +1,23 @@
 name: GitOps
 
-on: pull_request
+on:
+  push:
+    branches:
+    - master
+    - second
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  prepare:
+    runs-on: [ubuntu-latest]
     steps:
-      - name: pull modified files
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v34
-
-      - name: Count tabs in changed files
-        run: |
-           for file in ${{ steps.changed-files.outputs.all_changed_and_modified_files }}; do
-             echo "$file was changed"
-             echo "Tab count in ${file} is $(grep -c $'\t' ${file})" >> report.log
-           done
+      - name: Install netcat
+        run: sudo apt update && sudo apt install -y netcat
+      - run: echo "netcat has been installed"
+      - run: |
+          nc -z -v -w2 onliner.by 443 > nc_report.log 2>&1
+          touch /tmp/file.log
+          ls -la
       - name: Upload report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
-          path: report.log
+          path: nc_report.log
