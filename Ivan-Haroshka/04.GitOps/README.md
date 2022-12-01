@@ -1,5 +1,5 @@
-### File
-```bash
+### File yaml
+```yaml
 name: GitOps
 
 on: pull_request
@@ -29,3 +29,13 @@ jobs:
         with:
           path: report.log
 ```
+### My Repository
+https://github.com/Haroshka/github-ci
+
+### Build
+https://github.com/Haroshka/github-ci/actions/runs/3592851522/jobs/6049062948
+
+### Completion report
+
+Tab count in 2.txt is 0
+Tab count in 3.txt is 0
