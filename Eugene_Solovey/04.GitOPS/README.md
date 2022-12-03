@@ -1,12 +1,12 @@
 # 04.GitOps
 
-##links
+## links
 
 [Repository](https://github.com/Eugene-Solovey/local-repository)
 
 [GitHub action](https://github.com/Eugene-Solovey/local-repository/actions/runs/3610202066)
 
-##Github action find_tab file
+## Github action find_tab file
 ```bash
 name: tabs in files
 
@@ -37,7 +37,7 @@ jobs:
         with:
           path: report.log
 ```
-##Task report
+## Task report
 ```bash
 Quantity tabs in .github/workflows/find_tab.yaml is 30
 ```	
