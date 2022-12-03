@@ -37,6 +37,7 @@ jobs:
         with:
           path: report.log
 ```
+
 ## Task report
 ```bash
 Quantity tabs in .github/workflows/find_tab.yaml is 30
