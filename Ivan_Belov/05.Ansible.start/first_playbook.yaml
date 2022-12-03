@@ -9,10 +9,9 @@
   - name: Mount point
     debug:
       msg:
-        - "Mount point: {{ item.mount }}"
-        - "Capacity: {{ (item.size_total / 1024 / 1024) | round }} Mb"
-        - "Used: {{ ((item.size_total-item.size_available) / 1024 / 1024)|round }} Mb"
-    with_items: "{{ansible_mounts}}"
+        - "Mount point: {{ ansible_mounts.0.mount }}"
+        - "Capacity: {{ (ansible_mounts.0.size_total / 1024 / 1024) | round }} Mb"
+        - "Used: {{ ((ansible_mounts.0.size_total-ansible_mounts.0.size_available) / 1024 / 1024)|round }} Mb"
   - name: RAM info
     debug:
       msg:
