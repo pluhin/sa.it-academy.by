@@ -1,0 +1,61 @@
+- hosts: dbs
+  vars:
+    domain_1: "{{ domain1 | default('first.com') }}"
+    domain_2: "{{ domain2 | default('second.com') }}"
+  pre_tasks:
+  - name: Validate
+    debug:
+      msg:
+       - "first site: {{ domain_1 }}"
+       - "second site: {{ domain_2 }}"    
+  tasks:
+    - name: Add redirect to hosts file
+      ansible.builtin.shell: |
+        grep -E "{{ domain_1 }}" /etc/hosts || echo "127.0.0.1 {{ domain_1 }}" >> /etc/hosts;
+        grep -E "{{ domain_2 }}" /etc/hosts || echo "127.0.0.1 {{ domain_2 }}" >> /etc/hosts;
+    - name: Display the file
+      shell: cat /etc/hosts
+      register: displaylist
+
+    - debug: msg="{{displaylist.stdout_lines}}"
+      
+    - name: ensure nginx is at the latest version
+      apt: name=nginx state=latest
+    - name: start nginx
+      service:
+          name: nginx
+          state: started
+    - name: copy the nginx config file and restart nginx
+      copy:
+        src: /home/artem/06.Ansible.workshop/nginx.conf
+        dest: /etc/nginx/sites-available/nginx.conf
+    - name: create symlink
+      file:
+        src: /etc/nginx/sites-available/nginx.conf
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+    - name: copy the content of the web site
+      copy:
+        src: /home/artem/06.Ansible.workshop/html/
+        dest: /var/www/html
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+    - name: Check page, status 200
+      ansible.builtin.uri:
+        url: http://{{ item }}
+        return_content: yes
+      register: call
+      failed_when: "'ANSIBLE' not in call.content"
+      with_items:
+         - "{{ domain_1 }}"
+         - "{{ domain_2 }}"
+    - name: Check content 
+      ansible.builtin.debug:
+        msg: "{{ item.content }}"
+      with_items: "{{ call.results }}"    
+
+
+
+   
