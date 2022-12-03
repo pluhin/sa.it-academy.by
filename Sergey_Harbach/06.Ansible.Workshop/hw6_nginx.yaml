@@ -1,0 +1,102 @@
+---
+- name: Group of hosts
+  hosts: work_sa
+  gather_facts: true
+  vars:
+    website: ['first.loc','second.loc']
+  tasks:
+
+  - name: Update the repository cache and update package "nginx" to latest version
+    ansible.builtin.apt:
+      name: nginx
+      state: latest
+      update_cache: true # yes changed to true . Linter recommendation
+    environment:
+      DEBIAN_FRONTEND: noninteractive
+
+  - name: Check nginx version
+    ansible.builtin.command: nginx -v
+    register: nginx_v
+
+  - name: Show nginx version
+    ansible.builtin.debug:
+      msg: "{{ nginx_v.stderr }}"
+
+  - name: Check nginx status
+    ansible.builtin.shell: systemctl status nginx
+    register: nginx_status
+
+  - name: Show nginx status
+    ansible.builtin.debug:
+      msg: "{{ nginx_status.stdout_lines[2] }}"
+
+  - name: Create folders for each site with owner www-data
+    ansible.builtin.file:
+      path: "/var/www/{{ item }}/html"
+      owner: www-data
+      group: www-data
+      mode: 0755
+      state: directory
+    loop:
+        "{{ website }}"
+
+  - name: Change owner www catalog and subfolders recursive
+    ansible.builtin.file:
+      path: "/var/www"
+      owner: www-data
+      group: www-data
+      mode: 0755
+      state: directory
+      recurse: true
+
+  - name: Create config file with templates
+    ansible.builtin.template:
+      src: ./config.nginx.j2
+      dest: /etc/nginx/sites-available/{{ item }}
+    loop:
+      "{{ website }}"
+
+  - name: Create index.html for each sites using templates
+    ansible.builtin.template:
+      src: ./index.html.j2
+      dest: /var/www/{{ item }}/html/index.html
+    loop:
+      "{{ website }}"
+
+  - name: Enable virtual host
+    ansible.builtin.shell: |
+      ln -s /etc/nginx/sites-available/{{ item }} /etc/nginx/sites-enabled/
+    loop:
+      "{{ website }}"
+    failed_when: false # newer failed. if link existing - no changes.
+
+  - name: Restart Nginx service
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
+      enabled: true
+
+  - name: Modify local hosts file
+    ansible.builtin.shell: | # if not exist - add. if exist - no changes.
+      if ! grep -q '127.0.0.1 {{ item }}' /etc/hosts; then echo "127.0.0.1 {{ item }} {{ 'www.' + item }}" >> /etc/hosts; fi
+    loop:
+      "{{ website }}"
+
+  - name: Check sites page returns a status 200 and fail if the word Welcome not in content
+    ansible.builtin.uri:
+      url: http://www.{{ item }}
+      return_content: yes
+    register: this
+    failed_when: "'Welcome' not in this.content"
+    loop:
+      "{{ website }}"
+
+  - name: Show additional websites answer using uri on previous step
+    ansible.builtin.debug:
+      msg: 
+        - "{{ item.url }}"
+        - "{{ item.server }}"
+        - "{{ item.status }}"
+    with_items: "{{ this.results }}"
+    loop_control:
+      label: "{{ item.url }}"
