@@ -1,0 +1,19 @@
+- hosts: all_workers
+  tasks:
+  - name: OS
+    debug:
+      msg: "{{ ansible_distribution }}"
+  - name: Version
+    debug:
+      msg: "{{ ansible_distribution_version}}"
+  - name: Mount point
+    debug:
+      msg:
+        - "Mount point: {{ ansible_mounts.0.mount }}"
+        - "Capacity: {{ (ansible_mounts.0.size_total / 1024 / 1024) | round }} Mb"
+        - "Used: {{ ((ansible_mounts.0.size_total-ansible_mounts.0.size_available) / 1024 / 1024)|round }} Mb"
+  - name: RAM info
+    debug:
+      msg:
+        - "RAM total: {{ ansible_memtotal_mb }} Mb"
+        - "RAM free: {{ ansible_memfree_mb }} Mb"
