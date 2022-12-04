@@ -1,0 +1,46 @@
+- hosts: all_workers 
+  #gather_facts: False
+  #strategy: free
+  #serial: 1
+  ignore_errors: yes
+
+  vars:
+  
+  pre_tasks:
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: "{{ ansible_user }}"
+        state: present
+        key: "{{ item }}"
+      with_items:
+      - "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      tags:
+        - never
+  
+  tasks:
+    - name: print information about OS
+      debug:
+        msg: "{{ inventory_hostname }} | {{ ansible_distribution }} | {{ ansible_distribution_version }}"
+      tags:
+        - facts
+
+    - name: print information about mount point/capacity/used
+      debug:
+        msg: 
+        - "Mount point: {{ ansible_mounts[0].mount }}"
+        - "Total size: {{ (ansible_mounts[0].size_total / (1024**3)) | round (2) }} GB"
+        - "Available size: {{ (ansible_mounts[0].size_available / 1024**3) | round(2)}} GB"
+        - "Used size {{ ((ansible_mounts[0].size_total - ansible_mounts[0].size_available) / 1024**3 ) | round(2) }} GB"
+      tags:
+        - facts
+
+    - name: print information about RAM/capacity/used
+      debug:
+        msg: "RAM info: {{ ansible_memory_mb.real }} mb"
+      tags:
+        - facts
+
+
+   
+
+
