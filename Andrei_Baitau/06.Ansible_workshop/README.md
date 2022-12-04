@@ -306,7 +306,7 @@ server {
 }
 ```
 
-### index.html temlate 
+### index.html template 
 
 ```html
 <html>
