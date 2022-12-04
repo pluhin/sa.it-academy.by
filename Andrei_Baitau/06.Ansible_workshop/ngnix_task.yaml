@@ -1,0 +1,111 @@
+---
+- hosts: dbs
+  vars:
+    sites: [ 'site1.local', 'site2.local' ] 
+
+  pre_tasks:
+    - name: Validate
+      debug:
+        msg:
+          - "Site: {{ item }}"
+      loop: "{{ sites }}"     
+
+  tasks:
+    - name: Prepare. Install packages
+      ansible.builtin.apt:
+        name: nginx
+        state: latest
+        update_cache: true
+    
+    - name: Check nginx version
+      ansible.builtin.command: nginx -v
+      register: nginx_version
+
+    - name: Show nginx version
+      ansible.builtin.debug:
+        msg: "{{ nginx_version.stderr }}"
+    - name: start nginx
+      service:
+          name: nginx
+          state: started   
+
+    - name: Check status nginx 
+      ansible.builtin.shell: systemctl status nginx
+      register: nginx_status
+    
+
+    - name: Show nginx status    
+      ansible.builtin.debug:
+        msg: "{{ nginx_status.stdout_lines }}"
+
+    - name : Check if exists folder 'sites-available'
+      ansible.builtin.shell: ls /etc/nginx/sites-available/
+      register: folder
+
+    - name: Show folder
+      ansible.builtin.debug:
+        msg: "{{folder.stdout_lines}}"     
+
+    - name : Check if exists folder 'sites-enabled'
+      ansible.builtin.shell: ls /etc/nginx/sites-available/
+      register: folder
+
+    - name: Show folder
+      ansible.builtin.debug:
+        msg: "{{folder.stdout_lines}}" 
+
+    - name: Create folders for each site
+      ansible.builtin.file:
+        path: "/var/www/{{ item }}/html"
+        owner: www-data
+        group: www-data
+        mode: 0755
+        state: directory
+      loop: "{{ sites }}"
+    - name: Change owner of www folder
+      ansible.builtin.file:
+        path: "/var/www"
+        owner: www-data
+        group: www-data
+        mode: 0755
+        state: directory
+        recurse: true
+
+    - name: Creating config file using the template
+      ansible.builtin.template:
+        src: ./templates/nginx.conf.j2
+        dest: /etc/nginx/sites-available/{{ item }}
+      loop: "{{ sites }}"
+
+    - name: Create index.html for each sites using the template
+      ansible.builtin.template:
+        src: ./templates/index.html.j2
+        dest: /var/www/{{ item }}/index.html
+      loop: "{{ sites }}"
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Adding hosts to the hosts file
+      ansible.builtin.shell: |
+        if ! grep -q '127.0.0.1 {{ item }}' /etc/hosts; then echo "127.0.0.1 {{ item }}"  >> /etc/hosts; fi
+      loop: "{{ sites }}"
+        
+    - name: Check sites returns a status 200 
+      ansible.builtin.uri:
+        url: http://{{ item }}
+        return_content: yes
+      register: status_200
+      failed_when: "'This is' not in status_200.content"
+      loop: "{{ sites }}"
+
+    - name: Showing results of checking status 200
+      ansible.builtin.debug:
+        msg:
+          - "_____________________________________" 
+          - "Server: {{ item.server }} --- Address: {{ item.url }} ---HTML status: {{ item.status }}"
+          - "_____________________________________"
+      with_items: "{{ status_200.results }}"
+      loop_control:
+        label: "{{ item.url }}"
