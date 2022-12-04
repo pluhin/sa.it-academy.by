@@ -38,22 +38,35 @@
       ansible.builtin.debug:
         msg: "{{ nginx_status.stdout_lines }}"
 
-    - name : Check if exists folder 'sites-available'
-      ansible.builtin.shell: ls /etc/nginx/sites-available/
-      register: folder
+    - name: Check if folder exists sites-available/
+      ansible.builtin.stat: 
+       path: /etc/nginx/sites-available/
+      register: available 
 
-    - name: Show folder
+    - name: Print a debug message
       ansible.builtin.debug:
-        msg: "{{folder.stdout_lines}}"     
+       msg: "sites-available isn't defined (path doesn't exist)"
+      when: available.stat.islnk is not defined
 
-    - name : Check if exists folder 'sites-enabled'
-      ansible.builtin.shell: ls /etc/nginx/sites-available/
-      register: folder
-
-    - name: Show folder
+    - name: Print a debug message
       ansible.builtin.debug:
-        msg: "{{folder.stdout_lines}}" 
+       msg: "sites-available is defined (path must exist)"
+      when: available.stat.islnk is defined
 
+    - name: Check if folder exists sites-enabled/
+      ansible.builtin.stat:
+       path: /etc/nginx/sites-enabled/
+      register: enabled
+
+    - name: Print a debug message
+      ansible.builtin.debug:
+       msg: "sites-enabled isn't defined (path doesn't exist)"
+      when: enabled.stat.islnk is not defined
+
+    - name: Print a debug message
+      ansible.builtin.debug:
+       msg: "sites-enabled is defined (path must exist)"
+      when: available.stat.islnk is defined
     - name: Create folders for each site
       ansible.builtin.file:
         path: "/var/www/{{ item }}/html"
@@ -62,6 +75,7 @@
         mode: 0755
         state: directory
       loop: "{{ sites }}"
+    
     - name: Change owner of www folder
       ansible.builtin.file:
         path: "/var/www"
@@ -74,38 +88,47 @@
     - name: Creating config file using the template
       ansible.builtin.template:
         src: ./templates/nginx.conf.j2
-        dest: /etc/nginx/sites-available/{{ item }}
+        dest: /etc/nginx/sites-available/{{ item }}.conf
       loop: "{{ sites }}"
 
     - name: Create index.html for each sites using the template
       ansible.builtin.template:
         src: ./templates/index.html.j2
-        dest: /var/www/{{ item }}/index.html
+        dest: /var/www/{{ item }}/html/index.html
       loop: "{{ sites }}"
     - name: Restart nginx
       service:
         name: nginx
         state: restarted
+        enabled: true
+
+    - name: Add to 'enabled' sites
+      ansible.builtin.shell: |
+        ln -s /etc/nginx/sites-available/{{ item }}.conf  /etc/nginx/sites-enabled/
+      loop: "{{ sites }}"
+      failed_when: false     
 
     - name: Adding hosts to the hosts file
       ansible.builtin.shell: |
-        if ! grep -q '127.0.0.1 {{ item }}' /etc/hosts; then echo "127.0.0.1 {{ item }}"  >> /etc/hosts; fi
+        if ! grep -q '127.0.0.1 {{ item }}' /etc/hosts; then echo "127.0.0.1 {{ item }} {{ 'www.' + item }}" >> /etc/hosts; fi
       loop: "{{ sites }}"
+      tags: hosts
         
     - name: Check sites returns a status 200 
       ansible.builtin.uri:
-        url: http://{{ item }}
+        url: http://www.{{ item }}
         return_content: yes
       register: status_200
-      failed_when: "'This is' not in status_200.content"
+      failed_when: "'By Andrei' not in status_200.content"
       loop: "{{ sites }}"
 
     - name: Showing results of checking status 200
       ansible.builtin.debug:
         msg:
           - "_____________________________________" 
-          - "Server: {{ item.server }} --- Address: {{ item.url }} ---HTML status: {{ item.status }}"
+          - "Server: {{ item.server }} --- Address: {{ item.url }} ---HTTP status: {{ item.status }}"
           - "_____________________________________"
       with_items: "{{ status_200.results }}"
       loop_control:
         label: "{{ item.url }}"
+

@@ -1,0 +1,170 @@
+
+PLAY [dbs] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+Sunday 04 December 2022  09:25:27 +0000 (0:00:00.009)       0:00:00.009 ******* 
+ok: [db_1]
+
+TASK [Validate] ****************************************************************
+Sunday 04 December 2022  09:25:29 +0000 (0:00:01.853)       0:00:01.863 ******* 
+ok: [db_1] => (item=site1.local) => {
+    "msg": [
+        "Site: site1.local"
+    ]
+}
+ok: [db_1] => (item=site2.local) => {
+    "msg": [
+        "Site: site2.local"
+    ]
+}
+
+TASK [Prepare. Install packages] ***********************************************
+Sunday 04 December 2022  09:25:29 +0000 (0:00:00.060)       0:00:01.923 ******* 
+ok: [db_1]
+
+TASK [Check nginx version] *****************************************************
+Sunday 04 December 2022  09:25:32 +0000 (0:00:02.690)       0:00:04.614 ******* 
+changed: [db_1]
+
+TASK [Show nginx version] ******************************************************
+Sunday 04 December 2022  09:25:32 +0000 (0:00:00.680)       0:00:05.294 ******* 
+ok: [db_1] => {
+    "msg": "nginx version: nginx/1.18.0 (Ubuntu)"
+}
+
+TASK [start nginx] *************************************************************
+Sunday 04 December 2022  09:25:32 +0000 (0:00:00.032)       0:00:05.327 ******* 
+ok: [db_1]
+
+TASK [Check status nginx] ******************************************************
+Sunday 04 December 2022  09:25:33 +0000 (0:00:00.974)       0:00:06.302 ******* 
+changed: [db_1]
+
+TASK [Show nginx status] *******************************************************
+Sunday 04 December 2022  09:25:34 +0000 (0:00:00.572)       0:00:06.875 ******* 
+ok: [db_1] => {
+    "msg": [
+        "● nginx.service - A high performance web server and a reverse proxy server",
+        "     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)",
+        "     Active: active (running) since Sun 2022-12-04 09:23:09 UTC; 2min 24s ago",
+        "       Docs: man:nginx(8)",
+        "    Process: 28129 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=0/SUCCESS)",
+        "    Process: 28131 ExecStart=/usr/sbin/nginx -g daemon on; master_process on; (code=exited, status=0/SUCCESS)",
+        "   Main PID: 28132 (nginx)",
+        "      Tasks: 3 (limit: 309018)",
+        "     Memory: 3.1M",
+        "        CPU: 20ms",
+        "     CGroup: /system.slice/nginx.service",
+        "             ├─28132 nginx: master process /usr/sbin/nginx -g daemon on; master_process on;",
+        "             ├─28133 nginx: worker process",
+        "             └─28134 nginx: worker process",
+        "",
+        "Dec 04 09:23:09 ws-1 systemd[1]: Starting A high performance web server and a reverse proxy server...",
+        "Dec 04 09:23:09 ws-1 systemd[1]: Started A high performance web server and a reverse proxy server."
+    ]
+}
+
+TASK [Check if exists folder 'sites-available'] ********************************
+Sunday 04 December 2022  09:25:34 +0000 (0:00:00.031)       0:00:06.906 ******* 
+changed: [db_1]
+
+TASK [Show folder] *************************************************************
+Sunday 04 December 2022  09:25:35 +0000 (0:00:00.551)       0:00:07.458 ******* 
+ok: [db_1] => {
+    "msg": [
+        "default",
+        "site1.local",
+        "site2.local"
+    ]
+}
+
+TASK [Check if exists folder 'sites-enabled'] **********************************
+Sunday 04 December 2022  09:25:35 +0000 (0:00:00.033)       0:00:07.491 ******* 
+changed: [db_1]
+
+TASK [Show folder] *************************************************************
+Sunday 04 December 2022  09:25:35 +0000 (0:00:00.555)       0:00:08.046 ******* 
+ok: [db_1] => {
+    "msg": [
+        "default",
+        "site1.local",
+        "site2.local"
+    ]
+}
+
+TASK [Create folders for each site] ********************************************
+Sunday 04 December 2022  09:25:35 +0000 (0:00:00.031)       0:00:08.078 ******* 
+ok: [db_1] => (item=site1.local)
+ok: [db_1] => (item=site2.local)
+
+TASK [Change owner of www folder] **********************************************
+Sunday 04 December 2022  09:25:36 +0000 (0:00:01.214)       0:00:09.292 ******* 
+ok: [db_1]
+
+TASK [Creating config file using the template] *********************************
+Sunday 04 December 2022  09:25:37 +0000 (0:00:00.572)       0:00:09.865 ******* 
+ok: [db_1] => (item=site1.local)
+ok: [db_1] => (item=site2.local)
+
+TASK [Create index.html for each sites using the template] *********************
+Sunday 04 December 2022  09:25:39 +0000 (0:00:01.866)       0:00:11.731 ******* 
+ok: [db_1] => (item=site1.local)
+ok: [db_1] => (item=site2.local)
+
+TASK [Restart nginx] ***********************************************************
+Sunday 04 December 2022  09:25:41 +0000 (0:00:01.858)       0:00:13.590 ******* 
+changed: [db_1]
+
+TASK [Adding hosts to the hosts file] ******************************************
+Sunday 04 December 2022  09:25:42 +0000 (0:00:00.860)       0:00:14.451 ******* 
+changed: [db_1] => (item=site1.local)
+changed: [db_1] => (item=site2.local)
+
+TASK [Check sites returns a status 200] ****************************************
+Sunday 04 December 2022  09:25:43 +0000 (0:00:01.153)       0:00:15.605 ******* 
+ok: [db_1] => (item=site1.local)
+ok: [db_1] => (item=site2.local)
+
+TASK [Showing results of checking status 200] **********************************
+Sunday 04 December 2022  09:25:44 +0000 (0:00:01.394)       0:00:16.999 ******* 
+ok: [db_1] => (item=http://site1.local) => {
+    "msg": [
+        "_____________________________________",
+        "Server: nginx/1.18.0 (Ubuntu) --- Address: http://site1.local ---HTML status: 200",
+        "_____________________________________"
+    ]
+}
+ok: [db_1] => (item=http://site2.local) => {
+    "msg": [
+        "_____________________________________",
+        "Server: nginx/1.18.0 (Ubuntu) --- Address: http://site2.local ---HTML status: 200",
+        "_____________________________________"
+    ]
+}
+
+PLAY RECAP *********************************************************************
+db_1                       : ok=20   changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Sunday 04 December 2022  09:25:44 +0000 (0:00:00.072)       0:00:17.072 ******* 
+=============================================================================== 
+Prepare. Install packages ----------------------------------------------- 2.69s
+Creating config file using the template --------------------------------- 1.87s
+Create index.html for each sites using the template --------------------- 1.86s
+Gathering Facts --------------------------------------------------------- 1.85s
+Check sites returns a status 200 ---------------------------------------- 1.39s
+Create folders for each site -------------------------------------------- 1.21s
+Adding hosts to the hosts file ------------------------------------------ 1.15s
+start nginx ------------------------------------------------------------- 0.97s
+Restart nginx ----------------------------------------------------------- 0.86s
+Check nginx version ----------------------------------------------------- 0.68s
+Change owner of www folder ---------------------------------------------- 0.57s
+Check status nginx ------------------------------------------------------ 0.57s
+Check if exists folder 'sites-enabled' ---------------------------------- 0.56s
+Check if exists folder 'sites-available' -------------------------------- 0.55s
+Showing results of checking status 200 ---------------------------------- 0.07s
+Validate ---------------------------------------------------------------- 0.06s
+Show folder ------------------------------------------------------------- 0.03s
+Show nginx version ------------------------------------------------------ 0.03s
+Show nginx status ------------------------------------------------------- 0.03s
+Show folder ------------------------------------------------------------- 0.03s
+Playbook run took 0 days, 0 hours, 0 minutes, 17 seconds
