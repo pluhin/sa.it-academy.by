@@ -1,0 +1,7 @@
+all_workers:
+  children:
+    work_sa:     
+      hosts:
+        host27:  
+          ansible_host: 192.168.202.27
+

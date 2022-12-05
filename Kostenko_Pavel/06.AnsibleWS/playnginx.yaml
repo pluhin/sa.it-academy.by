@@ -1,0 +1,55 @@
+---
+- hosts: all_workers
+  vars:
+     sites: [vh1.by,vh2.by]       
+  tasks:
+    - name: Install Nginx
+      package:
+          name: nginx
+          state: latest
+    - name: Enable and start service nginx
+      service:
+          name: nginx
+          state: started
+    - name: Copy nginx.conf.j2
+      template:
+          src: nginx.conf.j2
+          dest: /etc/nginx/sites-enabled/{{ item }}
+          owner: root
+          group: root
+          mode: '0644'
+      loop:
+         "{{ sites }}"
+    - name: restart nginx
+      service:
+          name: nginx
+          state: restarted    
+    - name: add vh's to hosts
+      shell:
+          grep -q "{{ item }}" /etc/hosts || echo "127.0.0.1 {{ item }}" >> /etc/hosts;
+      loop:
+          "{{ sites }}"
+    - name: copy index.html to dest host
+      template:
+        src: index.j2
+        dest: /var/www/{{ item }}/html/index.html
+      loop:
+        "{{ sites }}"
+        
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+    - name: check index.html
+      uri:
+        url: "http://{{ item }}"
+        return_content: yes
+      register: this
+      failed_when: "'HELLO' not in this.content"
+      loop:
+        "{{ sites }}"
+
+    - name: print info
+      debug:
+        msg: "{{ this }}"
+
