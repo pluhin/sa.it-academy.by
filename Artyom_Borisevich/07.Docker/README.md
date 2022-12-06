@@ -2,6 +2,28 @@
 
 ## Created Dockerfile of Java Spring Boot application (spring-3.0.0.jar in the folder target).
 
+### Source Code
+
+```bash
+
+@RestController
+@SpringBootApplication
+public class SpringBootDockerApplication {
+
+    @RequestMapping("/")
+    public String home() {
+        return "This is an effort to create slim version of java app by Borisevich.A.";
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(SpringBootDockerApplication.class, args);
+    }
+
+}
+```
+
+### Dockerfile itself
+
 ```bash
 # base image to build a JRE
 FROM amazoncorretto:17.0.3-alpine as corretto-jdk
