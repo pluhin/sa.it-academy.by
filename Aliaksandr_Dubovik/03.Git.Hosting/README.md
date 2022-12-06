@@ -1,9 +1,11 @@
 # My repositories
 
-https://gitlab.com/specreview.team/md-sa2-22-22-git.git
-https://github.com/AliaksandrDub/md-sa2-22-22.git
+[GitHab](https://gitlab.com/specreview.team/md-sa2-22-22-git.git)
+[GitLab](https://github.com/AliaksandrDub/md-sa2-22-22.git)
 
-# SCRIPT
+## SCRIPT
+
+```bash
 
 #!/bin/bash
 
@@ -19,7 +21,9 @@ git commit -m"${message}"
         git push -u $push
 done
 
-# OUTPUT SCRIPT
+```
+
+### OUTPUT SCRIPT
 
 [aliaksandr@my-host md-sa2-22-22]$ ./myskript
 Enter your message
@@ -27,7 +31,9 @@ Test_Test
 [dev 7debc56] Test_Test
  1 file changed, 1 insertion(+)
  create mode 100644 new.txt
-# On branch dev
+
+#### On branch dev
+
 nothing to commit, working directory clean
 Pushing
 warning: push.default is unset; its implicit value is changing in
