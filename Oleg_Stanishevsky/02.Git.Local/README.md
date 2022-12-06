@@ -1,0 +1,109 @@
+    # HISTORY
+    
+    
+    1  git clone git@github.com:Stanishevski/sa.it-academy.by
+    2  mc
+    3  ls -la
+    4  cd Mydevops
+    5  ls -la
+    6  mkdir 02HW
+    7  cd 02hw
+    8  cd 02HW
+    9  ls -la
+   10  git init
+   11  mc
+   12  date >>master1.txt
+   13  git add --all
+   14  git commit -m "First commit to master branch"
+   15  git log --oneline
+   16  date >>master2.txt
+   17  git add --all
+   18  git commit -m "Second commit to master branch"
+   19  git log --oneline
+   20  git checkout -b dev
+   21  git branch
+   22  git cherry-pick master
+   23  git checkout master
+   24  git cherry-pick dev
+   25  git log --oneline
+   26  git checkout dev
+   27  git log --oneline
+   28  date >>dev1.txt
+   29  git add -all
+   30  git add --all
+   31  git commit -m "First additional commit to dev branch"
+   32  git log --oneline
+   33  date >>dev2.txt
+   34  git add --all
+   35  git commit -m "Second additional commit to dev branch"
+   36  git checkout -b features/do_one
+   37  git log --oneline
+   38  git checkout dev
+   39  git cherry-pick features/do_one
+   40  git log --oneline
+   41  git checkout features/do_one
+   42  git log --oneline
+   43  date >> features.txt
+   44  git add --all
+   45  git commit -m "Two commits from master, two comit from dev and additional commit to features/do_one branch"
+   46  git log --oneline
+   47  git checkout naster
+   48  git checkout master
+   49  git checkout -b hotfix/we_gonna_die
+   50  git checkout master
+   51  git  cherry-pick hotfix/we_gonna_die
+   52  git branch
+   53  git checkout hotfix/we_gonna_die
+   54  git branch
+   55  date >> hotfix.txt
+   56  git add --all
+   57  git commit -m "Commit to hotfix/we_gonna_die branch"
+   58  git log --oneline
+   59  git branch
+   60  git checkout master
+   61  git merge features/do_one
+   62  git log --oneline
+   63  git revert 17bc814
+   64  mc
+   65  git log --oneline
+   66  git merge hotfix/we_gonna_die
+   67  history > 02.Git.Local.md
+   
+   
+# MASTER BRANCH LOG
+
+2f45675 Hotfix deploy. Merge branch 'hotfix/we_gonna_die' to 'master' branch.
+6e30cb9 We play. "Release phase" done and we return to play "Hotfix phase". Revert "Two commits from master, two comit from dev and additional commit to features/do_one branch"
+772c5de Commit to hotfix/we_gonna_die branch
+17bc814 Two commits from master, two comit from dev and additional commit to features/do_one branch
+a59272e Second additional commit to dev branch
+27ad156 First additional commit to dev branch
+8f74096 Second commit to master branch
+51d5cde First commit to master branch
+
+
+
+# DEV BRANCH LOG
+
+a59272e Second additional commit to dev branch
+27ad156 First additional commit to dev branch
+8f74096 Second commit to master branch
+51d5cde First commit to master branch
+
+
+
+# FEATURES/DO_ONE BRANCH LOG
+
+17bc814 Two commits from master, two comit from dev and additional commit to features/do_one branch
+a59272e Second additional commit to dev branch
+27ad156 First additional commit to dev branch
+8f74096 Second commit to master branch
+51d5cde First commit to master branch
+
+
+
+# HOTFIX/WE_GONNA_DIE BRANCH LOG
+
+772c5de Commit to hotfix/we_gonna_die branch
+8f74096 Second commit to master branch
+51d5cde First commit to master branch
