@@ -1,0 +1,19 @@
+KinD kubernetes version:
+Client Version: v1.25.4
+Kustomize Version: v4.5.7
+Server Version: v1.25.2
+Nodes info:
+NAME                 STATUS   ROLES           AGE   VERSION
+kind-control-plane   Ready    control-plane   26s   v1.25.2
+Count of nodes:1
+The time elapsed:58 seconds
+
+Minikube kubernetes version:
+Client Version: v1.25.4
+Kustomize Version: v4.5.7
+Server Version: v1.25.3
+Nodes info:
+NAME       STATUS   ROLES           AGE   VERSION
+minikube   Ready    control-plane   22s   v1.25.3
+Count of nodes:1
+The time elapsed is 87 seconds
