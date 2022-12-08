@@ -1,70 +1,26 @@
 # Ansible verion
-
+```
 aliaksandr@aloaksandr:~/05.Ansible$ ansible --version
 ansible [core 2.14.1]
-  config file = None
-  configured module search path = ['/home/aliaksandr/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
-  ansible python module location = /usr/local/lib/python3.10/dist-packages/ansible
-  ansible collection location = /home/aliaksandr/.ansible/collections:/usr/share/ansible/collections
-  executable location = /usr/local/bin/ansible
-  python version = 3.10.6 (main, Nov  2 2022, 18:53:38) [GCC 11.3.0] (/usr/bin/python3)
-  jinja version = 3.0.3
-  libyaml = True
+config file = None
+configured module search path = ['/home/aliaksandr/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+ansible python module location = /usr/local/lib/python3.10/dist-packages/ansible
+ansible collection location = /home/aliaksandr/.ansible/collections:/usr/share/ansible/collections
+executable location = /usr/local/bin/ansible
+python version = 3.10.6 (main, Nov  2 2022, 18:53:38) [GCC 11.3.0] (/usr/bin/python3)
+jinja version = 3.0.3
+libyaml = True
 aliaksandr@aloaksandr:~/05.Ansible$ vim ansible.cfg
 aliaksandr@aloaksandr:~/05.Ansible$ vim inv.yaml
 aliaksandr@aloaksandr:~/05.Ansible$ ssh-copy-id jump_sa@178.124.206.53
-/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/aliaksandr/.ssh/id_rsa.pub"
+usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/aliaksandr/.ssh/id_rsa.pub"
 The authenticity of host '178.124.206.53 (178.124.206.53)' can't be established.
 ED25519 key fingerprint is SHA256:yvhK5MkTQ5tBTarkaIYhf2As+5eN8vuRDIAO2f419uo.
 This key is not known by any other names
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
-/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
-
-## Ansible.cfg
-
-[defaults]
-# inventory      = /etc/ansible/hosts 
-# remote_tmp	 = /tmp/.ancible/tmp
-forks          = 3
-host_key_checking = False
-callbacks_enabled = profile_tasks, timer
-
-### Hosts it-academy
-
-```YAML
-all_workers:
-  children:
-    work_sa:
-      hosts:
-        host13:
-          ansible_host: 192.168.202.13
-        host14:
-          ansible_host: 192.168.202.14
-jump_sa:
-  vars:
-    env: "it-academy"
-  hosts:
-    bastion:
-      ansible_host: 178.124.206.53
-      ansible_user: jump_sa
+usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
 ```
-SSH password:
-host13 | SUCCESS => {
-    "ansible_facts": {
-        "discovered_interpreter_python": "/usr/bin/python3"
-    },
-    "changed": false,
-    "ping": "pong"
-}
-host14 | SUCCESS => {
-    "ansible_facts": {
-        "discovered_interpreter_python": "/usr/bin/python3"
-    },
-    "changed": false,
-    "ping": "pong"
-}
-
 #### Playbook 
 
 ```YAML
@@ -92,7 +48,7 @@ host14 | SUCCESS => {
           - "Free memory: {{ ansible_memfree_mb }} Mb"
 ```
 ##### Output playbook
-
+```
 aliaksandr@aloaksandr:~/05.Ansible$ ansible-playbook -i inv.yaml one.yaml --ask-vault-pass
 Vault password:
 
@@ -161,3 +117,4 @@ RAM ----------------------------------------------------------------------------
 Mount point/capacity/used --------------------------------------------------------------------------------------------- 0.13s
 os/version ------------------------------------------------------------------------------------------------------------ 0.06s
 Playbook run took 0 days, 0 hours, 0 minutes, 6 seconds
+```
