@@ -1,5 +1,8 @@
 # 08.Docker.Docker-compose
 
+## Jobs build
+[Jobs result](https://github.com/artsiomborisevich/03.git.hosting/actions/runs/3648477154/jobs/6161945480)
+
 ## docker_action file
 
 ```bash
@@ -59,13 +62,10 @@ jobs:
             SLACK_COLOR: ${{ job.status }}
             SLACK_ICON: https://github.com/rtCamp.png?size=48
             SLACK_MESSAGE: 'Post Content :rocket:'
-            SLACK_TITLE: 'Image was succesfully pushed ${{ steps.push.outputs.tags }}'
+            SLACK_TITLE: 'Image was succesfully pushed. Tag: ${{ env.IMAGE }}-${{ github.sha }}-${{ github.run_number }}'
             SLACK_USERNAME: Artiom Borisevich
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 ```
-## Jobs build
-[GitHub](https://github.com/artsiomborisevich/03.git.hosting/actions/runs/3648032262/jobs/6160968896)
-
 ## Slack
 
 ![slack](Slack.png)
