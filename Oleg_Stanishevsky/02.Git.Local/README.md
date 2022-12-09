@@ -1,3 +1,6 @@
+# HISTORY LOG
+
+```
   394  date >> README.md
   395  vim README.md
   396  mc
@@ -998,7 +1001,11 @@
  1391  mc
  1392  git checkout master
  1393  history > ~/Mydevops/README.md
-master log
+
+``
+
+#MASTER LOG
+
 ec1d062 Commit features after hotfix
 a4d44b1 Merge branch 'hotfix/we_gonna_die'
 473f527 Hotfix commit to hotfix/we_gonna_die branch
@@ -1007,18 +1014,21 @@ f74177d Commit_2 to dev branch
 db8a9e7 Commit_1 to dev branch
 40d15e3 Commit_2. Add file master_2.txt
 033e8a1 Commit_1. Add file master1.txt
-dev log
+
+# DEV LOG
 f74177d Commit_2 to dev branch
 db8a9e7 Commit_1 to dev branch
 40d15e3 Commit_2. Add file master_2.txt
 033e8a1 Commit_1. Add file master1.txt
-features log
+
+# FEATURES/DO_ONE LOG
 5a0ebd3 Additional commit to features/do_one branch
 f74177d Commit_2 to dev branch
 db8a9e7 Commit_1 to dev branch
 40d15e3 Commit_2. Add file master_2.txt
 033e8a1 Commit_1. Add file master1.txt
-hotfix log
+
+# HOTFIX/WE_GONNA_DIE LOG
 473f527 Hotfix commit to hotfix/we_gonna_die branch
 40d15e3 Commit_2. Add file master_2.txt
 033e8a1 Commit_1. Add file master1.txt
