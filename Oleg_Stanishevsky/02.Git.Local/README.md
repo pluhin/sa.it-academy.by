@@ -1003,7 +1003,7 @@
  1393  history > ~/Mydevops/README.md
 
 ```
-#MASTER LOG
+# MASTER LOG
 ```
 ec1d062 Commit features after hotfix
 a4d44b1 Merge branch 'hotfix/we_gonna_die'
