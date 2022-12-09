@@ -1003,7 +1003,6 @@
  1393  history > ~/Mydevops/README.md
 
 ```
-
 #MASTER LOG
 
 ec1d062 Commit features after hotfix
