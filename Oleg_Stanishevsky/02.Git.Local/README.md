@@ -1002,7 +1002,7 @@
  1392  git checkout master
  1393  history > ~/Mydevops/README.md
 
-``
+```
 
 #MASTER LOG
 
