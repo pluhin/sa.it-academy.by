@@ -3,7 +3,7 @@
 ## Jobs build
 [Jobs result](https://github.com/artsiomborisevich/03.git.hosting/actions/runs/3665510078)
 
-## github actions file kuber.yaml
+## Github actions file kuber.yaml
 
 ```bash
 name: "Create clusters using KinD and Minikube"
@@ -60,7 +60,7 @@ jobs:
       with:
         path: ${{ env.report }}
 ```
-## report
+## Report
 
 ```bash
 KinD kubernetes version:
