@@ -1,0 +1,41 @@
+name: CI. minikube deploy
+
+on: push
+
+jobs:
+  minikube:
+    env:
+      result_file: result.log
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Send time start jobs
+      run: |
+        echo "Start minikube deployment:  $(date '+%F %T')" >> ${{ env.result_file }}
+
+    - name: start minikube
+      id: minikube
+      uses: medyagh/setup-minikube@latest
+
+    - name: Send time finish jobs
+      run: |
+        echo "Finish minikube deployment: $(date '+%F %T')" >> ${{ env.result_file }}
+
+    - name: kubernetes info gathering
+      run: |
+        echo -e "kubernetes version:\n$(kubectl version --short)" >> ${{ env.result_file }}
+        echo "Nodes information:" >> ${{ env.result_file }}
+        echo "$(kubectl get nodes)" >> ${{ env.result_file }}
+
+    - name: Additional information in log file
+      run: |
+        sed -i '1 i\Repository: ${{ github.repository }}' ${{ env.result_file }}
+        sed -i '2 i\Workflow: ${{ github.workflow }}' ${{ env.result_file }}
+
+    - name: Upload file to slack 
+      uses: adrey/slack-file-upload-action@master
+      with:
+        token: ${{ secrets.SLACK_TOKEN }}
+        path: ${{ env.result_file }}
+        channel: github_action
