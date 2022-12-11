@@ -1,0 +1,34 @@
+name: KIND
+on: push
+jobs:
+  kind_deployment:
+    env:
+      result_file: result.log
+    outputs:
+      output1: ${{ steps.time.outputs.time }}    
+    runs-on: ubuntu-latest
+    steps:
+    - name: Start of deployment
+      id: start_time
+      run: |
+        echo -e  "Start of kind deployment:\n$(date '+%T')\n" >> ${{ env.result_file }}
+        echo "start_time=$(date '+%s')" >> $GITHUB_OUTPUT
+    - name: Setup KinD
+      uses: helm/kind-action@v1.4.0
+    - name: End of deployment
+      run: |
+        echo -e "Finish deployment: \n$(date '+%T')\n" >> ${{ env.result_file }}
+       
+    - name: KinD info
+      run: |
+        echo -e "K8s version:\n$(kubectl version --short)" >> ${{ env.result_file }}
+        echo -e "\nCount of nodes: $(kubectl get nodes | grep -c 'Ready')\n" >> ${{ env.result_file }}
+        echo "Time nedeed for setup: $(($(date '+%s')-${{ steps.start_time.outputs.start_time }})) seconds" >> ${{env.result_file }}
+    - name: Upload report
+      uses: actions/upload-artifact@v2
+      with:
+        path: ${{ env.result_file}}
+
+            
+
+

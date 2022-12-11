@@ -1,0 +1,13 @@
+Start of kind deployment:
+16:30:09
+
+Finish deployment: 
+16:31:05
+
+K8s version:
+Client Version: v1.23.12
+Server Version: v1.25.2
+
+Count of nodes: 1
+
+Time nedeed 56 seconds
