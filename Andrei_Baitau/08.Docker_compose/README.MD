@@ -3,7 +3,9 @@
 ## Links
 
 [Docker hub](https://hub.docker.com/r/andreibaitov/python.docker/tags)
+
 [GitHub Registry](https://github.com/users/AndreiBaitau/packages/container/package/python.docker)
+
 [GitHub Action](https://github.com/AndreiBaitau/docker.action/actions/runs/3668733536)
 
 ## Workflow file
