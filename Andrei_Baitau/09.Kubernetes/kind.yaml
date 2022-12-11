@@ -23,7 +23,7 @@ jobs:
       run: |
         echo -e "K8s version:\n$(kubectl version --short)" >> ${{ env.result_file }}
         echo -e "\nCount of nodes: $(kubectl get nodes | grep -c 'Ready')\n" >> ${{ env.result_file }}
-        echo "Time nedeed $(($(date '+%s')-${{ steps.start_time.outputs.start_time }})) seconds" >> ${{env.result_file }}
+        echo "Time nedeed for setup: $(($(date '+%s')-${{ steps.start_time.outputs.start_time }})) seconds" >> ${{env.result_file }}
     - name: Upload report
       uses: actions/upload-artifact@v2
       with:

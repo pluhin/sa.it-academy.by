@@ -1,9 +1,8 @@
 # 09.Kubernetes
 ## Links
 
-[Kind action](https://github.com/AndreiBaitau/sa2-22-22-git/actions/runs/3669610991)
-
-[Minikube action](https://github.com/AndreiBaitau/sa2-22-22-git/actions/runs/3669610992)
+[Kind action](https://github.com/AndreiBaitau/sa2-22-22-git/actions/runs/3669834856)
+[Minikube action](https://github.com/AndreiBaitau/sa2-22-22-git/actions/runs/3669834847)
 
 
 ## KinD
@@ -35,7 +34,7 @@ jobs:
       run: |
         echo -e "K8s version:\n$(kubectl version --short)" >> ${{ env.result_file }}
         echo -e "\nCount of nodes: $(kubectl get nodes | grep -c 'Ready')\n" >> ${{ env.result_file }}
-        echo "Time nedeed $(($(date '+%s')-${{ steps.start_time.outputs.start_time }})) seconds" >> ${{env.result_file }}
+        echo "Time nedeed for setup: $(($(date '+%s')-${{ steps.start_time.outputs.start_time }})) seconds" >> ${{env.result_file }}
     - name: Upload report
       uses: actions/upload-artifact@v2
       with:
@@ -56,7 +55,7 @@ Server Version: v1.25.2
 
 Count of nodes: 1
 
-Time nedeed 56 seconds
+Time nedeed for setup: 56 seconds
 ```
 
 ## Minikube
