@@ -1,0 +1,27 @@
+name: MINIKUBE
+on: push
+jobs:
+  minikube_deployment:
+    env:
+      result_file: result.log
+    runs-on: ubuntu-latest
+    steps:
+    - name: Start of minikube deployment
+      run: |
+        echo -e "Start of minikube deployment:\n  $(date '+%T')\n" >> ${{ env.result_file }}
+    - name: setup  minikube
+      id: minikube
+      uses: medyagh/setup-minikube@latest
+    - name: End of minikube deploy
+      run: |
+        echo -e "Finish of minikube deployment:\n $(date '+%T')\n" >> ${{ env.result_file }}
+    - name: kubernetes info
+      run: |
+        echo -e "K8s version:\n$(kubectl version --short)\n" >> ${{ env.result_file }}
+        echo -e "Nodes information:" >> ${{ env.result_file }}
+        echo "$(kubectl get nodes)" >> ${{ env.result_file }}
+
+    - name: Upload report
+      uses: actions/upload-artifact@v2
+      with:
+        path: ${{ env.result_file}}
