@@ -1,13 +1,13 @@
 Start of kind deployment:
-15:25:43
+16:30:09
 
 Finish deployment: 
-15:26:45
+16:31:05
 
 K8s version:
 Client Version: v1.23.12
 Server Version: v1.25.2
 
-Nodes information:
-NAME                          STATUS   ROLES           AGE   VERSION
-chart-testing-control-plane   Ready    control-plane   25s   v1.25.2
+Count of nodes: 1
+
+Time nedeed 56 seconds

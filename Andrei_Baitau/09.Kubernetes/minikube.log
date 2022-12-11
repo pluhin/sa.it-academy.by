@@ -1,14 +1,15 @@
 Start of minikube deployment:
-  15:25:41
+16:30:08
 
 Finish of minikube deployment:
- 15:28:14
+16:32:14
 
 K8s version:
 Client Version: v1.25.4
 Kustomize Version: v4.5.7
 Server Version: v1.25.3
 
-Nodes information:
-NAME       STATUS   ROLES           AGE   VERSION
-minikube   Ready    control-plane   65s   v1.25.3
+
+Count of nodes: 1
+
+ Time nedeed for setup: 126 seconds
