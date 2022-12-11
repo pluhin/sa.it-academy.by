@@ -2,6 +2,7 @@
 ## Links
 
 [Kind action](https://github.com/AndreiBaitau/sa2-22-22-git/actions/runs/3669834856)
+
 [Minikube action](https://github.com/AndreiBaitau/sa2-22-22-git/actions/runs/3669834847)
 
 
