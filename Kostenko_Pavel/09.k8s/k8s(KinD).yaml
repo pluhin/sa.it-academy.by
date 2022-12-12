@@ -1,0 +1,32 @@
+name: deploy KinD in github action
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: deploy KinD
+    steps:
+    - name: Get current date and time before deploy
+      id: current_time_bd
+      run: |
+        echo -e "Current date and time before deploy is:\n$(date +'%T-%Y-%m-%d')\n" >> report.log 2>&1
+        echo "ct=$(date +'%T-%Y-%m-%d')"
+   
+    - name: Setup KinD
+      uses: helm/kind-action@v1.4.0
+      
+    - name: Get current date and time after deploy
+      id: current_time_ad
+      run: |
+        echo -e "Current date and time after deploy is:\n$(date +'%T-%Y-%m-%d')\n" >> report.log 2>&1
+        
+    - name: Get info from KinD
+      run: |
+        echo -e "nodes: $(kubectl get nodes | grep -c 'Ready')" >> report.log 2>&1
+        echo -e "$(kubectl get nodes)\n" >> report.log 2>&1
+        echo -e "Versions of k8s:\n$(kubectl version --short)\n" >> report.log 2>&1      
+    - name: Upload report
+      uses: actions/upload-artifact@v2
+      with:
+        path: report.log

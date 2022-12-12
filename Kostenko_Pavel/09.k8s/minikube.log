@@ -1,0 +1,15 @@
+Current date and time before deploy is:
+12:48:26-2022-12-12
+
+Current date and time after deploy is:
+12:50:12-2022-12-12
+
+nodes: 1
+NAME       STATUS   ROLES           AGE   VERSION
+minikube   Ready    control-plane   29s   v1.25.3
+
+Versions of k8s:
+Client Version: v1.25.4
+Kustomize Version: v4.5.7
+Server Version: v1.25.3
+
