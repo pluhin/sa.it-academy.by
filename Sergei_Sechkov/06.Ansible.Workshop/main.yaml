@@ -1,0 +1,81 @@
+- hosts: nginx 
+  become: true
+  #gather_facts: False
+  #ignore_errors: yes
+  #strategy: free
+  #serial: 1
+  
+  vars:
+      vsite_pool: ["site1.loc", "site2.loc"]
+      
+  tasks:
+  - name: 1. Check nginx installed
+    apt:
+      name: nginx
+      state: latest
+      update_cache: yes
+    tags: install_nginx
+  
+  - name: 2. Check version nginx
+    command: nginx -v
+    register: version_nginx
+    tags: install_nginx
+
+  - name: 3. Present info about version nginx
+    debug:
+      msg: "{{ version_nginx.stderr }}"
+    tags: install_nginx
+
+  - name: 4. Create folder for index.html
+    file:
+      path: /var/www/{{item}}/html/
+      owner: root
+      state: directory
+      mode: 0755
+    loop:
+      "{{vsite_pool}}"
+
+  - name: 5. Copy template index.html
+    template:
+      src: ./Templates/index.html.j2
+      dest: /var/www/{{ item }}/html/index.html
+    loop:
+      "{{ vsite_pool }}"
+ 
+  - name: 6. Copy config file
+    template:
+      src: ./Templates/vhost.conf.j2
+      dest: /etc/nginx/sites-available/{{ item }}.conf
+    loop:
+      "{{ vsite_pool }}"
+
+  - name: 7. Create link for vsite_pool
+    shell: |
+      ln -s /etc/nginx/sites-available/{{ item }}.conf  /etc/nginx/sites-enabled/   
+    loop:
+      "{{ vsite_pool }}"
+    failed_when: false
+
+  - name: 8. Add record into hosts
+    shell: |
+       grep -q "{{ item }}" /etc/hosts || echo "127.0.0.1 {{ item }}" >> /etc/hosts;
+    loop:
+      "{{ vsite_pool }}"
+
+  - name: 9. Restart nginx
+    service:
+      name: nginx
+      state: restarted
+
+  - name: 10. check site connection
+    uri:
+      url: "http://{{ item }}"
+      return_content: yes
+    register: code_200
+    failed_when: "'WELCOME' not in code_200.content"
+    loop:
+        "{{ vsite_pool }}"
+
+  - name: 11. Check site info
+    debug:
+        msg: "{{ code_200.msg }}"
