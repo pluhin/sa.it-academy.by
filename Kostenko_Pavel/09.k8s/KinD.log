@@ -1,0 +1,14 @@
+Current date and time before deploy is:
+12:41:11-2022-12-12
+
+Current date and time after deploy is:
+12:42:07-2022-12-12
+
+nodes: 1
+NAME                          STATUS   ROLES           AGE   VERSION
+chart-testing-control-plane   Ready    control-plane   24s   v1.25.2
+
+Versions of k8s:
+Client Version: v1.23.12
+Server Version: v1.25.2
+
