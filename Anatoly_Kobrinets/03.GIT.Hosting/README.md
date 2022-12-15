@@ -22,6 +22,7 @@ source ~/.bashrc
 
 ## Screen of slack integration
 
+![image](https://user-images.githubusercontent.com/78029013/207952981-c47a5b47-0882-49cf-b95b-32fe738345d1.png)
 
 
 
