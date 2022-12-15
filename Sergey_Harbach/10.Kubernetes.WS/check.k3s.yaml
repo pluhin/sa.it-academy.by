@@ -1,0 +1,89 @@
+name: Check my k3s cluster pods status
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  check:
+    env:
+      result_file: result.log
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Add SSH key and Make SSH tunnel to k8s (special)
+      run: |
+        mkdir ~/.ssh
+        eval `ssh-agent -s`
+        ssh-add - <<< "${{secrets.SSH_KEY}}"
+        ssh-keyscan -H ${{secrets.BASTION_ADDR}} >> ~/.ssh/known_hosts
+        sudo apt-get install sshuttle
+        sshuttle -r ${{secrets.BASTION_USER}}@${{secrets.BASTION_ADDR}} 192.168.0.0/16 &
+
+    - name: Get kubectl
+      uses: tale/kubectl-action@v1
+      with:
+        base64-kube-config: ${{ secrets.KUBE_CONFIG }}
+    
+    - name: Check pods statuses
+      id: check_err
+      run: |
+        kubectl get pods -A >> ${{ env.result_file }}
+        sed -i '/Running/d' ${{ env.result_file }}
+        echo "::set-output name=pods_status::$(wc -l < ${{ env.result_file }})"
+
+    - name: Additional information in log file
+      if: steps.check_err.outputs.pods_status > 1
+      run: |
+        sed -i '1 i\Repository: ${{ github.repository }}' ${{ env.result_file }}
+        sed -i '2 i\Workflow: ${{ github.workflow }}' ${{ env.result_file }}
+
+    - name: Post to a Slack channel
+      if: steps.check_err.outputs.pods_status > 1
+      uses: slackapi/slack-github-action@v1.23.0
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+      with:
+        channel-id: 'C04EWNX7BT3'
+        payload: |
+          {
+            "text": "Something went wrong..",
+            "attachments": [
+              {
+                "pretext": "",
+                "color": "ff0000",
+                "fields": [
+                  {
+                    "title": "!!WARNING!!",
+                    "short": true,
+                    "value": "k3s cluster pods statuses are abnormal!\nSee the ${{ env.result_file }} for details."
+                  }
+                ]
+              }
+            ]
+          }
+
+    - name: Upload to slack result file
+      if: steps.check_err.outputs.pods_status > 1
+      uses: adrey/slack-file-upload-action@master
+      with:
+        token: ${{ secrets.SLACK_TOKEN }}
+        path: ${{ env.result_file }}
+        channel: github_action
+
+    - name: Send telegram message
+      if: steps.check_err.outputs.pods_status > 1
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          Warning! Something went wrong..
+          Repository: ${{ github.repository }}
+          Workflow: ${{ github.workflow }}
+          Github Action to Check statuses of pods in k3s cluster in Education Centre say something was wrong.
+          See the ${{ env.result_file }} for details.
+        document: ${{ env.result_file}}
