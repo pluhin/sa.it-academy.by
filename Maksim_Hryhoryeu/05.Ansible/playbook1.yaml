@@ -1,0 +1,21 @@
+- hosts: all_workers
+  gather_facts: False
+  strategy: free
+  tasks:
+    - name: OS version
+      shell: lsb_release -a
+      register: os_info
+    - debug:
+        msg: "{{os_info.stdout_lines}}"
+
+    - name: Disk
+      shell: df -h
+      register: disk_info
+    - debug:
+        msg: "{{disk_info.stdout_lines}}"
+
+    - name: RAM
+      shell: cat /proc/meminfo | grep "Mem"
+      register: ram_info
+    - debug:
+        msg: "{{ram_info.stdout_lines}}"
