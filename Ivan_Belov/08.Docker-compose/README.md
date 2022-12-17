@@ -83,4 +83,4 @@ jobs:
           SLACK_USERNAME: rtCamp
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 ```
-[!image](Screenshot_20221217_173719.png)
+![image](Screenshot_20221217_173719.png)
