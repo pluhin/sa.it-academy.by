@@ -1,4 +1,4 @@
-# 09.Kubernetes
+# 10.Kubernetes.Installation
 
 ## Install k9s to maintain cluster. Make print-screen of k9s with pods in all namespaces
 ![screen](K9S.png)
