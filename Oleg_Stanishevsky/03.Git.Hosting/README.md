@@ -1,13 +1,14 @@
 # 03.Git.Hosting
 
-# GitHub:
- https://github.com/Stanishevski/03githosting.git
+## Remote repositoties
+### GitHub:
+https://github.com/Stanishevski/03githosting.git
 
-# GitLab:
+### GitLab:
 https://gitlab.com/oleg.stanishevski/03githosting
 
-# Terminal screen
 
+# Terminal screen
 ```
 sysadmin@srv:~/Mydevops/03.Git.Hosting$ date >> test.txt
 sysadmin@srv:~/Mydevops/03.Git.Hosting$ git add --all
