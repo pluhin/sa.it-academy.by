@@ -45,5 +45,6 @@ git push -f $list --all
 done
 
 ```
-
+# SLACK Notification
+https://github.com/Stanishevski/sa.it-academy.by/blob/md-sa2-22-22/Oleg_Stanishevsky/03.Git.Hosting/Slack.PNG
 
