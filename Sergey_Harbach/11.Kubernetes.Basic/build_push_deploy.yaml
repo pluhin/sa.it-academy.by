@@ -1,0 +1,207 @@
+name: CI/CD. Build Push Deploy
+
+on:
+  push:
+    #branches:
+    #  - main
+    tags:
+      - "v*.*"
+
+env:
+    DHUB_USER_NAME: ${{ github.actor }} # used to login dockerhub
+    IMAGE_NAME: "nginx-webserver" # used to set image name in dockerhub
+    RESULT_FILE: result.log # used as artifact
+    K8S_NS: webserver-ns # used in kubectl commands
+    GET_STAT_TIMER: 60 # used in sleep before collecting stats
+
+jobs:
+  docker:
+    if: startsWith(github.ref, 'refs/tags/v')
+    outputs:
+      output1: ${{ steps.time.outputs.datetime }}
+      job-status: ${{ job.status }}
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Check out the repo
+        uses: actions/checkout@v3
+      -
+        name: Replace line - image and tag in index.html
+        run: |
+          sed -i 's/__dh_image:__/${{ env.DHUB_USER_NAME }}\/${{ env.IMAGE_NAME }}/' index.html
+          sed -i 's/__dh_image:tag__/${{ env.DHUB_USER_NAME }}\/${{ env.IMAGE_NAME }}:${{  github.ref_name }}/' index.html
+      - 
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - 
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ env.DHUB_USER_NAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.DHUB_USER_NAME }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.DHUB_USER_NAME }}/${{ env.IMAGE_NAME }}:${{  github.ref_name }}
+      -
+        name: Send time finish job
+        id: time
+        run: |
+          echo "datetime=$(date '+%F %T')" >> $GITHUB_OUTPUT
+
+  cluster: # start only if docker job finished and success
+    needs: docker
+    outputs:
+      output1: ${{ steps.time.outputs.datetime }}
+      job-status: ${{ job.status }}
+    runs-on: ubuntu-latest
+    steps:
+    - 
+      name: Check out the repo
+      uses: actions/checkout@v3
+    -
+      name: Add SSH key and Make SSH tunnel to k8s (special)
+      run: |
+        mkdir ~/.ssh
+        eval `ssh-agent -s`
+        ssh-add - <<< "${{secrets.SSH_KEY}}"
+        ssh-keyscan -H ${{secrets.BASTION_ADDR}} >> ~/.ssh/known_hosts
+        sudo apt-get install sshuttle
+        sshuttle -r ${{secrets.BASTION_USER}}@${{secrets.BASTION_ADDR}} 192.168.0.0/16 &
+    - 
+      name: Get kubectl
+      uses: tale/kubectl-action@v1
+      with:
+        base64-kube-config: ${{ secrets.KUBE_CONFIG }}
+    -
+      run: mkdir artifact
+    -
+      name: Set new image in k8s manifest
+      run: |
+        sed -i 's/__dh_image:tag__/${{ env.DHUB_USER_NAME }}\/${{ env.IMAGE_NAME }}:${{  github.ref_name }}/' app-webserver.yaml
+    - 
+      name: Deploy app to cluster
+      run: |
+        kubectl apply -f app-webserver.yaml
+    - 
+      name: Get Statuses replicaset, deploy, etc
+      run: |
+        sleep ${{ env.GET_STAT_TIMER }}
+        echo "Deployments" >> artifact/${{ env.RESULT_FILE }}
+        kubectl get deployments -n ${{ env.K8S_NS }} >> artifact/${{ env.RESULT_FILE }}
+        echo "ReplicaSet" >> artifact/${{ env.RESULT_FILE }}
+        kubectl get rs -n ${{ env.K8S_NS }} >> artifact/${{ env.RESULT_FILE }}
+        echo "Pods" >> artifact/${{ env.RESULT_FILE }}
+        kubectl get pods -n ${{ env.K8S_NS }} >> artifact/${{ env.RESULT_FILE }}
+    -
+      name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: pods-statuses-artifact
+        path: artifact/${{ env.RESULT_FILE }}
+    -
+      name: Send time finish job
+      id: time
+      run: |
+        echo "datetime=$(date '+%F %T')" >> $GITHUB_OUTPUT
+
+  slack-message:
+    needs: [docker, cluster]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Post to a Slack channel
+        uses: slackapi/slack-github-action@v1.23.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        with:
+          channel-id: 'C04EWNX7BT3'
+          payload: |
+            {
+            	"blocks": [
+                {
+                  "type": "divider"
+                },
+            		{
+            			"type": "section",
+            			"text": {
+            				"type": "mrkdwn",
+            				"text": "Results of the action jobs in the repository:\n*<https://github.com/${{ github.repository }}|${{ github.repository }}>*"
+            			}
+            		},
+            		{
+            			"type": "divider"
+            		},
+            		{
+            			"type": "section",
+            			"fields": [
+            				{
+            					"type": "mrkdwn",
+            					"text": "*Job:*\nCreate and push image to DockerHub"
+            				},
+            				{
+            					"type": "mrkdwn",
+            					"text": "*When:*\n${{needs.docker.outputs.output1}}"
+            				},
+            				{
+            					"type": "mrkdwn",
+            					"text": "*Image Link:*\n<https://hub.docker.com/repository/docker/${{ env.DHUB_USER_NAME }}/${{ env.IMAGE_NAME }}|${{ env.IMAGE_NAME }}>"
+            				},
+            				{
+            					"type": "mrkdwn",
+            					"text": "*Status:*\n:grey_exclamation: *${{ needs.docker.outputs.job-status }}*"
+            				}
+            			]
+            		},
+            		{
+            			"type": "divider"
+            		},
+            		{
+            			"type": "section",
+            			"fields": [
+            				{
+            					"type": "mrkdwn",
+            					"text": "*Job:*\nDeploy image to cluster"
+            				},
+            				{
+            					"type": "mrkdwn",
+            					"text": "*When:*\n${{needs.cluster.outputs.output1}}"
+            				},
+            				{
+            					"type": "mrkdwn",
+            					"text": "*App Link:*\n<http://web.k8s-4.sa|web.k8s-4.sa>"
+            				},
+            				{
+            					"type": "mrkdwn",
+            					"text": "*Status:*\n:grey_exclamation: *${{ needs.cluster.outputs.job-status }}*"
+            				}
+            			]
+            		}
+            	]
+            }
+
+  slack-file:
+    needs: [docker, cluster, slack-message]
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Check out the repo
+        uses: actions/checkout@v3
+      -
+        name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: pods-statuses-artifact
+      -
+        name: Upload to slack result file
+        uses: adrey/slack-file-upload-action@master
+        with:
+          token: ${{ secrets.SLACK_TOKEN }}
+          path: ${{ env.RESULT_FILE }}
+          channel: github_action
