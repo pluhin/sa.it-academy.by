@@ -1,0 +1,7 @@
+NAMESPACE     NAME                                      READY   STATUS             RESTARTS      AGE
+kube-system   local-path-provisioner-79f67d76f8-x2t4g   1/1     Running            0             8d
+kube-system   coredns-597584b69b-cc59z                  1/1     Running            0             8d
+kube-system   metrics-server-5c8978b444-jzhpj           1/1     Running            0             8d
+default       ubuntu                                    0/1     ImagePullBackOff   0             92m
+default       container                                 0/1     ImagePullBackOff   0             9m17s
+default       pod-debian-container                      0/1     CrashLoopBackOff   5 (88s ago)   6m50s
