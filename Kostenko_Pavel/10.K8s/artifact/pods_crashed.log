@@ -1,0 +1,4 @@
+NAMESPACE     NAME                                      READY   STATUS             RESTARTS      AGE
+default       ubuntu                                    0/1     ImagePullBackOff   0             92m
+default       container                                 0/1     ImagePullBackOff   0             9m17s
+default       pod-debian-container                      0/1     CrashLoopBackOff   5 (88s ago)   6m50s
