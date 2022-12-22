@@ -1,0 +1,34 @@
+name: kinD cluster create
+
+on:
+  pull_request:
+    branches: [master]
+
+env:
+      report1: report1.log
+
+jobs:
+  kind:
+    runs-on: ubuntu-latest
+    outputs:
+      out1: ${{ steps.start1.outputs.start1 }}
+           
+    steps:
+      - name: job's start time
+        id: start1
+        run: echo "start1=$(date '+%s')" >> $GITHUB_OUTPUT
+
+      - uses: engineerd/setup-kind@v0.5.0
+        with:
+          version: "v0.11.1"
+      
+      - name: Testing cluster and get info
+        run: |
+          echo "Kube version: $(kubectl version --short)" >>  ${{ env.report1 }}
+          echo "Amount nodes: $(kubectl get nodes | grep -c 'Ready')" >> ${{ env.report1 }}
+          echo "Time for start cluster: $(($(date '+%s')-${{ steps.start1.outputs.start1 }})) seconds" >> ${{ env.report1 }}
+     
+      - name: upload report 1
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ env.report1 }}
