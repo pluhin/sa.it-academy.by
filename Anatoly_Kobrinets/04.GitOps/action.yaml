@@ -1,0 +1,44 @@
+name: Find tabs and changed files
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v34
+
+      - name: tabs in changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo "Quantity tabs in ${file} is `grep -o '\t' $file | wc -l`" >> count_tabs.log 2>&1
+           done
+    
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: count_tabs.log
+  
+
+
+  slack:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: study
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_MESSAGE: 'Job is done :rocket:'
+        SLACK_TITLE: 'Some action is done'
+        SLACK_USERNAME: toksel89
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
