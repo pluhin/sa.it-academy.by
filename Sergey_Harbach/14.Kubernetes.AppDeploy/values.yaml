@@ -1,0 +1,64 @@
+# Default values for jenkins.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+maintainers:
+  name: Sergey Harbach
+  email: sgoser@gmail.com
+
+# Jenkins configurations.
+jenkins:
+  username: admin
+  password: password
+  config:
+    yaml:
+      credentials:
+        system:
+          domainCredentials:
+          - credentials:
+            - usernamePassword:
+                description: "Check recreate credentials for githubuser"
+                id: "some_randome"
+                password: "git_hub_user_password"
+                scope: GLOBAL
+                username: "new_git_hub_user"
+    url: http://jenkins.k8s-4.sa/
+    CASC: /var/jenkins_home/casc_configs/jenkins.yaml
+
+# nfs volume to store jenkins files
+volumes:
+  nfs:
+    server: 192.168.37.105
+    path: /mnt/IT-Academy/nfs-data/sa2-22-22/sharbach/jenkins
+
+# namespace create and used for deploy, servise, ingress, etc
+namespace: ci-cd
+
+# ReplicaSet
+replicaCount: 1
+
+# Image with tag
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci
+  tag: sharbach
+  pullPolicy: IfNotPresent
+
+# Service port configurations
+service:
+  ports:
+    http: 8080
+    jnlp: 50000
+
+# Resource for pod (with different notation)
+resources:
+  requests:
+    cpu: 2000m
+    memory: 2000Mi
+  limits:
+    cpu: 3
+    memory: 3Gi
+
+# Ingress configurations
+ingress:
+  ingressClass: nginx
+  host: jenkins.k8s-4.sa
