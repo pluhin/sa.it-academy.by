@@ -107,7 +107,7 @@ kubectl apply -f sealed_secret.yaml
 ```
 
 ---
-![sealed_in_k9s](sealed_in_k9s.png.png)
+![sealed_in_k9s](sealed_in_k9s.png)
 ---
 
 ---
