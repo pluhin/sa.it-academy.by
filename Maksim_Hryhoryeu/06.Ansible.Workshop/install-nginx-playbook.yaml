@@ -1,0 +1,100 @@
+---
+- hosts: nginx
+  vars:
+    app_packages:
+      - nginx
+    pages: ["page1.dev", "page2.dev"]
+
+  pre_tasks:
+  - name: Prepare. Install packages
+    apt:
+      name: "curl"
+      state: latest
+      update_cache: yes
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: "{{ app_packages }}"
+        state: latest
+        update_cache: yes
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+
+    - name: Start nginx
+      service:
+        name: nginx
+        state: started
+
+    - name: Show version
+      shell: nginx -v
+      register: nginx_version
+    - debug:
+        msg: "Nginx version: {{ nginx_version.stdout_lines }}"
+
+    - name: Create folder for pages
+      file:
+        path: /var/www/{{ item }}/html/
+        owner: root
+        state: directory
+        mode: 0755
+      loop:
+        "{{ pages }}"
+
+    - name: Copy page
+      template:
+        src: ./templates/index.html.j2
+        dest: /var/www/{{ item }}/html/index.html
+      loop:
+        "{{ pages }}"
+
+    - name: Copy config file
+      template:
+        src: ./templates/host.conf.j2
+        dest: /etc/nginx/sites-available/{{ item }}.conf
+      loop:
+        "{{ pages }}"
+
+    - name: Create link for pages
+      shell: |
+        ln -s /etc/nginx/sites-available/{{ item }}.conf  /etc/nginx/sites-enabled/
+      loop:
+        "{{ pages }}"
+      failed_when: false
+
+    - name: Add entry in hosts
+      shell: |
+        grep -q "{{ item }}" /etc/hosts || echo "127.0.0.1 {{ item }}" >> /etc/hosts;
+      loop:
+        "{{ pages }}"
+
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Check site connection
+      uri:
+        url: "http://{{ item }}"
+        return_content: yes
+      register: page_data
+      failed_when: "'WELCOME' not in page_data.content"
+      loop:
+        "{{ pages }}"
+
+    - name: Check site
+      debug:
+        msg: "{{ page_data.msg }}"
+
+
+    - name: Print page1
+      shell: curl http://page1.dev
+      register: html
+    - debug:
+        msg: "{{ html.stdout_lines }}"
+
+    - name: Print page2
+      shell: curl http://page2.dev
+      register: html
+    - debug:
+        msg: "{{ html.stdout_lines }}"
