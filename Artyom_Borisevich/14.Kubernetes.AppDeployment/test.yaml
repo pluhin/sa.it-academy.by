@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: JENKINS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: argo-secrets-jenkins
+                  key: jenkins-password
+            - name: JENKINS_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: argo-secrets-jenkins
+                  key: jenkins-username
+            - name: JAVA_OPTS
+              value: "-Djenkins.install.runSetupWizard=false"
+            - name: CASC_JENKINS_CONFIG
+              value: {{ .Values.jenkins.config.CASC }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.ports.http}}
+            - name: jnlp
+              containerPort: {{ .Values.service.ports.jnlp}}
+          securityContext:
+            runAsUser: 0
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: jenkins-auth-config
+              mountPath: /var/jenkins_home/init.groovy.d/basic-security.groovy
+              subPath: basic-security.groovy
+            - name: jenkins-config-yaml
+              mountPath: {{ .Values.jenkins.config.CASC }}
+              subPath: jenkins.yaml
+            - name: jenkins-config
+              mountPath: /var/jenkins_home
+            - name: create-pipline
+              mountPath: /var/jenkins_home/jobs/BasicTest
+      initContainers:
+        - name: copy-pipline
+          image: busybox
+          command: ["sh", "-c"]
+          args:
+            - cp /tmp/config.xml /var/jenkins_home/jobs/BasicTest;
+          volumeMounts:
+            - mountPath: /tmp/
+              name: basic-test-pipline
+            - mountPath: /var/jenkins_home/jobs/BasicTest
+              name: create-pipline
+      volumes:
+        - name: jenkins-auth-config
+          configMap:
+            name: basic-security
+        - name: jenkins-config-yaml
+          configMap:
+            name: jenkins-config
+        - name: jenkins-config
+          {{- toYaml .Values.volumes | nindent 10 }}
+        - name: create-pipline
+          emptyDir: {}
+        - name: basic-test-pipline
+          configMap:
+            name: basic-test
+
+---
