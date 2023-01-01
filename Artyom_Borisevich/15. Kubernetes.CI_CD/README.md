@@ -256,16 +256,6 @@ tolerations: []
 affinity: {}
 ```
 
-#### Useful commands, mostly for me
-
-```bash
-kubectl get application jenkins -n argocd -o yaml
-cat jenkins_secrets.yaml | kubeseal --format yaml > jenkins_sealeds.yaml
-helm repo index --url https://artsiomborisevich.github.io/helm-borisevich/ --merge index.yaml . 
-helm package jenkins-app
-helm install jenkins-app jenkins-app-0.3.0.tgz --dry-run --debug
-helm install jenkins jenkins-repo/jenkins-app --version 0.3.0
-```
 
 
 
