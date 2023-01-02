@@ -1,0 +1,85 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zabbix-server
+  namespace: monitoring
+  labels:
+    app: zabbix-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zabbix-server
+  template:
+    metadata:
+      labels:
+        app: zabbix-server
+    spec:
+      containers:
+      - name: zabbix-server
+        image: zabbix/zabbix-web-nginx-mysql
+        env:
+        - name: DB_SERVER_HOST
+          value: "192.168.202.39"
+        - name: MYSQL_USER
+          value: "zabbix"
+        - name: MYSQL_PASSWORD
+          value: "zabbix"
+        - name: MYSQL_DATABASE
+          value: "zabbix"
+        - name: ZBX_SERVER_HOST
+          value: "zabbix.k8s-18.sa"
+        - name: PHP_TZ
+          value: "Europe/Minsk"
+        ports:
+          - name: web
+            containerPort: 8080
+          - name: connect
+            containerPort: 10051
+        resources:
+          requests:
+            cpu: 200m
+            memory: 300Mi
+          limits:
+            cpu: 300m
+            memory: 500Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zabbix-service
+  namespace: monitoring
+  labels:
+    run: zabbix-service
+spec:
+  type: ClusterIP
+  selector:
+    app: zabbix-server
+  ports:
+    - name: web
+      port: 8080
+      targetPort: web
+    - name: connect
+      port: 10051
+      targetPort: connect
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-zabbix
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: zabbix.k8s-18.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: zabbix-service
+                port:
+                  number: 8080
