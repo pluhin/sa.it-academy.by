@@ -1,0 +1,2 @@
+NAMESPACE     NAME                                      READY   STATUS             RESTARTS      AGE
+default       ubuntu                                    0/1     ImagePullBackOff   0 (26m ago)   37m
