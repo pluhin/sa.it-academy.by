@@ -2,7 +2,7 @@
 
 ## Workshop
 
-All steps was successfully 
+All steps was successfully done
 
 ## Helm repository 
 
