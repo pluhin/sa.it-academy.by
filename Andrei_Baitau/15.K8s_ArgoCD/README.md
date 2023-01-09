@@ -12,6 +12,7 @@
 ## Links
 
 Helm repository with Jenkins >> [Link](https://github.com/AndreiBaitau/jenkins-helm)
+
 ArgoCD repository with apps.yaml and sealed secrets >> [Link](https://github.com/AndreiBaitau/argo-cd/tree/main)
 
 ### Deploy ArgoCD
