@@ -1,0 +1,20 @@
+- hosts: all_workers
+  tasks:
+    - name: OS and Version
+      debug:
+        msg: "OS: {{ ansible_distribution }} | Version: {{ ansible_distribution_version }}"
+
+    - name: Mount points and Capacity
+      debug:
+        msg:
+          - "Mount point: {{ item.mount }}"
+          - "Capacity: {{ (item.size_total / 1024 / 1024 / 1024) | round(1)}} Gb" 
+          - "Available: {{ (item.size_available / 1024 / 1024 / 1024) | round(1)}} Gb"
+          - "Used space: {{ ((item.size_total-item.size_available) / 1024 / 1024 / 1024)|round(1) }} Gb"
+      with_items: "{{ ansible_mounts }}"
+
+    - name: RAM capacity
+      debug:
+        msg:
+          - "Total memory: {{ ansible_memtotal_mb }} Mb"
+          - "Free memory: {{ ansible_memfree_mb }} Mb"
