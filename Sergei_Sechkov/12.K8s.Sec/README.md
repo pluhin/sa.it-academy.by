@@ -1,7 +1,8 @@
 # 12.K8s.Security
 
 ## Manifest app.yaml
----yaml
+```yaml
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -101,10 +102,13 @@ spec:
                 name: simple-web
                 port:
                   number: 80
----yaml
+---
+```
+
 
 ## Manifest saled_secret
----yaml
+```yaml
+---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
@@ -121,8 +125,9 @@ spec:
       name: mount-ssh
       namespace: webserver-nginx
 ---
+```
 
 ## Screenshots
-![mount ssh on host](https://github.com/frame0310/sa.it-academy.by/raw/md-sa2-22-22/12.K8s.Sec/ssh-host.png)
-![mount sealed_secret.yaml](https://github.com/frame0310/sa.it-academy.by/raw/md-sa2-22-22/12.K8s.Sec/Sealedsecret.png)
-![check hostname](https://github.com/frame0310/sa.it-academy.by/raw/md-sa2-22-22/12.K8s.Sec/hello_check.png)
+![mount ssh on host](sssh-host.PNG)
+![mount sealed_secret.yaml](Sealedsecret.png)
+![check hostname](hello_check.png)
