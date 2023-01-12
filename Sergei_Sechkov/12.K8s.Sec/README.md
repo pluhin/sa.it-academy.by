@@ -128,6 +128,6 @@ spec:
 ```
 
 ## Screenshots
-![mount ssh on host](sssh-host.PNG)
+![mount ssh on host](ssh-host.PNG)
 ![mount sealed_secret.yaml](Sealedsecret.png)
 ![check hostname](hello_check.png)
