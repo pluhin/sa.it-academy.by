@@ -1,0 +1,61 @@
+name: push docker-image to dockerhub and github
+
+on:
+  release:
+    types: [published]
+  push:
+    branches:
+      - "master"
+jobs:
+  build_and_push:
+    name: push
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.DCHK_TOKEN }}
+          
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: frame0310/08.docker-compose:${{ github.run_number }}    
+
+      - name: login on ghcr
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.CR_TOKEN }}
+
+      - name: build-push image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/frame0310/08.docker-compose:${{ github.run_number }}
+
+      - name: slack Notification
+        uses: rtCamp/action-slack-notify@v2 
+        env:
+          SLACK_CHANNEL: github_notifications
+          SLACK_TITLE: 'PUSH IMAGE'
+          SLACK_COLOR: ${{ job.status }}
+          LACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_MESSAGE: |
+            'Images have been pushed to registry.'
+            'IMAGE: ${{ github.repository }} version ${{ github.run_number }}'
+          SLACK_USERNAME: ntBot
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
