@@ -1,0 +1,30 @@
+
+name: jenkins
+namespace: ci-cd
+
+replicaCount: 1
+
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci:ibelov
+  pullPolicy: IfNotPresent
+  tag: ""
+
+service:
+  type: ClusterIP
+  port: 80
+nfs_path: /mnt/IT-Academy/nfs-data/sa2-22-22/ibelov/jenkins
+nfs_server: 192.168.37.105
+host: jenkins.k8s-2.sa
+
+tls: []
+
+
+resources: {}
+
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
