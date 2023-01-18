@@ -48,6 +48,6 @@ spec:
 ```
 
 ## Screenshots
-![ deployed WORDPRESS](wordpress.PNG)
+![ deployed WORDPRESS](wp.PNG)
 
 
