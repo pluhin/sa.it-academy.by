@@ -21,7 +21,7 @@
       <command>year=$(date +%Y)
 month=$(date +%m)
 day=$(date +%d)
-curl &apos;https://calendarific.com/api/v2/holidays?&amp;api_key=348fe84405775ad1d5917cb57755fc78823d8772&amp;country=BY&amp;year=&apos;$year&apos;&amp;month=&apos;$month&apos;&amp;day=&apos;$day&apos;&apos; | jq &apos;.&apos;</command>
+curl &apos;https://calendarific.com/api/v2/holidays?&amp;api_key=API_KEY&amp;country=BY&amp;year=&apos;$year&apos;&amp;month=&apos;$month&apos;&amp;day=&apos;$day&apos;&apos; | jq &apos;.&apos;</command>
       <configuredLocalRules/>
     </hudson.tasks.Shell>
   </builders>
