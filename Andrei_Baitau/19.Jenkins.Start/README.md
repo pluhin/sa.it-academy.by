@@ -23,7 +23,7 @@
 
 ![job](job.png)
 
-![res][res.png]
+![res](res.png)
 
 ### xml file 
 
