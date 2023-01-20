@@ -20,7 +20,7 @@ cp -v /vagrant/01_AuthorizationStrategy.groovy /var/lib/jenkins/init.groovy.d/
 cp -v /vagrant/02_addUser.groovy /var/lib/jenkins/init.groovy.d/
 cp -v /vagrant/03_addUser.groovy /var/lib/jenkins/init.groovy.d/
 service jenkins start
-sleep 1m
+sleep 2m
 echo "Change Jenkins Auth Strategy -> Success"
 ####################################
 echo "Install plugins "
@@ -55,3 +55,5 @@ Vagrant.configure("2") do |config|
   end    
   config.vm.provision "shell", inline: $script
 end
+
+
