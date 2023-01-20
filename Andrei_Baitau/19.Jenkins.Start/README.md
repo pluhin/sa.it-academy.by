@@ -54,7 +54,7 @@
 full_Date=$(echo year=$(date +%Y)\&amp;month=$(date +%m)\&amp;day=$(date +%d))
 echo &quot;Date is $(date)&quot;
 echo &quot;Holiday API: &quot;
-curl -s &quot;https://calendarific.com/api/v2/holidays?&amp;api_key=784422c191905c525b72e1d54064dafcf89c1b4f&amp;country=BY&amp;${full_Date}&quot; | tee -a result.log
+curl -s &quot;https://calendarific.com/api/v2/holidays?&amp;api_key=******&amp;country=BY&amp;${full_Date}&quot; | tee -a result.log
 
 echo &quot;\nCurrency USD&quot; | tee -a result.log
 curl -s &quot;https://www.nbrb.by/api/exrates/rates/USD?parammode=2&quot;| tee -a result.log
@@ -109,7 +109,7 @@ Daily exchange and if holiday today</customMessageSuccess>
     </jenkins.plugins.slack.SlackNotifier>
     <SlackUploader plugin="slack-uploader@1.7">
       <channel>jenkins-baitov</channel>
-      <token>https://hooks.slack.com/services/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</token>
+      <token>https://hooks.slack.com/services/******</token>
       <filePath>/var/lib/jenkins/workspace/30.Holiday.And.Exchange/*</filePath>
     </SlackUploader>
   </publishers>
