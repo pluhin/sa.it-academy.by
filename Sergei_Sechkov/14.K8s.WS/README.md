@@ -3,7 +3,7 @@
 
 
 ## Helm
-[https://github.com/frame0310/14.Jenkins.helm](https://github.com/frame0310/14.Jenkins.helm)
+[GitRepo](https://github.com/frame0310/14.Jenkins.helm)
 
 ## Screenshots
 ![ pods_creating](pods_creating.PNG)
