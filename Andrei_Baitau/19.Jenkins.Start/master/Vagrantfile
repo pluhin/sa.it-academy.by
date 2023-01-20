@@ -17,10 +17,10 @@ echo "Change Jenkins Auth Strateg"
 echo 'JAVA_ARGS="-Djenkins.install.runSetupWizard=false"' >> /etc/default/jenkins
 rm -rf /var/lib/jenkins/init.groovy.d && mkdir /var/lib/jenkins/init.groovy.d
 cp -v /vagrant/01_AuthorizationStrategy.groovy /var/lib/jenkins/init.groovy.d/
-cp -v /vagrant/02_addAdmin.groovy /var/lib/jenkins/init.groovy.d/
+cp -v /vagrant/02_addUser.groovy /var/lib/jenkins/init.groovy.d/
 cp -v /vagrant/03_addUser.groovy /var/lib/jenkins/init.groovy.d/
 service jenkins start
-sleep 2m
+sleep 1m
 echo "Change Jenkins Auth Strategy -> Success"
 ####################################
 echo "Install plugins "
