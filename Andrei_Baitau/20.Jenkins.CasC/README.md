@@ -17,7 +17,6 @@
 
 GitHub link -> [Link](https://github.com/AndreiBaitau/jenkins/tree/master)
 
-![git](git.png)
 
 ### Edit CasC file
 
