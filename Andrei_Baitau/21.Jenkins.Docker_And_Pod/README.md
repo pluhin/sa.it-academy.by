@@ -1,21 +1,21 @@
 # 21.Jenkins. Docker and Pod
 
-- [x]Repository content:
-    - [x]Dockerfiles with application inside
-    - [x]Jenkinsfile with pipeline code
-- [x]Pipeline steps are:
-    - [x]Checkout code
-    - [x]Validate Dockerfile (https://github.com/hadolint/hadolint)
-    - [x]Build image
-    - [x]Test image (run and check if webUI of application is accessible)
-    - [x]Push image to register (any)
-- [x]Deployment in two namespaces in sequence with manual approve from Jenkins WebUI
-    - [x]Deploy in namespace pre-prod
-    - [x]Test if deployment done
-    - [x]Display message about status of deployment and approve interface on Jenkins WebUI
-    - [x]deploy in namespace prod
-    - [x]cleaning: remove deployment from pre-prod
-- [x]Notification
+- [x] Repository content:
+    - [x] Dockerfiles with application inside
+    - [x] Jenkinsfile with pipeline code
+- [x] Pipeline steps are:
+    - [x] Checkout code
+    - [x] Validate Dockerfile (https://github.com/hadolint/hadolint)
+    - [x] Build image
+    - [x] Test image (run and check if webUI of application is accessible)
+    - [x] Push image to register (any)
+- [x] Deployment in two namespaces in sequence with manual approve from Jenkins WebUI
+    - [x] Deploy in namespace pre-prod
+    - [x] Test if deployment done
+    - [x] Display message about status of deployment and approve interface on Jenkins WebUI
+    - [x] deploy in namespace prod
+    - [x] cleaning: remove deployment from pre-prod
+- [x] Notification
 
 ## Repository 
 
