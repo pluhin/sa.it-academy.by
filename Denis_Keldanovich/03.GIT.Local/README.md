@@ -18,9 +18,9 @@ done
 ## Notification
 
 GIT-Notification:
-![alt text] https://github.com/Keldanovich/sa.it-academy.by/blob/md-sa2-22-22/Denis_Keldanovich/03.GIT.Local/hub.jpg
+![alt text](https://github.com/Keldanovich/sa.it-academy.by/blob/md-sa2-22-22/Denis_Keldanovich/03.GIT.Local/hub.jpg)
 LAB-Notification:
-![alt text] https://github.com/Keldanovich/sa.it-academy.by/blob/md-sa2-22-22/Denis_Keldanovich/03.GIT.Local/lab.jpg
+![alt text](https://github.com/Keldanovich/sa.it-academy.by/blob/md-sa2-22-22/Denis_Keldanovich/03.GIT.Local/lab.jpg)
 
 ## Alias to *.sh
 
