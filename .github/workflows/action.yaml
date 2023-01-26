@@ -1,0 +1,22 @@
+name: Check PR repository
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: action/checkout@v3
+        with:
+          fetch-depth:0
+      - name: Get changes
+        id: changes
+        uses: tj-actions/changes@v34
+      - name:
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo "Quantity tabs in ${file} is `grep -o '\t' $file | wc -l`" >> report.log 2>&1
+          done
+      - name: Push logs
+        uses: action/upload-artifact@v2
+        with: 
+          path: report.log
