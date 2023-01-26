@@ -1,4 +1,3 @@
-```bash
 ## [GitHub](https://github.com/Keldanovich/new_repo)
 ## [GitLab](https://gitlab.com/D.Keldanovich/new_repo)
 ======================================================
