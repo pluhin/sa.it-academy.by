@@ -1,0 +1,120 @@
+---
+- name: Group of hosts
+  hosts: work_sa
+  gather_facts: true
+ 
+  tasks:
+
+  - name: Update the repository cache and update package "nginx" to latest version
+    apt:
+      name: nginx
+      state: latest
+      update_cache: true
+    
+  - name: Check nginx status
+    command: nginx -v
+    register: nginx_status
+
+  - name: Show nginx status
+    debug:
+      msg: "{{ nginx_status.stderr }}"
+  
+  - block: # Block for host35
+  
+    - name: Creating  folders for each site with owner www-data on the host35
+      file:
+        path: "/var/www/website_1.local/html"
+        owner: www-data
+        group: www-data
+        mode: 0555
+        state: directory
+    
+    - name: Change owner www catalog and subfolders recursive on the host35
+      file:
+        path: "/var/www"
+        owner: www-data
+        group: www-data
+        mode: 0555
+        state: directory
+        recurse: true
+    
+    - name: Creating  config file with templates on the host35
+      template:
+        src: ./config-web1.j2
+        dest: /etc/nginx/sites-available/website_1.local
+    
+    - name: Creating  index.html for each sites using templates on the host35
+      template:
+        src: ./index.j2
+        dest: /var/www/website_1.local/html/index.html
+      notify:
+        - restart nginx
+ 
+    - name: Enable virtual host
+      shell: |
+        ln -s /etc/nginx/sites-available/website_1.local /etc/nginx/sites-enabled/
+      failed_when: false # newer failed. if link existing - no changes.
+      
+    - name: Add record into hosts on the host36
+      shell: |
+       grep -q website_1.local /etc/hosts || echo 127.0.0.1 website_1.local >> /etc/hosts;
+
+    - name: Checking that you can connect (GET) to a page and it returns a status 200 on the host35
+      uri:
+        url: http://website_1.local
+           
+    when: ansible_nodename == "sa-35"
+   
+  - block: # Block for host36
+  
+    - name: Creating  folders for each site with owner www-data on the host36
+      file:
+        path: "/var/www/website_2.local/html"
+        owner: www-data
+        group: www-data
+        mode: 0555
+        state: directory
+    
+    - name: Change owner www catalog and subfolders recursive on the host36
+      file:
+        path: "/var/www"
+        owner: www-data
+        group: www-data
+        mode: 0555
+        state: directory
+        recurse: true
+    
+    - name: Creating  config file with templates on the host36
+      template:
+        src: ./config-web2.j2
+        dest: /etc/nginx/sites-available/website_2.local
+    
+    - name: Creating  index.html for each sites using templates
+      template:
+        src: ./index.j2
+        dest: /var/www/website_2.local/html/index.html
+      notify: 
+        - restart nginx
+ 
+    - name: Enable virtual host
+      shell: |
+        ln -s /etc/nginx/sites-available/website_2.local /etc/nginx/sites-enabled/
+      failed_when: false # newer failed. if link existing - no changes.
+      
+    - name: Add record into hosts on the host36
+      shell: |
+       grep -q website_2.local /etc/hosts || echo 127.0.0.1 website_2.local >> /etc/hosts;
+        
+    - name: Checking that you can connect (GET) to a page and it returns a status 200 on the host36
+      uri:
+        url: http://website_2.local
+          
+    when: ansible_nodename == "sa-36"
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: reloaded
+        enabled: true
+       
