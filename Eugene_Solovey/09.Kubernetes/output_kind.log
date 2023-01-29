@@ -1,0 +1,8 @@
+Versions of k3s:
+Client Version: v1.23.12
+Server Version: v1.25.2
+
+Nodes information:
+NAME                          STATUS   ROLES           AGE   VERSION
+chart-testing-control-plane   Ready    control-plane   24s   v1.25.2
+Time for start cluster: 58 seconds
