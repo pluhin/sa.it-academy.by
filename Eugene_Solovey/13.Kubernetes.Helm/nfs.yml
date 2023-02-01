@@ -17,7 +17,7 @@ spec:
   targetNamespace: nfs-wordpress
   set:
     nfs.server: 192.168.37.105
-    nfs.path: /mnt/IT-Academy/nfs-data/sa2-22-22/e_solovey/
+    nfs.path: /mnt/IT-Academy/nfs-data/sa2-22-22/e_solovey/wordpress
     storageClass.name: nfs
 ---
 apiVersion: storage.k8s.io/v1
