@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nfs-wordpress
+  labels:
+    name: nfs-wordpress
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: nfs
+  namespace: nfs-wordpress
+spec:
+  chart: nfs-subdir-external-provisioner
+  repo: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+  targetNamespace: nfs-wordpress
+  set:
+    nfs.server: 192.168.37.105
+    nfs.path: /mnt/IT-Academy/nfs-data/sa2-22-22/e_solovey/
+    storageClass.name: nfs
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-wordpress
+provisioner: cluster.local/nfs-nfs-subdir-external-provisioner
+parameters:
+  onDelete: "retain"
+  pathPattern: "/wordpress/"
