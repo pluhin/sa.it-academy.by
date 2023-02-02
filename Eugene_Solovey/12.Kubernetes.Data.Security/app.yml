@@ -1,0 +1,108 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: webserver
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: ssh-keys
+  namespace: webserver
+spec:
+  encryptedData:
+    id_private: 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
+    id_pub: AgCMkpDhFBt4wLSPf4HCnyZ/gszNeXweltrQTJT5GFVzE1WHTV1NnRS3FwV7J/Nbl1kYi1fEmw5e9baxcIZZ4O9dPczFpEuV9b3KqfPvZ88PjErX90h4uAKUDIykNwAr1oLQl3m3kMR+vBUKSaC0Yw7Ct21dXrMwv0+IFP7EOue5vWI9h0pU0TFNecsTvDpq3ho8AVP4G/N38UJcPPFDovEBooApB5IkPyP4Vv0Lvuy0SVJ9FHRDvexqE3E8PIEqVtjFESTLTWPBWFP6Fkb4mzGo8zG1y3f1xDnQaQORvAxwFWdTmuznSgYVhervLoyeYggj09udc8IS7LQsaS6XZ2wWdZ/O/k7PPYmVR1YlK5jYRCbvOGXcHB9lOsCg2DWxDJtV9dNNVKmef04brjd+0OKAjHguadHBDfLkDbelRHb2IENO5EA3E+FL0QYnYKJF9QFw1830g85a382RFbq6ZS5OTgqzZDxTNJygwmn0i2g8/mAsqidoQ7/qNDyQekGGuJ6qE5JBV73tuJw8CI5zou1i0PWknU2DupspxoFn4rYna3AMroMLBr+7Rom0YDgC7J2TdwDJudWWoJc7VQslm2i3BP+wKzba/JRpKrhWOqLOqtP/DCsui5vZ3U624TZbxnt8M73zgbahZccZT5Vbtyia2YTgPikD0DDPYW2RfkBULJg67hr/FuBZI/K5+T8Xd1Gfs3Pm8MuG5ib+CDPXlzu8ar/sWU+KXksaLS2i7kshYk3KXiwc3Wi9chBuNRTaAo8zORD1j7YzJJ2VVmiKQjGONGGz7Dh8rSspawiUxzxdolpQgUHpWfAnm3+7J1uvQAAZBnjAnO5l50vKffpYo67/2KL17lKhQ8HN6w5i0Fxg4JhpK0KWyyx9Znr5Oh0+6bLYbLcAfM8C/SpWxL/fL/U2xmhmMwnI5b0WQvA+SdHe7yFQrytycRYnHdoaDmuMf5oHfL0w5rMlzZQ8ITIyk+wMNUfTlWMruq4M3N368/ZMbCtn5uExXM4ugOlDuGb6mPi8cigqPNnTfkiwoamkp8Ep4kk9yVwQ9g7Mvsj2zF+f0fEMI4GjsgUgrdljDuWIfs4sLcRjH5fXzSZBoOSmaSLPrtNm+rF2FxD4KvY2NiSk7vlIL5hfpzMRvF9pk9sK66sy6Pr9qJNwbtxfquO+mAqIlHLLdwarpI2bwednRmL88ZZVeYeBTxkEZM9v/dOOHFHBAgRQHPowSkuIvhIPc3fbP8YSS1tpL4i168rQc9JWRWWkHDGVPdHMnwpOtfSBtF6+jjBFdRJ4RJN6oGilDVNWqduGH5TBiLOIs6LhPLtxg0vMSv8E9OakhjMqeuTnblr5H+PfOYy3BmECvAkohpC1SJDGeENPqSAaFUK0Ht+vYmPDm5XMoKw+qk+Ni3tIpMK9UQU1zLGuoNs+G2HF9exiZ7T7JYIG3HJS0d/dKbBgU9Z0R3lq5g==
+  template:
+    metadata:
+      creationTimestamp: null
+      name: ssh-keys
+      namespace: webserver
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx-deployment
+  namespace: webserver
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 3 
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 33%
+      maxUnavailable: 0%
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.22.1
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: config
+          mountPath: /usr/share/nginx/html
+        - name: ssh-keys
+          mountPath: /root/.ssh/
+      initContainers:
+      - name: init
+        image: busybox:1.28
+        command: ['sh', '-c']
+        securityContext:
+          readOnlyRootFilesystem: false
+        args:
+          - echo "<html><head>HOSTNAME INFO</head><body><h1>$HOSTNAME</h1></body></html>">/usr/share/nginx/html/index.html
+        volumeMounts:
+        - name: config
+          mountPath: /usr/share/nginx/html
+          readOnly: false
+      volumes:
+      - name: config
+        emptyDir: {}
+      - name: ssh-keys
+        secret:
+          secretName: ssh-keys
+          defaultMode: 0600
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: webserver
+  labels:
+    app: nginx-service
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: webserver
+  name: ingress-sa
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-alias: "nginx-test.k8s-16.sa"
+spec:
+  rules:
+    - host: nginx-test.k8s-16.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80
