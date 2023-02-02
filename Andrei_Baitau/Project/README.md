@@ -29,7 +29,7 @@
 ### Technologies which were used in project
 
 - **Orchestration:** Kubernetes
-- **Automation tools:** Jenkins, Github Actions, ArgoCD (Argo Rollouts), Ansible
+- **Automation tools:** Jenkins, Github Actions, ArgoCD, Ansible
 - **Source Control Management:** GitHub, DockerHub
 - **Notification:** Slack, Telegram
 - **Content Managment Systems:** Wordpress, Drupal
@@ -68,7 +68,7 @@
 | 5 | **ArgoCD** | Sync (waiting for git update) | ~ 1 min |
 |  |  | Refresh with new image | ~ 2 min |
 |  |  | Refresh with existing image | ~ 30 sec |
-|  |  | Rollout | ~ 3.5 min |
+|  |  | Rollback | ~ 3.5 min |
 |  |  |  |  |
 | 6 | **Full Deploy in k8s  (when you can use app)** | With new image  | ~ 3.5 min |
 |  |  | Existing image | ~ 1 min |
