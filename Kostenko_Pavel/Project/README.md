@@ -52,3 +52,5 @@ Argo-CD synchronize with the repository, sees the changes in the file (index.yam
 ---
 [Images in Docker Hub](https://hub.docker.com/repository/docker/pavelogs/wordpress/general)
 ---
+[Database install](https://github.com/Pavel167988/Install-maria_db/tree/main/db_install)
+---
