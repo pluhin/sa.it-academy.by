@@ -1,0 +1,36 @@
+name: minikube cluster create
+
+on:
+  pull_request:
+    branches: [master]
+
+env:
+      report2: report2.log
+
+jobs:
+  minikube:
+    needs: kind
+    runs-on: ubuntu-latest
+    
+    outputs:
+        out2: ${{ steps.start2.outputs.start2 }}
+    
+    steps:
+
+      - name: job's start time
+        id: start2
+        run: echo "start2=$(date '+%s')" >> $GITHUB_OUTPUT
+    
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
+    
+      - name: Testing cluster and get info
+        run: |
+          echo "Kube version: $(kubectl version --short)" >>  ${{ env.report2 }}
+          echo "Amount nodes: $(kubectl get nodes | grep -c 'Ready')" >> ${{ env.report2 }}
+          echo "Time for start cluster: $(($(date '+%s')-${{ steps.start2.outputs.start2 }})) seconds" >> ${{ env.report2 }}
+
+      - name: upload report 2
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ env.report2 }}

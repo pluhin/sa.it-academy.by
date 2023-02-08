@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-spec-runner
+  labels:
+    app: ubuntu-specrunnder
+spec:
+  containers:
+  - name: ubuntu
+    image: ghcr.io/pluhin/busy-box:latest
+    command: ["/bin/sh","-c"]
+    args: ["mkdir actions-runner && cd actions-runner; curl -o actions-runner-linux-x64-2.299.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.299.1/actions-runner-linux-x64-2.299.1.tar.gz;tar xzf ./actions-runner-linux-x64-2.299.1.tar.gz; export RUNNER_ALLOW_RUNASROOT='1';RUNNER_ALLOW_RUNASROOT='1' ./config.sh --name my_test_runner --labels linux,my_runner --runnergroup default --url https://github.com/AndreiBaitau/sa2-22-22-git ; ./run.sh; sleep 60000 "]
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always

@@ -1,0 +1,60 @@
+# Default values for jenkins.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+namespace: ci-cd
+name: jenkins
+
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "abaitov"
+
+service:
+  port: 8080
+  jnlpport: 50000
+
+jenkinsAuthConfig: /var/jenkins_home/init.groovy.d/basic-security.groovy
+ACsubPath: basic-security.groovy
+jenkinsConfigYaml: /var/jenkins_home/casc_configs/jenkins.yaml
+JCsubPath: jenkins.yaml
+jenkinsConfig: /var/jenkins_home
+configMap:
+  name_basic: basic-security
+  name_config: jenkins-config
+nfs:
+  server: 192.168.37.105
+  path: /mnt/IT-Academy/nfs-data/sa2-22-22/Andrei_Baitau/jenkins
+
+location:
+  adminAddress: "baitovandrei@gmail.com"
+  url: "http://jenkins.k8s-1.sa/"
+
+ingress:
+  enabled: true
+  className: ""
+  hosts:
+    host: jenkins.k8s-1.sa
+
+resources:
+  requests:
+    cpu: 2000m
+    memory: 2000Mi
+  limits:
+    cpu: 2000m
+    memory: 3000Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

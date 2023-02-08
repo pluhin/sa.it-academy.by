@@ -1,0 +1,110 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  config.yml: |-
+    global:
+     resolve_timeout: 1m
+    route:
+      receiver: 'slack-alert'
+      routes:
+        - match:
+            severity: warning   
+          receiver: 'telegram-alert'
+          continue: true
+        - match:
+            severity: warning   
+          receiver: 'slack-alert'
+          continue: true
+
+    receivers:
+      - name: slack-alert
+        slack_configs:
+        - send_resolved: true
+          channel: "#cluster_monitoring"
+          api_url: https://slack.com/api/chat.postMessage
+          http_config:
+            authorization:
+              credentials: << xoxb-MY-SLACK-APP-TOKEN >>
+          title: |-
+            [{{ .Status | toUpper }}] 
+          text: |-
+            {{ range .Alerts -}}
+            *Alert:* {{ .Annotations.title }}
+            *Description:* {{ .Annotations.description }}
+            *Details:*
+              {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+              {{ end }}
+            {{ end }}
+
+      - name: 'telegram-alert'
+        telegram_configs:
+        - send_resolved: true
+          bot_token: << MY-TELEGRAM-BOT-TOKEN >>
+          api_url: https://api.telegram.org
+          chat_id: << MY-TELEGRAM-CHANNEL-ID >>
+          parse_mode: ''
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      name: alertmanager
+      labels:
+        app: alertmanager
+    spec:
+      containers:
+      - name: alertmanager
+        image: prom/alertmanager:latest
+        args:
+          - "--config.file=/etc/alertmanager/config.yml"
+          - "--storage.path=/alertmanager"
+        ports:
+        - name: alertmanager
+          containerPort: 9093
+        resources:
+            requests:
+              cpu: 500m
+              memory: 501M
+            limits:
+              cpu: 1
+              memory: 1Gi
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/alertmanager
+        - name: alertmanager
+          mountPath: /alertmanager
+      volumes:
+      - name: config-volume
+        configMap:
+          name: alertmanager-config
+      - name: alertmanager
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager
+  namespace: monitoring
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/port:   '9093'
+spec:
+  selector: 
+    app: alertmanager
+  type: NodePort  
+  ports:
+    - port: 9093
+      targetPort: 9093
+      nodePort: 31000

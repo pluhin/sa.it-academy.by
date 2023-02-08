@@ -1,0 +1,51 @@
+---
+name: Check k3s cluster pods
+
+on:
+  schedule:
+    - cron: '*/12 * * * *'
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  check:
+    env:
+      output: output.log
+      crash_report: crash_report.log
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Add SSH key and connect to k3s
+      run: |
+        which ssh-agent
+        mkdir ~/.ssh
+        eval `ssh-agent -s`
+        ssh-add - <<< "${{secrets.SSH_KEY}}"
+        ssh-keyscan -H ${{ secrets.PROXY_HOST }} >> ~/.ssh/known_hosts
+        ssh ${{ secrets.PROXY_USERNAME }}@${{ secrets.PROXY_HOST }} ssh-keyscan ${{ secrets.HOST_IP }} >> ~/.ssh/known_hosts
+        ssh -o ProxyCommand="ssh -W %h:%p ${{ secrets.PROXY_USERNAME }}@${{ secrets.PROXY_HOST }}" ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_IP }} "kubectl get pods -A" >> ${{ env.output }}
+    - name: Check pods status
+      id: check_pods
+      run: |
+        kubectl get pods -A >> ${{ env.output }}
+        echo "$(cat ${{ env.output }} | grep -v Running) >> ${{ env.crash_report }}
+        echo "pods_fail=$(wc -l < ${{ env.output }})" >> $GITHUB_OUTPUT
+
+    - name: Additional information in log file
+      if: steps.check_pods.outputs.no_running_line > 1
+      uses: actions/upload-artifact@v2
+      with:
+        path: ${{ env.crash_report }}
+
+    - name: upload crashed pod's list
+      if: steps.check_pods.outputs.pods_fail > 1
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: local_notifications
+        SLACK_COLOR: 'red'
+        SLACK_TITLE: 'Check pods'
+        LACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_MESSAGE: 'WARNING! Check k3S cluster!'
+        SLACK_USERNAME: ntBot
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

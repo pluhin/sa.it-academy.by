@@ -1,0 +1,24 @@
+apiVersion: v1
+entries:
+  first-app:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-12-22T19:48:30.033552142+01:00"
+    description: A Helm chart for SA2 demo
+    digest: a4fe1e68c3c8528d8221a6c00f0d15eccf611d233fa2bfd1249bbd12a1c8d8cf
+    name: first-app
+    type: application
+    urls:
+    - https://pluhin.github.io/helm-md-sa2-22-22/helm-releases/first-app-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-12-22T19:48:30.032116491+01:00"
+    description: A Helm chart for SA2 demo
+    digest: 8a1549ec332e7a2e76c441773022103cbe54d7144d8ba41f07f6e93a1dfe8649
+    name: first-app
+    type: application
+    urls:
+    - https://pluhin.github.io/helm-md-sa2-22-22/helm-releases/first-app-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-12-22T19:48:30.030352839+01:00"

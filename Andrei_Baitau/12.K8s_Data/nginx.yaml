@@ -1,0 +1,118 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: index-config
+data:
+  index.html: |
+    <html>
+    <title>12.K8s</title>
+    <body>
+    <h3> This is hometask No.12 </h3>
+    <br><br><h1> host </h1><br><br>
+    <h4> Powered by Nginx
+    <h5> Created by Andrei Baitau </h5>
+    <body bgcolor=pink>
+    </h4>
+    </body>
+    </head>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver
+  labels:
+    app: nginx-web
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: "33%"
+      maxUnavailable: "33%"
+  selector:
+    matchLabels:
+      app: nginx-web
+  template:
+    metadata:
+      labels:
+        app: nginx-web
+    spec:
+      containers:
+      - name: php-nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+        - name: index
+          mountPath: /usr/share/nginx/html/
+        - name: ssh-for-12-k8s
+          mountPath: /root/.ssh/
+      initContainers:
+      - name: init
+        image: busybox
+        command: ["sh"]
+        args: ["-c", "cp /tmp/index.html /usr/share/nginx/html/; 
+          sed -i 's/host/$(HOSTNAME)/' /usr/share/nginx/html/index.html" ]
+        env:
+          - name: HOSTNAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+        volumeMounts:
+        - name: index-config-mount
+          mountPath: /tmp/ 
+        - name: index
+          mountPath: /usr/share/nginx/html/
+      volumes:
+      - name: index
+        emptyDir: {} 
+      - name: index-config-mount
+        configMap:
+          name: index-config
+      - name: ssh-for-12-k8s
+        secret:
+          secretName: ssh-for-12-k8s
+          defaultMode: 0600 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-web-service
+  labels:
+    run: nginx-web-service
+spec:
+ #type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: nginx-web
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-sa
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-alias: "nginx-test-alias.k8s-1.sa"
+spec:
+  rules:
+    - host: nginx-test.k8s-1.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-web-service
+                port:
+                  number: 80
