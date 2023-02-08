@@ -1,0 +1,127 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: webserver-ns
+  name: index-config
+data:
+  index.html: |
+    <!DOCTYPE html><html><body>
+    <h3>Hello from Nginx container</h3>
+    <h3>Container created with github action.</h3>
+    <h3>Deployed in cluster using github action.</h3>
+    <h3>Owner: <a href="https://github.com/sgoser">Sergey Harbach</a></h3>
+    <h3>and now the line as first level header, that caused so mutch trouble:</h3>
+    <h1>__hostname__</h1>
+    </body></html>
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: webserver-ns
+  name: nginx-web-deploy # name of deployment
+  labels:
+    app: app-nginx-web # which app will be deployed
+spec:
+  replicas: 3
+  revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1 # mean + 1 to all replicas = 4 all pods can be exist at same time
+      maxUnavailable: 1 # mean -1 to all running pods. = 2 running and 1 terminated, and with max pods 4 == 2 can be created at same time
+  selector:
+    matchLabels:
+      app: app-nginx-web  # which app will be used with this deploymet strategy
+  template:  # everithing there and next lines - our pod specification
+    metadata:
+      labels:
+        app: app-nginx-web # main name of app
+    spec:
+      containers:
+      - name: nginx-web-container
+        # image: __dh_image:tag__ #AUTOMATE (will be replased with github action)
+        image: sgoser/nginx-webserver:v0.5 # MANUAL (used with kubectl apply command)
+        imagePullPolicy: IfNotPresent
+#        command: ["bash", "-c"]
+#        args:
+#          - systemctl start ssh.service;
+        ports:
+        - containerPort: 22
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts: # mount only editable volume with contained data which initContainer copied
+          - mountPath: /usr/share/nginx/html/
+            name: index
+          - mountPath: /root/.ssh/
+            name: ssh-keys
+      initContainers: # initContainer to copy configMap to editable volume
+      - name: copy
+        image: sgoser/nginx-webserver:v0.5
+        command: ["bash", "-c"]
+        args:  
+        # copy mounted /tmp/index.html (filename from data section in configMap)
+        # sed replace line in file index.html (mounted as editable volume) and placed hostname in there
+        # previous show hostname in init container to log. just for test
+          - cp /tmp/index.html /usr/share/nginx/html/;
+            sed -i "s/__hostname__/$HOSTNAME/" index.html;
+            echo "initContainer Hostname is > $HOSTNAME";
+        volumeMounts:
+        - mountPath: /tmp/ # mount path volume with data from ConfigMap by the name 
+          name: config
+        - mountPath: /usr/share/nginx/html/ # mount path to Editable volume by the name
+          name: index
+      volumes:
+      - name: index # name of volume - which will be Editable (no RO)
+        emptyDir: {}
+      - name: config # name of volume to mount configMap
+        configMap:
+          name: index-config # name of configMap
+      - name: ssh-keys
+        secret:
+          secretName: ssh-keys
+          defaultMode: 0400
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: webserver-ns
+  name: nginx-web-service
+  labels:
+    run: nginx-web-service
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: app-nginx-web
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: webserver-ns
+  name: ingress-sa
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-alias: "web.k8s-4.sa"
+spec:
+  rules:
+    - host: app.k8s-4.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-web-service
+                port:
+                  number: 80

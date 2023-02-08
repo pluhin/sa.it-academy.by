@@ -1,0 +1,58 @@
+
+Testing with kubeconform:
+Summary: 21 resources found in 4 files - Valid: 21, Invalid: 0, Errors: 0, Skipped: 0
+
+Testing with kubeval:
+PASS - manifests/app_webserver.yaml contains a valid ConfigMap (webserver-ns.index-config)
+PASS - manifests/grafana.yaml contains a valid ConfigMap (monitoring.grafana-datasources)
+PASS - manifests/jenkins.yaml contains a valid Namespace (ci-cd)
+PASS - manifests/jenkins.yaml contains a valid Deployment (ci-cd.jenkins)
+PASS - manifests/jenkins.yaml contains a valid ConfigMap (ci-cd.basic-security)
+PASS - manifests/jenkins.yaml contains a valid ConfigMap (ci-cd.jenkins-config)
+PASS - manifests/jenkins.yaml contains a valid ClusterRoleBinding (ci-cd.jenkins)
+PASS - manifests/jenkins.yaml contains a valid Ingress (ci-cd.ingress-jenkins)
+PASS - manifests/jenkins.yaml contains a valid Service (ci-cd.jenkins)
+PASS - manifests/prometheus.yaml contains a valid ClusterRole (prometheus)
+PASS - manifests/prometheus.yaml contains a valid ClusterRoleBinding (prometheus)
+PASS - manifests/prometheus.yaml contains a valid ConfigMap (monitoring.prometheus-server-conf)
+PASS - manifests/prometheus.yaml contains a valid Deployment (monitoring.prometheus-deployment)
+PASS - manifests/prometheus.yaml contains a valid Service (monitoring.prometheus-service)
+PASS - manifests/prometheus.yaml contains a valid Ingress (monitoring.ingress-prometheus)
+
+Testing with kube-linter:
+KubeLinter 0.2.6
+
+manifests/app_webserver.yaml: (object: webserver-ns/nginx-web-deploy apps/v1, Kind=Deployment) object has 3 replicas but does not specify inter pod anti-affinity (check: no-anti-affinity, remediation: Specify anti-affinity in your pod specification to ensure that the orchestrator attempts to schedule replicas on different nodes. Using podAntiAffinity, specify a labelSelector that matches pods for the deployment, and set the topologyKey to kubernetes.io/hostname. Refer to https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity for details.)
+
+manifests/app_webserver.yaml: (object: webserver-ns/nginx-web-deploy apps/v1, Kind=Deployment) container "copy" does not have a read-only root file system (check: no-read-only-root-fs, remediation: Set readOnlyRootFilesystem to true in the container securityContext.)
+
+manifests/app_webserver.yaml: (object: webserver-ns/nginx-web-deploy apps/v1, Kind=Deployment) container "nginx-web-container" does not have a read-only root file system (check: no-read-only-root-fs, remediation: Set readOnlyRootFilesystem to true in the container securityContext.)
+
+manifests/app_webserver.yaml: (object: webserver-ns/nginx-web-deploy apps/v1, Kind=Deployment) container "copy" is not set to runAsNonRoot (check: run-as-non-root, remediation: Set runAsUser to a non-zero number and runAsNonRoot to true in your pod or container securityContext. Refer to https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ for details.)
+
+manifests/app_webserver.yaml: (object: webserver-ns/nginx-web-deploy apps/v1, Kind=Deployment) container "nginx-web-container" is not set to runAsNonRoot (check: run-as-non-root, remediation: Set runAsUser to a non-zero number and runAsNonRoot to true in your pod or container securityContext. Refer to https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ for details.)
+
+manifests/grafana.yaml: (object: monitoring/grafana apps/v1, Kind=Deployment) The container "grafana" is using an invalid container image, "grafana/grafana:latest". Please use images that are not blocked by the `BlockList` criteria : [".*:(latest)$" "^[^:]*$" "(.*/[^:]+)$"] (check: latest-tag, remediation: Use a container image with a specific tag other than latest.)
+
+manifests/grafana.yaml: (object: monitoring/grafana apps/v1, Kind=Deployment) container "grafana" does not have a read-only root file system (check: no-read-only-root-fs, remediation: Set readOnlyRootFilesystem to true in the container securityContext.)
+
+manifests/grafana.yaml: (object: monitoring/grafana apps/v1, Kind=Deployment) container "grafana" is not set to runAsNonRoot (check: run-as-non-root, remediation: Set runAsUser to a non-zero number and runAsNonRoot to true in your pod or container securityContext. Refer to https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ for details.)
+
+manifests/jenkins.yaml: (object: ci-cd/jenkins apps/v1, Kind=Deployment) container "jenkins" does not have a read-only root file system (check: no-read-only-root-fs, remediation: Set readOnlyRootFilesystem to true in the container securityContext.)
+
+manifests/jenkins.yaml: (object: ci-cd/jenkins apps/v1, Kind=Deployment) container "jenkins" is not set to runAsNonRoot (check: run-as-non-root, remediation: Set runAsUser to a non-zero number and runAsNonRoot to true in your pod or container securityContext. Refer to https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ for details.)
+
+manifests/prometheus.yaml: (object: monitoring/prometheus-deployment apps/v1, Kind=Deployment) The container "prometheus" is using an invalid container image, "prom/prometheus". Please use images that are not blocked by the `BlockList` criteria : [".*:(latest)$" "^[^:]*$" "(.*/[^:]+)$"] (check: latest-tag, remediation: Use a container image with a specific tag other than latest.)
+
+manifests/prometheus.yaml: (object: monitoring/prometheus-deployment apps/v1, Kind=Deployment) container "prometheus" does not have a read-only root file system (check: no-read-only-root-fs, remediation: Set readOnlyRootFilesystem to true in the container securityContext.)
+
+manifests/prometheus.yaml: (object: monitoring/prometheus-deployment apps/v1, Kind=Deployment) container "prometheus" is not set to runAsNonRoot (check: run-as-non-root, remediation: Set runAsUser to a non-zero number and runAsNonRoot to true in your pod or container securityContext. Refer to https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ for details.)
+
+manifests/prometheus.yaml: (object: monitoring/prometheus-deployment apps/v1, Kind=Deployment) container "prometheus" has cpu request 0 (check: unset-cpu-requirements, remediation: Set CPU requests and limits for your container based on its requirements. Refer to https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits for details.)
+
+manifests/prometheus.yaml: (object: monitoring/prometheus-deployment apps/v1, Kind=Deployment) container "prometheus" has cpu limit 0 (check: unset-cpu-requirements, remediation: Set CPU requests and limits for your container based on its requirements. Refer to https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits for details.)
+
+manifests/prometheus.yaml: (object: monitoring/prometheus-deployment apps/v1, Kind=Deployment) container "prometheus" has memory request 0 (check: unset-memory-requirements, remediation: Set memory requests and limits for your container based on its requirements. Refer to https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits for details.)
+
+manifests/prometheus.yaml: (object: monitoring/prometheus-deployment apps/v1, Kind=Deployment) container "prometheus" has memory limit 0 (check: unset-memory-requirements, remediation: Set memory requests and limits for your container based on its requirements. Refer to https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits for details.)
+

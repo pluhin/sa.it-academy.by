@@ -1,0 +1,34 @@
+namespace: jenkins
+name: jenkinshelm
+image: jfrog.it-academy.by/public/jenkins-ci:pkostenko
+
+
+nfs_path_sa: /mnt/IT-Academy/nfs-data/sa2-22-22/pkostenko/jenkins
+nfs_server_sa: 192.168.37.105
+
+
+email: pasha.167988@yandex.by
+
+
+ingress:
+  enabled: enabled
+host: jenkins.k8s-12.sa
+ingress_port: 8080
+
+
+requests_cpu: 3000m
+requests_memory: 3000Mi
+limits_cpu: 3000m
+limits_memory: 4000Mi
+
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 75
+
+master_port: 8080
+master_targetport: 8080
+slave_port: 50000
+slave_targetport: 50000
