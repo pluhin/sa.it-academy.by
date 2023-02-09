@@ -191,4 +191,4 @@ dbb18dc Deploy app in master branch
 
 ```
 
-**_Now after rebase dev baranche we can see master and dev branches received all commits. Hotfix and Fetures/do_one merged with master branch and closed _ **
+**_Now after rebase dev baranche we can see master and dev branches received all commits. Hotfix and Fetures/do_one merged with master branch and closed _**
