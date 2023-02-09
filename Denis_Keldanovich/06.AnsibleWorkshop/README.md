@@ -1,4 +1,4 @@
-##Playbook recap
+## Playbook recap
 ```
 dkeldanovich@dkeldanovich-ubuntu:~/ansible/06.Ansible.Workshop$ ansible-playbook -i inv.yaml deploy_nginx.yaml
 
