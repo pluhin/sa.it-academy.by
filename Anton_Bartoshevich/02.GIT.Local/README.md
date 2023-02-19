@@ -22,24 +22,24 @@
     265  git log --oneline 
     266  git branch
     267  git checkout -b features/do_one
-  268  echo "Some new strings in the code" > featfile.txt
-  269  git add .
-  270  git commit -m "The first commit from features/do_one"
-  271  echo "Some changes in the code" > featfile.txt
-  272  git add .
-  273  git commit -m "The second commit from features/do_one"
-  274  git log --oneline 
-  275  git checkout master 
-  276  git checkout -b hotfix/we_gonna_die
-  277  echo "Some fixes in code" > fixfile.txt
-  278  git add .
-  279  git commit -m "The commit from hotfix"
-  280  git checkout master
-  281  git merge dev
-  282  git merge features/do_one 
-  283  git cherry-pick hotfix/we_gonna_die 
-  284  git checkout dev
-  285  git cherry-pick hotfix/we_gonna_die 
-  286  git checkout features/do_one 
-  287  git cherry-pick hotfix/we_gonna_die
-  288  git checkout master
+    268  echo "Some new strings in the code" > featfile.txt
+    269  git add .
+    270  git commit -m "The first commit from features/do_one"
+    271  echo "Some changes in the code" > featfile.txt
+    272  git add .
+    273  git commit -m "The second commit from features/do_one"
+    274  git log --oneline 
+    275  git checkout master 
+    276  git checkout -b hotfix/we_gonna_die
+    277  echo "Some fixes in code" > fixfile.txt
+    278  git add .
+    279  git commit -m "The commit from hotfix"
+    280  git checkout master
+    281  git merge dev
+    282  git merge features/do_one 
+    283  git cherry-pick hotfix/we_gonna_die 
+    284  git checkout dev
+    285  git cherry-pick hotfix/we_gonna_die 
+    286  git checkout features/do_one 
+    287  git cherry-pick hotfix/we_gonna_die
+    288  git checkout master
