@@ -1,27 +1,27 @@
     5  git config --global user.name "Anton Bartoshevich"
     6  git config --global user.email "anton-bartas@mail.ru"
-  246  echo "Hello world" > file1.txt
-  247  git status
-  248  git add .
-  249  git commit -m "The first commit from master"
-  250  echo "Hello GIT" > file1.txt
-  251  git status
-  252  git add .
-  253  git commit -m "The second commit from master"
-  254  git log --oneline 
-  255  git checkout -b dev
-  256  git branch
-  257  echo "Some code created by developers" > devfile1.txt
-  258  git status
-  259  git add .
-  260  git commit -m "The first commit from dev"
-  261  echo "Some bugfixes in the code created by developers" > devfile1.txt 
-  262  git status
-  263  git add .
-  264  git commit -m "The second commit from dev"
-  265  git log --oneline 
-  266  git branch
-  267  git checkout -b features/do_one
+    246  echo "Hello world" > file1.txt
+    247  git status
+    248  git add .
+    249  git commit -m "The first commit from master"
+    250  echo "Hello GIT" > file1.txt
+    251  git status
+    252  git add .
+    253  git commit -m "The second commit from master"
+    254  git log --oneline 
+    255  git checkout -b dev
+    256  git branch
+    257  echo "Some code created by developers" > devfile1.txt
+    258  git status
+    259  git add .
+    260  git commit -m "The first commit from dev"
+    261  echo "Some bugfixes in the code created by developers" > devfile1.txt 
+    262  git status
+    263  git add .
+    264  git commit -m "The second commit from dev"
+    265  git log --oneline 
+    266  git branch
+    267  git checkout -b features/do_one
   268  echo "Some new strings in the code" > featfile.txt
   269  git add .
   270  git commit -m "The first commit from features/do_one"
