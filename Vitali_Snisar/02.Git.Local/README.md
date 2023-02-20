@@ -18,7 +18,7 @@ drwxrwxr-x 7 svv svv 4096 Feb 17 14:27 .git
 svv@ubuntu:~/devops/02.GIT$ git config user.name "Vitali Snisar"
 svv@ubuntu:~/devops/02.GIT$ git config user.email "svv_c@mail.ru"
 ```
-##Work in master branch
+## Work in master branch
 ```bash
 svv@ubuntu:~/devops/02.GIT$ cat > myfirstfile.txt
 HI
@@ -100,7 +100,7 @@ svv@ubuntu:~/devops/02.GIT$ git log --oneline
 dddaa36 (HEAD -> master) Second commit in master branch
 a445a47 First commit in master branch
 ```
-##Work in  dev branch
+## Work in  dev branch
 ```bash
 svv@ubuntu:~/devops/02.GIT$ git branch dev
 svv@ubuntu:~/devops/02.GIT$ git branch
@@ -162,7 +162,7 @@ svv@ubuntu:~/devops/02.GIT$ git log --oneline
 dddaa36 (master) Second commit in master branch
 a445a47 First commit in master branch
 ```
-##Work in  features/do_one branch
+## Work in  features/do_one branch
 ```bash
 svv@ubuntu:~/devops/02.GIT$ git branch
 * dev
@@ -202,7 +202,7 @@ svv@ubuntu:~/devops/02.GIT$ git log --oneline
 dddaa36 (master) Second commit in master branch
 a445a47 First commit in master branch
 ```
-##Work in  hotfix/we_gonna_die branch
+## Work in  hotfix/we_gonna_die branch
 ```bash
 svv@ubuntu:~/devops/02.GIT$ git switch master
 Switched to branch 'master'
@@ -234,7 +234,7 @@ svv@ubuntu:~/devops/02.GIT$ git log --oneline
 dddaa36 (master) Second commit in master branch
 a445a47 First commit in master branch
 ```
-##Merge to master from features/do_one
+## Merge to master from features/do_one
 ```bash
 svv@ubuntu:~/devops/02.GIT$ git checkout master
 Switched to branch 'master'
@@ -248,7 +248,7 @@ svv@ubuntu:~/devops/02.GIT$ git log --oneline
 dddaa36 Second commit in master branch
 a445a47 First commit in master branch
 ```
-##Merge to master from hotfix/we_gonna_die
+## Merge to master from hotfix/we_gonna_die
 ```bash
 svv@ubuntu:~/devops/02.GIT$ git checkout master
 Switched to branch 'master'
@@ -265,7 +265,7 @@ ad5acf1 First commit in dev branch
 dddaa36 Second commit in master branch
 a445a47 First commit im master branch
 ```
-##Merge to dev from hotfix/we_gonna_die
+## Merge to dev from hotfix/we_gonna_die
 ```bash
 svv@ubuntu:~/devops/02.GIT$ git checkout dev
 Switched to branch 'dev'
@@ -280,7 +280,7 @@ svv@ubuntu:~/devops/02.GIT$ git log --oneline
 dddaa36 Second commit in master branch
 a445a47 First commit im master branch
 ```
-##Merge to features/do_one from hotfix/we_gonna_die
+## Merge to features/do_one from hotfix/we_gonna_die
 ```bash
 svv@ubuntu:~/devops/02.GIT$ git checkout features/do_one
 Switched to branch 'features/do_one'
@@ -297,7 +297,7 @@ f22ebdd (HEAD -> features/do_one) First commit in features/do_one branch
 dddaa36 Second commit in master branch
 a445a47 First commit im master branch
 ```
-##Create clone from fork
+## Create clone from fork
 ```bash
 svv@ubuntu:~$ cd devops/
 svv@ubuntu:~/devops$ git clone https://github.com/svvsvv/sa.it-academy.by  Cloning into 'sa.it-academy.by'...
@@ -308,7 +308,7 @@ remote: Total 35968 (delta 207), reused 552 (delta 172), pack-reused 35346
 Receiving objects: 100% (35968/35968), 328.12 MiB | 10.56 MiB/s, done.
 Resolving deltas: 100% (10659/10659), done.
 ```
-##Go to branch 'md-sa2-23-23'
+## Go to branch 'md-sa2-23-23'
 ```bash
 svv@ubuntu:~/devops$ cd sa.it-academy.by/
 svv@ubuntu:~/devops/sa.it-academy.by$ git checkout md-sa2-23-23
