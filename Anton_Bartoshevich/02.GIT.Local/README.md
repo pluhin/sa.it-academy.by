@@ -78,3 +78,9 @@ cfe4ab1 The second commit from master
 557b5a1 First commit from master
 ```
 ___________________
+## Hotfix/we_gonna_die log output
+```bash
+2c95a3c (HEAD -> hotfix/we_gonna_die) The commit from hotfix
+cfe4ab1 The second commit from master
+557b5a1 First commit from master
+```
