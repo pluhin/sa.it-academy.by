@@ -1,3 +1,5 @@
+## GIT commands   
+   ```bash
     5  git config --global user.name "Anton Bartoshevich"
     6  git config --global user.email "anton-bartas@mail.ru"
     246  echo "Hello world" > file1.txt
@@ -43,3 +45,36 @@
     286  git checkout features/do_one 
     287  git cherry-pick hotfix/we_gonna_die
     288  git checkout master
+```
+______________________
+## Master log output
+```bash
+37e2acb (HEAD -> master) The commit from hotfix
+475ccba The second commit from features/do_one
+47da241 The first commit from features/do_one
+03bc672 The second commit from dev
+a7581e5 The first commit from dev
+cfe4ab1 The second commit from master
+557b5a1 First commit from master
+```
+_________________
+## Dev log output
+```bash
+31d7e4d (HEAD -> dev) The commit from hotfix
+03bc672 The second commit from dev
+a7581e5 The first commit from dev
+cfe4ab1 The second commit from master
+557b5a1 First commit from master
+```
+________________
+## Features/do_one log output
+```bash
+19337b3 (HEAD -> features/do_one) The commit from hotfix
+475ccba The second commit from features/do_one
+47da241 The first commit from features/do_one
+03bc672 The second commit from dev
+a7581e5 The first commit from dev
+cfe4ab1 The second commit from master
+557b5a1 First commit from master
+```
+___________________
