@@ -133,3 +133,28 @@ svv@ubuntu:~/devops/02.GIT$ pushremotes
 Everything up-to-date
 Everything up-to-date
 ```
+## E-mail notification
+```
+[svvsvv/sa.it-academy.by] 9cb69f: created md-file 02.GIT.local.md
+От	Vitali Snisar <noreply@github.com>Add contact
+Кому	svv_c@mail.ruAdd contact
+Дата	Сегодня 01:06
+Тело сообщения
+
+  Branch: refs/heads/md-sa2-23-23
+  Home:   https://github.com/svvsvv/sa.it-academy.by
+  Commit: 4e070f939839a141fcd56a179fca6438bc47fc8a
+      https://github.com/svvsvv/sa.it-academy.by/commit/4e070f939839a141fcd56a179fca6438bc47fc8a
+  Author: Vitali Snisar <svv_c@mail.ru>
+  Date:   2023-02-21 (Tue, 21 Feb 2023)
+
+  Changed paths:
+    A Vitali_Snisar/03.Git.Hosting/README.md
+
+  Log Message:
+  -----------
+  Commit_03.Git.Hosting
+Compare: https://github.com/svvsvv/sa.it-academy.by/compare/2b5a084bc8d2...4e070f939839
+```
+## Slack notification
+```
