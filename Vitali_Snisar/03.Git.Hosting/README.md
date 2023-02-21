@@ -157,4 +157,4 @@ Everything up-to-date
 Compare: https://github.com/svvsvv/sa.it-academy.by/compare/2b5a084bc8d2...4e070f939839
 ```
 ## Slack notification
-```
+![Slack](Slack.png)
