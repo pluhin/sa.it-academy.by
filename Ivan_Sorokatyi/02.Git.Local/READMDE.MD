@@ -54,7 +54,7 @@
   359  git checkout features/do_one
   360  git rebase dev
 ```
-##master
+master
 ```bash
 c1c1c3b (HEAD -> master) finish
 df9581f (hotfix/we_gonna_die) some hotfix
@@ -64,20 +64,20 @@ e8695a6 first commit - dev
 2089add second commit - master
 63acb7c first commit - master
 ```
-##dev
+dev
 ```bash
 d5e1d6c (HEAD -> dev) second commit - dev
 e8695a6 first commit - dev
 2089add second commit - master
 63acb7c first commit - master
 ```
-##features
+features
 ```bash
 df9581f (HEAD -> hotfix/we_gonna_die) some hotfix
 2089add second commit - master
 63acb7c first commit - master
 ```
-##hotfix
+hotfix
 ```bash
 df9581f (HEAD -> hotfix/we_gonna_die) some hotfix
 2089add second commit - master
