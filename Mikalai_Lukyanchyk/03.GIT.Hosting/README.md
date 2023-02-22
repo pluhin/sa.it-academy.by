@@ -64,8 +64,8 @@ To gitlab.com:mikalai.lukyanchyk/03.git.hosting.git
 ```
 
 ## Slack Notification ##
-![Slack](Slack.png)
+![Slack](Slack.PNG)
 
 
 ## Email Notification ##
-![Email](Email.png)
+![Email](Email.PNG)
