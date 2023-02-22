@@ -118,7 +118,6 @@ e36aed1 second_commit_dev
 9339153 second_commit_master
 455e792 first_commit_master
 ```
-
 ### Branch 'dev'
 ```bash
 vitali@vitali-VirtualBox:~/Course/02.GIT.Local$ git log --oneline
@@ -130,7 +129,8 @@ e36aed1 second_commit_dev
 ```
 ### Branch 'features/do_one'
 ```bash
-vitali@vitali-VirtualBox:~/Course/02.GIT.Local$ git log --oneline               1ab29cd (HEAD -> features/do_one) first_commit_hotfix/we_gonna_die
+vitali@vitali-VirtualBox:~/Course/02.GIT.Local$ git log --oneline
+1ab29cd (HEAD -> features/do_one) first_commit_hotfix/we_gonna_die
 fb7925b first_commit_features/do_one
 e36aed1 second_commit_dev
 0d0a417 first_commit_dev
