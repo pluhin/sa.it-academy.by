@@ -1,6 +1,6 @@
-  # 02.Git.Local
+# 02.Git.Local
   
-  ## Commands
+## Commands
   
 ```bash
   341  git init
@@ -40,9 +40,10 @@
   375  git commit -m "first commit from hotfix/we_gonna_die"
   376  git log --oneline
 ```
-  ## "Play" 
+
+## "Play" 
   
-  ### Merge
+### Merge
 
 ```bash 
   377  git checkout master
@@ -55,7 +56,8 @@
   384  git checkout hotfix/we_gonna_die 
   385  git log --oneline
 ```
-  ### Cherry-pick
+
+### Cherry-pick
   
 ```bash   
   386  git checkout master 
@@ -68,9 +70,10 @@
   393  git log --oneline
   394  history
 ```
-  ## LOGS 
+
+## LOGS 
     
-  ### master
+### master
 
 ```bash
   VNL@adminpc1:~/LEARN/git/02.Git.Local$ git checkout master 
@@ -82,8 +85,8 @@
   3d4415c second commit from master
   7f008fd first commit from master
 ```
-  
-  ### dev
+
+### dev
 
 ```bash
   VNL@adminpc1:~/LEARN/git/02.Git.Local$ git checkout dev
@@ -95,7 +98,7 @@
   7f008fd first commit from master
 ```
 
-  ### features/do_one
+### features/do_one
 
 ```bash
   VNL@adminpc1:~/LEARN/git/02.Git.Local$ git checkout features/do_one 
@@ -108,7 +111,7 @@
   7f008fd first commit from master
 ```
   
-  ### hotfix/we_gonna_die
+### hotfix/we_gonna_die
 
 ```bash
   VNL@adminpc1:~/LEARN/git/02.Git.Local$ git checkout hotfix/we_gonna_die 
@@ -117,5 +120,3 @@
   3d4415c second commit from master
   7f008fd first commit from master
 ```
-  
-
