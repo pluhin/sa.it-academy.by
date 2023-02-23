@@ -2,7 +2,7 @@
 
 ## List of commands
 
-'''bash
+``` bash
 	git init
 	echo "first line" > file.txt
 	git config --global --add safe.directory D:/it-academy/02.GIT.Local
@@ -64,39 +64,39 @@
 	vi ./file.txt
 	git add --all
 	git rebase --continue
-'''
+```
 
 ## List of commits
 
 ### master
-'''bash
+``` bash
 c88c884 (HEAD -> master, hotfix) First commit, hotfix branch
 d9c4468 Second commit
 a8e447a First commit
-'''
+```
 
 ### dev
-'''bash
+``` bash
 de0bcf7 (HEAD -> dev) Second commit, dev branch
 415e34d fix dev
 c88c884 (master, hotfix) First commit, hotfix branch
 d9c4468 Second commit
 a8e447a First commit
-'''
+```
 
 ### features
-'''bash
+``` bash
 886addd (HEAD -> features) First commit, features branch
 20b4c71 Second commit, dev branch
 3608962 fix features
 c88c884 (master, hotfix) First commit, hotfix branch
 d9c4468 Second commit
 a8e447a First commit
-'''
+```
 
 ### hotfix
-'''bash
+``` bash
 c88c884 (HEAD -> hotfix, master) First commit, hotfix branch
 d9c4468 Second commit
 a8e447a First commit
-'''
+```
