@@ -87,7 +87,7 @@ vitali@vitali-VirtualBox:~$ cat .bashrc
 alias push='source /home/vitali/pushscript.sh'
 ```
 ```bash
-vitali@vitali-VirtualBox:~/Course/02.GIT.Local$ push "Add new file"
+vitali@vitali-VirtualBox:~/Course/02.GIT.Local$ pushscript "Add new file"
 [master 4f00bbe] Add new file
  2 files changed, 2 insertions(+)
  create mode 100644 eleventhfile.txt
