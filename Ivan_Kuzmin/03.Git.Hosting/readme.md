@@ -1,5 +1,4 @@
 # **03.Git.Hosting**
-
 ## **Project inks**
 [Gitlab](https://gitlab.com/ivankuzminn/repo-test-git)<br>
 [Github](https://github.com/ivankuzminn/sa.it-academy.by)
