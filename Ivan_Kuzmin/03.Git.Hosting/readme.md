@@ -56,13 +56,13 @@ echo "OK"
 ```
 
 ## Slack notification ##
-![Slack](https://github.com/ivankuzminn/sa.it-academy.by/blob/md-sa2-23-23/Ivan_Kuzmin/03.Git.Hosting/images/slack.png)
+![Slack](slack.png)
 
 ## Email notification ##
-![Email](https://github.com/ivankuzminn/sa.it-academy.by/blob/md-sa2-23-23/Ivan_Kuzmin/03.Git.Hosting/images/mail.png)
+![Email](mail.png)
 
 ## Github SSH ##
-![Hub](https://github.com/ivankuzminn/sa.it-academy.by/blob/md-sa2-23-23/Ivan_Kuzmin/03.Git.Hosting/images/sshgithub.png)
+![Hub](sshgithub.png)
 
 ## Gitlab SSH ##
-![Lab](https://github.com/ivankuzminn/sa.it-academy.by/blob/md-sa2-23-23/Ivan_Kuzmin/03.Git.Hosting/images/sshgitlab.png)
+![Lab](sshgitlab.png)
