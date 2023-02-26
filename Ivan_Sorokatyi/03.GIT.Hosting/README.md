@@ -13,7 +13,10 @@ The key fingerprint is:
 The key's randomart image is:
 ```
 ##GIT GITLAB
+
 [Gitlab](https://gitlab.com/ivan_sorokaty/repo)
+
+
 [Github](https://github.com/sorokatyie/repo)
 
 ## Script
