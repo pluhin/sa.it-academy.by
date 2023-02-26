@@ -1,4 +1,5 @@
 ## Create key
+```bash
 pos@pos:~$ ssh-keygen
 Generating public/private rsa key pair.
 Enter file in which to save the key (/home/pos/.ssh/id_rsa):
@@ -10,10 +11,10 @@ Your identification has been saved in /home/pos/.ssh/id_rsa
 Your public key has been saved in /home/pos/.ssh/id_rsa.pub
 The key fingerprint is:
 The key's randomart image is:
-
+```
 ##GIT GITLAB
 [Gitlab](https://gitlab.com/ivan_sorokaty/repo)
-[Github](https://github.com/sorokatyi/repo)
+[Github](https://github.com/sorokatyie/repo)
 
 ## Script
 ```bash
