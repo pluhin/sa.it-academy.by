@@ -12,7 +12,7 @@ Your public key has been saved in /home/pos/.ssh/id_rsa.pub
 The key fingerprint is:
 The key's randomart image is:
 ```
-##GIT GITLAB
+GIT and GITLAB
 
 [Gitlab](https://gitlab.com/ivan_sorokaty/repo)
 
