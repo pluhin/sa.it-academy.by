@@ -1,0 +1,22 @@
+name: Find tabs in code 
+on: [pull_request]
+jobs:
+  count:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch all history for all tags and branches
+        uses: actions/checkout@v3
+        with: 
+          fetch-depth: 0
+      - name: Get changed files
+        id: files
+        uses: tj-actions/changed-files@v34
+      - name: Count tabs
+        run: |
+          for file in ${{ steps.files.outputs.all_changed_files }}; do
+            echo "The $file has `grep -o -P '\t' $file | wc -l` tabs" >> report.log
+          done 
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: report.log
