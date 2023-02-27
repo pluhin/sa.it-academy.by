@@ -1,0 +1,26 @@
+name: Check files and search tabs
+on:
+  push:
+  pull_request:
+jobs:
+  Checkingfiles:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v35
+    - name: Calculate the tabs
+      run: |
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo "$file was changed" >> output.log 
+          echo "He have `grep -P '\t' $file | wc -l` tabs." >> output.log
+        done
+
+    - name: Upload report
+      uses: actions/upload-artifact@v3
+      with:
+        path: output.log
