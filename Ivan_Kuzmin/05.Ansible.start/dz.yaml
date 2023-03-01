@@ -1,0 +1,32 @@
+- hosts: all_workers 
+  #strategy: free
+  serial: 2
+  pre_tasks:
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: "{{ ansible_user }}"
+        state: present
+        key: "{{ item }}"
+      with_items:
+        - "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      tags:
+        - never
+  tasks:
+    - name: OS/version
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+
+    - name: Mount point/capacity/used
+      debug:
+        msg:
+          - "Mount point : {{ item.mount }}"
+          - "Size total = {{item.size_total / 1048576}} MB  "
+          - "Used = {{(item.size_total - item.size_available) / 1048576 }} MB"
+      with_items: "{{ ansible_mounts }}"
+
+    - name: RAM/capacity/free
+      debug:
+        msg:
+          - "Total RAM = {{ ansible_memtotal_mb}} MB"
+          - "Free RAM = {{ ansible_memfree_mb}} MB "
+          - "Used RAM = {{( ansible_memtotal_mb - ansible_memfree_mb)}} MB"
