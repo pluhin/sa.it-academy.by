@@ -42,3 +42,10 @@ git push $remote_name
 done
 
 ```
+
+Create and use alias
+
+```bash
+alias ap ~/scripts/auto_push.sh
+ap
+```
