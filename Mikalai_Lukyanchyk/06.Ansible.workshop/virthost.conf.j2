@@ -1,0 +1,12 @@
+server {
+   listen 127.0.0.1:{{http_port}};
+   
+   root /var/www/{{item}}/html;
+   index index.html index.htm;
+
+   server_name {{item}} www.{{item}};
+
+   location / {
+       try_files $uri $uri/ =404;
+   }
+}

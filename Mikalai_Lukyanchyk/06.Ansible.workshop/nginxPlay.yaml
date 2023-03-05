@@ -1,0 +1,64 @@
+---
+- hosts: db_all
+  become: yes
+  vars_files:
+    - vars/defaylt.yaml
+
+  tasks:
+    - name: Update apt cache and install Nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+    - name: Start Nginx and boot
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Create a directory
+      ansible.builtin.file:
+        path: /var/www/{{item}}/html
+        state: directory
+        mode: '0755'
+      loop: "{{http_host}}"
+  
+    - name: Template configure file
+      ansible.builtin.template:
+        src: virthost.conf.j2
+        dest: /etc/nginx/sites-available/{{item}}
+        mode: '0755'
+      loop: "{{http_host}}"
+
+    - name: Create a symbolic link
+      ansible.builtin.file:
+        src: /etc/nginx/sites-available/{{item}}
+        dest: /etc/nginx/sites-enabled/{{item}}
+        owner: root
+        group: root
+        state: link
+      loop: "{{http_host}}"
+
+    - name: Template index.html
+      ansible.builtin.template:
+        src: index.html.j2
+        dest: /var/www/{{item}}/html/index.html
+      loop: "{{http_host}}"
+
+    - name: Add in hosts
+      shell: |
+        grep -q {{ item }} /etc/hosts || echo 127.0.0.1 {{ item }} >> /etc/hosts;
+      loop: "{{ http_host }}"
+
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Check that a page returns a status 200 and fail if the word "Welcome" is not in the page contents
+      ansible.builtin.uri:
+        url: http://{{item}}:8080
+        return_content: true
+      register: this
+      failed_when: "'Welkome' not in this.content"
+      loop: "{{http_host}}"
