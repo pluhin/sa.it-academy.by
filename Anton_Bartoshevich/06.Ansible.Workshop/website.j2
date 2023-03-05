@@ -1,0 +1,12 @@
+server {
+    server_name {{ item }};
+    access_log /var/log/nginx/{{ item }}_access.log;
+    error_log /var/log/nginx/{{ item }}_error.log;
+    root /var/www/{{ item }};
+
+    location / {
+
+                index  index.html index.htm;
+    }
+
+}
