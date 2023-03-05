@@ -1,0 +1,29 @@
+- hosts: "{{ group | default('all_workers') }}"
+  tasks:
+ 
+  - name: Print OS/version
+    debug:
+      msg:
+        - "{{ ansible_os_family }}"
+        - "{{ ansible_distribution }}"
+        - "version {{ ansible_distribution_version }}"
+    tags:
+        - os
+ 
+  - name: Print mount point/capacity/used
+    debug:
+      msg:
+        - "Mount {{ item.device }} {{ item.mount }}"
+        - "Capacity {{(item.size_total / 1024 / 1024 ) | round}}"
+        - "Used {{((item.size_total - item.size_available) / 1024 / 1024) | round}}"
+    with_items: "{{ ansible_facts.mounts }}"
+    loop_control:
+      label: "{{ item.mount }}"
+    tags:
+        - mount
+
+  - name: Print RAM/capacity/free
+    debug:
+      msg: "info: {{ ansible_memory_mb.real }} mb"
+    tags:
+        - info      
