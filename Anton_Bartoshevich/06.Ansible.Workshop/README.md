@@ -111,9 +111,6 @@ server {
   - sitelist:
     - "www.test1.by"
     - "www.test2.by"
-  - indexlist:
-    - "www.test1.by"
-    - "www.test3.by"
   tasks:
     - name: Update cache & Full system update
       apt:
