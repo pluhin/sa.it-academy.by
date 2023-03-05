@@ -54,7 +54,7 @@ host2 | SUCCESS => {
     "ping": "pong"
 }
 
- 724  sudo ansible -i inv.yaml -m authorized_key -a "key=\"{{lookup('file','~/.ssh/id_rsa                                                                                               .pub')}}\" user=root" all_workers -u root --ask-pass
+ 724 sudo ansible -i inv.yaml -m authorized_key -a "key=\"{{lookup('file','~/.ssh/id_rsa.pub')}}\" user=root" all_workers -u root --ask-pass
  725 ansible -i inv.yml -m ping all_workers -u root
 ```
 ## Create playbook to display parameters from remote host
