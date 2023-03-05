@@ -1,0 +1,58 @@
+---
+- hosts: host18
+  vars:
+    file_index: index.j2
+    config_vh: vh.j2
+    vh_file_folder: /etc/nginx/sites-available/
+    port_site:
+      - 8080
+      - 8081
+    
+  tasks:
+  - name: Install nginx
+    ansible.builtin.apt:
+      name: "nginx"
+      state: "latest"
+      update_cache: true
+      
+  - name: Copy config_vh
+    template: src={{ config_vh }} dest={{ vh_file_folder }}vh_{{ item }}.conf
+    vars:
+      port: "{{ item  }}"
+    with_items: "{{ port_site }}"
+    
+  - name: Create link
+    shell: "ln -s /etc/nginx/sites-available/vh_{{ item }}.conf /etc/nginx/sites-enabled/vh_{{ item }}.conf"
+    with_items: "{{ port_site }}"
+    register: results
+    failed_when: results.rc != 0 and "File exist" not in results.stderr
+
+  - name: Make dir for site files
+    file:
+      path: "/var/www/site{{ item }}.by/html"
+      owner: root
+      state: directory
+      mode: 0755
+    with_items: "{{ port_site }}"
+
+  - name: Copy index.html
+    template: src={{ file_index }} dest=/var/www/site{{ item }}.by/html/index.html
+    vars:
+      port: "{{ item  }}"
+    with_items: "{{ port_site }}"
+      
+  - name: Add entry in hosts
+    shell: |
+      grep -q "{{ item }}" /etc/hosts || echo "127.0.0.1 site{{ item }}.by" >> /etc/hosts;
+    loop:
+      "{{ port_site }}"
+         
+  - name: Check nginx
+    shell: "nginx -t"
+    register: results
+    failed_when: results.rc != 0 or "test failed" in results.stdout
+      
+  - name: Check sites
+    ansible.builtin.uri:
+      url: http://site{{ item }}.by:{{ item }}
+    loop: "{{ port_site }}"
