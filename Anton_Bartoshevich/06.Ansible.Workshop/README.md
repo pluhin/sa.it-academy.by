@@ -199,7 +199,7 @@ server {
        state: "restarted"
     become: yes
 ```
-# Output agter running playbook:
+# Output after running playbook:
 ```bash
 server@server:~/ansible_nginx$ sudo ansible-playbook -i inv.yml inst_nginx.yml
 
