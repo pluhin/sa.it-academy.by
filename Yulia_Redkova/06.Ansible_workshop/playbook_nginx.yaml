@@ -1,0 +1,126 @@
+---
+- hosts: db_all
+  tasks:
+    - name: ensure nginx is at the latest version
+      apt: name=nginx state=latest
+    - name: start nginx
+      service:
+          name: nginx
+          state: started
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /var/www/julia-site1.by/public_html/
+        state: directory
+        mode: '0755'
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /var/www/julia-site2.by/public_html/
+        state: directory
+        mode: '0755'
+
+    - name: Create html file for virtual host1
+      ansible.builtin.template:
+          src: site1.html
+          dest: /var/www/julia-site1.by/public_html/index.htm
+          owner: root
+          group: root
+          mode: '0755'
+    - name: Create html file for virtual host2
+      ansible.builtin.template:
+          src: site2.html
+          dest: /var/www/julia-site2.by/public_html/index.htm
+          owner: root
+          group: root
+          mode: '0755'
+
+    - name: Copy a "/etc/nginx/sites-available/default" file on the remote machine for site1
+      ansible.builtin.copy:
+        src: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-available/julia-site1.by
+        remote_src: yes
+
+    - name: Copy a "/etc/nginx/sites-available/default" file on the remote machine for site2
+      ansible.builtin.copy:
+        src: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-available/julia-site2.by
+        remote_src: yes
+
+    - name: editing /etc/nginx/sites-available/julia-site1.by
+      ansible.builtin.replace:
+        path: /etc/nginx/sites-available/julia-site1.by
+        regexp: "root /var/www/html;"
+        replace: "root /var/www/julia-site1.by/public_html;"
+          #        state: present
+          #backup: yes
+    - name: editing /etc/nginx/sites-available/julia-site2.by
+      ansible.builtin.replace:
+        path: /etc/nginx/sites-available/julia-site2.by
+        regexp: "root /var/www/html;"
+        replace: "root /var/www/julia-site2.by/public_html;"
+          #state: present
+          #backup: yes
+    - name: editing /etc/nginx/sites-available/julia-site1.by
+      ansible.builtin.replace:
+        path: /etc/nginx/sites-available/julia-site1.by
+        regexp: "server_name _;"
+        replace: "server_name julia-site1.by www.julia-site1.by;"
+    - name: editing /etc/nginx/sites-available/julia-site2.by
+      ansible.builtin.replace:
+        path: /etc/nginx/sites-available/julia-site2.by
+        regexp: "server_name _;"
+        replace: "server_name julia-site2.by www.julia-site2.by;"
+    - name: editing /etc/nginx/sites-available/julia-site1.by
+      ansible.builtin.replace:
+        path: /etc/nginx/sites-available/julia-site1.by
+        regexp: "listen 80 default_server;"
+        replace: "listen 80;"
+    - name: editing /etc/nginx/sites-available/julia-site2.by
+      ansible.builtin.replace:
+        path: /etc/nginx/sites-available/julia-site2.by
+        regexp: "listen 80 default_server;"
+        replace: "listen 80;"
+    - name: editing /etc/nginx/sites-available/julia-site1.by
+      ansible.builtin.replace:
+        path: /etc/nginx/sites-available/julia-site1.by
+        regexp: "80 default_server;"
+        replace: "80 ;"
+    - name: editing /etc/nginx/sites-available/julia-site2.by
+      ansible.builtin.replace:
+        path: /etc/nginx/sites-available/julia-site2.by
+        regexp: "80 default_server;"
+        replace: "80 ;"
+
+    - name: Create a symbolic link for site1
+      ansible.builtin.file:
+        src: /etc/nginx/sites-available/julia-site1.by
+        dest: /etc/nginx/sites-enabled/julia-site1.by
+        state: link
+
+    - name: Create a symbolic link for site2
+      ansible.builtin.file:
+        src: /etc/nginx/sites-available/julia-site2.by
+        dest: /etc/nginx/sites-enabled/julia-site2.by
+        state: link
+
+    - name: Check nginx configuration
+      shell: "nginx -t"
+      register: nginx_result
+                          
+    - debug:
+        msg: "{{nginx_result.stdout_lines}}"
+
+
+    - name: Restart service httpd, in all cases
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+
+    - name: Check that you can connect (GET) to a page and it returns a status 200
+      ansible.builtin.uri:
+        url: http://julia-site1.by
+        return_content: true
+    - name: Check that you can connect (GET) to a page and it returns a status 200
+      ansible.builtin.uri:
+        url: http://julia-site2.by
+        return_content: true
+
