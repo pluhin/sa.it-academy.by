@@ -1,0 +1,55 @@
+- hosts: worker_host
+  become: yes
+  become_method: sudo
+  vars: 
+  - sitelist:
+    - "www.test1.by"
+    - "www.test2.by"
+  tasks:
+    - name: Update cache & Full system update
+      apt:
+       update_cache: true
+       upgrade: dist
+       cache_valid_time: 3600
+       force_apt_get: true
+    - name: Install nginx
+      apt:
+       pkg: nginx
+      become: yes
+    - name: Create dir for virtualhosts
+      file:
+        path: /var/www/{{ item }}
+        state: directory
+      become: yes
+      with_items: "{{ sitelist }}"
+    - name: Create nginx config files
+      template:
+        src: "website.j2"
+        dest: "/etc/nginx/sites-enabled/{{ item }}.conf"
+      become: yes
+      with_items: "{{ sitelist }}"
+    - name: Add index file 
+      template:
+        src: "index.j2"
+        dest: "/var/www/{{ item }}/index.html"
+      become: yes
+      with_items: "{{ sitelist }}"   
+    - name: Check that a page of site "www.test1.by" returns a status 200 and fail if the content - "www.test1.by" is not in the page contents
+      ansible.builtin.uri:
+       url: http://www.test1.by/index.html
+       return_content: true
+      register: this
+      failed_when: "'www.test1.by' not in this.content"
+    - name: Check that a page of site "www.test2.by" returns a status 200 and fail if the content - "www.test2.by" is not in the page contents 
+      ansible.builtin.uri:
+       url: http://www.test2.by/index.html
+       return_content: true
+      register: this
+      failed_when: "'www.test2.by' not in this.content" 
+  handlers:
+  - name: nginxrestart
+    service:
+       name: "nginx"
+       state: "restarted"
+    become: yes
+  
