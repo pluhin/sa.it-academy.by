@@ -1,0 +1,72 @@
+---
+- hosts: all
+  become: true
+
+  vars:
+    vhosts:
+      - site1
+      - site2
+
+
+  tasks: 
+
+  - name: Install Nginx  
+    apt:
+      name: nginx
+      state: latest
+      update_cache: yes
+
+  - name: start nginx service
+    service:
+      name: nginx
+      state: started
+
+  - name: Make dirs fro vhosts
+    file:
+      path: /var/www/{{item}}/html
+      owner: root
+      state: directory
+      mode: 0755
+    loop:
+      "{{vhosts}}"
+
+  - name: Copy config files
+    template:
+      src: ./templates/vhost.conf.j2
+      dest: /etc/nginx/sites-available/{{item}}.conf
+    loop:
+      "{{vhosts}}"
+
+  - name: Copy index files
+    template:
+      src: ./templates/index.j2
+      dest: /var/www/{{item}}/html/index.html
+    loop:
+      "{{vhosts}}"
+
+  - name: Create links for sites
+    shell: |
+      ln -s /etc/nginx/sites-available/{{item}}.conf /etc/nginx/sites-enabled/
+    loop:
+      "{{vhosts}}"
+    tags: never
+
+  - name: Input hosts in html
+    shell: |
+      grep -q "{{item}}" /etc/hosts || echo "127.0.0.1 {{item}}" >> /etc/hosts;
+    loop:
+      "{{vhosts}}"
+
+  - name: restart Nginx to apply changes
+    service:
+      name: nginx
+      state: restarted
+
+  - name: Check site
+    uri:
+      url: "http://{{item}}"
+      return_content: yes
+    register: code_200
+    failed_when: "'working' not in code_200.content"
+    loop:
+      "{{vhosts}}"
