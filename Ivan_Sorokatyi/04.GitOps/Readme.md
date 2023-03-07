@@ -37,12 +37,3 @@ https://github.com/sorokatyie/04.GitOps/actions/runs/4337304589/jobs/7573209138
 
 ## Result
 Tab count in text2.txt is 2
-
-
-
-
-
-
-
-
-
