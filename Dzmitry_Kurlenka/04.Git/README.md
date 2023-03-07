@@ -9,8 +9,8 @@
 ```bash
 name: Check files and search tabs
 on:
-        push:
-                pull_request:
+  push:
+    pull_request:
 jobs:
   Checkingfiles:
     runs-on: ubuntu-latest
