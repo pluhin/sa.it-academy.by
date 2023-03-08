@@ -1,0 +1,74 @@
+---
+- hosts: server
+  become: true
+
+  tasks:  
+  - name: nginx. Install packages
+    apt:
+      name: "nginx"
+      state: latest
+      update_cache: yes
+    tags: install
+
+  - name: make dir for site
+    ansible.builtin.file:
+        path: "/var/www/{{ item }}/html"
+        state: directory
+        mode: '0755'
+    with_items:
+      - "firsttestsite.by"
+      - "secondtestsite.by"
+
+  - name: add html for site
+    ansible.builtin.template:
+        src: index.j2
+        dest: "/var/www/{{ item }}/html/index.html"
+        owner: root
+        group: root
+        mode: '0755'
+    with_items:
+      - "firsttestsite.by"
+      - "secondtestsite.by"
+   
+  - name: add config file to site-available
+    ansible.builtin.template:
+      src: site_config.j2
+      dest: /etc/nginx/sites-available/{{ item }}    
+    with_items:
+      - "firsttestsite.by"
+      - "secondtestsite.by"
+
+  - name: creat syblink for site
+    file:
+      src: /etc/nginx/sites-available/{{ item }}
+      dest: /etc/nginx/sites-enabled/{{ item }}
+      state: link
+    with_items:
+      - "firsttestsite.by"
+      - "secondtestsite.by"
+
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted
+      enabled: true
+    tags: restart
+
+  - name: add domain name in file 'hosts'
+    shell: |
+      grep -q {{ item }} /etc/hosts || echo 127.0.0.1 {{ item }} >> /etc/hosts;
+    with_items:
+      - "firsttestsite.by"
+      - "secondtestsite.by"
+  
+  - name: Check sites. Return status 200
+    ansible.builtin.uri:
+      url: http://{{ item }}
+      return_content: true
+    register: this
+    failed_when: "'content' not in this.content"
+    with_items:
+      - "firsttestsite.by"
+      - "secondtestsite.by"
+
+
