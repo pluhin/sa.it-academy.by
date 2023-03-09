@@ -1,0 +1,74 @@
+- hosts: all_workers
+  vars:
+     sites: [site.by,site2.by]
+  tasks:
+    - name: Update apt  and install nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+    - name: Start Nginx and boot
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+    - name: curl install
+      apt:
+        name: "curl"
+        state: latest
+        update_cache: yes
+
+    - name: Enable and start service nginx
+      service:
+          name: nginx
+          state: started
+    - name: Copy nginx.conf.j2
+      template:
+          src: nginx.conf.j2
+          dest: /etc/nginx/sites-enabled/{{ item }}
+          owner: root
+          group: root
+          mode: '0644'
+      loop:
+         "{{ sites }}"
+    - name: restart nginx
+      service:
+          name: nginx
+          state: restarted
+    - name: host
+      shell:
+          grep -q "{{ item }}" /etc/hosts || echo "127.0.0.1 {{ item }}" >> /etc/hosts;
+      loop:
+          "{{ sites }}"
+    - name: Create folder for pages
+      file:
+        path: /var/www/{{ item }}/html/
+        owner: root
+        state: directory
+        mode: 0755
+      loop:
+        "{{ sites }}"
+
+    - name: Copy page
+      template:
+        src: index.html.j2
+        dest: /var/www/{{ item }}/html/index.html
+      loop:
+        "{{ sites }}"
+
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+    
+    - name: Check site connection
+      uri:
+        url: "http://{{ item }}"
+        return_content: yes
+      register: page_data
+      failed_when: "'WELCOME' not in page_data.content"
+      loop:
+        "{{ sites }}"
+    - name: print info
+      debug:
+        msg: "{{ page_data }}"
