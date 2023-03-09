@@ -1,4 +1,0 @@
-http_host:
-  - site1
-  - site2
-http_port: "80"

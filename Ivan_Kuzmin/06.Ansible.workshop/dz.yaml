@@ -6,73 +6,58 @@
         name: nginx
         state: latest
         update_cache: yes
-    - name: mkdir site1
+    - name: mkdir site1,site2
       ansible.builtin.file:
-        path: /var/www/site1/html
+        path: "/var/www/{{ item }}/html"
         state: directory
         mode: '0755'
-    - name: mkdir site2
-      ansible.builtin.file:
-        path: /var/www/site2/html
-        state: directory
-        mode: '0755'
-    - name: make html for site1
+      with_items:
+      - "site1"
+      - "site2"
+    - name: make html for site1,site2
       ansible.builtin.template:
-          src: template1.html
-          dest: /var/www/site1/html/site1.html
-          owner: root
-          group: root
-          mode: '0755'
-    - name: make html for site2
-      ansible.builtin.template:
-        src: template2.html
-        dest: /var/www/site2/html/site2.html
+        src: template.html
+        dest: "/var/www/{{ item }}/html/index.html"
         owner: root
         group: root
         mode: '0755'
-    - name:  mkdir site1
+      with_items:
+      - "site1"
+      - "site2"
+    - name:  mkdir site1, site2
       ansible.builtin.file:
-        path: /etc/nginx/sites-available/site1
+        path: "/etc/nginx/sites-available/{{ item }}"
         state: directory
         mode: '0755'
-    - name: mkdir site2
-      ansible.builtin.file:
-        path: /etc/nginx/sites-available/site2
-        state: directory
-        mode: '0755'       
-    - name: add config site1
+      with_items:
+      - "site1"
+      - "site2"       
+    - name: add config site1,site2
       ansible.builtin.template:
-        src: virthost1.conf
-        dest: /etc/nginx/sites-available/site1/site1.conf
+        src: virthost.conf
+        dest: "/etc/nginx/sites-available/{{ item }}/{{ item  }}.conf"
         owner: root
         group: root
         mode: '0755'
-    - name: add config site2
-      ansible.builtin.template:
-        src: virthost2.conf
-        dest: /etc/nginx/sites-available/site1/site2.conf
-        owner: root
-        group: root
-        mode: '0755'
+      with_items:
+      - "site1"
+      - "site2"
     - name: Add sites in hosts
       ansible.builtin.shell:
         # cmd: echo "127.0.0.1 site1 site2 www.site1  www.site2"  >> /etc/hosts;
         cmd: grep -q site1  /etc/hosts || echo "127.0.0.1 site1 www.site1 site2 www.site2" >> /etc/hosts;   
-    - name: symbolic link site1
+    - name: symbolic link site1,site2
       ansible.builtin.file:
-        src: /etc/nginx/sites-available/site1
-        dest: /etc/nginx/sites-enabled/site1
+        src: /etc/nginx/sites-available/{{ item }}
+        dest: /etc/nginx/sites-enabled/{{ item }}
         state: link
-    - name: symbolic link site2
-      ansible.builtin.file:
-        src: /etc/nginx/sites-available/site2
-        dest: /etc/nginx/sites-enabled/site2
-        state: link
-    - name: Check1
+      with_items:
+      - "site1"
+      - "site2"
+    - name: Check site1, site2
       ansible.builtin.uri:
-        url: http://www.site1
+        url: http://www.{{ item }}
         return_content: true
-    - name: Check2
-      ansible.builtin.uri:
-        url: http://www.site2
-        return_content: true
+      with_items:
+      - "site1"
+      - "site2"
