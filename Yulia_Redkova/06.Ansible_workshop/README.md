@@ -3,89 +3,65 @@
 [ansible.cfg](https://github.com/julietredk/sa.it-academy.by/blob/md-sa2-23-23/Yulia_Redkova/06.Ansible_workshop/ansible.cfg)
 2. Create inventory file
 [inventory](https://github.com/julietredk/sa.it-academy.by/blob/md-sa2-23-23/Yulia_Redkova/06.Ansible_workshop/inv.yaml)
-3.Create sample html files for virtualhosts 1 and 2
+3.Create sample html files for virtualhosts 1 and 2 and template for /etc/nginx/sites-available/julia-site*.by 
+
 [site1.html](https://github.com/julietredk/sa.it-academy.by/blob/md-sa2-23-23/Yulia_Redkova/06.Ansible_workshop/site1.html)
+
 [site2.html](https://github.com/julietredk/sa.it-academy.by/blob/md-sa2-23-23/Yulia_Redkova/06.Ansible_workshop/site2.html)
+
+[template](https://github.com/julietredk/sa.it-academy.by/blob/md-sa2-23-23/Yulia_Redkova/06.Ansible_workshop/index_htm_template)
+
 4. Create playbook
-[playbook](https://github.com/julietredk/sa.it-academy.by/blob/md-sa2-23-23/Yulia_Redkova/06.Ansible_workshop/playbook_nginx.yaml)
+[playbook](https://github.com/julietredk/sa.it-academy.by/blob/md-sa2-23-23/Yulia_Redkova/06.Ansible_workshop/playbook_nginx2.yaml)
 5. Run playbook and check results
-```
-PLAY [db_all] ******************************************************************
+```bash
+yulia@ubuntuserver:~/Gitlab_repo/06.Ansible_workshop$ ansible-playbook -i inv.yaml playbook_nginx2.yaml --ask-pass
+SSH password: 
+[WARNING]: Skipping callback plugin 'profile_tasks', unable to load
+[WARNING]: Skipping callback plugin 'timer', unable to load
 
-TASK [Gathering Facts] *********************************************************
+PLAY [db_all] **********************************************************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************************************************
 ok: [host16]
 
-TASK [ensure nginx is at the latest version] ***********************************
+TASK [ensure nginx is at the latest version] ***************************************************************************************************************************
 ok: [host16]
 
-TASK [start nginx] *************************************************************
+TASK [start nginx] *****************************************************************************************************************************************************
 ok: [host16]
 
-TASK [Create a directory if it does not exist] *********************************
-ok: [host16]
+TASK [Create a directory if it does not exist] *************************************************************************************************************************
+ok: [host16] => (item=julia-site1.by)
+ok: [host16] => (item=julia-site2.by)
 
-TASK [Create a directory if it does not exist] *********************************
-ok: [host16]
+TASK [Create html file for virtual host] *******************************************************************************************************************************
+ok: [host16] => (item=julia-site1.by)
+ok: [host16] => (item=julia-site2.by)
 
-TASK [Create html file for virtual host1] **************************************
-ok: [host16]
+TASK [temlating files /etc/nginx/sites-available/julia-site*.by] *******************************************************************************************************
+ok: [host16] => (item=julia-site1.by)
+ok: [host16] => (item=julia-site2.by)
 
-TASK [Create html file for virtual host2] **************************************
-ok: [host16]
+TASK [Create a symbolic link for site] *********************************************************************************************************************************
+ok: [host16] => (item=julia-site1.by)
+ok: [host16] => (item=julia-site2.by)
 
-TASK [Copy a "/etc/nginx/sites-available/default" file on the remote machine for site1] ***
+TASK [Check nginx configuration] ***************************************************************************************************************************************
 changed: [host16]
 
-TASK [Copy a "/etc/nginx/sites-available/default" file on the remote machine for site2] ***
-changed: [host16]
-
-TASK [editing /etc/nginx/sites-available/julia-site1.by] ***********************
-changed: [host16]
-
-TASK [editing /etc/nginx/sites-available/julia-site2.by] ***********************
-changed: [host16]
-
-TASK [editing /etc/nginx/sites-available/julia-site1.by] ***********************
-changed: [host16]
-
-TASK [editing /etc/nginx/sites-available/julia-site2.by] ***********************
-changed: [host16]
-
-TASK [editing /etc/nginx/sites-available/julia-site1.by] ***********************
-changed: [host16]
-
-TASK [editing /etc/nginx/sites-available/julia-site2.by] ***********************
-changed: [host16]
-
-TASK [editing /etc/nginx/sites-available/julia-site1.by] ***********************
-changed: [host16]
-
-TASK [editing /etc/nginx/sites-available/julia-site2.by] ***********************
-changed: [host16]
-
-TASK [Create a symbolic link for site1] ****************************************
-ok: [host16]
-
-TASK [Create a symbolic link for site2] ****************************************
-ok: [host16]
-
-TASK [Check nginx configuration] ***********************************************
-changed: [host16]
-
-TASK [debug] *******************************************************************
+TASK [debug] ***********************************************************************************************************************************************************
 ok: [host16] => {
     "msg": []
 }
 
-TASK [Restart service httpd, in all cases] *************************************
+TASK [Restart service httpd, in all cases] *****************************************************************************************************************************
 changed: [host16]
 
-TASK [Check that you can connect (GET) to a page and it returns a status 200] ***
-ok: [host16]
+TASK [Check that you can connect (GET) to a page and it returns a status 200] ******************************************************************************************
+ok: [host16] => (item=julia-site1.by)
+ok: [host16] => (item=julia-site2.by)
 
-TASK [Check that you can connect (GET) to a page and it returns a status 200] ***
-ok: [host16]
-
-PLAY RECAP *********************************************************************
-host16                     : ok=24   changed=12   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+PLAY RECAP *************************************************************************************************************************************************************
+host16                     : ok=11   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
 ```
