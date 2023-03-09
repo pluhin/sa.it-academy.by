@@ -1,0 +1,63 @@
+- hosts: db_all
+  become: yes
+  tasks:
+    - name: Apt update Install Nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+    - name: mkdir site1,site2
+      ansible.builtin.file:
+        path: "/var/www/{{ item }}/html"
+        state: directory
+        mode: '0755'
+      with_items:
+      - "site1"
+      - "site2"
+    - name: make html for site1,site2
+      ansible.builtin.template:
+        src: template.html
+        dest: "/var/www/{{ item }}/html/index.html"
+        owner: root
+        group: root
+        mode: '0755'
+      with_items:
+      - "site1"
+      - "site2"
+    - name:  mkdir site1, site2
+      ansible.builtin.file:
+        path: "/etc/nginx/sites-available/{{ item }}"
+        state: directory
+        mode: '0755'
+      with_items:
+      - "site1"
+      - "site2"       
+    - name: add config site1,site2
+      ansible.builtin.template:
+        src: virthost.conf
+        dest: "/etc/nginx/sites-available/{{ item }}/{{ item  }}.conf"
+        owner: root
+        group: root
+        mode: '0755'
+      with_items:
+      - "site1"
+      - "site2"
+    - name: Add sites in hosts
+      ansible.builtin.shell:
+        # cmd: echo "127.0.0.1 site1 site2 www.site1  www.site2"  >> /etc/hosts;
+        cmd: grep -q site1  /etc/hosts || echo "127.0.0.1 site1 www.site1 site2 www.site2" >> /etc/hosts;   
+    - name: symbolic link site1,site2
+      ansible.builtin.file:
+        src: /etc/nginx/sites-available/{{ item }}
+        dest: /etc/nginx/sites-enabled/{{ item }}
+        state: link
+      with_items:
+      - "site1"
+      - "site2"
+    - name: Check site1, site2
+      ansible.builtin.uri:
+        url: http://www.{{ item }}
+        return_content: true
+      with_items:
+      - "site1"
+      - "site2"
