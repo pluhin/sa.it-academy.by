@@ -1,0 +1,53 @@
+---
+- hosts: db_all
+  vars:
+    virtual_hosts:
+      - julia-site1.by
+      - julia-site2.by
+  tasks:
+    - name: ensure nginx is at the latest version
+      apt: name=nginx state=latest
+    - name: start nginx
+      service:
+          name: nginx
+          state: started
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /var/www/{{ item }}/public_html/
+        state: directory
+        mode: '0755'
+      loop: "{{ virtual_hosts }}"
+    - name: Create html file for virtual host
+      ansible.builtin.template:
+          src: site1.html
+          dest: /var/www/{{ item }}/public_html/index.htm
+          owner: root
+          group: root
+          mode: '0755'
+      loop: "{{ virtual_hosts }}"
+    - name: temlating files /etc/nginx/sites-available/julia-site*.by
+      template:
+        src: index_htm_template
+        dest: /etc/nginx/sites-available/{{ item }}
+      loop: "{{ virtual_hosts }}"
+    - name: Create a symbolic link for site
+      ansible.builtin.file:
+        src: /etc/nginx/sites-available/{{ item }}
+        dest: /etc/nginx/sites-enabled/{{ item }}
+        state: link
+      loop: "{{ virtual_hosts }}"
+    - name: Check nginx configuration
+      shell: "nginx -t"
+      register: nginx_result
+    - debug:
+        msg: "{{nginx_result.stdout_lines}}"
+    - name: Restart service httpd, in all cases
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+
+    - name: Check that you can connect (GET) to a page and it returns a status 200
+      ansible.builtin.uri:
+        url: http://{{ item }}
+        return_content: true
+      loop: "{{ virtual_hosts }}"
