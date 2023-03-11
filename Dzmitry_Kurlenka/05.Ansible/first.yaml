@@ -1,0 +1,22 @@
+- hosts: all_workers 
+#gather_facts: False
+  #strategy: free
+  tasks:
+    - name: OS/version
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+
+    - name: Mount point/capacity/used
+      debug:
+        msg:
+          - "Mount point : {{ item.mount }}"
+          - "Size total = {{item.size_total}}"
+          - "Used = {{(item.size_total - item.size_available)}}"
+      with_items: "{{ ansible_mounts }}"
+
+    - name: RAM/capacity/free
+      debug:
+        msg:
+          - "Totol = {{ansible_memory_mb.real.total }}"
+          - "Free = {{ ansible_memory_mb.real.free }}"
+          - "Used = {{ ansible_memory_mb.real.used }}"

@@ -1,0 +1,27 @@
+name: 'tab count in modified files'
+on:
+  push:
+  pull_request:
+jobs:
+  checkfile:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+    - id: files
+      uses: jitterbit/get-changed-files@v1
+      with:
+        format: 'csv'
+    - run: |
+        mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
+        Tabs=0
+        for added_modified_file in "${added_modified_files[@]}" 
+        do
+        echo "File ${added_modified_file} has $(grep -o $'\t' ${added_modified_file} | wc -l)" >> test_tab.log 2>&1
+        Tabs=$(( ${Tabs} + $(grep -o $'\t' ${added_modified_file} | wc -l) ))
+        done
+        echo "Total tabs = ${Tabs}" >> test_tab.log
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        path: test_tab.log

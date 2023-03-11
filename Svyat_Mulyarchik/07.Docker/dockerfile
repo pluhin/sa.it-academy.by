@@ -1,0 +1,7 @@
+FROM python:latest
+
+COPY test.py / 
+
+WORKDIR /
+
+CMD ["python3", "test.py"]

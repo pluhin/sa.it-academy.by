@@ -1,0 +1,17 @@
+- hosts: all_workers 
+  tasks:
+    - name: Display OS/version
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+      tags:
+        - facts
+    - name: Mount point/capacity/used
+      debug:
+         msg: "{{ansible_facts.mounts}}"
+      tags:
+        - facts
+    - name: Display RAM/capacity/free
+      debug:
+        msg: "{{ansible_facts.memory_mb}}"
+      tags:
+       - facts

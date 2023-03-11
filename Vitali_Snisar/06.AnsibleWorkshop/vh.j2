@@ -1,0 +1,7 @@
+server{
+        listen 127.0.0.1:{{ port }};
+        server_name site{{ port }}.by;
+        root /var/www/site{{ port }}.by/html;
+        index index.html;
+        location / {}
+       }

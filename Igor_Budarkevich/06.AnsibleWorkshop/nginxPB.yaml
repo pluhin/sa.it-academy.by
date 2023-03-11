@@ -1,0 +1,67 @@
+---
+- hosts: db_all
+  vars:
+    app_packages:
+      - nginx
+    site_pool: ["site111.com", "site222.com"]
+  tasks:
+  - name: Install packages
+    apt:
+      name: "{{ app_packages }}"
+      state: latest
+      update_cache: yes
+    tags: install
+  - name: Create a directory if it does not exist
+    ansible.builtin.file:
+      path: /var/www/{{ item }}/html
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      state: directory
+      mode: 0755
+    loop:
+      "{{ site_pool }}"
+  - name: Permissions
+    ansible.builtin.file:
+      path: /var/www
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      state: directory
+      mode: 0755
+      recurse: yes
+  - name: Template a file to /var/www/host/html/
+    ansible.builtin.template:
+      src: ./templates/index.html.j2
+      dest: /var/www/{{ item }}/html/index.html
+    loop:
+      "{{ site_pool }}"
+  - name: Template a file to /etc/nginx/sites-available/host
+    ansible.builtin.template:
+      src: ./templates/site.conf.j2
+      dest: /etc/nginx/sites-available/{{ item }}
+    loop:
+      "{{ site_pool }}"
+  - name: Create symbolic links
+    shell: |
+      ln -s /etc/nginx/sites-available/{{ item }} /etc/nginx/sites-enabled/
+    loop:
+      "{{ site_pool }}"
+    failed_when: false
+  - name: Add in hosts
+    shell: |
+      grep -q {{ item }} /etc/hosts || echo 127.0.0.1 {{ item }} >> /etc/hosts;
+    loop:
+      "{{ site_pool }}"
+  - name: Restart nginx
+    service:
+      name: nginx
+      state: restarted
+    tags: checksite
+  - name: Check that a page returns a status 200
+    ansible.builtin.uri:
+      url: http://{{ item }}
+      return_content: true
+    register: this
+    failed_when: "'Welcome' not in this.content"
+    loop:
+      "{{ site_pool }}"
+    tags: checksite
