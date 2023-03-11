@@ -1,0 +1,7 @@
+db_all:
+  vars:
+    ansible_user: root
+    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53"'
+  hosts:
+    host11:
+      ansible_host: 192.168.201.11

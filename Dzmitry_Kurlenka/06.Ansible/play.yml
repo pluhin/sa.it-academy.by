@@ -1,0 +1,57 @@
+---
+- hosts: db_all
+  vars:
+    app_packages:
+      - nginx
+    site_pool: 
+            - portal1.com 
+            - portal2.com
+  tasks:
+  - name: Install packages
+    apt:
+      name: "{{ app_packages }}"
+      state: latest
+      update_cache: yes
+    tags: install
+  - name: Create a directory if it does not exist
+    ansible.builtin.file:
+      path: /var/www/{{ item }}/html
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      state: directory
+      mode: 0755
+    loop:
+      "{{ site_pool }}"
+  - name: Access for /var/www
+    ansible.builtin.file:
+      path: /var/www
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      state: directory
+      mode: 0755
+      recurse: yes
+  - name: Template for portal
+    ansible.builtin.template:
+      src:  ./files/index.html.j2
+      dest: /var/www/{{ item }}/html/index.html
+    loop:
+      "{{ site_pool }}"
+  - name: Link template for file
+    ansible.builtin.template:
+      src:  ./files/site.conf.j2
+      dest: /etc/nginx/sites-available/{{ item }}
+    loop:
+      "{{ site_pool }}"
+  - name: Restart nginx
+    service:
+      name: nginx
+      state: restarted
+    tags: checksite
+  - name: Check that a page returns a status 200
+    ansible.builtin.uri:
+      url: http://{{ item }}
+      return_content: true
+    loop:
+      "{{ site_pool }}"
+    tags: checksite
+
