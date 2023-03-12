@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+    - master
+
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: action1
+      uses: actions/checkout@v3
+
+    - name: action2
+      id: changed-files
+      uses: tj-actions/changed-files@v35
+
+    - name: count tabs
+      run: |
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo "File $file has `grep -o $'\t' $file | wc -l` TAB." >> nc_report.log
+        done
+
+    - name: Upload report
+      uses: actions/upload-artifact@v2
+      with:
+        path: nc_report.log
+
