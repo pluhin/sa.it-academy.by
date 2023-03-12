@@ -1,0 +1,4 @@
+http_host:
+  - site1.by
+  - site2.by
+http_port: "80"
