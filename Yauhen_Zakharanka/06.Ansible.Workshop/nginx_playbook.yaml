@@ -1,0 +1,60 @@
+---
+- hosts: db_all
+  vars:
+    app_packages:
+      - nginx
+    test_sites:
+            - testsite1.by
+            - testsite2.by
+  tasks:
+  - name: Install all packages from list
+    apt:
+      name: "{{ app_packages }}"
+      state: latest
+      update_cache: yes
+    tags: install
+  - name: Directory create
+    ansible.builtin.file:
+      path: /var/www/{{ item }}/html
+      owner: root
+      group: root
+      state: directory
+      mode: '0755'
+    loop: "{{ test_sites }}"
+  - name: Sitepage create
+    ansible.builtin.template:
+      src: template.html
+      dest: /var/www/{{ item }}/html/index.htm
+      owner: root
+      group: root
+      mode: '0755'
+    loop: "{{ test_sites }}"
+  - name: Add config template to created sites
+    ansible.builtin.template:
+      src: vhosts.conf
+      dest: "/etc/nginx/sites-available/{{ item  }}"
+      owner: root
+      group: root
+      mode: '0755'
+    loop: "{{ test_sites }}"
+  - name: Symbolic link create
+    ansible.builtin.file:
+      src: /etc/nginx/sites-available/{{ item }}
+      dest: /etc/nginx/sites-enabled/{{ item }}
+      state: link
+    loop: "{{ test_sites }}"
+  - name: Add sites to hosts
+    shell: |
+      grep -q {{ item }} /etc/hosts || echo 127.0.0.1 {{ item }} >> /etc/hosts;
+    loop: "{{ test_sites }}"
+  - name: Restart nginx service
+    service:
+      name: nginx
+      state: restarted
+    tags: checksite
+  - name: Connection to site check
+    ansible.builtin.uri:
+      url: http://{{ item }}
+      return_content: true
+    loop: "{{ test_sites }}"
+    tags: checksite
