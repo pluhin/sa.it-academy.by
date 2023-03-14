@@ -1,0 +1,27 @@
+name: Files Scan
+on:
+  push:
+  pull_request:
+  
+jobs:
+  checkfiles:
+    runs-on: ubuntu-latest
+  
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Check files
+        id: changed-files
+        uses: tj-actions/changed-files@v35
+      - name: find tabs
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          echo "$file was changed" >> output.log 
+          echo "There is `grep -P '\t' $file | wc -l` tabs." >> report.log 
+          done
+        
+      - name: Upload report
+        uses: actions/upload-artifact@v3
+        with:
+          path: report.log
