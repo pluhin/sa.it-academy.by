@@ -2,8 +2,8 @@ all_workers:
   children:
     work_sa:
       hosts:
-        #host19:
-        #  ansible_host: 192.168.202.19
+        host19:
+          ansible_host: 192.168.202.19
         host20:
           ansible_host: 192.168.202.20
 jump_sa:
@@ -13,4 +13,3 @@ jump_sa:
     bastion:
       ansible_host: 178.124.206.53
       ansible_user: jump_sa
-
