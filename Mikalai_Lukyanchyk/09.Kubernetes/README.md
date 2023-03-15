@@ -30,7 +30,7 @@ jobs:
          echo -e "\n$(kubectl version --short)\n" >> $GITHUB_OUTPUT
          echo "EOF" >> $GITHUB_OUTPUT
 
-  Notifikation_minikube:
+  Notification_minikube:
     needs: minikube
     runs-on: ubuntu-latest
     name: Notification minikube
@@ -70,7 +70,7 @@ jobs:
          echo -e "\n$(kubectl version --short)" >> $GITHUB_OUTPUT
          echo "EOF" >> $GITHUB_OUTPUT
 
-  Notifikation_KinD:
+  Notification_KinD:
     needs: KinD
     runs-on: ubuntu-latest
     name: Notification KinD
