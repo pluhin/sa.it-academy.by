@@ -5,7 +5,7 @@
 [>> Docker Hub Registry <<](https://hub.docker.com/repository/docker/ivankuzminn/docker-repo/tags?page=1&ordering=last_updated)
 
 ## Slack notification screenshot
-![Slack-notify](Slack-notify.png)
+![Slack-notify](slack-notify.png)
 
 ## GitHub Action
 ```bash
