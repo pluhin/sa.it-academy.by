@@ -1,12 +1,10 @@
 # Homework for 09.Kubernetes
-## Slack notification screenshot
 
 ## GitHub Action for kinD
 ```bash
 name: "Create cluster using KinD"
 on: 
   push:
-
 jobs:
   kind:
     runs-on: ubuntu-latest
@@ -32,12 +30,12 @@ jobs:
         with:
           path: Kind.log
 ```
+
 ## GitHub Action for minikube
 ```bash
 name: "Create cluster using Minikube"
 on: 
   push:
-
 jobs:
   minikube:
     runs-on: ubuntu-latest
@@ -61,6 +59,7 @@ jobs:
         with:
           path: minikube.log
 ```
+
 ## Artifact for kinD
 ```bash
 It have: 1 nodes
@@ -69,6 +68,7 @@ Kustomize Version: v4.5.7
 Server Version: version.Info{Major:"1", Minor:"25", GitVersion:"v1.25.3", GitCommit:"434bfd82814af038ad94d62ebe59b133fcb50506", GitTreeState:"clean", BuildDate:"2022-10-25T19:35:11Z", GoVersion:"go1.19.2", Compiler:"gc", Platform:"linux/amd64"}
 Spintime: 1678965570-
 ```
+
 ## Artifact for minikube
 ```bash
 It have: 1 nodes
