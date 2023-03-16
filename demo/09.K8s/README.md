@@ -6,7 +6,6 @@ minikube -> virtualbox(10.2.0.15, 192.168.1.201, 127.0.0.1) -> 192.168.1.100 -> 
 
 http://192.168.1.201:8001/api/v1/namespaces/kubernetes-dashboard/services/kubernetes-dashboard:/proxy/#
 
-
 ```bash
   522  top
   523  ip addr
