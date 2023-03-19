@@ -1,0 +1,18 @@
+name: "Setup minikube as CI"
+on: [pull_request, push]
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    name: job1
+    steps:
+      - name: start minikube
+        uses: medyagh/setup-minikube@latest
+        id: minikube
+        with:
+          cache: false
+      - name: kubectl
+        run: |
+          kubectl cluster-info
+          kubectl get pods -A
+          kubectl get node -A
