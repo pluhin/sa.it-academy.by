@@ -1,0 +1,14 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ item.fqdn }};
+    root /var/www/{{ item.name }};
+
+    access_log /var/log/nginx/{{ item.name }}.access.log;
+    error_log /var/log/nginx/{{ item.name }}.error.log;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+

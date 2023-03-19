@@ -1,0 +1,27 @@
+
+name: "Create cluster using Minikube"
+on: 
+  push:
+
+jobs:
+  minikube:
+    runs-on: ubuntu-latest
+    name: Minikube
+    steps:
+      - name: Start time
+        run: echo "start=$(date '+%s')" >> $GITHUB_OUTPUT
+      - name: Minikube install
+        uses: medyagh/setup-minikube@master
+      - name: how many nodes it have
+        run: |
+          echo -e "It have: $(kubectl get nodes | grep -c 'Ready') nodes" >> minikube.log
+      - name: which latest version of Kubernetes it is using
+        run: |
+          echo -e "Kubernetes version of this cluster: $(kubectl version)" >> minikube.log
+      - name: how long it spin up
+        run: |
+          echo -e "Spintime: $(date '+%s')-${{ steps.start.outputs.start }}" >> minikube.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          path: minikube.log

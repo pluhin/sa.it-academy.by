@@ -1,0 +1,70 @@
+name: checking pods in k3s
+on:
+  workflow_dispatch
+
+env:
+  report: report.log
+  crash_report: crash_report.log
+
+jobs:
+  job1:
+    name: checking pods in k3s
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: connect to Kuber and obtaining information about pods
+        run: |
+          mkdir ~/.ssh
+          eval `ssh-agent -s`
+          ssh-add - <<< "${{secrets.SSH_KEY}}"
+          echo "${{secrets.SSH_KNOWN_HOSTS}}" >> ~/.ssh/known_hosts
+          ssh "${{ secrets.KUBE_USER }}"@"${{ secrets.KUBE_HOST }}" \
+          -o ProxyCommand="ssh -W %h:%p -q "${{secrets.JUMP_USER}}"@"${{secrets.JUMP_HOST}}"" \
+          kubectl get pods -A >> report
+      
+      - name: Status Checker
+        id: check
+        run: |
+          echo "$(cat  report | grep -v Running)" >> crash_report 2>&1
+          echo "pods_fail=$(cat report | grep -v Running | wc -l)" >> $GITHUB_OUTPUT
+
+      - name: Slack Notification good
+        uses: rtCamp/action-slack-notify@v2
+        if: steps.check.outputs.pods_fail == 1
+        env:
+          SLACK_COLOR: "00ff00"
+          SLACK_USERNAME: Checking Pods
+          SLACK_MESSAGE: |-
+            "Everything is okay"
+          SLACK_TITLE: 'Checking Pods'
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Upload to slack step
+        uses: adrey/slack-file-upload-action@master
+        if: steps.check.outputs.pods_fail == 1
+        with:
+          token: ${{ secrets.SLACK_BOT }}
+          path: report
+          channel: monitoring
+
+      - name: Slack Notification problem
+        uses: rtCamp/action-slack-notify@v2
+        if: steps.check.outputs.pods_fail != 1
+        env:
+          SLACK_COLOR: "ff0000"
+          SLACK_USERNAME: Checking Pods
+          SLACK_MESSAGE: |-
+            "Houston we have a problem"
+          SLACK_TITLE: 'Checking Pods'
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Upload to slack step
+        uses: adrey/slack-file-upload-action@master
+        if: steps.check.outputs.pods_fail != 1
+        with:
+          token: ${{ secrets.SLACK_BOT }}
+          path: crash_report
+          channel: monitoring

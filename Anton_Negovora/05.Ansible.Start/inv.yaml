@@ -2,10 +2,12 @@ all_workers:
   children:
     work_sa:
       hosts:
-        host19:
-          ansible_host: 192.168.202.19
-        host20:
-          ansible_host: 192.168.202.20
+        host31:
+          ansible_host: 192.168.202.31
+          ansible_user: root
+        host32:
+          ansible_host: 192.168.202.32
+          ansible_user: root
 jump_sa:
   vars:
     env: "it-academy"

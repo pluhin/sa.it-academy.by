@@ -1,0 +1,88 @@
+---
+- name: Install and configure nginx with two virtual hosts
+  hosts: web-servers
+  become: true
+  become_method: sudo
+
+  vars:
+    vhosts:
+      - name: example.com
+        fqdn: www.example.com
+        index_content: "Hello, example.com!"
+      - name: test.com
+        fqdn: www.test.com
+        index_content: "Hello, test.com!"
+
+  tasks:
+    - name: Install  nginx
+      apt:
+        name: nginx
+        state: latest
+      become: yes
+
+    - name: Create directory for virtual hosts
+      file:
+        path: "/var/www/{{ item.name }}"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        state: directory
+        mode: 0755
+      with_items: "{{ vhosts }}"
+
+    - name: Permissions
+      ansible.builtin.file:
+        path: /var/www
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        state: directory
+        mode: 0755
+        recurse: yes
+
+
+    - name: Set up hosts
+      template:
+        src: "templates/nginx-vhost.j2"
+        dest: "/etc/nginx/sites-available/{{ item.name }}"
+      with_items: "{{ vhosts }}"
+
+    - name: Create index files
+      template:
+        src: "templates/index.j2"
+        dest: "/var/www/{{ item.name }}/index.html"
+      with_items: "{{ vhosts }}"
+
+    - name: Enable virtual hosts
+      file:
+        src: "/etc/nginx/sites-available/{{ item.name }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.name }}"
+        state: link
+      with_items: "{{ vhosts }}"
+      notify: Reload Nginx
+
+    - name: Send HTTP request to the website
+      uri:
+        url: "http://example.com"
+        return_content: yes
+      register: result
+
+    - name: Check if the website is available
+      debug:
+        msg: "The website is {{ 'available' if 'HELLO' in result.content else 'not available' }}"
+
+    - name: Send HTTP request to the website
+      uri:
+        url: "http://test.com"
+        return_content: yes
+      register: result
+
+    - name: Check if the website is available
+      debug:
+        msg: "The website is {{ 'available' if 'HELLO' in result.content else 'not available' }}"
+
+  handlers:
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: restarted
+
+

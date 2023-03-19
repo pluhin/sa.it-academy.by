@@ -1,0 +1,32 @@
+name: KinD deploy
+
+on:
+  push:
+
+jobs:
+  Kind:
+    runs-on: ubuntu-latest
+    name: Kind
+    outputs:
+      output: ${{ steps.start.outputs.start }}
+
+    steps:
+      - name: Start time
+        id: start
+        run: echo "start=$(date '+%s')" >> $GITHUB_OUTPUT
+
+      - name: KinD setup
+        uses: engineerd/setup-kind@v0.5.0
+        with:
+          version: "v0.17.0"
+
+      - name: Get inf
+        run: |
+          echo -e "KinD version: $(kubectl version --short)" >> KinD.log
+          echo -e "Node count: $(kubectl get nodes | grep -c 'Ready')" >> KinD.log
+          echo -e "Spin up time: $(($(date '+%s')-${{ steps.start.outputs.start }}))" >> KinD.log
+
+      - name: Upload report
+        uses: actions/upload-artifact@v3
+        with:
+          path: KinD.log
