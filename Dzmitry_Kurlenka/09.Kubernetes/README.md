@@ -50,9 +50,10 @@ jobs:
           kubectl get node -A
 ```
 
-## Mesagge slack
+## Cluster KinD
 
 ![KinD](KinD.bmp)
 
+## Cluster Minikube
 
 ![minikube](minikube.bmp)
