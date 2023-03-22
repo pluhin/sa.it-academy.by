@@ -14,7 +14,7 @@
    After applying in k9s, we observe the following changes:
    ![deploy](deploy.PNG)
 
-2) Add services block to yaml file and apply changes (command: **kybectl apply -f <name yaml file>** ) \ 
+2) Add services block to yaml file and apply changes (command: **kybectl apply -f <name yaml file>** ) \
    After applying in k9s, we observe the following changes:
 ![services](service.PNG)
 
