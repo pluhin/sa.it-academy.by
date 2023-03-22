@@ -1,0 +1,65 @@
+- hosts: db_all
+  become: yes
+  tasks:
+    - name: Install nginx server
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+    - name: Create sites directory
+      ansible.builtin.file:
+        path: "/var/www/{{ item }}/html"
+        state: directory
+        mode: '0755'
+      with_items:
+      - "site1"
+      - "site2"
+    - name: Create html for sites
+      ansible.builtin.template:
+        src: template.html
+        dest: "/var/www/{{ item }}/html/{{ item }}.html"
+        owner: root
+        group: root
+        mode: '0755'
+      with_items:
+      - "site1"
+      - "site2"
+    - name:  Create directory for configs
+      ansible.builtin.file:
+        path: "/etc/nginx/sites-available/{{ item }}"
+        state: directory
+        mode: '0755'
+      with_items:
+      - "site1"
+      - "site2"       
+    - name: Add config 
+      ansible.builtin.template:
+        src: host.conf
+        dest: "/etc/nginx/sites-available/{{ item }}/{{ item  }}.conf"
+        owner: root
+        group: root
+        mode: '0755'
+      with_items:
+      - "site1"
+      - "site2"
+    - name: Add sites in hosts
+      ansible.builtin.shell:
+        cmd: grep -q www.{{ item }} /etc/hosts || echo 127.0.0.1 www.{{ item }} >> /etc/hosts;
+      with_items:
+      - "site1"
+      - "site2" 
+    - name: Create symbolic link 
+      ansible.builtin.file:
+        src: /etc/nginx/sites-available/{{ item }}
+        dest: /etc/nginx/sites-enabled/{{ item }}
+        state: link
+      with_items:
+      - "site1"
+      - "site2"
+    - name: Check connection
+      ansible.builtin.uri:
+        url: http://www.{{ item }}
+        return_content: true
+      with_items:
+      - "site1"
+      - "site2"
