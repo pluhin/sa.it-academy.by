@@ -7,7 +7,7 @@
 ## ingress screenshot
 ![ingress](ingress.png)
 
-## ingress screenshot
+## result screenshot
 ![result](result.png)
 
 
