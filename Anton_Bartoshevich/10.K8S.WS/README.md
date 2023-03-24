@@ -39,3 +39,9 @@ jobs:
         SLACK_USERNAME: rtCamp
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 ```
+## Running pods
+![k9s](k9s.PNG)
+## Failed pod was added
+![k9s](k9s_fail.PNG)
+## Slack notification
+![slack_notify](slack_notify.PNG)
