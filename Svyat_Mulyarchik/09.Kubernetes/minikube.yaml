@@ -1,0 +1,31 @@
+name: Minikube deploy
+
+on:
+  push:
+
+jobs:
+  Kind:
+    runs-on: ubuntu-latest
+    name: Kind
+    outputs:
+      output: ${{ steps.start.outputs.start }}
+
+    steps:
+      - name: Start time
+        id: start
+        run: echo "start=$(date '+%s')" >> $GITHUB_OUTPUT
+
+      - name: Minikube setup
+        uses: medyagh/setup-minikube@master
+
+      - name: Get inf
+        run: |
+          echo -e "Minikube version: $(kubectl version --short)" >> Minikube.log
+          echo -e "Node count: $(kubectl get nodes | grep -c 'Ready')" >> Minikube.log
+          echo -e "Spin up time: $(($(date '+%s')-${{ steps.start.outputs.start }}))" >> Minikube.log
+
+      - name: Upload report
+        uses: actions/upload-artifact@v3
+        with:
+          path: Minikube.log
+
