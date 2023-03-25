@@ -52,7 +52,7 @@ data:
       - name: index
         emptyDir: {}
 ```
-After applying in k9s, we observe the following changes:
+After applying in k9s, we observe the following changes: \
 ![nginx1](nginx1.PNG)
 ![nginx2](nginx2.PNG)
 
