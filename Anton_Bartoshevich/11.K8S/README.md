@@ -1,4 +1,6 @@
 ## Create deployment of nginx service
+![nginx_site](k8s-1.PNG)
+![nginx_pods](nginx-dep.PNG)
 ### .yaml
 ```bash
 ---
@@ -72,6 +74,7 @@ spec:
 
 ```
 ## Deploy pod inside k8s which should be connected to github as self-hosted runner
+![self-hosted](self-hosted.PNG)
 ```bash
 ---
 apiVersion: v1
