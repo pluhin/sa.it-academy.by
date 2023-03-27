@@ -1,6 +1,6 @@
 # 11. Kubernetes. Basic objects
 1. Create file [nginx-service.yaml](https://github.com/julietredk/sa.it-academy.by/blob/md-sa2-23-23/Yulia_Redkova/11.Kubernetes.Basic_objects/nginx-service.yaml)
-2. Upload and make changes to file [ingress-controller.yaml](https://github.com/julietredk/sa.it-academy.by/blob/md-sa2-23-23/Yulia_Redkova/11.Kubernetes.Basic_objects/ingress-controller.yaml)
+2. Upload and make changes to file ingress-controller.yaml
 3. edit file /etc/hosts
 ```
 yulia@ubuntuserver:~/Gitlab_repo/11.K8s.Basic_objects$ sudo vim /etc/hosts
