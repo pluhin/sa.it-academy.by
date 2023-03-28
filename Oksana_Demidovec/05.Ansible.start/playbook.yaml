@@ -1,0 +1,30 @@
+- hosts: all_workers 
+  serial: 1
+  pre_tasks:
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: "{{ ansible_user }}"
+        state: present
+        key: "{{ item }}"
+      with_items:
+      - "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      tags:
+        - never
+  tasks:
+    - name: Display OS/version
+      debug:
+        msg: "{{ ansible_distribution }} | {{ ansible_distribution_version }}"
+      tags:
+        - OS/version
+    - name: Display mount point/capacity/used
+      debug:   
+        msg: "Mount point/capacity/used: {{ item.mount }} | {{ item.block_total }} | {{ item.block_used }}"
+      with_items: "{{ ansible_mounts }}"
+      tags:
+        - mount point/capacity/used
+    - name: Display RAM/capacity/free
+      debug:
+        msg: "{{ ansible_memtotal_mb }} | {{ ansible_memfree_mb }}"
+      tags:
+        - RAM/capacity/free
+    
