@@ -1,0 +1,6 @@
+NAMESPACE     NAME                                      READY   STATUS       RESTARTS   AGE
+kube-system   local-path-provisioner-79f67d76f8-dk5vd   1/1     Running      0          3h5m
+kube-system   coredns-597584b69b-zzpbm                  1/1     Running      0          3h5m
+kube-system   metrics-server-5f9f776df5-rgxrm           1/1     Running      0          3h5m
+default       ubuntu                                    1/1     Running      0          131m
+default       podforcrash                               0/1     StartError   0          22m
