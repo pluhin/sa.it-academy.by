@@ -1,6 +1,6 @@
 # 10. Kubernetes installation (WS)
 
-# yaml file
+## yaml file
 
 ```yaml
 name: Check status pods
