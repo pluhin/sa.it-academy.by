@@ -1,0 +1,112 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-config
+data:
+  index.html: |
+    <!DOCTYPE html><html><body>
+    <h1>HOSTNAME</h1>
+    </body></html>
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: "33%"
+      maxUnavailable: "0%"
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 50m
+            memory: 51Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+          - name: index
+            mountPath: /usr/share/nginx/html/
+          - name: secret
+            mountPath: /root/.ssh/
+
+      initContainers:
+      - name: test
+        image: nginx:latest
+        command: ["bash", "-c"]
+        args:
+          - cd /tmp;
+            sed -e "s/HOSTNAME/$HOSTNAME/" index.html > /usr/share/nginx/html/index.html;
+
+        volumeMounts:
+        - name: test-config-mount
+          mountPath: /tmp/index.html
+          subPath: index.html
+          readOnly: false
+        - name: index
+          mountPath: /usr/share/nginx/html/
+          name: ssh
+          mountPath: /root/.ssh/
+      volumes:
+      - name: test-config-mount
+        configMap:
+          name: test-config
+      - name: index
+        emptyDir: {}
+      - name: secret
+        secret:
+          secretName: secret-keys
+      - name: ssh
+        emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    run: nginx-service
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: nginx
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-sa
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-alias: "nginx-test.k8s-13.sa"
+spec:
+  rules:
+    - host: nginx-test.k8s-13.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx
+                port:
+                  number: 80
