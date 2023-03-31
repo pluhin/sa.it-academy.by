@@ -1,0 +1,68 @@
+- name: Install and configure Nginx with virtual hosts
+  hosts: web_all
+  vars:
+    app_packages:
+      - nginx
+    virtual_hosts:
+      - name: "site1.com"
+        server_name: "site1.com"
+        path_site: "/var/www/site1.com"
+      - name: "site2.com"
+        server_name: "site2.com"
+        path_site: "/var/www/site2.com"  
+  tasks:
+    - name: Create virtual hosts directories
+      file:
+        path: "{{ item.path_site }}"
+        state: directory
+      loop: "{{ virtual_hosts }}"
+    - name: Install packages
+      apt:
+        name: "{{ app_packages }}"
+        state: latest
+        update_cache: yes
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      tags:
+        - install
+    - name: Create index.html files with unique data for each virtual host
+      template:
+        src: templates/index.html.j2
+        dest: "{{ item.path_site}}/index.html"
+        owner: root
+        group: root
+        mode: '0755'
+      loop: "{{ virtual_hosts }}"
+      tags:
+       - index
+    - name: Create virtual host configs from template
+      template:
+        src: templates/virtualhost.conf.j2
+        dest: /etc/nginx/sites-available/{{item.name}}
+        mode: '0755'
+      loop: "{{virtual_hosts}}"
+      tags:
+        - config
+    - name: Enable sites
+      file:
+        src: /etc/nginx/sites-available/{{ item.server_name}}
+        dest: /etc/nginx/sites-enabled/{{ item.server_name }}
+        state: link
+      loop: "{{virtual_hosts }}"
+    - name: Add sites to file hosts
+      shell: |
+        grep -q "{{item.name}}" /etc/hosts || echo "127.0.0.1 {{item.name}}" >> /etc/hosts;
+      loop:
+        "{{virtual_hosts}}"
+      tags:
+        - hosts
+
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+    - name: Check that you can connect (GET) to a page and it returns a status 200
+      uri:
+        url: http://{{ item.name }}
+        return_content: true
+      loop: "{{ virtual_hosts }}"
