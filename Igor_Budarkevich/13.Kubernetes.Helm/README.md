@@ -52,10 +52,10 @@ ansible-playbook -i inv.yaml mar_db.yaml -e name_db=bitnami_drupal -e user_db=bn
 
 ### Screen k9s
 
-![k9s](k9s.PNG)
+![k9s](k9s.png)
 
 ### Screens browser
 
-![wordpress](wordpress.PNG)
+![wordpress](Wordpress.png)
 
-![drupal](drupal.PNG)
+![drupal](Drupal.png)
