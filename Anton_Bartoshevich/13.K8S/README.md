@@ -1,5 +1,5 @@
 ![Wordpress](Wordpress.PNG)
-![Drupal](Wordpress.PNG)
+![Drupal](Drupal.PNG)
 ## History of commands:
 ```bash
 990  vi ingress.yaml
