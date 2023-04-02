@@ -1,0 +1,105 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nginx-server
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: my-secret
+  namespace: default
+spec:
+  encryptedData:
+    id_rsa: AgAtJJdE86nf+Fej+kxw/Ij4CIsBvPxnOmqMuFWBinmyD/jTJXnSZzOflWS4V2o1X+uGqcND06ZwmfS0jFakgus/sCMhn58SJ3J+1xg28xThpxhpNZU9mf+4RADja/qLiiX65OLY5RCmbQiUA2VcicqzKcsPMjs/lWYxRd6AegIcWEuLS6Y1B7OH6HV1v9ooS5I>
+    id_rsa.pub: AgAf+vmijn7QzqPt1JIJbY46Yv+a77+QImpc6PI8OG+TvDGM5D1rx4J0bwbxsNMp3v0/DZ2wMEvWQYRKu2TOFBzouRyBBdXaeLpBZBHSZLETlo6GwB8SfAa8vtzrYq41Q4hA1B+pk2aug1iOZCGrGpmyAQbdeV/ek8AVIIruAfyP/qfCmcNCLJh8LCrrh9c>
+  template:
+    metadata:
+      creationTimestamp: null
+      name: my-secret
+      namespace: default
+    type: Opaque  
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-server
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: config
+          mountPath: /usr/share/nginx/html
+        - name: my-secret
+          mountPath: /root/.ssh/
+
+      initContainers:
+      - name: init
+        image: busybox:1.28
+        command: ['sh', '-c']
+        securityContext:
+          readOnlyRootFilesystem: false
+        args:
+            - echo "<html><head>Container ID:</head><body><h1>$HOSTNAME</h1></body></html>">/usr/share/nginx/html/index.html
+        volumeMounts:
+        - name: config
+          mountPath: /usr/share/nginx/html
+          readOnly: false 
+        - name: my-secret
+          mountPath: /root/.ssh/
+      volumes:
+      - name: config
+        emptyDir: {}
+      - name: my-secret
+        secret:
+          secretName: my-secret
+          defaultMode: 0600
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    run: nginx
+spec:
+        #type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-sa
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-alias: "nginx-server.k8s-1.sa"
+spec:
+  rules:
+    - host: nginx.k8s-1.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx
+                port:
+                  number: 80
