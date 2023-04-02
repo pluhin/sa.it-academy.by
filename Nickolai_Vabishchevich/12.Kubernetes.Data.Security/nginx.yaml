@@ -1,0 +1,95 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-index
+data:
+  index.html: |
+    <!DOCTYPE html><html><body>
+    <h1>HOSTNAME</h1>
+    </body></html>
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: index
+          mountPath: /usr/share/nginx/html/
+        - name: ssh-secrets
+          mountPath: /root/.ssh/
+      initContainers:
+      - name: test
+        image: nginx:latest
+        command: ["bash", "-c", 'cd /tmp/; sed -e "s/HOSTNAME/$HOSTNAME/" index.html > /usr/share/nginx/html/index.html']
+        volumeMounts:
+        - name: nginx-index-mount
+          mountPath: /tmp/index.html
+          subPath: index.html
+        - name: index
+          mountPath: /usr/share/nginx/html/
+        - name: ssh
+          mountPath: /root/.ssh/
+      volumes:
+      - name: nginx-index-mount
+        configMap:
+          name: nginx-index
+      - name: index
+        emptyDir: {}
+      - name: ssh
+        emptyDir: {}
+      - name: ssh-secrets
+        secret:
+          secretName: secret-keys
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-sa
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-alias: "nginx-test.k8s-3.sa"
+spec:
+  rules:
+    - host: nginx.k8s-3.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx
+                port:
+                  number: 80

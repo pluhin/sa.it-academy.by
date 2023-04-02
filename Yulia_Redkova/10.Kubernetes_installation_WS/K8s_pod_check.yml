@@ -1,0 +1,38 @@
+---
+name: Check pods
+
+on:
+  push:
+jobs:
+  check:
+    env:
+      output: output.log
+      crash_report: crash_report.log
+    runs-on: ubuntu-latest
+    steps:
+    - name: Add SSH key and connect to k3s
+      run: |
+        which ssh-agent
+        mkdir ~/.ssh
+        eval `ssh-agent -s`
+        ssh-add - <<< "${{secrets.SSH_KEY}}"
+        ssh-keyscan -H ${{ secrets.PROXY_SERVER }} >> ~/.ssh/known_hosts
+        ssh ${{ secrets.PROXY_USER }}@${{ secrets.PROXY_SERVER }} ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+        ssh -o ProxyCommand="ssh -W %h:%p ${{ secrets.PROXY_USER }}@${{ secrets.PROXY_SERVER }}" ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST }} "kubectl get pods -A" >> ${{ env.output }}
+    - name: Check pods status
+      id: check_pods
+      run: |
+        kubectl get pods -A >> ${{ env.output }}
+        echo "$(cat ${{ env.output }} | grep -v Running) >> ${{ env.crash_report }}
+        echo "pods_fail=$(wc -l < ${{ env.output }})" >> $GITHUB_OUTPUT
+    - name: Additional information in log file
+      if: steps.check_pods.outputs.no_running_line > 1
+      uses: actions/upload-artifact@v2
+      with:
+        path: ${{ env.crash_report }}
+    - name: Send Slack notification
+      if: steps.check_pods.outputs.pods_fail > 1
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_MESSAGE: 'You have crashed pods!'
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

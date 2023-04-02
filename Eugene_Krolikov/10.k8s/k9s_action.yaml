@@ -1,0 +1,43 @@
+name: check status of pods
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    name: check status of pods
+    runs-on: ubuntu-latest
+    env:
+      report-file: status.log
+      report-text:
+    steps:
+    - name: Connect to k3s host
+      run: |
+        mkdir ~/.ssh
+        eval `ssh-agent -s`
+        ssh-add - <<< "${{ secrets.HOST_KEY }}" 
+        ssh-keyscan -H ${{ secrets.JUMP_HOST }} >> ~/.ssh/known_hosts
+        ssh ${{ secrets.JUMP_USERNAME }}@${{ secrets.JUMP_HOST}} ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+        ssh -o ProxyCommand="ssh -W %h:%p ${{ secrets.JUMP_USERNAME }}@${{ secrets.JUMP_HOST }}" ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
+        kubectl get pods -A > ${{ env.report-file }} 
+
+    - name: check-crashed-pods
+      id: check-pods
+      run: |
+        echo "pods-failed-count=$(cat ${{ env.report-file }} | grep -v Running | wc -l)" >> $GITHUB_OUTPUT
+
+    - name: upload crashed pod's list
+      if: steps.check-pods.outputs.pods-failed-count > 1
+      uses: actions/upload-artifact@v3
+      with:
+        path: ${{ env.report-file }}
+
+    - name: Slack notification
+      uses: rtCamp/action-slack-notify@v2
+      if: steps.check-pods.outputs.pods-failed-count > 1
+      env:
+        SLACK_CHANNEL: devopscourse
+        SLACK_COLOR: '#2EB67D'
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_TITLE: 'Some pods have crashed!'
+        SLACK_USERNAME: rtCamp
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

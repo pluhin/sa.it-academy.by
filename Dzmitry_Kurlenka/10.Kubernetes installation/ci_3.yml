@@ -1,0 +1,33 @@
+name: Test remote Fail PODS
+on:
+ workflow_dispatch:
+  
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+
+    - name: Check Pods
+      uses: ./
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        proxy_host: ${{ secrets.PROXY_HOST }}
+        proxy_username: ${{ secrets.PROXY_USERNAME }}
+        proxy_key: ${{ secrets.PROXY_KEY }}
+        proxy_port: ${{ secrets.PROXY_PORT }}
+        envs: POD
+        script: JSONPATH='{range .items[*]}{" \n"}{@.metadata.name} :{range @.status.conditions[*]}{@.type}={@.status};{end}{end}' && kubectl get pods -o jsonpath="$JSONPATH" | grep "Ready=False" | awk '{print $1}'
+   
+    - name: Send Slack notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_MESSAGE: 'You have crashed pods!'
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

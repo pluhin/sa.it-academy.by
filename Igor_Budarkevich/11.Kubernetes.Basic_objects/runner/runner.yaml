@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: runner
+  labels:
+    app: runner
+spec:
+  containers:
+  - name: runner
+    image: ghcr.io/igortank/runner:latest
+    env:
+    - name: GH_OWNER
+      value: ""
+    - name: GH_REPOSITORY
+      value: ""
+    - name: GH_TOKEN
+      value: ""
+  restartPolicy: Never
