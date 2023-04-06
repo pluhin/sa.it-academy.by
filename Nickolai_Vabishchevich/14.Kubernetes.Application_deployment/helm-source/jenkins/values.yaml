@@ -1,0 +1,53 @@
+replicaCount: 1
+namespace: ci-cd
+name: jenkins
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "nickvab"
+service:
+  httpport: 8080
+  jnlpport: 50000
+
+ingress:
+  name: ingress-jenkins
+  enabled: true
+  className: ""
+  hosts:
+    host: jenkins.k8s-3.sa
+  
+resources: 
+  limits:
+    cpu: 3
+    memory: 3Gi
+  requests:
+    cpu: 2
+    memory: 2Gi
+
+JenkinsAuthConfig: /var/jenkins_home/init.groovy.d/basic-security.groovy
+JACsubPath: basic-security.groovy
+JenkinsConfigYaml: /var/jenkins_home/casc_configs/jenkins.yaml
+JCYsubPath: jenkins.yaml
+JenkinsConfig: /var/jenkins_home
+
+nfs:
+   server: 192.168.37.105
+   path: /mnt/IT-Academy/nfs-data/sa2-23-23/Nickolai_Vabishchevich/jenkins_helm
+
+configMap:
+   basic_name: basic-security
+   jenkins_name: jenkins-config
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
