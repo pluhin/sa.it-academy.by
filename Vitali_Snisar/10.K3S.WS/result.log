@@ -1,0 +1,9 @@
+NAMESPACE       NAME                                        READY   STATUS              RESTARTS      AGE
+kube-system     local-path-provisioner-79f67d76f8-9bnpp     1/1     Running             0             21d
+kube-system     coredns-597584b69b-9d22k                    1/1     Running             0             21d
+kube-system     metrics-server-5f9f776df5-5b2pw             1/1     Running             0             21d
+ingress-nginx   ingress-nginx-admission-create-cq4kp        0/1     Completed           0             6d23h
+ingress-nginx   ingress-nginx-admission-patch-dk2f5         0/1     Completed           1             6d23h
+ci-cd           jenkins-56d9b97575-vwtcq                    0/1     ContainerCreating   0             6d23h
+ingress-nginx   ingress-nginx-controller-7578879f9f-gmf4z   1/1     Running             0             6d23h
+default         ubuntu                                      1/1     Running             3 (18m ago)   21d
