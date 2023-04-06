@@ -6,9 +6,9 @@
 
 ### K3s:
 
-![S1](all_pods.png)
+![1](S1.png)
 
-![S2](spec_pod.png)
+![2](S2.png)
 
 ## Hometask. GitHub Action
 
