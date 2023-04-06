@@ -1,0 +1,35 @@
+namespace: jenkins
+name: jenkins-helm
+
+image:
+  repository: ghcr.io/lukyanchyk/jenkins
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+replicaCount: 1
+
+resources:
+  limits:
+    cpu: 3000m
+    memory: 3000Mi
+  requests:
+    cpu: 2000m
+    memory: 2000Mi
+    
+    
+ip_server: 192.168.37.105
+nfs_mount: /mnt/IT-Academy/nfs-data/sa2-23-23/Mikalai.Lukyanchyk/jenkins
+
+ingress:
+  enabled: true
+host_ingress: jenkins.k8s-12.sa
+server_alias: "jenkins.k8s-12.sa"
+ingress_port: 8080
+
+master_p: 8080
+master_t: 8080
+slave_p: 50000
+slave_t: 50000 
+
+pswd: VONtwN6S
+uname: git_hub_user
