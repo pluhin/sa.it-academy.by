@@ -1,0 +1,32 @@
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: nfs
+  namespace: default
+spec:
+  chart: nfs-subdir-external-provisioner
+  repo: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+  targetNamespace: default
+  set:
+    nfs.server: 192.168.37.105
+    nfs.path: /mnt/IT-Academy/nfs-data/sa2-23-23/Ivan_Kuzmin/
+    storageClass.name: nfs
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-wordpress
+provisioner: cluster.local/nfs-nfs-subdir-external-provisioner
+parameters:
+  onDelete: "retain"
+  pathPattern: "/wordpress/"
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-drupal
+provisioner: cluster.local/nfs-nfs-subdir-external-provisioner
+parameters:
+  onDelete: "retain"
+  pathPattern: "/drupal/"
