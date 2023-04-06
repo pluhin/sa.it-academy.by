@@ -122,12 +122,12 @@ To access your WordPress site from outside the cluster follow the steps below:
 wordpress доступен, но пуст
 ```
 
-![wordpress](Wordpress.png)
+![wordpress_blank.PNG](wordpress_blank.PNG)
 
 ```
 если по ссылке http://wordpress-sa.k8s-9.sa/wp-json/ то 
 ```
-![wordpress](Wordpress.png)
+![wordpress_json.PNG](wordpress_json.PNG)
 
 ```cmd
 H:\>curl -I http://wordpress-sa.k8s-9.sa/
