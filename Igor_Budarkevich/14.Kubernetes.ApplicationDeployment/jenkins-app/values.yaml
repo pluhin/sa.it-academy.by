@@ -1,0 +1,110 @@
+# Default values for jenkins-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+namespace: ci-cd
+
+replicaCount: 1
+
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "spishchyk"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: 
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  runAsUser: 0
+
+service:
+  httpPortName: http-port
+  httpPort: 8080
+  jnlpPortName: jnlp-port
+  jnlpPort: 50000
+
+volumeMounts:
+  authConfigMountPath: /var/jenkins_home/init.groovy.d/basic-security.groovy
+  authConfigSubPath: basic-security.groovy
+  jenkinsConfigCountPath: /var/jenkins_home/casc_configs/jenkins.yaml
+  jenkinsConfigSubPath: jenkins.yaml
+  nfcMountPath: /var/jenkins_home
+
+volumes:
+  authConfig: jenkins-auth-config
+  configMapSecurity:
+    name: basic-security
+  jenkinsConfig: jenkins-config-yaml
+  configMapJenkins:
+      name: jenkins-config
+  nfs:
+    server: 192.168.37.105
+    path: /mnt/IT-Academy/nfs-data/sa2-23-23/IgorBudarkevich/jenkins
+
+
+ingress:
+  enabled: true
+  className: ""
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: jenkins.k8s-2.sa
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 3000m
+    memory: 3Gi
+  requests:
+    cpu: 2000m
+    memory: 2Gi
+env:
+  - name: JAVA_OPTS
+    value: "-Djenkins.install.runSetupWizard=false"
+  - name: CASC_JENKINS_CONFIG
+    value: /var/jenkins_home/casc_configs/jenkins.yaml
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
