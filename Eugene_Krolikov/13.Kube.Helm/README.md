@@ -43,7 +43,7 @@ root@05lesson:/home/devops/13.Kube# ansible-playbook -i inv.yaml mariadb.yaml -e
 ## Install Wordpress and Drupal with helm
 
 ```bash
-root@05lesson:/home/devops/13.Kube# helm install sa-drupal --insecure-skip-tls-verify --set mariadb.enabled=false,externalDatabase.host=192.168.201.9,externalDatabase.user=bn_drupal,externalDatabase.password=***,externalDatabase.database=bitnami_drupal,global.storageClass=nfs-drupal,drupalUsername=admin,drupalPassword=***,drupalEmail=evgeny11@tut.by my-repo/drupal
+root@05lesson:/home/devops/13.Kube# helm install sa-drupal --insecure-skip-tls-verify --set mariadb.enabled=false,externalDatabase.host=192.168.201.9,externalDatabase.user=bn_drupal,externalDatabase.password=***,externalDatabase.database=bitnami_drupal,global.storageClass=nfs-drupal,drupalUsername=admin,drupalPassword=***,drupalEmail=**** my-repo/drupal
 WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /root/.kube/config
 WARNING: Kubernetes configuration file is world-readable. This is insecure. Location: /root/.kube/config
 NAME: sa-drupal
@@ -71,7 +71,7 @@ APP VERSION: 10.0.7** Please be patient while the chart is being deployed **
   echo Password: $(kubectl get secret --namespace default sa-drupal -o jsonpath="{.data.drupal-password}" | base64 -d)
 root@05lesson:/home/devops/13.Kube#
 root@05lesson:/home/devops/13.Kube#
-root@05lesson:/home/devops/13.Kube# helm install sa-wordpress --insecure-skip-tls-verify --set mariadb.enabled=false,externalDatabase.host=192.168.201.9,externalDatabase.user=bn_wordpress,externalDatabase.password=****,externalDatabase.database=bitnami_wordpress,global.storageClass=nfs-wordpress,wordpressUsername=wp_admin,wordpressPassword=***,wordpressEmail=evgeny11@tut.by my-repo/wordpress
+root@05lesson:/home/devops/13.Kube# helm install sa-wordpress --insecure-skip-tls-verify --set mariadb.enabled=false,externalDatabase.host=192.168.201.9,externalDatabase.user=bn_wordpress,externalDatabase.password=****,externalDatabase.database=bitnami_wordpress,global.storageClass=nfs-wordpress,wordpressUsername=wp_admin,wordpressPassword=***,wordpressEmail=**** my-repo/wordpress
 WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /root/.kube/config
 WARNING: Kubernetes configuration file is world-readable. This is insecure. Location: /root/.kube/config
 NAME: sa-wordpress
