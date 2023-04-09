@@ -1,0 +1,20 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-wordpress
+provisioner: cluster.local/nfs-nfs-subdir-external-provisioner
+parameters:
+  onDelete: "retain"
+  pathPattern: "/EugeneKrolikov/wordpress/"
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-drupal
+provisioner: cluster.local/nfs-nfs-subdir-external-provisioner
+parameters:
+  onDelete: "retain"
+  pathPattern: "/EugeneKrolikov/drupal/"
+
