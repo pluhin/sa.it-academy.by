@@ -1,0 +1,39 @@
+name: Check Pod Status
+on:
+  workflow_dispatch:
+  #schedule:
+   # - cron: '*/1 * * * *'
+jobs:
+  pod-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Pods
+        run: |
+          mkdir ~/.ssh
+          eval `ssh-agent -s`
+          ssh-add - <<< "${{ secrets.SSH_KEY }}"
+          ssh-keyscan -p 22510 ${{ secrets.BASTION_IP }} >> ~/.ssh/known_hosts
+          ssh -p 22510 ${{ secrets.BASTION_USER }}@${{ secrets.BASTION_IP}} ssh-keyscan ${{ secrets.HOST_IP }} >> ~/.ssh/known_hosts
+          ssh -o ProxyCommand="ssh -p 22510 -W %h:%p ${{ secrets.BASTION_USER }}@${{ secrets.BASTION_IP }}" ${{ secrets.HOST_USER }}@${{ secrets.HOST_IP }} "kubectl get pods -A" >> pods.log
+          #kubectl get pods -A
+          pods=$(cat pods.log | awk '{if ($4 != "Running") print $1, $2, $3, $4}')
+          echo "$pods" 
+          echo "$pods" | tail -n +2 >> GITHUB.OUTPUT
+      - name: Slack FAIL Notification
+        uses: rtCamp/action-slack-notify@v2
+        if: steps.check.outputs.pods != 1
+        env:
+          SLACK_CHANNEL: "#git_md-sa2-23-23"
+          SLACK_COLOR: "#ff0000"
+          SLACK_ICON: https://www.cloud4y.ru/upload/medialibrary/ab2/5.jpeg
+          SLACK_MESSAGE: |-
+            "Attention! Some Pods are not running!"
+          SLACK_TITLE: Pods Failed
+          SLACK_USERNAME: k9s
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: changes-info
+          path: |
+            pods.log
