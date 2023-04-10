@@ -119,7 +119,7 @@ helm install sa-drupal --set mariadb.enabled=false,externalDatabase.host=192.168
 ```
 ---
 
-## Open browser with name wordpress-sa.k8s-4.sa and 178.124.206.53 drupal-sa.k8s-4.sa, make changes
+## Open browser with name wordpress-sa.k8s-4.sa and drupal-sa.k8s-4.sa, make changes
 
 
 ![browser-wordpress](https://github.com/VitaliGet/sa.it-academy.by/raw/md-sa2-23-23/Vitali_Getmanovich/13.Kubernetes.Helm/wordpress.png)
