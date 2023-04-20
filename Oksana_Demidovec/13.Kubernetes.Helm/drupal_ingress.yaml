@@ -1,0 +1,19 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-drupal
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: drupal-sa.k8s-5.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sa-drupal
+                port:
+                  number: 80
