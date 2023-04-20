@@ -1,0 +1,86 @@
+# Default values for helm-jenkins.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+namespace: ci-cd
+
+
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "dzmt_k"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+# fsGroup 2000
+#    runAsuser: 0
+  
+service:
+  type: ClusterIP
+  port: 8080
+  jnlpport: 50000
+
+jenkinsAuthConfig: /var/jenkins_home/init.groovy.d/basic-security.groovy
+ACsubPath: basic-security.groovy
+jenkinsConfigYaml: /var/jenkins_home/casc_configs/jenkins.yaml
+JCsubPath: jenkins.yaml
+jenkinsConfig: /var/jenkins_home
+configMap:
+  name_basic: basic-security
+  name_config: jenkins-config
+nfs:
+  server: 192.168.37.105
+  path: /mnt/IT-Academy/nfs-data/sa2-23-23/dzmt_k/helm-jenkins
+
+location:
+  adminAddress: "elnik@bk.ru"
+  url: "http://helm-jenkins.k8s-11.sa/"
+
+ingress:
+  enabled: true
+  className: ""
+  hosts:
+  - host: helm-jenkins.k8s-11.sa
+    paths:
+      - path: /
+        pathType: ImplementationSpecific #Prefix
+  tls: []    
+  pvc:
+   storage_size: 1Gi
+   storage_class: nfs
+resources:
+  requests:
+    cpu: 2000m
+    memory: 2000Mi
+  limits:
+    cpu: 2000m
+    memory: 3000Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
