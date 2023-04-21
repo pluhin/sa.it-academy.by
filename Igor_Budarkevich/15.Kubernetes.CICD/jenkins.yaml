@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jenkins
+  namespace: argocd
+spec:
+  destination:
+    namespace: ci-cd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: jenkins-app
+    helm:
+      parameters:
+      - name: resources.limits.cpu
+        value: 3000m
+      - name: resources.limits.memory
+        value: 3Gi
+      - name: resources.requests.memory
+        value: 2Gi
+      - name: resources.requests.cpu
+        value: 2000m
+    repoURL: https://igortank.github.io/helm/
+    targetRevision: 0.2.0
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

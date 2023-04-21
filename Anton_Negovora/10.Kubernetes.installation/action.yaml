@@ -1,0 +1,61 @@
+name: checking pods2
+on:
+  push:
+    branches:
+      - 'master'
+
+env:
+  report: report.log
+  fail_pods_report: fail_pods_report.log
+
+jobs:
+  k3:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Connection to host
+        run: |
+          mkdir ~/.ssh
+          eval `ssh-agent -s`
+          ssh-add - <<< "${{secrets.SSH_KEY}}"
+          echo "${{secrets.KNOWN_HOST}}" >> ~/.ssh/known_hosts
+          ssh "${{ secrets.HOST_USER }}"@"${{ secrets.HOST }}" \
+          -o ProxyCommand="ssh -W %h:%p -q -p 22510 "${{secrets.JUMP_USER}}"@"${{secrets.JUMP_SERVER}}"" \
+          kubectl get pods -A >> report.log     
+      - name: Checking status of pods
+        id: check
+        run: |
+          echo "$(cat  report.log | grep -v Running)" >> crash_report 2>&1
+          echo "pods_fail=$(cat report.log | grep -v 'Running\|Completed ' | wc -l)" >> $GITHUB_OUTPUT
+      - name: Upload report
+        if: steps.check.outputs.pods_fail == 1
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ env.report}}
+          
+      - name: slack Notification 
+        if: steps.check.outputs.pods_fail == 1
+        uses: rtCamp/action-slack-notify@v2 
+        env:
+          SLACK_CHANNEL: test
+          SLACK_TITLE: 'Status of pods'
+          SLACK_MESSAGE: 'Good'
+          SLACK_USERNAME: ${{ github.repository }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Upload report
+        if: steps.check.outputs.pods_fail != 1
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ env.report}}
+      
+      - name: slack Notification bad
+        if: steps.check.outputs.pods_fail != 1
+        uses: rtCamp/action-slack-notify@v2 
+        env:
+          SLACK_CHANNEL: test
+          SLACK_TITLE: 'Status of pods'
+          SLACK_MESSAGE: 'Bad'
+          SLACK_USERNAME: ${{ github.repository }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          
