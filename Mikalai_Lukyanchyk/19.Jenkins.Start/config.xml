@@ -1,0 +1,93 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.34">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>1</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>00 09 * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+rm -rf result.txt
+daten=$(echo -e &quot;&amp;year=$(date +%Y)&amp;month=$(date +%m)&amp;day=$(date +%d)&quot;)
+CHECK=$(curl -s &quot;https://holidays.abstractapi.com/v1/?api_key=$api_key&amp;country=BY$daten&quot;)
+sleep 2
+CHECK2=$(curl -s &quot;https://holidays.abstractapi.com/v1/?api_key=$api_key&amp;country=BY&amp;year=2023&amp;month=12&amp;day=31&quot;)
+sleep 2
+echo &quot;Today is : $(date +&quot;%d %m %Y&quot;)&quot; | tee -a result.txt
+if [[ &quot;$CHECK&quot; == &quot;[]&quot; ]]; then
+  echo &quot;This day it will be EARTH DAY &quot; | tee -a result.txt
+else
+  echo &quot;This day it $(echo $CHECK | sed &apos;s/.*name&quot;://g; s/,&quot;name_local.*//g&apos;)&quot; | tee -a result.txt
+fi
+echo -e &quot;\n&quot; | tee -a result.txt
+echo &quot;Exchange rates for USD today : $(curl -s https://www.nbrb.by/api/exrates/rates/USD?parammode=2 | sed -nr &apos;s/.+Cur_OfficialRate&quot;:(.+)}+/\1/p&apos;)&quot; | tee -a result.txt
+echo &quot;Exchange rates for EUR today : $(curl -s https://www.nbrb.by/api/exrates/rates/EUR?parammode=2 | sed -nr &apos;s/.+Cur_OfficialRate&quot;:(.+)}+/\1/p&apos;)&quot; | tee -a result.txt
+echo -e &quot;\n&quot; | tee -a
+echo &quot;This is a test show when the holiday $( echo $CHECK2 | sed &apos;s/.*name&quot;://g; s/,&quot;name_local.*//g&apos;)&quot; | tee -a result.txt
+echo -e &quot;\n&quot; | tee -a
+
+</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <jenkins.plugins.slack.SlackNotifier plugin="slack@664.vc9a_90f8b_c24a_">
+      <baseUrl></baseUrl>
+      <teamDomain></teamDomain>
+      <authToken></authToken>
+      <tokenCredentialId>slack-3</tokenCredentialId>
+      <botUser>true</botUser>
+      <room></room>
+      <sendAsText>false</sendAsText>
+      <iconEmoji></iconEmoji>
+      <username></username>
+      <startNotification>false</startNotification>
+      <notifySuccess>true</notifySuccess>
+      <notifyAborted>false</notifyAborted>
+      <notifyNotBuilt>false</notifyNotBuilt>
+      <notifyUnstable>false</notifyUnstable>
+      <notifyRegression>false</notifyRegression>
+      <notifyFailure>false</notifyFailure>
+      <notifyEveryFailure>false</notifyEveryFailure>
+      <notifyBackToNormal>false</notifyBackToNormal>
+      <notifyRepeatedFailure>false</notifyRepeatedFailure>
+      <includeTestSummary>false</includeTestSummary>
+      <includeFailedTests>false</includeFailedTests>
+      <uploadFiles>true</uploadFiles>
+      <artifactIncludes>result.txt</artifactIncludes>
+      <commitInfoChoice>NONE</commitInfoChoice>
+      <includeCustomMessage>false</includeCustomMessage>
+      <customMessage></customMessage>
+      <customMessageSuccess></customMessageSuccess>
+      <customMessageAborted></customMessageAborted>
+      <customMessageNotBuilt></customMessageNotBuilt>
+      <customMessageUnstable></customMessageUnstable>
+      <customMessageFailure></customMessageFailure>
+    </jenkins.plugins.slack.SlackNotifier>
+  </publishers>
+  <buildWrappers/>
+</project>
