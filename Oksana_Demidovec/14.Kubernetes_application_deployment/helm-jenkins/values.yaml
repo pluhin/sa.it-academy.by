@@ -1,0 +1,59 @@
+# Default values for jenkins.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+namespace: ci-cd
+name: jenkins
+
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci:odemidovec
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+masterport: 8080
+slaveport: 50000
+ingressport: 8080
+serveralias: "helm-jenkins.k8s-5.sa"
+
+env:
+  JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+  CASC_JENKINS_CONFIG: "/var/jenkins_home/casc_configs/jenkins.yaml"
+ConfigMap:
+  volumeMounts:
+    - name: jenkins-auth-config
+      mountPath: /var/jenkins_home/init.groovy.d/basic-security.groovy
+      subPath: basic-security.groovy
+    - name: jenkins-config-yaml
+      mountPath: /var/jenkins_home/casc_configs/jenkins.yaml
+      subPath: jenkins.yaml
+    - name: jenkins-config
+      mountPath: /var/jenkins_home
+  volumes:
+    - name: jenkins-auth-config
+      configMap:
+        name: basic-security
+    - name: jenkins-config-yaml
+      configMap:
+        name: jenkins-config
+    - name: jenkins-config
+      nfs:
+        server: 192.168.37.105
+        path: /mnt/IT-Academy/nfs-data/sa2-23-23/odemidovec/jenkins
+ingress:
+  enabled: true
+ingresshost: helm-jenkins.k8s-5.sa
+resources:
+  limits:
+    cpu: 2000m
+    memory: 3072Mi
+  requests:
+    cpu: 2000m
+    memory: 2048Mi
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
