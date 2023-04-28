@@ -1,0 +1,230 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  creationTimestamp: "2023-04-28T04:21:03Z"
+  generation: 195
+  name: nfs-subdir-external-provisioner
+  namespace: argocd
+  resourceVersion: "1676385"
+  uid: dc190983-ed39-4285-96dd-89f19d473f44
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: nfs-subdir-external-provisioner
+    helm:
+      parameters:
+      - name: nfs.server
+        value: 192.168.37.105
+      - name: nfs.path
+        value: /mnt/IT-Academy/nfs-data/sa2-23-23/
+    repoURL: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+    targetRevision: 4.0.18
+  syncPolicy: {}
+status:
+  health:
+    status: Healthy
+  history:
+  - deployStartedAt: "2023-04-28T04:21:38Z"
+    deployedAt: "2023-04-28T04:21:41Z"
+    id: 0
+    revision: 4.0.18
+    source:
+      chart: nfs-subdir-external-provisioner
+      helm:
+        parameters:
+        - name: nfs.server
+          value: 192.168.37.105
+        - name: nfs.path
+          value: /mnt/IT-Academy/nfs-data/sa2-23-23/
+      repoURL: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+      targetRevision: 4.0.18
+  operationState:
+    finishedAt: "2023-04-28T04:21:41Z"
+    message: successfully synced (all tasks run)
+    operation:
+      initiatedBy:
+        username: admin
+      retry: {}
+      sync:
+        revision: 4.0.18
+        syncStrategy:
+          hook: {}
+    phase: Succeeded
+    startedAt: "2023-04-28T04:21:38Z"
+    syncResult:
+      resources:
+      - group: ""
+        hookPhase: Running
+        kind: ServiceAccount
+        message: serviceaccount/nfs-subdir-external-provisioner created
+        name: nfs-subdir-external-provisioner
+        namespace: default
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: storage.k8s.io
+        hookPhase: Running
+        kind: StorageClass
+        message: storageclass.storage.k8s.io/nfs-client created
+        name: nfs-client
+        namespace: default
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: rbac.authorization.k8s.io
+        hookPhase: Running
+        kind: ClusterRole
+        message: "clusterrole.rbac.authorization.k8s.io/nfs-subdir-external-provisioner-runner
+          reconciled. reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[get
+          list watch] APIGroups:[] Resources:[nodes] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get
+          list watch create delete] APIGroups:[] Resources:[persistentvolumes] ResourceNames:[]
+          NonResourceURLs:[]}\n\t\t{Verbs:[get list watch update] APIGroups:[] Resources:[persistentvolumeclaims]
+          ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[get list watch] APIGroups:[storage.k8s.io]
+          Resources:[storageclasses] ResourceNames:[] NonResourceURLs:[]}\n\t\t{Verbs:[create
+          update patch] APIGroups:[] Resources:[events] ResourceNames:[] NonResourceURLs:[]}.
+          clusterrole.rbac.authorization.k8s.io/nfs-subdir-external-provisioner-runner
+          configured. Warning: resource clusterroles/nfs-subdir-external-provisioner-runner
+          is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+          which is required by  apply.  apply should only be used on resources created
+          declaratively by either  create --save-config or  apply. The missing annotation
+          will be patched automatically."
+        name: nfs-subdir-external-provisioner-runner
+        namespace: default
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: rbac.authorization.k8s.io
+        hookPhase: Running
+        kind: ClusterRoleBinding
+        message: "clusterrolebinding.rbac.authorization.k8s.io/run-nfs-subdir-external-provisioner
+          reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+          APIGroup: Name:nfs-subdir-external-provisioner Namespace:default}. clusterrolebinding.rbac.authorization.k8s.io/run-nfs-subdir-external-provisioner
+          configured. Warning: resource clusterrolebindings/run-nfs-subdir-external-provisioner
+          is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+          which is required by  apply.  apply should only be used on resources created
+          declaratively by either  create --save-config or  apply. The missing annotation
+          will be patched automatically."
+        name: run-nfs-subdir-external-provisioner
+        namespace: default
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: rbac.authorization.k8s.io
+        hookPhase: Running
+        kind: Role
+        message: "role.rbac.authorization.k8s.io/leader-locking-nfs-subdir-external-provisioner
+          reconciled. reconciliation required create\n\tmissing rules added:\n\t\t{Verbs:[get
+          list watch create update patch] APIGroups:[] Resources:[endpoints] ResourceNames:[]
+          NonResourceURLs:[]}. role.rbac.authorization.k8s.io/leader-locking-nfs-subdir-external-provisioner
+          configured. Warning: resource roles/leader-locking-nfs-subdir-external-provisioner
+          is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+          which is required by  apply.  apply should only be used on resources created
+          declaratively by either  create --save-config or  apply. The missing annotation
+          will be patched automatically."
+        name: leader-locking-nfs-subdir-external-provisioner
+        namespace: default
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: rbac.authorization.k8s.io
+        hookPhase: Running
+        kind: RoleBinding
+        message: "rolebinding.rbac.authorization.k8s.io/leader-locking-nfs-subdir-external-provisioner
+          reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+          APIGroup: Name:nfs-subdir-external-provisioner Namespace:default}. rolebinding.rbac.authorization.k8s.io/leader-locking-nfs-subdir-external-provisioner
+          configured. Warning: resource rolebindings/leader-locking-nfs-subdir-external-provisioner
+          is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+          which is required by  apply.  apply should only be used on resources created
+          declaratively by either  create --save-config or  apply. The missing annotation
+          will be patched automatically."
+        name: leader-locking-nfs-subdir-external-provisioner
+        namespace: default
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: apps
+        hookPhase: Running
+        kind: Deployment
+        message: deployment.apps/nfs-subdir-external-provisioner created
+        name: nfs-subdir-external-provisioner
+        namespace: default
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      revision: 4.0.18
+      source:
+        chart: nfs-subdir-external-provisioner
+        helm:
+          parameters:
+          - name: nfs.server
+            value: 192.168.37.105
+          - name: nfs.path
+            value: /mnt/IT-Academy/nfs-data/sa2-23-23/
+        repoURL: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+        targetRevision: 4.0.18
+  reconciledAt: "2023-04-28T13:23:20Z"
+  resources:
+  - kind: ServiceAccount
+    name: nfs-subdir-external-provisioner
+    namespace: default
+    status: Synced
+    version: v1
+  - group: apps
+    health:
+      status: Healthy
+    kind: Deployment
+    name: nfs-subdir-external-provisioner
+    namespace: default
+    status: Synced
+    version: v1
+  - group: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: nfs-subdir-external-provisioner-runner
+    status: Synced
+    version: v1
+  - group: rbac.authorization.k8s.io
+    kind: ClusterRoleBinding
+    name: run-nfs-subdir-external-provisioner
+    status: Synced
+    version: v1
+  - group: rbac.authorization.k8s.io
+    kind: Role
+    name: leader-locking-nfs-subdir-external-provisioner
+    namespace: default
+    status: Synced
+    version: v1
+  - group: rbac.authorization.k8s.io
+    kind: RoleBinding
+    name: leader-locking-nfs-subdir-external-provisioner
+    namespace: default
+    status: Synced
+    version: v1
+  - group: storage.k8s.io
+    kind: StorageClass
+    name: nfs-client
+    status: Synced
+    version: v1
+  sourceType: Helm
+  summary:
+    images:
+    - registry.k8s.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
+  sync:
+    comparedTo:
+      destination:
+        namespace: default
+        server: https://kubernetes.default.svc
+      source:
+        chart: nfs-subdir-external-provisioner
+        helm:
+          parameters:
+          - name: nfs.server
+            value: 192.168.37.105
+          - name: nfs.path
+            value: /mnt/IT-Academy/nfs-data/sa2-23-23/
+        repoURL: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+        targetRevision: 4.0.18
+    revision: 4.0.18
+    status: Synced
