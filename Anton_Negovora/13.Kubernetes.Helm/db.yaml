@@ -1,0 +1,71 @@
+---
+- hosts: db_all
+  vars:
+    app_packages:
+      - mariadb-server
+      - mariadb-client
+      - python3-pymysql
+      - python3-mysqldb
+    db_name: "{{ name_db | default('test') }}"
+    db_user: "{{ user_db | default('test') }}"
+    db_pass: "{{ pass_db | default('test') }}"
+  pre_tasks:
+  - name: Validate
+    debug:
+      msg:
+       - "DB name: {{ db_name }}"
+       - "DB user: {{ db_user }}"
+       - "DB pass: {{ db_pass }}"
+  - name: Prepare. Install packages
+    apt:
+      name: "curl"
+      state: latest
+      update_cache: yes
+    tags: install
+  tasks:
+  - name: Add MariaDB repos
+    shell: |
+      curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+      bash mariadb_repo_setup --mariadb-server-version=10.6
+    tags: install
+  - name: MySQL. Install packages
+    apt:
+      name: "{{ app_packages }}"
+      state: latest
+    environment:
+      DEBIAN_FRONTEND: noninteractive
+    tags: install
+  - name: MySQL. add bind-address
+    ini_file:
+      dest: /etc/mysql/my.cnf
+      section: mysqld
+      option: "bind-address"
+      value: "{{ ansible_host }}"
+
+  - name: restart mysql if necessary
+    command: service mysql restart
+
+  - name: Test connect
+    wait_for:
+      host: "{{ ansible_host }}"
+      port: 3306
+      timeout: 3
+
+  - mysql_db:
+      name: "{{ db_name }}"
+      state: absent
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+    tags: never
+
+  - mysql_db:
+      name: "{{ db_name }}"
+      encoding: utf8
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+
+  - mysql_user:
+      name: "{{ db_user }}"
+      host: "%"
+      password: "{{ db_pass }}"
+      priv: "{{ db_name }}.*:ALL"
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+    no_log: yes
