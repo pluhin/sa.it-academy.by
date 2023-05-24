@@ -39,6 +39,6 @@
 
 ## Links
 
-### [Project repository] (https://github.com/VitaliGet/myproject)
+### [Project repository](https://github.com/VitaliGet/myproject)
 
-### [DockerHub registry] (https://hub.docker.com/repository/docker/getmanovich7/wordpress/general)
+### [DockerHub registry](https://hub.docker.com/repository/docker/getmanovich7/wordpress/general)
