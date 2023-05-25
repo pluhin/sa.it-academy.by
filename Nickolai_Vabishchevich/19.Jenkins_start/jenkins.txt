@@ -1,0 +1,22 @@
+upstream jenkins {
+  server 127.0.0.1:8080; 
+}
+
+server {
+  listen        80; 
+  server_name   jenkins-3.sa; 
+  access_log    /var/log/nginx/jenkins.access.log; 
+
+  ignore_invalid_headers off;
+
+  location / {
+    proxy_set_header        Host              $host:$server_port;
+    proxy_set_header        X-Real-IP         $remote_addr;
+    proxy_set_header        X-Forwarded-For   $proxy_add_x_forwarded_for;
+    proxy_set_header        X-Forwarded-Proto $scheme;
+
+    # Fix the “It appears that your reverse proxy set up is broken" error.
+    proxy_redirect          http://127.0.0.1:8080 http://jenkins-3.sa;
+    proxy_pass              http://127.0.0.1:8080;
+  }
+}
