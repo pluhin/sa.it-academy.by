@@ -8,8 +8,10 @@
 ``` bash
     #!/bin/bash
     git add --all
-    git commit -m "auto update from script"
-    git pull
-    git push
+    git commit -m "Auto pushing"
+    for remo in $(git remote)
+    do
+    git push --all $remo
+    done
 ```
    
