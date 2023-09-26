@@ -1,7 +1,7 @@
 # Anton Ivanov HW3
 
-[GitHub - The My First repository](https://github.com/AntonIvanovDevOps/ntonIvanovDevOps)
-[GitHub - My Forked repository](AntonIvanovDevOps/sa.it-academy.by)
+[GitHub - The My First repository](https://github.com/AntonIvanovDevOps/AntonIvanovDevOps)
+[GitHub - My Forked repository](https://github.com/AntonIvanovDevOps/sa.it-academy.by)
 [GitLab - My First project](https://gitlab.com/devops1304239/FirstProject)
 
 ## Script for automation pushing to GitHub
