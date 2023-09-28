@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #List of remote repositories
-remote_repositories=("github-origin" "gitlab-origin")
+remote_repositories=($(git remote))
 
 #Checking the status and availability of changes in the repository
 if [[ $(git status -s) ]]; then
