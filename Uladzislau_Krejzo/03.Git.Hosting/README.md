@@ -4,7 +4,7 @@
 ## Links to repositories
 
 **[Github](https://github.com/jankalep/sa.it-academy.by/tree/master/Uladzislau_Krejzo"Github")**
-**[Gitlab](https://gitlab.com/vlad.czech2018/03.git.hosting "Gitlab")**
+**[Gitlab](https://gitlab.com/vlad.czech2018/03.git.hosting"Gitlab")**
 
 
 ## SSH-keys
@@ -12,7 +12,7 @@
 Created before previos Homework
 Added
 
-##Automation script
+## Automation script
 
 ```bash
 
@@ -34,7 +34,7 @@ echo "Done"
 
 ```
 
-##History
+## History
 
 
 
