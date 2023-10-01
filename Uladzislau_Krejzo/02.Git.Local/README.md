@@ -8,8 +8,6 @@ It's my belated Homework for 02.Git.Local.
 
 ## Added tags
 Added tags v1.0 and v2.0 with description.
-<<<<<<< Updated upstream
-=======
 
 ## Bug-fix
 Example. I don't setup time of system. Date isn't actualy.
@@ -23,4 +21,4 @@ It was stashed
 
 Email, username was added before homework when I ported fork
 Aliases for git added now
->>>>>>> Stashed changes
+
