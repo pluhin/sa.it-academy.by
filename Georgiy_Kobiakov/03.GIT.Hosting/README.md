@@ -1,4 +1,7 @@
-# 03.GIT.Hosting
+:wq!
+
+
+# T.Hosting
 ---
 
 ## My github and gitlab repos for HT3
@@ -32,6 +35,6 @@ echo "Complete!"
 ## Making alias
 
 ```bash
-alias auto_push=d:\Projects\Solutions\sa.it-academy.by\Georgiy_Kobiakov\03.GIT.Hosting\autopush.sh
+alias auto_push="d:\Projects\Solutions\sa.it-academy.by\Georgiy_Kobiakov\03.GIT.Hosting\autopush.sh"
 
 ```
