@@ -35,6 +35,6 @@ echo "Complete!"
 ## Making alias
 
 ```bash
-alias auto_push="d:\Projects\Solutions\sa.it-academy.by\Georgiy_Kobiakov\03.GIT.Hosting\autopush.sh"
+alias auto_push="d:/Projects/Solutions/sa.it-academy.by/Georgiy_Kobiakov/03.GIT.Hosting/autopush.sh"
 
 ```
