@@ -25,26 +25,25 @@ jobs:
 
 ## CalculatorTesting.yaml
 ```yaml
-name: Testing Calculator
+name: Tesing Calculator  using JUnit
 on:
   push:
     branches: [main]
 jobs:
-  test:
+  linux:
+    name: Linux
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Set up Java
-        uses: actions/setup-java@v1
+      - uses: actions/checkout@v4
+      - name: 'Set up JDK 11'
+        uses: actions/setup-java@v3
         with:
-          java-version: '18' 
-      - name: Compile calculator.java
-        run: javac Calculator.java 
+          java-version: 11
+          distribution: temurin
+      - name: Build with Maven
+        run: mvn package
       - name: Run CalculatorTest.java
-        run: javac CalculatorTest.java 
-        #run: java -jar junit-platform-console-standalone-1.6.2.jar
+        run: mvn test --batch-mode --file pom-SNAPSHOT.xml
 ```
-[Second part with Operations link GITHUB](https://github.com/AntonIvanovDevOps/Calculator2.0)
-Need check last run.
+[Second part with Operations link GITHUB](https://github.com/AntonIvanovDevOps/LastCalculator)
 
