@@ -1,0 +1,8 @@
+- name: all_machine
+  hosts: localhost
+  vars:
+    hi: "Hello, Ansible!"
+  tasks:
+    - name: Print hi
+      debug:
+        msg: "{{ hi }}"

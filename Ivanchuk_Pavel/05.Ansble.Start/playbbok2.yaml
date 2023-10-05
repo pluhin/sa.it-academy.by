@@ -1,0 +1,50 @@
+- hosts: all_machine
+  gather_facts: true
+  pre_tasks:
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: "{{ ansible_user }}"
+        state: present
+        key: "{{ item }}"
+      with_items:
+      - "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      tags:
+        - never
+  tasks:
+  - name: Update app list
+    apt:
+      update_cache: yes
+    tags:
+      - install
+  - name: Install iftop 
+    apt:
+      name: iftop
+      state: latest
+    tags:
+      - install
+  - name: Install htop
+    apt:
+      name: htop
+      state: latest
+    tags:
+      - install
+  - name: Install mc
+    apt:
+      name: mc
+      state: latest
+    tags:
+      - install
+  - name: Install net-tools
+    apt:
+      name: net-tools
+      state: latest
+    tags:
+      - install
+  - name: All done
+    debug:
+      msg: "All apps installed"
+    tags:
+      - check
+ 
+
+ 
