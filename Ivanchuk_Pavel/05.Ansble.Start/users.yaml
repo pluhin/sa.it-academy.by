@@ -1,0 +1,51 @@
+- hosts: "{{ group | default('all_machine') }}"
+  vars: 
+    new_user: ivanchuk
+    new_group: md_sa2_25_23
+  tasks:
+  - name: Check variable
+    debug:
+      msg: "You requested user {{ new_user }} | Also yoy requested group {{ new_group }}"
+  - name: Creating group {{ new_group }}
+    group:
+      name: "{{ new_group }}"
+      state: present
+    register: group_check_result
+  - name: Check {{ new_group }}
+    command: getent group {{ new_group }}
+    register: group_check_result
+    ignore_errors: yes
+  - name: Message from check group
+    debug:
+      msg: |
+        Group {{ new_group }}
+        {{ "Alredy exist." if group_check_result.rc == 0 else "don't esxist" }}
+  - name: Creating user {{ new_user }}
+    user:
+      name: "{{ new_user }}"
+      comment: Ya Ya Ya
+      state: present
+  - name: Check user
+    shell: |
+      grep "{{ new_user }}" /etc/passwd
+      date
+    register: out
+  - name: Message from check user
+    debug:
+      msg: "{{ out.stdout_lines }}"
+  - name: Hack vault
+    ansible.builtin.include_vars:
+      file: /home/05.Ansble.Start/group_vars/all_machine/vault.yaml
+  - name: Set User password  
+    user:
+      name: "{{ new_user }}"
+      password: "{{ set_password }}"
+      state: present
+    become: yes
+  - name: Check password
+    shell: "passwd -S {{ new_user }}"
+    register: passwd_result
+  - name: Check message password
+    debug:
+      msg: "Current password status: {{ passwd_result.stdout }}"
+      

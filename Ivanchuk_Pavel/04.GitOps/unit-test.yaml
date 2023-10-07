@@ -1,0 +1,30 @@
+name: Test script
+on: 
+  push: 
+    branches:
+    - Unit-test
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get checkout repo
+        uses: actions/checkout@v4
+
+      # This time I decided to install a node on a GitHub VM through an action 
+      # indicating a specific version
+      - name: Install node from action 
+        uses: actions/setup-node@v3
+        with: 
+          node-version: '18'
+
+      - name: Install npm 
+        run: npm install 
+
+      - name: Run test
+        run: |
+             npm test
+             echo "Test passed"
+ 
+
+      

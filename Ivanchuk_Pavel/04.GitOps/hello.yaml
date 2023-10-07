@@ -1,0 +1,34 @@
+name: Test script
+on: 
+  push: 
+    branches:
+    - master
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download node for Javascript
+      # I know that the runtime environment for javascript code and
+      # python code is already installed on the Github VM, but for reliability, you
+      # can install it so that everything works exactly on the latest version
+        run: sudo apt update && sudo apt install -y nodejs 
+      - run: echo "node has been installed" 
+      
+      - name: Get checkout repo
+        uses: actions/checkout@v4
+ 
+      - name: Start script
+        run: |
+          pwd
+          ls -la
+          chmod +x hello.js
+          node hello.js > outputjs.log
+          echo "Script executed successfully"
+ 
+      - name: Upload command output
+        uses: actions/upload-artifact@v3
+        with:
+          path: outputjs.log
+
+      
