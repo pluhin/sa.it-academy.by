@@ -71,4 +71,31 @@ db_all:
         msg: "{{ item.content }}"
       with_items: "{{ result.results }}"
 ```
+
+## FIle nginx-virtualhost.conf.j2
+```
+server {
+  listen 80;
+  server_name {{ item.server_name }};
+  root {{ item.document_root }};
+
+  location / {
+    index index.html;
+  }
+}
+```
+
+## File index.html.j2
+```html
+<html>
+<head>
+  <title>{{ item.name }}</title>
+</head>
+<body>
+  <h1>Hello from {{ ansible_hostname }}!</h1>
+  <p>FQDN: {{ ansible_fqdn }}</p>
+</body>
+</html>
+```
+
 ### Command - ansible-playbook -i inv.yaml createsites.yaml
