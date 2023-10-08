@@ -1,0 +1,8 @@
+- name: Install htop
+  hosts: all_workers
+  become: yes
+  tasks:
+    - name: Install htop
+      package:
+        name: htop
+        state: present
