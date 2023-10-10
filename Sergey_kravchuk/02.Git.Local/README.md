@@ -1,5 +1,5 @@
 
- \'''
+ '''
   308  mkdir HM2.Git.Local
   309  cd HM2.Git.Local/
   310  git init
@@ -22,4 +22,4 @@
   306  git checkout md-sa2-25-23
   307  git init
 
-\'''
+'''
