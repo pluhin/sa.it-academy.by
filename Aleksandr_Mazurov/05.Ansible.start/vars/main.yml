@@ -1,0 +1,12 @@
+mygroups:
+  - name: group1
+  - name: group2
+
+users:
+  - name: user1
+    group: group1
+    password: password1
+
+  - name: user2
+    group: group2
+    password: password2

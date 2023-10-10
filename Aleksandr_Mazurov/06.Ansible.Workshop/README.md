@@ -1,0 +1,178 @@
+# 06. Ansible Workshop
+
+## Homework Assignment 1: Configuration Management
+
+*Nginx is selected as the web server*
+
+ansible -i inv.yml -m ping all_workers -u root
+
+nano install_nginx.yml
+
+```yml
+- name: Install LEMP on Ubuntu 22.04
+  hosts: all_workers
+  become: true
+
+  vars:
+    php_version: "7.4"
+
+    sites:
+      - name: mazurov1
+        domain: mazurov1.com
+        root: /var/www/mazurov1
+        url: http://www.mazurov1.com
+      - name: mazurov2
+        domain: mazurov2.com
+        root: /var/www/mazurov2
+        url: http://www.mazurov2.com
+
+  tasks:
+    - name: Updating the package list
+      apt:
+        update_cache: yes
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Starting the service Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Install MySQL
+      apt:
+        name: mysql-server
+        state: present
+
+    - name: Starting the service MySQL
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: Installation of PHP and necessary modules
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - php-fpm
+        - php-mysql
+        - php-gd
+        - php-cli
+        - php-common
+        - php-curl
+
+    - name: Setting PHP-FPM
+      lineinfile:
+        path: /etc/php/{{ php_version }}/fpm/php.ini
+        line: "{{ item.key }} = {{ item.value }}"
+      loop:
+        - { key: 'cgi.fix_pathinfo', value: '0' }
+        - { key: 'upload_max_filesize', value: '2M' }
+        - { key: 'max_execution_time', value: '30' }
+      notify:
+        - resrestarted PHP-FPM
+
+    - name: Creating directories for sites
+      file:
+        path: "{{ item.root }}"
+        state: directory
+        mode: '0755'
+      loop: "{{ sites }}"
+
+    - name: Creating configurations for sites
+      template:
+        src: templates/nginx-site.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.name }}"
+      loop: "{{ sites }}"
+      notify:
+        - restarted Nginx
+
+    - name: Symbolic reference to the site configuration
+      file:
+        src: "/etc/nginx/sites-available/{{ item.name }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.name }}"
+        state: link
+      loop: "{{ sites }}"
+      notify:
+        - restarted Nginx
+
+    - name: Create index.html for each site
+      template:
+        src: index.html.j2
+        dest: "{{ item.root }}/index.html"
+      with_items: "{{ sites }}"
+
+    - name: Add sites to /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ ansible_default_ipv4.address }} {{ item.url }}"
+        state: present
+      loop: "{{ sites }}"
+
+    - name: Remove old HTML files
+      file:
+        path: /var/www/html
+        state: absent
+
+    - name: Send HTTP request to the website
+      uri:
+        url: "{{ item.url }}"
+        return_content: yes
+      loop: "{{ sites }}"
+      register: website_response
+
+    - name: Check if the website is available
+      fail:
+        msg: "Website is not accessible"
+      when: website_response.status != 200
+
+  handlers:
+    - name: restarted PHP-FPM
+      service:
+        name: php{{ php_version }}-fpm
+        state: restarted
+
+    - name: restarted Nginx
+      service:
+        name: nginx
+        state: restarted
+```
+
+mkdir templates
+
+cd templates
+
+nano index.html.j2
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to {{ item.domain }}</title>
+</head>
+<body>
+  <h1>Welcome to {{ item.domain }}</h1>
+  <p>This is the default page for the site {{ item.domain }}.</p>
+  <p>This website is hosted on {{ ansible_fqdn }}.</p>
+</body>
+</html>
+```
+
+nano nginx-site.conf.j2
+
+```jinja2
+server {
+  listen 80;
+  server_name {{ item.domain }};
+  root {{ item.root }};
+  location / {
+    index index.html;
+  }
+}
+```
+
+ansible-playbook -i inv.yml install_nginx.yml -u root

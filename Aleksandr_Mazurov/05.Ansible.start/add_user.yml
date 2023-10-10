@@ -1,0 +1,19 @@
+- name: Add users, password and groups
+  hosts: all_workers
+  become: yes
+  vars_files:
+    - vars/main.yml
+  tasks:
+    - name: Create groups
+      group:
+        name: "{{ item.name }}"
+        state: present
+      loop: "{{ mygroups }}"
+
+    - name: Create users
+      user:
+        name: "{{ item.name }}"
+        group: "{{ item.group }}"
+        password: "{{ item.password | password_hash('sha512') }}"
+        state: present
+      loop: "{{ users }}"
