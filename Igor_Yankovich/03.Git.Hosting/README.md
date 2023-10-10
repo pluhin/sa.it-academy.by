@@ -27,7 +27,7 @@ Gitlab/click apps/search slack app/add to slack/follow the prompts to install
 import os
 from github import Github
 
-github_token = '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'
+github_token = '*********************'
 repository_path = '/home/ubuntu/sa.it-academy.by/Igor_Yankovich/03.Git.Hosting'
 commit_message = 'new push-commit created'
 
