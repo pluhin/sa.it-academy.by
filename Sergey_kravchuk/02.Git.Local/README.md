@@ -1,21 +1,25 @@
-# 265  cd c/Users/s.kravchuk/
-# 266  git init
-# 267  git clone https://github.com/SergeyKravchuk/sa.it-academy.by
-# 268  ls
-# 269  rm -r sa.it-academy.by/
-# 270  sudo rm -r sa.it-academy.by/
-# 271  su
-# 272  git clone https://github.com/SergeyKravchuk/sa.it-academy.by
-# 273  git init
-# 274  git branch
-# 275  cd sa.it-academy.by/
-# 276  git checkout md-sa2-25-23
-# 277  pwd
-# 278  ls
-# 279  vim Sergey_kravchuk/02.Git.Local/README.md
-# 280  hystory
-# 281  history
-# 282  git commit
-# 283  git push
-# 284  history
 
+ \'''
+  308  mkdir HM2.Git.Local
+  309  cd HM2.Git.Local/
+  310  git init
+  311  touch README.md
+  312  vim README.md
+  313  git commit
+  314  git add README.md
+  315  git commit
+
+  296  git branch feature-branch
+  297  git checkout feature-branch
+  298  ls
+  299  vim README.md
+  300  git commit
+  301  git commit -a
+  302  git push
+  303  git push --set-upstream origin feature-branch
+  304  history
+  305  pwd
+  306  git checkout md-sa2-25-23
+  307  git init
+
+\'''
