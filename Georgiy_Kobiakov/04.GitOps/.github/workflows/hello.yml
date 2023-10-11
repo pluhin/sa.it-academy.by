@@ -2,7 +2,7 @@ name: Hello Workflow
 on:
   push:
     branches:
-      - main
+      - md-sa2-25-23
 
 jobs:
   build:
