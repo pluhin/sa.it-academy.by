@@ -1,0 +1,19 @@
+name: Hello Workflow
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12' 
+    - name: Check out code
+      uses: actions/checkout@v2     
+    - name: Run Python script
+      run: python hello.py
