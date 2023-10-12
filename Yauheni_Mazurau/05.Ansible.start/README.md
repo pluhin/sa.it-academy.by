@@ -2,8 +2,9 @@
 
 ## Homework Assignment 1: Setting Up Ansible
 
-* Installation and configuration *
+* Installation and configuration
 
+```bash
 mkdir 05.Ansible
 cd 05.Ansible
 sudo apt update
@@ -11,8 +12,10 @@ sudo apt install python3-pip
 sudo pip3 install ansible
 #Checking the version. Must be at least 2.10       
 ansible --version
-
+```
+```bash
 nano inv.yaml
+```
 
 ```yaml
 
@@ -34,7 +37,9 @@ jump_sa:
 
 ```
 
-#Copy the ssh key to the remote server
+Copy the ssh key to the remote server
+
+```bash
 ssh-copy-id -p 32510 jump_sa@178.124.206.53
 exit
 #Ñonnecting to the bastion server
@@ -53,14 +58,19 @@ mkdir -p group_vars/all_workers
 nano group_vars/all_workers/vars.yaml   
 #Add argument
 
+```
+
 ```yaml
 
 ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53  -p 32510"'
 
 ```
 
-#Create ansible.cfg Where, forks - number of simultaneous connections; 
+Create ansible.cfg Where, forks - number of simultaneous connections; 
+
+```bash
 nano ansible.cfg
+```
 
 ```
 [defaults]
@@ -69,14 +79,17 @@ host_key_checking = false
 callbacks_enabled = profile_tasks, timer
 ```
 
-#Install the sshpass utility to be able to connect by password
+Install the sshpass utility to be able to connect by password
+
+```bash
 sudo apt install sshpass
-
 #Test run ansible
-ansible -i inv.yaml -m ping all_workers -u root --ask-pass
+ansible -i inv.yaml -m ping all_workers -u root --ask-pass`
+```
 
-* Ansible. Vault *
+* Ansible. Vault 
 
+```bash
 ansible-vault create group_vars/all_workers/vault.yaml
 #Vault pass 1804
 ansible-vault edit group_vars/all_workers/vault.yaml
@@ -85,10 +98,13 @@ cat group_vars/all_workers/vault.yaml
 #Check
 ansible -i inv.yaml -m ping all_workers --ask-vault-pass
 
+```
 
-* Write an Ansible playbook that prints "Hello, Ansible!" to the console *
+* Write an Ansible playbook that prints "Hello, Ansible!" to the console
 
+```bash
 nano hello_loc.yml
+```
 
 ```yaml
 
@@ -103,15 +119,19 @@ nano hello_loc.yml
         
 ```
 
-#Start and check
-ansible-playbook hello_loc.yml
+Start and check
 
+```bash
+ansible-playbook hello_loc.yml
+```
 
 ### Homework Assignment 2: Managing Remote Hosts
 
-** Write an Ansible playbook to install a basic package (e.g., vim or htop) on the remote host **
+* Write an Ansible playbook to install a basic package (e.g., vim or htop) on the remote host 
 
+```bash
 nano htop_install.yml
+```
 
 ```yaml
 
@@ -126,7 +146,7 @@ nano htop_install.yml
         state: present
         
 ```
-
+```bash
 ansible-playbook -i inv.yaml htop_install.yml -u root --ask-vault-pass
 #Check
 ssh root@192.168.202.20
@@ -135,12 +155,14 @@ exit
 ssh root@192.168.202.19
 htop
 exit
+```
 
+### Homework Assignment 3: Managing Users and Groups
 
-#### Homework Assignment 3: Managing Users and Groups
-
+```bash
 mkdir vars
 nano list_user.yml
+```
 
 ```yaml
 
@@ -157,7 +179,9 @@ addusers:
     password: qwerty2
 ```
 
+```bash
 nano add_user.yml
+```
 
 ```yaml
 
@@ -184,8 +208,11 @@ nano add_user.yml
         #Password Hashing
         state: present
       loop: "{{ addusers }}"
-```
 
+```
+* Run playbook and checking the results
+
+```bash
 ansible-playbook -i inv.yaml add_users.yml -u root --ask-vault-pass
 #Check
 ssh root@192.168.202.20
@@ -194,3 +221,4 @@ exit
 ssh root@192.168.202.20
 cat /etc/group | grep team
 exit
+```
