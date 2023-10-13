@@ -1,4 +1,4 @@
-# 08. Docker. Docker compose
+# 08. Docker. Docker compose.
 
 ## Homework Assignment 1: Docker Compose for Application Stacks
 
