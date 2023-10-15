@@ -1,0 +1,113 @@
+- hosts: mysql
+  become: yes
+  vars:
+    vhost_name:
+      - site1
+      - site2
+  tasks: 
+  - name: Update app list 
+    apt: 
+      update_cache: yes
+    tags: install
+
+  - name: Check existence nginx
+    stat:
+      path: /etc/nginx/nginx.conf
+    register: nginx_installed
+    ignore_errors: yes
+    tags: install
+
+  - name: Install nginx
+    apt:
+      name: nginx
+      state: latest
+    when: not nginx_installed.stat.exists
+    environment:
+      DEBIAN_FRONTEND: noninteractive
+    tags: install
+
+  - name: Create directory for vhost
+    file:
+      path: "/var/www/{{ item }}/html/"
+      owner: "{{ ansible_env.SUDO_USER }}"
+      group: "{{ ansible_env.SUDO_USER }}"
+      mode: 0755
+      state: directory
+    loop: "{{ vhost_name }}"
+    tags: config
+
+  - name: Template config for nginx
+    ansible.builtin.template: 
+      src: "{{ playbook_dir }}/templates/web-server.conf.j2"
+      dest: "/etc/nginx/sites-available/{{ item }}"
+      owner: "{{ ansible_env.SUDO_USER }}"
+      group: "{{ ansible_env.SUDO_USER }}"
+      mode: 0755
+    loop: "{{ vhost_name }}"
+    tags: nginx
+
+  - name: Link config in nginx settings
+    file: 
+      src: /etc/nginx/sites-available/{{ item }}
+      dest: "/etc/nginx/sites-enabled/{{ item }}"
+      state: link
+    loop: "{{ vhost_name }}"
+    tags: nginx
+
+  - name: Using html
+    ansible.builtin.template:
+      src: "{{ playbook_dir }}/html/{{ item }}.html"
+      dest: "/var/www/{{ item }}/html/index.html"
+    loop: "{{ vhost_name }}"
+    tags: nginx
+
+  - name: Add sites to hosts
+    shell: |
+      grep -q {{ item }} /etc/hosts || echo 127.0.0.1 {{ item }} >> /etc/hosts;
+    loop: "{{ vhost_name }}"
+    tags: nginx
+
+  - name: Run systemctl for check before status command
+    ansible.builtin.command: systemctl status nginx.service
+    register: nginx_status
+    changed_when: false
+    failed_when: "nginx_status.rc not in [0, 3]"
+    tags: restart
+
+  - name: Display Nginx service status before
+    ansible.builtin.debug:
+      var: nginx_status.stdout_lines
+    tags: restart
+
+  - name: Restart nginx
+    service:
+      name: nginx
+      state: restarted
+    tags: restart
+
+  - name: Run systemctl for check after status command
+    ansible.builtin.command: systemctl status nginx.service
+    register: nginx_status
+    changed_when: false
+    failed_when: "nginx_status.rc not in [0, 3]"
+    tags: restart
+  
+  - name: Display Nginx service status after
+    ansible.builtin.debug:
+      var: nginx_status.stdout_lines
+    tags: restart
+
+  - name: Check sites
+    ansible.builtin.uri:
+      url: "http://{{ item }}"
+      return_content: true
+    register: export
+    loop: "{{ vhost_name }}"
+    failed_when: export.status != 200
+    tags: check
+
+  - name: Message results
+    ansible.builtin.debug:
+      msg: "{{ item.content }}"
+    with_items: "{{ export.results }}"
+    tags: check
