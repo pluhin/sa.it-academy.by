@@ -1,6 +1,6 @@
 # 06. Ansible Workshop
 
-Web server software - Nginx. The data for configuring Nginx is in the files nginx.conf.j2, index.html.j2 in the derrictory 06.Ansible.Workshop/templates. Variables are taken from a file 06.Ansible.Workshop/vars/main.yaml. 
+Web server software - Nginx. The data for configuring Nginx is in the files nginx.conf.j2, index.html.j2 in the derrictory 06.Ansible.Workshop/templates. Variables are taken from a file 06.Ansible.Workshop/vars/main.yaml
 
 main.yaml
 ```yaml
