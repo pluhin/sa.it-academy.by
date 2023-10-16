@@ -1,0 +1,11 @@
+{
+  "name": "gumcol_site",
+  "version": "1.0.0",
+  "description": "Using part gumcol site",
+  "scripts": {
+    "start": "node site-config.js"
+  },
+  "dependencies": {
+    "http-server": "^0.12.3"
+  }
+}
