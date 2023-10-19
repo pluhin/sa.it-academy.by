@@ -13,6 +13,7 @@ sudo pip3 install ansible
 #Checking the version. Must be at least 2.10       
 ansible --version
 ```
+
 ```bash
 nano inv.yaml
 ```
@@ -42,7 +43,7 @@ Copy the ssh key to the remote server
 ```bash
 ssh-copy-id -p 32510 jump_sa@178.124.206.53
 exit
-#Ñonnecting to the bastion server
+#Connecting to the bastion server
 ssh jump_sa@178.124.206.53 -p 32510 
 #Setting up connection to Bastion server via config file 
 nano ~/.ssh/config    
@@ -123,6 +124,7 @@ Start and check
 
 ```bash
 ansible-playbook hello_loc.yml
+
 ```
 
 ### Homework Assignment 2: Managing Remote Hosts
@@ -177,10 +179,12 @@ addusers:
   - name: user2
     group: team2
     password: qwerty2
+
 ```
 
 ```bash
 nano add_user.yml
+
 ```
 
 ```yaml
