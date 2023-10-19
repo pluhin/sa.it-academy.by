@@ -1,0 +1,36 @@
+name: Docker Publish
+on:
+  push:
+    branches:
+      - main
+jobs:
+  docker-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Log in to the Docker hub
+        uses: docker/login-action@v2
+        with:
+          username: antonivanovdevops
+          password: ${{ secrets.DOCKER_HUB_ACESS_TOKEN }}
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+            antonivanovdevops/docker_build:${{ github.ref_name }}
+      - name: Notify Slack on success
+        if: ${{ success() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: WeekendWarrior
+          SLACK_MESSAGE: "OK. The Docker image has been built and pushed successfuly."
+      - name: Notify Slack on failure
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: WekeendWarrior
+          SLACK_MESSAGE: "FAIL. The Docker image has been built and pushed fail."
