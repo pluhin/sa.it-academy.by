@@ -1,0 +1,11 @@
+kubectl Version: Client Version: v1.28.3
+Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
+Server Version: v1.27.3
+KinD Version: kind v0.20.0 go1.20.4 linux/amd64
+Pods: NAMESPACE     NAME                                         READY   STATUS    RESTARTS   AGE
+kube-system   etcd-kind-control-plane                      1/1     Running   0          4s
+kube-system   kube-apiserver-kind-control-plane            1/1     Running   0          7s
+kube-system   kube-controller-manager-kind-control-plane   0/1     Running   0          6s
+kube-system   kube-scheduler-kind-control-plane            0/1     Running   0          4s
+Nodes: kind-control-plane
+How long spin up (Time): 52 seconds
