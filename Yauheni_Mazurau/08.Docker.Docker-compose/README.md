@@ -10,9 +10,9 @@ sudo chmod a+x /usr/local/bin/docker-compose
 docker-compose --version
 ```
 
-Environment for configuring Mysql and Debian are taken from the .env file.
+Environment for configuring Mysql and Drupal are taken from the .env file.
 
-Debian health check on the local machine:
+Drupal health check on the local machine:
 - ssh -L 8000:127.0.0.1:8000 ym@192.168.56.119 -f -N
 - In the browser, enter http://localhost:8000
 
