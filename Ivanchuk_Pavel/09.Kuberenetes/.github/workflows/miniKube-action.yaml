@@ -1,0 +1,59 @@
+name: Setup MiniKube Cluster
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  setup_minikube:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Start miniKube
+      id: start_time_minikube
+      run: |
+        echo "start_minikube=$(date '+%s')" >> $GITHUB_OUTPUT
+
+    - name: Setup miniKube
+      run: |
+        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        sudo install minikube-linux-amd64 /usr/local/bin/minikube
+        minikube start 
+        
+    - name: Setup kubectl
+      run: |
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+   
+    - name: End miniKube
+      id: end_time_minikube
+      run: |
+        echo "end_minikube=$(date '+%s')" >> $GITHUB_OUTPUT
+  
+    - name: Extract Cluster Info
+      run: |
+        kubectlversion=$(kubectl version)
+        minikubeversion=$(minikube version)
+        pods=$(minikube kubectl -- get po -A)
+        nodes=$(minikube node list)
+        echo "kubectl Version: $kubectlversion" > minikube-cluster-info.txt
+        echo "miniKube Version: $minikubeversion" >> minikube-cluster-info.txt
+        echo "Pods: $pods" >> minikube-cluster-info.txt
+        echo "Nodes: $nodes" >> minikube-cluster-info.txt
+        echo "How long spin up (Time): $((${{steps.end_time_minikube.outputs.end_minikube}} - ${{steps.start_time_minikube.outputs.start_minikube}})) seconds"  >> minikube-cluster-info.txt
+      shell: bash
+
+    - name: Upload miniKube Info
+      uses: actions/upload-artifact@v3
+      with:
+        name: minikube-cluster-info
+        path: minikube-cluster-info.txt
+
+    - name: Cleanup MiniKube Cluster
+      run: |
+        minikube stop
+        minikube delete --all

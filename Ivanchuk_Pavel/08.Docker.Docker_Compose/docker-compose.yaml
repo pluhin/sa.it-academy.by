@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  joomla:
+    image: joomla:latest
+    container_name: joomla
+    ports:
+      - "80:80"
+    environment:
+      JOOMLA_DB_HOST: mysql
+      JOOMLA_DB_USER: ${DB_USR}
+      JOOMLA_DB_PASSWORD: ${DB_PASS}
+      JOOMLA_DB_NAME: ${DB_NAME}
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+    networks:
+      - joomla-network
+    volumes:
+      - joomla-data:/var/www/html
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_RPASS}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USR}
+      MYSQL_PASSWORD: ${DB_PASS}
+    env_file:
+      - .env
+    networks:
+      - joomla-network
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: unless-stopped
+
+networks:
+  joomla-network:
+    driver: bridge
+
+volumes:
+  joomla-data:
+  mysql-data:
