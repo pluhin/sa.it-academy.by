@@ -151,7 +151,6 @@ host_key_checking = false
 callbacks_enabled = profile_tasks, timer
 ```
 
-mkdir vars
 mcedit vars/main.yaml
 
 ```yaml
