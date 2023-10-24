@@ -1,0 +1,23 @@
+name: Minikube  Install
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  setup-minikube-cluster:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Minikube
+        run: |
+          curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          chmod +x minikube
+          sudo mv minikube /usr/local/bin/
+      - name: Start Minikube
+        run: minikube start
+      - name: Check Minikube Info
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+          kubectl version
+          kubectl get pods -A

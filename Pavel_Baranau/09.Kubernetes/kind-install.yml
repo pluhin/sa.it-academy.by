@@ -1,0 +1,22 @@
+name: KinD Setup
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  setup-kind-cluster:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: install KinD
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+          kind create cluster
+      - name: check kind
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+          kubectl get pods -A
+          kubectl version
