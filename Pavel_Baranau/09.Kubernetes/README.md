@@ -88,6 +88,7 @@ CoreDNS is running at https://127.0.0.1:39931/api/v1/namespaces/kube-system/serv
 Client Version: v1.28.3
 Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
 Server Version: v1.27.3
+How long spin up (Time): 45s
 ```
 ## Homework Assignment 4: GitHub Actions for Minikube Cluster Setup
 ``` bash
@@ -96,4 +97,5 @@ CoreDNS is running at https://192.168.49.2:8443/api/v1/namespaces/kube-system/se
 Client Version: v1.28.3
 Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
 Server Version: v1.27.4
+How long spin up (Time): 48s
 ```
