@@ -1,0 +1,31 @@
+version: '3.3'
+services:
+  drupal:
+    image: drupal:latest
+    depends_on:
+      - db
+    environment:
+      - DRUPAL_DB_HOST=db
+      - DRUPAL_DB_NAME=drupal
+      - DRUPAL_DB_USER=drupal
+      - DRUPAL_DB_PASSWORD=drupal
+    ports:
+      - "8080:80"
+    volumes:
+      - drupal_data:/var/www/html
+    restart: always
+  
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=drupal
+      - MYSQL_USER=drupal
+      - MYSQL_PASSWORD=drupal
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+  
+volumes:
+  drupal_data:
+  db_data:

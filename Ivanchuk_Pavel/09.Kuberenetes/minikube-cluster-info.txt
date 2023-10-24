@@ -1,0 +1,13 @@
+kubectl Version: Client Version: v1.28.3
+Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
+Server Version: v1.27.4
+miniKube Version: minikube version: v1.31.2
+commit: fd7ecd9c4599bef9f04c0986c4a0187f98a4396e
+Pods: NAMESPACE     NAME                               READY   STATUS    RESTARTS   AGE
+kube-system   etcd-minikube                      1/1     Running   0          9s
+kube-system   kube-apiserver-minikube            0/1     Running   0          7s
+kube-system   kube-controller-manager-minikube   0/1     Running   0          7s
+kube-system   kube-scheduler-minikube            1/1     Running   0          7s
+kube-system   storage-provisioner                0/1     Pending   0          5s
+Nodes: minikube	192.168.49.2
+How long spin up (Time): 68 seconds

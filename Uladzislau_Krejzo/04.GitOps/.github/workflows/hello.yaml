@@ -1,0 +1,19 @@
+name: Github actions Listener of repo master branch
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      - name: Chech
+        uses: actions/checkout@v2
+      - name: Run python file
+        run: python hello.py

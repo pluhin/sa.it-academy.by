@@ -1,0 +1,24 @@
+name: Minikube Cluster Setup
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  setup-minikube:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Minikube
+        run: |
+            sudo apt-get update
+            sudo apt-get install -y conntrack
+            curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb && sudo dpkg -i minikube_latest_amd64.deb
+            sudo minikube start --driver=docker --force
+            sudo minikube addons enable ingress
+      - name: Verify Minikube cluster
+        run: |
+            sudo minikube status
+            sudo kubectl get nodes
+            sudo kubectl get pods --all-namespaces
+#      - name: Stop Minikube
+#        run: sudo minikube stop --driver=docker

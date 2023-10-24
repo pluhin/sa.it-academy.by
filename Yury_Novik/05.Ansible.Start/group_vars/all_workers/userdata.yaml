@@ -1,0 +1,12 @@
+mygroups:
+  - name: testg1
+  - name: testg2
+
+users:
+  - name: jon
+    group: testg1
+    password: jon5
+
+  - name: bob
+    group: testg2
+    password: bob5

@@ -1,0 +1,12 @@
+mygroups:
+  - name: workers
+  - name: audit
+
+users:
+  - name: worker1
+    group: workers
+    password: usual1
+
+  - name: auditor1
+    group: audit
+    password: audit2
