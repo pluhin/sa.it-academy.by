@@ -1,0 +1,38 @@
+name: Check Status of Pods
+
+on: workflow_dispatch
+
+jobs:
+  check-pods:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Connect to K3s host
+      run: |
+        mkdir ~/.ssh
+        eval `ssh-agent -s`
+        ssh-add - <<< "${{ secrets.SSH_KEY }}"
+        ssh-keyscan -p 32510 ${{ secrets.JUMP_HOST }} >> ~/.ssh/known_hosts
+        ssh ${{ secrets.JUMP_USERNAME }}@${{ secrets.JUMP_HOST }} -p 32510 ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+        ssh -o ProxyCommand="ssh -W %h:%p ${{ secrets.JUMP_USERNAME }}@${{ secrets.JUMP_HOST }} -p 32510" ${{ secrets.HOST_USER }}@${{ secrets.HOST }} "kubectl get pods -A" >> output.log
+
+    - name: Check Crash pods
+      id: check-pods
+      run: |
+        echo "pods-failed=$(cat output.log | grep -v 'Running\|Completed ' | wc -l)" >> $GITHUB_OUTPUT
+
+    - name: Upload Crashed Pods List
+      if: steps.check-pods.outputs.pods-failed != 1
+      uses: actions/upload-artifact@v3
+      with:
+        path: output.log
+
+    - name: Slack notification
+      uses: rtCamp/action-slack-notify@v2
+      if: steps.check-pods.outputs.pods-failed != 1
+      env:
+        SLACK_CHANNEL: weekendwarrior-group
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_COLOR: 'red'
+        SLACK_USERNAME: rtCamp
+        SLACK_TITLE: "Some pods have crashed!"
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
