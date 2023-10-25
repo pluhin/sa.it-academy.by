@@ -1,0 +1,37 @@
+version: "3"
+
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+    - db_data:/var/lib/mysql
+    env_file:
+    - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+  drupal:
+    depends_on:
+    - db
+    links:
+    - db
+    - db:my.db.server
+    image: drupal:8.7.8-fpm-alpine
+    ports:
+    - 8000:80
+    volumes:
+    - drupal_modules:/var/www/html/modules
+    - drupal_profiles:/var/www/html/profiles
+    - drupal_themes:/var/www/html/themes
+    - drupal_sites:/var/www/html/sites
+    restart: always
+volumes:
+  db_data:
+  drupal_modules:
+  drupal_profiles:
+  drupal_themes:
+  drupal_sites:
+
