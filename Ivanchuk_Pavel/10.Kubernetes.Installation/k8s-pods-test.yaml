@@ -1,0 +1,51 @@
+name: create and test Kubernetes cluster
+
+on: workflow_dispatch
+
+jobs:
+  check-pods:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check SSH_PKEY Secret
+      run: |
+        echo "Secret SSH_PKEY: ${{ secrets.SSH_PKEY }}"
+        echo "${{ secrets.SSH_PKEY }}" > secret.key.pem
+        chmod 600 secret.key.pem
+        ssh-keygen -l -f secret.key.pem
+      continue-on-error: true
+
+    - name: Connect to Kubernetes Host
+      run: |
+        set -x
+        mkdir ~/.ssh
+        eval `ssh-agent -s`
+        ssh-add - <<< "${{ secrets.SSH_PKEY }}" 
+        ssh-keyscan -p 32510 ${{ secrets.BASTION_IP_JUMP }} >> ~/.ssh/known_hosts
+        ssh ${{ secrets.BASTION_USER_JUMP }}@${{ secrets.BASTION_IP_JUMP }} -p 32510 ssh-keyscan ${{ secrets.VHOST_IP }} >> ~/.ssh/known_hosts
+        ssh -o ProxyCommand="ssh -W %h:%p ${{ secrets.BASTION_USER_JUMP }}@${{ secrets.BASTION_IP_JUMP }} -p 32510" ${{ secrets.VHOST_USER }}@${{ secrets.VHOST_IP }} "kubectl get pods -A" >> output-pods.log  
+
+    - name: Check Crash pods
+      id: check-pods
+      run: |
+        echo "$(cat  output-pods.log | grep -v Running)" >> crash_report 2>&1
+        echo "pods-dont-work=$(cat output-pods.log | grep -v 'Running\|Completed ' | wc -l)" >> $GITHUB_OUTPUT
+
+    - name: Upload Crashed Pods List
+      if: steps.check-pods.outputs.pods-dont-work != 1
+      uses: actions/upload-artifact@v3
+      with:
+        name: Dead pods
+        path: output-pods.log
+
+    - name: Slack notification about FAlL POD
+      uses: rtCamp/action-slack-notify@v2
+      if: steps.check-pods.outputs.pods-dont-work != 1
+      env:
+        SLACK_CHANNEL: github_action
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_COLOR: #b62e2e
+        SLACK_MESSAGE: 'Some pods have problems: ${{ steps.check-pods.outputs.pods-dont-work }}'
+        SLACK_TITLE: Post Title
+        SLACK_USERNAME: rtCamp
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+

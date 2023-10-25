@@ -1,0 +1,6 @@
+NAMESPACE     NAME                                     READY   STATUS             RESTARTS        AGE
+kube-system   coredns-77ccd57875-whp5c                 1/1     Running            0               5d14h
+kube-system   local-path-provisioner-957fdf8bc-jrc5x   1/1     Running            0               5d14h
+kube-system   metrics-server-648b5df564-nzf5p          1/1     Running            0               5d14h
+default       ubuntu                                   1/1     Running            0               3d12h
+default       ubuntu-dontwork                          0/1     CrashLoopBackOff   125 (88s ago)   10h
