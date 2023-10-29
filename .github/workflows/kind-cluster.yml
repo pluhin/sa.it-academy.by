@@ -2,7 +2,7 @@ name: Kind Cluster Setup
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   setup-kind-cluster:
