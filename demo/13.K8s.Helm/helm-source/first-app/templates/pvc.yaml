@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pv-claim-helm
+  labels:
+    {{- include "first-app.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: {{ .Values.pvc.storage_class }}
+  resources:
+    requests:
+      storage: {{ .Values.pvc.storage_size }}

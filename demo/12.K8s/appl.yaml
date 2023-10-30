@@ -93,7 +93,7 @@ spec:
         - mountPath: "/data"
           name: task-pv-storage
         - name: persistent-storage
-          mountPath: "/var/www/html"      
+          mountPath: "/var/www/html"
       volumes:
       - name: test-config-mount
         configMap:
