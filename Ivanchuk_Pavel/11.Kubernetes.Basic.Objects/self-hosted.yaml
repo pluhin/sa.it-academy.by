@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-runner
+  labels:
+    app: runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: runner
+  template:
+    metadata:
+      labels:
+        app: runner
+    spec:
+      containers:
+      - name: github-runner
+        image: sanderknape/github-runner:latest
+        env:
+        - name: GITHUB_OWNER
+          value: IPaul32
+        - name: GITHUB_REPOSITORY
+          value: 10.Kubernetes.Installation
+        - name: GITHUB_PAT 
+          valueFrom:
+            secretKeyRef:
+              name: github-token-secret
+              key: GITHUB_TOKEN
+        resources:
+          requests:
+            memory: 128Mi
+            cpu: 250m
+          limits:
+             memory: 264Mi
+             cpu: 500m
