@@ -1,0 +1,121 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: html-config
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Pod Hostname</title>
+        <style>
+          .text {
+          text-align: center;
+          }
+        </style>
+    </head>
+    <body>
+        <div class="text">
+        <h1>Classic: Hello, World!</h1>
+        <h2>Pod Name: HOSTNAME</h2>
+        </div>
+    </body>
+    </html>
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-nginx
+  labels:
+    app: nginx
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+        - name: index-html-for-nginx
+          mountPath: /usr/share/nginx/html
+        - name: ssh-secret
+          mountPath: /root/.ssh
+      initContainers:
+      - name: config
+        image: nginx:latest
+        command: ["sh", "-c", 'cd /tmp/; sed -e "s/HOSTNAME/$HOSTNAME/" /tmp/index.html > /usr/share/nginx/html/index.html']
+        env:
+        - name: HTML_CONTENT
+          valueFrom:
+            configMapKeyRef:
+              name: html-config
+              key: index.html
+        volumeMounts:
+        - name: config-mount
+          mountPath: /tmp
+        - name: index-html-for-nginx
+          mountPath: /usr/share/nginx/html
+        - name: ssh-secret
+          mountPath: /root/.ssh
+      volumes:
+      - name: config-mount
+        configMap:
+          name: html-config
+      - name: index-html-for-nginx
+        emptyDir: {}
+      - name: ssh-keys
+        emptyDir: {}
+      - name: ssh-secret
+        secret:
+          secretName: ssh-keys-secret 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    run: webserver-nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress-sa
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-alias: "nginx-alias.k8s-3.sa"
+spec:
+  rules:
+  - host: nginx.k8s-3.sa
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 80
