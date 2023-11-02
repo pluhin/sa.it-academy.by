@@ -1,0 +1,54 @@
+name: Check Pod Status
+
+on: workflow_dispatch
+  
+# on: 
+#   workflow_dispatch:
+#   schedule:
+#     - cron: '*/30 * * * *'
+
+
+jobs:
+  check-pods:
+    runs-on: ubuntu-latest
+    steps:
+    - name: ssh proxy command
+      id: p_c
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.HOST_USER }}
+        # password: ${{ secrets.PASS }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        proxy_host: ${{ secrets.BASTION_HOST }}
+        proxy_username: ${{ secrets.BASTION_USERNAME }}
+        proxy_key: ${{ secrets.PROXY_KEY }}
+        proxy_port: ${{ secrets.BASTION_PORT }}
+        script: |
+          kubectl get pods -A >> output.log
+          echo "::set-output name=output_log::$(cat output.log)"
+    - name: Check Crash pods
+      id: check-pods
+      run: |
+        echo "steps.p_c.outputs.output_log" > output.log
+        echo "pods-failed=$(cat output.log | grep -v 'Running\|Completed ' | wc -l)" >> $GITHUB_OUTPUT
+    - name: Upload Crashed Pods List
+      if: steps.check-pods.outputs.pods-failed == 1
+      uses: actions/upload-artifact@v3
+      with:
+        path: output.log
+        
+
+    - name: Slack notification
+      uses: rtCamp/action-slack-notify@v2
+      if: steps.check-pods.outputs.pods-failed == 1
+      env:
+        SLACK_CHANNEL: 'general'
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_USERNAME: rtBot
+        SLACK_TITLE: "Failed Pods Alert"
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+
