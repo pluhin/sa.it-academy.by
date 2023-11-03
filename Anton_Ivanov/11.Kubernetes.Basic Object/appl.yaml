@@ -3,20 +3,25 @@ kind: Deployment
 metadata:
   name: webserver
   labels:
-    app: simple-web
+    app: nginx
 spec:
   replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
   selector:
     matchLabels:
-      app: simple-web
+      app: nginx
   template:
     metadata:
       labels:
-        app: simple-web
+        app: nginx
     spec:
       containers:
-      - name: php-apache
-        image: eboraas/apache-php
+      - name: webserver
+        image: nginx:latest
         ports:
         - containerPort: 80
         resources:
@@ -30,15 +35,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: simple-web-service
+  name: nginx-service
   labels:
-    run: simple-web-service
+    run: nginx-service
 spec:
   ports:
   - port: 80
     protocol: TCP
   selector:
-    app: simple-web
+    app: nginx
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -56,6 +61,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: simple-web-service
+                name: nginx-service
                 port:
                   number: 80
