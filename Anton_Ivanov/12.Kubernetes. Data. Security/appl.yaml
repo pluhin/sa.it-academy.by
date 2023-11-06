@@ -1,0 +1,112 @@
+  GNU nano 6.2                                                                                                                                                                                                                                                                   app.yaml
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-config
+data:
+  index.html: |
+    <!DOCTYPE html><html><body>
+    <h1>_HOSTNAME_</h1>
+    </body></html>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver
+  labels:
+    app: nginx
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+        - name: index-html-for-nginx
+          mountPath: /usr/share/nginx/html
+        - name: ssh-secret
+          mountPath: /root/.ssh
+      initContainers:
+      - name: config
+        image: nginx:latest
+        command: ["sh", "-c", 'cd /tmp/; sed -e "s/HOSTNAME/$HOSTNAME/" /tmp/index.html > /usr/share/nginx/html/index.html']
+        env:
+        - name: HTML_CONTENT
+          valueFrom:
+            configMapKeyRef:
+              name: html-config
+              key: index.html
+        volumeMounts:
+        - name: config-mount
+          mountPath: /tmp
+        - name: index-html-for-nginx
+          mountPath: /usr/share/nginx/html
+        - name: ssh-secret
+          mountPath: /root/.ssh
+      volumes:
+      - name: config-mount
+        configMap:
+          name: html-config
+      - name: index-html-for-nginx
+        emptyDir: {}
+      - name: ssh-keys
+        emptyDir: {}
+      - name: ssh-secret
+        secret:
+          secretName: keys
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    run: webserver
+spec:
+  selector:
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-sa
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-alias: "nginx-test.k8s-2.sa"
+spec:
+  rules:
+  - host: nginx-test.k8s-2.sa
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 80
