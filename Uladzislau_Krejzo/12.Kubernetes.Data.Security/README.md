@@ -120,11 +120,11 @@ spec:
 
 Browser
 
-![Alt text](https://github.com/jankalep/sa.it-academy.by/blob/master/Uladzislau_Krejzo/11.Kubernetes.Basic_objects/4Pods_working.png)
+![Alt text](https://github.com/jankalep/sa.it-academy.by/blob/master/Uladzislau_Krejzo/12.Kubernetes.Data.Security/4Pods_working.png)
 
 K9s
 
-![Alt text](https://github.com/jankalep/sa.it-academy.by/blob/master/Uladzislau_Krejzo/11.Kubernetes.Basic_objects/k9s_working_pods.png)
+![Alt text](https://github.com/jankalep/sa.it-academy.by/blob/master/Uladzislau_Krejzo/12.Kubernetes.Data.Security/k9s_working_pods.png)
 
 ## Secrets
 
@@ -151,11 +151,13 @@ spec:
 
 k9s sealed controller 
 
-![Alt text](https://github.com/jankalep/sa.it-academy.by/blob/master/Uladzislau_Krejzo/11.Kubernetes.Basic_objects/k9s_sealed-controller.png)
+![Alt text](https://github.com/jankalep/sa.it-academy.by/blob/master/Uladzislau_Krejzo/12.Kubernetes.Data.Security/k9s_sealed-controller.png)
 
 Ported secrets
 
-![Alt text](https://github.com/jankalep/sa.it-academy.by/blob/master/Uladzislau_Krejzo/11.Kubernetes.Basic_objects/ported_secrets.png)
+![Alt text](https://github.com/jankalep/sa.it-academy.by/blob/master/Uladzislau_Krejzo/12.Kubernetes.Data.Security/ported_secrets.png)
+
+
 
 
 
