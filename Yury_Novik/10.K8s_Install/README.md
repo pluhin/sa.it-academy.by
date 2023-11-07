@@ -17,7 +17,7 @@
      rm kubectl
      scp root@192.168.203.9:/etc/rancher/k3s/k3s.yaml ~/.kube/config
      scp -o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53 -p 32510" \
-     root@192.168.203.XX:/etc/rancher/k3s/k3s.yaml ~/.kube/config
+     root@192.168.203.9:/etc/rancher/k3s/k3s.yaml ~/.kube/config
      nano ~/.kube/config
      kubectl get pods -A
      wget https://go.dev/dl/go1.21.3.linux-amd64.tar.gz
