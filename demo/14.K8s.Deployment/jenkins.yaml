@@ -151,9 +151,8 @@ kind: Ingress
 metadata:
   name: ingress-jenkins
   namespace: ci-cd
-  annotations:
-    kubernetes.io/ingress.class: nginx
 spec:
+  ingressClassName: nginx
   rules:
     - host: jenkins.k8s-XX.sa
       http:
