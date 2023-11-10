@@ -1,5 +1,14 @@
 # 13. Kubernetes. Helm
 
+## Install Helm:
+```bash
+ 1145  curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+ 1146  chmod 700 get_helm.sh
+ 1147  ./get_helm.sh
+ 1148  helm version
+version.BuildInfo{Version:"v3.13.1", GitCommit:"3547a4b5bf5edb5478ce352e18858d8a552a4110", GitTreeState:"clean", GoVersion:"go1.20.8"}
+```
+
 ## Create DB fo apps:
 I used Ansible for creating Mariadb Data Bases (maslo maslyanoe) for wordpress and drupal: 
 
