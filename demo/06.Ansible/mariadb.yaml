@@ -1,25 +1,33 @@
-- hosts: mysql
+---
+- hosts: db_all
   vars:
     app_packages:
-      - mysql-server
-      - mysql-client
+      - mariadb-server
+      - mariadb-client
       - python3-pymysql
       - python3-mysqldb
     db_name: "{{ name_db | default('test') }}"
     db_user: "{{ user_db | default('test') }}"
     db_pass: "{{ pass_db | default('test') }}"
-    app_fqdn: site.com
-    app_home: "/var/www/site.com/"
   pre_tasks:
   - name: Validate
     debug:
       msg:
-       - "DB host: {{ ansible_host }}"
        - "DB name: {{ db_name }}"
        - "DB user: {{ db_user }}"
        - "DB pass: {{ db_pass }}"
-    tags: always
+  - name: Prepare. Install packages
+    apt:
+      name: "curl"
+      state: latest
+      update_cache: yes
+    tags: install
   tasks:
+  - name: Add MariaDB repos
+    shell: |
+      curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+      bash mariadb_repo_setup --mariadb-server-version=10.6
+    tags: install
   - name: MySQL. Install packages
     apt:
       name: "{{ app_packages }}"
@@ -27,22 +35,15 @@
     environment:
       DEBIAN_FRONTEND: noninteractive
     tags: install
-
   - name: MySQL. add bind-address
     ini_file:
       dest: /etc/mysql/my.cnf
       section: mysqld
       option: "bind-address"
       value: "{{ ansible_host }}"
-    register: restart_needed
-
-  - name: Check variable
-    debug:
-      msg: "{{ restart_needed }}"
 
   - name: restart mysql if necessary
     command: service mysql restart
-    when: restart_needed.changed
 
   - name: Test connect
     wait_for:
@@ -50,37 +51,21 @@
       port: 3306
       timeout: 3
 
-  - name: "Remove {{ db_name }} database"
-    mysql_db:
+  - mysql_db:
       name: "{{ db_name }}"
       state: absent
       login_unix_socket: /var/run/mysqld/mysqld.sock
-    tags: never
-  - name: "Remove {{ db_user }} user"
-    mysql_user:
-      name: "{{ db_user }}"
-      host: "%"
-      state: absent
-      login_unix_socket: /run/mysqld/mysqld.sock
     tags: never
 
   - mysql_db:
       name: "{{ db_name }}"
       encoding: utf8
-      collation: utf8_bin
       login_unix_socket: /var/run/mysqld/mysqld.sock
 
-  - name: "Create user {{ db_user }} for {{ db_name }}"
-    mysql_user:
+  - mysql_user:
       name: "{{ db_user }}"
       host: "%"
       password: "{{ db_pass }}"
       priv: "{{ db_name }}.*:ALL"
       login_unix_socket: /var/run/mysqld/mysqld.sock
     no_log: yes
-
-  - name: Apply fix for log_bin_trust_function_creators
-    mysql_variables:
-      variable: log_bin_trust_function_creators
-      value: 1
-      login_unix_socket: /run/mysqld/mysqld.sock

@@ -4,3 +4,5 @@ db_all:
   hosts:
     mysql:
       ansible_host: 192.168.202.XX
+    mariadb:
+      ansible_host: 192.168.202.YY
