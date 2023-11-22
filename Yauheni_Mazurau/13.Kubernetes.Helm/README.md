@@ -5,7 +5,7 @@ NOTE: Database, MariaDB, is deployed on a xxx.20 server.
       Values Bitnami:
       Wordpress [https://github.com/bitnami/charts/blob/main/bitnami/wordpress/values.yaml]
       Drupal [https://github.com/bitnami/charts/blob/main/bitnami/drupal/values.yaml]
-      My GitHub [https://github.com/YMazurau/13.K8s.Demo]
+      My GitHub [https://github.com/YMazurau/13.Homeworck.Kubernetes.Helm/blob/master/Homework/README.md]
 ```
 
 ## DATABASE
