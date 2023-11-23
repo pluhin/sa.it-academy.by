@@ -1,0 +1,31 @@
+drupalUsername: user
+
+drupalPassword: ""
+
+replicaCount: 2
+
+ingress:
+
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/server-alias: "drupal.k8s-8.sa"
+  hosts:
+    - host: drupal.k8s-8.sa
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+
+mariadb:
+  enabled: false
+  # replication:
+  #   enabled: false
+
+externalDatabase:
+  host: 192.168.202.20
+  user: ym_drupal
+  password: "ym_drupal"
+  database: bn_drupal
+  port: 3306
+  existingSecret: "" 
