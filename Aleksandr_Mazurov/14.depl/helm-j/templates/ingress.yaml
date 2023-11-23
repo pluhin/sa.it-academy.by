@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.ingress.name }}
+  namespace: {{ .Values.namespace }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - host: helmj.k8s-7.sa
+    # - host: {{ .Values.ingress.inghost }}
+      http:
+        paths:
+          - path: /
+            # pathType: {{ .Values.ingress.pathType }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.name }}
+                port:
+                  # number: {{ .Values.service.hport }}
+                  number: 8080
+

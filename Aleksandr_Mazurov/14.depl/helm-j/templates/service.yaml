@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: master
+      port: {{ .Values.service.hport }}
+      targetPort: {{ .Values.service.hport }}
+    - name: slave
+      port: {{ .Values.service.jport }}
+      targetPort: {{ .Values.service.jport }}
+  selector:
+    app: {{ .Values.name }}
+ 

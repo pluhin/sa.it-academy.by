@@ -1,0 +1,64 @@
+replicaCount: 1
+namespace: helm-j
+name: helm-j
+
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci
+  pullPolicy: IfNotPresent
+  tag: "amazurov_01"
+
+
+service:
+  type: ClusterIP
+  hport: 8080
+  jport: 50000
+
+env:
+  JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+  CASC_JENKINS_CONFIG: "/var/jenkins_home/casc_configs/jenkins.yaml"
+
+ingress:
+  className: nginx
+  enabled: true
+  name: helm-j-jenkins-ingress
+  inghost: helmj.k8s-7.sa
+  pathType: Prefix
+
+tls: []
+
+
+resources: 
+  limits:
+    cpu: 3
+    memory: 3Gi
+  requests:
+    cpu: 2
+    memory: 2Gi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+configMap:
+  basic_name: my-basic-config
+  jenkins_name: my-jenkins-config
+
+JenkinsAuthConfig: "/var/jenkins_home/init.groovy.d/basic-security.groovy"
+JACsubPath: "basic-security.groovy"
+JenkinsConfigYaml: "/var/jenkins_home/casc_configs/jenkins.yaml"
+JCYsubPath: "jenkins.yaml"
+JenkinsConfig: "/var/jenkins_home"
+
+nfs:
+  server: 192.168.37.105
+  path: "/mnt/IT-Academy/nfs-data/sa2-25-23/amazurov/jenkins"  
+  readOnly: false
+  vers: 3
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
