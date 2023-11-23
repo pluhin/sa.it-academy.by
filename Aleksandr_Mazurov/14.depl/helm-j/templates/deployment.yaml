@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.namespace }} 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+        - name: {{ .Values.name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: JAVA_OPTS
+              value: "{{ .Values.env.JAVA_OPTS }}"
+            - name: CASC_JENKINS_CONFIG
+              value: "{{ .Values.env.CASC_JENKINS_CONFIG }}"
+          ports:
+            - name: http-port
+              containerPort: {{ .Values.service.hport }}
+            - name: jnlp-port
+              containerPort: {{ .Values.service.jport }}
+          securityContext:
+            runAsUser: 0
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+          volumeMounts:
+            - name: jenkins-auth-config
+              mountPath: {{ .Values.JenkinsAuthConfig }} 
+              subPath: {{ .Values.JACsubPath }}
+            - name: jenkins-config-yaml
+              mountPath: {{ .Values.JenkinsConfigYaml }}
+              subPath: {{ .Values.JCYsubPath }}
+            - name: jenkins-config
+              mountPath: {{ .Values.JenkinsConfig }}
+      volumes:
+        - name: jenkins-auth-config
+          configMap:
+            name: {{ .Values.configMap.basic_name }} 
+        - name: jenkins-config-yaml
+          configMap:
+            name: {{ .Values.configMap.jenkins_name }}
+        - name: jenkins-config
+          nfs:
+            server: {{ .Values.nfs.server }}
+            path: {{ .Values.nfs.path }}
+
