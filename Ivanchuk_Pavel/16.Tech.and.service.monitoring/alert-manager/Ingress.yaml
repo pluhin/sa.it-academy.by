@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-alertmanager
+  namespace: monitoring
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: alertmanager.k8s-3.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: alertmanager
+                port:
+                  number: 9093
