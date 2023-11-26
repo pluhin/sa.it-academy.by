@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo.my-helm-jenkins
+  namespace: argocd
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: my-helm-jenkins
+    helm:
+      parameters:
+      - name: ingress.inghost
+        value: ivanchuk-helm-jenkins.k8s-3.sa
+    repoURL: https://ipaul32.github.io/Helm-sa2-25-23/
+    targetRevision: 0.1.0
+  syncPolicy:
+    automated: {}
