@@ -1,0 +1,79 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  creationTimestamp: "2023-11-26T18:37:25Z"
+  generation: 16
+  name: first-app
+  namespace: argocd
+  resourceVersion: "1974558"
+  uid: dd13d9b9-d475-4a91-941c-bdef80bfa631
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: first-app
+    repoURL: https://mazurovsasha.github.io/helm-test/
+    targetRevision: 0.2.0
+  syncPolicy:
+    automated:
+      prune: true
+status:
+  controllerNamespace: argocd
+  health:
+    status: Healthy
+  reconciledAt: "2023-11-26T19:20:38Z"
+  resources:
+  - health:
+      status: Healthy
+    kind: PersistentVolumeClaim
+    name: pv-claim-helm
+    namespace: default
+    status: Synced
+    version: v1
+  - health:
+      status: Healthy
+    kind: Service
+    name: first-app
+    namespace: default
+    status: Synced
+    version: v1
+  - kind: ServiceAccount
+    name: first-app
+    namespace: default
+    status: Synced
+    version: v1
+  - group: apps
+    health:
+      status: Healthy
+    kind: Deployment
+    name: first-app
+    namespace: default
+    status: Synced
+    version: v1
+  - group: networking.k8s.io
+    health:
+      status: Healthy
+    kind: Ingress
+    name: first-app
+    namespace: default
+    status: Synced
+    version: v1
+  sourceType: Helm
+  summary:
+    externalURLs:
+    - http://helm.k8s-15.sa/
+    images:
+    - eboraas/apache-php:latest
+  sync:
+    comparedTo:
+      destination:
+        namespace: default
+        server: https://kubernetes.default.svc
+      source:
+        chart: first-app
+        repoURL: https://mazurovsasha.github.io/helm-test/
+        targetRevision: 0.2.0
+    revision: 0.2.0
+    status: Synced
