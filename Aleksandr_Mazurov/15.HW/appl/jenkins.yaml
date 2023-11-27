@@ -1,0 +1,91 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  creationTimestamp: "2023-11-26T15:05:39Z"
+  generation: 86
+  name: jenkins
+  namespace: argocd
+  resourceVersion: "1974559"
+  uid: bfe998b3-c679-4646-887a-575534a7c6f6
+spec:
+  destination:
+    namespace: ci-cd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: Jen
+    repoURL: https://github.com/Mazurovsasha/14.depl.git
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+status:
+  controllerNamespace: argocd
+  health:
+    status: Healthy
+  reconciledAt: "2023-11-26T19:20:38Z"
+  resources:
+  - kind: ConfigMap
+    name: basic-security
+    namespace: ci-cd
+    status: Synced
+    version: v1
+  - kind: ConfigMap
+    name: jenkins-config
+    namespace: ci-cd
+    status: Synced
+    version: v1
+  - kind: Namespace
+    name: ci-cd
+    status: Synced
+    version: v1
+  - kind: Secret
+    name: jenkins-secret
+    namespace: ci-cd
+    status: Synced
+    version: v1
+  - health:
+      status: Healthy
+    kind: Service
+    name: jenkins
+    namespace: ci-cd
+    status: Synced
+    version: v1
+  - group: apps
+    health:
+      status: Healthy
+    kind: Deployment
+    name: jenkins
+    namespace: ci-cd
+    status: Synced
+    version: v1
+  - group: networking.k8s.io
+    health:
+      status: Healthy
+    kind: Ingress
+    name: ingress-jenkins
+    namespace: ci-cd
+    status: Synced
+    version: v1
+  - group: rbac.authorization.k8s.io
+    kind: ClusterRoleBinding
+    name: jenkins
+    status: Synced
+    version: v1
+  sourceType: Directory
+  summary:
+    externalURLs:
+    - http://jenkins.k8s-7.sa/
+    images:
+    - jfrog.it-academy.by/public/jenkins-ci:amazurov_01
+  sync:
+    comparedTo:
+      destination:
+        namespace: ci-cd
+        server: https://kubernetes.default.svc
+      source:
+        path: Jen
+        repoURL: https://github.com/Mazurovsasha/14.depl.git
+        targetRevision: master
+    revision: 8317bb1bbcfb7e89086ec2d8e9f9f3843761423e
+    status: Synced
