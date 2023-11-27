@@ -1,0 +1,182 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  creationTimestamp: "2023-11-25T21:41:01Z"
+  generation: 287
+  name: helm-25-23
+  namespace: argocd
+  resourceVersion: "1584751"
+  uid: a8750da7-4de3-4027-adf7-c854af628c77
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: jenkins
+    repoURL: https://jankalep.github.io/helm-25-23/
+    targetRevision: 0.2.6
+status:
+  controllerNamespace: argocd
+  health:
+    status: Healthy
+  history:
+  - deployStartedAt: "2023-11-25T21:41:46Z"
+    deployedAt: "2023-11-25T21:41:46Z"
+    id: 0
+    revision: 0.2.6
+    source:
+      chart: jenkins
+      repoURL: https://jankalep.github.io/helm-25-23/
+      targetRevision: 0.2.6
+  operationState:
+    finishedAt: "2023-11-25T21:41:47Z"
+    message: successfully synced (all tasks run)
+    operation:
+      initiatedBy:
+        username: admin
+      retry: {}
+      sync:
+        revision: 0.2.6
+        syncStrategy:
+          hook: {}
+    phase: Succeeded
+    startedAt: "2023-11-25T21:41:46Z"
+    syncResult:
+      resources:
+      - group: ""
+        hookPhase: Running
+        kind: Namespace
+        message: namespace/my-helm-jenkins created
+        name: my-helm-jenkins
+        namespace: default
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: ""
+        hookPhase: Running
+        kind: ConfigMap
+        message: configmap/my-basic-config created
+        name: my-basic-config
+        namespace: my-helm-jenkins
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: ""
+        hookPhase: Running
+        kind: ConfigMap
+        message: configmap/my-jenkins-config created
+        name: my-jenkins-config
+        namespace: my-helm-jenkins
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: rbac.authorization.k8s.io
+        hookPhase: Running
+        kind: ClusterRoleBinding
+        message: "clusterrolebinding.rbac.authorization.k8s.io/my-helm-jenkins-binding
+          reconciled. reconciliation required create\n\tmissing subjects added:\n\t\t{Kind:ServiceAccount
+          APIGroup: Name:default Namespace:my-helm-jenkins}. clusterrolebinding.rbac.authorization.k8s.io/my-helm-jenkins-binding
+          configured. Warning: resource clusterrolebindings/my-helm-jenkins-binding
+          is missing the kubectl.kubernetes.io/last-applied-configuration annotation
+          which is required by  apply.  apply should only be used on resources created
+          declaratively by either  create --save-config or  apply. The missing annotation
+          will be patched automatically."
+        name: my-helm-jenkins-binding
+        namespace: default
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: ""
+        hookPhase: Running
+        kind: Service
+        message: service/my-helm-jenkins created
+        name: my-helm-jenkins
+        namespace: my-helm-jenkins
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: apps
+        hookPhase: Running
+        kind: Deployment
+        message: deployment.apps/my-helm-jenkins created
+        name: my-helm-jenkins
+        namespace: my-helm-jenkins
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: networking.k8s.io
+        hookPhase: Running
+        kind: Ingress
+        message: ingress.networking.k8s.io/helm-jenkins-ingress created
+        name: helm-jenkins-ingress
+        namespace: my-helm-jenkins
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      revision: 0.2.6
+      source:
+        chart: jenkins
+        repoURL: https://jankalep.github.io/helm-25-23/
+        targetRevision: 0.2.6
+  reconciledAt: "2023-11-26T11:20:40Z"
+  resources:
+  - kind: ConfigMap
+    name: my-basic-config
+    namespace: my-helm-jenkins
+    status: Synced
+    version: v1
+  - kind: ConfigMap
+    name: my-jenkins-config
+    namespace: my-helm-jenkins
+    status: Synced
+    version: v1
+  - kind: Namespace
+    name: my-helm-jenkins
+    status: Synced
+    version: v1
+  - health:
+      status: Healthy
+    kind: Service
+    name: my-helm-jenkins
+    namespace: my-helm-jenkins
+    status: Synced
+    version: v1
+  - group: apps
+    health:
+      status: Healthy
+    kind: Deployment
+    name: my-helm-jenkins
+    namespace: my-helm-jenkins
+    status: Synced
+    version: v1
+  - group: networking.k8s.io
+    health:
+      status: Healthy
+    kind: Ingress
+    name: helm-jenkins-ingress
+    namespace: my-helm-jenkins
+    status: Synced
+    version: v1
+  - group: rbac.authorization.k8s.io
+    kind: ClusterRoleBinding
+    name: my-helm-jenkins-binding
+    status: Synced
+    version: v1
+  sourceType: Helm
+  summary:
+    externalURLs:
+    - http://helm-jenkins.k8s-6.sa/
+    images:
+    - jfrog.it-academy.by/public/jenkins-ci:pivanchuk
+  sync:
+    comparedTo:
+      destination:
+        namespace: default
+        server: https://kubernetes.default.svc
+      source:
+        chart: jenkins
+        repoURL: https://jankalep.github.io/helm-25-23/
+        targetRevision: 0.2.6
+    revision: 0.2.6
+    status: Synced
