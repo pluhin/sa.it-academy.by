@@ -2,7 +2,8 @@
 
 ## Automated Docker image test by github action: 
 
-**_Github repo with tests:[->Click here <-](https://github.com/IPaul32/18.Testing-25-23"GitHub 18. Testing Ivanchuk Pavel")_**
+**_Github repo with tests:_** 
+[->Click here <-](https://github.com/IPaul32/18.Testing-25-23 "GitHub 18. Testing Ivanchuk Pavel")
 
 
 **Dockerfile:**
