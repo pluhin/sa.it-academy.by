@@ -1,0 +1,72 @@
+name: Test K8s manifest
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  k8s-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.1
+
+      - name: Install Kubernetes CLI
+        uses: azure/setup-kubectl@v3
+        with:
+          version: v1.15.0
+        id: install
+
+      - name: Download kubeval
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+     
+      - name: Install kubeval
+        run: |
+          curl -LO https://github.com/instrumenta/kubeval/releases/download/v0.16.1/kubeval-linux-amd64.tar.gz
+          tar xf kubeval-linux-amd64.tar.gz
+          sudo mv kubeval /usr/local/bin/
+
+      - name: Validate Kubernetes manifests using kubeval
+        run: |
+          FILES="$(find ./manifests -name '*.yaml' -or -name '*.yml' -type f)"
+          if [ -z "$FILES" ]; then
+            echo "No manifest files found"
+            exit 1
+          fi
+          echo "$FILES" | xargs kubeval --ignore-missing-schemas
+        
+  notification:
+    needs: k8s-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Slack Notification on Success
+        if: ${{ always() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: github_action
+          SLACK_COLOR: '#006400'
+          SLACK_ICON: 'https://github.com/rtCamp.png?size=48'
+          SLACK_MESSAGE: 'Kubernetes manifests tested successfully!'
+          SLACK_TITLE: 'SUCCESS! All tests have passed successfully!'
+          SLACK_USERNAME: rtCamp
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Slack Notification on Failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: github_action
+          SLACK_COLOR: '#8B0000'
+          SLACK_ICON: 'https://github.com/rtCamp.png?size=48'
+          SLACK_MESSAGE: 'Failure testing Kubernetes manifests'
+          SLACK_TITLE: 'FAILURE! Tests have failed!'
+          SLACK_USERNAME: rtCamp
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
