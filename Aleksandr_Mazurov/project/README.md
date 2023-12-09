@@ -22,7 +22,7 @@
 
 ## Pipeline. High Level Design
 
-![My pipeline](/home/sasha/HW/sa.it-academy.by/Aleksandr_Mazurov/project/Project.drawio.png)
+![My pipeline](./Project.drawio.png)
 
 ## Technologies which were used in project
 
@@ -47,15 +47,15 @@ After the Update values.yaml step, the Helm Chart is checked using Helm lint
 
 The final part of the Action is sending a message to slack
 
-![Slack Notification](/home/sasha/HW/sa.it-academy.by/Aleksandr_Mazurov/project/slacknatif.png)
+![Slack Notification](./slacknatif.png)
 
 CD part of the project is realized using ArgoCD. 
 
-![ArgoCD](/home/sasha/HW/sa.it-academy.by/Aleksandr_Mazurov/project/argo.png)
+![ArgoCD](./argo.png)
 
 Network
 
-![Network](/home/sasha/HW/sa.it-academy.by/Aleksandr_Mazurov/project/Network.png)
+![Network](./Network.png)
 
 ArgoCD monitors the repository with Helm Chart. SYNC POLICY - AUTO-SYNC.
 
@@ -69,5 +69,5 @@ Deployment settings:
 
 Switching between versions is organized by ArgoCD tools.
 
-![Rollback](/home/sasha/HW/sa.it-academy.by/Aleksandr_Mazurov/project/Rollback.png)
+![Rollback](./Rollback.png)
 
