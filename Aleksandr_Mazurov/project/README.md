@@ -47,15 +47,7 @@ After the Update values.yaml step, the Helm Chart is checked using Helm lint
 
 The final part of the Action is sending a message to slack
 
-![Slack Notification](./slacknatif.png)
-
 CD part of the project is realized using ArgoCD. 
-
-![ArgoCD](./argo.png)
-
-Network
-
-![Network](./Network.png)
 
 ArgoCD monitors the repository with Helm Chart. SYNC POLICY - AUTO-SYNC.
 
@@ -67,7 +59,4 @@ Deployment settings:
       maxSurge: 1
       maxUnavailable: 0
 
-Switching between versions is organized by ArgoCD tools.
-
-![Rollback](./Rollback.png)
-
+Switching between versions is organized by ArgoCD tools. Notification of the results is sent to slack.
