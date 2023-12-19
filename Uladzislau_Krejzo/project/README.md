@@ -54,7 +54,7 @@ Developer pushing commits to the master branch with changes of app. Git Action b
 ### Rollback flow description and implementation:
 
 Version selection in Argo CD
-Release strategy: Recreate
+Release strategy: RollingUpdate
 
 ### Links:
 
