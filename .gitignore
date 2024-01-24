@@ -1,3 +1,4 @@
+push_script.py
 *.test
 *.list
 *.pem
