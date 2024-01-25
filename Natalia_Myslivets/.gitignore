@@ -1,0 +1,14 @@
+push_script.py
+*.test
+*.list
+*.pem
+*.pyc
+*.retry
+.*.swp
+/.vagrant
+env
+__pycache__
+.idea/*
+*.iml
+.project
+.vagrant
