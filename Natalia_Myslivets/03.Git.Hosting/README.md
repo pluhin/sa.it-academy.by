@@ -17,12 +17,9 @@ with open('repositories.txt', 'r+') as f:
     url=line.split('=',1)[1].replace('\n','')
     repos.append(url)
     
-with open('repositories.txt', "w") as file: #write a list of remote repositories in file
-      for  rep in repos:
-          file.write(rep + '\n')
-
 for url in repos: 
   print(url) 
   print(os.system('git push ' + url)) #push to remote repository
+print(os.system('rm repositories.txt'))
 print("---Successful!---")
 ```
