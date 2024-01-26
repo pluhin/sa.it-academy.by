@@ -1,4 +1,7 @@
-1.
+Exercise 1 
+
+```
+
   247  mkdir 02.GIT.Local
   248  cd 02.GIT.Local
   256  git init
@@ -9,7 +12,11 @@
   262  git add README.md
   263  git commit -m " ADD REAMME file "
 
-2.
+```
+
+Exercise 2.
+
+```
   265  git checkout -b feature-branch
   266  git branch
   267  git add -a
@@ -20,7 +27,12 @@
   272  git checkout master
   273  git merge feature-branch
 
-3. 
+```
+
+Exercise 3.
+
+```
+ 
   280  git tag -a first 7cd7af3
   281  git log
   283  git add --all
@@ -32,7 +44,11 @@
   290  git log --oneline
   291  git tag -a second 8890963
 
-4. 
+```
+
+Exercise 4. 
+
+```
 
   295  nano git tag -a v1.0 7cd7af3
   296  git log --all
@@ -44,7 +60,11 @@
   302  git tag -a v2.0 8890963
   303  nano git tag -a v2.0 8890963
 
-5.
+```
+
+Exercise 5.
+
+```
   305  git branch bug-fix
   306  git checkout bug-fix
   307  git status
@@ -65,7 +85,11 @@
   327  git add --all
   328  git commit -m "README updatev2"
 
-6. 
+```
+
+Exercise 6.
+
+``` 
   331  ls git checkout experimental-feature
   332  git checkout experimental-feature
   333  git checkout -b experimental-feature
@@ -73,11 +97,13 @@
   335  git stash
   336  git checkout bug-fix
   337  git stash pop
+```
 
-7.
+Exercise 7.
 
+```
   338  git config --global user.name "Rahin_Eugene"
   339  git config --global user.email "jescrst@gmail.com"
   340  git config --global alias.st status
   341  git config --list
-
+```
