@@ -1,4 +1,4 @@
-Exercise 1 
+##Exercise 1 
 
 ```
 
@@ -14,7 +14,7 @@ Exercise 1
 
 ```
 
-Exercise 2.
+##Exercise 2.
 
 ```
   265  git checkout -b feature-branch
@@ -29,7 +29,7 @@ Exercise 2.
 
 ```
 
-Exercise 3.
+#Exercise 3.
 
 ```
  
@@ -46,7 +46,7 @@ Exercise 3.
 
 ```
 
-Exercise 4. 
+##Exercise 4. 
 
 ```
 
@@ -62,7 +62,7 @@ Exercise 4.
 
 ```
 
-Exercise 5.
+##Exercise 5.
 
 ```
   305  git branch bug-fix
@@ -87,7 +87,7 @@ Exercise 5.
 
 ```
 
-Exercise 6.
+#Exercise 6.
 
 ``` 
   331  ls git checkout experimental-feature
@@ -97,13 +97,15 @@ Exercise 6.
   335  git stash
   336  git checkout bug-fix
   337  git stash pop
+
 ```
 
-Exercise 7.
+##Exercise 7.
 
 ```
   338  git config --global user.name "Rahin_Eugene"
   339  git config --global user.email "jescrst@gmail.com"
   340  git config --global alias.st status
   341  git config --list
+
 ```
