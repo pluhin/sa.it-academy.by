@@ -1,0 +1,24 @@
+name: Check remote host and push report
+
+on:
+  push:
+    branches:
+    - master
+    - second
+
+jobs:
+  prepare:
+    #runs-on: [my_runner]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install netcat
+        run: sudo apt update && sudo apt install -y netcat
+      - run: echo "netcat has been installed"
+      - run: |
+          nc -z -v -w2 onliner.by 443 > nc_report.log 2>&1
+          touch /tmp/file.log
+          ls -la
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: nc_report.log
