@@ -1,0 +1,15 @@
+- name: Delete user and group
+  hosts: host4
+  gather_facts: False
+  become: yes
+
+  tasks:
+    - name: Delete group
+      user:
+        name: it-academy-users
+        state: absent
+
+    - name: Delete user
+      user:
+        name: Danila
+        state: absent
