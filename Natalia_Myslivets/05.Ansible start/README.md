@@ -1,4 +1,4 @@
-#HA1
+# HA1
 
 ### Install Ansible,Create a directory whith conf 
 
@@ -29,7 +29,7 @@ ansible --version
       var: output.stdout_lines  
 ```
 
-###Run the playbook using the ansible-playbook command and ensure it executes successfully
+### Run the playbook using the ansible-playbook command and ensure it executes successfully
 
 ```
 vim hello_pb.yml
@@ -37,7 +37,7 @@ ansible-playbook --syntax-check hello_pb.yml
 ansible-playbook hello_pb.yml
 ```
 
-#HA2
+# HA2
 
 ### Ansible playbook that install htop
 
@@ -53,7 +53,7 @@ ansible-playbook hello_pb.yml
       state: latest
 ```
 
-###inventory:
+### inventory:
 
 ```
 lab2:
@@ -70,7 +70,7 @@ ansible-playbook install_htop.yml -v
 ansible -m command -a "htop -v" lab2
 ```
 
-#HA3
+# HA3
 
 ### Create a playbook to manage users and groups (dynamic) on a remote host
 
