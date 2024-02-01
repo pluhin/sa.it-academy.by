@@ -1,0 +1,12 @@
+- hosts: host4
+  gather_facts: False
+  tasks:
+    - name: Install htop package
+      package:
+        name: htop
+        state: present
+    - name: Install vim package
+      package:
+        name: vim
+        state: present
+

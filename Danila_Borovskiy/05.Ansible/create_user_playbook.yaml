@@ -1,0 +1,19 @@
+- name: Create user and group
+  hosts: host4
+  gather_facts: False
+  become: yes
+
+  vars_files:
+    - group_var/all_workers/user_vault.yaml
+
+  tasks:
+    - name: Create group
+      user:
+        name: it-academy-users
+        state: present
+
+    - name: Create user
+      user:
+        name: Danila
+        state: present
+        password: "{{ user_password | password_hash('sha512') }}"

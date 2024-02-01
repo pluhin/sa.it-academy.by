@@ -1,0 +1,3 @@
+jump_sa_user: "{{ hostvars['bastion'].ansible_user }}"
+jump_sa_host: "{{ hostvars['bastion'].ansible_host }}"
+ansible_ssh_common_args: "-o ProxyCommand='ssh -W %h:%p -q {{ jump_sa_user }}@{{ jump_sa_host }} -p 32510'"
