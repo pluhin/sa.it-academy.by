@@ -1,0 +1,91 @@
+---
+- name: Install and Configure Nginx with Virtual Hosts and Check Availability
+  hosts: all
+  become: yes
+
+  vars:
+    vhost1_domain: vhost1.example.com
+    vhost2_domain: vhost2.example.com
+
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Start Nginx and Enable at Boot
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Create directories for VirtualHosts
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - /var/www/vhost1
+        - /var/www/vhost2
+
+    - name: Setup VirtualHost 1
+      ansible.builtin.template:
+        src: templates/nginx_vhost.j2
+        dest: "/etc/nginx/sites-available/{{ vhost1_domain }}.conf"
+      vars:
+        server_name: "{{ vhost1_domain }}"
+        document_root: /var/www/vhost1
+
+    - name: Setup VirtualHost 2
+      ansible.builtin.template:
+        src: templates/nginx_vhost.j2
+        dest: "/etc/nginx/sites-available/{{ vhost2_domain }}.conf"
+      vars:
+        server_name: "{{ vhost2_domain }}"
+        document_root: /var/www/vhost2
+
+    - name: Enable VirtualHosts
+      file:
+        src: "/etc/nginx/sites-available/{{ item }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ item }}.conf"
+        state: link
+        force: yes
+      loop:
+        - "{{ vhost1_domain }}"
+        - "{{ vhost2_domain }}"
+
+    - name: Copy index files for VirtualHosts
+      ansible.builtin.template:
+        src: "templates/index{{ item }}.html.j2"
+        dest: "/var/www/vhost{{ item }}/index.html"
+      loop:
+        - 1
+        - 2
+      notify: restart nginx
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Check vhost1 availability
+      uri:
+        url: "http://{{ vhost1_domain }}"
+        return_content: yes
+      register: vhost1_response
+
+    - name: Print vhost1 page content
+      debug:
+        var: vhost1_response.content
+
+    - name: Check vhost2 availability
+      uri:
+        url: "http://{{ vhost2_domain }}"
+        return_content: yes
+      register: vhost2_response
+
+    - name: Print vhost2 page content
+      debug:
+        var: vhost2_response.content
