@@ -1,0 +1,11 @@
+- hosts: work_host
+  roles:
+    - nginx
+  pre_tasks:
+    - name: Update Debian.
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+      when: ansible_os_family == "Debian"
+
+    - name: install updates
+      yum: update_cache=yes
+      when: ansible_os_family == "RedHat"

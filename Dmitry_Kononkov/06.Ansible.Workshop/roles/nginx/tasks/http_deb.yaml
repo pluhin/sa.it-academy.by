@@ -1,0 +1,14 @@
+---
+- name: NGINX. Install on Debian.
+  apt: 
+    name: "{{ apt_http_packages }}"
+    state: present
+    update_cache: yes
+
+- name: NGINX. Enable and start service on Debian.
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  tags:
+    - test

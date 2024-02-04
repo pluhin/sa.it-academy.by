@@ -1,0 +1,9 @@
+### {{ ansible_managed }}
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+{% if virtual_hosts is defined %}
+{% for var in virtual_hosts %}
+{{ var.ip}}     {{ var.name }}
+{% endfor %}
+{% endif %}
