@@ -4,8 +4,9 @@
   become: yes
 
   vars:
-    vhost1_domain: vhost1.example.com
-    vhost2_domain: vhost2.example.com
+    vhost_domains:
+      - vhost1.example.com
+      - vhost2.example.com
 
   tasks:
     - name: Install Nginx
@@ -22,28 +23,19 @@
 
     - name: Create directories for VirtualHosts
       file:
-        path: "{{ item }}"
+        path: "/var/www/{{ item }}"
         state: directory
         mode: '0755'
-      loop:
-        - /var/www/vhost1
-        - /var/www/vhost2
+      loop: "{{ vhost_domains }}"
 
-    - name: Setup VirtualHost 1
+    - name: Setup VirtualHost for each domain
       ansible.builtin.template:
         src: templates/nginx_vhost.j2
-        dest: "/etc/nginx/sites-available/{{ vhost1_domain }}.conf"
+        dest: "/etc/nginx/sites-available/{{ item }}.conf"
       vars:
-        server_name: "{{ vhost1_domain }}"
-        document_root: /var/www/vhost1
-
-    - name: Setup VirtualHost 2
-      ansible.builtin.template:
-        src: templates/nginx_vhost.j2
-        dest: "/etc/nginx/sites-available/{{ vhost2_domain }}.conf"
-      vars:
-        server_name: "{{ vhost2_domain }}"
-        document_root: /var/www/vhost2
+        server_name: "{{ item }}"
+        document_root: "/var/www/{{ item }}"
+      loop: "{{ vhost_domains }}"
 
     - name: Enable VirtualHosts
       file:
@@ -51,17 +43,15 @@
         dest: "/etc/nginx/sites-enabled/{{ item }}.conf"
         state: link
         force: yes
-      loop:
-        - "{{ vhost1_domain }}"
-        - "{{ vhost2_domain }}"
+      loop: "{{ vhost_domains }}"
 
-    - name: Copy index files for VirtualHosts
+    - name: Copy index file for each VirtualHost
       ansible.builtin.template:
-        src: "templates/index{{ item }}.html.j2"
-        dest: "/var/www/vhost{{ item }}/index.html"
-      loop:
-        - 1
-        - 2
+        src: "templates/index.html.j2"
+        dest: "/var/www/{{ item }}/index.html"
+      vars:
+        server_name: "{{ item }}"
+      loop: "{{ vhost_domains }}"
       notify: restart nginx
 
   handlers:
@@ -70,22 +60,16 @@
         name: nginx
         state: restarted
 
-    - name: Check vhost1 availability
+    - name: Check each vhost availability
       uri:
-        url: "http://{{ vhost1_domain }}"
+        url: "http://{{ item }}"
         return_content: yes
-      register: vhost1_response
+      register: response
+      loop: "{{ vhost_domains }}"
+      ignore_errors: yes
 
-    - name: Print vhost1 page content
+    - name: Print each vhost page content
       debug:
-        var: vhost1_response.content
-
-    - name: Check vhost2 availability
-      uri:
-        url: "http://{{ vhost2_domain }}"
-        return_content: yes
-      register: vhost2_response
-
-    - name: Print vhost2 page content
-      debug:
-        var: vhost2_response.content
+        msg: "VHost {{ item.item }} response: {{ item.response.content | default('N/A') }}"
+      loop: "{{ response.results }}"
+      when: response.results is defined
