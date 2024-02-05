@@ -5,16 +5,16 @@ yum_http_packages:
   - epel-release
   - nginx
 
-example_home: "/var/www/example.com/html"
-test_home:  "/var/www/test.com/html"
+home:
+  - "/var/www/example.com/html"
+  - "/var/www/test.com/html"
 
 sites: "/etc/nginx/sites-available"
 
-site_deb: "local-deb.site"
-site_rh: "local-rh.site"
-site_example: "example.com"
-site_test: "test.com"
+sitescom:
+  - example.com
+  - test.com
 
 virtual_hosts:
-  - { name: "{{ site_example }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}
-  - { name: "{{ site_test }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}
+  - { name: "{{ sitescom[0] }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}
+  - { name: "{{ sitescom[1] }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}

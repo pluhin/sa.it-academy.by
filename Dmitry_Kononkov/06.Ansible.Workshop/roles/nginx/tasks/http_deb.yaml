@@ -1,4 +1,8 @@
 ---
+- name: Update Debian.
+  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+  when: ansible_os_family == "Debian"
+
 - name: NGINX. Install on Debian.
   apt: 
     name: "{{ apt_http_packages }}"
@@ -12,3 +16,10 @@
     enabled: yes
   tags:
     - test
+
+- name: NGINX. Remove default site.
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+  notify:
+    - restart nginx

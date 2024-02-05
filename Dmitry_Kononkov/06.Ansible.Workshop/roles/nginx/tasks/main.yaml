@@ -14,26 +14,17 @@
     owner: root
     group: root
     mode: 0775
-  loop:
-    - /var/www
-    - /var/www/example.com
-    - /var/www/example.com/html
-    - /var/www/test.com
-    - /var/www/test.com/html
-    - /etc/nginx/sites-available
+  loop: "{{ home }}"
 
-- name: Copy first page to Example.
-  copy: 
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+- name: Templates index .
+  template:
+    src: "index.j2"
+    dest: "/var/www/{{ item }}/html/index.html"
     owner: root
     group: root
     mode: '0775'
-  loop:
-    - src: index.htm
-      dest: "{{ example_home }}"
-    - src: index.html
-      dest: "{{ test_home }}"
+    backup: yes
+  loop: "{{ sitescom }}"
 
 - name: NGINX. Create sites.com.
   copy: 
@@ -42,25 +33,14 @@
     owner: root
     group: root
     mode: '0775'
-  loop:
-    - example.com
-    - test.com
+  loop: "{{ sitescom }}"
 
-- name: NGINX. Create symbolic link 
-  shell: |
-    ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
-    ln -s /etc/nginx/sites-available/test.com /etc/nginx/sites-enabled/
-  tags: 
-    - once
-
-- name: NGINX. Remove default site.
+- name: Enabling Ubuntu sites
   file:
-    path: "/etc/nginx/sites-enabled/default"
-    state: absent
-  notify:
-    - restart nginx
-  when: ansible_os_family == 'Debian'
-
+    src: "/etc/nginx/sites-available/{{ item }}"
+    dest: "/etc/nginx/sites-enabled/{{ item }}"
+    state: link
+  loop: "{{ sitescom }}"
 
 - name: Templates.
   template:
