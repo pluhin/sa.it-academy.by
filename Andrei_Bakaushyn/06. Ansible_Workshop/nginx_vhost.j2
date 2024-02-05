@@ -1,0 +1,9 @@
+server {
+    listen 80;
+    server_name {{ server_name }};
+
+    location / {
+        root {{ document_root }};
+        index index.html index.htm;
+    }
+}
