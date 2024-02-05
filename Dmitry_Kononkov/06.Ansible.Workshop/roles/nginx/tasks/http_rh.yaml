@@ -1,0 +1,30 @@
+---
+- name: install updates
+  yum: update_cache=yes
+  when: ansible_os_family == "RedHat"
+  
+- name: NGINX. Install packages on RedHat.
+  yum: 
+    name: "{{ yum_http_packages }}"
+    state: present
+  tags:
+    - tests
+
+- name: NGINX. Enable and start service RedHat.
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: HTTPS. Enable firewall port on RedHat.
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+
+- name: NGINX. Reload service firewalld on RedHat.
+  service:
+    name: nginx
+    state: reloaded
+  tags:
+    - tests

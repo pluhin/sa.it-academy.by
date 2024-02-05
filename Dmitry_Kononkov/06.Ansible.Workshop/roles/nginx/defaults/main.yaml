@@ -1,0 +1,18 @@
+apt_http_packages:
+  - nginx
+
+yum_http_packages:
+  - epel-release
+  - nginx
+
+home:
+  - "/var/www/example.com/html"
+  - "/var/www/test.com/html"
+
+sitescom:
+  - example.com
+  - test.com
+
+virtual_hosts:
+  - { name: "{{ sitescom[0] }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}
+  - { name: "{{ sitescom[1] }}", ip: "{{ hostvars[\"work_01\"].ansible_host }}"}

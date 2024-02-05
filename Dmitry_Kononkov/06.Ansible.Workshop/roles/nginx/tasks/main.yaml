@@ -1,0 +1,79 @@
+---
+- name: Include deploy for Debian systems
+  include: http_deb.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Include deploy for RedHat systems
+  include: http_rh.yaml
+  when: ansible_os_family == 'RedHat'
+
+- name: NGINX. Make dir for sites.
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+  loop: "{{ home }}"
+
+- name: Templates index .
+  template:
+    src: "index.j2"
+    dest: "/var/www/{{ item }}/html/index.html"
+    owner: root
+    group: root
+    mode: '0775'
+    backup: yes
+  loop: "{{ sitescom }}"
+
+- name: Templates conf .
+  template:
+    src: "conf.j2"
+    dest: "/etc/nginx/sites-available/{{ sitescom }}"
+    owner: root
+    group: root
+    mode: '0775'
+    backup: yes
+  loop: "{{ sitescom }}"
+
+- name: Enabling Ubuntu sites
+  file:
+    src: "/etc/nginx/sites-available/{{ item }}"
+    dest: "/etc/nginx/sites-enabled/{{ item }}"
+    force: yes
+    state: link
+  loop: "{{ sitescom }}"
+
+- name: Templates.
+  template:
+    src: "host.j2"
+    dest: "/etc/hosts"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+- name: Check template.
+  shell: |
+    cat /etc/hosts
+  register: out1
+  changed_when: false
+
+- name: Print out1
+  debug:
+    msg: "{{ out1.stdout_lines }}"
+
+- name: Check content to the sites.
+  uri:
+    url: "http://{{ item.name }}"
+    return_content: yes
+  loop: "{{ virtual_hosts }}"
+  register: out
+  tags: 
+    - tests
+
+- name: Print out.
+  debug:
+    msg: "{{ out }}"
+  tags:
+    - tests
