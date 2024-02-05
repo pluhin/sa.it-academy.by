@@ -1,0 +1,87 @@
+---
+- name: Deploy Nginx Sites
+  hosts: all_workers
+  become: yes
+  vars:
+    site_name:
+      - first_site
+      - second_site
+
+  tasks:
+    - name: Check if Nginx configuration directory exists
+      stat:
+        path: /etc/nginx
+      register: nginx_config
+      tags: installation
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+      when: not nginx_config.stat.exists
+      tags: installation
+
+    - name: Ensure Nginx is enabled
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+      tags: installation
+
+    - name: Create html files directory
+      file:
+        path: "/var/www/{{ item }}"
+        state: directory
+      loop: "{{ site_name }}"
+      tags: deployment
+
+    - name: Upload Nginx template config
+      template:
+        src: ../templates/nginx_static_site.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item }}"
+      loop: "{{ site_name }}"
+      tags: deployment
+
+    - name: Create HTML files for virtual hosts
+      template:
+        src: ../templates/host_details_site.html.j2
+        dest: "/var/www/{{ item }}/index.html"
+      loop: "{{ site_name }}"
+      tags: deployment
+
+    - name: Make virtual hosts enabled
+      file:
+        src: "/etc/nginx/sites-available/{{ item }}"
+        dest: "/etc/nginx/sites-enabled/{{ item }}"
+        state: link
+      loop: "{{ site_name }}"
+      tags: deployment
+
+    - name: Add virtual hosts to /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        line: "127.0.0.1 {{ item }}"
+        state: present
+      loop: "{{ site_name }}"
+      tags: nginx
+
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+      tags: deployment
+
+    - name: Ping virtual hosts
+      uri:
+        url: "http://{{ item }}/index.html"
+        status_code: 200
+        return_content: true
+      loop: "{{ site_name }}"
+      register: uri_result
+      tags: verification
+
+    - name: Debug virtual hosts
+      debug:
+        msg: "{{ item.content }}"
+      with_items: "{{ uri_result.results }}"
+      tags: verification

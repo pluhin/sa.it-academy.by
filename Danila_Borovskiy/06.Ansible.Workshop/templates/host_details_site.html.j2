@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ item }}</title>
+</head>
+<body>
+    <h1>Hostname is {{ ansible_hostname }}</h1>
+    <h2>This is the {{ item }} hosted on {{ ansible_fqdn }}.</h2>
+</body>
+</html>
