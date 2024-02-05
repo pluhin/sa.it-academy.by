@@ -9,8 +9,6 @@ home:
   - "/var/www/example.com/html"
   - "/var/www/test.com/html"
 
-sites: "/etc/nginx/sites-available"
-
 sitescom:
   - example.com
   - test.com

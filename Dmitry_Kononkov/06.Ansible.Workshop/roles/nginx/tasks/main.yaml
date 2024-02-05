@@ -26,19 +26,21 @@
     backup: yes
   loop: "{{ sitescom }}"
 
-- name: NGINX. Create sites.com.
-  copy: 
-    src: "{{ item }}"
-    dest: "{{ sites }}"
+- name: Templates conf .
+  template:
+    src: "conf.j2"
+    dest: "/etc/nginx/sites-available/{{ sitescom }}"
     owner: root
     group: root
     mode: '0775'
+    backup: yes
   loop: "{{ sitescom }}"
 
 - name: Enabling Ubuntu sites
   file:
     src: "/etc/nginx/sites-available/{{ item }}"
     dest: "/etc/nginx/sites-enabled/{{ item }}"
+    force: yes
     state: link
   loop: "{{ sitescom }}"
 
