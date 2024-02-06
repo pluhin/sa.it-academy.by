@@ -1,0 +1,10 @@
+- hosts: all_workers
+  gather_facts: False
+  become: yes
+
+
+  tasks:
+    - name: Install Htop package
+      apt:
+        name: htop
+        state: present
