@@ -1,0 +1,75 @@
+---
+- name: Install and Configure Nginx with Virtual Hosts and Check Availability
+  hosts: all
+  become: yes
+
+  vars:
+    vhost_domains:
+      - vhost1.example.com
+      - vhost2.example.com
+
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Start Nginx and Enable at Boot
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Create directories for VirtualHosts
+      file:
+        path: "/var/www/{{ item }}"
+        state: directory
+        mode: '0755'
+      loop: "{{ vhost_domains }}"
+
+    - name: Setup VirtualHost for each domain
+      ansible.builtin.template:
+        src: templates/nginx_vhost.j2
+        dest: "/etc/nginx/sites-available/{{ item }}.conf"
+      vars:
+        server_name: "{{ item }}"
+        document_root: "/var/www/{{ item }}"
+      loop: "{{ vhost_domains }}"
+
+    - name: Enable VirtualHosts
+      file:
+        src: "/etc/nginx/sites-available/{{ item }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ item }}.conf"
+        state: link
+        force: yes
+      loop: "{{ vhost_domains }}"
+
+    - name: Copy index file for each VirtualHost
+      ansible.builtin.template:
+        src: "templates/index.html.j2"
+        dest: "/var/www/{{ item }}/index.html"
+      vars:
+        server_name: "{{ item }}"
+      loop: "{{ vhost_domains }}"
+      notify: restart nginx
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Check each vhost availability
+      uri:
+        url: "http://{{ item }}"
+        return_content: yes
+      register: response
+      loop: "{{ vhost_domains }}"
+      ignore_errors: yes
+
+    - name: Print each vhost page content
+      debug:
+        msg: "VHost {{ item.item }} response: {{ item.response.content | default('N/A') }}"
+      loop: "{{ response.results }}"
+      when: response.results is defined
