@@ -1,7 +1,7 @@
 - hosts: all_workers
   become: yes
   vars_files:
-    - vars/groups.yaml
+    - vars/groups_vault.yaml
   tasks:
     - name: Create group
       group:
