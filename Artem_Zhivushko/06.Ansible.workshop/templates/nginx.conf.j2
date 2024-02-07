@@ -1,0 +1,13 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    index index.html;
+    server_name {{ item }};
+
+
+    location / {
+        root /var/www/{{ item }};
+        try_files $uri $uri/ =404;
+    }
+}

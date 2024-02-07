@@ -1,0 +1,108 @@
+---
+- name: Ansible playbook to install and configure the chosen web server on a remote host (two virtualhosts using templates)
+  hosts: host05
+  vars:
+    site_name:
+      - example_first.io
+      - example_second.io
+
+  tasks:
+# NGINX install
+    - name: install Nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+      when:
+        ansible_os_family == "Debian"
+      notify: Start Nginx
+    
+    - name: Create site dir
+      file:
+        path: "/var/www/{{ item }}"
+        state: directory
+      loop: "{{ site_name }}"
+
+# HTML
+    - name: Create HTML
+      template:
+        src: "../templates/index.html.j2"
+        dest: "/var/www/{{ item }}/index.html"
+      loop: "{{ site_name }}"
+
+# NGINX config
+    - name: Sets Nginx conf file
+      template:
+        src: "../templates/nginx.conf.j2"
+        dest: "/etc/nginx/sites-available/{{ item }}"
+      loop: "{{ site_name }}"
+    
+    - name: Enables new site
+      file:
+        src: "/etc/nginx/sites-available/{{ item }}"
+        dest: "/etc/nginx/sites-enabled/{{ item }}"
+        state: link
+      loop: "{{ site_name }}"
+      notify: Reload Nginx
+
+    - name: Removes "default" site
+      file:
+        path: "/etc/nginx/sites-enabled/default"
+        state: absent
+      notify: Reload Nginx
+
+# VHosts add
+    - name: Add site to virtual host
+      lineinfile:
+        path: "/etc/hosts"
+        line: "127.0.0.1 {{ item }}"
+        state: present
+      loop: "{{ site_name }}"
+      notify: Restart Nginx
+
+    # - name: Open tcp port 80
+    #   ufw:
+    #     state: enabled
+    #     rule: allow
+    #     port: '80'
+    #     proto: tcp
+
+    - name: Check that you can connect (GET) to a page and it returns a status 200
+      uri:
+        url: http://{{ item }}
+        return_content: true
+      loop: "{{ site_name }}"
+      register: out
+      failed_when: out.status != 200
+
+    - name: Debug 200 code
+      debug:
+        msg: "{{ item.content }}"
+      with_items: "{{ out.results }}"
+
+    # - name: Check that a page returns a status 200 and fail if the word AWESOME is not in the page contents
+    #   uri:
+    #     url: http://{{ item }}
+    #     return_content: true
+    #   register: this
+    #   failed_when: >
+    #     this.status != 200 or
+    #     "'<!DOCTYPE html>' not in this.content"
+    #   loop: "{{ site_name }}"
+
+  handlers:
+    - name: Start Nginx
+      systemd:
+        name: nginx
+        enabled: yes
+        state: started
+        
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded
+
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
