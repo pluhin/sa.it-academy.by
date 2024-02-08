@@ -1,0 +1,14 @@
+{
+  "name": "07.docker",
+  "version": "1.0.0",
+  "description": "Simple node.js app with docker",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Danila Borovskiy",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
