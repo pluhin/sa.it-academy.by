@@ -1,0 +1,15 @@
+---
+
+- name: Install Htop on remote host
+  hosts: work_sa
+  tasks:
+    - name: Update apt package cache
+      become: true
+      apt:
+        update_cache: yes
+
+    - name: Install Htop
+      become: true
+      apt:
+        name: htop
+        state: present
