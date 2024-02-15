@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: ${DB_SERVICE_NAME}
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    container_name: ${BACKEND_SERVICE_NAME}
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    env_file:
+      - .env
+    ports:
+      - "${EXPRESS_PORT}:${EXPRESS_PORT}"
+
+  frontend:
+    container_name: ${FRONTEND_SERVICE_NAME}
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    env_file:
+      - .env
+    ports:
+      - "${NEXT_JS_PORT}:${NEXT_JS_PORT}"
+
+volumes:
+  db_data:
