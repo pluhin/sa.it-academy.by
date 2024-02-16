@@ -11,3 +11,5 @@ __pycache__
 *.iml
 .project
 .vagrant
+Yauheni_Kastsevich/09.Kubernetes/kubectl
+Yauheni_Kastsevich/09.Kubernetes/minikube-linux-amd64
