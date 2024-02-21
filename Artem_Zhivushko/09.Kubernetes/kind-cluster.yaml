@@ -1,0 +1,40 @@
+name: Installing Prerequisites (KinD Cluster)
+
+on:
+  push:
+    branches:
+      - k8s
+
+jobs:
+    kind:
+        runs-on: ubuntu-latest
+        steps:
+        - name: checkout repository
+          uses: actions/checkout@master
+
+        # - name: setup-kind
+        #   uses: engineerd/setup-kind@v0.5.0
+
+        - name: Setup Go
+          uses: actions/setup-go@v5
+
+        - name: setup-kind
+          run: |
+            go version
+            go install sigs.k8s.io/kind@v0.21.0
+            export PATH=$PATH:$HOME/go/bin/
+            kind version
+            kind create cluster
+
+        - name: Testing-kind
+          run: |
+            export KUBECONFIG="$(kind get kubeconfig-path)"
+            kubectl cluster-info
+            kubectl get pods -n kube-system
+            echo "current context: " $(kubectl config current-context)
+            echo "env kubeconfig: " ${KUBECONFIG}
+            kubectl get nodes
+            kubectl get pods -A
+            kubectl version
+            kind version
+          shell: bash
