@@ -1,0 +1,29 @@
+name: Installing Prerequisites (Minikube Cluster)
+
+on:
+  push:
+    branches:
+      - k8s
+
+jobs:
+    minikube:
+        runs-on: ubuntu-latest
+        steps:
+        - name: checkout repository
+          uses: actions/checkout@master
+        
+        - name: setup-minikube
+          uses: medyagh/setup-minikube@master
+
+        - name: Testing-minikube
+          run: |
+            export KUBECONFIG="$(minikube get kubeconfig-path)"
+            kubectl cluster-info
+            kubectl get pods -n kube-system
+            echo "current context: " $(kubectl config current-context)
+            echo "env kubeconfig: " ${KUBECONFIG}
+            kubectl get nodes
+            kubectl get pods -A
+            kubectl version
+            minikube version
+          shell: bash    

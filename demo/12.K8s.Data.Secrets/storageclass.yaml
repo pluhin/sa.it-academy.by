@@ -1,0 +1,10 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-app
+provisioner: k8s-sigs.io/nfs-subdir-external-provisioner
+parameters:
+  onDelete: "retain"
+  pathPattern: "${.PVC.namespace}/${.PVC.annotations.nfs.io/storage-path}"
+ #  pathPattern: "/demo_app/"
