@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fist-app
+  namespace: argocd
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: first-app
+    helm:
+      parameters:
+      - name: pvc.storage_size
+        value: 200Mi
+      - name: ingress.hosts[0].host
+        value: app-helm.k8s-17.sa
+      - name: ingress.hosts[0].paths[0].path
+        value: /
+      - name: ingress.hosts[0].paths[0].pathType
+        value: ImplementationSpecific
+    repoURL: https://pluhin.github.io/helm-27-24/
+    targetRevision: 0.2.0
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
