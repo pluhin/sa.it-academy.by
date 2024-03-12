@@ -1,0 +1,101 @@
+# Default values for jenkins-helm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+namespace: helm-jenkins
+name: helm-jenkins
+
+configmap:
+  basicName: basic-security
+  jenkinsName: jenkins-config
+
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "kononkov"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: 
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  runAsUser: 0
+
+env:
+  JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+  CASC_JENKINS_CONFIG: /var/jenkins_home/casc_configs/jenkins.yaml
+
+port:
+  httpPort: 8080
+  jnlpPort: 50000
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  annotations: {}
+    # kubernetes.io/tls-acme: "true"
+  host: helm-jenkins.k8s-9.sa
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  limits:
+    cpu: 3
+    memory: 3Gi
+  requests:
+    cpu: 2
+    memory: 2Gi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nfs: 
+  server: 192.168.37.105
+  path: /mnt/IT-Academy/nfs-data/sa2-27-24/kononkov/helm-jenkins
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: 
+  jenkinsAuthConfig: /var/jenkins_home/init.groovy.d/basic-security.groovy
+  jenkinsAuthConfigSubPath: basic-security.groovy
+  jenkinsConfigYaml: /var/jenkins_home/casc_configs/jenkins.yaml
+  jenkinsConfigYamlSubPath: jenkins.yaml
+  jenkinsConfig: /var/jenkins_home
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,170 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+        - name: {{ .Values.name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PASS
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins-secret
+                  key: password
+            - name: JAVA_OPTS
+              value: "{{ .Values.env.JAVA_OPTS }}"
+            - name: CASC_JENKINS_CONFIG
+              value: "{{ .Values.env.CASC_JENKINS_CONFIG }}"
+          ports:
+            - name: http-port
+              containerPort: {{ .Values.port.httpPort }}
+            - name: jnlp-port
+              containerPort: {{ .Values.port.jnlpPort }}
+          securityContext:
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+          volumeMounts:
+            - name: jenkins-auth-config
+              mountPath: {{ .Values.volumeMounts.jenkinsAuthConfig }}
+              subPath: {{ .Values.volumeMounts.jenkinsAuthConfigSubPath }}
+            - name: jenkins-config-yaml
+              mountPath: {{ .Values.volumeMounts.jenkinsConfigYaml }}
+              subPath: {{ .Values.volumeMounts.jenkinsConfigYamlSubPath }}
+            - name: jenkins-config
+              mountPath: {{ .Values.volumeMounts.jenkinsConfig }}
+      volumes:
+        - name: jenkins-auth-config
+          configMap:
+            name: {{ .Values.configmap.basicName }}
+        - name: jenkins-config-yaml
+          configMap:
+            name: jenkins-config
+        - name: {{ .Values.configmap.jenkinsName }}
+          nfs:
+            server: {{ .Values.nfs.server }}
+            path: {{ .Values.nfs.path }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configmap.basicName }}
+  namespace: {{ .Values.namespace }}
+data:
+  basic-security.groovy: |
+    #!groovy
+    import jenkins.model.*
+    import hudson.security.*
+    def instance = Jenkins.getInstance()
+    println "--> creating local user 'admin'"
+    def password = System.getenv("PASS")
+    def hudsonRealm = new HudsonPrivateSecurityRealm(false)
+    hudsonRealm.createAccount('admin', password)
+    instance.setSecurityRealm(hudsonRealm)
+    def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
+    strategy.setAllowAnonymousRead(true)
+    instance.setAuthorizationStrategy(strategy)
+    instance.save()
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configmap.jenkinsName }}
+  namespace: {{ .Values.namespace }}
+data:
+  jenkins.yaml: |
+        jenkins:
+          numExecutors: 2
+          clouds:
+          - kubernetes:
+              containerCapStr: "10"
+              maxRequestsPerHostStr: "32"
+              jenkinsUrl: "http://jenkins:8080"
+              name: "kubernetes"
+              namespace: "ci-cd"
+              skipTlsVerify: true
+        credentials:
+          system:
+            domainCredentials:
+            - credentials:
+              - usernamePassword:
+                  description: "Githubuser"
+                  id: "some_randome"
+                  password: "XXXXXXXXXXX"
+                  scope: GLOBAL
+                  username: "git_hub_user"
+        unclassified:
+          location:
+            adminAddress: "pluhin@gmail.com"
+            url: "http://jenkins.k8s-XX.sa/"
+          shell:
+            shell: "/bin/bash"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: {{ .Values.namespace }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-{{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.name }}
+                port:
+                  number: {{ .Values.port.httpPort }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: master
+      port: {{ .Values.port.httpPort }}
+      targetPort: {{ .Values.port.httpPort }}
+    - name: slave
+      port: {{ .Values.port.jnlpPort }}
+      targetPort: {{ .Values.port.jnlpPort }}
+  selector:
+    app: {{ .Values.name }}
