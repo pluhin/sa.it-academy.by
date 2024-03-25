@@ -1,0 +1,37 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx-php-config
+data:
+  default.conf: |
+    server {
+            listen       80;
+            listen       [::]:80;
+            server_name  example.com;
+            root         /var/www/html;
+            server_tokens off;
+
+            access_log /var/log/nginx/example.com-access.log;
+            error_log  /var/log/nginx/example.com-error.log error;
+            index index.html index.htm index.php;
+
+            location / {
+                          try_files $uri $uri/ /index.php$args;
+            }
+
+            location ~ \.php$ {
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                fastcgi_pass php-fpm:9000;
+                fastcgi_index index.php;
+                include fastcgi_params;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+        }
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-config-html
+data:
+  index.php: "<!DOCTYPE html>\n<html>\n  <head>\n      <title>PHP Test</title>\n  </head>\n  <body>\n    <?php\n    echo '<h1>My podname is ' .$_ENV[\"POD_NAME\"] . '!</h1>';\n    // Show all information, defaults to INFO_ALL\n    phpinfo(); \n    ?>\n  </body>\n</html>\n"

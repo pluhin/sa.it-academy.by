@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx-app
+spec:
+  selector:
+    matchLabels:
+      app: nginx-app
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 2
+  template:
+    metadata:
+      labels:
+        app: nginx-app
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+        - name: init-nginx-container
+          mountPath: /etc/nginx/conf.d/
+        - name: init-php-container
+          mountPath: /var/www/html/
+        - name: ssh-keys
+          mountPath: /root/.ssh/
+          readOnly: true
+      volumes:
+      - name: init-nginx-container
+        configMap:
+          name: nginx-php-config
+      - name: init-php-container
+        configMap:
+          name: test-config-html
+      - name: ssh-keys
+        secret:
+          secretName: my-ssh-secret
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-fpm
+  labels:
+    app: php-fpm
+spec:
+  selector:
+    matchLabels:
+      app: php-fpm
+  replicas: 4
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: php-fpm
+    spec:
+      containers:
+      - name: php-fpm
+        image: php:fpm-alpine
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        ports:
+        - containerPort: 9000
+          name: php-fpm
+        volumeMounts:
+        - name: init-php-container
+          mountPath: /var/www/html/
+      volumes:
+      - name: init-php-container
+        configMap:
+          name: test-config-html
