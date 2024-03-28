@@ -1,0 +1,77 @@
+name: Testing docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Install currl
+        run: |
+          sudo apt update && sudo apt install -y curl
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker lint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+          failure-threshold: error
+
+      - name: Check data
+        run: |
+          docker build -t golang-web-app:v1 .
+          docker run -d --name golang-web-app -p 3000:3000 -t golang-web-app:v1
+          sleep 25
+          docker logs golang-web-app >> docker-logs.txt
+          curl -L http://localhost:3000 >> docker-logs.txt
+
+      - name: Check user or root
+        id: userorroot
+        continue-on-error: true
+        run: |
+          docker exec golang-web-app whoami >> docker-logs.txt
+          docker exec golang-web-app id >> docker-logs.txt
+
+      - name: Warning if user is root
+        if: ${{ steps.userorroot.outputs.user == 'uid=0(root)' }}
+        run: echo "Image user is ${{ steps.userorroot.outputs.user }} \n >> This is root user <<<" >> docker-logs.txt
+
+      - name: Upload test results
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-logs
+          path: docker-logs.txt
+
+      - name: Slack Notification on Success
+        if: success()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: tests
+          SLACK_COLOR: '#006400'
+          SLACK_ICON: 'https://github.com/rtCamp.png?size=48'
+          SLACK_MESSAGE: 'Docker image tested successfully!'
+          SLACK_TITLE: 'SUCCESS! Docker tests'
+          SLACK_USERNAME: rtCamp
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Slack Notification on Failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: tests
+          SLACK_COLOR: '#8B0000'
+          SLACK_ICON: 'https://github.com/rtCamp.png?size=48'
+          SLACK_MESSAGE: 'Failure testing Docker image'
+          SLACK_TITLE: 'FAILURE! Docker tests'
+          SLACK_USERNAME: rtCamp
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
