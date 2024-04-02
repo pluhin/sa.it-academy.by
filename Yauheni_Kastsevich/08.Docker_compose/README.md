@@ -57,3 +57,54 @@ volumes:
 docker-compose up
 curl http://localhost:8080
 ```
+
+## Homework Assignment 2: Docker build automation (github action)
+
+### Dockerfile
+``` bash
+FROM node:14 AS builder
+WORKDIR /app
+COPY app/ .
+RUN yarn install 
+
+RUN yarn build
+
+FROM node:15
+COPY --from=builder /app /app
+WORKDIR /app
+EXPOSE 3000
+CMD ["npm", "run", "start"]
+```
+
+### My commands
+``` bash
+docker build -t jsapp:v5 .
+docker run --name jsapp5 -p 5000:3000 jsapp:v5
+docker login -u evgecha123
+```
+
+### docker-build.yaml
+``` bash
+name: Build and Push Docker image to DockerHub
+
+on: push
+jobs:
+    push:
+        name: Push Docker image to DockerHub
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+
+            - name: Login to DockerHub
+              uses: docker/login-action@v2
+              with:
+                username: ${{ secrets.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+
+            - name: Build and Push image
+              uses: docker/build-push-action@v4
+              with: 
+                push: true
+                tags:  evgecha123/jsapp:latest
+```

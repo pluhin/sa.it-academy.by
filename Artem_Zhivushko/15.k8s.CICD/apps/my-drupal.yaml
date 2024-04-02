@@ -1,0 +1,53 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: drupal-app
+  namespace: argocd
+spec:
+  destination:
+    namespace: drupal-argo
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: drupal
+    helm:
+      parameters:
+      - name: allowEmptyPassword
+        value: 'false'
+      - name: replicaCount
+        value: '4'
+      - name: volumePermissions.enabled
+        value: 'true'
+      - name: mariadb.enabled
+        value: 'false'
+      - name: externalDatabase.host
+        value: xxx.xxx.xxx.xxx
+      - name: externalDatabase.password
+        value: xxxxxxxxx
+      - name: externalDatabase.existingSecret
+        value: drupal-app-externaldb
+      - name: externalDatabase.user
+        value: drupal_user
+      - name: externalDatabase.database
+        value: drupal
+      - name: persistence.existingClaim
+        value: nfs-drupal
+      - name: drupalUsername
+        value: xxxxxxxxx
+      - name: drupalPassword
+        value: xxxxxxxxx
+      - name: drupalEmail
+        value: xxxxxxxxx@email.com
+      - name: ingress.enabled
+        value: 'true'
+      - name: ingress.hostname
+        value: drupal.k8s-5.sa
+      - name: ingress.ingressClassName
+        value: nginx
+    repoURL: 'https://charts.bitnami.com/bitnami'
+    targetRevision: 17.6.2
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true

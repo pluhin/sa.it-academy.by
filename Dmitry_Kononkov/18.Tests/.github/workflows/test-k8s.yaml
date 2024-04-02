@@ -1,0 +1,48 @@
+name: Testing k8s
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-k8s:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Kubeval
+        uses: instrumenta/kubeval-action@master
+        with:
+         files: "./manifests"
+         ignore_missing_schemas: true
+
+  notification:
+    needs: test-k8s
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Slack Notification on Success
+        if: ${{ always() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: tests
+          SLACK_COLOR: '#006400'
+          SLACK_ICON: 'https://github.com/rtCamp.png?size=48'
+          SLACK_MESSAGE: 'Kubernetes manifests tested successfully!'
+          SLACK_TITLE: 'SUCCESS! K8s tests'
+          SLACK_USERNAME: rtCamp
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Slack Notification on Failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: tests
+          SLACK_COLOR: '#8B0000'
+          SLACK_ICON: 'https://github.com/rtCamp.png?size=48'
+          SLACK_MESSAGE: 'Failure testing Kubernetes manifests'
+          SLACK_TITLE: 'FAILURE! K8s tests'
+          SLACK_USERNAME: rtCamp
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
