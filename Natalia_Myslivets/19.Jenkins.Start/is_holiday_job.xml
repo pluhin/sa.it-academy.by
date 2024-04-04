@@ -1,0 +1,34 @@
+<project>
+<actions/>
+<description>check is it a holiday today(but in 2023)</description>
+<keepDependencies>false</keepDependencies>
+<properties>
+<com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@330.v645b_7df10e2a_">
+<autoRebuild>false</autoRebuild>
+<rebuildDisabled>false</rebuildDisabled>
+</com.sonyericsson.rebuild.RebuildSettings>
+</properties>
+<scm class="hudson.scm.NullSCM"/>
+<canRoam>true</canRoam>
+<disabled>false</disabled>
+<blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+<blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+<triggers>
+<hudson.triggers.TimerTrigger>
+<spec>H H * * *</spec>
+</hudson.triggers.TimerTrigger>
+</triggers>
+<concurrentBuild>false</concurrentBuild>
+<builders>
+<hudson.tasks.Shell>
+<command>#"2023-$(date +%m-%d)" if [ $(curl -G -d country="BY" -d year="2023" -d pretty -d key="5caa0afb-b673-4c0c-96e1-e4e709afdf61" "https://holidayapi.com/v1/holidays" | grep -e "2023-$(date +%m-%d)" | wc -l) -eq 0 ]; then echo "today is not holiday" echo "date is 2023-$(date +%m-%d)" else echo "today is a holiday" echo "date is 2023-$(date +%m-%d)" fi</command>
+<configuredLocalRules/>
+</hudson.tasks.Shell>
+</builders>
+<publishers/>
+<buildWrappers>
+<org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper plugin="credentials-binding@657.v2b_19db_7d6e6d">
+<bindings class="empty-list"/>
+</org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper>
+</buildWrappers>
+</project>
