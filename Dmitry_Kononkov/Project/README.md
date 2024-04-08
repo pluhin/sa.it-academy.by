@@ -10,7 +10,7 @@
   - [argocd-repo](https://github.com/ussnorma/argocd)
   - [helm-repo](https://github.com/ussnorma/helm)
 ## Pipeline. High Level Design
-![project-scheme](https://github.com/ussnorma/Git.Hosting.03/blob/main/screnshots/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202024-04-07%20%D0%B2%2022.49.55.png?raw=true)
+![project-scheme](https://github.com/ussnorma/DevOps-Project-1/blob/main/Project-pipeline.png?raw=true)
 ## Technologies which were used in project
 * Orchestration: git runners.
 * Automation tools: Ansible, bash.
