@@ -4,11 +4,11 @@
 
 ### k9s screen k3s
 
-![alt text](../../../akademy/my_pictures/k3s.png)
+![k3s](https://github.com/YauheniKastsevich/my_pictures/blob/master/k3s.png)
 
 ### k9s screen k8s
 
-![alt text](../../../akademy/my_pictures/k8s.png)
+![k8s](https://github.com/YauheniKastsevich/my_pictures/blob/master/k8s.png)
 
 ### Workflow for check crashed pods:
 ``` yaml
