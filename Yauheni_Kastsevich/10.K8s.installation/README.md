@@ -34,7 +34,8 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         password: ${{ secrets.SERVER_PASS }}
         script: |
-          echo hello
+          kubectl get pods -A > output.log
+          echo "crash-pods=$(kubectl get pods -A --context='k8s' | awk 'NR!=1 {print $4}' | grep -v 'Running' | wc -l)" >> $env:GITHUB_OUTPUT
     
     - name: SLack Notification.
       if: steps.check-pods.outputs.crash-pods != 0
