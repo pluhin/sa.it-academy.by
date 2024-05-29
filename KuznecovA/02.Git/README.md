@@ -3,6 +3,7 @@ Training in basic commands for working with Git.
 
 ## Task 1. Initializing a Local Repository.
 
+```bash
 md 02.Git
 cd 02.Git
 git config --local user.name "Aleksandr Kuznecov"
@@ -10,10 +11,10 @@ git config --local user.email "AlexKWGit@gmail.com"
 git init
 echo Home task: 02.Git.local> README.md
 git add README.md
-git commit -m "Add first file in main branch"
-
+git commit -m "Add first file in main branch"``
+```
 ## Task 2. Basic Version Control.
-
+```bash
 git branch feature-branch
 git checkout feature-branch
 edit in editor "far": README.md
@@ -23,13 +24,15 @@ git commit -am "Add in staged and commit with one command."
 git checkout master
 git merge feature-branch
 
-????????? Question:
-????????? Should I delete the "feature-branch" branch?
-????????? If you need to delete, then there is a command:
-?????????   git branch -d
-
+```
+Question:
+Should I delete the "feature-branch" branch?
+If you need to delete, then there is a command:
+```bash
+  git branch -d
+```
 ## Task 3. Exploring Git History.
-
+```bash
 git log
 git checkout feature-branch
 git log
@@ -43,6 +46,7 @@ git show
 git show ad8e63b38367f6501ae94964bdf454dcf8b5009d
 git show ad8e63b
 git show ad8e63b --oneline
+
 // :) git log -p == git show
 
 echo *.log>.gitignore
@@ -52,9 +56,9 @@ git status
 
 edit: .gitignore
 git commit -am "Add a new commit because there is not enough history for the test"
-
+```
 ## Task 4. Creating and Applying Tags.
-
+```bash
 git log --oneline
 git checkout ad8e63b
 git log --oneline
@@ -78,9 +82,9 @@ git show r1l
 git log --pretty=oneline
 git tag TestTeg-1 10ec605
 git tag -d r1l
-
+```
 ## Task 5. Undoing Changes.
-
+```bash
 git branch
 git checkout -b bug-fix
 edit: README.md
@@ -105,9 +109,9 @@ git status
 git add --all
 git status
 git commit -m "Recommit all changes"
-
+```
 ## Task 6. Stashing Changes.
-
+```bash
 git checkout master
 git checkout -b experimental-feature
 edit: README.md
@@ -131,15 +135,14 @@ git status
 git commit -m "Commit changes that were received from stash."
 git stash list
 git stash drop
-
+```
 ## Task 7. Git Aliases and Configuration.
-
+```bash
 git config --global user.name "Alexandr Kuznetsov"
 git config --global user.email "AlexKWGit@gmail.com"
-
 git config --global alias.lo 'log --oneline'
 git lo
 git config --global alias.co checkout
 git config --global alias.br branch
-
 git config --list
+```
