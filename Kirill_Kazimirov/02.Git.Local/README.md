@@ -122,5 +122,14 @@
   112  git log --oneline
   113  cat README.md
   114  history
+#Homework Assignment 7: Git Aliases and Configuration
+260  git push origin md-sa2-28-24
+  261  git push -f  origin md-sa2-28-24
+  262  git pull
+  263  git config --global --edit
+  264  git config --global user.name "Kirill Kazimirov"
+  265  git config --global user.email "kirill-kazimirov.1993"
+  266  git config --global user.email "kirill-kazimirov.1993@yandex.by"
+  267  git config --global --edit
 
 
