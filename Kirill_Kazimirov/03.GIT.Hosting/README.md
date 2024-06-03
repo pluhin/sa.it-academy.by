@@ -1,7 +1,7 @@
 # 1. Create remote empty repositories (GitHub and GitLab)
 
-Ссылка [Github account][1]
-[1] https://github.com/Kirilllka1993/sa.it-academy.by/tree/md-sa2-28-24
+Github account [https://github.com/Kirilllka1993/sa.it-academy.by/tree/md-sa2-28-24]
+GitLab не создавал, так как там надо привязывать платёжную карточку при регистрации. 
 # 2. Add ssh key(s) to use ssh authentication
 ```
    12  ssh-keygen
@@ -22,8 +22,8 @@
 ```
 # 4. Create email integration push/commit events
 
-Документация по ссылку: [Email notification][2]
-[2] https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/about-email-notifications-for-pushes-to-your-repository
+Email notification [https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/about-email-notifications-for-pushes-to-your-repository]
+
 # 5. Automate pushing your changes to all remote repositories (bash/python/go.. scripts)
 ```
 allRepos=($(git remote))
