@@ -39,3 +39,37 @@ echo "end"
 # 6. list of upstream repositories should be extracted automatically for loop
 
 See 5th point
+# 7. My History for this task
+```
+    1  git remote
+    2  cd /home/
+    3  cd /home/kirill/courses
+    4  cd /home/kirill/courses/devops
+    5  ls
+    6  cd /home/kirill/courses/devops/sa.it-academy.by
+    7  git remote
+    8  ls
+    9  cd /home/kirill/courses/devops/sa.it-academy.by/Kirill_Kazimirov
+   10  ls
+   11  mkdir 03.GIT.Hosting
+   12  cd /home/kirill/courses/devops/sa.it-academy.by/Kirill_Kazimirov/03.GIT.Hosting
+   13  nano README.md
+   14  git remote show
+   15  nano automate_pushing.sh
+   16  ls
+   17  bash automate_pushing.sh
+   18  nano automate_pushing.sh
+   19  bash automate_pushing.sh
+   20  echo hello
+   21  nano automate_pushing.sh
+   22  bash automate_pushing.sh
+   23  nano automate_pushing.sh
+   24  bash automate_pushing.sh
+   25  nano automate_pushing.sh
+   26  nano README.md
+   27  cd /home/kirill/courses/devops/sa.it-academy.by
+   28  git add --all
+   29  git commit
+   30  bash /home/kirill/courses/devops/sa.it-academy.by/Kirill_Kazimirov/03.GIT.Hosting/automate_pushing.sh
+   31  history
+```
