@@ -1,4 +1,5 @@
-#Homework Assignment 1: Initializing a Local Repository
+# Homework Assignment 1: Initializing a Local Repository
+```
     7  cd /home/kirill/courses/devops/sa.it-academy.by/Kirill_Kazimirov/02.Git.Local
     8  ls -a
     9  git branch
@@ -23,7 +24,9 @@
    28  git commit
    29  git log --oneline
    30  history
-#Homework Assignment 2: Basic Version Control
+```
+# Homework Assignment 2: Basic Version Control
+```
 15  git branch feature-branch
    16  git branch -all
    17  git branch --all
@@ -37,14 +40,18 @@
    25  git status
    26  git checkout master
    27  git merge feature-branch
-#Homework Assignment 3: Exploring Git History
+```
+# Homework Assignment 3: Exploring Git History
+```
 31  git log
    32  git log oneline
    33  git log one line
    34  git log --oneline
    35  git show b20edd6
 36.  git show b20edd643ec2989b2937c15df900bb3dc9e20ebf
+```
 # Homework Assignment 4: Creating and Applying Tags
+```
    39  git log --oneline
    40  git checkout 19542e3
    41  git status
@@ -71,7 +78,9 @@
    62  git log
    63  git log --oneline
    64  git tag -a  v2.0
-#Homework Assignment 5: Undoing Changes
+```
+# Homework Assignment 5: Undoing Changes
+```
    66  git branch bug-fix
    67  git status
    68  git checkout bug-fix
@@ -104,7 +113,9 @@
    95  git commit -m "Resets"
    96  cat README.md
    97  history
-#Homework Assignment 6: Stashing Changes
+```
+# Homework Assignment 6: Stashing Changes
+```
    98  git checkout master
    99  cat README.md
   100  git branch experimental-feature
@@ -122,7 +133,9 @@
   112  git log --oneline
   113  cat README.md
   114  history
-#Homework Assignment 7: Git Aliases and Configuration
+```
+# Homework Assignment 7: Git Aliases and Configuration
+```
 260  git push origin md-sa2-28-24
   261  git push -f  origin md-sa2-28-24
   262  git pull
@@ -131,5 +144,4 @@
   265  git config --global user.email "kirill-kazimirov.1993"
   266  git config --global user.email "kirill-kazimirov.1993@yandex.by"
   267  git config --global --edit
-
-
+```
