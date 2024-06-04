@@ -133,6 +133,8 @@ jobs:
 ```
 # 2. Homework Assignment 2: Building and Testing with GitHub Actions
 
+Запуск тестов производился с помощью инструмента сборки maven. 
+
 ## 1. Choose a programming language of your choice.
  Java
 
