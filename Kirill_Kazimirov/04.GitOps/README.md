@@ -1,7 +1,8 @@
 # 1.Homework Assignment 1: Setting up a Basic GitHub Action
 ## 1. Create a new public repository on GitHub.
-``
+
 [Ссылка на мой репозиторий] (https://github.com/Kirilllka1993/04GitOps)
+
 ## 2. Inside the repository, create a simple Python or JavaScript script (e.g., "hello.py" or "hello.js") that prints "Hello, GitHub Actions!" to the console. 
 ```
 print("Hello, GitHub Actions!")
