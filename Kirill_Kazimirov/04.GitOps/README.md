@@ -131,3 +131,126 @@ jobs:
    85  nano README.md
    86  history
 ```
+# 2. Homework Assignment 2: Building and Testing with GitHub Actions
+
+## 1. Choose a programming language of your choice.
+ Java
+
+## 2. Set up a new or use an existing repository. 
+
+Second Repository [https://github.com/Kirilllka1993/04GitOpsJava]
+
+## 3. Create a simple program that performs a basic operation (e.g., calculation, string manipulation).
+
+```
+package org.example;
+
+public class BasicCalculator {
+
+    public Double calculate(char op, double num1, double num2) {
+        System.out.println("Hello Git 1");
+        Double o = 0.0;
+        switch (op) {
+            // case to add two numbers
+            case '+':
+                o = num1 + num2;
+                break;
+
+            // case to subtract two numbers
+            case '-':
+                o = num1 - num2;
+                break;
+
+            // case to multiply two numbers
+            case '*':
+                o = num1 * num2;
+                break;
+
+            // case to divide two numbers
+            case '/':
+                o = num1 / num2;
+                break;
+
+            default:
+                System.out.println("You enter wrong input");
+        }
+        return o;
+    }
+}
+  
+```
+## 4. Write unit tests for your program using a testing framework appropriate for the language.
+
+Tests
+
+```
+import org.example.BasicCalculator;
+import org.junit.Assert;
+import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
+
+public class BasicCalculatorTest {
+
+    @Test
+    public void checkPlus() {
+        BasicCalculator basicCalculator = new BasicCalculator();
+        Double result = basicCalculator.calculate('+', 5.0, 6.0);
+        assertEquals(result, 11.0);
+    }
+}
+
+```
+
+## 5. Create a GitHub Action workflow that runs the unit tests whenever changes are pushed to the repository.
+
+```
+name: Run tests with maven on main branch on every push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  print:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout action 2
+        uses: actions/checkout@v2
+      - name: Set JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Run the Maven verify phase
+        run: mvn test
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          path: nc_report.log
+
+```
+## 6. Ensure the workflow reports whether the tests passed or failed. 
+
+Ссылка на результат отработки тестов: [https://github.com/Kirilllka1993/04GitOpsJava/actions/runs/9374851317/job/25811828448]
+
+Пример результат работы кода по запуску тестов:
+
+
+ T E S T S
+-------------------------------------------------------
+Running BasicCalculatorTest
+Hello Git 1
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 sec
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+INFO ------------------------------------------------------------------------
+INFO BUILD SUCCESS
+INFO ------------------------------------------------------------------------
+INFO Total time:  3.909 s
+INFO Finished at: 2024-06-04T22:07:02Z
+INFO ------------------------------------------------------------------------
