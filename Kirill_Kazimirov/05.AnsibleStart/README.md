@@ -253,4 +253,233 @@ Playbook run took 0 days, 0 hours, 0 minutes, 10 seconds
 # 3. Homework Assignment 3: Managing Users and Groups
 ## 1. Create a playbook to manage users and groups on a remote host.
 
+Создал playbook с именем add_user.yaml. Перед этим создал пользователя user с группой mygroup, но не захэшировал пароль. Поэтому пришлось их удалить. Тоже через ansible сделал.
+```
 
+- hosts: all_workers
+  become: yes
+  tasks:
+    - name: Create group
+      group:
+        name: mygroup1
+        state: present
+
+    - name: Create user
+      user:
+        name: user2
+        group: mygroup
+        password: "{{ '1234' | password_hash('sha512') }}"
+        state: present
+
+    - name: Delete users
+      user:
+        name: user1
+        group: mygroup
+        state: absent
+
+
+    - name: Delete groups
+      user:
+        name: mygroup
+        state: absent
+
+```
+## 2. Define tasks to create a new user, assign the user to a specific group, and set a password.
+
+Запустили add_user.yaml 
+
+```
+ansible-playbook -i inv.yaml add_user.yaml -u root
+```
+Результат выполнения
+
+```
+
+root@ubuntudev:~/05.Ansible# ansible-playbook -i inv.yaml add_user.yaml -u root
+
+PLAY [all_workers] *****************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************
+Wednesday 05 June 2024  20:54:04 +0000 (0:00:00.012)       0:00:00.012 ********
+ok: [host2]
+ok: [host1]
+
+TASK [Create group] ****************************************************************************************************
+Wednesday 05 June 2024  20:54:06 +0000 (0:00:02.545)       0:00:02.557 ********
+changed: [host2]
+changed: [host1]
+
+TASK [Create user] *****************************************************************************************************
+Wednesday 05 June 2024  20:54:08 +0000 (0:00:01.049)       0:00:03.607 ********
+[DEPRECATION WARNING]: Encryption using the Python crypt module is deprecated. The Python crypt module is deprecated
+and will be removed from Python 3.13. Install the passlib library for continued encryption functionality. This feature
+will be removed in version 2.17. Deprecation warnings can be disabled by setting deprecation_warnings=False in
+ansible.cfg.
+changed: [host2]
+changed: [host1]
+
+TASK [Delete users] ****************************************************************************************************
+Wednesday 05 June 2024  20:54:09 +0000 (0:00:01.131)       0:00:04.739 ********
+changed: [host2]
+changed: [host1]
+
+TASK [Delete groups] ***************************************************************************************************
+Wednesday 05 June 2024  20:54:10 +0000 (0:00:01.031)       0:00:05.770 ********
+ok: [host2]
+ok: [host1]
+
+PLAY RECAP *************************************************************************************************************
+host1                      : ok=5    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+host2                      : ok=5    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+Wednesday 05 June 2024  20:54:11 +0000 (0:00:00.952)       0:00:06.723 ********
+===============================================================================
+Gathering Facts ------------------------------------------------------------------------------------------------- 2.55s
+Create user ----------------------------------------------------------------------------------------------------- 1.13s
+Create group ---------------------------------------------------------------------------------------------------- 1.05s
+Delete users ---------------------------------------------------------------------------------------------------- 1.03s
+Delete groups --------------------------------------------------------------------------------------------------- 0.95s
+Playbook run took 0 days, 0 hours, 0 minutes, 6 seconds
+```
+
+Попробывал подключиться с новым пользователем
+```
+rootubuntudev:/05.Ansible ssh user2192.168.202.1
+user2192.168.202.1s password:
+Welcome to Ubuntu 20.04 LTS (GNU/Linux 5.15.39-1-pve x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+New release 22.04.3 LTS available.
+Run do-release-upgrade to upgrade to it.
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.rootubuntudev:/05.Ansible ssh user2192.168.202.1
+user2192.168.202.1s password:
+Welcome to Ubuntu 20.04 LTS (GNU/Linux 5.15.39-1-pve x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+New release 22.04.3 LTS available.
+Run do-release-upgrade to upgrade to it.
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+```
+Можно подключиться через root и вызвать команду cat /etc/passwd. В списке появиться наш пользователь
+
+## 3. Parameterize the playbook to allow dynamic user and group names:
+
+Динамические параметры. Файл vars.yaml
+```
+
+user:
+  username: user3
+  password: user123
+
+group: group3
+```
+Playbook который принимает параметры из файла vars.yaml
+
+```
+- hosts: all_workers
+  become: yes
+  vars_files:
+     - vars.yaml
+  tasks:
+    - name: Create group
+      group:
+        name: "{{ group }}"
+        state: present
+
+    - name: Create users
+      user:
+        name: "{{ user.username }}"
+        group: "{{ group }}"
+        password: "{{user.password | password_hash('sha512') }}"
+        state: present
+
+```
+Выполняем команду 
+```
+ansible-playbook -i inv.yaml add_user_vars.yaml -u root
+
+```
+
+## 4. Execute the playbook and verify that the user and group configurations are applied.
+
+Результат работы playbook
+```
+
+root@ubuntudev:~/05.Ansible# ansible-playbook -i inv.yaml add_user_vars.yaml -u root
+
+PLAY [all_workers] ************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ********************************************************************************************************************************************************************************************
+Wednesday 05 June 2024  21:42:37 +0000 (0:00:00.015)       0:00:00.015 ********
+ok: [host1]
+ok: [host2]
+
+TASK [Create group] ***********************************************************************************************************************************************************************************************
+Wednesday 05 June 2024  21:42:39 +0000 (0:00:02.101)       0:00:02.117 ********
+changed: [host2]
+changed: [host1]
+
+TASK [Create users] ***********************************************************************************************************************************************************************************************
+Wednesday 05 June 2024  21:42:40 +0000 (0:00:01.002)       0:00:03.119 ********
+[DEPRECATION WARNING]: Encryption using the Python crypt module is deprecated. The Python crypt module is deprecated and will be removed from Python 3.13. Install the passlib library for continued encryption
+functionality. This feature will be removed in version 2.17. Deprecation warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+changed: [host1]
+changed: [host2]
+
+PLAY RECAP ********************************************************************************************************************************************************************************************************
+host1                      : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+host2                      : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+Wednesday 05 June 2024  21:42:41 +0000 (0:00:01.600)       0:00:04.719 ********
+===============================================================================
+Gathering Facts -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 2.10s
+Create users ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.60s
+Create group ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.00s
+Playbook run took 0 days, 0 hours, 0 minutes, 4 seconds
+```
+Попробуем подключиться через root к удаленному серверу и посмотрим наших пользователй
+
+Результат 
+```
+rootubuntudev:/home/kirill/courses/devops/sa.it-academy.by/Kirill_Kazimirov/05.AnsibleStart ssh root192.168.202.1
+Welcome to Ubuntu 20.04 LTS (GNU/Linux 5.15.39-1-pve x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+New release 22.04.3 LTS available.
+Run do-release-upgrade to upgrade to it.
+
+You have new mail.
+Last login: Wed Jun  5 21:42:41 2024 from 192.168.204.82
+rootsa-1: cat /etc/passwd
+......
+user2:x:1001:1000::/home/user2:/bin/sh
+user3:x:1002:1003::/home/user3:/bin/sh
+rootsa-1: cat /etc/group
+mygroup:x:1000:
+mygroup1:x:1001:
+user3:x:1002:
+group3:x:1003:
+```
