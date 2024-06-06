@@ -25,3 +25,8 @@ git remote -v
 #origin  git@github.com:DimaSerikov/sa.it-academy.by.git (fetch)
 #origin  git@github.com:DimaSerikov/sa.it-academy.by.git (push)
 ```
+... pushing
+```shell
+git push --set-upstream github --all
+git push --set-upstream gitlab --all
+```
