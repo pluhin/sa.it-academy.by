@@ -21,10 +21,9 @@
 ## 2. Verify the Docker installation by running the docker --version command.
 ```
 docker --version
-Docker version 26.1.4, build 5650f9b```
+Docker version 26.1.4, build 5650f9b
 ```
 ## 3.Pull the official "hello-world" Docker image and run a container based on it.
-
 ```
 root@ubuntudev:~/07.Docker# sudo docker run hello-world
 
@@ -48,8 +47,18 @@ Share images, automate workflows, and more with a free Docker ID:
 
 For more examples and ideas, visit:
  https://docs.docker.com/get-started/
-
 ```
 ## 4. List the running containers using the docker ps command.
+## 5. Document the installation process and the commands used for verification.
+
+Демонстарция команды docker ps на примере запуска образа hello-world
+```
+docker run hello-world
+root@ubuntudev:~# docker ps
+CONTAINER ID   IMAGE         COMMAND    CREATED        STATUS                  PORTS     NAMES
+350a512e6c24   hello-world   "/hello"   1 second ago   Up Less than a second             fervent_shamir
+```
+# 2. Homework Assignment 2: Building a Docker Image with Dockerfile
+## 1.Create a new directory for your Dockerfile and application code.
 
 
