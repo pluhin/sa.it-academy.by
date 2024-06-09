@@ -1,0 +1,29 @@
+name: Hello-action
+on: 
+  push:
+    branches: 
+      - main
+
+jobs:
+  my_hello:
+    runs-on: [ubuntu-latest]
+    
+    steps:
+      - name: Copying Git repository in container
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install requests module
+        run: pip install requests
+
+      - name: Run hello.py
+        run: |
+          echo "Run: Hello.py"
+          python hello.py
+
+      - name: Test execution completed
+        run: echo "Test execution completed." 
