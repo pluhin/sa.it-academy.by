@@ -1,0 +1,28 @@
+name: AutoTest-action
+
+on: [push]
+
+jobs:
+  my_AutoTest:
+    runs-on: [ubuntu-latest]
+    
+    steps:
+      - name: Copying files Git repository in container.
+        uses: actions/checkout@v2
+
+      - name: List current folder
+        run : ls -la
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install requests module
+        run: pip install requests
+
+      - name: Run autotest test_name_city_program.py
+        run: |
+          echo "Run: test_name_city_program.py"
+          python test_name_city_program.py
+#          python -m unittest test_name_city_program.py
