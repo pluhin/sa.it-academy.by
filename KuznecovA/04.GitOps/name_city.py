@@ -11,4 +11,3 @@ class name_city:
     return result
 
   # print(result)
-
