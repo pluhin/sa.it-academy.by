@@ -1,6 +1,8 @@
 # Home task 04. GitOps
 Training working with scripts for GitHab.
+
 -----------------------------------------------------------------------------
+
 ## Homework Assignment 1: Setting up a Basic GitHub Action
 New repository: 
 [AlexKWGit.GitHub.io](https://github.com/AlexKWGit/AlexKWGit.GitHub.io)
@@ -49,7 +51,9 @@ Run echo "Run: Hello.py"
 Run: Hello.py
 Hello, GitHub Actions!
 ```
+
 -----------------------------------------------------------------------------
+
 ## Homework Assignment 2: Building and Testing with GitHub Actions
 
 [name_city.py](https://github.com/AlexKWGit/AlexKWGit.GitHub.io/blob/main/name_city.py)
@@ -101,6 +105,7 @@ Run autotest test_name_city_program.py
 ```
 
 -----------------------------------------------------------------------------
+
 ## Homework Assignment 3 - 4
 Website created
 
