@@ -1,4 +1,4 @@
-# Homework Assignment 1: KinD Kubernetes Cluster Setup
+# 1.Homework Assignment 1: KinD Kubernetes Cluster Setup
 ## 1.Install Docker and KinD on your local machine.
 
 ```
@@ -58,7 +58,7 @@ NAME                 STATUS   ROLES           AGE   VERSION
 kind-control-plane   Ready    control-plane   17m   v1.30.0
 ```
 
-# Homework Assignment 2: Minikube Kubernetes Cluster Setup
+# 2.Homework Assignment 2: Minikube Kubernetes Cluster Setup
 ## 1.Install Minikube and a hypervisor (e.g., VirtualBox/Docker) on your local machine.
 Скачаем minikube и установим. Ссылка на документацию по скачиванию [https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download]
 ```
@@ -118,3 +118,61 @@ kirillubuntudev: minikube kubectl get nodes
 NAME       STATUS   ROLES           AGE   VERSION
 minikube   Ready    control-plane   2m    v1.30.0
 ```
+# 3.Homework Assignment 3: GitHub Actions for KinD Cluster Setup
+## 1.Create a GitHub repository for your Kubernetes-related assignments.
+## 2.Write a GitHub Actions workflow that sets up a KinD cluster.
+## 3. Configure the workflow to run on every push to a specific branch.
+## 4.Use a Docker container or GitHub-hosted runner for the workflow execution.
+
+Ссылка на пример [https://github.com/engineerd/setup-kind]
+
+.github/workflows/kind.yaml
+
+```
+name: Create cluster Kind
+on:
+  push:
+    branches:
+      - main
+jobs:
+  kind:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: engineerd/setup-kind@v0.5.0
+        with:
+          version: "v0.11.1"
+      - name: Testing
+        run: |
+          kubectl cluster-info
+          kubectl get pods -n kube-system
+          echo "current-context:" $(kubectl config current-context)
+          echo "environment-kubeconfig:" ${KUBECONFIG}
+```
+
+Ссылка на мой репозиторий: [https://github.com/Kirilllka1993/KindMinikube]
+
+# 4. Homework Assignment 4: GitHub Actions for Minikube Cluster Setup
+## 1.Enhance the existing GitHub repository with another Actions workflow.
+## 2.This time, create a workflow that sets up a Minikube cluster.
+## 3.Configure the workflow to run on pull requests to the repository.
+## 4.Utilize appropriate GitHub Actions features to customize the workflow execution environment.
+
+Файл .github/workflows/minikube.yaml
+
+```
+name: "Create cluster using minikube"
+on:
+    - pull_request
+jobs:
+  minikube:
+    runs-on: ubuntu-latest
+    name: set up minikube
+    steps:
+    - uses: actions/checkout@v2
+    - name: Start minikube
+      uses: medyagh/setup-minikube@master
+    - name: Try the cluster !
+      run: kubectl get pods -A
+```
+Ссылка на мой репозиторий: [https://github.com/Kirilllka1993/KindMinikube]
