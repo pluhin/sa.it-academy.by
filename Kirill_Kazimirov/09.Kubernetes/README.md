@@ -1,4 +1,62 @@
+# Homework Assignment 1: KinD Kubernetes Cluster Setup
+## 1.Install Docker and KinD on your local machine.
 
+```
+x86_64
+[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
+chmod +x ./kind
+sudo cp ./kind /usr/local/bin/kind
+rm -rf kind
+```
+Проверяем установку
+```
+rootubuntudev:/09.K8s kind --version
+kind version 0.23.0
+```
+## 2.Create a KinD cluster with a single control plane node.
+```
+kind create cluster
+```
+На выходе
+``` 
+root@ubuntudev:~/09.K8s# kind create cluster
+Creating cluster "kind" ...
+ Ensuring node image (kindest/node:v1.30.0) 
+  Ensuring node image (kindest/node:v1.30.0) 
+  Preparing nodes 
+  Writing configuration 
+  Starting control-plane 
+  Installing CNI 
+  Installing StorageClass 
+Set kubectl context to "kind-kind"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-kind
+
+Not sure what to do next?   Check out https://kind.sigs.k8s.io/docs/user/quick-start/
+```
+## 3.Verify that the cluster is up and running using kubectl.
+
+Нужно установить kubectl, так как kind идёт без него
+```
+curl -LO "https://dl.k8s.io/release/(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+```
+Проверим ноды с помощью kind
+```
+root@ubuntudev:~/09.K8s# kind get nodes
+kind-control-plane
+
+```
+И с помощью kubectl
+
+```
+kubectl get nodes
+
+root@ubuntudev:~/09.K8s# kubectl get nodes
+NAME                 STATUS   ROLES           AGE   VERSION
+kind-control-plane   Ready    control-plane   17m   v1.30.0
+```
 
 # Homework Assignment 2: Minikube Kubernetes Cluster Setup
 ## 1.Install Minikube and a hypervisor (e.g., VirtualBox/Docker) on your local machine.
