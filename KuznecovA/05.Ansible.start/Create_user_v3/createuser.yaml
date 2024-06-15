@@ -1,0 +1,32 @@
+- hosts: all_workers
+  gather_facts: False
+  become: true
+  vars_files:
+    - groupvars.yaml
+  tasks:
+    - name: Create group
+      group:
+        name: "{{ item.name }}"
+        state: present
+      loop: "{{ mygroups }}"
+
+    - name: Create users
+      user:
+        name: "{{ item.name }}"
+        group: "{{ item.group }}"
+        password: "{{ (devops_password | default('password1')) | password_hash('sha512') if item.group == 'grp_devops' else (programmer_password | default('password2')) | password_hash('sha512') if item.group == 'grp_programmer' else (tester_password | default('password3')) | password_hash('sha512') }}"
+        state: present
+      loop: "{{ users }}"
+
+    - name: Delete users
+      user:
+        name: "{{ item.name }}"
+        group: "{{ item.group }}"
+        state: absent
+      loop: "{{ users }}"
+
+    - name: Delete groups
+      group:
+        name: "{{ item.name }}"
+        state: absent
+      loop: "{{ mygroups }}"

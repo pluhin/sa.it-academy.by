@@ -1,0 +1,16 @@
+- hosts: all_workers
+  gather_facts: False
+
+  tasks:
+    - name: Install application htop
+      apt:
+        name: htop
+        state: present
+    - name: Install application vim
+      apt:
+        name: vim
+        state: present
+    - name: Install application mc
+      apt:
+        name: mc
+        state: present
