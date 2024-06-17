@@ -295,3 +295,13 @@ curl http://127.0.0.1:8080/users
 root@ubuntudev:~# curl http://127.0.0.1:8080/users
 [{"id":1,"userName":"kirill","password":"123456","email":"kirill@gmail.com","phone":"3752998765432"}]
 ```
+
+# 2. Homework Assignment 2: Docker build automation (github action)
+## 1. Choose a programming language (e.g., Java, Go, Python) and a sample application.
+
+Язык java. Самописное придожение из первого упражнения
+## 2.Write a multi-stage Dockerfile to build the application with different stages for build and runtime.
+## 3.Write a multi-stage Dockerfile to build the application with different stages for build and runtime.
+## 4.Compile or package the application in the build stage.
+## 5.Copy the compiled application into the runtime stage and configure it to run.
+## 6.Build the multi-stage Docker image and run a container based on it.
