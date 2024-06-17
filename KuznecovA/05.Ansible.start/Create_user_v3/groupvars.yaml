@@ -1,0 +1,14 @@
+mygroups:
+  - name: grp_devops
+  - name: grp_programmer
+  - name: grp_tester
+
+users:
+  - name: Kuznecov
+    group: grp_devops
+
+  - name: Petrov
+    group: grp_programmer
+
+  - name: Sidorov
+    group: grp_tester
