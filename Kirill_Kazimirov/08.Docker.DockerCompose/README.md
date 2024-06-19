@@ -298,10 +298,157 @@ root@ubuntudev:~# curl http://127.0.0.1:8080/users
 
 # 2. Homework Assignment 2: Docker build automation (github action)
 ## 1. Choose a programming language (e.g., Java, Go, Python) and a sample application.
+Язык java. Ссылка на кодв в github: [https://github.com/Kirilllka1993/MultiDocker]
 
-Язык java. Самописное придожение из первого упражнения
 ## 2.Write a multi-stage Dockerfile to build the application with different stages for build and runtime.
-## 3.Write a multi-stage Dockerfile to build the application with different stages for build and runtime.
-## 4.Compile or package the application in the build stage.
-## 5.Copy the compiled application into the runtime stage and configure it to run.
-## 6.Build the multi-stage Docker image and run a container based on it.
+Мой Dockerfile
+```
+FROM maven:3.9.7-eclipse-temurin-17 as builder
+COPY  . /root/app/
+WORKDIR /root/app
+RUN mvn install
+FROM openjdk:17-oracle as jdk17
+EXPOSE 8080
+COPY --from=builder /root/app/ /home/app/
+WORKDIR /home/app
+ENTRYPOINT ["java","-jar", "-Xmx15m", "./target/testweb-1.0-SNAPSHOT.jar"]
+
+```
+## 3.Compile or package the application in the build stage.
+## 4.Copy the compiled application into the runtime stage and configure it to run.
+## 5.Build the multi-stage Docker image and run a container based on it.
+
+Создадим образ в виртуальной машине
+```
+rootubuntudev:/08.MultiDocker/MultiDocker docker build -t app .
+```
+На выходе
+```
+rootubuntudev:/08.MultiDocker/MultiDocker docker build .
++ Building 84.3s (13/13) FINISHED                                                                      docker:default
+ = internal load build definition from Dockerfile                                                               0.0s
+ = = transferring dockerfile: 317B                                                                               0.0s
+ = internal load metadata for docker.io/library/openjdk:17-oracle                                               1.5s
+ = internal load metadata for docker.io/library/maven:3.9.7-eclipse-temurin-17                                  2.4s
+ = internal load .dockerignore                                                                                  0.0s
+ = = transferring context: 2B                                                                                    0.0s
+ = internal load build context                                                                                  0.1s
+ = = transferring context: 34.95kB                                                                               0.1s
+ = CACHED jdk17 1/3 FROM docker.io/library/openjdk:17-oraclesha256:83ffa182a7cfc8313583fe1cc42172a48a021f368a  0.0s
+ = builder 1/4 FROM docker.io/library/maven:3.9.7-eclipse-temurin-17sha256:c9f6c7f42971caa42d15690adb66b9f18  37.3s
+ = = resolve docker.io/library/maven:3.9.7-eclipse-temurin-17sha256:c9f6c7f42971caa42d15690adb66b9f18c2caf6ee6  0.0s
+ = = sha256:3c930bd25dd53355206fb22462e8fbde127b1d43483ca67962d2bf2bb4a534c0 17.46MB / 17.46MB                   9.9s
+ = = sha256:16ad6f4a66d89ec065cfbb3c50b747fb633356b416ce7cf8a401bc4c3e979e39 2.41kB / 2.41kB                     0.0s
+ = = sha256:db39646274eacde3e8c4abd5a34bb608b52c0be1ec92c51c6a57e3e6cc682b9f 145.10MB / 145.10MB                26.5s
+ = = sha256:c9f6c7f42971caa42d15690adb66b9f18c2caf6ee60b816159788285e333876f 1.21kB / 1.21kB                     0.0s
+ = = sha256:fe69c590420427ca7ea24d40bb93c10cd244204bbfafee156cc347c016d00427 10.09kB / 10.09kB                   0.0s
+ = = sha256:2ec76a50fe7c8d5db9ec25590b9217e14e3920513c6e7b5be55db72a16b55f7c 30.44MB / 30.44MB                  10.7s
+ = = sha256:7948178b4c26a03ca48c677e56865ee5d754d9f7ef612c9e91dc15c239d4dca8 173B / 173B                        10.5s
+ = = sha256:dee390ebec53ec7588055b27080fcc66d4244ff2f4b46eb409c0fe768f70b16a 733B / 733B                        11.0s
+ = = sha256:cf3f38015000b5408f9baadfeb65c2f4f585297e5e79c66c3812c3ae436e59fa 19.00MB / 19.00MB                  21.6s
+ = = extracting sha256:2ec76a50fe7c8d5db9ec25590b9217e14e3920513c6e7b5be55db72a16b55f7c                          5.0s
+ = = sha256:53192e0aab5b4cd5d89f43c8a45ee61dd85e68526ad360ba6cdd645afb814ce8 9.65MB / 9.65MB                    17.7s
+ = = extracting sha256:3c930bd25dd53355206fb22462e8fbde127b1d43483ca67962d2bf2bb4a534c0                          4.1s
+ = = sha256:b6e8d7348ee05cad95a258d1d43936e99e23198604a57010763ee9324841d177 853B / 853B                        18.6s
+ = = sha256:6215416b59d7edb826ce0e7c71a261a26ff30b3748c80283c29d5038099e5a15 356B / 356B                        19.1s
+ = = sha256:178a679ad1f95f88324ce4af028008f08a26e3b184f29555bd4de300d180e7f8 155B / 155B                        19.6s
+ = = extracting sha256:db39646274eacde3e8c4abd5a34bb608b52c0be1ec92c51c6a57e3e6cc682b9f                          6.8s
+ = = extracting sha256:7948178b4c26a03ca48c677e56865ee5d754d9f7ef612c9e91dc15c239d4dca8                          0.0s
+ = = extracting sha256:dee390ebec53ec7588055b27080fcc66d4244ff2f4b46eb409c0fe768f70b16a                          0.0s
+ = = extracting sha256:cf3f38015000b5408f9baadfeb65c2f4f585297e5e79c66c3812c3ae436e59fa                          2.7s
+ = = extracting sha256:53192e0aab5b4cd5d89f43c8a45ee61dd85e68526ad360ba6cdd645afb814ce8                          0.4s
+ = = extracting sha256:b6e8d7348ee05cad95a258d1d43936e99e23198604a57010763ee9324841d177                          0.0s
+ = = extracting sha256:6215416b59d7edb826ce0e7c71a261a26ff30b3748c80283c29d5038099e5a15                          0.0s
+ = = extracting sha256:178a679ad1f95f88324ce4af028008f08a26e3b184f29555bd4de300d180e7f8                          0.0s
+ = builder 2/4 COPY  . /root/app/                                                                               0.4s
+ = builder 3/4 WORKDIR /root/app                                                                                0.1s
+ = builder 4/4 RUN mvn install                                                                                 43.3s
+ = jdk17 2/3 COPY --from=builder /root/app/ /home/app/                                                          0.1s
+ = jdk17 3/3 WORKDIR /home/app                                                                                  0.1s
+ = exporting to image                                                                                             0.2s
+ = = exporting layers                                                                                            0.2s
+ = = writing image sha256:762df87e0cec5e517875a20182469c71f3da714c3549bb61e6d0f24ba0ef83df                       0.0s
+```
+Запустим образ в контейнере
+
+```
+docker run app
+```
+На выходе
+
+```
+root@ubuntudev:~/08.MultiDocker/MultiDocker# docker run --publish 8080:8080 app
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.5)
+
+2024-06-19T22:27:19.166Z  INFO 1 --- [           main] by.testweb.TestApp                       : Starting TestApp v1.0-SNAPSHOT using Java 17.0.2 with PID 1 (/home/app/target/testweb-1.0-SNAPSHOT.jar started by root in /home/app)
+2024-06-19T22:27:19.182Z  INFO 1 --- [           main] by.testweb.TestApp                       : No active profile set, falling back to 1 default profile: "default"
+2024-06-19T22:27:20.944Z  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-06-19T22:27:20.988Z  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-06-19T22:27:20.988Z  INFO 1 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.15]
+2024-06-19T22:27:21.214Z  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-06-19T22:27:21.218Z  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1885 ms
+2024-06-19T22:27:21.952Z  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2024-06-19T22:27:22.014Z  INFO 1 --- [           main] by.testweb.TestApp                       : Started TestApp in 3.529 seconds (process running for 4.584)
+```
+Проверим работоспособность
+
+```
+root@ubuntudev:~/08.MultiDocker/MultiDocker# curl http://127.0.0.1:8080
+Hello World 
+root@ubuntudev:~/08.MultiDocker/MultiDocker#
+
+```
+## 6.Push/publish image to docker hub and/or github container register.
+
+Сначала надо было сгенерить access_token, чтобы я мог запушить свой образ в registry github
+Токен я создавал здесь: [https://github.com/settings/tokens]
+Мой токен буде браться из secrets.GITHUB_TOKEN
+После этого я создал github action workflow: pushimage.yaml
+
+```
+name: Publish Docker image
+
+on:
+  release:
+    types: [published]
+  push:
+    branches:
+      - "main"
+
+jobs:
+  push_to_registries:
+    name: Push Docker image
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/kirilllka1993/app:latest
+
+```
+Результат пуша action тут: [https://github.com/Kirilllka1993/MultiDocker/actions/runs/9589051069/job/26442197480]
+
+## 7.Slack notification when build failed/success with image name/tag.
+## 8.Document the Dockerfile structure, the build process, and the advantages of multi-stage builds.
