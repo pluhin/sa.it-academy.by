@@ -1,6 +1,8 @@
 ## 1 Initializing a Local Repository
 ```bash
 git clone git@github.com:pascal-gitos/sa.it-academy.by.git
+
+git checkout -b md-sa2-28-24
 mkdir NikitaP
 cd NikitaP
 mkdir 02.Git.Local
@@ -18,4 +20,8 @@ edited on feature-branch
 ```bash
 git add .
 git commit -m "commit on feature-breanch"
+```
+
+```bash
+git checkout md-sa2-28-24
 ```
