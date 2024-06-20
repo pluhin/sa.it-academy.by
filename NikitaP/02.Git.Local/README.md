@@ -39,8 +39,13 @@ git log
 ```bash
 git show 0bb31887046b6f46367ff8a70d32cfd6f0dbfe4d
 ```
-
+## 4 Creating and Applying Tags
 ```bash
 git tag -a v1.0 0bb31887046b6f46367ff8a70d32cfd6f0dbfe4d -m "Version 1.0"
 ```
+git tag -a v2.0 7ee4b1104d5df9afc3c070bed155d690e78a5888 -m "Version 2.0"
 
+
+## 5 Undoing Changes
+
+ 
