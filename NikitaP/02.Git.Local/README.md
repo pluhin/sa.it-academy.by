@@ -25,3 +25,22 @@ git commit -m "commit on feature-breanch"
 ```bash
 git checkout md-sa2-28-24
 ```
+
+## 3 Exploring Git History
+git log
+```bash
+ git log --oneline
+ git log --pretty=oneline
+ git log --pretty=short
+ git log --pretty=full
+ git log --pretty=oneline --graph
+ git log --pretty=oneline --stat
+```
+```bash
+git show 0bb31887046b6f46367ff8a70d32cfd6f0dbfe4d
+```
+
+```bash
+git tag -a v1.0 0bb31887046b6f46367ff8a70d32cfd6f0dbfe4d -m "Version 1.0"
+```
+
