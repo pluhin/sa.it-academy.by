@@ -28,6 +28,14 @@ kubectl get pods -A --context "k8s"
 ```
 
 ## 2.Make print-screen of k9s with pods in all namespaces
+k3s
+![image](https://github.com/Kirilllka1993/sa.it-academy.by/assets/31740297/ce064f04-fbe3-4da0-9ae2-6f403399b5a2)
+
+
+
+k8s
+
+![image](https://github.com/Kirilllka1993/sa.it-academy.by/assets/31740297/5dc616d2-03f5-4ed1-8cc6-2fc2dff3626c)
 
 
 
