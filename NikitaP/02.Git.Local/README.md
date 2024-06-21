@@ -48,4 +48,25 @@ git tag -a v2.0 7ee4b1104d5df9afc3c070bed155d690e78a5888 -m "Version 2.0"
 
 ## 5 Undoing Changes
 
+<<<<<<< Updated upstream
  
+=======
+```bash
+git checkout -b bug fix
+nvim README.md
+```
+
+
+```bash 
+git commit -am "test commit 1"
+```
+
+## 6 Stashing Changes 
+
+Some changes in the README.md file but without  commit.
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+
+some chnges in md branch
+=======
+>>>>>>> Stashed changes
