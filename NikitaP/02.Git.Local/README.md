@@ -65,8 +65,11 @@ git commit -am "test commit 1"
 
 Some changes in the README.md file but without  commit.
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 
 some chnges in md branch
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
