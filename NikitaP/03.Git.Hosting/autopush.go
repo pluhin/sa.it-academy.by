@@ -34,9 +34,12 @@ func hasUncommittedChanges() bool {
 func commitAndPushChanges() {
 	// Command to add all changes
 	cmdAdd := exec.Command("git", "add", ".")
+	var addOut bytes.Buffer
+	cmdAdd.Stdout = &addOut
+	cmdAdd.Stderr = &addOut
 	err := cmdAdd.Run()
 	if err != nil {
-		log.Printf("Error adding changes: %v", err)
+		log.Printf("Error adding changes: %v, Output: %s", err, addOut.String())
 		// If there is an error adding changes, push immediately
 		pushChanges()
 		return
@@ -45,9 +48,12 @@ func commitAndPushChanges() {
 	// Command to commit changes
 	commitMessage := "Automatic commit of uncommitted changes"
 	cmdCommit := exec.Command("git", "commit", "-m", commitMessage)
+	var commitOut bytes.Buffer
+	cmdCommit.Stdout = &commitOut
+	cmdCommit.Stderr = &commitOut
 	err = cmdCommit.Run()
 	if err != nil {
-		log.Printf("Error committing changes: %v", err)
+		log.Printf("Error committing changes: %v, Output: %s", err, commitOut.String())
 		// If there is an error committing changes, push immediately
 		pushChanges()
 		return
@@ -60,9 +66,12 @@ func commitAndPushChanges() {
 // Push changes
 func pushChanges() {
 	cmdPush := exec.Command("git", "push")
+	var pushOut bytes.Buffer
+	cmdPush.Stdout = &pushOut
+	cmdPush.Stderr = &pushOut
 	err := cmdPush.Run()
 	if err != nil {
-		log.Fatalf("Error pushing changes: %v", err)
+		log.Fatalf("Error pushing changes: %v, Output: %s", err, pushOut.String())
 	}
 
 	fmt.Println("Changes successfully pushed")
