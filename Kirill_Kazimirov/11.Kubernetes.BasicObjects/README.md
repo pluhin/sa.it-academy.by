@@ -84,4 +84,6 @@ kubectl create -f app-nginx.yaml
 
 С помощью k9s проверим результат 
 
+![image](https://github.com/Kirilllka1993/sa.it-academy.by/assets/31740297/a85638ef-7ad5-4a45-ac2d-4cef1b875c15)
+
 
