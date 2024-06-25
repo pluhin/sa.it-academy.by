@@ -2,19 +2,40 @@ package main
 
 import (
 	"bytes"
+	"flag"
 	"fmt"
 	"log"
 	"os/exec"
 )
 
 func main() {
+	// Get the branch name from the command line arguments
+	branch := flag.String("branch", "main", "The name of the branch to update and push changes to")
+	flag.Parse()
+
+	// Update local branch from remote repository
+	updateLocalBranch(*branch)
+
 	// Check for uncommitted changes
 	if hasUncommittedChanges() {
 		// If there are uncommitted changes, commit and push them
-		commitAndPushChanges()
+		commitAndPushChanges(*branch)
 	} else {
 		fmt.Println("No uncommitted changes")
 	}
+}
+
+// Update local branch from remote repository
+func updateLocalBranch(branch string) {
+	cmd := exec.Command("git", "pull", "origin", branch)
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &out
+	err := cmd.Run()
+	if err != nil {
+		log.Fatalf("Error updating local branch: %v, Output: %s", err, out.String())
+	}
+	fmt.Printf("Local branch '%s' updated successfully\n", branch)
 }
 
 // Check for uncommitted changes
@@ -31,7 +52,7 @@ func hasUncommittedChanges() bool {
 }
 
 // Commit and push changes
-func commitAndPushChanges() {
+func commitAndPushChanges(branch string) {
 	// Command to add all changes
 	cmdAdd := exec.Command("git", "add", ".")
 	var addOut bytes.Buffer
@@ -41,7 +62,7 @@ func commitAndPushChanges() {
 	if err != nil {
 		log.Printf("Error adding changes: %v, Output: %s", err, addOut.String())
 		// If there is an error adding changes, push immediately
-		pushChanges()
+		pushChanges(branch)
 		return
 	}
 
@@ -55,17 +76,17 @@ func commitAndPushChanges() {
 	if err != nil {
 		log.Printf("Error committing changes: %v, Output: %s", err, commitOut.String())
 		// If there is an error committing changes, push immediately
-		pushChanges()
+		pushChanges(branch)
 		return
 	}
 
 	// Push changes
-	pushChanges()
+	pushChanges(branch)
 }
 
 // Push changes
-func pushChanges() {
-	cmdPush := exec.Command("git", "push")
+func pushChanges(branch string) {
+	cmdPush := exec.Command("git", "push", "origin", branch)
 	var pushOut bytes.Buffer
 	cmdPush.Stdout = &pushOut
 	cmdPush.Stderr = &pushOut
@@ -74,5 +95,5 @@ func pushChanges() {
 		log.Fatalf("Error pushing changes: %v, Output: %s", err, pushOut.String())
 	}
 
-	fmt.Println("Changes successfully pushed")
+	fmt.Printf("Changes successfully pushed to branch '%s'\n", branch)
 }
