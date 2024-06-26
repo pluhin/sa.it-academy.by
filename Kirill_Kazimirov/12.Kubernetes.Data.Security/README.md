@@ -177,3 +177,8 @@ privkey  pubkey.pub
 roottest-nginx-5444dfc794-cd9w4:/ exit
 exit
 ```
+Скриншоты фронта
+
+![image](https://github.com/Kirilllka1993/sa.it-academy.by/assets/31740297/fd112277-e2aa-4f0a-af49-ebe8b6f451e0)
+![image](https://github.com/Kirilllka1993/sa.it-academy.by/assets/31740297/a68dff32-ab28-489f-8bf5-ea5664f095b4)
+![image](https://github.com/Kirilllka1993/sa.it-academy.by/assets/31740297/38d8dbe5-9819-44a5-8c97-f977286e0bb7)
