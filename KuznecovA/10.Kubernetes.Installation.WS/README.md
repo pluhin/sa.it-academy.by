@@ -85,10 +85,11 @@ k9s
 k9s
 ```
 Result:
-!k9s-pods-1.png!
+![k9s-pods-1](k9s-pods-1.png)
 
 ```bash
 kubectl create -f pod.yaml
 ```
 Result:
-!k9s-pods-2.png!
+![k9s-pods-2](k9s-pods-2.png)
+
