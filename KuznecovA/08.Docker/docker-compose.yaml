@@ -1,0 +1,29 @@
+version: '3.3'
+
+volumes:
+  mongodb_volume:
+
+services:
+  service_01_web:
+    restart: always
+    build:
+      context: service_01_web/
+      dockerfile: Dockerfile
+    container_name: service01web
+    ports:
+      - "8080:8080"
+    environment:
+      MONGO_DB_ADDR: mongodb
+  service_02_mongodb:
+    image: mongo:latest
+    restart: always
+    build:
+      context: service_02_mongodb/
+    volumes:
+      - mongodb_volume:/data/db
+    container_name: service02mongodb
+  service_03_curl:
+    build:
+      context: service_03_curl/
+      dockerfile: Dockerfile
+    container_name: service03curl
