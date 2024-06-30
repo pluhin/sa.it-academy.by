@@ -6,6 +6,77 @@ Install ingress-nginx:
   260  kubectl create -f ingress-nginx.yaml
   261  kubectl get nodes
 ```
+
+app-NginxServer.yaml:
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginxserver
+  labels:
+    app: nginx
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 64m
+            memory: 250Mi
+          limits:
+            cpu: 128m
+            memory: 500Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  labels:
+    run: app-service
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+  selector:
+    app: nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-sa-nginx
+  annotations:
+    nginx.ingress.kubernetes.io/server-alias: "nginx-test.k8s-5.sa"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: nginx-test.k8s-5.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app-service
+                port:
+                  number: 80
+```
+
 Сreate app-NginxServer.yaml
 ```bash
   268  kubectl create -f app-NginxServer.yaml
