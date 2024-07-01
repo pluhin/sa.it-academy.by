@@ -225,5 +225,6 @@ l,externalDatabase.database=drupal,persistence.existingClaim=nfs-drupal,drupalUs
 ![image](https://github.com/Kirilllka1993/sa.it-academy.by/assets/31740297/7a021386-fcbe-4ee4-a911-816bdf17080d
 
 
+![image](https://github.com/Kirilllka1993/sa.it-academy.by/assets/31740297/f603a4ce-e87e-419c-8404-1acbc79303f0)
 
 
