@@ -221,3 +221,9 @@ helm install drupal  --set allowEmptyPassword=false,mariadb.enabled=false,extern
 l,externalDatabase.database=drupal,persistence.existingClaim=nfs-drupal,drupalUsername=kazimirov,drupalPassword=kazimirov,ingress.enabled=true,ingress.hostname=drupal.k8s-1.sa,ingress.ingressClassName=nginx oci:
 //registry-1.docker.io/bitnamicharts/drupal
 ```
+
+![image](https://github.com/Kirilllka1993/sa.it-academy.by/assets/31740297/7a021386-fcbe-4ee4-a911-816bdf17080d
+
+
+
+
