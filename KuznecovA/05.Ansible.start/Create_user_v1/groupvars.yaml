@@ -1,0 +1,17 @@
+mygroups:
+  - name: grp_devops
+  - name: grp_programmer
+  - name: grp_tester
+
+users:
+  - name: Kuznecov
+    group: grp_devops
+    password: 123d
+
+  - name: Petrov
+    group: grp_programmer
+    password: 123p
+
+  - name: Sidorov
+    group: grp_tester
+    password: 123t

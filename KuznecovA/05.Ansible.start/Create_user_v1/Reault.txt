@@ -1,0 +1,53 @@
+ansible-playbook -i inv.yaml Create_user_v1/createuser.yaml -u root
+
+
+
+PLAY [all_workers] *********************************************************************************************
+
+TASK [Create group] ********************************************************************************************
+бѓссюђр 15 шўэџ 2024  14:15:17 +0000 (0:00:00.009)       0:00:00.009 **********
+changed: [host05] => (item={'name': 'grp_devops'})
+changed: [host06] => (item={'name': 'grp_devops'})
+changed: [host06] => (item={'name': 'grp_programmer'})
+changed: [host05] => (item={'name': 'grp_programmer'})
+changed: [host06] => (item={'name': 'grp_tester'})
+changed: [host05] => (item={'name': 'grp_tester'})
+
+TASK [Create users] ********************************************************************************************
+бѓссюђр 15 шўэџ 2024  14:15:19 +0000 (0:00:02.468)       0:00:02.478 **********
+changed: [host06] => (item={'name': 'Kuznecov', 'group': 'grp_devops', 'password': '123d'})
+changed: [host05] => (item={'name': 'Kuznecov', 'group': 'grp_devops', 'password': '123d'})
+changed: [host05] => (item={'name': 'Petrov', 'group': 'grp_programmer', 'password': '123p'})
+changed: [host06] => (item={'name': 'Petrov', 'group': 'grp_programmer', 'password': '123p'})
+changed: [host05] => (item={'name': 'Sidorov', 'group': 'grp_tester', 'password': '123t'})
+changed: [host06] => (item={'name': 'Sidorov', 'group': 'grp_tester', 'password': '123t'})
+
+TASK [Delete users] ********************************************************************************************
+бѓссюђр 15 шўэџ 2024  14:15:22 +0000 (0:00:02.610)       0:00:05.089 **********
+changed: [host06] => (item={'name': 'Kuznecov', 'group': 'grp_devops', 'password': '123d'})
+changed: [host05] => (item={'name': 'Kuznecov', 'group': 'grp_devops', 'password': '123d'})
+changed: [host06] => (item={'name': 'Petrov', 'group': 'grp_programmer', 'password': '123p'})
+changed: [host05] => (item={'name': 'Petrov', 'group': 'grp_programmer', 'password': '123p'})
+changed: [host06] => (item={'name': 'Sidorov', 'group': 'grp_tester', 'password': '123t'})
+changed: [host05] => (item={'name': 'Sidorov', 'group': 'grp_tester', 'password': '123t'})
+
+TASK [Delete groups] *******************************************************************************************
+бѓссюђр 15 шўэџ 2024  14:15:24 +0000 (0:00:01.930)       0:00:07.019 **********
+changed: [host05] => (item={'name': 'grp_devops'})
+changed: [host06] => (item={'name': 'grp_devops'})
+changed: [host06] => (item={'name': 'grp_programmer'})
+changed: [host05] => (item={'name': 'grp_programmer'})
+changed: [host06] => (item={'name': 'grp_tester'})
+changed: [host05] => (item={'name': 'grp_tester'})
+
+PLAY RECAP *****************************************************************************************************
+host05                     : ok=4    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+host06                     : ok=4    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+бѓссюђр 15 шўэџ 2024  14:15:26 +0000 (0:00:01.757)       0:00:08.776 **********
+===============================================================================
+Create users -------------------------------------------------------------------------------------------- 2.61s
+Create group -------------------------------------------------------------------------------------------- 2.47s
+Delete users -------------------------------------------------------------------------------------------- 1.93s
+Delete groups ------------------------------------------------------------------------------------------- 1.76s
+Playbook run took 0 days, 0 hours, 0 minutes, 8 seconds

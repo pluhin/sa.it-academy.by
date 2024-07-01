@@ -1,0 +1,89 @@
+- hosts: all_workers
+  vars:
+    app_packages:
+      - nginx
+    site1_name: "{{ site1_name | default('Mysite1.by') }}"
+    site2_name: "{{ site2_name | default('Mysite2.by') }}"
+  pre_tasks:
+
+  - name: Validate
+    debug:
+      msg:
+       - "nginx host: {{ ansible_host }}"
+       - "site1 name: {{ site1_name }}"
+       - "site2 name: {{ site2_name }}"
+    tags: always
+  tasks:
+
+  - name: Nginx. Install packages
+    apt:
+      name: "{{ app_packages }}"
+      state: latest
+      update_cache: true
+    environment:
+      DEBIAN_FRONTEND: noninteractive
+    tags: install
+
+  - name: Add site folders
+    ansible.builtin.file:
+      path: "/var/www/{{ item }}/html"
+      state: directory
+      mode: '0755'
+    with_items:
+    - "{{ site1_name }}"
+    - "{{ site2_name }}"
+
+  - name: Add page html for sites
+    ansible.builtin.template:
+      src: mytemplate.html
+      dest: "/var/www/{{ item }}/html/{{ item }}.html"
+      owner: root
+      group: root
+      mode: '0755'
+    with_items:
+    - "{{ site1_name }}"
+    - "{{ site2_name }}"
+
+  - name: Add folders for configs
+    ansible.builtin.file:
+      path: "/etc/nginx/sites-available/{{ item }}"
+      state: directory
+      mode: '0755'
+    with_items:
+    - "{{ site1_name }}"
+    - "{{ site2_name }}"
+
+  - name: Add config 
+    ansible.builtin.template:
+      src: myhost.conf.j2
+      dest: "/etc/nginx/sites-available/{{ item }}/{{ item }}.conf"
+      owner: root
+      group: root
+      mode: '0755'
+    with_items:
+    - "{{ site1_name }}"
+    - "{{ site2_name }}"
+
+  - name: Add sites in hosts
+    ansible.builtin.shell:
+      cmd: grep -q www.{{ item }} /etc/hosts || echo 127.0.0.1 www.{{ item }} >> /etc/hosts;
+    with_items:
+    - "{{ site1_name }}"
+    - "{{ site2_name }}"
+
+  - name: Add symbolic-link 
+    ansible.builtin.file:
+      src: /etc/nginx/sites-available/{{ item }}
+      dest: /etc/nginx/sites-enabled/{{ item }}
+      state: link
+    with_items:
+    - "{{ site1_name }}"
+    - "{{ site2_name }}"
+
+  - name: Check connection to site
+    ansible.builtin.uri:
+      url: http://www.{{ item }}
+      return_content: true
+    with_items:
+    - "{{ site1_name }}"
+    - "{{ site2_name }}"
