@@ -1,0 +1,25 @@
+name: Hello World Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, intl, ctype, json
+          tools: composer, phpunit
+      
+      - name: Say Hello
+        run: php hello.php
+        working-directory: ./sa.it-academy.by/Dima_Serikov/04.GitOps
