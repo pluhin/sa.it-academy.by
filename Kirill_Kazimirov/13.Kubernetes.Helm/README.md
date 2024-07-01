@@ -101,7 +101,9 @@ callbacks_enabled = profile_tasks, timer
 ```
 ansible-playbook -i inv.yaml mariadb.yaml -e name_db=wordpress -e user_db=wordpress -e pass_db=wordpress -l mariadb -u root --ask-pass
 ```
-
+```
+ansible-playbook -i inv.yaml mariadb.yaml -e name_db=drupal -e user_db=drupal -e pass_db=drupal -l mariadb -u root --ask-pass
+```
 ## 2. Установка dynamic provision
 
 ```
