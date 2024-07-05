@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+        - name: {{ .Values.name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PASS
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins-secret
+                  key: password
+            - name: JAVA_OPTS
+              value: "{{ .Values.env.JAVA_OPTS }}"
+            - name: CASC_JENKINS_CONFIG
+              value: "{{ .Values.env.CASC_JENKINS_CONFIG }}"
+          ports:
+            - name: http-port
+              containerPort: {{ .Values.port.httpPort }}
+            - name: jnlp-port
+              containerPort: {{ .Values.port.jnlpPort }}
+          securityContext:
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+          volumeMounts:
+            - name: jenkins-auth-config
+              mountPath: {{ .Values.volumeMounts.jenkinsAuthConfig }}
+              subPath: {{ .Values.volumeMounts.jenkinsAuthConfigSubPath }}
+            - name: jenkins-config-yaml
+              mountPath: {{ .Values.volumeMounts.jenkinsConfigYaml }}
+              subPath: {{ .Values.volumeMounts.jenkinsConfigYamlSubPath }}
+            - name: jenkins-config
+              mountPath: {{ .Values.volumeMounts.jenkinsConfig }}
+      volumes:
+        - name: jenkins-auth-config
+          configMap:
+            name: {{ .Values.configmap.basicName }}
+        - name: jenkins-config-yaml
+          configMap:
+            name: jenkins-config
+        - name: {{ .Values.configmap.jenkinsName }}
+          nfs:
+            server: {{ .Values.nfs.server }}
+            path: {{ .Values.nfs.path }}
