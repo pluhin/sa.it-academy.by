@@ -226,5 +226,6 @@ helm install drupal  --set allowEmptyPassword=false,mariadb.enabled=false,extern
 Result:
 ![Drupal-Result](Drupal-Result.png)
 
+
 Result:
 ![nfs-Result](nfs-Result.png)
