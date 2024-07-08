@@ -1,10 +1,10 @@
-name: Hello World Workflow
+name: Hello World Workflow with Calculator test
 
 on:
   push:
     branches:
+      - master
       - main
-      - md-sa2-28-24
 
 jobs:
   say-hello:
@@ -18,9 +18,14 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
-          extensions: mbstring, intl, ctype, json
+          extensions: mbstring, intl, ctype, json, xml, pcov, xdebug
           tools: composer, phpunit
       
       - name: Say Hello
         run: php hello.php
-        working-directory: ./sa.it-academy.by/Dima_Serikov/04.GitOps
+        
+      - name: Install dependencies
+        run: composer install
+
+      - name: Run tests
+        run: vendor/bin/phpunit tests
