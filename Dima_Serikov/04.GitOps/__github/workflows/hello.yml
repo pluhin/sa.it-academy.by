@@ -1,0 +1,31 @@
+name: Hello World Workflow with Calculator test
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, intl, ctype, json, xml, pcov, xdebug
+          tools: composer, phpunit
+      
+      - name: Say Hello
+        run: php hello.php
+        
+      - name: Install dependencies
+        run: composer install
+
+      - name: Run tests
+        run: vendor/bin/phpunit tests
