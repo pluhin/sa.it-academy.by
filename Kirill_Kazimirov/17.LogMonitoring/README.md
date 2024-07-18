@@ -114,4 +114,19 @@ spec:
 kubectl create namespace loki
 kubectl apply -f grafana.yaml -n loki
 ```
+2. Установим loki
+   Ссылка на установку здесь: [https://grafana.github.io/helm-charts/]
 
+   ![image](https://github.com/user-attachments/assets/cc0eb17c-63d0-4d1a-afe4-43a1a9b9e049)
+
+Сами логи которые получил с drupal
+
+![image](https://github.com/user-attachments/assets/5842f71b-6554-4c4a-92ff-24f13bb7bfc7)
+
+![image](https://github.com/user-attachments/assets/1f0b4ce2-78bc-40f8-817f-ef145c8da0a6)
+
+Само выражение отображающий показ за время
+
+count_over_time({pod="drupal-579b9f476-gh8d5"} [30m] |= "GET")
+
+![image](https://github.com/user-attachments/assets/68236cf8-3730-42be-b1da-03131bd37521)
