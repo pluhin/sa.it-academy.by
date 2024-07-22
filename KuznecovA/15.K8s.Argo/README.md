@@ -17,6 +17,9 @@
   461  git config --global user.name "Alexandr Kuznetsov"
   462  git push --set-upstream origin master
 ```
+My test repository for github manifest:
+[My test repository](https://github.com/AlexKWGit/argo-flux-test)
+
 ![DZ.15.1.png](DZ.15.1.png)
 ![DZ.15.2.png](DZ.15.2.png)
 ![DZ.15.3.png](DZ.15.3.png)
