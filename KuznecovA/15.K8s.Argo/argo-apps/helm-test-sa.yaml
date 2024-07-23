@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: helm-test-sa
+  namespace: argocd
+spec:
+  destination:
+    namespace: argocd-applications
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: first-app
+    helm:
+      parameters:
+      - name: ingress.hosts[0].host
+        value: app-argo.k8s-5.sa
+      - name: ingress.hosts[0].paths[0].path
+        value: /
+      - name: ingress.hosts[0].paths[0].pathType
+        value: ImplementationSpecific
+    repoURL: https://alexkwgit.github.io/helm-test/
+    targetRevision: 0.2.0
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
