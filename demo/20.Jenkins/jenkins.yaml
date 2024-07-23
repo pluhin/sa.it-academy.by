@@ -1,0 +1,316 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - basicSSHUserPrivateKey:
+          id: "jenkins_private_key"
+          privateKeySource:
+            directEntry:
+              privateKey: "{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}"
+          scope: GLOBAL
+          username: "jenkins"
+      - string:
+          id: "slack_token"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAAgzIgLEqbNOMPPcryPZyeNBQeGE7F7BGVPghKUnHtvoKaJ2BK0G92/1Sr59B3LL7zs}"
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  authorizationStrategy:
+    globalMatrix:
+      entries:
+      - userOrGroup:
+          name: "admin"
+          permissions:
+          - "Overall/Administer"
+      - user:
+          name: "plu"
+          permissions:
+          - "Job/Read"
+          - "Job/Workspace"
+          - "Overall/Read"
+          - "Run/Replay"
+          - "Run/Update"
+          - "View/Read"
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: false
+  disabledAdministrativeMonitors:
+  - "org.jenkinsci.plugins.matrixauth.AmbiguityMonitor"
+  - "jenkins.diagnostics.ControllerExecutorsNoAgents"
+  - "hudson.util.DoubleLaunchChecker"
+  labelAtoms:
+  - name: "built-in"
+  - name: "node_01"
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  nodeMonitors:
+  - "architecture"
+  - "clock"
+  - diskSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "swapSpace"
+  - tmpSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "responseTime"
+  nodes:
+  - permanent:
+      labelString: "node_01"
+      launcher:
+        ssh:
+          credentialsId: "jenkins_private_key"
+          host: "192.168.202.15"
+          port: 22
+          sshHostKeyVerificationStrategy:
+            manuallyTrustedKeyVerificationStrategy:
+              requireInitialManualTrust: false
+      name: "node_01"
+      numExecutors: 2
+      remoteFS: "/var/lib/jenkins"
+      retentionStrategy: "always"
+  numExecutors: 2
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: true
+  scmCheckoutRetryCount: 0
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+      users:
+      - id: "admin"
+        name: "admin"
+        properties:
+        - "apiToken"
+        - "consoleUrlProvider"
+        - "myView"
+        - "timezone"
+        - "experimentalFlags"
+        - "mailer"
+        - "favorite"
+        - preferredProvider:
+            providerId: "default"
+        - "slack"
+      - id: "plu"
+        name: "Plu"
+        properties:
+        - "apiToken"
+        - "consoleUrlProvider"
+        - "favorite"
+        - "myView"
+        - preferredProvider:
+            providerId: "default"
+        - "slack"
+        - "theme"
+        - "timezone"
+        - "experimentalFlags"
+        - mailer:
+            emailAddress: "plu@plu.plu"
+  slaveAgentPort: -1
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    typeFilter: "none"
+appearance:
+  pipelineGraphView:
+    showGraphOnBuildPage: false
+    showGraphOnJobPage: false
+  prism:
+    theme: PRISM
+  themeManager:
+    disableUserThemes: false
+security:
+  apiToken:
+    creationOfLegacyTokenEnabled: false
+    tokenGenerationOnCreationEnabled: false
+    usageStatisticsEnabled: true
+  gitHooks:
+    allowedOnAgents: false
+    allowedOnController: false
+  gitHostKeyVerificationConfiguration:
+    sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
+  sSHD:
+    port: -1
+unclassified:
+  ansiColorBuildWrapper:
+    colorMaps:
+    - black: "#000000"
+      blackB: "#4C4C4C"
+      blue: "#1E90FF"
+      blueB: "#4682B4"
+      cyan: "#00CDCD"
+      cyanB: "#00FFFF"
+      green: "#00CD00"
+      greenB: "#00FF00"
+      magenta: "#CD00CD"
+      magentaB: "#FF00FF"
+      name: "xterm"
+      red: "#CD0000"
+      redB: "#FF0000"
+      white: "#E5E5E5"
+      whiteB: "#FFFFFF"
+      yellow: "#CDCD00"
+      yellowB: "#FFFF00"
+    - black: "#000000"
+      blackB: "#555555"
+      blue: "#0000AA"
+      blueB: "#5555FF"
+      cyan: "#00AAAA"
+      cyanB: "#55FFFF"
+      defaultBackground: 0
+      defaultForeground: 7
+      green: "#00AA00"
+      greenB: "#55FF55"
+      magenta: "#AA00AA"
+      magentaB: "#FF55FF"
+      name: "vga"
+      red: "#AA0000"
+      redB: "#FF5555"
+      white: "#AAAAAA"
+      whiteB: "#FFFFFF"
+      yellow: "#AA5500"
+      yellowB: "#FFFF55"
+    - black: "black"
+      blackB: "black"
+      blue: "blue"
+      blueB: "blue"
+      cyan: "cyan"
+      cyanB: "cyan"
+      green: "green"
+      greenB: "green"
+      magenta: "magenta"
+      magentaB: "magenta"
+      name: "css"
+      red: "red"
+      redB: "red"
+      white: "white"
+      whiteB: "white"
+      yellow: "yellow"
+      yellowB: "yellow"
+    - black: "#2E3436"
+      blackB: "#2E3436"
+      blue: "#3465A4"
+      blueB: "#3465A4"
+      cyan: "#06989A"
+      cyanB: "#06989A"
+      defaultBackground: 0
+      defaultForeground: 7
+      green: "#4E9A06"
+      greenB: "#4E9A06"
+      magenta: "#75507B"
+      magentaB: "#75507B"
+      name: "gnome-terminal"
+      red: "#CC0000"
+      redB: "#CC0000"
+      white: "#D3D7CF"
+      whiteB: "#D3D7CF"
+      yellow: "#C4A000"
+      yellowB: "#C4A000"
+  bitbucketEndpointConfiguration:
+    endpoints:
+    - bitbucketCloudEndpoint:
+        enableCache: false
+        manageHooks: false
+        repositoriesCacheDuration: 0
+        teamCacheDuration: 0
+  buildDiscarders:
+    configuredBuildDiscarders:
+    - "jobBuildDiscarder"
+  buildStepOperation:
+    enabled: false
+  email-ext:
+    adminRequiredForTemplateTesting: false
+    allowUnregisteredEnabled: false
+    charset: "UTF-8"
+    debugMode: false
+    defaultBody: |-
+      $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+      Check console output at $BUILD_URL to view the results.
+    defaultContentType: "text/plain"
+    defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
+    defaultTriggerIds:
+    - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
+    maxAttachmentSize: -1
+    maxAttachmentSizeMb: -1
+    precedenceBulk: false
+    watchingEnabled: false
+  enrichedSummaryConfig:
+    enrichedSummaryEnabled: false
+    httpClientDelayBetweenRetriesInSeconds: 1
+    httpClientMaxRetries: 3
+    httpClientTimeoutInSeconds: 1
+  fingerprints:
+    fingerprintCleanupDisabled: false
+    storage: "file"
+  gitHubConfiguration:
+    apiRateLimitChecker: ThrottleForNormalize
+  gitHubPluginConfig:
+    hookUrl: "http://localhost:8080/github-webhook/"
+  globalTimeOutConfiguration:
+    operations:
+    - "abortOperation"
+    overwriteable: false
+  injectionConfig:
+    allowUntrusted: false
+    checkForBuildAgentErrors: false
+    enabled: false
+    enforceUrl: false
+    gradleCaptureTaskInputFiles: true
+    injectCcudExtension: false
+    injectMavenExtension: false
+    mavenCaptureGoalInputFiles: true
+  junitTestResultStorage:
+    storage: "file"
+  location:
+    adminAddress: "address not configured yet <nobody@nowhere>"
+    url: "http://localhost:8080/"
+  mailer:
+    charset: "UTF-8"
+    useSsl: false
+    useTls: false
+  pollSCM:
+    pollingThreadCount: 10
+  scmGit:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
+  slackNotifier:
+    botUser: false
+    room: "#integration"
+    sendAsText: false
+    teamDomain: "sa-itacademy-by"
+    tokenCredentialId: "slack_token"
+  timestamper:
+    allPipelines: false
+    elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
+    systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"
