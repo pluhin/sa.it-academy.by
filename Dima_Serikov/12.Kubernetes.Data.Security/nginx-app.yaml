@@ -1,17 +1,20 @@
-# 11. Kubernetes. Basic objects
-
-## Homework Assignment 1. Nginx deployment
-
-Create deployment of nginx service:
-
-* replicas: 4
-* set resources for pods
-* deployment shouldn't have any outage (service is available all time)
-* ingress rule for host name (nginx-test.k8s-<NUMBER>.sa)
-
-**nginx-deployment.yaml**
-
-```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: html-config
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Pods</title>
+    </head>
+    <body>
+    <h1>Pod Name: HOSTNAME</h1>
+    </body>
+    </html>
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -45,11 +48,38 @@ spec:
               cpu: "500m"
           ports:
             - containerPort: 80
-```
-
-**nginx-service.yaml**
-
-```yaml
+          volumeMounts:
+            - name: index-html-for-nginx
+              mountPath: /usr/share/nginx/html
+            - name: ssh-secret
+              mountPath: /root/.ssh
+      initContainers:
+        - name: config
+          image: nginx:latest
+          command: ["sh", "-c", 'cd /tmp/; sed -e "s/HOSTNAME/$HOSTNAME/" /tmp/index.html > /usr/share/nginx/html/index.html']
+          env:
+            - name: HTML_CONTENT
+              valueFrom:
+                configMapKeyRef:
+                  name: html-config
+                  key: index.html
+          volumeMounts:
+            - name: config-mount
+              mountPath: /tmp
+            - name: index-html-for-nginx
+              mountPath: /usr/share/nginx/html
+            - name: ssh-secret
+              mountPath: /root/.ssh
+      volumes:
+        - name: config-mount
+          configMap:
+            name: html-config
+        - name: index-html-for-nginx
+          emptyDir: { }
+        - name: ssh-secret
+          secret:
+            secretName: ssh-keys
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -62,11 +92,7 @@ spec:
       port: 80
       targetPort: 80
   type: ClusterIP
-```
-
-**nginx-ingress.yaml**
-
-```yaml
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -90,34 +116,3 @@ spec:
                 name: app-service-nginx
                 port:
                   number: 80
-
-```
-
-```shell
-kubectl apply -f nginx-deployment.yaml
-kubectl apply -f nginx-service.yaml
-kubectl apply -f nginx-ingress.yaml
-
-kubectl get deployments
-# NAME               READY   UP-TO-DATE   AVAILABLE   AGE
-# nginx-deployment   4/4     4            4           19s
-
-kubectl get svc
-
-# NAME            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
-# kubernetes      ClusterIP   10.233.0.1      <none>        443/TCP   2d23h
-# nginx-service   ClusterIP   10.233.43.181   <none>        80/TCP    42s
-
-kubectl get ingress
-# NAME            CLASS    HOSTS                 ADDRESS   PORTS   AGE
-# nginx-ingress   <none>   nginx-test.k8s-9.sa             80      46s
-```
-
-```shell
-k9s
-```
-
-![img_3.png](img_3.png)
-![img_4.png](img_4.png)
-![img_5.png](img_5.png)
-![img_2.png](img_2.png)
