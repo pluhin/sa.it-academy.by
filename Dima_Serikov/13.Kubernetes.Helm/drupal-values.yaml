@@ -1,0 +1,32 @@
+mariadb:
+  enabled: true
+  auth:
+    rootPassword: tiger
+    database: drupal_db
+    username: drupal_user
+    password: drupal_pwd
+    
+externalDatabase:
+  enabled: false
+
+global:
+  storageClass: nfs-app
+
+ingress:
+  enabled: true
+  hostname: drupal.k8s-10.sa
+  ingressClassName: nginx
+
+persistence:
+  enabled: true
+  storageClass: "nfs-app"
+  accessMode: ReadWriteMany
+  size: 10Gi
+
+
+drupalUsername: admin
+drupalPassword: admin_password
+drupalEmail: admin@example.com
+
+# helm install drupal bitnami/drupal -f drupal-values.yaml --namespace drupal
+# helm upgrade --install drupal bitnami/drupal -f drupal-values.yaml --namespace drupal
