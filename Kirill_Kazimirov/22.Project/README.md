@@ -13,6 +13,7 @@
 
 ## Pipeline. High Level Design
 
+![image](https://github.com/user-attachments/assets/fe717bfa-2d57-4f4d-bfc5-8cfee73b0607)
 
 
 
