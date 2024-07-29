@@ -34,7 +34,7 @@ data:
     receivers:
     - name: 'slack-notifications'
       slack_configs:
-      - api_url: 'https://hooks.slack.com/services/XXXXXXXXX'
+      - api_url: 'XXXXXXXXX'
         channel: '#test-alerts-alex'
         send_resolved: true
         title: |-

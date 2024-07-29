@@ -1,0 +1,50 @@
+#mariadb:
+#  enabled: false
+#
+#externalDatabase:
+#  host: 192.168.202.10
+#  user: wordpress_user
+#  password: wordpress_pwd
+#  database: wordpress_db
+#  port: 3306
+#  extraFlags: "--ssl-ca=/etc/mysql/certs/ca-cert.pem --ssl-cert=/etc/mysql/certs/client-cert.pem --ssl-key=/etc/mysql/certs/client-key.pem"
+##  ssl:
+##    enabled: false
+mariadb:
+  enabled: true
+  auth:
+    rootPassword: tiger
+    database: wordpress_db
+    username: wordpress_user
+    password: wordpress_pwd
+
+externalDatabase:
+  enabled: false
+
+global:
+  storageClass: nfs-app
+  
+ingress:
+  enabled: true
+  hostname: wordpress.k8s-10.sa
+  ingressClassName: nginx
+  
+wordpressUsername: admin
+wordpressPassword: admin
+
+wordpressExtraEnvVars:
+  - name: WORDPRESS_DEBUG
+    value: "true"
+  - name: WORDPRESS_DEBUG_LOG
+    value: "true"
+    
+volumePermissions:
+  enabled: true
+  
+persistence:
+  enabled: true
+  storageClass: "nfs-app"
+  accessMode: ReadWriteMany
+  size: 10Gi
+
+# helm install wordpress oci://registry-1.docker.io/bitnamicharts/wordpress -f wordpress-values.yaml --namespace wordpress
