@@ -25,7 +25,7 @@
 
 
 ## Technologies which were used in project
-Orchestration: Kubernetes Automation tools: Ansible, Github Actions, ArgoCD. SCM: GitHub Other tools: Docker, Helm.
+Orchestration: Kubernetes Automation tools: Ansible, Github Actions, ArgoCD. SCM: GitHub Other tools: Docker, Helm, Prometheus, Grafana
 
 
 
