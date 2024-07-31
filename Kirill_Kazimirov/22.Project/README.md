@@ -13,15 +13,7 @@
 
 ## Pipeline. High Level Design
 
-![image](https://github.com/user-attachments/assets/fe717bfa-2d57-4f4d-bfc5-8cfee73b0607)
-
-
-
-
-
-
-
-
+![image](https://github.com/user-attachments/assets/fb7ffa97-3a44-4c55-8957-72c386779107)
 
 
 ## Technologies which were used in project
@@ -37,3 +29,4 @@ responsible for the created versions of the charts, is updated automatically. Th
 which is needed to interact with argocd. Argocd takes the latest version of the chart from this file and installs it in our cluster by giving a command to helm, and then it in turn communicates with 
 kubernetes.
 Our application has been deployed. The application itself, during the first deployment, created the necessary tables for itself to work with the liquibase tool. Since my application is a back-end one, the functionality check should be carried out through postman.
+Applications are monitored using Prometheus. Prometheus communicates with the application using the URL: /actuator/promitheus. Using this URL, my application provides metrics in Prometheus. Related to Prometheus is Grafana. It has a corresponding JVM dashboard that displays the monitoring of the java application.
