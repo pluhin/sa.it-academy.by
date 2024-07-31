@@ -516,7 +516,7 @@ spec:
 
 ## Grafana Queries
 
-```
+```bash
 sum(rate(container_cpu_usage_seconds_total[1m])) by (pod) * 100
 ```
 
