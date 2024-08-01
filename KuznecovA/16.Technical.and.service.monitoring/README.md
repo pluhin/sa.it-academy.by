@@ -34,7 +34,7 @@ data:
     receivers:
     - name: 'slack-notifications'
       slack_configs:
-      - api_url: 'https://hooks.slack.com/services/XXXXXXXXX'
+      - api_url: 'XXXXXXXXX'
         channel: '#test-alerts-alex'
         send_resolved: true
         title: |-
@@ -516,7 +516,7 @@ spec:
 
 ## Grafana Queries
 
-```
+```bash
 sum(rate(container_cpu_usage_seconds_total[1m])) by (pod) * 100
 ```
 
