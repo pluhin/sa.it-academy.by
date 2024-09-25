@@ -1,65 +1,63 @@
-02.GIT.Local
-=====================
-Homework Assignment 1: Initializing a Local Repository
------------------------------------
-1. Create a new directory on your local machine.
+# 02.GIT.Local
 
+## Homework Assignment 1: Initializing a Local Repository
+
+1. Create a new directory on your local machine.
+```
         mkdir homework
 
-
+```
 2. Navigate to the newly created directory using the command line.
-
+```
         cd homework/
-
+```
 3. Initialize a new Git repository in this directory.
-
+```
         git init
-
+```
 4. Create a new file named README.md and add some content to it.
-
+```
        touch README.md
        echo 'Content' >> README.md
-
+```
 5. Stage and commit the README.md file to the repository.
-
+```
         git add --all
         git commit -m "Init commit"
+```
+## Homework Assignment 2: Basic Version Control
 
-Homework Assignment 2: Basic Version Control
------------------------------------
 1. Create a new branch named feature-branch.
-
+```
         git branch -b feature-branch
-
+```
 2. Edit the README.md file to add a brief description of your project.
-
+```
         echo 'Descripton of project' >> README.md
-
+```
 3. Commit your changes to the feature-branch.
-
+```
         git add --all
         git commit -m "Feature branch"
-
+```
 4. Switch back to the main branch (usually master or main).
-
+```
         git checkout master
-
+```
 5. Merge the changes from feature-branch into the main branch.
-
+```
         git merge future-branch
 
           Updating 1aeb1f8..3d750ab
           Fast-forward
            README.md | 1 +
            1 file changed, 1 insertion(+)
+```
 
+## Homework Assignment 3: Exploring Git History
 
-
-
-Homework Assignment 3: Exploring Git History
------------------------------------
 1. Use the git log command to view the commit history of your repository.
-
+```
         git log
 
           commit 3d750abcddcb40479845f4f8191fb9f322dd72ab (HEAD -> master, feature-branch)
@@ -73,9 +71,9 @@ Homework Assignment 3: Exploring Git History
           Date:   Tue Sep 24 13:52:30 2024 +0300
   
            Init commit
-
+```
 2. Identify the commit hashes, dates, and commit messages.
-
+```
         git log --binary
 
           commit 3d750abcddcb40479845f4f8191fb9f322dd72ab (tag: v1.0)
@@ -105,10 +103,9 @@ Homework Assignment 3: Exploring Git History
           +++ b/README.md
           @@ -0,0 +1 @@
           +Content
-
-
+```
 3. Try using different formatting options for git log to customize the output.
-
+```
         git log --oneline
         
           3d750ab (HEAD -> master, feature-branch) Feature branch
@@ -144,9 +141,10 @@ Homework Assignment 3: Exploring Git History
           CommitDate: Tue Sep 24 13:52:30 2024 +0300
   
               Init commit
+```
 
 4. Use git show <commit-hash> to view the details of a specific commit.
-
+```
         git show 1aeb1f8
 
           commit 1aeb1f8f82a9efac3aafb7e7b4505bb3f9e6d526
@@ -162,29 +160,29 @@ Homework Assignment 3: Exploring Git History
           +++ b/README.md
           @@ -0,0 +1 @@
           +Content
+```
+## Homework Assignment 4: Creating and Applying Tags
 
-Homework Assignment 4: Creating and Applying Tags
------------------------------------
 1. Create a tag named v1.0 on a specific commit in your repository's history.
-
+```
         git tag -a v1.0 -m "Release 1.0"
-
+```
 2. Verify that the tag has been created successfully.
-
+```
         git log --oneline
 
           3d750ab (HEAD -> master, tag: v1.0, feature-branch) Feature branch
           1aeb1f8 Init commit
-
+```
 
 3. Make some additional changes to the README.md file and commit them.
-
+```
         echo 'tag v2.0' >> README.md
         git add --all
         git commit -m "Create tag v2.0"
-
+```
 4. Create a new tag named v2.0 on the latest commit.
-
+```
         git tag -a v2.0 430d326 -m "Release 2.0"
 
         git log --oneline
@@ -192,9 +190,9 @@ Homework Assignment 4: Creating and Applying Tags
           430d326 (HEAD -> feature-branch, tag: v2.0) Create tag v2.0
           3d750ab (tag: v1.0, master) Feature branch
           1aeb1f8 Init commit
-
+```
 5. Explore the difference between annotated and lightweight tags.
-
+```
         git tag v2.0-lw
 
         git tag
@@ -250,21 +248,21 @@ Homework Assignment 4: Creating and Applying Tags
         release. Lightweight tags are essentially 'bookmarks' to a
         commit, they are just a name and a pointer to a commit,
         useful for creating quick links to relevant commits.
+```
+## Homework Assignment 5: Undoing Changes
 
-Homework Assignment 5: Undoing Changes
------------------------------------
 1. Create a new branch named bug-fix.
-
+```
         git checkout -b bug-fix
-
+```
 2. Make a change to the README.md file and commit it.
-
+```
         echo 'bug-fix' >> README.md
         git add --all
         git commit -m "Bug-fix branch"
-
+```
 3. Make another change and commit it.
-
+```
         echo 'bug-fix-second' >> README.md
         git add --all
         git commit -m "Bug-fix-second"
@@ -276,13 +274,13 @@ Homework Assignment 5: Undoing Changes
           430d326 (tag: v2.0-lw, tag: v2.0, master, feature-branch) Create tag v2.0
           3d750ab (tag: v1.0) Feature branch
           1aeb1f8 Init commit
-
+```
 4. Use git reset to undo the most recent commit while keeping the changes.
-
+```
         git reset
-
+```
 5. Explore the effects of git reset with different options (soft, mixed, hard).
-
+```
   * git reset --hard
 
         echo 'new file content' > file1.txt
@@ -445,19 +443,19 @@ Homework Assignment 5: Undoing Changes
         does not touch the Staging Index, so the updates to our 
         Staging Index followed us back in time through the commit 
         history.
+```
+## Homework Assignment 6: Stashing Changes
 
-Homework Assignment 6: Stashing Changes
------------------------------------
 1. Create a new branch named experimental-feature.
-
+```
         git checkout -b experimental-feature
-
+```
 2. Make some changes to the README.md file but do not commit them.
-
+```
         echo 'experimental-content' > README.md
-
+```
 3. Use git stash to temporarily store your changes.
-
+```
         git stash
           Saved working directory and index state WIP on experimental-feature: 430d326 Create tag v2.0
 
@@ -467,9 +465,9 @@ Homework Assignment 6: Stashing Changes
 
         git stash list
           stash@{0}: WIP on experimental-feature: 430d326 Create tag v2.0
-
+```
 4. Switch to another branch and make a different set of changes.
-
+```
         git checkout feature-branch
 
         echo 'feature-branch experimental-content' > README.md
@@ -486,9 +484,9 @@ Homework Assignment 6: Stashing Changes
           430d326 (HEAD -> master, tag: v2.0-lw, tag: v2.0, experimental-feature) Create tag v2.0
           3d750ab (tag: v1.0) Feature branch
           1aeb1f8 Init commit
-
+```
 5. Apply the changes from the stash to the experimental-feature branch.
-
+```
         git checkout experimental-feature
 
         git stash apply
@@ -505,18 +503,17 @@ Homework Assignment 6: Stashing Changes
           Description of project
           tag v2.0
           experimantal content
+```
+## Homework Assignment 7: Git Aliases and Configuration
 
-Homework Assignment 7: Git Aliases and Configuration
------------------------------------
 1. Configure your Git username and email globally.
-
+```
         git config --global user.name "Victor Trush"
 
         git config --global user.email "victorhilinsky@gmail.com"
-
-
+```
 2. Set up a custom alias for a frequently used Git command.
-
+```
         git config --global alias.co checkout
 
         git config --global alias.br branch
@@ -539,9 +536,9 @@ Homework Assignment 7: Git Aliases and Configuration
                   br = branch
                   ci = commit
                   st = status
-
+```
 3. Use the git config command to verify your configuration changes.
-
+```
         git st
           On branch master
           Changes not staged for commit:
@@ -550,5 +547,4 @@ Homework Assignment 7: Git Aliases and Configuration
                   modified:   README.md
           
           no changes added to commit (use "git add" and/or "git commit -a")
-
-
+```
