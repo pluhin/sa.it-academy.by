@@ -94,5 +94,5 @@
    ```
    ![screenshot](screens/git_bash.png)
 
-   ![screenshot](screens/github_not.jpeg)
-   ![screenshot](screens/gitlab_note.jpeg)
+   ![screenshot](screens/github_not.png)
+   ![screenshot](screens/gitlab_note.png)
