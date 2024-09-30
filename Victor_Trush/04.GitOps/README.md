@@ -127,7 +127,7 @@
    * Static website
      
 2. Create a GitHub repository for your project.
-   * GitHub url: <https://github.com/hilinsky/hilinsky.github.io>
+   * GitHub url: <https://github.com/hilinsky/04.gitops.github.io>
 
 3. Set up a basic HTML/CSS or the appropriate project structure.
    ```html
@@ -235,7 +235,7 @@
    ![screenshot](screens/env.png)
    
 2. Set up a GitHub repository for the project.
-   *  GitHub url: <https://github.com/hilinsky/vh.04.gitops>
+   *  GitHub url: <https://github.com/hilinsky/04.gitops.optional>
        
 3. Create a GitHub Action workflow that deploys the project to different environments based on the branch name.
    ```yaml
