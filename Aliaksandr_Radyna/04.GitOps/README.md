@@ -1,5 +1,5 @@
-#Homework Assignment 1: Setting up a Basic GitHub Action
-##1.Create a new public repository on GitHub.
+# Homework Assignment 1: Setting up a Basic GitHub Action
+## 1.Create a new public repository on GitHub.
 ```bash
 https://github.com/Ratchet772/Homework_04.git
 $ mkdir Private
@@ -17,7 +17,7 @@ $ git remote -v
 origin  git@github.com:Ratchet772/Homework_04.git (fetch)
 origin  git@github.com:Ratchet772/Homework_04.git (push)
 ```
-##2.Inside the repository, create a simple Python or JavaScript script (e.g., "hello.py" or "hello.js") that prints "Hello, GitHub Actions!" to the console.
+## 2.Inside the repository, create a simple Python or JavaScript script (e.g., "hello.py" or "hello.js") that prints "Hello, GitHub Actions!" to the console.
 ```bash
 $ ls
 Hello.py
@@ -51,8 +51,8 @@ To github.com:Ratchet772/Homework_04.git
  * [new branch]      main -> main
 branch 'main' set up to track 'origin/main'.
 ```
-##3.Create a new GitHub Action workflow (.github/workflows/hello.yml) that triggers on every push to the main branch.
-##4.Configure the workflow to run the script you created in step 2.
+## 3.Create a new GitHub Action workflow (.github/workflows/hello.yml) that triggers on every push to the main branch.
+## 4.Configure the workflow to run the script you created in step 2.
 ```bash
 
 $ mkdir -p .github/workflows
@@ -165,7 +165,7 @@ $ git commit -m "Fixed-3 workflow hello.yml"
  1 file changed, 1 insertion(+)
 
 ```
-##5.Push your changes to the repository and observe the GitHub Action run.
+## 5.Push your changes to the repository and observe the GitHub Action run.
 ```bash
 $ git push
 Enumerating objects: 9, done.
@@ -183,16 +183,16 @@ To github.com:Ratchet772/Homework_04.git
 https://github.com/Ratchet772/Homework_04/actions/runs/11130259771
 ```
 
-#Homework Assignment 2: Building and Testing with GitHub Actions
-##1.Choose a programming language of your choice.
+# Homework Assignment 2: Building and Testing with GitHub Actions
+## 1.Choose a programming language of your choice.
 ```bash
 Python
 ```
-##2.Set up a new or use an existing repository.
+## 2.Set up a new or use an existing repository.
 ```bash
 https://github.com/Ratchet772/Homework_04.git
 ```
-##3.Create a simple program that performs a basic operation (e.g., calculation, string manipulation).
+## 3.Create a simple program that performs a basic operation (e.g., calculation, string manipulation).
 ```bash
 class Calc:
 
@@ -254,7 +254,7 @@ class Calc:
         return self.result
 
 ```
-##4.Write unit tests for your program using a testing framework appropriate for the language.
+## 4.Write unit tests for your program using a testing framework appropriate for the language.
 ```bash
 import unittest
 from Calc import Calc
@@ -274,7 +274,7 @@ class UnitTest(unittest.TestCase):
 if __name__ == "__main__":
   unittest.main()
 ```
-##5.Create a GitHub Action workflow that runs the unit tests whenever changes are pushed to the repository.
+## 5.Create a GitHub Action workflow that runs the unit tests whenever changes are pushed to the repository.
 ```bash
 $ cat .github/workflows/Calc_unittest.yaml
 name: Calc Unittesting
@@ -294,7 +294,7 @@ jobs:
       - name: Unittesting Calc
         run: python ~/work/Homework_04/Homework_04/4.GitOps-02/Calc_Unittest.py
 ```
-##6.Ensure the workflow reports whether the tests passed or failed.
+## 6.Ensure the workflow reports whether the tests passed or failed.
 ```bash
 Successful report
 https://github.com/Ratchet772/Homework_04/actions/runs/11131400674/job/30932886217
