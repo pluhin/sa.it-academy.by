@@ -1,0 +1,16 @@
+name: Calc Unittesting
+on:
+  push:
+    branches:
+      - main
+jobs:
+  unittesting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install python
+        run: sudo apt update && sudo apt install -y python3
+      - run: echo "python has been installed"
+
+      - name: Unittesting Calc
+        run: python ~/work/Homework_04/Homework_04/4.GitOps-02/Calc_Unittest.py
