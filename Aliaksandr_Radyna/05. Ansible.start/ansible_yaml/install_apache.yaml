@@ -1,0 +1,19 @@
+- hosts: all_workers
+  gather_facts: False
+  strategy: free
+  
+  tasks:
+
+   - name: Install apache
+     become: true
+     apt:      
+       name: apache2
+       state: latest
+
+   - name: Installation check
+     shell: |
+       systemctl status apache2
+     register: out
+
+   - debug:
+       msg: "{{out.stdout_lines}}"
