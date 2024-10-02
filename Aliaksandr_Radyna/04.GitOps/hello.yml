@@ -1,0 +1,17 @@
+name: Play Hello.py on push
+on:
+  push:
+    branches:
+      - main
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install python
+        run: sudo apt update && sudo apt install -y python3
+      - run: echo "python has been installed"
+
+      - name: PlayScript
+        run: python Hello.py
+
