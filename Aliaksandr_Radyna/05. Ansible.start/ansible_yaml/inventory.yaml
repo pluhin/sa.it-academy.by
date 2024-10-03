@@ -1,0 +1,10 @@
+all_workers:
+  children:
+    work_sa:
+      hosts:      
+        host01: 
+          ansible_host: 192.168.100.101
+        
+      vars:
+        ansible_user: adminn      
+

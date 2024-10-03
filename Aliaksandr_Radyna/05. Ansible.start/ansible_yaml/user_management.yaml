@@ -1,0 +1,13 @@
+- hosts: all_workers
+  gather_facts: False
+  strategy: free
+   
+  tasks:
+ 
+   - name: create new user
+     become: true 
+     ansible.builtin.user:
+       user: "{{ username }}"
+       group: "{{ group }}"
+       password: "{{ password | password_hash('sha512') }}"
+       state: present
