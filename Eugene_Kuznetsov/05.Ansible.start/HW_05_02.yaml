@@ -1,0 +1,5 @@
+- hosts: all_workers
+  tasks:
+  - name: install htop
+    shell: |
+      apt install htop
