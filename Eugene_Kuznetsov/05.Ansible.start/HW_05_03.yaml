@@ -1,0 +1,27 @@
+ - hosts: "{{ group | default('all_workers')}}"
+   tasks:
+ 
+   - name: "Creating user: {{ user_name }}"
+     ansible.builtin.user:
+       name: "{{ user_name }}"
+       group: "{{ user_group }}"
+       password: "{{ user_pass | password_hash('sha256') }}"
+       state: present
+       comment: Managed by Ansible
+ 
+   - name: Check user
+     shell: |
+       grep "{{ user_name }}" /etc/passwd
+       groups "{{ user_name }}"
+       grep "{{ user_name }}" /etc/shadow
+       date
+     register: out
+ 
+   - debug:
+       msg: "{{ out.stdout_lines }}"
+ 
+   - name: Removing user {{ user_name }}
+     ansible.builtin.user:
+       name: "{{ user_name }}"
+       state: absent
+       remove: yes
