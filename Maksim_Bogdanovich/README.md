@@ -1,6 +1,6 @@
 ## 02.Git Homework
 
-...bash
+```bash
     8  git config --global init.defaultBranch master
     9  git config --global  user.name "Maskim Bahdanovich"
    10  git config --global  user.email "maksbogdanovichh@gmail.com"
@@ -234,5 +234,4 @@
   238  vim README.md
   239  history
 
-...
-
+```
