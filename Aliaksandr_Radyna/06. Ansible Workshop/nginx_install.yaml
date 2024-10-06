@@ -1,0 +1,53 @@
+- name: Install Nginx and upload index
+  hosts: webservers
+
+  vars:
+    index_src: ./Website
+    index_dst: /var/www/html
+    config_dst: /etc/nginx/sites-available
+
+  tasks:
+    - name: Install NGINX
+      ansible.builtin.apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Configure hosts file
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        line: "127.0.0.1 {{ ansible_hostname }}site.local"
+
+    - name: Create site folder
+      ansible.builtin.file:
+        path: "{{ index_dst }}/{{ ansible_hostname }}"
+        state: directory
+        mode: "0755"
+
+    - name: Create nginx config
+      template: src={{ index_src }}/nginx_config.j2 dest={{ config_dst }}/{{ ansible_hostname }}site.conf mode=0755 
+    
+    - name: Symbolic Link
+      ansible.builtin.copy:
+        remote_src: yes
+        src: "{{ config_dst }}/{{ ansible_hostname }}site.conf" 
+        dest: "/etc/nginx/sites-enabled/"
+
+    - name: Create Homepage
+      template: src={{ index_src }}/index.j2 dest={{ index_dst }}/{{ ansible_hostname }}/index.html mode=0755
+
+    - name: Restart Nginx    
+      shell: |
+        systemctl restart nginx
+      register: out
+
+    - debug:
+        msg: "{{out.stdout_lines}}"
+
+    - name: Check that you can connect (GET) to a page and it returns a status 200
+      ansible.builtin.uri:
+        url: http://{{ ansible_hostname }}site.local
+
+    - name: Check that index.html content
+      debug: msg="{{item}}"
+      loop: "{{ lookup('url', 'http://{{ansible_hostname}}site.local', wantlist=True) }}"
