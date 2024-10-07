@@ -136,3 +136,99 @@ jobs:
 ### Failed test
 
 ![alt text](https://github.com/Pro100chok91/sa.it-academy.by/blob/md-sa2-29-24/Kirill_Fadeev/04.GitOps/img/4.jpg)
+
+# Homework Assignment 3: Continuous Deployment with GitHub Actions (Optional)
+
+1. Choose a static website or a simple web application project.  
+  * Static website
+
+2. Create a GitHub repository for your project.  
+https://github.com/Pro100chok91/HTML
+
+3. Set up a basic HTML/CSS or the appropriate project structure.
+```bash
+nano index.html
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>This is page for GitOps Lab</h1>
+<p>This is my first HTML page.</p>
+<p>It contains a 
+             <strong>main heading</strong> and <em> paragraph </em>.
+        </p>
+</body>
+</html>
+
+nano styles.css
+body {
+  background-color: powderblue;
+}
+h1 {
+  color: blue;
+}
+p {
+  color: red;
+}
+```
+4. Create a GitHub Action workflow that automatically builds and deploys the project to GitHub Pages or another hosting service of your choice.
+```bash
+mkdir .github/workflows -p
+cd .github/workflows/
+nano static.yaml
+
+name: Deploy static content to Pages
+
+on:
+    push:
+    branches: ["master"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+  * В настройках репозитория, раздел Pages, были опробованы варианты источника "Deploy from a branch" и "GitHub Actions"  
+![alt text](https://github.com/Pro100chok91/sa.it-academy.by/blob/md-sa2-29-24/Kirill_Fadeev/04.GitOps/img/5.jpg)
+
+5. Configure the workflow to trigger on every push to the main branch.
+```bash
+on:
+    push:
+    branches: ["master"]
+```
+6. Push changes to your repository and verify that the website or application is automatically deployed.
+
+  * Success Action  
+![alt text](https://github.com/Pro100chok91/sa.it-academy.by/blob/md-sa2-29-24/Kirill_Fadeev/04.GitOps/img/6.jpg)  
+
+  * Working website  
+![alt text](https://github.com/Pro100chok91/sa.it-academy.by/blob/md-sa2-29-24/Kirill_Fadeev/04.GitOps/img/7.jpg)  
