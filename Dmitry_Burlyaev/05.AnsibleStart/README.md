@@ -197,7 +197,7 @@ ansible -i inv.yaml -m authorized_key -a "user=root key=\"{{lookup('file', '~/.s
 ![Screenshot](Screenshots/ansible3.png)
 
 3. Write an Ansible playbook to install a basic package (e.g., vim or htop) on the remote host.
-
+```bush
 - hosts: "{{ group | default('all_workers')}}"
   tasks:
     - name: install htop
@@ -215,7 +215,7 @@ ansible -i inv.yaml -m authorized_key -a "user=root key=\"{{lookup('file', '~/.s
         msg: "{{ out.stdout_lines }}"
 
 ansible-playbook -i inv.yaml InstallHtop.yaml --ask-vault-pass
-
+```
 4. Use inventory files to manage the connection details for the remote host.
 ```bush
 [vboxuser3@VM3 ansible]$ cat inv.yaml
