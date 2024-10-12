@@ -1,0 +1,48 @@
+name: Manual publish Docker image
+on:
+  workflow_dispatch:
+    inputs:
+      imageToBuild:
+        description: 'Component to build'
+        required: true
+        default: 'nodejs'
+      tagImage:
+        description: 'Please add tag'
+        required: true
+        default: 'latest'
+jobs:
+  push_image:
+    name: Push Docker image
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./${{ inputs.imageToBuild }}
+          push: true
+          tags: ghcr.io/hilinsky/${{ inputs.imageToBuild }}:${{ inputs.tagImage }}
+  notification:
+    needs: push_image
+    runs-on: ubuntu-latest
+    steps:
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: all-slack
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_MESSAGE: "Docker image is ready ghcr.io/hilinsky/${{ inputs.imageToBuild }}:latest"
+        SLACK_TITLE: Docker image build status
+        SLACK_USERNAME: GitHub
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
