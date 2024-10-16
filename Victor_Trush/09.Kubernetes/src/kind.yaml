@@ -1,0 +1,18 @@
+name: "Create cluster using KinD"
+on:
+  push:
+    branches:
+    - main
+jobs:
+  create-cluster:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create k8s Kind Cluster
+        uses: helm/kind-action@v1
+      - name: Test cluster
+        run: |
+          kubectl cluster-info
+          kubectl version -o json | jq .serverVersion
+          kubectl get nodes -A
+
+
