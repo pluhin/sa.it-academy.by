@@ -262,5 +262,6 @@ jobs:
         SLACK_USERNAME: GitHub
         SLACK_WEBHOOK: ${{ secrets.HOOK }}
 ```
-![img](img/07_slack_message.PNG)
+![img](img/7_slack_message.PNG)
 ## 8.Document the Dockerfile structure, the build process, and the advantages of multi-stage builds.
+![img](img/8_success.PNG)
