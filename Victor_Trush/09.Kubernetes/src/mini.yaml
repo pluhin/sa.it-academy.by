@@ -1,0 +1,15 @@
+name: "Create cluster using Minikube"
+on:
+  - pull_request
+jobs:
+  create-cluster:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start minikube
+        id: minikube
+        uses: medyagh/setup-minikube@latest
+      - name: Test cluster
+        run: |
+          kubectl cluster-info
+          kubectl version -o json | jq .serverVersion
+          kubectl get nodes -A

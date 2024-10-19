@@ -1,0 +1,87 @@
+- hosts: nginx
+
+  vars:
+    server_name: "{{ s_name }}"
+    root: /var/www/"{{ s_name }}"
+
+  pre_tasks:
+  - name: Validate
+    debug:
+      msg:
+       - "Virtual server: {{ item }}"
+       - "Root: /var/www/{{ item }}"
+    loop: "{{ server_name }}"
+
+  tasks:
+  - name: Update apt package index
+    ansible.builtin.apt:
+     update_cache: yes
+
+  - name: Install Nginx
+    ansible.builtin.apt:
+     name: nginx
+     state: latest
+
+  - name: Add hosts
+    ansible.builtin.lineinfile:
+      path: /etc/hosts
+      line: "{{ ansible_host }} {{ item }}.local"
+    loop: "{{ s_name }}"
+
+  - name: Create document roots for virtual hosts
+    ansible.builtin.file:
+     path: /var/www/{{ item }}
+     state: directory
+     owner: www-data
+     group: www-data
+     mode: '0755'
+    loop: "{{ server_name }}"
+
+  - name: Create virtual host configuration files
+    ansible.builtin.template:
+     src: nginx_vhost.j2
+     dest: /etc/nginx/sites-available/{{ item }}.conf
+    loop: "{{ server_name }}"
+
+  - name: Enable virtual host configuration
+    ansible.builtin.file:
+     src: /etc/nginx/sites-available/{{ item }}.conf
+     dest: /etc/nginx/sites-enabled/{{ item }}.conf
+     state: link
+    loop: "{{ server_name }}"
+
+  - name: Remove default Nginx configuration
+    ansible.builtin.file:
+     path: /etc/nginx/sites-enabled/default
+     state: absent
+     force: yes
+
+  - name: Test Nginx configuration
+    ansible.builtin.command: nginx -t
+    register: nginx_test
+    ignore_errors: yes
+
+  - name: Fail if Nginx configuration is invalid
+    ansible.builtin.fail:
+     msg: "Nginx configuration is invalid"
+    when: nginx_test.rc != 0
+
+  - name: Create HTML page
+    ansible.builtin.template:
+     src: nginx_html.j2
+     dest: /var/www/{{ item }}/index.html
+    loop: "{{ server_name }}"
+
+  - name: Reload Nginx
+    ansible.builtin.service:
+     name: nginx
+     state: reloaded
+
+  - name: Check that a page returns successfully but fail if the word 'prod' is not in the page contents
+    ansible.builtin.uri:
+      url: http://{{ item }}.local
+      return_content: true
+    register: content
+    failed_when: "'prod' not in content.content"
+    loop: "{{ server_name }}"
+
