@@ -81,7 +81,7 @@ cd 07.Docker/
 mkdir nodejs_app
 ```
  *Structure
-
+```bush
 /nodejs_app
 │
 ├── application.js
@@ -91,7 +91,7 @@ mkdir nodejs_app
 │   ├── index.html
 │   ├── about.html
 │   └── style.css
-
+```
 2.Write a Dockerfile to build an image for a simple web application (e.g., Flask or Node.js).
 
 application.js
