@@ -1,0 +1,41 @@
+name: Kube CI
+on:
+  workflow_dispatch:
+jobs:
+  check-pods:
+    runs-on: my_runner
+    outputs:
+      STATE_ENV: ${{ steps.init.outputs.STATE_ENV }}
+    steps:
+      - name: Export kubeconfig and get pods
+        run: |
+          export KUBECONFIG=/root/.kube/config-k3s:/root/.kube/config-k8s
+          kubectl get pods -A
+          STATUS_ARRAY=$(kubectl get pods -A | sed -n '2,$p '| awk '{print $2, $4}')
+          echo "STATUS_ARRAY_ENV<<EOF" >> $GITHUB_ENV
+          echo $STATUS_ARRAY >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      - name: Get result of search
+        id: init
+        run: |
+          STATUS="Error"
+          if [[ ${STATUS_ARRAY_ENV[@]} =~ $STATUS ]]
+          then
+            echo "STATE_ENV=TRUE" >> $GITHUB_OUTPUT
+          else
+            echo "STATE_ENV=FALSE" >> $GITHUB_OUTPUT
+          fi
+  notification:
+    needs: check-pods
+    runs-on: ubuntu-latest
+    if: needs.check-pods.outputs.STATE_ENV == 'TRUE'
+    steps:
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: all-slack
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_MESSAGE: "K8s has pods with 'Error' status"
+        SLACK_TITLE: K8s status
+        SLACK_USERNAME: GitHub
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
