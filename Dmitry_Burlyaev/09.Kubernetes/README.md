@@ -24,7 +24,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 apt install apparmor -y
 
 ```
-![Screenshot](Screnshot/K8s1.png)
+![Screenshot](Screenshot/K8s1.png)
 
 * KinD
 ```bush
@@ -39,7 +39,7 @@ sudo mv ./kind /usr/local/bin/kind
 kind create cluster --name burlyaev
 ```
 
-![Screenshot](Screnshot/K8s2.png)
+![Screenshot](Screenshot/K8s2.png)
 
 3. Verify that the cluster is up and running using kubectl.
 
@@ -56,7 +56,7 @@ kind create cluster --name burlyaev
   kubectl cluster-info --context kind-burlyaev
  ``` 
 
-![Screenshot](Screnshot/K8s3.png)
+![Screenshot](Screenshot/K8s3.png)
 
 # Homework Assignment 2: Minikube Kubernetes Cluster Setup
 
@@ -69,7 +69,7 @@ kind create cluster --name burlyaev
 ```bush
   minikube start
 ```
-![Screenshot](Screnshot/K8s4.png)
+![Screenshot](Screenshot/K8s4.png)
 
 3. Confirm that the cluster is operational using kubectl.
 
@@ -89,7 +89,7 @@ kube-system   storage-provisioner                1/1     Running   1 (7m57s ago)
 minikube addons list 
 minikube addons enable dashboard 
 ```
-![Screenshot](Screnshot/K8s5.png)
+![Screenshot](Screenshot/K8s5.png)
 
 ```bush 
 kubectl proxy --address='0.0.0.0' --disable-filter=true & ssh -L 8001:127.0.0.1:8001 vboxuser3@192.168.63.4 -N -f
@@ -97,7 +97,7 @@ kubectl proxy --address='0.0.0.0' --disable-filter=true & ssh -L 8001:127.0.0.1:
 ```bush
 page http://192.168.63.4:8001/
 ```
-![Screenshot](Screnshot/K8s6.png)
+![Screenshot](Screenshot/K8s6.png)
 
 3 Homework Assignment 3: GitHub Actions for KinD Cluster Setup
 
@@ -185,11 +185,11 @@ on:
 ```
 4. Use a Docker container or GitHub-hosted runner for the workflow execution.
 
-![Screenshot](Screnshot/K8s7.png)
+![Screenshot](Screenshot/K8s7.png)
 
-![Screenshot](Screnshot/K8s8.png)
+![Screenshot](Screenshot/K8s8.png)
 
-![Screenshot](Screnshot/K8s9.png)
+![Screenshot](Screenshot/K8s9.png)
 
 # Homework Assignment 4: GitHub Actions for Minikube Cluster Setup
 
@@ -279,16 +279,16 @@ on:
 ```
 4. Utilize appropriate GitHub Actions features to customize the workflow execution environment.
 
-![Screenshot](Screnshot/K8s12.png)
-![Screenshot](Screnshot/K8s13.png)
-![Screenshot](Screnshot/K8s14.png)
+![Screenshot](Screenshot/K8s12.png)
+![Screenshot](Screenshot/K8s13.png)
+![Screenshot](Screenshot/K8s14.png)
 
 Please check in the last two assignments:
 
 1. how many nodes they have
 
-![Screenshot](Screnshot/K8s15.png)
-![Screenshot](Screnshot/K8s16.png)
+![Screenshot](Screenshot/K8s15.png)
+![Screenshot](Screenshot/K8s16.png)
 
 	*By default, KinD sets up a single node.
 	*Minikube also creates a single-node, by default
@@ -297,12 +297,12 @@ Please check in the last two assignments:
 
 2. which latest version of Kubernetes they are using
  
-*Minikube Cluster: use Kubernetes v1.31.0 (clientVersion/serverVersion) - nodes
-*the KinD Cluster: use Kubernetes v1.27.3 (serverVersion) - nodes
+	*Minikube Cluster: use Kubernetes v1.31.0 (clientVersion/serverVersion) - nodes.
+	*the KinD Cluster: use Kubernetes v1.27.3 (serverVersion) - nodes.
 
 3. how long they spin up (you can provide just timing)
 
-![Screenshot](Screnshot/K8s10.png)
-![Screenshot](Screnshot/K8s11.png)
+![Screenshot](Screenshot/K8s10.png)
+![Screenshot](Screenshot/K8s11.png)
 
 History of your commands and github-action file(s) add into folder 09.Kubernetes and prepare PR (Pull Request)
