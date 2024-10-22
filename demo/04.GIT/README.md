@@ -1,5 +1,55 @@
 ## 04.Git
 
+```yaml
+name: Curl Website and Save Output as Artifact
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch: # Allows manual trigger of the workflow
+
+jobs:
+  curl_website:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test Website
+        run: |
+          nc -z -v -w2 onliner.by 443 > nc_report.log 2>&1
+          touch /tmp/file.log
+          ls -la
+
+      - name: Upload output as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: curl-output
+          path: nc_report.log
+
+  curl_websites:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        url:
+          - "onliner.by"
+          - "google.com"
+          - "github.com" 
+    steps:
+      - name: Curl website
+        run: |
+          nc -z -v -w2 ${{ matrix.url }} 443 > ${{ matrix.url }}.log 2>&1
+          ls -la
+      - name: Upload curl output as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: curl-output-${{ matrix.url }}
+          path: |
+            *.log
+        
+
+```
+
+
 ```bash
 166  cd 02.Git/
   167  ls
