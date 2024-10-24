@@ -1,0 +1,7 @@
+namespace: nfs-provisioner
+bases:
+  - github.com/kubernetes-sigs/nfs-subdir-external-provisioner//deploy
+resources:
+  - ns-nfs-dynamic.yaml
+patchesStrategicMerge:
+  - patch_nfs_details.yaml
