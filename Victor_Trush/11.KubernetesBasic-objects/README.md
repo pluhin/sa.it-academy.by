@@ -100,21 +100,84 @@
 
   * deploy pod inside k8s which should be connected to github as self-hosted runner
 
-    * runner-pod.sh
+    * Dockerfile
+
+```dockerfile
+
+ FROM ubuntu:22.04
+ 
+ ARG RUNNER_VERSION
+  
+ RUN apt-get update -y && apt-get upgrade -y && useradd -m runner
+ 
+ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+     curl jq build-essential libssl-dev libffi-dev python3 python3-venv python3-dev >
+ 
+ RUN cd /home/runner && mkdir actions-runner && cd actions-runner \
+     && curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VER>
+     && tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
+ 
+ RUN chown -R runner ~runner && /home/runner/actions-runner/bin/installdependencies.>
+ 
+ COPY start.sh start.sh
+ 
+ RUN chmod +x start.sh
+ 
+ USER runner
+ 
+ ENTRYPOINT ["./start.sh"]
+
+```
+
+   * start.sh
 
 ```sh
 
-  #!/bin/bash
-  ## Need to run under regular user with sudo, not root!!!
-  RUN_VERSION='2.320.0'
-  RUN_REPO='hilinsky/docker_images'
-  RUN_TOKEN='XXXXXXXXXXXXXXXXXXXXX'
-  sudo apt-get update && sudo apt upgrade -yqq && sudo apt -yqq install curl
-  mkdir actions-runner && cd actions-runner
-  curl -o actions-runner-linux.tar.gz -L https://github.com/actions/runner/releases/download/v${RUN_VERSION}/actions-runner-linux-x64-${RUN_VERSION}.tar.gz
-  tar xzf ./actions-runner-linux.tar.gz
-  ./config.sh --name k8s-runner-pod --labels linux,k8s_runner --runnergroup default --url https://github.com/${RUN_REPO} --token ${RUN_TOKEN}
-  ./run.sh &
+ #!/bin/bash
+ 
+ ORGANIZATION=$ORGANIZATION
+ ACCESS_TOKEN=$ACCESS_TOKEN
+ 
+ cd /home/runner/actions-runner
+ 
+ ./config.sh --url https://github.com/${ORGANIZATION} --token ${ACCESS_TOKEN}
+ 
+ cleanup() {
+     echo "Removing runner..."
+     ./config.sh remove --unattended --token ${ACCESS_TOKEN}
+ }
+ 
+ trap 'cleanup; exit 130' INT
+ trap 'cleanup; exit 143' TERM
+ 
+ ./run.sh & wait $!
+
+```
+
+   * runner-pod.yaml
+
+```yaml
+
+ apiVersion: v1
+ kind: Pod
+ metadata:
+   name: runner-pod
+   labels:
+     app: runner
+ spec:
+   containers:
+   - name: runner-container
+     image: hilinsky/runner:v1.0
+     command: ["/bin/sh", "-c"]
+     args: ["sleep 360d"]
+     imagePullPolicy: Always
+   restartPolicy: Always
+
+```
+     
+```bash
+
+  kubectl exec runner-pod -- env ORGANIZATION=hilinsky/docker_images ACCESS_TOKEN=XXXXXXXXXXX /bin/bash -c "./start.sh"
 
 ```
 
@@ -131,7 +194,7 @@
     workflow_dispatch:
   jobs:
     check-pods:
-      runs-on: k8s_runner
+      runs-on: self-hosted
       steps:
         - name: Display CPU information
           run: |
