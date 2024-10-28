@@ -1,0 +1,5 @@
+apiVersion: v2
+name: first-app
+description: A Helm chart for Kubernetes
+version: 0.2.0
+appVersion: "1.16.0"
