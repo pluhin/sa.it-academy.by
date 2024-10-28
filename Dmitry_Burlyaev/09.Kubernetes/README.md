@@ -296,10 +296,10 @@ Please check in the last two assignments:
 	*one node each
 
 2. which latest version of Kubernetes they are using
- 
+```bush 
 	*Minikube Cluster: use Kubernetes v1.31.0 (clientVersion/serverVersion) - nodes.
 	*the KinD Cluster: use Kubernetes v1.27.3 (serverVersion) - nodes.
-
+```
 3. how long they spin up (you can provide just timing)
 
 ![Screenshot](Screenshot/K8s10.png)
