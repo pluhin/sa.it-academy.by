@@ -1,0 +1,15 @@
+name: Check triggers on every push to the main branch
+on:
+  push:
+    branches:
+      - main
+jobs:
+  prepare:
+    #runs-on: [hello-runner]
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: run script
+        run: python hello.py
