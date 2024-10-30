@@ -115,4 +115,8 @@ notepad drivers\etc\hosts.
 
 ![Screenshot](Screenshot/k8s9.png)
 
+# Curl
+
+![Screenshot](Screenshot/k8s10.png)
+
 Your manifests with short report add to PR
