@@ -212,11 +212,13 @@ jobs:
 
             # Initialize state variables
             STATUS="Error"
-            FAILED_PODS=""
-            
+
             # Get the pod statuses and print them
             STATUS_ARRAY_K3S=$(kubectl get pods -A)
             ERROR_ARRAY_K3S=$(kubectl get pods -A | grep -iE "$STATUS")
+            echo "$STATUS_ARRAY_K3S"
+            echo "DEBUG for ERROR_ARRAY_K3S"
+            echo "$ERROR_ARRAY_K3S"
 
             # Check for errors
             if [[ -z "$ERROR_ARRAY_K3S" ]]; then
@@ -225,14 +227,12 @@ jobs:
               echo "FAILED_PODS_K3S=No failed pods in K3S" >> ~/env_files/temp_env_file_k3s.txt
             else
               echo "Failed pods found in K3S!"
-              # FAILED_PODS=$(echo "$STATUS_ARRAY_K3S" | grep -i "Error" | tr '\n' ';' | sed 's/;$/;/' )
               echo "STATE_ENV_K3S=TRUE" > ~/env_files/temp_env_file_k3s.txt
-              echo "FAILED_PODS_K3S=$FAILED_PODS" >> ~/env_files/temp_env_file_k3s.txt
+              echo "FAILED_PODS_K3S=$ERROR_ARRAY_K3S" >> ~/env_files/temp_env_file_k3s.txt
             fi
 
             # Print the contents for debugging
             echo "Show tempfile"
-            # tree ~/
             # cat ~/temp_env_file_k3s.txt
             ls ~/env_files/temp_env_file_k3s.txt  # Check if the file exists
             cat ~/env_files/temp_env_file_k3s.txt  # Output the contents for debugging
@@ -318,7 +318,6 @@ jobs:
             
             # Initialize state variables
             STATUS="Error"
-            FAILED_PODS=""
             
             # Get the pod statuses and print them for k8s
             STATUS_ARRAY_K8S=$(kubectl get pods -A)
@@ -334,7 +333,6 @@ jobs:
               echo "FAILED_PODS_K8S=No failed pods in K8S" >> ~/env_files/temp_env_file_k8s.txt
             else
               echo "Failed pods found in K8S!"
-              # FAILED_PODS=$(echo "$STATUS_ARRAY_K8S" | grep -i "Error" | tr '\n' ';' | sed 's/;$/;/' )
               echo "STATE_ENV_K8S=TRUE" > ~/env_files/temp_env_file_k8s.txt
               echo "FAILED_PODS_K8S=$ERROR_ARRAY_K8S" >> ~/env_files/temp_env_file_k8s.txt
             fi
@@ -372,7 +370,6 @@ jobs:
           echo ls -a ~/
        ################################################################## end of first job  ##################################################
 
-
   send-slack-notification:
     runs-on: ubuntu-latest
     needs: check-pods  # Ensure this job runs after 'check-pods'
@@ -396,7 +393,7 @@ jobs:
       # Load Environment Variables from Downloaded File
       - name: Load Environment Variables K3S from Downloaded File
         run: |
-          echo ls -a ~/
+          echo ls -a ./
           find -name "temp_env_file_k3s*"
           cat ./temp_env_file_k3s.txt
           TEMP_ENV_FILE=$(cat ./temp_env_file_k3s.txt)   # should match the download path
@@ -539,7 +536,6 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
           SLACK_USERNAME: KuberCluster
-
 ```
 
 ![Screenshot](Screenshot/Kubernetes18.png)
