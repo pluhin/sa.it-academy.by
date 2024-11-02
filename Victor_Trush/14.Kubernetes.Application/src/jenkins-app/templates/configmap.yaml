@@ -1,0 +1,113 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "jenkins-app.fullname" . }}
+  namespace: {{ template "jenkins-app.namespace" . }}
+data:
+  basic-security.groovy: |
+    #!groovy
+    import jenkins.model.*
+    import hudson.security.*
+    def instance = Jenkins.getInstance()
+    println "--> creating local user 'admin'"
+    def password = System.getenv("PASS")
+    def hudsonRealm = new HudsonPrivateSecurityRealm(false)
+    hudsonRealm.createAccount('admin', password)
+    instance.setSecurityRealm(hudsonRealm)
+    def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
+    strategy.setAllowAnonymousRead(true)
+    instance.setAuthorizationStrategy(strategy)
+    instance.save()
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "jenkins-app.fullname" . }}-config
+  namespace: {{ template "jenkins-app.namespace" . }}
+data:
+  jenkins.yaml: |
+        jenkins:
+          numExecutors: 2
+          clouds:
+          - kubernetes:
+              containerCapStr: "10"
+              maxRequestsPerHostStr: "32"
+              jenkinsUrl: "http://jenkins-app:8080"
+              name: "kubernetes"
+              namespace: "ci-cd"
+              skipTlsVerify: true
+        credentials:
+          system:
+            domainCredentials:
+            - credentials:
+              - usernamePassword:
+                  description: "Githubuser"
+                  id: "some_randome"
+                  password: "XXXXXXXXXXX"
+                  scope: GLOBAL
+                  username: "git_hub_user"
+        unclassified:
+          location:
+            adminAddress: "victorhilinsky@gmail.com"
+            url: "http://jenkins.k8s-20.sa/"
+          shell:
+            shell: "/bin/bash"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "jenkins-app.fullname" . }}-job
+  namespace: {{ template "jenkins-app.namespace" . }}
+data:
+  config.xml: |
+      <?xml version='1.1' encoding='UTF-8'?>
+      <flow-definition plugin="workflow-job@1460.v28178c1ef6e6">
+        <actions>
+          <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2214.vb_b_34b_2ea_9b_83"/>
+          <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2214.vb_b_34b_2ea_9b_83">
+            <jobProperties/>
+            <triggers/>
+            <parameters/>
+            <options/>
+          </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+        </actions>
+        <description></description>
+        <keepDependencies>false</keepDependencies>
+        <properties>
+          <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@332.va_1ee476d8f6d">
+            <autoRebuild>false</autoRebuild>
+            <rebuildDisabled>false</rebuildDisabled>
+          </com.sonyericsson.rebuild.RebuildSettings>
+        </properties>
+        <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3990.vd281dd77a_388">
+          <script>pipeline {
+        agent {
+          kubernetes {
+              containerTemplate {
+              name &apos;curl-test&apos;
+              image &apos;pluhin31/wget_curl:latest&apos;
+              ttyEnabled true
+              command &apos;sleep 180&apos;
+              }
+        }
+        }
+        stages {
+          stage(&apos;Ping&apos;) {
+            steps {
+              container(&apos;curl-test&apos;) {
+                sh &quot;&quot;&quot;#!/bin/sh
+                  curl --version
+                      curl https://kufar.by
+                      wget -O - https://kufar.by | egrep &quot;https://[0-9a-z]+[.]kufar[.]by&quot; -o | sort -u &gt; tmp.out
+                      cat tmp.out
+                      curl \$(cat tmp.out) -I | egrep HTTP
+                &quot;&quot;&quot;
+              }
+            }
+          }
+        }
+      }</script>
+          <sandbox>true</sandbox>
+        </definition>
+        <triggers/>
+        <disabled>false</disabled>
