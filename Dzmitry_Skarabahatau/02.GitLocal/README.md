@@ -1,4 +1,4 @@
-## 02.Git
+## 01.Git
 
 ```bash
   343 git clone git@github.com:DzmitryBel/sa.it-academy.by.git
