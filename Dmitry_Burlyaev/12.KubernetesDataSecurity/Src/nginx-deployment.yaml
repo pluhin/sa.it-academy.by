@@ -1,0 +1,95 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 2
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      # Init container to generate index.html
+      initContainers:
+      - name: init-index
+        image: busybox
+        command: ["sh", "-c"]
+        args:
+          - echo "<h1>$(hostname)</h1>" > /usr/share/nginx/html/index.html;
+        volumeMounts:
+        - name: web-content
+          mountPath: /usr/share/nginx/html/
+
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+          limits:
+            cpu: "200m"
+            memory: "200Mi"
+        volumeMounts:
+        - name: web-content
+          mountPath: /usr/share/nginx/html/  # Mount for generated index.html
+        - name: ssh-keys
+          mountPath: /root/.ssh  # SSH key pair for root user in container
+          readOnly: true
+      volumes:
+      - name: web-content
+        emptyDir: {}  # Temporary storage to share data between init container and main container
+      - name: ssh-keys
+        secret:
+          secretName: ssh-key-secret  # SealedSecret with SSH keys
+          items:
+            - key: ssh-privatekey
+              path: id_rsa           # Private key
+            - key: ssh-publickey
+              path: id_rsa.pub       # Public key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/server-alias: "nginx.k8s-3.sa"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: nginx-test.k8s-3.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80
