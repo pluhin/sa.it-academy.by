@@ -7,7 +7,7 @@
   * ingress rule for host name (nginx-test.k8s-<NUMBER>.sa)
   
   * nginx.yaml
-```bash
+```yaml
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -50,7 +50,6 @@ metadata:
   labels:
     run: nginx-service
 spec:
-  type: LoadBalancer
   ports:
   - port: 80
     protocol: TCP
@@ -130,7 +129,7 @@ FROM ubuntu:22.04
  ./run.sh & wait $!
 ```
   * runner-k8s.yaml
-```bash
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:

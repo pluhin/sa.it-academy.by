@@ -88,7 +88,7 @@ on:
 1. Enhance the existing GitHub repository with another Actions workflow.
   * https://github.com/Pro100chok91/Kubegit
 2. This time, create a workflow that sets up a Minikube cluster.
-```bash
+```yaml
 name: Create minikube cluster
 on:
   - pull_request
@@ -106,7 +106,7 @@ jobs:
           kubectl get nodes -A
 ```
 3. Configure the workflow to run on pull requests to the repository.
-```bash
+```yaml
 on:
   - pull_request
 ```
