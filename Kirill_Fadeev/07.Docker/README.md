@@ -52,7 +52,7 @@ fadeev@kirill:~/Docker$
 ```
 2. Write a Dockerfile to build an image for a simple web application (e.g., Flask or Node.js).
   *  package.json
-```bash
+```json
 {
   "name": "kirill_app",
   "version": "1.0.0",
@@ -69,7 +69,7 @@ fadeev@kirill:~/Docker$
 }
 ```
   * app.js
-```bash
+```js
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -92,7 +92,7 @@ console.log(`App listening at http://localhost:${port}`);
 });
 ```
   * HTML pages
-```bash
+```html
 fadeev@kirill:~/Docker/app$ cat html/index.html
 <!DOCTYPE html>
 <html lang="en">

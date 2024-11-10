@@ -29,7 +29,7 @@ Deployments finished on academy VMs:
 192.168.203.11  
 2. Deploy shell pod in default namespace which you can you use for internal checks inside the cluster.
   * Pod configuration
-```bash
+```yaml
 root@kirill:~/kubernetes# cat test_pod.yaml
 kind: Pod
 apiVersion: v1
@@ -73,8 +73,7 @@ CMD ["bash"]
 ![alt text](https://github.com/Pro100chok91/sa.it-academy.by/blob/md-sa2-29-24/Kirill_Fadeev/10.Kubernetes.installation/img/6.jpg)  
 
   * Workflow  
-```bash
-root@kirill:~/kubernetes# cat .github/workflows/pod_state.yaml
+```yaml
 name: Check Kubernetes Pod Status
 
 on: [push , workflow_dispatch]

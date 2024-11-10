@@ -4,9 +4,7 @@
 
 2. Create a Docker Compose YAML file to define the services, networks, and volumes.
   * docker-compose.yaml
-```bash
-fadeev@kirill:~/wordpress$ cat docker-compose.yaml
-
+```yaml
 services:
   db:
     image: mysql:8.0
@@ -190,7 +188,7 @@ CMD ["node", "app.js"]
 ![alt text](https://github.com/Pro100chok91/sa.it-academy.by/blob/md-sa2-29-24/Kirill_Fadeev/08.Docker.compose/img/6.jpg)  
 
 6. Push/publish image to docker hub and/or github container register.
-```bash
+```yaml
 name: Create and publish a Docker image
 
 on:
@@ -241,7 +239,7 @@ jobs:
 ```
 ![alt text](https://github.com/Pro100chok91/sa.it-academy.by/blob/md-sa2-29-24/Kirill_Fadeev/08.Docker.compose/img/7.jpg)  
 7. Slack notification when build failed/success with image name/tag.
-```bash
+```yaml
  notification:
     needs: build-and-push-image
     runs-on: ubuntu-latest
