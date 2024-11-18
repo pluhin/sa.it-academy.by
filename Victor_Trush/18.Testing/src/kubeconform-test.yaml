@@ -1,0 +1,56 @@
+name: kubeconform
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  kubeconform:
+    name: Test using kubeconform
+    runs-on: ubuntu-latest
+    outputs:
+      CHECK_OUTPUT: ${{ steps.init.outputs.CHECK_OUTPUT }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+            fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
+      - name: Get changed files
+        id: changed-files
+        run: |
+            if ${{ github.event_name == 'pull_request' }}; then
+                echo "changed_files=$(git diff --name-only -r HEAD^1 HEAD | xargs)" >> $GITHUB_OUTPUT
+            else
+                echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | xargs)" >> $GITHUB_OUTPUT
+            fi
+      - name: List changed files
+        run: |
+            for file in ${{ steps.changed-files.outputs.changed_files }}; do
+                echo "$file was changed"
+            done
+      - name: Set up Kubeconform
+        uses: bmuschko/setup-kubeconform@v1
+      - name: Validate manifests
+        id: init
+        run: |
+            CHECK_OUTPUT=""
+            for line in $(kubeconform -schema-location default --summary -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' ${{ steps.changed-files.outputs.changed_files }}); do
+              CHECK_OUTPUT="${CHECK_OUTPUT} $line"
+            done
+            echo "::set-output name=CHECK_OUTPUT::$CHECK_OUTPUT"
+            echo $CHECK_OUTPUT
+  notification:
+    needs: kubeconform
+    runs-on: ubuntu-latest
+    steps:
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_CHANNEL: all-slack
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_MESSAGE: ${{ needs.kubeconform.outputs.CHECK_OUTPUT }}
+        SLACK_TITLE: Kubeconform Check
+        SLACK_USERNAME: GitHub
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
