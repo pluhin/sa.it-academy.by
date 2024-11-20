@@ -1,0 +1,10 @@
+- name: Create user from Ansible
+  hosts: myhosts
+  tasks:
+   - name: Create new user
+     ansible.builtin.user:
+       name: "{{user_name}}"
+       group: "{{group_name}}"
+       password: "{{pass}}"
+       create_home: yes
+       state: present
