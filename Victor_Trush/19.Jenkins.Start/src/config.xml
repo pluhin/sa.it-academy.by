@@ -1,0 +1,121 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Job to run each day and collect data and send to the slack: check if today holiday in Belarus, inform about exchange rates for current day.</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@332.va_1ee476d8f6d">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>0 9 * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+
+# Set your API endpoint and key
+API_URL=&quot;https://date.nager.at/api/v2/PublicHolidays&quot;
+COUNTRY_CODE=&quot;BY&quot;  # Change to your country code as needed
+TODAY=$(date +%Y-%m-%d)
+
+# Fetch holiday data for the current year
+CURRENT_YEAR=$(date +%Y)
+RESPONSE=$(curl -s &quot;${API_URL}/${CURRENT_YEAR}/${COUNTRY_CODE}&quot;)
+
+# Check if the API call was successful
+if [ $? -ne 0 ]; then
+    echo &quot;Failed to fetch holiday data.&quot;
+    exit 1
+fi
+
+# Check if today is a holiday
+if echo &quot;$RESPONSE&quot; | grep -q &quot;\&quot;date\&quot;:\&quot;$TODAY\&quot;&quot;; then
+    echo &quot;Today ($TODAY) is a holiday.&quot;
+else
+    echo &quot;Today ($TODAY) is not a holiday.&quot;
+fi</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+
+# Set your API endpoint and key (if required)
+API_URL=&quot;https://api.exchangerate-api.com/v4/latest/BYN&quot;  # Change &apos;USD&apos; to your base currency
+
+# Fetch exchange rate data
+RESPONSE=$(curl -s &quot;$API_URL&quot;)
+
+# Check if the API call was successful
+if [ $? -ne 0 ]; then
+    echo &quot;Failed to fetch exchange rate data.&quot;
+    exit 1
+fi
+
+# Extract the date and rates from the response
+DATE=$(echo &quot;$RESPONSE&quot; | jq -r &apos;.date&apos;)
+RATES=$(echo &quot;$RESPONSE&quot; | jq -r &apos;.rates&apos;)
+
+# Inform about the exchange rates
+echo &quot;Exchange rates for $DATE:&quot;
+
+#echo &quot;$RATES&quot; | jq -r &apos;to_entries | .[] | &quot;\(.key): \(.value)&quot;&apos;
+
+# For example, to get the exchange rate for EUR and GBP and RUB:
+EUR_RATE=$(echo &quot;$RATES&quot; | jq -r &apos;.EUR&apos;)
+USD_RATE=$(echo &quot;$RATES&quot; | jq -r &apos;.USD&apos;)
+RUB_RATE=$(echo &quot;$RATES&quot; | jq -r &apos;.RUB&apos;)
+
+echo &quot;Exchange rate for EUR: $EUR_RATE&quot;
+echo &quot;Exchange rate for USD: $USD_RATE&quot;
+echo &quot;Exchange rate for RUB: $RUB_RATE&quot;</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <jenkins.plugins.slack.SlackNotifier plugin="slack@751.v2e44153c8fe1">
+      <baseUrl></baseUrl>
+      <teamDomain></teamDomain>
+      <authToken></authToken>
+      <tokenCredentialId></tokenCredentialId>
+      <botUser>false</botUser>
+      <room></room>
+      <sendAsText>false</sendAsText>
+      <iconEmoji></iconEmoji>
+      <username></username>
+      <startNotification>false</startNotification>
+      <notifySuccess>true</notifySuccess>
+      <notifyAborted>false</notifyAborted>
+      <notifyNotBuilt>false</notifyNotBuilt>
+      <notifyUnstable>false</notifyUnstable>
+      <notifyRegression>false</notifyRegression>
+      <notifyFailure>false</notifyFailure>
+      <notifyEveryFailure>true</notifyEveryFailure>
+      <notifyBackToNormal>false</notifyBackToNormal>
+      <notifyRepeatedFailure>false</notifyRepeatedFailure>
+      <includeTestSummary>false</includeTestSummary>
+      <includeFailedTests>false</includeFailedTests>
+      <uploadFiles>false</uploadFiles>
+      <artifactIncludes></artifactIncludes>
+      <commitInfoChoice>NONE</commitInfoChoice>
+      <includeCustomMessage>false</includeCustomMessage>
+      <customMessage></customMessage>
+      <customMessageSuccess></customMessageSuccess>
+      <customMessageAborted></customMessageAborted>
+      <customMessageNotBuilt></customMessageNotBuilt>
+      <customMessageUnstable></customMessageUnstable>
+      <customMessageFailure></customMessageFailure>
+    </jenkins.plugins.slack.SlackNotifier>
+  </publishers>
+  <buildWrappers/>
+</project>
