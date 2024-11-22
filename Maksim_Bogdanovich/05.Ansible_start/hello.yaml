@@ -1,0 +1,6 @@
+- name: My first yaml
+  hosts: myhosts
+  tasks:
+    - name: Print message
+      ansible.builtin.debug:
+        msg: Hello world

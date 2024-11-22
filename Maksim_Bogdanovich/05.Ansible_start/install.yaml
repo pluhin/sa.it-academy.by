@@ -1,0 +1,10 @@
+- name: Install apps
+  hosts: myhosts
+  tasks:
+   - name: Install "htop"
+     ansible.builtin.apt:
+       name: htop
+
+   - name: Install "Calcurse"
+     ansible.builtin.apt:
+       name: calcurse
