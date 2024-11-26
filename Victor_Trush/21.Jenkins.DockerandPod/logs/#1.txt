@@ -1,0 +1,378 @@
+Started by user admin
+Obtained Jenkinsfile from git https://github.com/hilinsky/jenkins-nodejs-app.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/Jenkins Docker and Pod
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/Jenkins Docker and Pod/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/hilinsky/jenkins-nodejs-app.git # timeout=10
+Fetching upstream changes from https://github.com/hilinsky/jenkins-nodejs-app.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- https://github.com/hilinsky/jenkins-nodejs-app.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 7c492895c186c1c84862ef866b6b0d9d92270702 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 7c492895c186c1c84862ef866b6b0d9d92270702 # timeout=10
+Commit message: "Add Jenkinsfile"
+First time build. Skipping changelog.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Dockerfile: Lint)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ hadolint Dockerfile
+[Pipeline] echo
+Hadolint Output:
+
+[Pipeline] echo
+No issues found in the Dockerfile.
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker: Build)
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker build -t jfrog.it-academy.by/public/nodejs-app:latest --network=host .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 589B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:14.4.0-alpine
+#2 DONE 11.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [build 1/7] FROM docker.io/library/node:14.4.0-alpine@sha256:c247e6ad0a4a40ca7b83ef6de8af3be3e43c05e458370054c3a17e8fcae50aa8
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 18.79kB 0.0s done
+#5 DONE 0.0s
+
+#6 [build 3/7] WORKDIR /home/node/app
+#6 CACHED
+
+#7 [build 4/7] COPY package*.json ./
+#7 CACHED
+
+#8 [build 2/7] RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+#8 CACHED
+
+#9 [build 5/7] RUN npm install
+#9 CACHED
+
+#10 [build 6/7] COPY --chown=node:node . .
+#10 DONE 0.2s
+
+#11 [build 7/7] RUN npm run build
+#11 0.594 
+#11 0.594 > multistage_nodejs_app@1.0.0 build /home/node/app
+#11 0.594 > mkdir -p dist/views/css && cp views/index.html dist/views  && cp views/sharks.html dist/views && cp views/css/styles.css dist/views/css && cp app.js dist/
+#11 0.594 
+#11 DONE 0.7s
+
+#12 [runtime 2/4] WORKDIR /home/node/app
+#12 CACHED
+
+#13 [runtime 3/4] COPY --chown=node:node --from=build /home/node/app/dist .
+#13 CACHED
+
+#14 [runtime 4/4] COPY --chown=node:node --from=build /home/node/app/node_modules ./node_modules
+#14 CACHED
+
+#15 exporting to image
+#15 exporting layers done
+#15 writing image sha256:82015b77d7b9c76d8d4ce326d468e5a5c0a4d0682b09e286933ad5934a096f89 done
+#15 naming to jfrog.it-academy.by/public/nodejs-app:latest done
+#15 DONE 0.0s
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker: Run)
+[Pipeline] sh
++ docker run -d --name nodejs-app -p 8081:8080 jfrog.it-academy.by/public/nodejs-app:latest
+6cb62d694bdeb03335bf715d7f3c4364932fb9a63520e02ad9f63822596745b4
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Curl to Container)
+[Pipeline] sleep
+Sleeping for 10 sec
+[Pipeline] sh
++ curl -s http://localhost:8081
+[Pipeline] echo
+Response from container: <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>About Sharks</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,700" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-static-top navbar-expand-md">
+        <div class="container">
+            <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span>
+            </button> <a class="navbar-brand" href="#">Everything Sharks</a>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="active nav-item"><a href="/" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item"><a href="/sharks" class="nav-link">Sharks</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Want to Learn About Sharks?</h1>
+            <p>Are you ready to learn about sharks?</p>
+            <br>
+            <p><a class="btn btn-primary btn-lg" href="/sharks" role="button">Get Shark Info</a>
+            </p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h3>Not all sharks are alike</h3>
+                <p>Though some are dangerous, sharks generally do not attack humans. Out of the 500 species known to researchers, only 30 have been known to attack humans.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <h3>Sharks are ancient</h3>
+                <p>There is evidence to suggest that sharks lived up to 400 million years ago.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker: Cleanup)
+[Pipeline] sh
++ docker stop nodejs-app
+nodejs-app
+[Pipeline] sh
++ docker rm nodejs-app
+nodejs-app
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Login to JFrog Artifactory)
+[Pipeline] echo
+Logging into JFrog Artifactory
+[Pipeline] withCredentials
+Masking supported pattern matches of $PASSWORD
+[Pipeline] {
+[Pipeline] sh
+Warning: A secret was passed to "sh" using Groovy String interpolation, which is insecure.
+		 Affected argument(s) used the following variable(s): [PASSWORD]
+		 See https://jenkins.io/redirect/groovy-string-interpolation for details.
++ + docker login https://jfrog.it-academy.byecho -u **** sa
+ --password-stdin
+WARNING! Your password will be stored unencrypted in /var/lib/jenkins/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push Docker Image to Artifactory)
+[Pipeline] echo
+Pushing Docker image to JFrog Artifactory
+[Pipeline] sh
++ docker push jfrog.it-academy.by/public/nodejs-app:latest
+The push refers to repository [jfrog.it-academy.by/public/nodejs-app]
+c3153b2bc817: Preparing
+699f4c56de58: Preparing
+83e1ae3439e4: Preparing
+109988400934: Preparing
+0cdeb35eff67: Preparing
+312072b77e32: Preparing
+3e207b409db3: Preparing
+312072b77e32: Waiting
+3e207b409db3: Waiting
+c3153b2bc817: Layer already exists
+699f4c56de58: Layer already exists
+83e1ae3439e4: Layer already exists
+0cdeb35eff67: Layer already exists
+109988400934: Layer already exists
+312072b77e32: Layer already exists
+3e207b409db3: Layer already exists
+latest: digest: sha256:f7c56723968d3284c30bc8b6558495f2c65b997c4543b5c1cf3c3f01b368d6ae size: 1783
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] node
+Running on k8s in /var/lib/jenkins/workspace/Jenkins Docker and Pod
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Create Pre-Prod Namespace)
+[Pipeline] echo
+Creating namespace: pre-prod
+[Pipeline] sh
++ grep pre-prod
++ kubectl get namespaces
+[Pipeline] sh
++ kubectl create namespace pre-prod
+namespace/pre-prod created
+[Pipeline] echo
+Namespace pre-prod created.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy to Pre-Prod Namespace)
+[Pipeline] echo
+Deploying to pre-prod namespace
+[Pipeline] writeFile
+[Pipeline] sh
++ kubectl apply -f pod-preprod.yaml --namespace=pre-prod
+pod/nodejs-app created
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Verify Deployment in Pre-Prod)
+[Pipeline] echo
+Verifying deployment in pre-prod namespace
+[Pipeline] sh
++ kubectl get pods -n pre-prod -o jsonpath={.items[?(@.metadata.name=="nodejs-app")].status.phase}
+[Pipeline] echo
+Pod status in pre-prod: Pending
+[Pipeline] timeout
+Timeout set to expire in 5 min 0 sec
+[Pipeline] {
+[Pipeline] waitUntil
+[Pipeline] {
+[Pipeline] sh
++ kubectl get pods -n pre-prod -o jsonpath={.items[?(@.metadata.name=="nodejs-app")].status.phase}
+[Pipeline] echo
+Current pod status in pre-prod: Pending
+[Pipeline] }
+Will try again after 0.25 sec
+[Pipeline] {
+[Pipeline] sh
++ kubectl get pods -n pre-prod -o jsonpath={.items[?(@.metadata.name=="nodejs-app")].status.phase}
+[Pipeline] echo
+Current pod status in pre-prod: Running
+[Pipeline] }
+[Pipeline] // waitUntil
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Approval for Production Deployment)
+[Pipeline] echo
+Waiting for approval to deploy to prodaction namespace
+[Pipeline] input
+Approve deployment to production?
+Deploy or Abort
+Approved by admin
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Create Prod Namespace)
+[Pipeline] echo
+Creating namespace: prodaction
+[Pipeline] sh
++ + grep prodaction
+kubectl get namespaces
+[Pipeline] sh
++ kubectl create namespace prodaction
+namespace/prodaction created
+[Pipeline] echo
+Namespace prodaction created.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy to Prod Namespace)
+[Pipeline] echo
+Deploying to prodaction namespace
+[Pipeline] writeFile
+[Pipeline] echo
+Deploying to production namespace...
+[Pipeline] sh
++ kubectl apply -f pod-prod.yaml --namespace=prodaction
+pod/nodejs-app created
+[Pipeline] slackSend
+Slack Send Pipeline step running, values are - baseUrl: <empty>, teamDomain: hilinsky, channel: #jenkins, color: good, botUser: false, tokenCredentialId: slack-notify, notifyCommitters: false, iconEmoji: <empty>, username: <empty>, timestamp: <empty>
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Verify Deployment in Prod)
+[Pipeline] echo
+Verifying deployment in prodaction namespace
+[Pipeline] sh
++ kubectl get pods -n prodaction -o jsonpath={.items[?(@.metadata.name=="nodejs-app")].status.phase}
+[Pipeline] echo
+Pod status in prodaction: Running
+[Pipeline] timeout
+Timeout set to expire in 5 min 0 sec
+[Pipeline] {
+[Pipeline] waitUntil
+[Pipeline] {
+[Pipeline] sh
++ kubectl get pods -n prodaction -o jsonpath={.items[?(@.metadata.name=="nodejs-app")].status.phase}
+[Pipeline] echo
+Current pod status in prodaction: Running
+[Pipeline] }
+[Pipeline] // waitUntil
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Cleanup)
+[Pipeline] echo
+Cleaning up resources
+[Pipeline] sh
++ kubectl delete pod nodejs-app --namespace=pre-prod
+pod "nodejs-app" deleted
+[Pipeline] sh
++ kubectl delete pod nodejs-app --namespace=prodaction
+pod "nodejs-app" deleted
+[Pipeline] sh
++ kubectl delete namespace pre-prod
+namespace "pre-prod" deleted
+[Pipeline] sh
++ kubectl delete namespace prodaction
+namespace "prodaction" deleted
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
