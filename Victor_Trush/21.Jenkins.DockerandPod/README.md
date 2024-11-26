@@ -18,7 +18,7 @@
     * deploy in namespace prod
     * cleaning: remove deployment from pre-prod
 
-  ![screenshot](screens/blue.png)
+  ![screenshot](screens/jenkins.png)
 
   ![screenshot](screens/blue.png)
   
