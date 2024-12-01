@@ -1,0 +1,15 @@
+- hosts: all_workers
+  #gather_facts: false
+  #strategy: free
+  #serial: 1
+
+  tasks:
+    - name: add user {{ user_to_add }}
+      user:
+        name: "{{ user_to_add }}"
+
+    - name: check
+      shell: |
+        grep "{{ user_to_add }}" /etc/passwd
+        date
+      register: out

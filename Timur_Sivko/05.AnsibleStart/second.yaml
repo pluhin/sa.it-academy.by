@@ -1,0 +1,8 @@
+- hosts: all_workers
+  #gather_facts: False
+
+  tasks:
+    - name: Install cowsay
+      ansible.builtin.package:
+        name: cowsay
+        state: present
