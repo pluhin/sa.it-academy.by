@@ -1,0 +1,8 @@
+- hosts: all_workers
+  tasks:
+    - name: Create {{ name_group }}
+      ansible.builtin.group:
+        name: "{{ name_group }}"
+
+
+

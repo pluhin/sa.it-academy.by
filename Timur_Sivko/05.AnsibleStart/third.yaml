@@ -1,0 +1,9 @@
+- hosts: all_workers
+  #gather_facts: False
+  #strategy: free
+  #serial: 1
+  tasks:
+    - name: Delete cowsay
+      ansible.builtin.package:
+        name: cowsay
+        state: absent

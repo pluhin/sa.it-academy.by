@@ -1,0 +1,11 @@
+- hosts: all_workers
+  #gather_facts: False
+  #strategy: free
+  #serial: 1
+  tasks:
+    - name: Hello World
+      debug:
+        msg: "Hello World!"
+      tags:
+        - no_facts
+        - always
