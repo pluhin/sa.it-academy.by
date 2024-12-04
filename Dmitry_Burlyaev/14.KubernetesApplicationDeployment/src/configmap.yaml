@@ -1,0 +1,82 @@
+# templates/configmap.yaml
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: basic-security
+  namespace: {{ .Release.Namespace }}
+data:
+  basic-security.groovy: |
+    #!groovy
+    import jenkins.model.*
+    import hudson.security.*
+
+    def instance = Jenkins.getInstance()
+    println "--> creating local user 'admin'"
+
+    // Получаем пароль из переменной окружения или значений Helm
+    def password = System.getenv("PASS") ?: "{{ .Values.jenkinsSecret.password }}"
+
+    // Настройка пропуска аутентификации для liveness и readiness
+    instance.servletContext.getContextHandler().addFilter("LivenessReadinessFilter", new Filter() {
+        void init(FilterConfig filterConfig) {}
+        void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) {
+            if (request instanceof HttpServletRequest) {
+                def path = ((HttpServletRequest) request).getRequestURI()
+                if (path.contains("/liveness") || path.contains("/readiness")) {
+                    response.setStatus(200)
+                    response.getWriter().println("OK")
+                    return
+                }
+            }
+            chain.doFilter(request, response)
+        }
+        void destroy() {}
+    }, "/*")
+
+    // Создаем учетную запись администратора
+    def hudsonRealm = new HudsonPrivateSecurityRealm(false)
+    hudsonRealm.createAccount('admin', password)
+    instance.setSecurityRealm(hudsonRealm)
+
+    // Настройка стратегии авторизации
+    def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
+    strategy.setAllowAnonymousRead({{ .Values.jenkins.allowAnonymousRead | default true }})
+    instance.setAuthorizationStrategy(strategy)
+
+    // Сохраняем настройки
+    instance.save()
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-config
+  namespace: {{ .Release.Namespace }}
+data:
+  jenkins.yaml: |
+    jenkins:
+      numExecutors: {{ .Values.jenkins.numExecutors | default 2 }}
+      clouds:
+        - kubernetes:
+            containerCapStr: "{{ .Values.jenkins.kubernetes.containerCap | default 10 }}"
+            maxRequestsPerHostStr: "{{ .Values.jenkins.kubernetes.maxRequestsPerHost | default 32 }}"
+            jenkinsUrl: "{{ .Values.jenkins.kubernetes.jenkinsUrl | default "http://jenkins:8080" }}"
+            name: "{{ .Values.jenkins.kubernetes.name | default "kubernetes" }}"
+            namespace: "{{ .Release.Namespace }}"
+            skipTlsVerify: {{ .Values.jenkins.kubernetes.skipTlsVerify | default true }}
+    credentials:
+      system:
+        domainCredentials:
+          - credentials:
+              - usernamePassword:
+                  description: "{{ .Values.jenkins.credentials.description | default "Githubuser" }}"
+                  id: "{{ .Values.jenkins.credentials.id | default "github-creds" }}"
+                  password: "{{ .Values.jenkins.credentials.password }}"
+                  scope: GLOBAL
+                  username: "{{ .Values.jenkins.credentials.username }}"
+    unclassified:
+      location:
+        adminAddress: "{{ .Values.jenkins.location.adminAddress | default "admin@example.com" }}"
+        url: "{{ .Values.jenkins.location.url | default "http://jenkins.k8s-3.sa/" }}"
+      shell:
+        shell: "/bin/bash"

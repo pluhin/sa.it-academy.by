@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins
+  # name: {{ include "jenkins.fullname" . }}
+  namespace: "{{ .Release.Namespace }}"
+spec:
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}
+    - name: jnlp
+      port: {{ .Values.service.slavePort }}
+      targetPort: {{ .Values.service.slavePort }}
+  selector:
+    app.kubernetes.io/name: jenkins
+    app.kubernetes.io/instance: {{ include "jenkins.fullname" . }}

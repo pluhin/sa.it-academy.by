@@ -1,11 +1,10 @@
-12. Kubernetes. Data. Security
+# 12. Kubernetes. Data. Security
 
 # Homework Assignment 1. Config maps and secrets
 
     You need to improve deployment from previous task:
 
-```bush
-#  nginx-deployment.yaml
+    ``` bush
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -75,10 +74,11 @@ spec:
                 port:
                   number: 80
 ```
-```bush
 
-    - Add index.php page as config map, which should display hostname of pod as first level header, or generate index.html inside init container
+  #  - Add index.php page as config map, which should display hostname of pod as first level header, or generate index.html inside init container
  
+ ```bush
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -132,7 +132,7 @@ metadata:
 ![Screenshot](Screenshot/K8sDS5.png)
 ![Screenshot](Screenshot/K8sDS6.png)
 
-    - generate pair public and private keys (or use existing) and add them to the pod for user root as secrets, please use sealsecret object for that
+   # - generate pair public and private keys (or use existing) and add them to the pod for user root as secrets, please use sealsecret object for that
 
 ```bush
 
@@ -288,12 +288,10 @@ spec:
 
 ![Screenshot](Screenshot/K8sDS7.png)
 
-    - Validate secrets and index.html display
+   # - Validate secrets and index.html display
 
  ![Screenshot](Screenshot/K8sDS8.png)
  ![Screenshot](Screenshot/K8sDS9.png)
  ![Screenshot](Screenshot/K8sDS10.png)
  ![Screenshot](Screenshot/K8sDS11.png)
  ![Screenshot](Screenshot/K8sDS12.png)
-
-Your updated manifests and validation result add to PR with short report

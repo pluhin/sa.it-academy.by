@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jenkins-job-upload
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-install
+spec:
+  backoffLimit: 3
+  completions: 1
+  template:
+    spec:
+      initContainers:
+        - name: wait-for-jenkins
+          image: curlimages/curl
+          command:
+            - sh
+            - "-c"
+            - |
+              echo "Waiting for Jenkins to be ready..."
+              until curl -s -o /dev/null -w "%{http_code}" http://jenkins:8080/login | grep -q "200"; do
+                echo "Jenkins not ready, retrying..."
+                sleep 5
+              done
+              echo "Jenkins is ready!"
+      containers:
+        - name: upload-job
+          image: curlimages/curl
+          command:
+            - sh
+            - "-c"
+            - |
+              echo "Uploading job configuration..."
+              curl -u admin:adminpassword -X POST "http://jenkins:8080/createItem?name=pre-configured-job" \
+              --header "Content-Type: application/xml" --data-binary "@/mnt/config/config.xml"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /mnt/config
+      restartPolicy: Never
+      volumes:
+        - name: config-volume
+          configMap:
