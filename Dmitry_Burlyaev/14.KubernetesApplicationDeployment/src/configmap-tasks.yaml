@@ -1,0 +1,62 @@
+# templates/configmap-tasks.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-tasks-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "jenkins.labels" . | nindent 4 }}
+data:
+  config.xml: |
+      <?xml version='1.1' encoding='UTF-8'?>
+      <flow-definition plugin="workflow-job@1460.v28178c1ef6e6">
+        <actions>
+          <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2214.vb_b_34b_2ea_9b_83"/>
+          <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2214.vb_b_34b_2ea_9b_83">
+            <jobProperties/>
+            <triggers/>
+            <parameters/>
+            <options/>
+          </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+        </actions>
+        <description>Pre-configured Jenkins task</description>
+        <keepDependencies>false</keepDependencies>
+        <properties>
+          <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@332.va_1ee476d8f6d">
+            <autoRebuild>false</autoRebuild>
+            <rebuildDisabled>false</rebuildDisabled>
+          </com.sonyericsson.rebuild.RebuildSettings>
+        </properties>
+        <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3990.vd281dd77a_388">
+          <script>pipeline {
+        agent {
+          kubernetes {
+            containerTemplate {
+              name 'curl-test'
+              image 'pluhin31/wget_curl:latest'
+              ttyEnabled true
+              command 'sleep 180'
+            }
+          }
+        }
+        stages {
+          stage('Test') {
+            steps {
+              container('curl-test') {
+                sh """
+                  curl --version
+                  curl https://onliner.by
+                  wget -O - https://onliner.by | egrep "https://[0-9a-z]+[.]onliner[.]by" -o | sort -u > tmp.out
+                  cat tmp.out
+                  curl $(cat tmp.out) -I | egrep HTTP
+                """
+              }
+            }
+          }
+        }
+      }</script>
+          <sandbox>true</sandbox>
+        </definition>
+        <triggers/>
+        <disabled>false</disabled>
+      </flow-definition>

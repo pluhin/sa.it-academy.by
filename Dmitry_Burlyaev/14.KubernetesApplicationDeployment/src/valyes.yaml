@@ -1,0 +1,232 @@
+# Default values for Jenkins Helm Chart
+# These values are configurable and passed into your templates.
+
+# Replica configuration
+replicaCount: 1
+
+# Jenkins image configuration
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci
+  pullPolicy: IfNotPresent
+  tag: burlyaev29
+
+# Image pull secrets (for private repositories, if needed)
+imagePullSecrets: []
+nameOverride: ""
+#fullnameOverride: "jenkins"
+fullnameOverride: ""
+
+# Service Account
+serviceAccount:
+  create: true
+  name: ""
+  automount: true
+  annotations: {}
+
+# Pod annotations and labels
+podAnnotations: {}
+podLabels: {}
+
+# Pod security context
+podSecurityContext: {}
+
+# Container security context
+securityContext: {}
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 8080  
+  slavePort: 50000
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+  hosts:
+    - host: jenkins.k8s-3.sa
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Jenkins admin password from Secret
+jenkinsSecret:
+  password: bXlfc3Ryb25nX3Bhc3NfMTIz
+
+# Resource requests and limits
+resources:
+  requests:
+    cpu: 2
+    memory: 2Gi
+  limits:
+    cpu: 3
+    memory: 3Gi
+
+# Liveness and readiness probes
+livenessProbe:
+  httpGet:
+    path: /login
+    port: 8080
+  initialDelaySeconds: 150
+  periodSeconds: 60
+  timeoutSeconds: 10
+  failureThreshold: 5
+
+readinessProbe:
+  httpGet:
+    path: /login
+    port: 8080
+  initialDelaySeconds: 150
+  periodSeconds: 60
+  timeoutSeconds: 10
+  failureThreshold: 5
+
+# Autoscaling configuration
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+
+# Volumes configuration
+pv:
+  size: 10Gi
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-29-24/burlyaev/jenkins
+    server: 192.168.37.105
+
+pvc:
+  size: 10Gi
+
+volumes:
+  - name: jenkins-auth-config
+    configMap:
+      name: basic-security
+  - name: jenkins-config-yaml
+    configMap:
+      name: jenkins-config
+  - name: jenkins-config
+  #for task
+  - name: jenkins-tasks-config
+    configMap:
+      name: jenkins-tasks-config
+
+    persistentVolumeClaim:
+      claimName: jenkins-config  # PVC to be used by Jenkins
+
+# Volume mounts
+volumeMounts:
+  - name: jenkins-auth-config
+    mountPath: /var/jenkins_home/init.groovy.d/basic-security.groovy
+    subPath: basic-security.groovy
+  - name: jenkins-config-yaml
+    mountPath: /var/jenkins_home/casc_configs/jenkins.yaml
+    subPath: jenkins.yaml
+  - name: jenkins-config
+    mountPath: /var/jenkins_home
+# task
+  - name: jenkins-tasks-config
+    mountPath: /var/jenkins_home/jobs/pre-configured-job/config.xml
+    subPath: config.xml
+
+
+
+# Node affinity, tolerations, and selector
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# ConfigMap for Jenkins tasks (Step 6: Optional)
+taskConfigMap:
+  enabled: true
+  name: jenkins-tasks-config
+  data:
+    config.xml: |
+      <?xml version='1.1' encoding='UTF-8'?>
+      <flow-definition plugin="workflow-job@1460.v28178c1ef6e6">
+        <actions>
+          <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2214.vb_b_34b_2ea_9b_83"/>
+          <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2214.vb_b_34b_2ea_9b_83">
+            <jobProperties/>
+            <triggers/>
+            <parameters/>
+            <options/>
+          </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+        </actions>
+        <description>Pre-configured Jenkins task</description>
+        <keepDependencies>false</keepDependencies>
+        <properties>
+          <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@332.va_1ee476d8f6d">
+            <autoRebuild>false</autoRebuild>
+            <rebuildDisabled>false</rebuildDisabled>
+          </com.sonyericsson.rebuild.RebuildSettings>
+        </properties>
+        <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3990.vd281dd77a_388">
+          <script>pipeline {
+        agent {
+          kubernetes {
+            containerTemplate {
+              name &apos;curl-test&apos;
+              image &apos;pluhin31/wget_curl:latest&apos;
+              ttyEnabled true
+              command &apos;sleep 180&apos;
+            }
+          }
+        }
+        stages {
+          stage(&apos;Test&apos;) {
+            steps {
+              container(&apos;curl-test&apos;) {
+                sh &quot;&quot;&quot;#!/bin/sh
+                  curl --version
+                  curl https://onliner.by
+                  wget -O - https://onliner.by | egrep &quot;https://[0-9a-z]+[.]onliner[.]by&quot; -o | sort -u &gt; tmp.out
+                  cat tmp.out
+                  curl \$(cat tmp.out) -I | egrep HTTP
+                &quot;&quot;&quot;
+              }
+            }
+          }
+        }
+      }</script>
+          <sandbox>true</sandbox>
+        </definition>
+        <triggers/>
+        <disabled>false</disabled>
+      </flow-definition>
+# Configuration for test connection
+testConnection:
+  enabled: true
+  port: 8080  # Make sure this port is defined for testing the connection
+
+#for jankins Github
+ jenkins:
+  allowAnonymousRead: true
+  numExecutors: 2
+  kubernetes:
+    containerCap: 10
+    maxRequestsPerHost: 32
+    jenkinsUrl: "http://jenkins:8080"
+    name: "kubernetes"
+    skipTlsVerify: true
+  credentials:
+    description: "Githubuser"
+    id: "github-creds"
+    username: "admin"
+    password: "adminpassword"
+  location:
+    adminAddress: "fuzzyfox2012@gmail.com"
+    url: "http://jenkins.k8s-3.sa/"
+
+#jenkins:
+#  allowAnonymousRead: true
+#  numExecutors: 2
+#  kubernetes:
+#    containerCap: 10
+#    maxRequestsPerHost: 32
+#    jenkinsUrl: "http://jenkins:8080"
+#    name: "kubernetes"
+#    skipTlsVerify: true
