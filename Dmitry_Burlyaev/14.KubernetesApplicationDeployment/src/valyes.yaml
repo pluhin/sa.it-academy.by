@@ -203,30 +203,32 @@ testConnection:
   port: 8080  # Make sure this port is defined for testing the connection
 
 #for jankins Github
- jenkins:
-  allowAnonymousRead: true
-  numExecutors: 2
-  kubernetes:
-    containerCap: 10
-    maxRequestsPerHost: 32
-    jenkinsUrl: "http://jenkins:8080"
-    name: "kubernetes"
-    skipTlsVerify: true
-  credentials:
-    description: "Githubuser"
-    id: "github-creds"
-    username: "admin"
-    password: "adminpassword"
-  location:
-    adminAddress: "fuzzyfox2012@gmail.com"
-    url: "http://jenkins.k8s-3.sa/"
-
-#jenkins:
-#  allowAnonymousRead: true
-#  numExecutors: 2
-#  kubernetes:
-#    containerCap: 10
-#    maxRequestsPerHost: 32
-#    jenkinsUrl: "http://jenkins:8080"
-#    name: "kubernetes"
-#    skipTlsVerify: true
+jenkins:
+ allowAnonymousRead: true
+ numExecutors: 2
+ kubernetes:
+   containerCap: 10
+   maxRequestsPerHost: 32
+   jenkinsUrl: "http://jenkins:8080"
+   name: "kubernetes"
+   skipTlsVerify: true
+ credentials:
+   description: "Githubuser"
+   id: "github-creds"
+   username: "admin"
+   password: "adminpassword"
+ location:
+   adminAddress: "fuzzyfox2012@gmail.com"
+   url: "http://jenkins.k8s-3.sa/"
+ 
+# Переменные окружения для CASC
+env:
+  - name: PASS
+    valueFrom:
+      secretKeyRef:
+        name: jenkins-secret
+        key: password
+  - name: JAVA_OPTS
+    value: "-Djenkins.install.runSetupWizard=false"
+  - name: CASC_JENKINS_CONFIG
+    value: /var/jenkins_home/casc_configs/jenkins.yaml

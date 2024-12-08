@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "jenkins.fullname" . }}
+  name: {{ include "jenkins.fullname" $ }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "jenkins.labels" . | nindent 4 }}
@@ -24,7 +24,7 @@ spec:
             pathType: {{ .pathType | default "Prefix" }}
             backend:
               service:
-                name: {{ include "jenkins.fullname" . }}
+                name: {{ include "jenkins.fullname" $ }}
                 port:
                   number: {{ $.Values.service.port }}
           {{- end }}
