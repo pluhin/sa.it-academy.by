@@ -1,4 +1,4 @@
-rendered.yaml
+# rendered.yaml
 ---
 # Source: jenkins/templates/serviceaccount.yaml
 apiVersion: v1
@@ -20,6 +20,11 @@ kind: Secret
 metadata:
   name: jenkins-secret
   namespace: ci-cd  # dynamic based on Helm release
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: jenkins
+    meta.helm.sh/release-namespace: ci-cd
 type: Opaque
 data:
   password: YlhsZmMzUnliMjVuWDNCaGMzTmZNVEl6
@@ -43,7 +48,7 @@ data:
       <flow-definition plugin="workflow-job@1460.v28178c1ef6e6">
         <actions>
           <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2214.vb_b_34b_2ea_9b_83"/>
-          <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2214.vb_b_34b_2ea_9b_83">
+          <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2214.vb_b_2ea_9b_83">
             <jobProperties/>
             <triggers/>
             <parameters/>
@@ -103,15 +108,41 @@ data:
     #!groovy
     import jenkins.model.*
     import hudson.security.*
+
     def instance = Jenkins.getInstance()
     println "--> creating local user 'admin'"
+
+    // Получаем пароль из переменной окружения или значений Helm
     def password = System.getenv("PASS") ?: "bXlfc3Ryb25nX3Bhc3NfMTIz"
+
+    // Настройка пропуска аутентификации для liveness и readiness
+    instance.servletContext.getContextHandler().addFilter("LivenessReadinessFilter", new Filter() {
+        void init(FilterConfig filterConfig) {}
+        void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) {
+            if (request instanceof HttpServletRequest) {
+                def path = ((HttpServletRequest) request).getRequestURI()
+                if (path.contains("/liveness") || path.contains("/readiness")) {
+                    response.setStatus(200)
+                    response.getWriter().println("OK")
+                    return
+                }
+            }
+            chain.doFilter(request, response)
+        }
+        void destroy() {}
+    }, "/*")
+
+    // Создаем учетную запись администратора
     def hudsonRealm = new HudsonPrivateSecurityRealm(false)
     hudsonRealm.createAccount('admin', password)
     instance.setSecurityRealm(hudsonRealm)
+
+    // Настройка стратегии авторизации
     def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
     strategy.setAllowAnonymousRead(true)
     instance.setAuthorizationStrategy(strategy)
+
+    // Сохраняем настройки
     instance.save()
 ---
 # Source: jenkins/templates/configmap.yaml
@@ -125,23 +156,23 @@ data:
     jenkins:
       numExecutors: 2
       clouds:
-      - kubernetes:
-          containerCapStr: "10"
-          maxRequestsPerHostStr: "32"
-          jenkinsUrl: "http://jenkins:8080"
-          name: "kubernetes"
-          namespace: "ci-cd"
-          skipTlsVerify: true
+        - kubernetes:
+            containerCapStr: "10"
+            maxRequestsPerHostStr: "32"
+            jenkinsUrl: "http://jenkins:8080"
+            name: "kubernetes"
+            namespace: "ci-cd"
+            skipTlsVerify: true
     credentials:
       system:
         domainCredentials:
-        - credentials:
-          - usernamePassword:
-              description: "Githubuser"
-              id: "github-creds"
-              password: "adminpassword"
-              scope: GLOBAL
-              username: "admin"
+          - credentials:
+              - usernamePassword:
+                  description: "Githubuser"
+                  id: "github-creds"
+                  password: "adminpassword"
+                  scope: GLOBAL
+                  username: "admin"
     unclassified:
       location:
         adminAddress: "fuzzyfox2012@gmail.com"
@@ -149,11 +180,40 @@ data:
       shell:
         shell: "/bin/bash"
 ---
+# Source: jenkins/templates/pv.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jenkins-config-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/IT-Academy/nfs-data/sa2-29-24/burlyaev/jenkins
+    server: 192.168.37.105
+---
+# Source: jenkins/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-config
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  volumeName: jenkins-config-pv
+---
 # Source: jenkins/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: jenkins
+  # name: jenkins
   namespace: "ci-cd"
 spec:
   ports:
@@ -164,7 +224,8 @@ spec:
       port: 50000
       targetPort: 50000
   selector:
-    app: jenkins
+    app.kubernetes.io/name: jenkins
+    app.kubernetes.io/instance: jenkins
 ---
 # Source: jenkins/templates/deployment.yaml
 apiVersion: apps/v1
@@ -218,13 +279,21 @@ spec:
             - name: JAVA_OPTS
               value:
           livenessProbe:
+            failureThreshold: 5
             httpGet:
-              path: /
-              port: http-port
+              path: /login
+              port: 8080
+            initialDelaySeconds: 150
+            periodSeconds: 60
+            timeoutSeconds: 10
           readinessProbe:
+            failureThreshold: 5
             httpGet:
-              path: /
-              port: http-port
+              path: /login
+              port: 8080
+            initialDelaySeconds: 150
+            periodSeconds: 60
+            timeoutSeconds: 10
           resources:
             limits:
               cpu: 3
@@ -241,6 +310,9 @@ spec:
               subPath: jenkins.yaml
             - mountPath: /var/jenkins_home
               name: jenkins-config
+            - mountPath: /var/jenkins_home/jobs/pre-configured-job/config.xml
+              name: jenkins-tasks-config
+              subPath: config.xml
       volumes:
         - configMap:
             name: basic-security
@@ -249,15 +321,16 @@ spec:
             name: jenkins-config
           name: jenkins-config-yaml
         - name: jenkins-config
-          nfs:
-            path: /mnt/IT-Academy/nfs-data/sa2-29-24/burlyaev/jenkins
-            server: 192.168.37.105
+          persistentVolumeClaim:
+            claimName: jenkins-config
+        - configMap:
+            name: jenkins-tasks-config
+          name: jenkins-tasks-config
 ---
 # Source: jenkins/templates/ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-#  name: jenkins-jenkins  # Используем fullnameOverride или дефолтное имя
   name: jenkins
   namespace: ci-cd
   labels:
@@ -267,6 +340,8 @@ metadata:
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
   annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     kubernetes.io/ingress.class: nginx
 spec:
   ingressClassName: nginx
@@ -306,3 +381,48 @@ spec:
       command: ['wget']
       args: ['jenkins:8080']
   restartPolicy: Never
+---
+# Source: jenkins/templates/job-upload.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jenkins-job-upload
+  namespace: ci-cd
+  annotations:
+    "helm.sh/hook": post-install
+spec:
+  backoffLimit: 3
+  completions: 1
+  template:
+    spec:
+      initContainers:
+        - name: wait-for-jenkins
+          image: curlimages/curl
+          command:
+            - sh
+            - "-c"
+            - |
+              echo "Waiting for Jenkins to be ready..."
+              until curl -s -o /dev/null -w "%{http_code}" http://jenkins:8080/login | grep -q "200"; do
+                echo "Jenkins not ready, retrying..."
+                sleep 5
+              done
+              echo "Jenkins is ready!"
+      containers:
+        - name: upload-job
+          image: curlimages/curl
+          command:
+            - sh
+            - "-c"
+            - |
+              echo "Uploading job configuration..."
+              curl -u admin:adminpassword -X POST "http://jenkins:8080/createItem?name=pre-configured-job" \
+              --header "Content-Type: application/xml" --data-binary "@/mnt/config/config.xml"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /mnt/config
+      restartPolicy: Never
+      volumes:
+        - name: config-volume
+          configMap:
+            name: jenkins-tasks-config
