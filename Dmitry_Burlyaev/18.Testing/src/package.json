@@ -1,0 +1,14 @@
+{
+  "name": "nodejs-app",
+  "version": "1.0.0",
+  "description": "A simple Node.js web app",
+  "main": "application.js",
+  "scripts": {
+    "start": "node application.js"
+  },
+  "author": "Burlyaev",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}

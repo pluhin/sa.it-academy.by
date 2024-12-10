@@ -1,0 +1,169 @@
+name: Docker Image Test 2 Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      imageToBuild:
+        description: 'The image directory to build'
+        required: true
+        default: 'my-nodejs-app'
+      tagImage:
+        description: 'Tag for the image'
+        required: true
+        default: 'latest'
+
+jobs:
+  build_and_test:
+    name: Build and Test Docker Image
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      # Step 1: Checkout code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Log in to GitHub Container Registry
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 3: Build and push Docker image to GHCR
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: ${{ github.event.inputs.imageToBuild || '.' }}
+          file: ${{ github.event.inputs.imageToBuild || '.' }}/Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.inputs.imageToBuild || 'nodejs' }}:${{ github.event.inputs.tagImage || 'latest' }}
+
+      # Step 4: Run the Docker container for testing
+      - name: Run the Node.js App
+        run: |
+          docker run --name nodejs-app -p 8080:8080 -d \
+            ghcr.io/${{ github.repository_owner }}/${{ github.event.inputs.imageToBuild || 'nodejs' }}:${{ github.event.inputs.tagImage || 'latest' }}
+
+      # Step 5: Install curl to test the running container
+      - name: Install curl
+        run: sudo apt-get install -y curl
+
+      # Step 6: Test if the container serves data
+      - name: Test Request Data
+        run: |
+          echo "Testing default route..."
+          curl http://localhost:8080 -v
+          
+          echo "Testing /status endpoint..."
+          curl http://localhost:8080/status -v
+          
+          echo "Testing /test-data endpoint..."
+          curl http://localhost:8080/test-data -v
+          
+          echo "Testing /info endpoint with query param..."
+          curl "http://localhost:8080/info?param=test-query" -v
+
+      # Step 7: Verify that the Docker image does not run as root
+      - name: Non-Root Access Check
+        uses: wetransform/gha-docker-nonroot@v1.0.3
+        with:
+          image-ref: ghcr.io/${{ github.repository_owner }}/${{ github.event.inputs.imageToBuild || 'nodejs' }}:${{ github.event.inputs.tagImage || 'latest' }}
+          fail-for-root: true
+
+      # Step 8: Stop and remove the Docker container
+      - name: Cleanup Container
+        if: always()
+        run: |
+          docker stop nodejs-app
+          docker rm nodejs-app
+
+      # Step 9: Send success notification to Slack
+      - name: Send success notification to Slack
+        if: success()
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          payload: |
+            {
+              "text": "Docker image test notification:",
+              "attachments": [
+                {
+                  "fallback": "Docker image test successfully: ghcr.io/${{ github.repository_owner }}/${{ github.event.inputs.imageToBuild || 'nodejs' }}:${{ github.event.inputs.tagImage || 'latest' }}",
+                  "pretext": "Docker image build completed successfully! 🎉",
+                  "color": "#36a64f",
+                  "fields": [
+                    {
+                      "title": "Repository",
+                      "value": "ghcr.io/${{ github.repository_owner }}/${{ github.event.inputs.imageToBuild || 'nodejs' }}:${{ github.event.inputs.tagImage || 'latest' }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Ref",
+                      "value": "${{ github.ref }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Commit",
+                      "value": "${{ github.sha }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Actions URL",
+                      "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                      "short": false
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+      # Step 10: Send failure notification to Slack
+      - name: Send failure notification to Slack
+        if: failure()
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          payload: |
+            {
+              "text": "Docker image test notification:",
+              "attachments": [
+                {
+                  "fallback": "Docker image test failed for: ghcr.io/${{ github.repository_owner }}/${{ github.event.inputs.imageToBuild || 'nodejs' }}:${{ github.event.inputs.tagImage || 'latest' }}",
+                  "pretext": "Docker image build encountered an error! ❌",
+                  "color": "#FF0000",
+                  "fields": [
+                    {
+                      "title": "Repository",
+                      "value": "ghcr.io/${{ github.repository_owner }}/${{ github.event.inputs.imageToBuild || 'nodejs' }}:${{ github.event.inputs.tagImage || 'latest' }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Ref",
+                      "value": "${{ github.ref }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Commit",
+                      "value": "${{ github.sha }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Actions URL",
+                      "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                      "short": false
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
