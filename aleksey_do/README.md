@@ -21,3 +21,6 @@ To get started with this project, follow these steps:
     ```
 
 ## Links
+  ```sh
+  - How to join to the course [IT Academy site](https://www.it-academy.by/)
+  ```
