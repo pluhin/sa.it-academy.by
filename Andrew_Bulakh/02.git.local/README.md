@@ -37,13 +37,13 @@
    27  git log
    28  git log --oneline
    29  git show 184d1f1
+```
+## Homework Assignment 4: Creating and Applying Tags
+```bash
    30  git tag -a v1.0 184d1f1d6fb9491659e7a8dfc6db0e6f67d1ef3e -m "Tag v1.0"
    31  git log --oneline
    32  echo "First tag added" >> README.md
    33  git add README.md
-```
-## Homework Assignment 4: Creating and Applying Tags
-```bash
    34  git tag -a v2.0 -m "Tag v2.0"
    35  git log
 ```
