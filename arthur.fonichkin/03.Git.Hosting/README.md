@@ -1,6 +1,6 @@
 # Git. Hosting
 
-##Commands:
+## Commands:
 ```bash 
   238  ssh-keygen
   239  cat /c/Users/User/.ssh/id_ed25519.pub
@@ -29,7 +29,7 @@
   266  history
 ```
 
-##Script:
+## Script:
 ```bash
 CURRENT_BRANCH=`git branch --show-current`
 REMOTES=`git remote`
@@ -42,11 +42,10 @@ done
 echo "Push to all remotes complete!"
 ```
 
-##Repositories:
-```bash
- 1 https://github.com/ArthurF-java/git-local/tree/testF
- 2 https://gitlab.com/fonichkin.arthur/git-local/-/tree/testF?ref_type=heads
-```
+## Repositories:
+ 1. https://github.com/ArthurF-java/git-local/tree/testF <br />
+ 2. https://gitlab.com/fonichkin.arthur/git-local/-/tree/testF?ref_type=heads
+
 
 
 
