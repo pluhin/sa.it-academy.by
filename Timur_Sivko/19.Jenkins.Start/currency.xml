@@ -1,0 +1,94 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1472.ve4d5eca_143c4">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2218.v56d0cda_37c72"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2218.v56d0cda_37c72">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <hudson.triggers.TimerTrigger>
+          <spec>H H * * *</spec>
+        </hudson.triggers.TimerTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@4002.v80ca_d0f47d7f">
+    <script>pipeline {
+    agent any
+    
+    environment {
+        CURRENCY_URL = &apos;https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/byn.json&apos;
+    }
+    
+    stages {
+        stage(&apos;Fetch Exchange Rate&apos;) {
+            steps {
+                script {
+                    try {
+                        def response = httpRequest url: env.CURRENCY_URL
+                        def json = readJSON text: response.content
+                        def usdExchangeRate = json.byn.usd
+                        echo response.content
+                        if (json) {
+                            env.EXCHANGE_RATE = usdExchangeRate
+                            echo &quot;Exchange rate found: ${usdExchangeRate}&quot;
+                        } else {
+                             error &quot;&quot;&quot;Failed to extract exchange rate from JSON&quot;&quot;&quot;
+                        }
+                    } catch (Exception e) {
+                        currentBuild.result = &apos;FAILURE&apos;
+                        throw e
+                    }
+                }
+            }
+        }
+        
+        stage(&apos;Send Notification&apos;) {
+            steps {
+                script {
+                    try {
+                        def message = &quot;The current exchange rate from BYN to USD is: ${env.EXCHANGE_RATE}&quot;
+                        
+                        slackSend(
+                            channel: &apos;#timur-github-package&apos;,
+                            color: &apos;good&apos;,
+                            message: message,
+                            tokenCredentialId: &apos;Slack2&apos;,
+                            botUser: true
+                        )
+                        
+                        echo &quot;Notification sent to Slack: ${message}&quot;
+                    } catch (Exception e) {
+                        currentBuild.result = &apos;FAILURE&apos;
+                        throw e
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        failure {
+            slackSend(
+                channel: &apos;#timur-github-package&apos;,
+                color: &apos;danger&apos;,
+                message: &quot;Pipeline failed: ${env.JOB_NAME} - ${env.BUILD_NUMBER}&quot;,
+                tokenCredentialId: &apos;Slack2&apos;,
+                botUser: true
+            )
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

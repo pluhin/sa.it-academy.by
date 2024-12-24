@@ -1,0 +1,117 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1472.ve4d5eca_143c4">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2218.v56d0cda_37c72"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2218.v56d0cda_37c72">
+      <jobProperties/>
+      <triggers/>
+      <parameters>
+        <string>username</string>
+      </parameters>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>username</name>
+          <description>Username to check in /etc/passwd</description>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <org.jenkinsci.plugins.gwt.GenericTrigger plugin="generic-webhook-trigger@2.2.5">
+          <spec></spec>
+          <regexpFilterText></regexpFilterText>
+          <regexpFilterExpression></regexpFilterExpression>
+          <genericRequestVariables>
+            <org.jenkinsci.plugins.gwt.GenericRequestVariable>
+              <key>username</key>
+              <regexpFilter></regexpFilter>
+            </org.jenkinsci.plugins.gwt.GenericRequestVariable>
+          </genericRequestVariables>
+          <printPostContent>false</printPostContent>
+          <printContributedVariables>true</printContributedVariables>
+          <causeString>Generic Cause</causeString>
+          <token>AJZglLbqsmrfALDuRAKbIlCEYqSoSjHek9iKc06iQmFuEqoRLQowiiPpaGTtKfmx</token>
+          <tokenCredentialId></tokenCredentialId>
+          <silentResponse>false</silentResponse>
+          <overrideQuietPeriod>false</overrideQuietPeriod>
+          <shouldNotFlattern>false</shouldNotFlattern>
+          <allowSeveralTriggersPerBuild>false</allowSeveralTriggersPerBuild>
+        </org.jenkinsci.plugins.gwt.GenericTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@4002.v80ca_d0f47d7f">
+    <script>def USER_EXISTS = false
+pipeline {
+    agent any
+    
+    parameters {
+        string(name: &apos;username&apos;, defaultValue: &apos;&apos;, description: &apos;Username to check in /etc/passwd&apos;)
+    }
+    
+    stages {
+        stage(&apos;Validate Input&apos;) {
+            steps {
+                script {
+                    if (params.username.trim().isEmpty()) {
+                        error &quot;Username parameter cannot be empty&quot;
+                    }
+                }
+            }
+        }
+        
+        stage(&apos;Check User&apos;) {
+            steps {
+                script {
+                    def result = sh(script: &quot;getent passwd ${params.username} &gt;/dev/null 2&gt;&amp;1 &amp;&amp; echo 1 || echo 0&quot;, returnStdout: true)
+                    echo &quot;${result.trim()}&quot;
+                    echo &quot;${(result.trim().toInteger() == 1)}&quot;
+                    USER_EXISTS = (result.trim().toInteger() == 1)
+                }
+            }
+        }
+        
+        stage(&apos;Notify&apos;) {
+            steps {
+                script {
+                    echo &quot;${USER_EXISTS}&quot;
+                    def message = USER_EXISTS ? 
+                        &quot;✅ User &apos;${params.username}&apos; exists in /etc/passwd&quot; :
+                        &quot;❌ User &apos;${params.username}&apos; does not exist in /etc/passwd&quot;
+                    slackSend(
+                        channel: &apos;#timur-github-package&apos;,
+                        color: USER_EXISTS.toBoolean() ? &apos;good&apos; : &apos;danger&apos;,
+                        message: message,
+                        tokenCredentialId: &apos;Slack2&apos;,
+                        botUser: true
+                    )
+                }
+            }
+        }
+    }
+    
+    post {
+        failure {
+            slackSend(
+                channel: &apos;#timur-github-package&apos;,
+                color: &apos;danger&apos;,
+                message: &quot;❌ Pipeline failed while checking user &apos;${params.username}&apos;&quot;,
+                tokenCredentialId: &apos;Slack2&apos;,
+                botUser: true
+            )
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

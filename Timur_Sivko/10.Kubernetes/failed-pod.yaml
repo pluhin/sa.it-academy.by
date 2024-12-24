@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: failed-pod
+spec:
+  containers:
+  - name: invalid-container
+    image: invalid-image:latest
+    command: ["sh", "-c", "exit 1"]
+
