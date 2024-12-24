@@ -1,0 +1,68 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1472.ve4d5eca_143c4">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2218.v56d0cda_37c72"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2218.v56d0cda_37c72">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <hudson.triggers.TimerTrigger>
+          <spec>H H * * *</spec>
+        </hudson.triggers.TimerTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@4002.v80ca_d0f47d7f">
+    <script>pipeline {
+    agent any
+    
+    environment {
+        HOLIDAY_URL = &apos;https://date.nager.at/api/v3/IsTodayPublicHoliday/BY?offset=0&apos;
+    }
+    
+    stages {
+        stage(&apos;Fetch Holiday&apos;) {
+            steps {
+                script {
+                    def response = httpRequest env.HOLIDAY_URL
+                    def status = response.getStatus()
+                    
+                    if (status == 204)
+                    {
+                        slackSend(
+                            channel: &apos;#timur-github-package&apos;,
+                            color: &apos;danger&apos;,
+                            message: &apos;💔There is no holiday today&apos;,
+                            tokenCredentialId: &apos;Slack2&apos;,
+                            botUser: true
+                        )
+                    }
+                    if (status == 200)
+                    {
+                        slackSend(
+                            channel: &apos;#timur-github-package&apos;,
+                            color: &apos;good&apos;,
+                            message: &apos;🎉There is holiday today&apos;,
+                            tokenCredentialId: &apos;Slack2&apos;,
+                            botUser: true
+                        )
+                    }
+                    
+                }
+            }
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
