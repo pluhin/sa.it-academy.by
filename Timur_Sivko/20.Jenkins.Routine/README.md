@@ -18,7 +18,7 @@ on:
 jobs:
   trigger-jenkins:
     runs-on: self-hosted
-    
+
     steps:
       - name: Trigger Jenkins Job
         run: |
@@ -29,11 +29,11 @@ jobs:
 def USER_EXISTS = false
 pipeline {
     agent any
-    
+
     parameters {
         string(name: 'username', defaultValue: '', description: 'Username to check in /etc/passwd')
     }
-    
+
     stages {
         stage('Validate Input') {
             steps {
@@ -44,7 +44,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Check User') {
             steps {
                 script {
@@ -55,7 +55,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Notify') {
             steps {
                 script {
@@ -74,7 +74,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         failure {
             slackSend(
@@ -89,6 +89,4 @@ pipeline {
 }
 ```
 
-![Снимок экрана_2024-12-24_14-48-57.png](/home/ostia27/sigma/sa.it-academy.by/Timur_Sivko/20.Jenkins.Routine/Снимок%20экрана_2024-12-24_14-48-57.png)
-
-
+![Снимок экрана_2024-12-24_14-48-57.png](Снимок%20экрана_2024-12-24_14-48-57.png)

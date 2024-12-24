@@ -18,9 +18,9 @@ sudo apt-get update
 sudo apt-get install jenkins
 ```
 
-![](Снимок экрана_2024-12-23_10-40-19.png)
+![](Снимок%20экрана_2024-12-23_10-40-19.png)
 
-![Снимок экрана_2024-12-24_13-34-37.png](/home/ostia27/sigma/sa.it-academy.by/Timur_Sivko/19.Jenkins.Start/Снимок%20экрана_2024-12-24_13-34-37.png)
+![Снимок экрана_2024-12-24_13-34-37.png](Снимок%20экрана_2024-12-24_13-34-37.png)
 
 ## Homework Assignment 2: Create Job
 
@@ -140,8 +140,8 @@ sudo apt-get install jenkins
    }
    ```
 
-![Снимок экрана_2024-12-24_14-13-37.png](/home/ostia27/sigma/sa.it-academy.by/Timur_Sivko/19.Jenkins.Start/Снимок%20экрана_2024-12-24_14-13-37.png) 
+![Снимок экрана_2024-12-24_14-13-37.png](Снимок%20экрана_2024-12-24_14-13-37.png) 
 
-![Снимок экрана_2024-12-24_14-12-29.png](/home/ostia27/sigma/sa.it-academy.by/Timur_Sivko/19.Jenkins.Start/Снимок%20экрана_2024-12-24_14-12-29.png)
+![Снимок экрана_2024-12-24_14-12-29.png](Снимок%20экрана_2024-12-24_14-12-29.png)
 
    

@@ -18,7 +18,7 @@ Install k9s
 brew install derailed/k9s/k9s
 ```
 
-![Снимок экрана_2024-12-23_15-15-35.png](/home/ostia27/sigma/sa.it-academy.by/Timur_Sivko/10.Kubernetes/Снимок%20экрана_2024-12-23_15-15-35.png)
+![Снимок экрана_2024-12-23_15-15-35.png](Снимок%20экрана_2024-12-23_15-15-35.png)
 
 ## Kubernetes host
 
@@ -87,8 +87,4 @@ jobs:
           text: "${{ needs.check_pods.outputs.pod_status }} crashed pods"
 ```
 
-![Снимок экрана_2024-12-24_15-04-21.png](/home/ostia27/sigma/sa.it-academy.by/Timur_Sivko/10.Kubernetes/Снимок%20экрана_2024-12-24_15-04-21.png)
-
-
-
-
+![Снимок экрана_2024-12-24_15-04-21.png](Снимок%20экрана_2024-12-24_15-04-21.png)
