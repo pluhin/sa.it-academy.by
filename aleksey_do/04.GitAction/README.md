@@ -1,12 +1,5 @@
 # 04.GitAction
 
-## Repositories
-
-
-
-[gitlab](https://gitlab.com/Alex-AGD/it-acad-devops.git)
-
-
 ### Homework Assignment 1
 
 -  [github](https://github.com/Alex-AGD/git-actions.git)
@@ -34,6 +27,7 @@
         run: node hello.js
 
 ### Homework Assignment 2: Building and Testing with GitHub Actions
+
 - ### testCalcWorkFlow.yml
 - ```yaml
     name: Hello GitHub Actions
