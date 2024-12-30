@@ -1,0 +1,43 @@
+- hosts: other
+  tasks:
+    - name: Create user
+      ansible.builtin.user:
+        name: "{{ user }}"
+        group: "{{ group }}"
+        password: "{{ password | password_hash('sha512') }}"
+        state: present
+        comment: Managed by ansible
+    - name: Check user creation
+      shell: |
+        grep "{{ user }}" /etc/passwd
+        echo "   "
+        groups "{{ user }}"
+      register: result
+    - name: Print result
+      debug:
+        msg: "{{ result.stdout }}"
+    - name: Assign user to group
+      ansible.builtin.user:
+        name: "{{ user }}"
+        shell: "/bin/bash"
+        groups: "{{ new_group }}"
+        append: yes
+    - name: Check user's groups
+      shell: |
+        groups "{{ user }}"
+      register: result
+    - name: Print result
+      debug:
+        msg: "{{ result.stdout }}"
+    - name: Remove the user
+      ansible.builtin.user:
+        name: "{{ user }}"
+        state: absent
+        remove: yes
+    - name: Check user was deleted
+      shell: |
+         if [ `grep user1 /etc/passwd` =='' ]; then echo "absent"; else echo `grep user1 /etc/passwd`; fi
+      register: result
+    - name: Print result
+      debug:
+        msg: "{{ result.stdout }}"
