@@ -1,0 +1,19 @@
+jump_sa:
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.53
+      ansible_user: jump_sa
+other:
+  vars:
+    ansible_ssh_private_key_file: ~/.ssh/ansible_key
+    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53 -p 32510"'
+  hosts:
+    host3:
+      ansible_host: 192.168.202.3
+      ansible_user: root
+    host4:
+      ansible_host: 192.168.202.4
+      ansible_user: root
+
+
+
