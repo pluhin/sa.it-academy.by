@@ -1,0 +1,12 @@
+- hosts: workers
+  gather_facts: False
+
+  tasks:
+    - name: This command will change the working directory to somedir/
+      ansible.builtin.shell:
+        cmd: echo "Hello, Ansible!"
+      register: shell_out
+
+    - name: Debuging
+      debug:
+        msg: "{{ shell_out.stdout_lines }}"
