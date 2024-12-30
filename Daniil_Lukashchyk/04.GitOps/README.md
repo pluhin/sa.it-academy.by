@@ -6,7 +6,7 @@ https://github.com/Gorilbl4/git-actions
 ### Homework Assignment 1
 
 ### hello.yml
-```bash
+```yaml
   name: Hello GitHub Actions
     on:
     push:
@@ -27,13 +27,13 @@ https://github.com/Gorilbl4/git-actions
 
       - name: Run hello script
         run: node hello.js
-```
+
 
 ### Homework Assignment 2: Building and Testing with GitHub Actions
 
 ### sum.yml
 
-```bash
+```yaml
 name: Sum
 
 on:
@@ -57,7 +57,7 @@ jobs:
 
       - name: Start test
         run: node test_sum.js
-```
+
 
 ![img.png](Actions.png)
 
