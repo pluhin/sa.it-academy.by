@@ -114,4 +114,4 @@ jobs:
 ```
 
 
-[GitHub Action Result](https://github.com/MisterRobo/sa.it-academy.by_04.GitOps/actions/runs/12481607257/job/34834387400)
+[GitHub Action Result](https://github.com/MisterRobo/sa.it-academy.by_04.GitOps/actions/runs/12543339203/job/34974297584)
