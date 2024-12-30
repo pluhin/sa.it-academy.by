@@ -65,37 +65,38 @@ htop 3.3.0
 touch [user_management.sh]
 
 ```bash
-#!/bin/bash
+ #!/bin/bash
 
-# Параметры
+# Parameters
 USERNAME=$1
 GROUPNAME=$2
 PASSWORD=$3
 
-# Проверка на наличие необходимых параметров
+# Check for the presence of required parameters
 if [ -z "$USERNAME" ] || [ -z "$GROUPNAME" ] || [ -z "$PASSWORD" ]; then
-  echo "Использование: $0 <имя_пользователя> <имя_группы> <пароль>"
-  exit 1
+echo "Usage: $0 <username> <groupname> <password>"
+exit 1
 fi
 
-# Создание новой группы, если она не существует
+# Create a new group if it doesn't exist
 if ! getent group $GROUPNAME > /dev/null; then
-  sudo groupadd $GROUPNAME
+sudo groupadd $GROUPNAME
 fi
 
-# Создание нового пользователя и добавление в группу
+# Create a new user and add to a group
 sudo useradd -m -G $GROUPNAME -s /bin/bash $USERNAME
 
-# Установка пароля
+# Setting a password
 echo "$USERNAME:$PASSWORD" | sudo chpasswd
 
-# Проверка созданного пользователя и его группы
+# Checking the created user and its group
 if id "$USERNAME" &>/dev/null; then
-  echo "Пользователь $USERNAME создан и добавлен в группу $GROUPNAME."
+echo "User $USERNAME created and added to group $GROUPNAME."
 else
-  echo "Ошибка при создании пользователя $USERNAME."
-  exit 1
+echo "Error creating user $USERNAME."
+exit 1
 fi
+
 ```
 chmod +x user_management.sh
 
