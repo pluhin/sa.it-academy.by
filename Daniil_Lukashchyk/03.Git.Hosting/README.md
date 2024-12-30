@@ -22,3 +22,5 @@ echo "no remotes in current dirrectory. Check .git"
 fi
 ```
 
+####Alias
+alias push-remote="~/HomeworkSSH/sa.it-academy.by/Daniil_Lukashchyk/03.Git.Hosting/push_remote.sh"
