@@ -1,0 +1,8 @@
+- hosts: workers
+  gather_facts: True
+
+  tasks:
+    - name: Install naginx
+      ansible.builtin.apt:
+        name: nginx
+        update_cache: yes

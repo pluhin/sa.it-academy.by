@@ -1,0 +1,30 @@
+- name: Manage users and groups
+  hosts: workers
+  gather_facts: True
+  vars:
+    user_name: "{{ user_name | default('default_user') }}"
+    group_name: "{{ group_name | default('default_group') }}"
+    user_password: "{{ 'default_password!' | password_hash('sha512') }}"
+
+  tasks:
+
+    - name: Ensure the group exists
+      ansible.builtin.group:
+        name: "{{ group_name }}"
+        state: present
+
+    - name: Ensure the user exists and assign to the group
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+        groups: "{{ group_name }}"
+        state: present
+        password: "{{ user_password }}"
+
+    - name: Verify the user creation
+      ansible.builtin.shell: "id {{ user_name }}"
+      register: user_info
+      ignore_errors: true
+
+    - name: Debug user information
+      debug:
+        msg: "{{ user_info.stdout }}"
