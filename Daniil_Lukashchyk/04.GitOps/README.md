@@ -27,7 +27,7 @@ https://github.com/Gorilbl4/git-actions
 
       - name: Run hello script
         run: node hello.js
-
+```
 
 ### Homework Assignment 2: Building and Testing with GitHub Actions
 
@@ -57,7 +57,7 @@ jobs:
 
       - name: Start test
         run: node test_sum.js
-
+```
 
 ![img.png](Actions.png)
 
