@@ -2,7 +2,7 @@
 
 ### nginx_vhost.j2
 
-```bash
+```nginx
 server {
     listen 80;
     server_name {{ item.hostname }};
@@ -18,7 +18,7 @@ server {
 
 ### index.html.j2
 
-```bash 
+```html 
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +35,7 @@ server {
 
 ### nginx_playbook.yml
 
-```bash 
+```yaml
 ---
 - name: Install and configure Nginx web server
   hosts: all_workers
