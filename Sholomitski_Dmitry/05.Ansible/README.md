@@ -1,4 +1,4 @@
-## Homework Assignment 1: Setting Up Ansible
+# Homework Assignment 1: Setting Up Ansible
 
 ```bash
 sudo apt install ansible
@@ -20,8 +20,7 @@ mkdir ansible
 cd ansible/
 ```
 
-###### Write an Ansible playbook that prints "Hello, Ansible!" to the console.
-
+## Write an Ansible playbook that prints "Hello, Ansible!" to the console
 
 ```yaml
 - hosts: all_workers
@@ -37,11 +36,11 @@ cd ansible/
 
 ```
 
-```bash 
+```bash
 ansible-playbook -i inv.yaml playbook1.yaml
 ```
 
-```bash 
+```bash
 
 PLAY [all_workers] **********************************************************************************************
 
@@ -65,7 +64,9 @@ Playbook run took 0 days, 0 hours, 0 minutes, 0 seconds
 ```
 
 ## Homework Assignment 2: Managing Remote Hosts
-**Create inventory file**
+
+### Create inventory file
+
 ```yaml
 all_workers:
   children:
@@ -86,16 +87,17 @@ jump_sa:
       ansible_host: 178.124.206.53
       ansible_user: jump_sa
 ```
-**Add SSH parametres**
-``` bash 
+
+### Add SSH parametres
+
+``` bash
 xaos@ubuntu:~/ansible$ cat group_vars/all_workers/var.yaml
 ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53 -p 32510"'
 ```
 
-#### Write an Ansible playbook to install a basic package (e.g., vim or htop) on the remote host.
+#### Write an Ansible playbook to install a basic package (e.g., vim or htop) on the remote host
 
-
-``` yaml 
+``` yaml
 - hosts: all_workers
   #gather_facts: False
   #strategy: free
@@ -114,8 +116,7 @@ ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.5
         msg: "{{ installed.stdout }}"
 ```
 
-
-``` bash 
+``` bash
 xaos@ubuntu:~/ansible$ ansible-playbook -i inv.yaml playbook2.yaml
 
 PLAY [all_workers] ********************************************************************************************************
@@ -157,12 +158,11 @@ Print --------------------------------------------------------------------------
 Playbook run took 0 days, 0 hours, 0 minutes, 9 seconds
 ```
 
-
 ### Homework Assignment 3: Managing Users and Groups
 
 create_user.yaml
 
-```yaml 
+```yaml
 - name: Manage users and groups on remote hosts
   hosts: all_workers
   become: yes

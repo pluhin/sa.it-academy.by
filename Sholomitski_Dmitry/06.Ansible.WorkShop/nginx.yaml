@@ -1,3 +1,4 @@
+---
 - name: Install and configure Nginx with two virtual hosts
   hosts: web
 
@@ -64,14 +65,11 @@
         dest: /etc/hosts
         line: "{{ ansible_host }} {{item.server_name}}"
       loop: "{{ virtualhosts }}"
-
+      
     - name: Check that you can connect (GET) to a page and it returns a status 200
       ansible.builtin.uri:
         url: "http://{{ item.server_name }}"
       loop: "{{ virtualhosts }}"
-
-
-
 
     - name: Check that a page returns successfully but fail if websites names  is not in the page contents
       ansible.builtin.uri:

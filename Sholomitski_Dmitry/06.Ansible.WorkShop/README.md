@@ -1,7 +1,7 @@
 ## 06.AnsibleWorkshop
 
-
 #### Nginx playbook
+
 [link to playbook](nginx.yaml)
 
 #### Index.html file template
@@ -11,7 +11,6 @@
 #### Nginx conf file template
 
 [Nginx conf file](templates/vhost.conf.j2)
-
 
 ### Result on local virtual PC
 
