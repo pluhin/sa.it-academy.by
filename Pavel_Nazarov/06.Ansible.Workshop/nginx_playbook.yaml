@@ -1,0 +1,55 @@
+---
+- name: Install and configure Nginx with two virtual hosts
+  hosts: webservers
+  become: true
+  vars:
+    nginx_vhosts:
+      - server_name: first-site.com
+        root: /var/www/first-site.com
+        port: 8081
+      - server_name: second-site.com
+        root: /var/www/second-site.com
+        port: 8082
+  tasks:
+    - name: Ensure Nginx is installed
+      apt:
+        name: nginx
+        state: present
+
+    - name: Create directories for virtual hosts
+      file:
+        path: "{{ item.root }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      with_items: "{{ nginx_vhosts }}"
+
+    - name: Create HTML files for virtual hosts using template
+      template:
+        src: templates/index.html.j2
+        dest: "{{ item.root }}/index.html"
+      with_items: "{{ nginx_vhosts }}"
+
+    - name: Deploy Nginx configuration for virtual hosts
+      template:
+        src: templates/nginx_vhost.j2
+        dest: "/etc/nginx/sites-available/{{ item.server_name }}"
+      with_items: "{{ nginx_vhosts }}"
+
+    - name: Enable virtual hosts
+      file:
+        src: "/etc/nginx/sites-available/{{ item.server_name }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.server_name }}"
+        state: link
+      with_items: "{{ nginx_vhosts }}"
+
+    - name: Remove default Nginx configuration
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Restart Nginx to apply changes
+      service:
+        name: nginx
+        state: restarted
