@@ -1,0 +1,2 @@
+# requirements.txt
+Flask==2.2.3

@@ -1,0 +1,38 @@
+all_workers:
+  children:
+    work_sa:
+      vars:
+        ansible_user: root
+      hosts:
+        host_19:
+          ansible_host: 192.168.202.19
+        host_20:
+          ansible_host: 192.168.202.20
+
+web:
+  hosts:
+    web_21:
+      ansible_host: 192.168.56.21
+      ansible_user: root
+    web_22:
+      ansible_host: 192.168.56.22
+      ansible_user: root
+
+
+
+db_all:
+  vars:
+#    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53 -p 32510"'
+  hosts:
+    mysql:
+      ansible_host: 192.168.201.10
+      ansible_user: root
+
+
+jump_sa:
+  vars:
+    env: "it-academy"
+  hosts:
+    jump_bastion:
+      ansible_host: 178.124.206.53
+      ansible_user: jump_sa
