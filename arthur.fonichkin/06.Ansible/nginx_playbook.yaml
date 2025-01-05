@@ -1,0 +1,70 @@
+- name: Install and configure Nginx with virtual hosts
+  hosts: nginx_sites
+  become: true
+  gather_facts: False
+  vars:
+    web_sites:
+      - site1
+      - site2
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: true
+
+    - name: Remove default Nginx configuration
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Create directories for virtual hosts
+      file:
+        path: "/var/www/{{ item }}"
+        state: directory
+        mode: '0755'
+      loop: "{{ web_sites }}"
+
+    - name: Deploy Nginx virtual host configuration files
+      ansible.builtin.template:
+        src: templates/nginx-vhost.j2
+        dest: "/etc/nginx/sites-available/{{ item }}.conf"
+        mode: '0644'
+      loop: "{{ web_sites }}"
+
+    - name: Deploy index.html for virtual hosts
+      ansible.builtin.template:
+        src: templates/index.j2
+        dest: "/var/www/{{ item }}/index.html"
+        mode: '0644'
+      loop: "{{ web_sites }}"
+
+    - name: Enable virtual hosts
+      file:
+        src: "/etc/nginx/sites-available/{{ item }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ item }}.conf"
+        state: link
+      loop: "{{ web_sites }}"
+
+    - name: Restart nginx service
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Add host name
+      loop: "{{ web_sites }}"
+      lineinfile:
+        dest: /etc/hosts
+        line: "{{ ansible_host }} {{item}}"
+
+    - name: Test Nginx configuration
+      command: nginx -t
+      register: nginx_test
+
+    - name: Check that a page returns successfully
+      loop: "{{ web_sites }}"
+      ansible.builtin.uri:
+        url: "http://{{ item }}"
+        return_content: true
+      register: this
+      failed_when: "'fonichkin.arthur@gmail.com' not in this.content"
