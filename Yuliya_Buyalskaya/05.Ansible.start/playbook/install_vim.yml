@@ -1,0 +1,13 @@
+- hosts: other
+  tasks:
+    - name: Install vim
+      ansible.builtin.apt:
+        name: vim
+        state: present
+    - name: Check installation
+      shell: |
+        apt-cache policy vim | grep "Installed"
+      register: result
+    - name: Print result
+      debug:
+        msg: "{{ result.stdout }}"
