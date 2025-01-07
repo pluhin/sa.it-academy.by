@@ -1,0 +1,81 @@
+- name: Configure and deploy Nginx
+  hosts: web_servers
+
+  vars:
+    vhosts:
+      -  name: site1
+      -  name: site2
+
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Manage the Nginx Proccess
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Create directories for virtual hosts
+      ansible.builtin.file:
+        path: /var/www/{{ item.name }}
+        state: directory
+        mode: '0755'
+      loop: "{{ vhosts }}"
+
+    - name: Create index.html
+      ansible.builtin.template:
+        src: templates/index.j2
+        dest: /var/www/{{ item.name }}/index.html
+        mode: '0644'
+      loop: "{{ vhosts }}"
+
+    - name: Create Nginx config
+      ansible.builtin.template:
+        src: templates/config.j2
+        dest: /etc/nginx/sites-available/{{ item.name }}
+        mode: '0644'
+      loop: "{{ vhosts }}"
+
+    - name: Enable virtual host by creating link
+      ansible.builtin.file:
+        src: "/etc/nginx/sites-available/{{ item.name }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.name }}"
+        state: link
+      loop: "{{ vhosts }}"
+
+    - name: Setting /etc/hosts
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        line: "{{ ansible_host }} {{ item.name }}"
+        state: present
+      loop: "{{ vhosts }}"
+
+    - name: Check syntax errors in Nginx files
+      shell: |
+        nginx -t
+      register: nginx_test
+      failed_when: nginx_test.rc != 0
+
+    - name: Reloaded Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
+
+    - name: Check sites
+      ansible.builtin.uri:
+        url: http://{{ item.name }}
+        return_content: yes
+      register: result
+      loop: "{{ vhosts }}"
+      failed_when: result.status != 200
+
+    - name: Print content of sites
+      debug:
+        msg: "Content from {{ item.url }}: {{ item.content }}"
+      loop: "{{ result.results }}"
+      loop_control:
+        label: "{{ item.url }}"

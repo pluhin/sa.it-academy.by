@@ -1,0 +1,59 @@
+- hosts: web_server
+  vars:
+    web_sites:
+      - site1
+      - site2
+  tasks:
+  - name: Install Nginx
+    apt:
+      name: nginx
+      state: latest
+      update_cache: true
+    tags: install
+  - name: Create config
+    loop: "{{ web_sites }}"
+    ansible.builtin.template:
+      src: templates/config.j2
+      dest: "/etc/nginx/sites-available/{{ item }}.conf"
+      mode: '0644'
+  - name: Enable virtual host config
+    loop: "{{ web_sites }}"
+    file:
+      src: "/etc/nginx/sites-available/{{ item }}.conf"
+      dest: "/etc/nginx/sites-enabled/{{ item }}.conf"
+      state: link
+  - name: Create directory for web-site
+    loop: "{{ web_sites }}"
+    file:
+      path: "/var/www/{{ item }}/html"
+      state: directory
+      mode: '0755'
+  - name: Create HTMP page
+    loop: "{{ web_sites }}"
+    ansible.builtin.template:
+      src: templates/index.j2
+      dest: "/var/www/{{ item }}/html/index.html"
+      mode: '0644'
+  - name: Restart nginx service
+    service:
+      name: nginx
+      state: restarted
+  - name: Add host name
+    loop: "{{ web_sites }}"
+    lineinfile:
+      dest: /etc/hosts
+      line: "{{ ansible_host }} {{item}}"
+  - name: Receiving respond from the site
+    loop: "{{ web_sites }}"
+    uri:
+      url: "http://{{ item }}"
+      return_content: true
+    register: result
+    delay: 10
+    failed_when: result.status != 200
+  - name: Show content
+    loop: "{{ result.results }}"
+    loop_control:
+      label: "Response from the {{ item.url }}:"
+    debug:
+      msg: "{{  item.content }}"
