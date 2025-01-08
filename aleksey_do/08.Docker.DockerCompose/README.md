@@ -180,8 +180,6 @@ REACT_APP_API_URL=http://localhost:8081
 ENV=prod
 ```
 
-
-
 ### Result
 ![img.png](backend.png)
 
