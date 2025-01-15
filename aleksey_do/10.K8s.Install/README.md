@@ -1,82 +1,66 @@
 # 10.K8s.Install
+
 ### Homework Assignment 1. K8s Installation
 
 ![kubectl.png](kubectl.png)
 
 ## Deploy shell pod in default namespace which you can you use for internal checks inside the cluster
-![k9s.png](k9s.png)
 
+![k9s.png](k9s.png)
 
 ![img.png](wokflow.png)
 
 ### Skack noifications
-name: Monitor Kubernetes Pods
 
-
-# 10.K8s.Install
-### Homework Assignment 1. K8s Installation
-
-![kubectl.png](kubectl.png)
-
-## Deploy shell pod in default namespace which you can you use for internal checks inside the cluster
-![k9s.png](k9s.png)
-
-
-![img.png](wokflow.png)
-
-### Skack noifications
 name: Monitor Kubernetes Pods
 
 ```yaml
 # 10.K8s.Install
 ### Homework Assignment 1. K8s Installation
 
-![kubectl.png](kubectl.png)
-## Deploy shell pod in default namespace which you can you use for internal checks inside the cluster
-![k9s.png](k9s.png)
-![img.png](wokflow.png)
+  ![ kubectl.png ](kubectl.png)
+  ## Deploy shell pod in default namespace which you can you use for internal checks inside the cluster
+  ![ k9s.png ](k9s.png)
+  ![ slack.png ](wokflow.png)
 
-# 10.K8s.Install
-### Homework Assignment 1. K8s Installation
+  # 10.K8s.Install
+  ### Homework Assignment 1. K8s Installation
 
-![kubectl.png](kubectl.png)
+  ![ kubectl.png ](kubectl.png)
 
-## Deploy shell pod in default namespace which you can you use for internal checks inside the cluster
-![k9s.png](k9s.png)
+  ## Deploy shell pod in default namespace which you can you use for internal checks inside the cluster
+  ![ k9s.png ](k9s.png)
 
 
-![img.png](wokflow.png)
+  ![ slack.png ](wokflow.png)
 ```
 
-### Skack noifications
-
-
 # 10.K8s.Install
+
 ### Homework Assignment 1. K8s Installation
 
 ![kubectl.png](kubectl.png)
 
 ## Deploy shell pod in default namespace which you can you use for internal checks inside the cluster
+
 ![k9s.png](k9s.png)
-
-
 ![img.png](wokflow.png)
 
 ### Skack noifications
 
 # 10.K8s.Install
+
 ### Homework Assignment 1. K8s Installation
 
 ![kubectl.png](kubectl.png)
 
 ## Deploy shell pod in default namespace which you can you use for internal checks inside the cluster
+
 ![k9s.png](k9s.png)
-
-
 ![img.png](wokflow.png)
-  
 
 ### Monitor Kubernetes Pods
+
 ```yaml
 name: Monitor Kubernetes Pods
 
@@ -170,3 +154,6 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 `````
+
+### Skack noifications
+### ![img.png](slack.png)
