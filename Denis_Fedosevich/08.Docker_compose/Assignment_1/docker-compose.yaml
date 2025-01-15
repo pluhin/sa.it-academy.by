@@ -1,0 +1,39 @@
+volumes:
+  nextcloud-data:
+  db-data:
+
+networks:
+  nextcloud-network:
+    driver: bridge
+
+services:
+  db:
+    image: mariadb:latest
+    restart: unless-stopped
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=qwerty123
+      - MYSQL_PASSWORD=qwerty123
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+    networks:
+      - nextcloud-network
+
+  nextcloud:
+    image: nextcloud:latest
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+    volumes:
+      - nextcloud-data:/var/www/html
+    environment:
+      - MYSQL_PASSWORD=qwerty123
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=db
+    networks:
+      - nextcloud-network

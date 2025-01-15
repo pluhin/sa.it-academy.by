@@ -1,0 +1,50 @@
+services:
+  db:
+    image: mariadb:latest
+    container_name: db
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+    env_file:
+      - .env
+    networks:
+      - database
+  wordpress:
+    depends_on:
+      - db
+    links:
+      - "db"
+      - "db:mariadb"
+    image: wordpress:latest
+    container_name: wordpress
+    ports:
+      - "8000:80"
+    volumes:
+      - wp-content:/var/www/html/wp-content
+    environment:
+      WORDPRESS_DB_NAME: ${DB_NAME}
+      WORDPRESS_TABLE_PREFIX: ${DB_TABLE_PREFIX}
+      WORDPRESS_DB_HOST: ${DB_HOST}
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASS}
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - database
+      - wordpress
+volumes:
+  db_data:
+  wp-content:
+networks:
+  database:
+    driver: bridge
+  wordpress:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
