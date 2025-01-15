@@ -6,3 +6,5 @@
 - [05.Ansible](05.Ansible)
 - [06.Ansible.WorkShop](06.Ansible.WorkShop)
 - [07.Docker](07.Docker)
+- [08.Docker_compose](08.Docker_compose)
+- [09.Kubernetes](09.Kubernetes)

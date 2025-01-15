@@ -1,0 +1,66 @@
+- name: Install Nginx web-servers
+  hosts: sites
+  become: true
+  vars:
+    virtualhosts:
+      - name: lukashchyk1
+        server_name: www.lukashchyk1.com
+        url: http://www.lukashchyk1.com
+        document_root: /var/www/lukashchyk1
+      - name: lukashchyk2
+        server_name: www.lukashchyk2.com
+        url: http://www.lukashchyk2.com
+        document_root: /var/www/lukashchyk2
+
+  tasks:
+    - name: Install Nginx web server
+      apt:
+        name: nginx
+        state: present
+
+    - name: Create virtualhost directories
+      file:
+        path: "{{ item.document_root }}"
+        state: directory
+      with_items: "{{ virtualhosts }}"
+
+    - name: Configure Nginx virtualhosts
+      template:
+        src: templates/nginx_site.conf.j2
+        dest: /etc/nginx/sites-available/{{ item.name }}
+      with_items: "{{ virtualhosts }}"
+
+    - name: Enable virtualhosts
+      file:
+        src: /etc/nginx/sites-available/{{ item.name }}
+        dest: /etc/nginx/sites-enabled/{{ item.name }}
+        state: link
+      with_items: "{{ virtualhosts }}"
+
+    - name: Create index.html for virtualhosts
+      template:
+        src: templates/index.html.j2
+        dest: "{{ item.document_root }}/index.html"
+      with_items: "{{ virtualhosts }}"
+
+    - name: Add sites to /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ ansible_default_ipv4.address }} {{ item.url }}"
+        state: present
+      loop: "{{ virtualhosts }}"
+
+    - name: Restart Nginx service
+      service:
+        name: nginx
+        state: restarted
+    - name: Print virtual hosts content
+      uri:
+        url: "{{ item.url }}"
+        return_content: yes
+      register: result
+      with_items: "{{ virtualhosts }}"
+      failed_when: result.status != 200
+    - debug:
+        msg: "{{ item.content }}"
+      with_items: "{{ result.results }}"
