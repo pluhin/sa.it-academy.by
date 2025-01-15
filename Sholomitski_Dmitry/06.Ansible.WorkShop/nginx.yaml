@@ -1,0 +1,80 @@
+---
+- name: Install and configure Nginx with two virtual hosts
+  hosts: web
+
+  vars:
+    # List of virtual hosts to create
+    virtualhosts:
+      - { server_name: 'vhost1.local', document_root: '/var/www/vhost1'}
+      - { server_name: 'vhost2.local', document_root: '/var/www/vhost2'}
+
+
+  pre_tasks:
+  - name: Validate
+    debug:
+      msg:
+      - "host: {{ ansible_host }}"
+      - "http://www.{{ item.server_name }}"
+    loop: "{{ virtualhosts }}"
+
+
+
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+
+    - name: Start and enable Nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+
+    - name: Create directories for virtual hosts
+      file:
+        path: "{{ item.document_root }}"
+        state: directory
+        mode: '0755'
+      loop: "{{ virtualhosts }}"
+
+
+
+    - name: Generate HTML files for each virtual host
+      template:
+        src: index.j2
+        dest: "{{ item.document_root }}/index.html"
+        mode: '0644'
+      loop: "{{ virtualhosts }}"
+
+    - name: Create Nginx virtual host configuration files
+      template:
+        src: vhost.conf.j2
+        dest: "/etc/nginx/conf.d/{{ item.server_name }}.conf"
+        mode: '0644'
+      loop: "{{ virtualhosts }}"
+
+    - name: Restart nginx service
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Add host name to hosts file
+      lineinfile:
+        dest: /etc/hosts
+        line: "{{ ansible_host }} {{item.server_name}}"
+      loop: "{{ virtualhosts }}"
+      
+    - name: Check that you can connect (GET) to a page and it returns a status 200
+      ansible.builtin.uri:
+        url: "http://{{ item.server_name }}"
+      loop: "{{ virtualhosts }}"
+
+    - name: Check that a page returns successfully but fail if websites names  is not in the page contents
+      ansible.builtin.uri:
+        url: "http://{{ item.server_name }}"
+        return_content: true
+      register: this
+      failed_when: "this is failed or \"{{ item.server_name }}\" not in this.content"
+      loop: "{{ virtualhosts }}"
