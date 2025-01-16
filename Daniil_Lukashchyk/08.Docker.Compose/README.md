@@ -170,7 +170,7 @@ on:
     types: [published]
   push:
     branches:
-      - "master"
+      - "main"
 
 jobs:
   push_to_registries:
