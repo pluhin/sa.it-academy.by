@@ -1,0 +1,41 @@
+version: '3.3'
+services:
+  drupal:
+    image: drupal:latest
+    depends_on:
+      - db
+    environment:
+      - DRUPAL_DB_HOST=${DB_NAME}
+      - DRUPAL_DB_NAME=${DB_NAME}
+      - DRUPAL_DB_USER=${DB_USER}
+      - DRUPAL_DB_PASSWORD=${DB_PASS}
+    env_file:
+      - .env
+    ports:
+      - "8080:80"
+    volumes:
+      - drupal_modules:/var/www/html/modules
+      - drupal_profiles:/var/www/html/profiles
+      - drupal_themes:/var/www/html/themes
+      - drupal_sites:/var/www/html/sites
+    restart: always
+
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_ROOT_PASSWORD=${ROOT_PASS}
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+
+volumes:
+  db_data:
+  drupal_modules:
+  drupal_profiles:
+  drupal_themes:
+  drupal_sites:
