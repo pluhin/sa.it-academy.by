@@ -12,7 +12,7 @@
 
 ### Skack noifications
 
-name: Monitor Kubernetes Podss
+name: Monitor Kubernetes Pods
 
 ```yaml
 # 10.K8s.Install
