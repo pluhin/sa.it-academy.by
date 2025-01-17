@@ -2,9 +2,9 @@
 
 ## Homework Assignment 1: Docker Compose for Application Stacks
 
-[Dockerfile](/Assignment1/Dockerfile)
+[Dockerfile](./Assignment1/Dockerfile)
 
-[Docker compose](/Assignment1/docker-compose.yaml)
+[Docker compose](./Assignment1/docker-compose.yaml)
 
 ### Run Docker compose
 
@@ -86,18 +86,18 @@ WARN[0000] /home/misyukevich/08.Docker/docker-compose.yaml: the attribute `versi
 
 ### Checking in a web browser
 
-![Start Drupal page](/Assignment1/images/07.Drupal.png)
+![Start Drupal page](./Assignment1/images/07.Drupal.png)
 
-![Next page](/Assignment1/images/07.Drupal1.png)
+![Next page](./Assignment1/images/07.Drupal1.png)
 
 
 ## Homework Assignment 2: Docker build automation
 
-[Dockerfile](/Assignment2/Dockerfile)
+[Dockerfile](./Assignment2/Dockerfile)
 
-[Workflow](/Assignment2/.github/workflows/docker-build-push.yaml)
+[Workflow](./Assignment2/.github/workflows/docker-build-push.yaml)
 
-[Application](/Assignment2/PyApp.py)
+[Application](./Assignment2/PyApp.py)
 
 [Docker image](https://hub.docker.com/repository/docker/misyukevich/pyapp/general)
 
@@ -136,20 +136,20 @@ CONTAINER ID   IMAGE            COMMAND                  CREATED          STATUS
 
 ```
 
-![Checking application](/Assignment2/images/Browser)
+![Checking application](./Assignment2/images/Browser.png)
 
 ### Workwlows results
 
-![Github action](/Assignment2/images/Actions)
+![Github action](./Assignment2/images/Actions.png)
 
 ### Docker hub
 
-![Docker hub](/Assignment2/images/Dockerhub)
+![Docker hub](./Assignment2/images/Dockerhub.png)
 
 ### Slack notify
 
-![Slack success](/Assignment2/images/Slack_success)
+![Slack success](./Assignment2/images/Slack_success.png)
 
-![Slack failure](/Assignment2/images/Slack_failure)
+![Slack failure](./Assignment2/images/Slack_failure.png)
 
 
