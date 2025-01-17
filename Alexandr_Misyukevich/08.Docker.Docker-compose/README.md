@@ -136,20 +136,20 @@ CONTAINER ID   IMAGE            COMMAND                  CREATED          STATUS
 
 ```
 
-![Checking application](./Assignment2/images/Browser.png)
+![Checking application](./Assignment2/pictures/Browser.png)
 
 ### Workwlows results
 
-![Github action](./Assignment2/images/Actions.png)
+![Github action](./Assignment2/pictures/Actions.png)
 
 ### Docker hub
 
-![Docker hub](./Assignment2/images/Dockerhub.png)
+![Docker hub](./Assignment2/pictures/Dockerhub.png)
 
 ### Slack notify
 
-![Slack success](./Assignment2/images/Slack_success.png)
+![Slack success](./Assignment2/pictures/Slack_success.png)
 
-![Slack failure](./Assignment2/images/Slack_failure.png)
+![Slack failure](./Assignment2/pictures/Slack_failure.png)
 
 
