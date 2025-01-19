@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  drupal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - drupal_data:/var/www/html/modules
+      - drupal_sites:/var/www/html/sites
+    ports:
+      - "8080:80"
+    environment:
+      - DRUPAL_DB_URL=mysql://drupal_user:drupal_password@db/drupal
+     
+  db:
+    image: mariadb:latest
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    restart: always
+
+volumes:
+  drupal_data:
+  drupal_sites:
+  mariadb_data:
