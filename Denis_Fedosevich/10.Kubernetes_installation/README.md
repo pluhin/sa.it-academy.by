@@ -32,10 +32,10 @@ Commit:     6b5d24f5741a1789fb97ba3e11f0ee868d93459d
 Date:       2024-11-16T20:22:28Z
 ```
 Cluster selection
-![K8s cluster selection](./images/image1.png)
+![K8s cluster selection](./images/image_1.png)
 
 List of all pods in all namespaces
-![Image list of all pods](./images/image2.png)
+![Image list of all pods](./images/image_2.png)
 
 ### Pod deployment
 
@@ -48,7 +48,7 @@ denis@server:~/10.Kubernetes_installation_WS$ k9s
 ```
 
 Checking the running new pod
-![Running pod status](./images/image3.png)
+![Running pod status](./images/image_3.png)
 
 ### Monitoring of cluster:
 
@@ -58,4 +58,5 @@ List of links:
 
 
 Result of slack notification
-![Result of slack notification](./images/image4.png)
+
+![Result of slack notification](./images/image_4.png)
