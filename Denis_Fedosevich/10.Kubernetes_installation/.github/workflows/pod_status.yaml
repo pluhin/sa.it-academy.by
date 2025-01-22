@@ -1,0 +1,60 @@
+name: Check pod status
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Check_pod_status:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checking the repository
+        uses: actions/checkout@v4
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo -e "Host *\n  StrictHostKeyChecking no" > ~/.ssh/config
+
+      - name: Connect SSH and check pod status
+        id: pod_status
+        run: |
+          FAILED_PODS=$(ssh ${{ secrets.K8S_USER }}@${{ secrets.K8S_HOST }} -o ProxyCommand="ssh -W %h:%p -q ${{ secrets.PROXY_USER }}@${{ secrets.PROXY_HOST }} -p ${{ secrets.PROXY_PORT }}" \
+          "kubectl get pods -A --field-selector status.phase!=Running,status.phase!=Succeeded")
+
+          if [ -n "$FAILED_PODS" ]; then
+            SAFE_FAILED_PODS=$(echo "$FAILED_PODS" | awk '{printf "%s\\n", $0}')
+            echo "failed_pods=true" >> $GITHUB_OUTPUT
+            echo "failed_pods_content"= $SAFE_FAILED_PODS >> $GITHUB_OUTPUT
+          else
+            echo "failed_pods=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Debug pod status
+        run: |
+          if [ -n "${{ steps.pod_status.outputs.failed_pods_content }}" ]; then
+            echo "FAILED_PODS: ${{ steps.pod_status.outputs.failed_pods_content }}"
+          else
+            echo "No failed pods found"
+          fi
+
+      - name: Slack Notification
+        if: steps.pod_status.outputs.failed_pods == 'true'
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CUSTOM_PAYLOAD: |
+            {
+              "username": "Cluster monitoring",
+              "icon_emoji": ":satellite_antenna:",
+              "attachments": [
+                {
+                  "color": "danger",
+                  "title": "Problematic Pods Detected :dart:",
+                  "text": "```${{ steps.pod_status.outputs.failed_pods_content }}```",
+                  "mrkdwn_in": ["text"]
+                }
+              ]
+            }
