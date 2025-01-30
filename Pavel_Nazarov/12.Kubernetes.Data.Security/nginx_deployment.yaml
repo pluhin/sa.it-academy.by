@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: nginx-app
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      initContainers:
+        - name: init-nginx-index
+          image: busybox
+          command: ["sh", "-c", "echo Node: $(hostname) > /usr/share/nginx/html/index.html"]
+          volumeMounts:
+            - name: html-volume
+              mountPath: /usr/share/nginx/html
+          
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "200m"
+            limits:
+              memory: "256Mi"
+              cpu: "1000m"
+          volumeMounts:
+            - name: html-volume
+              mountPath: /usr/share/nginx/html
+            - name: keypair-volume
+              mountPath: /root/.ssh
+              readOnly: true
+          
+      volumes:
+        - name: html-volume
+          emptyDir: {}
+        - name: keypair-volume
+          secret:
+            secretName: keypair-secret
