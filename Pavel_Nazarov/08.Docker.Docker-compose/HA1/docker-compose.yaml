@@ -1,0 +1,38 @@
+services:
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress_service
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql_service:3306
+      WORDPRESS_DB_NAME: wp_database
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_password
+    volumes:
+      - wordpress_data:/var/www/html
+    depends_on:
+      - mysql
+    networks:
+      - wp_network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_service
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: wp_database
+      MYSQL_USER: wp_user
+      MYSQL_PASSWORD: wp_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - wp_network
+
+volumes:
+  wordpress_data:
+  mysql_data:
+
+networks:
+  wp_network:
+    driver: bridge
