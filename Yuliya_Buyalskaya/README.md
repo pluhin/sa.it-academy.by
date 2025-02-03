@@ -10,4 +10,5 @@
 [Homework 10. Kubernetes installation (WS)](../Yuliya_Buyalskaya/10.Kubernetes.installation/README.md) \
 [Homework 11. Kubernetes. Basic objects](../Yuliya_Buyalskaya/11.Kubernetes.Basic_objects/README.md) \
 [Homework 12. Kubernetes. Data. Security](../Yuliya_Buyalskaya/12.Kubernetes.Data.Security/README.md) \
-[Homework 13. Kubernetes. Helm](../Yuliya_Buyalskaya/13.Kubernetes.Helm/README.md)
+[Homework 13. Kubernetes. Helm](../Yuliya_Buyalskaya/13.Kubernetes.Helm/README.md) \
+[Homework 14. Kubernetes application deployment](../Yuliya_Buyalskaya/14.Kubernetes_application_deployment/README.md)
