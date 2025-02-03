@@ -1,0 +1,104 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zabbix-env-vars
+  namespace: monitoring
+data:
+  DB_SERVER_HOST: 192.168.201.13
+  MYSQL_USER: zabbix
+  MYSQL_PASSWORD: zabbix
+  MYSQL_DATABASE: zabbix
+  ZBX_SERVER_HOST: zabbix-service
+  PHP_TZ: Europe/Minsk
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zabbix-server
+  namespace: monitoring
+  labels:
+    app: zabbix-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zabbix-server
+  template:
+    metadata:
+      labels:
+        app: zabbix-server
+    spec:
+      containers:
+      - name: zabbix-web
+        image: zabbix/zabbix-web-nginx-mysql:6.0-alpine-latest
+        env:
+        - name: ZBX_SERVER_HOST
+          value: "zabbix-service"
+        envFrom:
+          - configMapRef:
+              name: zabbix-env-vars
+        ports:
+          - name: web
+            containerPort: 8080
+        resources:
+          requests:
+            cpu: 200m
+            memory: 300Mi
+          limits:
+            cpu: 300m
+            memory: 500Mi
+      - name: zabbix-server
+        image: zabbix/zabbix-server-mysql:6.0-alpine-latest
+        envFrom:
+          - configMapRef:
+              name: zabbix-env-vars
+        ports:
+          - name: server
+            containerPort: 10051
+        resources:
+          requests:
+            cpu: 500m
+            memory: 500Mi
+          limits:
+            cpu: 700m
+            memory: 800Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zabbix-service
+  namespace: monitoring
+  labels:
+    run: zabbix-service
+spec:
+  type: ClusterIP
+  selector:
+    app: zabbix-server
+  ports:
+    - name: server
+      port: 10051
+      targetPort: server
+    - name: web
+      port: 8080
+      targetPort: web
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-zabbix
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: zabbix.k8s-25.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: zabbix-service
+                port:
+                  number: 8080
