@@ -1,0 +1,114 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: index-html-configmap
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Name of the current pod</title>
+      </head>
+      <body>
+        <h1>$POD_NAME</h1>
+      </body>
+    </html>
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx-app
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: nginx-app
+  template:
+    metadata:
+      labels:
+        app: nginx-app
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.27.3-alpine
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+          volumeMounts:
+            - name: index-html-volume
+              mountPath: /usr/share/nginx/html
+            - name: secret-volume
+              mountPath: "/root/.ssh"
+      initContainers:
+        - name: envsubst
+          image: ubuntu
+          command: ["sh", "-c", "su root -c 'apt-get update;apt upgrade -yqq;apt-get install -y gettext';cat /tmp/volume/index.html | envsubst > /usr/share/nginx/html/index.html"]
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          volumeMounts:
+            - name: index-html-volume
+              mountPath: /usr/share/nginx/html
+            - name: temp-volume
+              mountPath: /tmp/volume
+      volumes:
+        - name: index-html-volume
+          emptyDir: {}
+        - name: temp-volume
+          configMap:
+            name: index-html-configmap
+        - name: secret-volume
+          secret:
+            secretName: ssh-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    run: nginx-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      protocol: TCP
+  selector:
+    app: nginx-app
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-sa
+  annotations:
+    nginx.ingress.kubernetes.io/server-alias: "app.k8s-4.sa"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: app.k8s-3.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80

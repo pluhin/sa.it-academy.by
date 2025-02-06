@@ -1,0 +1,44 @@
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: self-hosted-runner
+  labels:
+    name: self-hosted-runner
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-runner
+  namespace: self-hosted-runner
+  labels:
+    app: github-runner
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: github-runner
+  template:
+    metadata:
+      labels:
+        app: github-runner
+    spec:
+      containers:
+        - name: runner
+          image: ubuntu:latest
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: self-hosted-runner-volume
+              mountPath: /script
+          command: ["/script/self-hosted-runner.sh"]
+      volumes:
+        - name: self-hosted-runner-volume
+          configMap:
+            name: self-hosted-runner-configmap
+            defaultMode: 0744

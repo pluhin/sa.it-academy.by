@@ -1,0 +1,23 @@
+global:
+
+elasticsearch:
+  replicas: 1
+
+  volumeClaimTemplate:
+    accessModes: ["ReadWriteOnce"]
+    resources:
+      requests:
+        storage: 1Gi
+
+  service:
+    type: ClusterIP
+
+logstash:
+  replicas: 1
+
+  service:
+    type: ClusterIP
+
+kibana:
+  service:
+    type: ClusterIP

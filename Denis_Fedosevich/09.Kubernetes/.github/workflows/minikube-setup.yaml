@@ -1,0 +1,33 @@
+name: Minikube Cluster Setup
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  setup-minikube-cluster:
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - name: Checking the repository
+        uses: actions/checkout@v4
+
+      - name: Setup Minikube
+        uses: manusa/actions-setup-minikube@v2.13.1
+        with:
+          minikube version: 'v1.35.0'
+          kubernetes version: 'v1.32.0'
+
+      - name: Get Cluster Info
+        run: kubectl cluster-info --context minikube
+
+      - name: Get Kubernetes Version
+        run: kubectl version
+
+      - name: Check number of nodes
+        run: kubectl get nodes
+
+      - name: List all pods in the cluster
+        run: kubectl get pods -A

@@ -1,0 +1,70 @@
+- hosts: db
+  vars:
+    app_packages:
+      - mysql-server
+      - mysql-client
+      - python3-pymysql
+      - python3-mysqldb
+    db_user: "{{ user_db | default('test') }}"
+    db_pass: "{{ pass_db | default('test') }}"
+  pre_tasks:
+    - name: Validate
+      debug:
+        msg:
+          - "DB host: {{ ansible_host }}"
+          - "DB user: {{ db_user }}"
+          - "DB pass: {{ db_pass }}"
+      tags: always
+  tasks:
+    - name: Mysql. Install packages
+      apt:
+        name: "{{ app_packages }}"
+        state: latest
+        update_cache: true
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      tags: install
+
+    - name: Mysql. Add bind-address
+      ini_file:
+        dest: /etc/mysql/my.cnf
+        section: mysqld
+        option: "bind-address"
+        value: "{{ ansible_host }}"
+      register: restart_needed
+
+    - name: Check variable
+      debug:
+        msg: "{{ restart_needed }}"
+
+    - name: restart mysql if necessary
+      command: service mysql restart
+      when: restart_needed.changed
+
+    - name: Test connect
+      wait_for:
+        host: "{{ ansible_host }}"
+        port: 3306
+        timeout: 3
+
+    - name: Create drupal database
+      mysql_db:
+        name: drupal
+        state: present
+        encoding: utf8
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+    -  name: Create wordpress database
+       mysql_db:
+         name: wordpress
+         state: present
+         login_unix_socket: /var/run/mysqld/mysqld.sock
+
+    - name: "Create user {{ db_user }}"
+      mysql_user:
+        name: "{{ db_user }}"
+        host: "%"
+        password: "{{ db_pass }}"
+        priv: "drupal.*:ALL/wordpress.*:ALL/*.*:ALL"
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+      no_log: yes

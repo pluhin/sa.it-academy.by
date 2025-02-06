@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ ansible_fqdn }} - VirtualHost </title>
+</head>
+<body>
+    <h1>Welcome to {{ item.server_name }} on  ({{ ansible_fqdn }}) - VirtualHost</h1>
+    <p>This page is served from {{ ansible_hostname }} with FQDN {{ ansible_fqdn }}.</p>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+user: user1
+password: "123456"
+group: sudo
+new_group: root
