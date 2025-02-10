@@ -11,4 +11,6 @@
 [Homework 11. Kubernetes. Basic objects](../Yuliya_Buyalskaya/11.Kubernetes.Basic_objects/README.md) \
 [Homework 12. Kubernetes. Data. Security](../Yuliya_Buyalskaya/12.Kubernetes.Data.Security/README.md) \
 [Homework 13. Kubernetes. Helm](../Yuliya_Buyalskaya/13.Kubernetes.Helm/README.md) \
-[Homework 14. Kubernetes application deployment](../Yuliya_Buyalskaya/14.Kubernetes_application_deployment/README.md)
+[Homework 14. Kubernetes application deployment](../Yuliya_Buyalskaya/14.Kubernetes_application_deployment/README.md) \
+[Homework 15. Kubernetes CI CD](../Yuliya_Buyalskaya/15.Kubernetes_CI_CD/README.md) \
+[Homework 16. Technical and service monitoring](../Yuliya_Buyalskaya/16.Technical_and_service_monitoring/README.md)
