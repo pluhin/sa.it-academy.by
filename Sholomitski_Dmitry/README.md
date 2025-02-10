@@ -8,3 +8,7 @@
 - [07.Docker](07.Docker)
 - [08.Docker_compose](08.Docker_compose)
 - [09.Kubernetes](09.Kubernetes)
+- [10.k8s.install](10.k8s.install)
+- [11.k8s](11.k8s)
+- [12.k8s](12.k8s)
+- [13.k8s.helm](13.k8s.helm)
