@@ -115,23 +115,23 @@ kube-system   storage-provisioner                1/1     Running   1 (5m32s ago)
 
 [Action](https://github.com/Misyukevich/09_Kubernetes/actions/workflows/kind-cluster.yaml)
 
-[Workflow](/.github/workflows/kind-cluster.yaml)
+[Workflow](./.github/workflows/kind-cluster.yaml)
 
 ### Cluster Details
 
-![KinD](/images/kind-cluster.png)
+![KinD](./images/kind-cluster.png)
 
-![KinD](/images/kind-cluster2.png)
+![KinD](./images/kind-cluster2.png)
 
 ## Homework Assignment 4: GitHub Actions for Minikube Cluster Setup
 
 [Action](https://github.com/Misyukevich/09_Kubernetes/actions/workflows/minikube-cluster.yaml)
 
-[Workflow](/.github/workflows/minikube-cluster.yaml)
+[Workflow](./.github/workflows/minikube-cluster.yaml)
 
 ### Cluster Details
 
-![Minikube](/images/minikube-cluster.png)
+![Minikube](./images/minikube-cluster.png)
 
-![Minikube](/images/minikube-cluster2.png)
+![Minikube](./images/minikube-cluster2.png)
 
