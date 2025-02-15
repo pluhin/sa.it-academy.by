@@ -1,6 +1,8 @@
 # 16. Technical and service monitoring
 ## Homework Assignment 1: Deploy and setup Prometheus Alertmanage
 
+[Link to the manifests](./monitoring)
+
 **Deploy Monitoring System Using ArgoCD**
 ```shell
 apiVersion: argoproj.io/v1alpha1
@@ -72,15 +74,15 @@ cat secret-alertmanager.yaml | kubeseal --format yaml > sealed-alertmanager.yaml
 
 **Argo-CD monitoring dashboard**
 
-![monitoring in argo-cd](.images/argo-cd-monitoring)
+![monitoring in argo-cd](./images/argo-cd-monitoring.png)
 
 **Web UI Prometheus**
 
-![alerts in prometheus](.images/prometheus)
+![alerts in prometheus](./images/prometheus.png)
 
 **Receive Alert Notification in Slack After Load Simulation**
 
-![slack-notification](.images/slack-notification)
+![slack-notification](./images/slack-notification.png)
 
 
 ## Homework Assignment 2: Use Grafana to Display Load of Pods
@@ -89,8 +91,8 @@ cat secret-alertmanager.yaml | kubeseal --format yaml > sealed-alertmanager.yaml
 
 **CPU Usage per POD**
 
-![pod cpu usage](.images/pod_cpu)
+![pod cpu usage](./images/pod_cpu.png)
 
 **Memory Usage per POD**
 
-![pod memory usage](.images/pod_memory)
+![pod memory usage](./images/pod_memory.png)
