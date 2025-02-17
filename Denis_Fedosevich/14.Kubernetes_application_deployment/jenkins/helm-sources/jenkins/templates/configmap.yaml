@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: basic-security
+  namespace: {{ .Release.Namespace }}
+annotations:
+  "helm.sh/hook": pre-install
+  meta.helm.sh/release-name: {{ .Release.Name }}
+  meta.helm.sh/release-namespace: {{ .Release.Namespace }}
+data:
+  basic-security.groovy: |
+    #!groovy
+    import jenkins.model.*
+    import hudson.security.*
+    def instance = Jenkins.getInstance()
+    println "--> creating local user 'admin'"
+    def password = System.getenv("PASS")
+    def hudsonRealm = new HudsonPrivateSecurityRealm(false)
+    hudsonRealm.createAccount('admin', password)
+    instance.setSecurityRealm(hudsonRealm)
+    def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
+    strategy.setAllowAnonymousRead(true)
+    instance.setAuthorizationStrategy(strategy)
+    instance.save()
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-config
+  namespace: {{ .Release.Namespace }}
+annotations:
+  meta.helm.sh/release-name: {{ .Release.Name }}
+  meta.helm.sh/release-namespace: {{ .Release.Namespace }}
+  "helm.sh/hook": pre-install
+data:
+  jenkins.yaml: |
+        jenkins:
+          numExecutors: 2
+          clouds:
+          - kubernetes:
+              containerCapStr: "10"
+              maxRequestsPerHostStr: "32"
+              jenkinsUrl: "http://jenkins:{{ .Values.service.masterPort }}"
+              name: "kubernetes"
+              namespace: "{{ .Release.Namespace }}"
+              skipTlsVerify: true
+        credentials:
+          system:
+            domainCredentials:
+            - credentials:
+              - usernamePassword:
+                  description: "Githubuser"
+                  id: "some_randome"
+                  password: "XXXXXXXXXXX"
+                  scope: GLOBAL
+                  username: "git_hub_user"
+        unclassified:
+          location:
+            adminAddress: "fedosgrodno@gmail.com"
+            url: "http://jenkins.k8s-13.sa/"
+          shell:
+            shell: "/bin/bash"
