@@ -1,0 +1,28 @@
+name: KinD Cluster Setup
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  kind-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create KinD cluster
+        uses: helm/kind-action@v1
+        with:
+          cluster_name: ci-cluster
+
+      - name: Verify Kubernetes nodes
+        run: |
+          echo "Checking nodes status..."
+          kubectl get nodes -A
+
+      - name: Verify system pods
+        run: |
+          echo "Checking system pods..."
+          kubectl get pods -n kube-system

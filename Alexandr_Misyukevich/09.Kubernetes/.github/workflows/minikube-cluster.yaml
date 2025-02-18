@@ -1,0 +1,36 @@
+name: Minikube Install
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  minikube-setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Start Minikube cluster
+        uses: hiberbee/github-action-minikube@latest
+        with:
+          minikube version: latest
+          driver: docker
+
+      - name: Get Info
+        run: kubectl cluster-info --context minikube
+
+      - name: Get Version
+        run: kubectl version
+
+      - name: Verify Kubernetes nodes
+        run: |
+          echo "Checking nodes status..."
+          kubectl get nodes
+
+      - name: Verify system pods
+        run: |
+          echo "Checking system pods..."
+          kubectl get pods -n kube-system
+
