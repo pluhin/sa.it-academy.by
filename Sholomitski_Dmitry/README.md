@@ -11,3 +11,4 @@
 - [10.k8s.install](10.k8s.install)
 - [11.k8s](11.k8s)
 - [12.k8s](12.k8s)
+- [13.k8s.helm](13.k8s.helm)

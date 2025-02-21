@@ -1,0 +1,98 @@
+replicaCount: 1
+
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci
+  pullPolicy: IfNotPresent
+  tag: "fedosevich"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  type: ClusterIP
+  masterPort: 8080
+  targetMasterPort: 8080
+  slavePort: 50000
+  targetSlavePort: 50000
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: jenkins.k8s-13.sa
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+resources:
+  requests:
+    cpu: 2
+    memory: 2Gi
+  limits:
+    cpu: 2
+    memory: 3Gi
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 5
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 5
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+volumes:
+  - name: jenkins-auth-config
+    configMap:
+      name: basic-security
+  - name: jenkins-config-yaml
+    configMap:
+      name: jenkins-config
+  - name: jenkins-config
+    nfs:
+      server: 192.168.37.105
+      path: /mnt/IT-Academy/nfs-data/sa2-30-24/denis_f/jenkins
+
+volumeMounts:
+  - name: jenkins-auth-config
+    mountPath: /var/jenkins_home/init.groovy.d/basic-security.groovy
+    subPath: basic-security.groovy
+  - name: jenkins-config-yaml
+    mountPath: /var/jenkins_home/casc_configs/jenkins.yaml
+    subPath: jenkins.yaml
+  - name: jenkins-config
+    mountPath: /var/jenkins_home
+
+#Here, a PSWD was specified
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,18 @@
+apiVersion: v2
+name: my-elk-stack
+description: "An umbrella Helm chart to deploy Elasticsearch, Logstash, and Kibana together."
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: elasticsearch
+    version: "8.5.1"
+    repository: "https://helm.elastic.co"
+
+  - name: logstash
+    version: "8.5.1"
+    repository: "https://helm.elastic.co"
+
+  - name: kibana
+    version: "8.5.1"
+    repository: "https://helm.elastic.co"
