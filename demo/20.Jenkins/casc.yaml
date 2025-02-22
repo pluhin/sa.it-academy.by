@@ -1,0 +1,342 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - basicSSHUserPrivateKey:
+          id: "jenkins_master_ssk_private"
+          privateKeySource:
+            directEntry:
+              privateKey: "{AQAAABAAAAGgDi1ETS5ZthfxM6t+cl/8xrk/SHr1ZBMKdQgBtJIPRQh4KbnUxbLIcnSejd2U+OTab5ZYHu3rwPXNNFP5K8bMsItiuPJa98Wqoo8mPskbd0lZwn0A2P0yTYBSvF7j6wanDdzlz7ATJn2TTuUN4WyGIIkjuUZbfe862DtLQsN1E1ZKA+VCcfFO7BNWaVm1KqZGwXSVyCbDYIPUpStUVdX1CJZz+x/4n+35mUTHvXeRREZUlBqueNhsvLLJonrul0r94L6wjrm6RmTbReBTvTABn2VTyEnxH6/ZfQ7wH+qz9Vgu8A4YiO4HqA/jFHrirt0wbIQ4IG3t33TPLJD+JNnSky5tVkHSgC666Vn3erd7MbcHt3tl5bZ7Dl7NI6LVxQpHUSfF001rL9hajsWoowvUPnRbLVFsboYtZkpd/TPW3EtaFAK7rWIERsQbzPHo1g+eaCVpLWIrNLuaB3+MjQevmJDbX0pAHnKeYIeZ4656kKO+FJIoI24xbwwz9cpXMBSZDz8BDiI8ry+yYj8Up7XhLkTDRCI4Rb7VMv45FLLoM3RXVteJk89APkGZQ8BKDJuk}"
+          scope: GLOBAL
+          username: "jenkins"
+      - string:
+          id: "slack"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAAg9xOKe7ft0ZDedj7QTgP8PlcTlZhQBCHIzznZTNBERvFMI28l2cEqtyRfckuN83pX}"
+      - string:
+          description: "github-webhook"
+          id: "github-webhook"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAAwrzdL7FTaItx6lUavTEQMzI9JzAPndWE72zR9/4CrDTiq8ILUk909b2rLmmjq/uu7FD3IEHJwsj1bwdVwRHLHrQ==}"
+      - basicSSHUserPrivateKey:
+          id: "github-ssh"
+          privateKeySource:
+            directEntry:
+              privateKey: |
+                -----BEGIN OPENSSH PRIVATE KEY-----
+                ....
+                -----END OPENSSH PRIVATE KEY-----
+          scope: GLOBAL
+          username: "github-jenkins"
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  authorizationStrategy:
+    globalMatrix:
+      entries:
+      - userOrGroup:
+          name: "admin"
+          permissions:
+          - "Overall/Administer"
+      - user:
+          name: "plu"
+          permissions:
+          - "Job/Build"
+          - "Job/Read"
+          - "Overall/Read"
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: false
+  disabledAdministrativeMonitors:
+  - "org.jenkinsci.plugins.matrixauth.AmbiguityMonitor"
+  - "jenkins.diagnostics.ControllerExecutorsNoAgents"
+  - "hudson.util.DoubleLaunchChecker"
+  labelAtoms:
+  - name: "built-in"
+  - name: "main"
+  - name: "master"
+  - name: "node01"
+  - name: "slave01"
+  labelString: "master main"
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  nodeMonitors:
+  - "architecture"
+  - "clock"
+  - diskSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "swapSpace"
+  - tmpSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "responseTime"
+  nodes:
+  - permanent:
+      labelString: "node01 slave01"
+      launcher:
+        ssh:
+          credentialsId: "jenkins_master_ssk_private"
+          host: "192.168.202.25"
+          port: 22
+          sshHostKeyVerificationStrategy:
+            manuallyTrustedKeyVerificationStrategy:
+              requireInitialManualTrust: false
+      name: "node01"
+      numExecutors: 4
+      remoteFS: "/var/lib/jenkins"
+      retentionStrategy: "always"
+  numExecutors: 1
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: true
+  scmCheckoutRetryCount: 0
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+      users:
+      - id: "admin"
+        name: "admin"
+        properties:
+        - "consoleUrlProvider"
+        - "myView"
+        - "timezone"
+        - "experimentalFlags"
+        - "mailer"
+        - "favorite"
+        - preferredProvider:
+            providerId: "default"
+        - "slack"
+        - "theme"
+        - "apiToken"
+      - id: "plu"
+        name: "plu"
+        properties:
+        - "apiToken"
+        - "consoleUrlProvider"
+        - "favorite"
+        - "myView"
+        - preferredProvider:
+            providerId: "default"
+        - "slack"
+        - "theme"
+        - "timezone"
+        - "experimentalFlags"
+        - mailer:
+            emailAddress: "plu@plu.plu"
+  slaveAgentPort: -1
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    typeFilter: "none"
+appearance:
+  pipelineGraphView:
+    showGraphOnBuildPage: false
+    showGraphOnJobPage: false
+  prism:
+    theme: PRISM
+  themeManager:
+    disableUserThemes: false
+security:
+  apiToken:
+    creationOfLegacyTokenEnabled: false
+    tokenGenerationOnCreationEnabled: false
+    usageStatisticsEnabled: true
+  cps:
+    hideSandbox: false
+  gitHooks:
+    allowedOnAgents: false
+    allowedOnController: false
+  gitHostKeyVerificationConfiguration:
+    sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
+  sSHD:
+    port: -1
+  scriptApproval:
+    forceSandbox: false
+unclassified:
+  ansiColorBuildWrapper:
+    colorMaps:
+    - black: "#000000"
+      blackB: "#4C4C4C"
+      blue: "#1E90FF"
+      blueB: "#4682B4"
+      cyan: "#00CDCD"
+      cyanB: "#00FFFF"
+      green: "#00CD00"
+      greenB: "#00FF00"
+      magenta: "#CD00CD"
+      magentaB: "#FF00FF"
+      name: "xterm"
+      red: "#CD0000"
+      redB: "#FF0000"
+      white: "#E5E5E5"
+      whiteB: "#FFFFFF"
+      yellow: "#CDCD00"
+      yellowB: "#FFFF00"
+    - black: "#000000"
+      blackB: "#555555"
+      blue: "#0000AA"
+      blueB: "#5555FF"
+      cyan: "#00AAAA"
+      cyanB: "#55FFFF"
+      defaultBackground: 0
+      defaultForeground: 7
+      green: "#00AA00"
+      greenB: "#55FF55"
+      magenta: "#AA00AA"
+      magentaB: "#FF55FF"
+      name: "vga"
+      red: "#AA0000"
+      redB: "#FF5555"
+      white: "#AAAAAA"
+      whiteB: "#FFFFFF"
+      yellow: "#AA5500"
+      yellowB: "#FFFF55"
+    - black: "black"
+      blackB: "black"
+      blue: "blue"
+      blueB: "blue"
+      cyan: "cyan"
+      cyanB: "cyan"
+      green: "green"
+      greenB: "green"
+      magenta: "magenta"
+      magentaB: "magenta"
+      name: "css"
+      red: "red"
+      redB: "red"
+      white: "white"
+      whiteB: "white"
+      yellow: "yellow"
+      yellowB: "yellow"
+    - black: "#2E3436"
+      blackB: "#2E3436"
+      blue: "#3465A4"
+      blueB: "#3465A4"
+      cyan: "#06989A"
+      cyanB: "#06989A"
+      defaultBackground: 0
+      defaultForeground: 7
+      green: "#4E9A06"
+      greenB: "#4E9A06"
+      magenta: "#75507B"
+      magentaB: "#75507B"
+      name: "gnome-terminal"
+      red: "#CC0000"
+      redB: "#CC0000"
+      white: "#D3D7CF"
+      whiteB: "#D3D7CF"
+      yellow: "#C4A000"
+      yellowB: "#C4A000"
+  bitbucketEndpointConfiguration:
+    endpoints:
+    - bitbucketCloudEndpoint:
+        enableCache: false
+        manageHooks: false
+        repositoriesCacheDuration: 0
+        teamCacheDuration: 0
+  buildDiscarders:
+    configuredBuildDiscarders:
+    - "jobBuildDiscarder"
+  buildStepOperation:
+    enabled: false
+  email-ext:
+    adminRequiredForTemplateTesting: false
+    allowUnregisteredEnabled: false
+    charset: "UTF-8"
+    debugMode: false
+    defaultBody: |-
+      $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+      Check console output at $BUILD_URL to view the results.
+    defaultContentType: "text/plain"
+    defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
+    defaultTriggerIds:
+    - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
+    maxAttachmentSize: -1
+    maxAttachmentSizeMb: -1
+    precedenceBulk: false
+    throttlingEnabled: false
+    watchingEnabled: false
+  enrichedSummaryConfig:
+    enrichedSummaryEnabled: false
+    httpClientDelayBetweenRetriesInSeconds: 1
+    httpClientMaxRetries: 3
+    httpClientTimeoutInSeconds: 1
+  fingerprints:
+    fingerprintCleanupDisabled: false
+    storage: "file"
+  gitHubConfiguration:
+    apiRateLimitChecker: ThrottleForNormalize
+  gitHubPluginConfig:
+    configs:
+    - credentialsId: "github-webhook"
+      manageHooks: false
+      name: "github"
+    hookUrl: "http://localhost:8081/github-webhook/"
+  globalTimeOutConfiguration:
+    operations:
+    - "abortOperation"
+    overwriteable: false
+  injectionConfig:
+    allowUntrusted: false
+    checkForBuildAgentErrors: false
+    enabled: false
+    enforceUrl: false
+    gradleCaptureTaskInputFiles: true
+    injectCcudExtension: false
+    injectMavenExtension: false
+    mavenCaptureGoalInputFiles: true
+  junitTestResultStorage:
+    storage: "file"
+  location:
+    adminAddress: "address not configured yet <nobody@nowhere>"
+    url: "http://localhost:8081/"
+  mailer:
+    charset: "UTF-8"
+    useSsl: false
+    useTls: false
+  pollSCM:
+    pollingThreadCount: 10
+  scmGit:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
+  slackNotifier:
+    botUser: false
+    room: "#integration"
+    sendAsText: false
+    teamDomain: "sa-itacademy-by"
+    tokenCredentialId: "slack"
+  timestamper:
+    allPipelines: false
+    elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
+    systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"
