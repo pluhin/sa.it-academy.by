@@ -16,4 +16,6 @@
 [Homework 16. Technical and service monitoring](../Yuliya_Buyalskaya/16.Technical_and_service_monitoring/README.md) \
 [Homework 17. Log monitoring](../Yuliya_Buyalskaya/17.Log_monitoring/README.md) \
 [Homework 18. Testing](../Yuliya_Buyalskaya/18.Testing/README.md) \
-[Homework 19. Jenkins. Start](../Yuliya_Buyalskaya/19.Jenkins.Start/README.md)
+[Homework 19. Jenkins. Start](../Yuliya_Buyalskaya/19.Jenkins.Start/README.md) \
+[Homework 20. Jenkins. Routine](../Yuliya_Buyalskaya/20.Jenkins.Routine/README.md) \
+[Homework 21. Jenkins. Docker_and_Pod](21.Jenkins.Docker_and_Pod/README.md)
