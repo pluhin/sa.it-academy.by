@@ -1,0 +1,59 @@
+name: Kubernetes Pod Status Check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-pods:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup SSH Tunnel
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.BASTION_SSH_PRIVATE_KEY }}
+
+    - name: Create SSH Tunnel
+      run: |
+        ssh -o StrictHostKeyChecking=no -N -L 6443:127.0.0.1:6443 root@192.168.208.7 \
+        ${{ secrets.BASTION_USERNAME }}@${{ secrets.BASTION_HOST }} -p ${{ secrets.BASTION_PORT }} &
+        sleep 5
+
+    - name: Configure Kubernetes Access
+      run: |
+        mkdir -p ~/.kube
+        echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+
+    - name: Check Pod Status
+      id: pod-check
+      run: |
+        ERROR_PODS=$(kubectl get pods --all-namespaces | tail -n +2 | grep -v -E 'Running|Succeeded' | awk '{print $1 "/" $2}')
+        if [ -z "$ERROR_PODS" ]; then
+          echo "status=OK" >> $GITHUB_OUTPUT
+          echo "message=All pods are healthy!" >> $GITHUB_OUTPUT
+        else
+          echo "status=ERROR" >> $GITHUB_OUTPUT
+          echo "message=Pods with issues:"$'\n'"$ERROR_PODS" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Send Slack Notification
+      uses: slackapi/slack-github-action@v2.0.0
+      with:
+        webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+        webhook-type: incoming-webhook
+        payload: |
+          text: "*Kubernetes Pod Status Report* - Cluster: ${{ secrets.CLUSTER_NAME }} - Status: ${{ steps.pod-check.outputs.status }}"
+          blocks:
+            - type: section
+              text:
+                type: mrkdwn
+                text: |
+                  :kubernetes: *Kubernetes Pod Status Report*
+                  *Cluster:* `${{ secrets.CLUSTER_NAME }}`
+                  *Status:* `${{ steps.pod-check.outputs.status }}`
+                  *Details:*
+                  ```
+                  ${{ steps.pod-check.outputs.message }}
+                  ```
