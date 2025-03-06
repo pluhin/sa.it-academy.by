@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: drupal-app
+  namespace: argocd
+  annotations:
+    notifications.argoproj.io/slack: |
+      {
+        "format": "json",
+        "channel": "C08G071M6AD",
+        "events": ["SyncSucceeded", "SyncFailed"]
+      }
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/AndrewBulah/project
+    targetRevision: main
+    path: helm/drupal-app  # Путь к Helm-чарту
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true

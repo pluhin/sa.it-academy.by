@@ -1,0 +1,72 @@
+name: CI/CD Pipeline
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      # Установка k6
+      - name: Install k6
+        run: |
+          sudo apt-get update && sudo apt-get install -y ca-certificates gnupg2
+          sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update && sudo apt-get install -y k6
+
+      # Увеличение версии
+      - name: Bump Version
+        id: bump
+        run: |
+          # Извлекаем текущую версию
+          CURRENT_VERSION=$(grep "tag:" helm/drupal-app/values.yaml | awk '{print $2}' | tr -d '"')
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+          NEW_VERSION="${MAJOR}.${MINOR}.$((PATCH+1))"
+          sed -i "s/tag:.*/tag: \"$NEW_VERSION\"/" helm/drupal-app/values.yaml
+          echo "::set-output name=version::$NEW_VERSION"
+
+      # Логин в Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Сборка и пуш Docker-образа
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t andrewfreak/project:${{ steps.bump.outputs.version }} -f app/Dockerfile ./app
+          docker push andrewfreak/project:${{ steps.bump.outputs.version }}
+
+      # Запуск нагрузочного теста
+      - name: Run Load Test
+        run: |
+          k6 run ./k6s/load-test.js
+
+      # Обновление Helm-чарта в Git
+      - name: Push Version Update to Git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add helm/drupal-app/values.yaml
+          git commit -m "Bump version to ${{ steps.bump.outputs.version }}" || echo "No changes"
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:main
+
+      # Уведомления в Slack
+      - name: Send Slack Notification on Success
+        if: success()
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{\"text\": \"✅ Деплой завершен! Тег: ${{ steps.bump.outputs.version }}\"}" \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Send Slack Notification on Failure
+        if: failure()
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{\"text\": \"❌ Ошибка деплоя! Тег: ${{ steps.bump.outputs.version }}\"}" \
+          ${{ secrets.SLACK_WEBHOOK_URL }}

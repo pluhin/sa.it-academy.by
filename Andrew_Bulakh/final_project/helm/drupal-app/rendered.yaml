@@ -1,0 +1,87 @@
+---
+# Source: drupal-app/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: drupal-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: drupal-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+---
+# Source: drupal-app/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal-app
+  labels:
+    app: drupal-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: drupal-app
+  template:
+    metadata:
+      labels:
+        app: drupal-app
+    spec:
+      containers:
+      - name: drupal-app
+        image: "andrewfreak/project:1.0.0"
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - secretRef:
+            name: drupal-app-secrets
+---
+# Source: drupal-app/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: drupal-app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: drupal.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: drupal-app-service
+            port:
+              number: 80
+---
+# Source: drupal-app/templates/sealed-secret.yaml
+{
+  "kind": "SealedSecret",
+  "apiVersion": "bitnami.com/v1alpha1",
+  "metadata": {
+    "name": "drupal-app-secrets",
+    "namespace": "default",
+    "creationTimestamp": null
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "name": "drupal-app-secrets",
+        "namespace": "default",
+        "creationTimestamp": null
+      }
+    },
+    "encryptedData": {
+      "DB_HOST": "AgCev5cU5DVz9p/6is96rQMAzsDW1MfovrFHyvzOWPpfT4zX548wjwti4k3qxqJ/ODeYSYkndhKURYmx1pDEj90FawTnK3CFlKvb81HujGl5+XXvOtk7DkRZAgmvEnUgJTj+HlvRUUB2P69kT6XRyPf2rcyTKlrf5WrKqKosPMMhRog7wQwJtS9x0JA23ktXqhP1cAF0gOSAQqSHG55cnXBLHcoOiApMbTPiYeAIxnxMumwKDBT1LEDMnvYfX+k9l57WvAJkWw0mfZO1DnYGjqV7GVhr5QmpTfo/l6XMvyXFvUFhJOj7AcHlwxyG00LNGHAXPbirdsYHHBnf9u524KlFGbgQpWojIN+1iyZowQtUONAQVqYo6RM5dH/TU6T4YphIy5B8kGuPyJ04g/2P2NAkgL9gSJ0gigp1yODeqNLS77zh+rwtkcGj/jBMXrXVj3QxsRfr8JMaTQFFh/ZSHNcnTMUFt8kzsi4bOcbWkIfSWGs39nOiHMbAhuRnS5ODhIKh0+z78ZFqFYeHVzZxchRktbzUGBWlkJvkCJxRNRgwl5kjKLXpjEAZb4PF4a99pPU4h0h7Uo/mAwQnPluWDOHaSdAztKgfNz0WFBJzT5QHTpEitdUcc5vk1clzT6/em7M6GWuFOg52dx7aK7Nt2/7ICTt1wMSXzdmipiydom7Mkt1I88DFsrn0n1+dc7sSKAKlpIgXtzcYyYyzCBA9Mg==",
+      "DB_NAME": "AgCWWw7V1UZmZYUPcu3g8NcCjwO5xR0PwGMo+MiNzHTT7DrBjC8Rl+Xyhj4b12nt3TiWd76k4xFT1KxrGXXFSEmExkzteMHzoMtbaWR6de2vtl18nvP/JiFxUEDLcThMXMDKUoZsQ0zNdUVYEl2Blbo/jK9vWNoGXwYlAe4Kfyv+Vt1YD9UQbNdCGbUmKisXqOLVpY53XDmWYyJ5StovZLh0pj4FCtBjIM5nWB+42if6grzQw6JTmNDpQlc88zPkifwYduKp3qeCle9ZAQVkd8t8KaRelV0FdVPx8J41blvohG5oOld8Ja6LZv3MswR7cnl+qbI7O+3CzCgltMXh/DxdPLSBaNNQavrigwpzO+7/0t/y4+k7+5dE0pnluZNT5uAiXNm3LOh4O/uujob5gXoTOoAy9Z1gVPvYCRBdtUHtM0SbTBOP2z0HIsolY9t9WlfO2Q3JAXlSeKpoISWVpea/UCWOSgQ5+zKw0ESsDZeKfZnQ+1LTxD35nCZwMDX1FuAyeWoOjWkfEmaqRc7LHq0bh0p1/RpTbKaTa0p1qN2lrw48VxylSQMqwfeRDNU+TWtEvv4eR5yYq6Yk99ZYXuc8zhDPPAJpx3NGJbYpoVpLTYBQta+CksgtOOves3FrpTUsn/FgMZUTI4xdVlJZTQ+sn1f/o6/aLFtCatRFcAcTafVJ5eXpSEo4ygNnEKjQph6pENDmUO0e0BA=",
+      "DB_PASSWORD": "AgCDLEbbHsJjNs2m5e58xO38V7WBmtUkiMtRmObKGqbe3kAS/REYbikExSetU/N4tB/S//GdguC4ajc5QtAzyVl2eDoDXQHUTsOaMv2JYEqHBuQy+wZsUvgvDCgoXeeSlQYBeQTh5I271RhwUZqDSezDaovwhA+aQ0QRCXczDc4jkCsolUFEFjH9+g7y7G/O5HOaMnEIkT71MA8R6hLWQojkbpNFJDJyy6xBxVm+iQHv13kGYabrhzDY5GEKcJDv1KzzT7fSxdqhlE4zx7s37g0/tjNtWpzcMi90X/bw4QV8LRUY7xaAmDsb8xlrXGj15U7A/lYVvthT3FDLHVfK44l4LbBRyYZuBv28X8Vqw1D3s4b3gmgsP76U/QnsI2DPdkC9Xd9vZ3ATlpSenOQANVoW8cqLasJiHE76Ohfp58CQaI3LVwGhqWUJR6Smog715sRRUVN02X85AcHLKJJLtDhZekvgT050gNUE9P5q/sDhMHa0CvbuFnsj+dAu5PSyIKv24LImqDZHgcoSbae289pms3kQj24pdmejLD7R3Jur/8pbzMZVL/M/kvS6dCzX69acfaFPONKYL/3XRS4cbz+dFNj3yg3FKrFbdixJu8Bf1rZjiN5sAsNseX6/XedoGAaAsEjZ6ezqhvQHleg7KH3ckx2hMK0t19AD+p1lm9uc3IEPPWrfVnEvlURnlPUhDyrAUY9CzSvU4AU7NQ==",
+      "DB_USER": "AgATS69LxYfsDy+nnrjW1hgSOHpBSC793WUA910SYzuOAd4xQCw8ivagtIY99cVc16/wbMWC8L4G6eUAdapSA3o5/2wGuw7/oN4L+5h7I390QR7C6QxaiMDGkCUDv/CoCXXTbL76taEMyk89Bow8zIOGGtKaIW2ndU6WKrgj2huSmo4EV6FP5e9ipjyEKt+QMoVl9aop1WycTYGxm8HMXzJsbnBRY2zRSXmPWrSfg9Y4PAvu0z/OnUsCEsHiDzF9lQvmOVsf+YBXqHxT+FVYu0AfhNjdQ8GRaepdGphBlIBZyXUw0ZHHkWXcsdlobVRitscSEOPfthLFV4HEPgAusSZVWMTRp5ZiIwCv0BQVozu8CK0YDPvKOoSM3YhZKJq5T+5SurPlMAqSVsMICR/OB0QTlJR3JkeLnqNwV6uWB3VZDqk/FGafM7mM6b1AD6LIDAb61bLkkLmXqUtj5jihKWw4A7bkVAmdHvPKko9/1vat4pgXax1adCeRo/fbpinwI2NOvsQUloHik76IJYOWf0GpVVWRDjBL7xHKpis9G5lmwvarOGn0dVEmP3nRBvW19sBXUOU2I9wIj/JMo5ETe/e8lr5BpcyG5bScWs06KgQ9DddqbPAAWjxjKTaNfb6/qtHrAbuBRZ9I3GIQtX8nyJBK+SQIgfWwhlVbabUObtA2wwX6kGm1Yk6K1b2rit6Rk/N5APLQtgIit2/c5Q=="
+    }
+  }
+}
