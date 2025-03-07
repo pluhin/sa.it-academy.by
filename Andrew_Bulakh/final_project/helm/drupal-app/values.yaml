@@ -1,0 +1,29 @@
+# Основные параметры приложения
+app:
+  name: drupal-app
+  replicas: 2
+  image: andrewfreak/project
+  tag: "v2.0.0"
+  port: 5000
+
+# Настройки Service
+service:
+  type: LoadBalancer
+  port: 80
+
+# Настройки Ingress
+ingress:
+  enabled: true
+  className: nginx
+  host: drupal.local
+  path: /
+
+# Настройки БД
+database:
+  host: 192.168.56.101
+  name: drupal_db
+  user: drupal_user
+  password: drupal_pass
+
+serviceAccount:
+  create: true  # Отключаем создание ServiceAccount
