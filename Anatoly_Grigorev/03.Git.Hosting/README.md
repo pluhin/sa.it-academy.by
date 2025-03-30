@@ -11,7 +11,7 @@ repo_urls=(
 )
 
 # Directory of the local repository
-repo_dir="C:\Users\HPE250G5\Desktop\DevOpsTraining"
+repo_dir="./"
 
 # Loop push any changes, every few minutes
 while true; do
