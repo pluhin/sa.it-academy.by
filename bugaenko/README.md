@@ -1,7 +1,7 @@
-```bash
 
-1  
-
+#02.GIT.local
+##1   Initializing a Local Repository
+```
 149  cd /home/ss/git/02.git/
   150  ls
   151  cler
@@ -9,14 +9,15 @@
   153  git init
   154  nano README.md
   155  ls
-  156  git status
-  157  git commit -m "empty"
-  158  git add --all
+  156  git status 
+  157  git add --all
+  158  git commit -m "empty"
   159  git status
   160  git commit
   161  git status
-2
- 
+```
+##2  Basic Version Control
+``` 
  162  git branch feature-branch
   163  git branch
   164  nano README.md
@@ -44,8 +45,9 @@
   186  git branch
   187  git merge feature-branch
   188  cat README.md
-3
-
+```
+##3  Exploring Git History
+```
   189  git log
   190  git log --oneline
   191  git log --merges
@@ -53,8 +55,9 @@
   193  git show
   194  git log --oneline
   195  git status
-4
-
+```
+##4  Creating and Applying Tags
+```
   196  git tag v1.0 6ebd7d4
   197  git status
   198  git status tag
@@ -67,8 +70,9 @@
   205  git tag
   206  git show
   207  git tag -n
-5 
-
+  ```
+##5 Undoing Changes
+```
  208  git branch bug-fix
   209  nano README.md
   210  git switch bug-fix
@@ -92,8 +96,9 @@
   228  cat README.md
   229  git reset --hard 33df824
   230  cat README.md
-6
- 
+  ```
+##6  Stashing Changes
+``` 
  231  git branch experimental-feature
   232  git switch experimental-feature
   233  nano README.md
@@ -106,9 +111,11 @@
   240  cat README.md
   241  nano README.md
   242  git stash apply
-7
- 
- 243  git config --global user.name
-  244  git config --global user.email
-  245  history
+  ```
+##7  Git Aliases and Configuration
+ ```
+ 243  git config --global user.name "Bugaenko"
+  244  git config --global user.email "pokermmail@gmail.com"
+  245  git config --global alias.lol "log --oneline"
+  246  history
 ```
