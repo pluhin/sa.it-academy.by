@@ -1,0 +1,27 @@
+name: Hello GitHub Actions
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      
+      - name: Run script and save output
+        run: python3 04.GitOps/hello.py > output.txt
+
+      - name: Upload output as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: script-output
+          path: output.txt
