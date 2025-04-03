@@ -1,4 +1,4 @@
 ```bash
-git@github.com:vabbajack/03.GitHosting.git
-git@gitlab.com:edu2320512/03.git.hosting.git
+https://github.com/vabbajack/03.GitHosting
+https://gitlab.com/edu2320512/03.git.hosting
 ```
