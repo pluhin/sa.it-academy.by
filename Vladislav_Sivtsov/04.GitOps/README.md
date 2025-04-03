@@ -1,4 +1,4 @@
-###1: Setting up a Basic GitHub Action
+### 1: Setting up a Basic GitHub Action
  vim hello.py
  ```python
    print ("Hello, GitHub Acdtion! ")
@@ -23,12 +23,12 @@ jobs:
         python-version: '3.13'
     - run: python hello.py
 
-###2: Building and Testing with GitHub Actions
+### 2: Building and Testing with GitHub Actions
 
     simple program
     ```python
     
-    ###Simple calculator program with basic arithmetic operations
+    ### Simple calculator program with basic arithmetic operations
 
 
 def add(a, b):
@@ -89,7 +89,7 @@ if __name__ == "__main__":
             print("Invalid Input")
 
 ```python
-###Unit tests for calculator program
+### Unit tests for calculator program
 
 import unittest
 from calculator import add, subtract, multiply, divide
