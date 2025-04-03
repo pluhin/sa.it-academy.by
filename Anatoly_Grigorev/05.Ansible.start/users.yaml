@@ -1,0 +1,23 @@
+- name: Managing Users and Groups
+  hosts: all_workers
+  vars:
+    username: "{{ new_username }}"
+    groupname: "{{ new_groupname }}"
+    password: "{{ new_password | password_hash('sha512') }}"
+  tasks:
+    - name: Create group
+      ansible.builtin.group:
+        name: "{{ groupname }}"
+        state: present
+
+    - name: Create user
+      ansible.builtin.user:
+        name: "{{ username }}"
+        password: "{{ password }}"
+        state: present
+        groups: "{{ groupname }}"
+        append: yes
+
+    - name: Print user information
+      debug:
+        msg: "User {{ username }} created and add to group {{ groupname }}."
