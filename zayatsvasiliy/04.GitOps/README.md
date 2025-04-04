@@ -1,4 +1,4 @@
-```
+```bash
 ## Repository link
 git@github.com:zayatsvasiliy/04.GitOps.git
 ## Run command script
