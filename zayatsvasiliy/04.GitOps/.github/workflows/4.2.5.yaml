@@ -1,0 +1,16 @@
+name: task2.5 # name workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  testTask2:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: run script_test
+        run: python -m unittest mtest.py
