@@ -1,5 +1,5 @@
 ### Homework Assignment 1: Setting Up Ansible
-```bash
+```shell
  mkdir 05.Ansible.Start
  1128  ls
  1129  cd 05.Ansible.Start
@@ -8,6 +8,7 @@
  1132  sudo apt install python3-pip
  sudo apt update\nsudo apt install ansible
   vim helloAnsible.yaml
+```
   ```yaml
   
     - name: Hello Ansible Playbook
@@ -17,20 +18,12 @@
         - name: Print hello message
           debug:
             msg: "Hello, Ansible!"
+```
         
 ansible-playbook helloAnsible.yaml
         
 ### Homework Assignment 2: Managing Remote Hosts
-### hosts 192.168.202.17-18
-
-### Bastion:
-  # IP: 178.124.206.53
-  # user: jump_sa 
-  # pass: g7jEYr8&WWI7
-  # port: 32510
-# internal hosts:
-  # user: root 
-  # pass: QwertY_13
+ 
 
 ### change ansible.cfg for connect to the root
 ```yaml
@@ -40,6 +33,7 @@ inventory = invent.yaml
 forks          = 3
 host_key_checking = false
 callbacks_enabled = profile_tasks, timer
+```
 
 vim install_packages.yaml
 ```yaml
@@ -58,6 +52,7 @@ vim install_packages.yaml
           - vim
           - htop
         state: latest
+```
 ### Homework Assignment 3: Managing Users and Groups
 vim manage_users.yaml
 ```yaml
@@ -97,6 +92,9 @@ vim manage_users.yaml
     - name: Display verification results
       ansible.builtin.debug:
         var: user_check.stdout
-``` bash
-        ansible-playbook -i invent.yaml manage_users.yaml 
-        ansible-playbook -i invent.yaml manage_users.yaml \\n  -e "username=Vlad" \\n  -e "user_group=DevOps" \\n  -e "user_password='$StrongPass123!'"
+```
+``` shall
+        ansible-playbook -i invent.yaml manage_users.yaml
+ 
+
+```    ansible-playbook -i invent.yaml manage_users.yaml \\n  -e "username=Vlad" \\n  -e "user_group=DevOps" \\n  -e "user_password='$StrongPass123!'"
