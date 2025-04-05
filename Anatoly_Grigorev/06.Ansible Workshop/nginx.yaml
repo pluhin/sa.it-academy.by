@@ -1,0 +1,126 @@
+- name: Install and configure Nginx
+  hosts: web_server
+  vars:
+    vhost:
+      server1:
+        name: site1.example.com
+        root_dir: /var/www/site1
+      server2:
+        name: site2.example.com
+        root_dir: /var/www/site2
+    
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Manage the Nginx Process
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Create directories for the websites
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop:
+        - "{{ vhost.server1.root_dir }}"
+        - "{{ vhost.server2.root_dir }}"
+
+    - name: Create index.html for site1
+      ansible.builtin.copy:
+        dest: "{{ vhost.server1.root_dir }}/index.html"
+        content: "<h1>Welcome to Site 1</h1>"
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Create index.html for site2
+      ansible.builtin.copy:
+        dest: "{{ vhost.server2.root_dir }}/index.html"
+        content: "<h1>Welcome to Site 2</h1>"
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Add entries to /etc/hosts
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        line: "{{ ansible_host }} {{ item }}"
+        state: present
+      loop:
+        - "{{ vhost.server1.name }}"
+        - "{{ vhost.server2.name }}"
+
+    - name: Template Nginx configuration for site1
+      ansible.builtin.template:
+        src: ./site1.conf.j2
+        dest: /etc/nginx/sites-available/{{ vhost.server1.name }}
+      notify: reload nginx
+
+    - name: Template Nginx configuration for site2
+      ansible.builtin.template:
+        src: ./site2.conf.j2
+        dest: /etc/nginx/sites-available/{{ vhost.server2.name }}
+      notify: reload nginx
+
+    - name: Enable virtual host by creating link for site1
+      ansible.builtin.file:
+        src: "/etc/nginx/sites-available/{{ vhost.server1.name }}"
+        dest: "/etc/nginx/sites-enabled/{{ vhost.server1.name }}"
+        state: link
+
+    - name: Enable virtual host by creating link for site2
+      ansible.builtin.file:
+        src: "/etc/nginx/sites-available/{{ vhost.server2.name }}"
+        dest: "/etc/nginx/sites-enabled/{{ vhost.server2.name }}"
+        state: link
+
+    - name: reload nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
+
+    - name: Check if Site 1 is reachable
+      uri:
+        url: "http://{{ vhost.server1.name }}"
+        return_content: yes
+      register: site1_check
+
+    - name: Check if Site 2 is reachable
+      uri:
+        url: "http://{{ vhost.server2.name }}"
+        return_content: yes
+      register: site2_check
+
+    - name: Output content of Site 1
+      debug:
+        msg: "Content of Site 1: {{ site1_check.content }}"
+
+    - name: Output content of Site 2
+      debug:
+        msg: "Content of Site 2: {{ site2_check.content }}"
+
+    - name: Assert that Site 1 is working
+      assert:
+        that:
+          - site1_check.status == 200
+        fail_msg: "Site 1 is not reachable."
+
+    - name: Assert that Site 2 is working
+      assert:
+        that:
+          - site2_check.status == 200
+        fail_msg: "Site 2 is not reachable."
+
+  handlers:
+    - name: reload nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
