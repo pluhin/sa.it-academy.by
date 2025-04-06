@@ -1,0 +1,13 @@
+name: Run Hello Script
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4  # Clone the repo
+      - name: Run Python script
+        run: python hello.py
