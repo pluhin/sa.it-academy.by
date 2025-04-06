@@ -1,0 +1,19 @@
+- name: Install
+  hosts: all_workers
+
+  tasks:
+    - name: Install htop
+      ansible.builtin.apt:
+        name: htop
+        state: latest
+        update_cache: yes
+
+    - name: Chek if htop installed
+      shell: |
+        htop --version
+      register: htop_check
+      ignore_errors: yes
+
+    - name: Print htop version
+      debug:
+        msg: "{{ htop_check.stdout }}"
