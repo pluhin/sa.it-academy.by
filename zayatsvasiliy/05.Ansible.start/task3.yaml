@@ -1,0 +1,26 @@
+- name: Add users
+  hosts: all_workers
+  become: true
+  vars:
+    user_name: ""
+    user_group: "" 
+    user_password: ""
+
+  tasks:
+
+    - name: Create user and add to group
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+        group: "{{ user_group }}"
+        password: "{{ user_password | password_hash('sha512') }}"
+        shell: /bin/bash
+        state: present
+        create_home: true
+
+    - name: check users
+      ansible.builtin.command: id {{ user_name }}
+      register: user_id
+
+    - name: Print user info
+      ansible.builtin.debug:
+        var: user_id.stdout

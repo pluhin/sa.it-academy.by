@@ -1,0 +1,13 @@
+- name: Install htop
+  hosts: work_sa
+  become: true
+  gather_facts: true
+
+  vars:
+    package_name: htop
+
+  tasks:
+    - name: check
+      ansible.builtin.package:
+        name: "{{ package_name }}"
+        state: present
