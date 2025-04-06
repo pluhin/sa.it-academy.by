@@ -1,0 +1,35 @@
+---
+- name: Manage users and groups on remote host
+  hosts: all_workers:work_sa
+  become: yes  # Use sudo to run tasks as root
+  vars:
+    # Default values (can be overridden during playbook execution)
+    username: "{{ user_name }}"
+    group: "{{ group_name }}"
+    password: "{{ user_password | default('pass123') }}"
+
+  tasks:
+    - name: Create a new group (if it doesn't exist)
+      ansible.builtin.group:
+        name: "{{ group }}"
+        state: present
+
+    - name: Create a new user
+      ansible.builtin.user:
+        name: "{{ username }}"
+        group: "{{ group }}"
+        password: "{{ password | password_hash('sha512') }}"
+        state: present
+        shell: /bin/bash
+        create_home: yes
+
+    - name: Add user to additional groups (if needed)
+      ansible.builtin.user:
+        name: "{{ username }}"
+        groups: "{{ group }}"
+        append: yes
+
+    - name: Verify user and group
+      ansible.builtin.debug:
+        msg: "User {{ username }} has been created and added to group {{ group }}."
+
