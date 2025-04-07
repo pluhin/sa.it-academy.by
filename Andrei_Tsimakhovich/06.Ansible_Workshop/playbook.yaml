@@ -1,0 +1,81 @@
+- name: Configure and deploy Nginx virtualhosts
+  hosts: webservers
+  become: yes
+
+  vars:
+    sites:
+      - hostname: sa-19
+        fqdn: sa-19.it-academy.local
+      - hostname: sa-20
+        fqdn: sa-20.it-academy.local
+
+  tasks:
+    - name: Ensure Nginx is installed
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Ensure web root directories exist
+      file:
+        path: "/var/www/{{ item.hostname }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop: "{{ sites }}"
+
+    - name: Create index.html for each site
+      template:
+        src: templates/index.html.j2
+        dest: "/var/www/{{ item.hostname }}/index.html"
+      loop: "{{ sites }}"
+
+    - name: Deploy Nginx config for each site
+      template:
+        src: templates/vhost.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.hostname }}.conf"
+      loop: "{{ sites }}"
+
+    - name: Enable site by creating symlink
+      file:
+        src: "/etc/nginx/sites-available/{{ item.hostname }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ item.hostname }}.conf"
+        state: link
+        force: yes
+      loop: "{{ sites }}"
+
+    - name: Ensure default site is disabled
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Test nginx config
+      command: nginx -t
+      register: nginx_test
+      changed_when: false
+
+    - name: Show Nginx config test result
+      debug:
+        var: nginx_test.stdout_lines
+
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded
+
+    - name: Fetch index.html for each site directly on its host
+      uri:
+        url: "http://localhost/index.html"
+        method: GET
+        return_content: yes
+      loop: "{{ sites }}"
+      when: hostvars[inventory_hostname]['hostname'] == item.hostname
+      register: site_content_per_host
+      loop_control:
+        label: "{{ item.hostname }}"
+
+    - name: Show fetched site content
+      debug:
+        var: site_content_per_host.results
+
