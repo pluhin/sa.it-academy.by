@@ -1,0 +1,11 @@
+server {
+    listen 80;
+    server_name {{ item.domain }};
+
+    root /var/www/{{ item.hostname }};
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
