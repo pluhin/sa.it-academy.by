@@ -1,5 +1,5 @@
+##task1
 ```bash
-## task1
 1	cd	homework/05.AnsibleStart/
 2	clear
 3	ssh-copy-id	-p	32510	jump_sa@178.124.206.53
@@ -26,8 +26,9 @@
 24	ansible-playbook hello.yaml
 25	vim	hello.yaml	
 26	ansible-playbook hello.yaml
-
+```
 ### task2
+```bash
 27	vim task2.3.yaml
 28	ssh root@192.168.202.11
 29	vim task2.3.yaml
@@ -44,9 +45,9 @@
 40	ansible-playbook -i inventoy.yaml task2.3.yaml
 41	vim task2.3.yaml
 42	ansible-playbook -i inventoy.yaml task2.3.yaml
-
+```
 ###task 3
-
+```bash
 44	task3.yaml
 45	vim	task3.yaml
 46	vim	inventoy.yaml
@@ -57,7 +58,6 @@
 51	ansible-playbook -i	inventoy.yaml task3.yaml --extra-vars	@secret_vars.yml --extra-vars	user_name=zayatsV user_group=users	--ask-vault-pass
 52	ansible-playbook -i	inventoy.yaml task3.yaml --extra-vars	@secret_vars.yml --extra-vars	user_name=zayatsVV user_group=users	--ask-vault-pass
 53	history
-
 ```
 
 

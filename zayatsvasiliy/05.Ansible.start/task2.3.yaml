@@ -1,10 +1,12 @@
-- name: Install htop
+- name: Install utils
   hosts: work_sa
   become: true
   gather_facts: true
 
   vars:
-    package_name: htop
+    package_name: 
+      - htop
+      - zabbix-agent
 
   tasks:
     - name: check
