@@ -1,0 +1,9 @@
+- name: Install htop package on remote hosts
+  hosts: all_workers:work_sa
+  become: yes               # Use sudo to install packages
+  tasks:
+    - name: Ensure htop is installed
+      apt:
+        name: htop           
+        state: present       # Ensures the package is installed
+        update_cache: yes    # Updates the apt cache before installing (for Debian-based systems)
