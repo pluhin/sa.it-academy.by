@@ -1,0 +1,7 @@
+
+Host ec_bastion
+	User jump_sa
+	Port 32510
+	Hostname 178.124.206.53
+Host 192.168.202.11 192.168.202.12 192.168.208.11 192.168.208.12 192.168.201.6
+	ProxyJump ec_bastion
