@@ -1,0 +1,17 @@
+all:
+  vars:
+    ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53 -p 32510"'
+  children:
+    webservers:
+      hosts:
+        host_19:
+          ansible_host: 192.168.202.19
+          ansible_user: root
+          hostname: sa-19
+          fqdn: sa-19.it-academy.local
+        host_20:
+          ansible_host: 192.168.202.20
+          ansible_user: root
+          hostname: sa-20
+          fqdn: sa-20.it-academy.local
+
