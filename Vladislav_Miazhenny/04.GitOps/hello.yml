@@ -1,0 +1,13 @@
+name: hello
+on:
+  push:
+    branches:
+    - master
+jobs:
+  start_script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: start script hello
+        run: python3 hello.py
