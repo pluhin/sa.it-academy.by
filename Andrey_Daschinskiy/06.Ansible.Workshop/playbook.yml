@@ -1,0 +1,60 @@
+---
+- name: Configure Nginx with two virtual hosts
+  hosts: webservers
+  become: yes
+
+  vars:
+    vhosts:
+      - name: "site1.example.com"
+        port: 8888
+      - name: "site2.example.com"
+        port: 8889
+
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Create directories for virtual hosts
+      file:
+        path: "/var/www/{{ item.name }}/html"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop: "{{ vhosts }}"
+
+    - name: Deploy virtual host configs
+      template:
+        src: "templates/vhost.conf.j2"
+        dest: "/etc/nginx/sites-available/{{ item.name }}"
+        owner: root
+        group: root
+        mode: '0644'
+      loop: "{{ vhosts }}"
+      notify: Restart Nginx
+
+    - name: Enable sites
+      file:
+        src: "/etc/nginx/sites-available/{{ item.name }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.name }}"
+        state: link
+      loop: "{{ vhosts }}"
+      notify: Restart Nginx
+
+    - name: Deploy index.html
+      template:
+        src: "templates/index.html.j2"
+        dest: "/var/www/{{ item.name }}/html/index.html"
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      loop: "{{ vhosts }}"
+
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
