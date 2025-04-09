@@ -1,0 +1,26 @@
+all:
+  vars: 
+     ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q jump_sa@178.124.206.53  -p 32510"'
+  children:
+    work_sa:
+      hosts:
+        host09:
+          ansible_host: 192.168.201.9
+          nginx_config:
+            virtual_hosts:
+              - name: "site1.example.com"
+                port: 80
+                root: "/var/www/site1"
+                index_content: "Welcome to Site 1"
+              - name: "site2.example.com"
+                port: 80
+                root: "/var/www/site2"
+                index_content: "Welcome to Site 2"
+        
+jump_sa:
+  vars:
+   env: "it_academy"
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.53
+      ansible_user: jump_sa
