@@ -1,0 +1,91 @@
+
+- name: Install and configure Nginx with two virtual hosts
+  hosts: work_sa
+  become: yes
+  vars:
+    virtual_hosts:
+      - name: "site1.example.com"
+        root_dir: "/var/www/site1"
+        index_content: "Hello from Site 1"
+        port: 80
+      - name: "site2.example.com"
+        root_dir: "/var/www/site2"
+        index_content: "Hello from Site 2"
+        port: 80
+
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Ensure Nginx is running
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Create root directories
+      ansible.builtin.file:
+        path: "{{ item.root_dir }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop: "{{ virtual_hosts }}"
+
+    - name: Add index.html with unique content
+      ansible.builtin.copy:
+        content: "{{ item.index_content }}"
+        dest: "{{ item.root_dir }}/index.html"
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      loop: "{{ virtual_hosts }}"
+
+    - name: Configure Nginx virtual hosts
+      ansible.builtin.template:
+        src: "templates/nginx_vhost.conf.j2"
+        dest: "/etc/nginx/sites-available/{{ item.name }}.conf"
+      loop: "{{ virtual_hosts }}"
+      notify: Reload Nginx
+
+    - name: Enable virtual hosts
+      ansible.builtin.file:
+        src: "/etc/nginx/sites-available/{{ item.name }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ item.name }}.conf"
+        state: link
+      loop: "{{ virtual_hosts }}"
+      notify: Reload Nginx
+
+    - name: Remove default Nginx config
+      ansible.builtin.file:
+        path: "/etc/nginx/sites-enabled/default"
+        state: absent
+      notify: Reload Nginx
+
+    - name: Verify virtual hosts content
+      ansible.builtin.uri:
+        url: "http://{{ ansible_host }}:{{ item.port }}/"
+        headers:
+          Host: "{{ item.name }}"
+        return_content: yes
+      loop: "{{ virtual_hosts }}"
+      register: http_response
+      failed_when: "item.index_content not in http_response.content"
+      ignore_errors: yes
+
+    - name: Show verification results
+      ansible.builtin.debug:
+        msg: "Host {{ item.item.name }} returned: {{ item.content | default('No response') | trim }}"
+      loop: "{{ http_response.results }}"
+      loop_control:
+        label: "{{ item.item.name }}"
+      when: item.item.index_content in item.content
+
+  handlers:
+    - name: Reload Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
