@@ -1,0 +1,9 @@
+- name: Install package on remote host
+  hosts: work_sa
+  become: yes
+  tasks:
+    - name: Install vlc package
+      apt:
+        name: htop
+        state: present
+        update_cache: yes
