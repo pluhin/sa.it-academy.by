@@ -1,0 +1,43 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: [SECRETS_DOCKER_LOGIN]/[SECRETS_DOCKER_REPO]:${{ github.sha }}
+
+      - name: Slack notification
+        if: always()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: [SECRETS_SLACK_CHANNEL_NAME]
+          SLACK_COLOR: '#ff0000'
+          SLACK_MESSAGE: |
+            *Build Status:* ${{ job.status }} 🚀
+            *Image Tag:* [SECRETS_DOCKER_LOGIN]/[SECRETS_DOCKER_REPO]:${{ github.sha }}
+          SLACK_TITLE: GitHub Actions Notification
+          SLACK_USERNAME: GitHub Actions
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
