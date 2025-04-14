@@ -1,0 +1,43 @@
+name: Publish Docker image
+
+on:
+  release:
+    types: [published]
+  push:
+    branches:
+      - "master"
+jobs:
+  push_to_registries:
+    name: Push Docker image
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.CR_TOKEN }}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/toyvokalevala/docker-actions:1
+
+      - name: Slack Notification
+        if: always()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_TITLE: "Image build result for ${{ github.repository }}"
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_MESSAGE: |
+            Result is ${{ job.status }}
+            Commit message: ${{ github.event.head_commit.message }}

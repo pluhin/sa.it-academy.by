@@ -26,8 +26,8 @@
 ```
 
 ## Homework Assignment 2: Building a Docker Image with Dockerfile
-[Dockerfile](./Dockerfile)
-[Application](./app.py)
+[Dockerfile](./Dockerfiles/Dockerfile)
+[Application](./Dockerfiles/app.py)
 
 Create a Docker image
 ```bash
@@ -67,14 +67,3 @@ Check access to web application
 curl  http://localhost:5000/
 Hello, World
 ```
-   
-   
-
-
-   
-
-   
-   
-   
-   
-   
