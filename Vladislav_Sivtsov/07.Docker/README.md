@@ -101,7 +101,7 @@ Server: Docker Engine - Community
  => => exporting layers                                    0.5s
  => => writing image sha256:35d4c6c0da42e004d0e10a11cae94  0.0s
 
- ocker run -d -p 5000:5000 --name first-flask-app flask-app
+ docker run -d -p 5000:5000 --name first-flask-app flask-app
 ed866d4ece26a188df3219bbc7d5c9bd73ec840404d8e526e9b9b09e2fbabca8
 
 curl http://localhost:5000
