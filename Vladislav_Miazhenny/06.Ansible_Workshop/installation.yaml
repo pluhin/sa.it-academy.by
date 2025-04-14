@@ -1,0 +1,65 @@
+- name: Installation nginx with templates
+  hosts: all_hosts
+  become: yes
+  vars:
+    app_packages:
+      - nginx
+    sites:
+      - hostname: it-academy-vhost-1
+        fqdn: it-academy-1-1
+      - hostname: it-academy-vhost-2
+        fqdn: it-academy-2-2
+
+  tasks:
+    - name: Installation nginx
+      apt:
+        name: "{{ app_packages }}"
+        state: latest
+        update_cache: true
+      tags: install
+      
+    - name: Create home directory
+      file:
+        path: "/var/www/{{ item.hostname }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop: "{{ sites }}"
+      
+    - name: Deploy vhost config
+      template:
+        src: "template/nginx_vhost.conf.j2"
+        dest: "/etc/nginx/sites-available/{{ item.hostname }}.conf"
+      loop: "{{ sites }}"
+    
+    - name: Create html page
+      template:
+        src: template/index.html.j2
+        dest: "/var/www/{{ item.hostname }}/index.html"
+      loop: "{{ sites }}"
+     
+    - name: Add virtual host
+      file:
+        src: "/etc/nginx/sites-available/{{ item.hostname }}.conf"
+        dest: /etc/nginx/sites-enabled/{{ item.hostname }}.conf
+        state: link
+      loop: "{{ sites }}"
+        
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded
+          
+    - name: Check work of website
+      uri:
+        url: "http://localhost/index.html"
+        return_content: true
+      loop: "{{ sites }}"
+      register: site_response
+      loop_control:
+        label: "{{ item.hostname }}"
+    
+    - name: Show response
+      debug:
+        var: site_response.results
