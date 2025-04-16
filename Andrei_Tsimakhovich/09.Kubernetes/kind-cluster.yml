@@ -1,0 +1,52 @@
+name: Setup KinD Cluster
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  kind:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Install KinD
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.23.0/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+          kind --version
+
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/kubectl
+          kubectl version --client
+
+      - name: Create KinD cluster
+        run: |
+          kind create cluster --name ci-cluster
+          kubectl cluster-info
+
+      - name: Wait for node to become ready
+        run: |
+          for i in {1..30}; do
+            STATUS=$(kubectl get nodes -o jsonpath='{.items[0].status.conditions[?(@.type=="Ready")].status}')
+            if [ "$STATUS" == "True" ]; then
+              echo "Node is Ready"
+              break
+            fi
+            echo "Waiting for node to be ready..."
+            sleep 5
+          done
+
+      - name: Get cluster nodes
+        run: |
+          kubectl get nodes

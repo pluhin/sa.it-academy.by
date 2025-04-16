@@ -1,0 +1,56 @@
+name: Manual Minikube Setup
+
+on:
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  minikube:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y conntrack curl
+
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/kubectl
+          kubectl version --client
+
+      - name: Install Minikube
+        run: |
+          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          sudo install minikube-linux-amd64 /usr/local/bin/minikube
+          minikube version
+
+      - name: Start Minikube
+        run: |
+          minikube start --driver=docker --force
+          kubectl get nodes
+
+      - name: Wait for node to become ready
+        run: |
+          for i in {1..30}; do
+            STATUS=$(kubectl get nodes -o jsonpath='{.items[0].status.conditions[?(@.type=="Ready")].status}')
+            if [ "$STATUS" == "True" ]; then
+              echo "✅ Node is Ready"
+              break
+            fi
+            echo "⏳ Waiting for node to be ready... ($i/30)"
+            sleep 5
+          done
+
+      - name: Show cluster info
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+          kubectl get pods -A
+
