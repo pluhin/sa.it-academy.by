@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  drupal:
+    image: drupal:9-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - drupal_data:/var/www/html
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  drupal_data:
+  db_data:

@@ -1,0 +1,14 @@
+- name: Manage users and groups
+  hosts: all_workers  # Укажите группу хостов из вашего инвентарного файла
+  become: true
+  vars:
+    username: "{{ username | default('new_user') }}"  # Параметризованный пользователь
+    groupname: "{{ groupname | default('new_group') }}"  # Параметризованная группа
+    user_password: "{{password | default('default_password') | password_hash('sha512') }}" # Параметризованный пароль
+  tasks:
+  - name: Create user
+    user:
+      user: "{{ username }}"
+      group: "{{ groupname }}"
+      password: "{{user_password}}"
+      state: present
