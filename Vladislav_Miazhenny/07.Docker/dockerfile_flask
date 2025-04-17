@@ -1,0 +1,14 @@
+FROM alpine:latest
+
+RUN apk update \
+    && apk add python3 \
+    && apk add python3 py3-pip \
+    && apk add py3-flask \
+    && apk del python3 py3-pip
+    
+COPY app.py app.py
+
+EXPOSE 30123
+
+CMD python3 app.py
+     
