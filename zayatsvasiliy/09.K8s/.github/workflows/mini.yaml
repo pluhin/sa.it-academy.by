@@ -1,0 +1,46 @@
+name: Minikube
+
+on:
+  push:
+
+jobs:
+  setup-minikube:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Minikube
+        run: |
+          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+      - name: Start Minikube
+        id: start
+        run: |
+          START_TIME=$(date +%s)
+          minikube start --driver=docker
+          END_TIME=$(date +%s)
+          echo "duration=$((END_TIME - START_TIME))" >> $GITHUB_OUTPUT
+
+      - name: Get number of nodes
+        id: nodes
+        run: |
+          COUNT=$(kubectl get nodes --no-headers | wc -l)
+          echo "nodes=$COUNT" >> $GITHUB_OUTPUT
+
+      - name: Get Kubernetes version
+        id: version
+        run: |
+          VERSION=$(kubectl version --short | grep Server | awk '{print $3}')
+          echo "kube_version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Final summary output
+        run: |
+          echo "Minikube cluster is run!"
+          echo "count node: ${{ steps.nodes.outputs.nodes }}"
+          echo "version Kubernetes: ${{ steps.version.outputs.kube_version }}"
+          echo "time running: ${{ steps.start.outputs.duration }} sec"
+
