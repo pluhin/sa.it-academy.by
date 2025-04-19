@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-default
+  labels:
+    app: ubuntu
+spec:
+  containers:
+  - image: ghcr.io/pluhin/busy-box:latest
+    command:
+      - "sleeeeeeeep"
+      - "604800"
+    imagePullPolicy: IfNotPresent
+    name: ubuntu-default
