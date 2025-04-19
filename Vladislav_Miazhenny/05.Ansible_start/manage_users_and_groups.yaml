@@ -1,0 +1,22 @@
+- name: Manage users and groups
+  hosts: all_workers
+  become: yes
+  vars:
+    username: "{{ user_name | default('unknown') }}"
+    group: "{{ user_group | default('unknown') }}"
+    password: "{{ user_password | default('password') }}"
+
+  tasks:
+    - name: Create a group
+      group:
+        name: "{{ group }}"
+        state: present
+
+    - name: Create a user
+      user:
+        name: "{{ username }}"
+        groups: "{{ group }}"
+        password: "{{ password | password_hash('sha512')}}"
+        state: present
+        shell: /bin/bash
+        append: yes

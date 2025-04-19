@@ -1,0 +1,5 @@
+vhosts:
+  - server_name: ms1.sa-academy.local
+    root: /var/www/ms1
+  - server_name: ms2.sa-academy.local
+    root: /var/www/ms2

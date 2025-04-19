@@ -1,0 +1,18 @@
+all_workers:
+  children:
+    work_sa:
+      hosts:
+        host3:
+          ansible_host: 192.168.202.3
+          ansible_user: root
+        host4:
+          ansible_host: 192.168.202.4
+          ansible_user: root
+jump_sa:
+  vars:
+    #ansible_ssh_common_args: '-o ProxyJump=jump_sa@178.124.206.53:32510'
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.53
+      ansible_user: jump_sa
+

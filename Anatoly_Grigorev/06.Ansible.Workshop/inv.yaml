@@ -1,0 +1,14 @@
+web_server:
+  children:
+    work_sa:
+      hosts:
+        nginx_server:
+          ansible_host: 192.168.202.6
+
+jump_sa:
+  vars:
+    env: "it-academy"
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.53
+      ansible_user: jump_sa

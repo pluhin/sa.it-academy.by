@@ -1,0 +1,13 @@
+- name: Install packages mc and htop
+  hosts: work_sa
+  become: true  # Необходимо для выполнения задач с sudo
+  tasks:
+    - name: mc install
+      apt:
+        name: mc
+        state: present
+
+    - name: vim installed
+      apt:
+        name: vim
+        state: present

@@ -1,0 +1,15 @@
+- name: Install utils
+  hosts: work_sa
+  become: true
+  gather_facts: true
+
+  vars:
+    package_name: 
+      - htop
+      - zabbix-agent
+
+  tasks:
+    - name: check
+      ansible.builtin.package:
+        name: "{{ package_name }}"
+        state: present

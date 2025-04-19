@@ -1,0 +1,81 @@
+- name: Install and configure Nginx
+  hosts: web_server
+  vars:
+    sites:
+      - { hostname: "site1", domain: "site1.example.com" }
+      - { hostname: "site2", domain: "site2.example.com" }
+    
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Manage the Nginx Process
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Create directories for the websites
+      ansible.builtin.file:
+        path: "/var/www/{{ item.hostname }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop: "{{ sites }}"
+
+    - name: Create index.html for sites
+      ansible.builtin.copy:
+        dest: "/var/www/{{ item.hostname }}/index.html"
+        content: "<h1>Welcome to {{ item.hostname }}</h1>"
+        owner: www-data
+        group: www-data
+        mode: '0644'
+       loop: "{{ sites }}"
+
+    - name: Add entries to /etc/hosts
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        line: "{{ ansible_host }} {{ item }}"
+        state: present
+      loop: "{{ sites }}"
+
+    - name: Template Nginx configuration for sites
+      ansible.builtin.template:
+        src: ./site.conf.j2
+        dest: /etc/nginx/sites-available/{{ item.hostname }}
+      notify: reload nginx
+      loop: "{{ sites }}"
+
+    - name: Enable virtual host by creating link for site
+      ansible.builtin.file:
+        src: "/etc/nginx/sites-available/{{ item.hostname }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.hostname }}"
+        state: link
+      loop: "{{ sites }}"
+
+    - name: reload nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
+
+    - name: Check if Sites are reachable
+      uri:
+        url: "http://{{ item.domain }}"
+        return_content: yes
+      register: site_check
+      loop: "{{ sites }}"
+
+    - name: Output content of Sites
+      debug:
+        msg: "Content of Site: {{ item.content }}"
+      loop: "{{ site_check.results }}"
+
+  handlers:
+    - name: reload nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded

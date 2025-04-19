@@ -1,0 +1,19 @@
+- name: Manage users and groups
+  hosts: work_sa
+  become: true
+  vars:
+    username: ""
+    groupname: ""
+    password: ""
+  tasks:
+    #- name: Create group
+    #  group:
+    #    name: "{{ groupname }}"
+    #    state: present
+
+    - name: Create user
+      user:
+        name: "{{ username }}"
+        group: "{{ groupname }}"
+        password: "{{ password | password_hash('sha512') }}"
+        state: present

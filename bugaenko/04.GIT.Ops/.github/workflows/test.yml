@@ -1,0 +1,16 @@
+name: test2
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  testTask2:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: run test2
+        run: python -m unittest test.py

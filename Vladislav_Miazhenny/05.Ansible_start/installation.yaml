@@ -1,0 +1,13 @@
+- name: Installation
+  hosts: all_workers
+  vars:
+    app_packages:
+      - htop
+
+  tasks:
+    - name: htop. Installation
+      apt:
+        name: "{{ app_packages }}"
+        state: latest
+        update_cache: true
+      tags: install
