@@ -1,0 +1,66 @@
+name: KinD
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  setup-kind:
+    runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker:dind
+        options: --privileged
+        ports:
+          - 2375:2375
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl bash git gnupg2 lsb-release
+          mkdir -p $HOME/bin
+          curl -Lo $HOME/bin/kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
+          chmod +x $HOME/bin/kind
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Set up Docker (in Docker)
+        run: |
+          sudo dockerd &
+          sleep 5
+
+      - name: Create KinD cluster and measure time
+        id: create_cluster
+        run: |
+          echo "Creating KinD cluster"
+          START=$(date +%s)
+          kind create cluster --name kind --image kindest/node:v1.29.2
+          END=$(date +%s)
+          echo "CLUSTER_TIME=$((END - START))" >> $GITHUB_OUTPUT
+
+      - name: Set kubectl context
+        run: |
+          kubectl cluster-info
+          kubectl config use-context kind-kind
+
+      - name: Show Kubernetes version, nodes and creation time
+        run: |
+          echo "Kubernetes Version:"
+          kubectl version --client
+
+          echo "Cluster Nodes:"
+          kubectl get nodes -o wide
+
+          echo "Number of Nodes:"
+          NODE_COUNT=$(kubectl get nodes --no-headers | wc -l)
+          echo $NODE_COUNT
+
+          echo "Cluster creation time: ${{ steps.create_cluster.outputs.CLUSTER_TIME }} seconds"
+
