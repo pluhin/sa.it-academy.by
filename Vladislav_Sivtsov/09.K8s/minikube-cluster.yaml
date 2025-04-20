@@ -1,0 +1,44 @@
+name: Minikube Cluster Setup
+on: 
+  pull_request:
+  push:
+    branches: 
+      - master
+
+jobs:
+  setup-minikube:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install kubectl
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y apt-transport-https ca-certificates curl
+        sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+        sudo apt-get update
+        sudo apt-get install -y kubectl
+
+    - name: Install Minikube
+      run: |
+        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+    - name: Start Minikube cluster
+      run: |
+        minikube start --driver=docker
+        minikube status
+        echo "Cluster setup complete"
+
+    - name: Get cluster info
+      run: |
+        echo "=== Cluster Information ==="
+        kubectl cluster-info
+        echo -n "Number of nodes: "
+        kubectl get nodes -o name | wc -l
+        echo -n "Kubernetes version: "
+        kubectl version --short | grep Server | awk '{print $3}'
+        echo "=== Minikube details ==="
+        minikube profile list
