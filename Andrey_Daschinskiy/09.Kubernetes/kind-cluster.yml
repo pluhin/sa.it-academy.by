@@ -1,0 +1,60 @@
+name: KinD Cluster Setup
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  setup-kind:
+    runs-on: ubuntu-22.04  # Явно указываем версию Ubuntu
+    permissions:
+      contents: read
+      packages: write
+      
+    steps:
+      # 1. Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Docker
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      # 3. Install dependencies
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y apt-transport-https ca-certificates curl
+          # Install kubectl
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+          # Install KinD
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/
+          # Verify installations
+          kind --version
+          kubectl version --client
+      # 4. Create KinD cluster
+      - name: Create cluster
+        run: |
+          kind create cluster --name github-cluster --wait 5m
+          kubectl cluster-info
+          kubectl get nodes -o wide
+          kubectl get pods -A
+      # 5. Save logs (always run even if previous steps fail)
+      - name: Export cluster logs
+        if: always()
+        run: |
+          mkdir -p ./kind-logs
+          kind export logs ./kind-logs --name github-cluster
+          echo "Logs exported to kind-logs/"
+      # 6. Upload logs artifact (using current v4 version)
+      - name: Upload cluster logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kind-cluster-logs
+          path: |
+            kind-logs/*
+            !kind-logs/audit.log  # Exclude large audit logs
+          retention-days: 3
