@@ -1,0 +1,55 @@
+name: Check K8s
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  check-k8s:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Prepare SSH Key
+        run: |
+          echo "${{ secrets.JUMP_SSH_KEY }}" > jump_key
+          chmod 600 jump_key
+
+      - name: Check pods via jump host
+        id: check
+        run: |
+          ssh -o StrictHostKeyChecking=no \
+              -i jump_key \
+              -J "${{ secrets.JUMP_USER }}@${{ secrets.JUMP_HOST }}:32510" \
+              ${{ secrets.JUMP_USER }}@${{ secrets.K8S_HOST }} << 'EOF'
+            set -e
+            echo "Checking pods status..."
+            pods=$(kubectl get pods --all-namespaces --no-headers)
+            echo "$pods"
+            if echo "$pods" | grep -qvE 'Running|Completed'; then
+              echo "Some pods are not healthy"
+              exit 1
+            else
+              echo "All pods are healthy"
+              exit 0
+            fi
+          EOF
+        continue-on-error: true
+
+      - name: Send Slack notification
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ "${{ steps.check.outcome }}" = "success" ]; then
+            message="All Kubernetes pods are healthy on *${{ secrets.K8S_HOST }}* (triggered by push)."
+          else
+            message="Some Kubernetes pods are in a non-healthy state on *${{ secrets.K8S_HOST }}* (triggered by push)."
+          fi
+
+          payload="{
+            \"text\": \"[K8s Pod Check] $message\"
+          }"
+
+          curl -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL"
