@@ -1,0 +1,5 @@
+FROM python:3.11-alpine
+WORKDIR /app
+RUN pip install Flask
+COPY application.py .
+CMD ["python","application.py"]
