@@ -1,0 +1,5 @@
+vhosts:
+  - server_name: 06.sa1-academy.net
+    root: /var/www/ms1
+  - server_name: 06.sa2-academy.net
+    root: /var/www/sa
