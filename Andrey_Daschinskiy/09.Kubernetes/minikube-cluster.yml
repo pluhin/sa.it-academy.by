@@ -1,0 +1,49 @@
+name: Minikube Cluster Setup
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  setup-minikube:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            curl \
+            conntrack \
+            socat \
+            ebtables
+      - name: Install Minikube and kubectl
+        run: |
+          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          sudo install minikube-linux-amd64 /usr/local/bin/minikube
+          
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+      - name: Start Minikube cluster
+        run: |
+          minikube start --driver=docker
+          minikube status
+          kubectl get nodes
+      - name: Verify cluster
+        run: |
+          kubectl cluster-info
+          kubectl get pods -A
+      - name: Save logs
+        if: always()
+        run: |
+          mkdir -p ./minikube-logs
+          minikube logs > ./minikube-logs/minikube.log
+          kubectl get all -A > ./minikube-logs/k8s-resources.log
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: minikube-logs
+          path: minikube-logs/*
