@@ -16,3 +16,4 @@ Main purpose of this repository is collaboration of homework for study groups
 ## CI/CD
 
 In preparing
+# 04.GitOps
