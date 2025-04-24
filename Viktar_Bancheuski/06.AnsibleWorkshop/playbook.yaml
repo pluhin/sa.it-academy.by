@@ -1,0 +1,71 @@
+---
+- name: Configure Nginx with two virtual hosts
+  hosts: work_sa
+  become: yes
+  vars_files:
+    - secret_vars.yml
+
+  vars:
+    virtual_hosts:
+      - name: "site1.it-academy"
+        port: 80
+        root: "/var/www/site1"
+        site_title: "IT Academy Site 1"
+      - name: "site2.it-academy"
+        port: 80
+        root: "/var/www/site2"
+        site_title: "IT Academy Site 2"
+
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: Create directories for virtual hosts
+      file:
+        path: "{{ item.root }}"
+        state: directory
+        mode: 0755
+      loop: "{{ virtual_hosts }}"
+
+    - name: Create index.html for virtual hosts using templates
+      template:
+        src: "templates/index.html.j2"
+        dest: "{{ item.root }}/index.html"
+        mode: 0644
+      loop: "{{ virtual_hosts }}"
+      vars:
+        current_vhost: "{{ item }}"
+
+    - name: Configure virtual hosts using templates
+      template:
+        src: "templates/virtualhost.conf.j2"
+        dest: "/etc/nginx/sites-available/{{ item.name }}"
+        mode: 0644
+      loop: "{{ virtual_hosts }}"
+      vars:
+        current_vhost: "{{ item }}"
+      notify: restart nginx
+
+    - name: Enable virtual hosts
+      file:
+        src: "/etc/nginx/sites-available/{{ item.name }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.name }}"
+        state: link
+      loop: "{{ virtual_hosts }}"
+      notify: restart nginx
+
+    - name: Remove default Nginx site
+      file:
+        path: "/etc/nginx/sites-enabled/default"
+        state: absent
+      notify: restart nginx
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
