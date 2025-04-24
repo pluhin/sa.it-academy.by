@@ -1,0 +1,8 @@
+all_workers:
+  children:
+    work_sa:
+      hosts:
+        host3:
+          ansible_host: 192.168.202.3
+          ansible_user: root
+

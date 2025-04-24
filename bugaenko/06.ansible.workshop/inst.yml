@@ -1,0 +1,64 @@
+- name: Install nginx
+  hosts: work_sa
+  become: yes
+  vars_files:
+    - vhosts.yml
+  tasks:
+
+    - name: Ensure Nginx is installed
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Ensure web root directories exist
+      file:
+        path: "{{ item.root }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop: "{{ vhosts }}"
+
+    - name: Get hostname and FQDN
+      set_fact:
+        hostname: "{{ ansible_hostname }}"
+        fqdn: "{{ ansible_fqdn | default(ansible_host) }}"
+
+    - name: Create index.html for each vhost
+      template:
+        src: index.html.j2
+        dest: "{{ item.root }}/index.html"
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      loop: "{{ vhosts }}"
+
+    - name: Create Nginx config for each vhost
+      template:
+        src: vhost.j2
+        dest: "/etc/nginx/sites-available/{{ item.server_name }}"
+      loop: "{{ vhosts }}"
+
+    - name: Enable vhost by creating symlink
+      file:
+        src: "/etc/nginx/sites-available/{{ item.server_name }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.server_name }}"
+        state: link
+        force: yes
+      loop: "{{ vhosts }}"
+
+    - name: Remove default nginx config
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Test nginx configuration
+      command: nginx -t
+      register: nginx_test
+      failed_when: "'successful' not in nginx_test.stderr"
+
+    - name: Reload nginx
+      service:
+        name: nginx
+        state: reloaded
