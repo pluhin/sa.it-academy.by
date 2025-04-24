@@ -1,0 +1,70 @@
+name: install KinD cluster
+
+on:
+  push:
+    branches:
+    - master
+    
+jobs:
+  start_script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Install auxiliary programs
+        shell: bash
+        run: |
+          sudo apt-get update
+          echo "Install curl and ca-certificates"
+          sudo apt-get install curl ca-certificates
+          echo "Install kubectl"
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+        
+      - name: Download and Install KinD
+        shell: bash
+        run: |
+          echo "Downloading and install KinD..."
+          [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+          kind version
+          
+      - name: Start time
+        id: start_time
+        run: echo "start_time=$(date +%s)" >> $GITHUB_ENV
+        
+      - name: Create KinD cluster
+        shell: bash
+        run: |
+          kind create cluster --name my-cluster --wait 1m
+          
+      - name: End time
+        id: end_time
+        run: echo "end_time=$(date +%s)" >> $GITHUB_ENV
+
+      - name: Calculate duration
+        run: |
+          duration=$((end_time - start_time))
+          echo "Cluster creation took $duration seconds."
+          
+      - name: Time to become ready from kubernets event journal
+        shell: bash
+        run: |
+          first_event_timestamp=$(kubectl get events --sort-by=.metadata.creationTimestamp -n kube-system -o=jsonpath="{.items[0].firstTimestamp}")
+          last_event_timestamp=$(kubectl get events --sort-by=.metadata.creationTimestamp -n kube-system -o=jsonpath="{.items[-1].lastTimestamp}")
+          first_form=$(date -u -d "$first_event_timestamp" "+%s")
+          last_form=$(date -u -d "$last_event_timestamp" "+%s")
+          duration_seconds=$(($last_form-$first_form))
+          echo "Cluster startup time: $duration_seconds seconds"
+          
+      - name: Show cluster info
+        shell: bash
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+
