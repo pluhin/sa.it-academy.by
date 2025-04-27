@@ -1,0 +1,91 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      initContainers:
+        - name: init-container
+          image: busybox
+          command: ['sh', '-c', 'echo "<h1>"$(hostname)"</h1>" > /usr/share/nginx/html/index.html']
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html
+              name: web-content
+      containers:
+        - name: nginx
+          image: nginx:latest
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html/index.html
+              name: web-content
+              subPath: index.html
+            # Монтирование ключей в /root/.ssh
+            - name: ssh-keys
+              mountPath: /root/.ssh
+              readOnly: true   # Добавляем параметр readOnly здесь
+      volumes:
+        - name: web-content
+          emptyDir: {}
+        - name: ssh-keys
+          secret:
+            secretName: ssh-key-secret
+            items:
+              - key: ssh-private-key
+                path: id_rsa
+              - key: ssh-public-key
+                path: id_rsa.pub
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/server-alias: "nginx-test.k8s-20.sa"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: nginx-test.k8s-19.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80
+
