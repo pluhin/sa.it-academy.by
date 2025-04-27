@@ -9,3 +9,5 @@
 [7: Docker compose](./08.Docker.Compose)
 [8: Kubernetes](./09.Kubernetes)
 [9: Kubernetes installation (WS)](./10.Kubernetes installation (WS))
+[10: Kubernetes. Basic objects](./11. Kubernetes. Basic objects)
+
