@@ -1,0 +1,46 @@
+name: Check pods status Kubernetes
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check_pods:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'latest'
+          
+      - name: Set SSH through proxy server
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "Host ec_bastion
+                HostName ${{ secrets.SSH_PROXY_HOST }}
+                User ${{ secrets.SSH_USER }}
+                Port ${{ secrets.SSH_PORT }}"> ~/.ssh/config
+          echo "Host ${{ secrets.K8S_REMOTE_HOST }}
+                ProxyJump ec_bastion" >> ~/.ssh/config
+      
+      - name: Set tunnel
+        run: |
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_PROXY_HOST }} >> ~/.ssh/known_hosts
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_PROXY_HOST }} ssh-keyscan -p 22 ${{ secrets.K8S_REMOTE_HOST }} >> ~/.ssh/known_hosts
+          ssh -o StrictHostKeyChecking=no -L 6443:127.0.0.1:6443 root@${{ secrets.K8S_REMOTE_HOST }} -f -N
+
+      - name: Send notifications in Slack, if there are errors
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yaml
+          export KUBECONFIG=kubeconfig.yaml
+          ERRORS=$(kubectl get pods -A --no-headers | awk '$4!="Running" {print $0}')
+          if [[ ! -z "$ERRORS" ]]; then
+            curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"Обнаружены проблемы с подами:\n$ERRORS\"}" $SLACK_WEBHOOK_URL
+          fi
