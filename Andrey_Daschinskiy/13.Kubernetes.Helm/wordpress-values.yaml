@@ -1,0 +1,24 @@
+global:
+  storageClass: "standard"
+ingress:
+  enabled: false
+  hostname: app1.k8s-7.sa
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+service:
+  type: NodePort
+  nodePort: 30001
+mariadb:
+  primary:
+    persistence:
+      enabled: true
+      storageClass: "standard"
+wordpressUsername: [SECRETS]
+wordpressPassword: [SECRETS]
+wordpressEmail: admin@example.com
+wordpressFirstName: Admin
+wordpressLastName: User
+wordpressBlogName: My Blog
+persistence:
+  enabled: true
+  storageClass: "standard"
