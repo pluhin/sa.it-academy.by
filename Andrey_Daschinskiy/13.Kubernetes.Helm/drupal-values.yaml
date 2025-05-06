@@ -1,0 +1,19 @@
+
+global:
+  storageClass: "standard"
+service:
+  type: NodePort
+  nodePort: 30001
+ingress:
+  enabled: false
+drupalUsername: [SECRET]
+drupalPassword: [SECRET]       
+drupalEmail: admin@example.com
+mariadb:
+  primary:
+    persistence:
+      enabled: true
+      storageClass: "standard"
+persistence:
+  enabled: true
+  storageClass: "standard"
