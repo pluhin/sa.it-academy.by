@@ -1,0 +1,122 @@
+name: Kubernetes Pod Status Monitor
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  monitor-pods:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    env:
+      BASTION_IP: "178.124.206.53"
+      BASTION_USER: "jump_sa"
+      BASTION_PORT: "32510"
+      HOST1_IP: "192.168.208.17"
+      HOST2_IP: "192.168.203.9"
+      REMOTE_USER: "root"
+
+    steps:
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Configure SSH environment
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          
+          # Записываем приватный ключ
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          
+          # Создаем конфиг SSH
+          cat > ~/.ssh/config <<EOF
+          Host bastion
+            HostName ${{ env.BASTION_IP }}
+            User ${{ env.BASTION_USER }}
+            Port ${{ env.BASTION_PORT }}
+            IdentityFile ~/.ssh/id_ed25519
+            StrictHostKeyChecking no
+
+          Host cluster1
+            HostName ${{ env.HOST1_IP }}
+            User ${{ env.REMOTE_USER }}
+            ProxyJump bastion
+            StrictHostKeyChecking no
+
+          Host cluster2
+            HostName ${{ env.HOST2_IP }}
+            User ${{ env.REMOTE_USER }}
+            ProxyJump bastion
+            StrictHostKeyChecking no
+          EOF
+
+          # Добавляем хосты в known_hosts
+          ssh-keyscan -p ${{ env.BASTION_PORT }} ${{ env.BASTION_IP }} >> ~/.ssh/known_hosts
+          ssh -J ${{ env.BASTION_USER }}@${{ env.BASTION_IP }}:${{ env.BASTION_PORT }} \
+            ${{ env.REMOTE_USER }}@${{ env.HOST1_IP }} "exit" >/dev/null 2>&1 || true
+          ssh -J ${{ env.BASTION_USER }}@${{ env.BASTION_IP }}:${{ env.BASTION_PORT }} \
+            ${{ env.REMOTE_USER }}@${{ env.HOST2_IP }} "exit" >/dev/null 2>&1 || true
+
+      - name: Check Cluster 1 pods
+        run: |
+          echo "Checking pods in Cluster 1..."
+          ssh cluster1 "kubectl get pods -A --field-selector=status.phase!=Running --no-headers" > non_running_pods_cluster1.txt || echo "All pods healthy" > non_running_pods_cluster1.txt
+          
+          if [ -s non_running_pods_cluster1.txt ] && grep -q -v "All pods healthy" non_running_pods_cluster1.txt; then
+            echo "cluster1_issues=true" >> $GITHUB_OUTPUT
+            echo "##[error] Problem pods found in Cluster 1"
+            cat non_running_pods_cluster1.txt
+          else
+            echo "cluster1_issues=false" >> $GITHUB_OUTPUT
+            echo "All pods in Cluster 1 are healthy"
+          fi
+
+      - name: Check Cluster 2 pods
+        run: |
+          echo "Checking pods in Cluster 2..."
+          ssh cluster2 "kubectl get pods -A --field-selector=status.phase!=Running --no-headers" > non_running_pods_cluster2.txt || echo "All pods healthy" > non_running_pods_cluster2.txt
+          
+          if [ -s non_running_pods_cluster2.txt ] && grep -q -v "All pods healthy" non_running_pods_cluster2.txt; then
+            echo "cluster2_issues=true" >> $GITHUB_OUTPUT
+            echo "##[error] Problem pods found in Cluster 2"
+            cat non_running_pods_cluster2.txt
+          else
+            echo "cluster2_issues=false" >> $GITHUB_OUTPUT
+            echo "All pods in Cluster 2 are healthy"
+          fi
+
+      - name: Notify Slack
+        if: steps.cluster1_check.outputs.cluster1_issues == 'true' || steps.cluster2_check.outputs.cluster2_issues == 'true'
+        run: |
+          MESSAGE="*Kubernetes Pod Status Report*\n\n"
+          
+          if [ "${{ needs.monitor-pods.outputs.cluster1_issues }}" == "true" ]; then
+            MESSAGE+="*Cluster 1 Issues (${{ env.HOST1_IP }}):*\n"
+            MESSAGE+="\`\`\`$(cat non_running_pods_cluster1.txt)\`\`\`\n"
+          else
+            MESSAGE+="*Cluster 1 (${{ env.HOST1_IP }}): All pods healthy*\n"
+          fi
+          
+          if [ "${{ needs.monitor-pods.outputs.cluster2_issues }}" == "true" ]; then
+            MESSAGE+="*Cluster 2 Issues (${{ env.HOST2_IP }}):*\n"
+            MESSAGE+="\`\`\`$(cat non_running_pods_cluster2.txt)\`\`\`"
+          else
+            MESSAGE+="*Cluster 2 (${{ env.HOST2_IP }}): All pods healthy*"
+          fi
+          
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{\"text\":\"$MESSAGE\"}" \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: pod-status-reports
+          path: |
+            non_running_pods_cluster1.txt
+            non_running_pods_cluster2.txt  
