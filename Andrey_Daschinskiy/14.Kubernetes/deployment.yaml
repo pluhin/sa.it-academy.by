@@ -14,6 +14,14 @@ spec:
     spec:
       containers:
       - name: jenkins
-        image: jenkins/jenkins:lts
+        image: {{ .Values.jenkins.image }}
         ports:
-        - containerPort: 8080
+        - containerPort: {{ .Values.jenkins.service.port }}
+        volumeMounts:
+        - name: jenkins-storage
+          mountPath: /var/jenkins_home
+      volumes:
+      - name: jenkins-storage
+        nfs:
+          server: {{ .Values.jenkins.storage.nfsServer }}
+          path: {{ .Values.jenkins.storage.nfsPath }}

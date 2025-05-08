@@ -3,10 +3,9 @@ kind: Service
 metadata:
   name: jenkins
 spec:
-  type: NodePort
+  type: {{ .Values.jenkins.service.type }}  # Тип сервиса из values.yaml
   ports:
-  - port: 8080
-    targetPort: 8080
-    nodePort: 30080
+  - port: {{ .Values.jenkins.service.port }}
+    targetPort: {{ .Values.jenkins.service.port }}
   selector:
     app: jenkins
