@@ -21,7 +21,7 @@ metadata:
     type: local
 spec:
   storageClassName: local-path
-  capacity:
+  capacity:`
     storage: 100Mi
   accessModes:
     - ReadWriteMany
