@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      volumes:
+      - name: html-volume
+        emptyDir: {}
+      - name: config-volume
+        configMap:
+          name: nginx-index
+      - name: ssh-keys
+        secret:
+          secretName: ssh-key-secret
+      initContainers:
+      - name: init-html
+        image: busybox
+        command: ["sh", "-c", "HOST=$(hostname) && sed 's/HOSTNAME_PLACEHOLDER/'\"$HOST\"'/g' /config/index.html.template > /html/index.html"]
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config
+        - name: html-volume
+          mountPath: /html
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html
+        - name: ssh-keys
+          mountPath: /root/.ssh
+          readOnly: true
