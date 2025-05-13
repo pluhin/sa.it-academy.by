@@ -1,0 +1,38 @@
+global:
+  defaultStorageClass: "nfs-client"
+wordpressUsername: andrei
+wordpressPassword: "XXXXXX"
+
+resourcesPreset: "micro"
+
+service:
+  type: NodePort
+   
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  hostname: wordpress.k8s-19.sa
+  
+persistence:
+  enabled: true
+  storageClass: "nfs-client"
+  accessModes:
+    - ReadWriteMany
+  size: 1Gi
+  resourcesPreset: "micro"
+  
+mariadb:
+  enabled: true  
+  auth:
+    rootPassword: "XXXXXXXX"
+    database: bitnami_wordpress
+    username: bn_wordpress
+    password: "XXXXXXXX"
+
+  primary:
+    persistence:
+      enabled: true
+      storageClass: "nfs-client"
+      accessModes:
+        - ReadWriteMany
+      size: 1Gi
