@@ -1,0 +1,4 @@
+apiVersion: v2
+name: jenkins
+description: Jenkins Helm chart
+version: 0.1.0

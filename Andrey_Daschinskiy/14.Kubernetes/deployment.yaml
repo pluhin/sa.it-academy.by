@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - name: jenkins
+        image: {{ .Values.jenkins.image }}
+        ports:
+        - containerPort: {{ .Values.jenkins.service.port }}
+        volumeMounts:
+        - name: jenkins-storage
+          mountPath: /var/jenkins_home
+      volumes:
+      - name: jenkins-storage
+        nfs:
+          server: {{ .Values.jenkins.storage.nfsServer }}
+          path: {{ .Values.jenkins.storage.nfsPath }}

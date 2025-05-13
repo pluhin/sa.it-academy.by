@@ -1,0 +1,4 @@
+kubernetes
+blueocean
+workflow-aggregator
+git
