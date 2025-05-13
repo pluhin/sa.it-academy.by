@@ -1,0 +1,19 @@
+
+name: Hello GitHub Actions
+
+on:
+  push:
+    branches:
+      - md-sa2-31-25
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run hello.py
+        run: python Artyom_Pochebyt/04.GitOps/hello.py
+
