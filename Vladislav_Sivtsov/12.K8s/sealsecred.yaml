@@ -1,0 +1,16 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: ssh-key-secret
+  namespace: default
+spec:
+  encryptedData:
+    id_ed25519: XXXX
+    id_ed25519.pub: XXXX    
+  template:
+    metadata:
+      creationTimestamp: null
+      name: ssh-key-secret
+      namespace: default

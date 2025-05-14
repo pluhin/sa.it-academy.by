@@ -1,0 +1,19 @@
+global:
+  storageClass: "nfs-client"
+
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  hostname: drupal.k8s-17.sa
+
+drupalUsername: XXXX
+drupalPassword: XXXX
+drupalEmail: admin@example.com
+mariadb:
+  primary:
+    persistence:
+      enabled: true
+      storageClass: "nfs-client"
+persistence:
+  enabled: true
+  storageClass: "nfs-client"
