@@ -1,0 +1,16 @@
+namespace: ci-cd
+
+jenkins:
+  name: "jenkins"
+  replicas: 1
+  image: "jfrog.it-academy.by/public/jenkins-ci:andrei_tsimakhovich"
+  imagePullPolicy: "IfNotPresent"
+  adminPassword: "password"  
+  memoryRequest: "2Gi"
+  cpuRequest: "2"
+  memoryLimit: "3Gi"
+  cpuLimit: "3"
+  nfsServer: "192.168.37.105"
+  nfsPath: "/mnt/IT-Academy/nfs-data/sa2-31-25/andrei_tsimakhovich/jenkins"
+  ingressHost: "jenkins.k8s-19.sa"
+
