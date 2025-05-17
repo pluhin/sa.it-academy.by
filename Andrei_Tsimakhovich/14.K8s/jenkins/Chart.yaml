@@ -1,0 +1,6 @@
+apiVersion: v3
+name: jenkins
+version: 0.1.0
+appVersion: "latest"
+description: Jenkins CI/CD Deployment using Helm
+

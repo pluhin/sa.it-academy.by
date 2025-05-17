@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.jenkins.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.jenkins.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.jenkins.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.jenkins.name }}
+    spec:
+      containers:
+        - name: {{ .Values.jenkins.name }}
+          image: {{ .Values.jenkins.image }}
+          imagePullPolicy: {{ .Values.jenkins.imagePullPolicy }}
+          env:
+            - name: PASS
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins-secret
+                  key: password
+            - name: JAVA_OPTS
+              value: "-Djenkins.install.runSetupWizard=false"
+            - name: CASC_JENKINS_CONFIG
+              value: /var/jenkins_home/casc_configs/jenkins.yaml
+          ports:
+            - name: http-port
+              containerPort: 8080
+            - name: jnlp-port
+              containerPort: 50000
+          resources:
+            requests:
+              cpu: {{ .Values.jenkins.cpuRequest }}
+              memory: {{ .Values.jenkins.memoryRequest }}
+            limits:
+              cpu: {{ .Values.jenkins.cpuLimit }}
+              memory: {{ .Values.jenkins.memoryLimit }}
+          volumeMounts:
+            - name: jenkins-config
+              mountPath: /var/jenkins_home
+      volumes:
+        - name: jenkins-config
+          nfs:
+            server: {{ .Values.jenkins.nfsServer }}
+            path: {{ .Values.jenkins.nfsPath }}
+
