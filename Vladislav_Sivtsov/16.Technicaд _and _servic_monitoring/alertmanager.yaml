@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+  namespace: monitoring
+  labels:
+    app: alertmanager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      name: alertmanager
+      labels:
+        app: alertmanager
+    spec:
+      initContainers:
+        - name: envsubst
+          image: bhgedigital/envsubst
+          command: ["sh", "-c","cat /tmp/config.yaml | envsubst > /etc/alertmanager/config.yaml"]
+          env:
+            - name: SLACK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: alertmanager-secret
+                  key: slack-api-url
+          volumeMounts:
+            - name: config
+              mountPath: /etc/alertmanager
+            - name: temp-config
+              mountPath: /tmp
+      containers:
+        - name: alertmanager
+          image: prom/alertmanager:latest
+          args:
+            - '--config.file=/etc/alertmanager/config.yaml'
+            - '--storage.path=/alertmanager'
+          ports:
+            - name: alertmanager
+              containerPort: 9093
+          volumeMounts:
+            - name: config
+              mountPath: /etc/alertmanager
+            - name: alertmanager
+              mountPath: /alertmanager
+      volumes:
+        - name: config
+          emptyDir: {}
+        - name: alertmanager
+          emptyDir: {}
+        - name: temp-config
+          configMap:
+            name: alertmanager-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: monitoring
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/path: '/'
+    prometheus.io/port:   '9093'
+  labels:
+    name: alertmanager
+  name: alertmanager-service
+spec:
+  selector:
+    app: alertmanager
+  type: NodePort
+  ports:
+    - name: alertmanager
+      protocol: TCP
+      port: 9093
+      targetPort: 9093
+      nodePort: 30009
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  config.yaml: |-
+    global:
+      resolve_timeout: 5m
+    route:
+      receiver: slack-notifications
+      group_by: ['alertname', 'cluster', 'service']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 15m
+      routes:
+      - match:
+          severity: slack
+        receiver: slack-notifications
+    receivers:
+      - name: slack-notifications
+        slack_configs:
+          - channel: '#devops'
+            api_url: $SLACK_URL
+            title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
+            text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
+            send_resolved: true
+
+ 
