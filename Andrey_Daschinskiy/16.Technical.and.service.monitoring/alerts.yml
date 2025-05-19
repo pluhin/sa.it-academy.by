@@ -1,0 +1,11 @@
+groups:
+  - name: cpu_overload
+    rules:
+      - alert: HighCpuUsage
+        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[1m])) * 100) > 50
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High CPU usage on instance"
+          description: "CPU usage is above 50% for the last 1 minute."
