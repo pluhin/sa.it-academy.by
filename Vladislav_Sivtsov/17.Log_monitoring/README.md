@@ -1,3 +1,4 @@
+```json
 {
   "annotations": {
     "list": [
@@ -178,3 +179,4 @@
   "version": 1,
   "weekStart": ""
 }
+```
