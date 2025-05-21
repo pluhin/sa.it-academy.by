@@ -1,0 +1,95 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>2</daysToKeep>
+        <numToKeep>2</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+        <removeLastBuild>false</removeLastBuild>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>TZ=Europe/Moscow
+H 10 * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+
+REPORT_FILE=&quot;/tmp/daily_report_$(date +%Y-%m-%d).txt&quot;
+
+HOLIDAYS=$(curl -s &quot;https://holidayapi.com/v1/holidays?country=BY&amp;year=$(date +%Y)&amp;key=free&quot;)
+TODAY_HOLIDAY=$(echo &quot;$HOLIDAYS&quot; | jq -r --arg today &quot;$(date +%Y-%m-%d)&quot; &apos;.holidays[] | select(.date == $today) | .name&apos;)
+
+EXCHANGE_RATES=$(curl -s &quot;https://www.nbrb.by/api/exrates/rates?periodicity=0&quot;)
+
+{
+  echo &quot;=== Ежедневный отчёт за $(date +%d.%m.%Y) ===&quot;
+  echo &quot;&quot;
+  echo &quot;=== Праздники в Беларуси сегодня ===&quot;
+  [ -n &quot;$TODAY_HOLIDAY&quot; ] &amp;&amp; echo &quot;$TODAY_HOLIDAY&quot; || echo &quot;Сегодня нет праздников&quot;
+  echo &quot;&quot;
+  echo &quot;=== Курсы валют ===&quot;
+  echo &quot;$EXCHANGE_RATES&quot; | jq -r &apos;.[] | &quot;\(.Cur_Abbreviation): \(.Cur_OfficialRate)&quot;&apos;
+} &gt; &quot;$REPORT_FILE&quot;
+
+SLACK_MESSAGE=$(cat &quot;$REPORT_FILE&quot; | sed &apos;s/^=== /*/g&apos; | sed &apos;s/ ===$/*/g&apos;)
+curl -X POST -H &apos;Content-type: application/json&apos; \
+--data &quot;{\&quot;text\&quot;:\&quot;*Отчёт Daily_Reports #${BUILD_NUMBER}*\n${SLACK_MESSAGE}\&quot;}&quot; \
+https://hooks.slack.com/webhook
+
+cp &quot;$REPORT_FILE&quot; &quot;$WORKSPACE/daily_report.txt&quot;</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <jenkins.plugins.slack.SlackNotifier plugin="slack@761.v2a_8770f0d169">
+      <baseUrl></baseUrl>
+      <teamDomain></teamDomain>
+      <authToken></authToken>
+      <tokenCredentialId></tokenCredentialId>
+      <botUser>false</botUser>
+      <room></room>
+      <sendAsText>false</sendAsText>
+      <iconEmoji></iconEmoji>
+      <username></username>
+      <startNotification>true</startNotification>
+      <notifySuccess>true</notifySuccess>
+      <notifyAborted>true</notifyAborted>
+      <notifyNotBuilt>true</notifyNotBuilt>
+      <notifyUnstable>false</notifyUnstable>
+      <notifyRegression>false</notifyRegression>
+      <notifyFailure>false</notifyFailure>
+      <notifyEveryFailure>false</notifyEveryFailure>
+      <notifyBackToNormal>false</notifyBackToNormal>
+      <notifyRepeatedFailure>false</notifyRepeatedFailure>
+      <includeTestSummary>false</includeTestSummary>
+      <includeFailedTests>false</includeFailedTests>
+      <uploadFiles>false</uploadFiles>
+      <artifactIncludes></artifactIncludes>
+      <commitInfoChoice>NONE</commitInfoChoice>
+      <includeCustomMessage>false</includeCustomMessage>
+      <customMessage></customMessage>
+      <customMessageSuccess></customMessageSuccess>
+      <customMessageAborted></customMessageAborted>
+      <customMessageNotBuilt></customMessageNotBuilt>
+      <customMessageUnstable></customMessageUnstable>
+      <customMessageFailure></customMessageFailure>
+    </jenkins.plugins.slack.SlackNotifier>
+  </publishers>
+  <buildWrappers/>
+</project>
