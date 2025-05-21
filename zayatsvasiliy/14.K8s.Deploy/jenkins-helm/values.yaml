@@ -1,0 +1,21 @@
+namespace: ci-cd
+jenkins:
+  image: jfrog.it-academy.by/public/jenkins-ci:zayatsvasiliyv
+  resources:
+    requests:
+      cpu: "2"
+      memory: "2Gi"
+    limits:
+      cpu: "3"
+      memory: "3Gi"
+  env:
+    password: cGFzc3dvcmQ=
+  nfs:
+    server: 192.168.37.105
+    path: /mnt/IT-Academy/nfs-data/sa2-31-25/zayatsvasiliyv/jenkins
+  ingress:
+    host: jenkins.k8s-11.sa
+  adminEmail: pluhin@gmail.com
+  github:
+    username: git_hub_user
+    password: XXXXXXXXXXX
