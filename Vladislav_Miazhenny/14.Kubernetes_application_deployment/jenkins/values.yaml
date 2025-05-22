@@ -1,0 +1,109 @@
+
+replicaCount: 1
+namespace: jenkins
+
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci:vladislav_m
+  pullPolicy: IfNotPresent
+  
+ports:
+  http_port: 8080
+  jnlp_port: 50000
+
+service:
+  type: ClusterIP
+  ports:
+    master: 8080
+    slave: 50000
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: jenkins.k8s-23.sa
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+adminAddress: test@gmail.com
+
+binding:
+  name: jenkins
+  
+password:
+  pass: XXXXXXXXX
+
+resources:
+  requests:
+    cpu: 2
+    memory: 2Gi
+  limits:
+    cpu: 3
+    memory: 3Gi
+
+volumeMounts:
+  - name: jenkins-auth-config
+    mountPath: /var/jenkins_home/init.groovy.d/basic-security.groovy
+    subPath: basic-security.groovy
+  - name: jenkins-config-yaml
+    mountPath: /var/jenkins_home/casc_configs/jenkins.yaml
+    subPath: jenkins.yaml
+  - name: jenkins-config
+    mountPath: /var/jenkins_home
+
+volumes:
+  - name: jenkins-auth-config
+    configMap:
+      name: basic-security
+  - name: jenkins-config-yaml
+    configMap:
+      name: jenkins-config
+  - name: jenkins-config
+    nfs:
+      server: 192.168.37.105
+      path: /mnt/IT-Academy/nfs-data/sa2-31-25/vladislav_m/jenkinss
+      
+basic_security_groovy: |
+  #!groovy
+  import jenkins.model.*
+  import hudson.security.*
+  def instance = Jenkins.getInstance()
+  println "--> creating local user 'admin'"
+  def password = System.getenv("PASS")
+  def hudsonRealm = new HudsonPrivateSecurityRealm(false)
+  hudsonRealm.createAccount('admin', password)
+  instance.setSecurityRealm(hudsonRealm)
+  def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
+  strategy.setAllowAnonymousRead(true)
+  instance.setAuthorizationStrategy(strategy)
+  instance.save() 
+      
+jenkinsyaml: |
+  jenkins:
+    numExecutors: 2
+    clouds:
+    - kubernetes:
+        containerCapStr: "10"
+        maxRequestsPerHostStr: "32"
+        jenkinsUrl: "http://jenkins:8080"
+        name: "kubernetes"
+        namespace: jenkins
+        skipTlsVerify: true
+  credentials:
+    system:
+      domainCredentials:
+      - credentials:
+        - usernamePassword:
+            description: "Githubuser"
+            id: "some_randome"
+            password: "XXXXXXXXXXX"
+            scope: GLOBAL
+            username: "git_hub_user"
+  unclassified:
+    location:
+      adminAddress: test@gmail.com
+      url: "http://jenkins.k8s-23.sa/"
+    shell:
+      shell: "/bin/bash"

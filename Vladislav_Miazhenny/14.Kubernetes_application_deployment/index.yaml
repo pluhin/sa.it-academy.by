@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  jenkins:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2025-05-22T21:49:42.727569496+03:00"
+    description: A Helm chart for Kubernetes
+    digest: 82a8adb550ac33583ecafd6105072ca148d0e6b0cbaacb87b5777d155f426be0
+    name: jenkins
+    type: application
+    urls:
+    - https://infinity-step.github.io/project_14/helm-releases/jenkins-1.0.0.tgz
+    version: 1.0.0
+generated: "2025-05-22T21:49:42.727211864+03:00"
