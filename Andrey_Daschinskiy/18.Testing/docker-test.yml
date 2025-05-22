@@ -1,0 +1,47 @@
+name: Docker Image Test
+
+on:
+  push:
+    paths:
+      - 'docker/**'
+      - '.github/workflows/docker-test.yml'
+
+jobs:
+  test-docker-image:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Build Docker image
+      run: docker build -t myapp ./docker
+      
+    - name: Run container
+      run: |
+        docker run -d -p 5000:5000 --name myapp-container myapp
+        sleep 5  # Даем время для запуска контейнера
+        
+    - name: Test application response
+      run: |
+        response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000)
+        if [ "$response" != "200" ]; then
+          echo "Application test failed with HTTP code $response"
+          exit 1
+        fi
+        echo "Application responded with HTTP 200"
+        
+    - name: Test non-root user
+      run: |
+        user=$(docker exec myapp-container whoami)
+        if [ "$user" != "myuser" ]; then
+          echo "Container is running as root!"
+          exit 1
+        fi
+        echo "Container is running as non-root user: $user"
+        
+    - name: Cleanup
+      if: always()
+      run: |
+        docker stop myapp-container || true
+        docker rm myapp-container || true
