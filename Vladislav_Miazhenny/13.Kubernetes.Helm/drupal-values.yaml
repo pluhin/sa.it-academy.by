@@ -1,0 +1,55 @@
+global:
+  defaultStorageClass: "nfs-client"
+
+
+drupalUsername: admin
+drupalPassword: password
+
+replicaCount: 1
+
+updateStrategy:
+  type: RollingUpdate
+
+
+resourcesPreset: "micro"
+
+service:
+  type: ClusterIP
+  ports:
+    http: 80
+    https: 443
+
+ingress:
+  enabled: true
+  pathType: ImplementationSpecific
+  apiVersion: ""
+  ingressClassName: "nginx"
+  hostname: drupal.k8s-23.sa
+  path: /
+
+
+persistence:
+  enabled: true
+  storageClass: "nfs-client"
+  accessModes:
+    - ReadWriteOnce
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  
+
+mariadb:
+  enabled: true
+  architecture: standalone
+  auth:
+    rootPassword: "secretpassword"
+    database: drupal
+    username: user_drupal
+    password: "password"
+  primary:
+    persistence:
+      enabled: true
+      storageClass: "nfs-client"
+      accessModes:
+        - ReadWriteOnce
+      size: 1Gi
+    resourcesPreset: "micro"
