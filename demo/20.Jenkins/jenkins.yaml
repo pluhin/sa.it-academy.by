@@ -1,0 +1,314 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          description: "Githubuser"
+          id: "some_randome"
+          password: "{AQAAABAAAAAQCYiiqMHXYRLBrBe0i1O7aT0Nnqbo4HMkEbykKVnSvfk=}"
+          scope: GLOBAL
+          username: "git_hub_user"
+      - string:
+          id: "jenkins_slack"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAAgEXkyOIlptGm0ltepfv2oOVjfph8W683x1QD0nB5LVZ9brOvfnznj1wsR8CIOiN6r}"
+      - basicSSHUserPrivateKey:
+          id: "jenkins_ssk_priv_key"
+          privateKeySource:
+            directEntry:
+              privateKey: "{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}"
+          scope: GLOBAL
+          username: "jenkins"
+      - string:
+          id: "webhook_github"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAAwoZ6Eo/c3mzOVF+JvZgm2oj8u1u7xz4Z9Ut3xUXZ1CiUvm5CyN8LMxaFaSoyhLIDTL/oEN6TIS4A0zuhYaHEy3g==}"
+jenkins:
+  authorizationStrategy:
+    globalMatrix:
+      entries:
+      - user:
+          name: "admin"
+          permissions:
+          - "Overall/Administer"
+      - user:
+          name: "plu"
+          permissions:
+          - "Job/Read"
+          - "Job/Workspace"
+          - "Overall/Read"
+          - "View/Read"
+  clouds:
+  - kubernetes:
+      containerCap: 10
+      containerCapStr: "10"
+      jenkinsUrl: "http://jenkins:8080"
+      name: "kubernetes"
+      namespace: "ci-cd"
+      skipTlsVerify: true
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: false
+  disabledAdministrativeMonitors:
+  - "hudson.util.DoubleLaunchChecker"
+  labelAtoms:
+  - name: "built-in"
+  - name: "node01"
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  nodeMonitors:
+  - "architecture"
+  - "clock"
+  - diskSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "swapSpace"
+  - tmpSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "responseTime"
+  nodes:
+  - permanent:
+      labelString: "node01"
+      launcher:
+        ssh:
+          credentialsId: "jenkins_ssk_priv_key"
+          host: "192.168.204.85"
+          port: 22
+          sshHostKeyVerificationStrategy:
+            manuallyTrustedKeyVerificationStrategy:
+              requireInitialManualTrust: false
+      name: "node01"
+      numExecutors: 6
+      remoteFS: "/var/lib/jenkins/"
+      retentionStrategy: "always"
+  numExecutors: 2
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: true
+  scmCheckoutRetryCount: 0
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+      users:
+      - id: "admin"
+        name: "admin"
+        properties:
+        - "consoleUrlProvider"
+        - "mailer"
+        - "favorite"
+        - "myView"
+        - preferredProvider:
+            providerId: "default"
+        - "slack"
+        - "timezone"
+        - "experimentalFlags"
+        - "apiToken"
+      - id: "plu"
+        name: "plu"
+        properties:
+        - "apiToken"
+        - "consoleUrlProvider"
+        - "favorite"
+        - "myView"
+        - preferredProvider:
+            providerId: "default"
+        - "slack"
+        - "timezone"
+        - "experimentalFlags"
+        - mailer:
+            emailAddress: "plu@plu.by"
+  slaveAgentPort: 50000
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    typeFilter: "none"
+appearance:
+  prism:
+    theme: PRISM
+security:
+  apiToken:
+    creationOfLegacyTokenEnabled: false
+    tokenGenerationOnCreationEnabled: false
+    usageStatisticsEnabled: true
+  cps:
+    hideSandbox: false
+  gitHooks:
+    allowedOnAgents: false
+    allowedOnController: false
+  gitHostKeyVerificationConfiguration:
+    sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
+  sSHD:
+    port: -1
+  scriptApproval:
+    forceSandbox: false
+unclassified:
+  ansiColorBuildWrapper:
+    colorMaps:
+    - black: "#000000"
+      blackB: "#4C4C4C"
+      blue: "#1E90FF"
+      blueB: "#4682B4"
+      cyan: "#00CDCD"
+      cyanB: "#00FFFF"
+      green: "#00CD00"
+      greenB: "#00FF00"
+      magenta: "#CD00CD"
+      magentaB: "#FF00FF"
+      name: "xterm"
+      red: "#CD0000"
+      redB: "#FF0000"
+      white: "#E5E5E5"
+      whiteB: "#FFFFFF"
+      yellow: "#CDCD00"
+      yellowB: "#FFFF00"
+    - black: "#000000"
+      blackB: "#555555"
+      blue: "#0000AA"
+      blueB: "#5555FF"
+      cyan: "#00AAAA"
+      cyanB: "#55FFFF"
+      defaultBackground: 0
+      defaultForeground: 7
+      green: "#00AA00"
+      greenB: "#55FF55"
+      magenta: "#AA00AA"
+      magentaB: "#FF55FF"
+      name: "vga"
+      red: "#AA0000"
+      redB: "#FF5555"
+      white: "#AAAAAA"
+      whiteB: "#FFFFFF"
+      yellow: "#AA5500"
+      yellowB: "#FFFF55"
+    - black: "black"
+      blackB: "black"
+      blue: "blue"
+      blueB: "blue"
+      cyan: "cyan"
+      cyanB: "cyan"
+      green: "green"
+      greenB: "green"
+      magenta: "magenta"
+      magentaB: "magenta"
+      name: "css"
+      red: "red"
+      redB: "red"
+      white: "white"
+      whiteB: "white"
+      yellow: "yellow"
+      yellowB: "yellow"
+    - black: "#2E3436"
+      blackB: "#2E3436"
+      blue: "#3465A4"
+      blueB: "#3465A4"
+      cyan: "#06989A"
+      cyanB: "#06989A"
+      defaultBackground: 0
+      defaultForeground: 7
+      green: "#4E9A06"
+      greenB: "#4E9A06"
+      magenta: "#75507B"
+      magentaB: "#75507B"
+      name: "gnome-terminal"
+      red: "#CC0000"
+      redB: "#CC0000"
+      white: "#D3D7CF"
+      whiteB: "#D3D7CF"
+      yellow: "#C4A000"
+      yellowB: "#C4A000"
+  bitbucketEndpointConfiguration:
+    endpoints:
+    - bitbucketCloudEndpoint:
+        enableCache: false
+        manageHooks: false
+        repositoriesCacheDuration: 0
+        teamCacheDuration: 0
+  buildDiscarders:
+    configuredBuildDiscarders:
+    - "jobBuildDiscarder"
+  email-ext:
+    adminRequiredForTemplateTesting: false
+    allowUnregisteredEnabled: false
+    charset: "UTF-8"
+    debugMode: false
+    defaultBody: |-
+      $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+      Check console output at $BUILD_URL to view the results.
+    defaultContentType: "text/plain"
+    defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
+    defaultTriggerIds:
+    - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
+    maxAttachmentSize: -1
+    maxAttachmentSizeMb: -1
+    precedenceBulk: false
+    throttlingEnabled: false
+    watchingEnabled: false
+  fingerprints:
+    fingerprintCleanupDisabled: false
+    storage: "file"
+  gitHubConfiguration:
+    apiRateLimitChecker: ThrottleForNormalize
+  gitHubPluginConfig:
+    configs:
+    - credentialsId: "webhook_github"
+      manageHooks: false
+      name: "github"
+    hookUrl: "http://jenkins.k8s-25.sa/github-webhook/"
+  junitTestResultStorage:
+    storage: "file"
+  location:
+    adminAddress: "pluhin@gmail.com"
+    url: "http://jenkins.k8s-25.sa/"
+  mailer:
+    charset: "UTF-8"
+    useSsl: false
+    useTls: false
+  notifyBitbucket:
+    considerUnstableAsSuccess: false
+    disableInprogressNotification: false
+    ignoreUnverifiedSsl: false
+    includeBuildNumberInKey: false
+    prependParentProjectKey: false
+  pollSCM:
+    pollingThreadCount: 10
+  scmGit:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
+  shell:
+    shell: "/bin/bash"
+  slackNotifier:
+    botUser: false
+    room: "#integration"
+    sendAsText: false
+    teamDomain: "sa-itacademy-by"
+    tokenCredentialId: "jenkins_slack"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"
