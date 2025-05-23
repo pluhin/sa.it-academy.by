@@ -1,0 +1,61 @@
+global:
+  defaultStorageClass: "nfs-client"
+
+wordpressUsername: admin
+wordpressPassword: "password"
+wordpressEmail: user@example.com
+wordpressFirstName: FirstName
+wordpressLastName: LastName
+wordpressBlogName: My Blog!
+wordpressTablePrefix: wp_
+wordpressScheme: http
+
+
+replicaCount: 1
+
+updateStrategy:
+  type: RollingUpdate
+
+
+resourcesPreset: "micro"
+
+service:
+  type: ClusterIP
+  ports:
+    http: 80
+    https: 443
+
+ingress:
+  enabled: true
+  pathType: ImplementationSpecific
+  apiVersion: ""
+  ingressClassName: "nginx"
+  hostname: wordpress.k8s-23.sa
+  path: /
+
+
+persistence:
+  enabled: true
+  storageClass: "nfs-client"
+  accessModes:
+    - ReadWriteOnce
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  
+
+mariadb:
+  enabled: true
+  architecture: standalone
+  auth:
+    rootPassword: "secretpassword"
+    database: wordpress
+    username: user_wordpress
+    password: "password"
+  primary:
+    persistence:
+      enabled: true
+      storageClass: "nfs-client"
+      accessModes:
+        - ReadWriteOnce
+      size: 1Gi
+    resourcesPreset: "micro"
