@@ -1,0 +1,13 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: 'slack-notifications'
+  group_by: []
+
+receivers:
+  - name: 'slack-notifications'
+    slack_configs:
+      - send_resolved: true
+        channel: '#all-it-academy-devops-training'
+        api_url: 'https://hooks.slack.com/services/XXXXXX/XXXXXXX/XXXXXXX'
