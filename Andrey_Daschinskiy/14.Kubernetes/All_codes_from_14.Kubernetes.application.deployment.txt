@@ -1,0 +1,90 @@
+values.yaml
+
+jenkins:
+  image: "ghcr.io/daschinskiy/jenkins-custom:latest"
+  host: "jenkins.k8s-7.sa"
+  storage:
+    nfsServer: "192.168.56.111"
+    nfsPath: "/mnt/jenkins-data"
+
+service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins
+spec:
+  type: {{ .Values.jenkins.service.type }}  # Тип сервиса из values.yaml
+  ports:
+  - port: {{ .Values.jenkins.service.port }}
+    targetPort: {{ .Values.jenkins.service.port }}
+  selector:
+    app: jenkins
+
+plugins.txt
+
+kubernetes
+blueocean
+workflow-aggregator
+git
+
+deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - name: jenkins
+        image: {{ .Values.jenkins.image }}
+        ports:
+        - containerPort: {{ .Values.jenkins.service.port }}
+        volumeMounts:
+        - name: jenkins-storage
+          mountPath: /var/jenkins_home
+      volumes:
+      - name: jenkins-storage
+        nfs:
+          server: {{ .Values.jenkins.storage.nfsServer }}
+          path: {{ .Values.jenkins.storage.nfsPath }}
+
+
+Chart.yaml
+
+apiVersion: v2
+name: jenkins
+description: Jenkins Helm chart
+version: 0.1.0
+
+build.yaml
+
+name: Build and Deploy
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build Docker image
+        run: docker build -t ghcr.io/daschinskiy/jenkins-custom ./docker
+        
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_TOKEN }}
+      
+      - name: Push Docker image
+        run: docker push ghcr.io/daschinskiy/jenkins-custom

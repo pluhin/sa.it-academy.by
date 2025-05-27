@@ -1,0 +1,137 @@
+name: Kubernetes Manifest Validation
+
+on:
+  push:
+    paths:
+      - 'kubernetes/**'
+      - '.github/workflows/k8s-validate.yml'
+  pull_request:
+    paths:
+      - 'kubernetes/**'
+
+jobs:
+  validate-manifests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Install kubeconform
+      run: |
+        wget https://github.com/yannh/kubeconform/releases/download/v0.6.0/kubeconform-linux-amd64.tar.gz
+        tar xzf kubeconform-linux-amd64.tar.gz
+        sudo mv kubeconform /usr/local/bin/
+        kubeconform -v
+        
+    - name: Validate Kubernetes manifests
+      run: |
+        echo "Validating Kubernetes manifests..."
+        kubeconform \
+          -summary \
+          -output json \
+          -kubernetes-version 1.25.0 \
+          kubernetes/*.yml
+      id: validate
+      
+    - name: Show validation results
+      if: always()
+      run: |
+        echo "Validation completed with status: ${{ job.status }}"
+        
+    - name: Send detailed Slack notification
+      if: always()
+      run: |
+        # Формируем цвет сообщения в зависимости от статуса
+        if [ "${{ job.status }}" = "success" ]; then
+          COLOR="#36a64f"
+          EMOJI="✅"
+        else
+          COLOR="#ff0000"
+          EMOJI="❌"
+        fi
+
+        # Формируем JSON для Slack
+        SLACK_MSG=$(cat <<EOF
+        {
+          "channel": "aalerts",
+          "attachments": [
+            {
+              "color": "$COLOR",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "${EMOJI} Kubernetes Validation: ${{ job.status }} ${EMOJI}",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Repository:*\n<${{ github.server_url }}/${{ github.repository }}|${{ github.repository }}>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n${{ github.ref_name }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Workflow:*\n${{ github.workflow }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Triggered by:*\n${{ github.actor }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Commit message:*\n${{ github.event.head_commit.message }}"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Workflow Run",
+                        "emoji": true
+                      },
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                      "style": "${{ job.status == 'success' && 'primary' || 'danger' }}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Commit",
+                        "emoji": true
+                      },
+                      "url": "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+        EOF
+        )
+
+        echo "Sending Slack notification..."
+        curl -X POST \
+          -H "Content-Type: application/json" \
+          --data "$SLACK_MSG" \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+        
+        echo "Slack notification sent!"
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
