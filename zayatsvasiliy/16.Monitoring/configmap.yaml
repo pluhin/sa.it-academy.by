@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  alertmanager.yml: |
+    global:
+      resolve_timeout: 5m
+
+    route:
+      receiver: 'slack-notifications'
+      group_by: ['alertname']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 1h
+
+    receivers:
+      - name: 'slack-notifications'
+        slack_configs:
+          - api_url_file: /etc/alertmanager/secrets/webhook_url
+            channel: '#zayatsvasiliyv'
+            send_resolved: true
+            title: '{{ .CommonAnnotations.summary }}'
+            text: '{{ range .Alerts }}• {{ .Annotations.summary }} ({{ .Labels.severity }}) on {{ .Labels.instance }}\n{{ end }}'
