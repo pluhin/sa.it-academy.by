@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      labels:
+        app: alertmanager
+    spec:
+      containers:
+        - name: alertmanager
+          image: prom/alertmanager
+          args:
+            - "--config.file=/etc/alertmanager/alertmanager.yml"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/alertmanager
+            - name: secret-volume
+              mountPath: /etc/alertmanager/secrets
+              readOnly: true
+      volumes:
+        - name: config-volume
+          configMap:
+            name: alertmanager-config
+        - name: secret-volume
+          secret:
+            secretName: alertmanager-secrets
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  ports:
+    - name: web
+      port: 9093
+      targetPort: 9093
+  selector:
+    app: alertmanager
+    
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  alertmanager.yml: |
+    global:
+      resolve_timeout: 5m
+    route:
+      receiver: 'slack'
+      group_wait: 10s
+      group_interval: 30s
+      repeat_interval: 1h
+    receivers:
+      - name: 'slack'
+        slack_configs:
+          - api_url_file: /etc/alertmanager/secrets/slack-api-url
+            channel: '#courses_notifications'
+            icon_emoji: ':warning:'
+            send_resolved: true

@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jenkins-helm
+  namespace: argocd
+spec:
+  destination:
+    namespace: jenkins
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: jenkins
+    helm:
+      parameters:
+      - name: ingress.hosts[0].host
+        value: jenkins.k8s-23.sa
+      - name: ingress.hosts[0].paths[0].path
+        value: /
+      - name: ingress.hosts[0].paths[0].pathType
+        value: Prefix
+    repoURL: https://infinity-step.github.io/project_14/
+    targetRevision: 1.0.3
+  syncPolicy:
+    automated: {}
