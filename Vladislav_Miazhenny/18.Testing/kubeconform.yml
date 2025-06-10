@@ -1,0 +1,52 @@
+name: Validate Kubernetes Manifests
+
+on: [push, pull_request]
+
+jobs:
+  kubeconform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Kubeconform
+        run: |
+          wget https://github.com/yannh/kubeconform/releases/download/v0.7.0/kubeconform-linux-amd64.tar.gz
+          tar -C /usr/local/bin/ -xzf  kubeconform-linux-amd64.tar.gz
+          rm kubeconform-linux-amd64.tar.gz
+
+      - name: Validate manifests
+        run: |
+          RESULT=$(find ./k8s-manifests -name "*.yaml" -print0 | xargs -0 kubeconform -strict -summary || echo "FAILED")
+          echo "KUBECONFORM_RESULT=${RESULT}" >> $GITHUB_ENV
+          
+      - name: Send Slack Notification
+        if: always()
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{
+            "blocks": [
+              {
+                "type": "section",
+                 "text": {
+                  "type": "mrkdwn",
+                  "text": ":mag: *Результат проверки Kubernetes манифестов*"
+                }
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Статус:* ${{ env.KUBECONFORM_RESULT }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Коммит:* ${{ github.sha }}"
+                  }
+                ]
+              },
+            ]
+          }' ${{ secrets.SLACK_WEBHOOK_URL }}
