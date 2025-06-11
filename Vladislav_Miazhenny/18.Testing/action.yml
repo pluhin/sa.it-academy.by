@@ -1,0 +1,33 @@
+name: Docker tests
+
+on:
+  push:
+    branches:
+    - master
+    
+jobs:
+  test-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Build Docker image
+        run: docker build -t docker_flask -f dockerfile_flask .
+        
+      - name: Run container and check functionality
+        run: docker run -d -p 30123:30123 --rm --name docker_test docker_flask
+        
+      - name: Wait for Flask to start
+        run: sleep 5
+
+      - name: Check Flask app availability
+        run: curl --fail http://localhost:30123 || exit 1
+
+      - name: Measure response time
+        run: time curl -s -o /dev/null http://localhost:30123
+
+      - name: Check root access inside container
+        run: docker exec docker_test id -u | grep -q 0 && echo "Running as root" || echo "Not running as root"
+
+        
