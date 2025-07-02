@@ -8,5 +8,5 @@ remotes=($(git remote))
 
 for remote in "${remotes[@]}"
 do
-	echo $(git push $remote --all)
+	echo $(git push -u $remote --all)
 done
