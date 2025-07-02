@@ -42,4 +42,4 @@ git config --global user.email "2cristall1@mail.ru"
 git config --global alias.st "status"
 git config --global alias.cm "commit -m"
 git st  # Проверка статуса
-'''
+```
