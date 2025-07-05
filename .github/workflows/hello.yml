@@ -1,0 +1,11 @@
+name: Run Python Script
+on:
+  push:
+    branches: [ "md-sa2-32-25" ]
+jobs:
+  run-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Execute Python script
+        run: python Dzmitry_Kuntsevich/04.GitOps/Hello.py
