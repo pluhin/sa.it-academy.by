@@ -2,6 +2,8 @@ name: Run Python Script
 on:
   push:
     branches: [ "md-sa2-32-25" ]
+  paths:
+    - "Dzmitry_Kuntsevich/**"
 jobs:
   run-hello:
     runs-on: ubuntu-latest

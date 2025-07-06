@@ -3,7 +3,8 @@ name: Python Tests
 on:
   push:
     branches: ["md-sa2-32-25"]
-
+  paths:
+    - "Dzmitry_Kuntsevich/**"
 jobs:
   test:
     runs-on: ubuntu-latest
