@@ -1,0 +1,18 @@
+name: Hello World! action
+on:
+    push:
+        branches:
+            - master
+            - main
+jobs:
+    prepare:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install python
+              run: sudo apt update && sudo apt install -y python3
+            - name: pwd
+              run: pwd
+            - name: checkout
+              uses: actions/checkout@v4
+            - name: Run script
+              run: python3 hello.py
