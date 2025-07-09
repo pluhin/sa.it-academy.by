@@ -1,0 +1,7 @@
+- hosts: "{{ host | default('all_workers')}}"
+  tasks:
+    - name: Hello
+      ansible.builtin.debug:
+        msg: "Hello Ansible!"
+      tags:
+        - hello

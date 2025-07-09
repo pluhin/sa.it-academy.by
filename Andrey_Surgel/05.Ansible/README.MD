@@ -1,0 +1,85 @@
+# HA1
+
+```bash
+  379  python3 -m venv venv
+  381  source venv/bin/activate
+  382  git init
+  383  pip install ansible
+  384  ansible -m ping -i inventory.yaml all_workers
+  385  ansible-playbook -v -i inventory.yaml hello.yaml 
+```
+
+```bash
+ok: [host_01] => {
+    "msg": "Hello Ansible!"
+}
+ok: [host_02] => {
+    "msg": "Hello Ansible!"
+}
+```
+
+
+# HA2
+
+```bash
+  386  ansible-playbook -v -i inventory.yaml setup.yaml
+```
+
+```bash
+TASK [install htop] **********************************************************************************************************************************************************************************************
+Wednesday 09 July 2025  20:34:11 +0300 (0:00:01.627)       0:00:01.639 ******** 
+changed: [host_02] => {"cache_update_time": 1751823564, "cache_updated": false, "changed": true, "stderr": "", "stderr_lines": [], "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nSuggested packages:\n  lm-sensors\nThe following NEW packages will be installed:\n  htop\n0 upgraded, 1 newly installed, 0 to remove and 155 not upgraded.\nNeed to get 0 B/128 kB of archives.\nAfter this operation, 342 kB of additional disk space will be used.\nSelecting previously unselected package htop.\r\n(Reading database ... \r(Reading database ... 5%\r(Reading database ... 10%\r(Reading database ... 15%\r(Reading database ... 20%\r(Reading database ... 25%\r(Reading database ... 30%\r(Reading database ... 35%\r(Reading database ... 40%\r(Reading database ... 45%\r(Reading database ... 50%\r(Reading database ... 55%\r(Reading database ... 60%\r(Reading database ... 65%\r(Reading database ... 70%\r(Reading database ... 75%\r(Reading database ... 80%\r(Reading database ... 85%\r(Reading database ... 90%\r(Reading database ... 95%\r(Reading database ... 100%\r(Reading database ... 22438 files and directories currently installed.)\r\nPreparing to unpack .../htop_3.0.5-7build2_amd64.deb ...\r\nUnpacking htop (3.0.5-7build2) ...\r\nSetting up htop (3.0.5-7build2) ...\r\nProcessing triggers for mailcap (3.70+nmu1ubuntu1) ...\r\nProcessing triggers for man-db (2.10.2-1) ...\r\n", "stdout_lines": ["Reading package lists...", "Building dependency tree...", "Reading state information...", "Suggested packages:", "  lm-sensors", "The following NEW packages will be installed:", "  htop", "0 upgraded, 1 newly installed, 0 to remove and 155 not upgraded.", "Need to get 0 B/128 kB of archives.", "After this operation, 342 kB of additional disk space will be used.", "Selecting previously unselected package htop.", "(Reading database ... ", "(Reading database ... 5%", "(Reading database ... 10%", "(Reading database ... 15%", "(Reading database ... 20%", "(Reading database ... 25%", "(Reading database ... 30%", "(Reading database ... 35%", "(Reading database ... 40%", "(Reading database ... 45%", "(Reading database ... 50%", "(Reading database ... 55%", "(Reading database ... 60%", "(Reading database ... 65%", "(Reading database ... 70%", "(Reading database ... 75%", "(Reading database ... 80%", "(Reading database ... 85%", "(Reading database ... 90%", "(Reading database ... 95%", "(Reading database ... 100%", "(Reading database ... 22438 files and directories currently installed.)", "Preparing to unpack .../htop_3.0.5-7build2_amd64.deb ...", "Unpacking htop (3.0.5-7build2) ...", "Setting up htop (3.0.5-7build2) ...", "Processing triggers for mailcap (3.70+nmu1ubuntu1) ...", "Processing triggers for man-db (2.10.2-1) ..."]}
+changed: [host_01] => {"cache_update_time": 1751823545, "cache_updated": false, "changed": true, "stderr": "", "stderr_lines": [], "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nSuggested packages:\n  lm-sensors\nThe following NEW packages will be installed:\n  htop\n0 upgraded, 1 newly installed, 0 to remove and 155 not upgraded.\nNeed to get 0 B/128 kB of archives.\nAfter this operation, 342 kB of additional disk space will be used.\nSelecting previously unselected package htop.\r\n(Reading database ... \r(Reading database ... 5%\r(Reading database ... 10%\r(Reading database ... 15%\r(Reading database ... 20%\r(Reading database ... 25%\r(Reading database ... 30%\r(Reading database ... 35%\r(Reading database ... 40%\r(Reading database ... 45%\r(Reading database ... 50%\r(Reading database ... 55%\r(Reading database ... 60%\r(Reading database ... 65%\r(Reading database ... 70%\r(Reading database ... 75%\r(Reading database ... 80%\r(Reading database ... 85%\r(Reading database ... 90%\r(Reading database ... 95%\r(Reading database ... 100%\r(Reading database ... 22438 files and directories currently installed.)\r\nPreparing to unpack .../htop_3.0.5-7build2_amd64.deb ...\r\nUnpacking htop (3.0.5-7build2) ...\r\nSetting up htop (3.0.5-7build2) ...\r\nProcessing triggers for mailcap (3.70+nmu1ubuntu1) ...\r\nProcessing triggers for man-db (2.10.2-1) ...\r\n", "stdout_lines": ["Reading package lists...", "Building dependency tree...", "Reading state information...", "Suggested packages:", "  lm-sensors", "The following NEW packages will be installed:", "  htop", "0 upgraded, 1 newly installed, 0 to remove and 155 not upgraded.", "Need to get 0 B/128 kB of archives.", "After this operation, 342 kB of additional disk space will be used.", "Selecting previously unselected package htop.", "(Reading database ... ", "(Reading database ... 5%", "(Reading database ... 10%", "(Reading database ... 15%", "(Reading database ... 20%", "(Reading database ... 25%", "(Reading database ... 30%", "(Reading database ... 35%", "(Reading database ... 40%", "(Reading database ... 45%", "(Reading database ... 50%", "(Reading database ... 55%", "(Reading database ... 60%", "(Reading database ... 65%", "(Reading database ... 70%", "(Reading database ... 75%", "(Reading database ... 80%", "(Reading database ... 85%", "(Reading database ... 90%", "(Reading database ... 95%", "(Reading database ... 100%", "(Reading database ... 22438 files and directories currently installed.)", "Preparing to unpack .../htop_3.0.5-7build2_amd64.deb ...", "Unpacking htop (3.0.5-7build2) ...", "Setting up htop (3.0.5-7build2) ...", "Processing triggers for mailcap (3.70+nmu1ubuntu1) ...", "Processing triggers for man-db (2.10.2-1) ..."]}
+
+TASK [cleanup] ***************************************************************************************************************************************************************************************************
+Wednesday 09 July 2025  20:34:14 +0300 (0:00:03.150)       0:00:04.790 ******** 
+changed: [host_02] => {"changed": true, "stderr": "", "stderr_lines": [], "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nThe following packages were automatically installed and are no longer required:\n  libnl-3-200 libnl-genl-3-200\nUse 'apt autoremove' to remove them.\nThe following packages will be REMOVED:\n  htop\n0 upgraded, 0 newly installed, 1 to remove and 155 not upgraded.\nAfter this operation, 342 kB disk space will be freed.\n(Reading database ... \r(Reading database ... 5%\r(Reading database ... 10%\r(Reading database ... 15%\r(Reading database ... 20%\r(Reading database ... 25%\r(Reading database ... 30%\r(Reading database ... 35%\r(Reading database ... 40%\r(Reading database ... 45%\r(Reading database ... 50%\r(Reading database ... 55%\r(Reading database ... 60%\r(Reading database ... 65%\r(Reading database ... 70%\r(Reading database ... 75%\r(Reading database ... 80%\r(Reading database ... 85%\r(Reading database ... 90%\r(Reading database ... 95%\r(Reading database ... 100%\r(Reading database ... 22447 files and directories currently installed.)\r\nRemoving htop (3.0.5-7build2) ...\r\nProcessing triggers for mailcap (3.70+nmu1ubuntu1) ...\r\nProcessing triggers for man-db (2.10.2-1) ...\r\n", "stdout_lines": ["Reading package lists...", "Building dependency tree...", "Reading state information...", "The following packages were automatically installed and are no longer required:", "  libnl-3-200 libnl-genl-3-200", "Use 'apt autoremove' to remove them.", "The following packages will be REMOVED:", "  htop", "0 upgraded, 0 newly installed, 1 to remove and 155 not upgraded.", "After this operation, 342 kB disk space will be freed.", "(Reading database ... ", "(Reading database ... 5%", "(Reading database ... 10%", "(Reading database ... 15%", "(Reading database ... 20%", "(Reading database ... 25%", "(Reading database ... 30%", "(Reading database ... 35%", "(Reading database ... 40%", "(Reading database ... 45%", "(Reading database ... 50%", "(Reading database ... 55%", "(Reading database ... 60%", "(Reading database ... 65%", "(Reading database ... 70%", "(Reading database ... 75%", "(Reading database ... 80%", "(Reading database ... 85%", "(Reading database ... 90%", "(Reading database ... 95%", "(Reading database ... 100%", "(Reading database ... 22447 files and directories currently installed.)", "Removing htop (3.0.5-7build2) ...", "Processing triggers for mailcap (3.70+nmu1ubuntu1) ...", "Processing triggers for man-db (2.10.2-1) ..."]}
+changed: [host_01] => {"changed": true, "stderr": "", "stderr_lines": [], "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nThe following packages were automatically installed and are no longer required:\n  libnl-3-200 libnl-genl-3-200\nUse 'apt autoremove' to remove them.\nThe following packages will be REMOVED:\n  htop\n0 upgraded, 0 newly installed, 1 to remove and 155 not upgraded.\nAfter this operation, 342 kB disk space will be freed.\n(Reading database ... \r(Reading database ... 5%\r(Reading database ... 10%\r(Reading database ... 15%\r(Reading database ... 20%\r(Reading database ... 25%\r(Reading database ... 30%\r(Reading database ... 35%\r(Reading database ... 40%\r(Reading database ... 45%\r(Reading database ... 50%\r(Reading database ... 55%\r(Reading database ... 60%\r(Reading database ... 65%\r(Reading database ... 70%\r(Reading database ... 75%\r(Reading database ... 80%\r(Reading database ... 85%\r(Reading database ... 90%\r(Reading database ... 95%\r(Reading database ... 100%\r(Reading database ... 22447 files and directories currently installed.)\r\nRemoving htop (3.0.5-7build2) ...\r\nProcessing triggers for mailcap (3.70+nmu1ubuntu1) ...\r\nProcessing triggers for man-db (2.10.2-1) ...\r\n", "stdout_lines": ["Reading package lists...", "Building dependency tree...", "Reading state information...", "The following packages were automatically installed and are no longer required:", "  libnl-3-200 libnl-genl-3-200", "Use 'apt autoremove' to remove them.", "The following packages will be REMOVED:", "  htop", "0 upgraded, 0 newly installed, 1 to remove and 155 not upgraded.", "After this operation, 342 kB disk space will be freed.", "(Reading database ... ", "(Reading database ... 5%", "(Reading database ... 10%", "(Reading database ... 15%", "(Reading database ... 20%", "(Reading database ... 25%", "(Reading database ... 30%", "(Reading database ... 35%", "(Reading database ... 40%", "(Reading database ... 45%", "(Reading database ... 50%", "(Reading database ... 55%", "(Reading database ... 60%", "(Reading database ... 65%", "(Reading database ... 70%", "(Reading database ... 75%", "(Reading database ... 80%", "(Reading database ... 85%", "(Reading database ... 90%", "(Reading database ... 95%", "(Reading database ... 100%", "(Reading database ... 22447 files and directories currently installed.)", "Removing htop (3.0.5-7build2) ...", "Processing triggers for mailcap (3.70+nmu1ubuntu1) ...", "Processing triggers for man-db (2.10.2-1) ..."]}
+
+PLAY RECAP *******************************************************************************************************************************************************************************************************
+host_01                    : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+host_02                    : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
+
+# HA3
+
+```bash
+export EDITOR=nano
+ansible-vault create new_user_password.yaml
+ansible-playbook -v -i inventory.yaml --ask-vault-pass users_and_groups.yaml -e "group=test" -e "user=test_user" -e "@new_user_password.yaml" --ask-vault-password
+```
+```bash
+TASK [create group] **********************************************************************************************************************************************************************************************
+Wednesday 09 July 2025  20:36:33 +0300 (0:00:03.125)       0:00:03.137 ******** 
+changed: [host_02] => {"changed": true, "gid": 1000, "name": "test", "state": "present", "system": false}
+changed: [host_01] => {"changed": true, "gid": 1000, "name": "test", "state": "present", "system": false}
+
+TASK [create user] ***********************************************************************************************************************************************************************************************
+Wednesday 09 July 2025  20:36:33 +0300 (0:00:00.650)       0:00:03.788 ******** 
+[WARNING]: The input password appears not to have been hashed. The 'password' argument must be encrypted for this module to work properly.
+changed: [host_02] => {"changed": true, "comment": "", "create_home": true, "group": 1000, "home": "/home/test_user", "name": "test_user", "password": "NOT_LOGGING_PASSWORD", "shell": "/bin/sh", "state": "present", "stderr": "useradd: warning: the home directory /home/test_user already exists.\nuseradd: Not copying any file from skel directory into it.\n", "stderr_lines": ["useradd: warning: the home directory /home/test_user already exists.", "useradd: Not copying any file from skel directory into it."], "system": false, "uid": 1000}
+changed: [host_01] => {"changed": true, "comment": "", "create_home": true, "group": 1000, "home": "/home/test_user", "name": "test_user", "password": "NOT_LOGGING_PASSWORD", "shell": "/bin/sh", "state": "present", "stderr": "useradd: warning: the home directory /home/test_user already exists.\nuseradd: Not copying any file from skel directory into it.\n", "stderr_lines": ["useradd: warning: the home directory /home/test_user already exists.", "useradd: Not copying any file from skel directory into it."], "system": false, "uid": 1000}
+
+TASK [cleanup user] **********************************************************************************************************************************************************************************************
+Wednesday 09 July 2025  20:36:34 +0300 (0:00:00.734)       0:00:04.522 ******** 
+changed: [host_02] => {"changed": true, "force": false, "name": "test_user", "remove": false, "state": "absent"}
+changed: [host_01] => {"changed": true, "force": false, "name": "test_user", "remove": false, "state": "absent"}
+
+TASK [cleanup group] *********************************************************************************************************************************************************************************************
+Wednesday 09 July 2025  20:36:35 +0300 (0:00:00.691)       0:00:05.214 ******** 
+changed: [host_02] => {"changed": true, "name": "test", "state": "absent"}
+changed: [host_01] => {"changed": true, "name": "test", "state": "absent"}
+
+PLAY RECAP *******************************************************************************************************************************************************************************************************
+host_01                    : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+host_02                    : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Wednesday 09 July 2025  20:36:35 +0300 (0:00:00.613)       0:00:05.828 ******** 
+=============================================================================== 
+Gathering Facts ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 3.13s
+create user ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.73s
+cleanup user ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.69s
+create group ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.65s
+cleanup group --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.61s
+Playbook run took 0 days, 0 hours, 0 minutes, 5 seconds
+```

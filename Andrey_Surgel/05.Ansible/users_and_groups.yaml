@@ -1,0 +1,32 @@
+- hosts: "{{ hosts | default('all_workers')}}"
+  vars:
+  tasks:
+    - name: create group
+      ansible.builtin.group:
+        name: "{{ group | default('ansible') }}"
+        state: present
+      tags:
+        - create_group
+    - name: create user
+      ansible.builtin.user:
+        name: "{{ user | default('ansible') }}"
+        state: present
+        create_home: yes
+        password: "{{ password }}"
+        group: "{{ group | default('ansible') }}"
+#      no_log: true
+      tags:
+        - create_user
+  post_tasks:
+    - name: cleanup user
+      ansible.builtin.user:
+        name: "{{ user | default('ansible') }}"
+        state: absent
+      tags:
+        - cleanup_user
+    - name: cleanup group
+      ansible.builtin.group:
+        name: "{{ group | default('ansible') }}"
+        state: absent
+      tags:
+        - cleanup_group
