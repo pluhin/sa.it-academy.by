@@ -46,40 +46,40 @@ host_02                    : ok=3    changed=2    unreachable=0    failed=0    s
 ```bash
 export EDITOR=nano
 ansible-vault create new_user_password.yaml
+pip install passlib
 ansible-playbook -v -i inventory.yaml --ask-vault-pass users_and_groups.yaml -e "group=test" -e "user=test_user" -e "@new_user_password.yaml" --ask-vault-password
 ```
 ```bash
 TASK [create group] **********************************************************************************************************************************************************************************************
-Wednesday 09 July 2025  20:36:33 +0300 (0:00:03.125)       0:00:03.137 ******** 
-changed: [host_02] => {"changed": true, "gid": 1000, "name": "test", "state": "present", "system": false}
-changed: [host_01] => {"changed": true, "gid": 1000, "name": "test", "state": "present", "system": false}
+Wednesday 09 July 2025  20:48:44 +0300 (0:00:01.660)       0:00:01.679 ******** 
+ok: [host_01] => {"changed": false, "gid": 1000, "name": "test", "state": "present", "system": false}
+ok: [host_02] => {"changed": false, "gid": 1000, "name": "test", "state": "present", "system": false}
 
 TASK [create user] ***********************************************************************************************************************************************************************************************
-Wednesday 09 July 2025  20:36:33 +0300 (0:00:00.650)       0:00:03.788 ******** 
-[WARNING]: The input password appears not to have been hashed. The 'password' argument must be encrypted for this module to work properly.
+Wednesday 09 July 2025  20:48:45 +0300 (0:00:00.615)       0:00:02.295 ******** 
 changed: [host_02] => {"changed": true, "comment": "", "create_home": true, "group": 1000, "home": "/home/test_user", "name": "test_user", "password": "NOT_LOGGING_PASSWORD", "shell": "/bin/sh", "state": "present", "stderr": "useradd: warning: the home directory /home/test_user already exists.\nuseradd: Not copying any file from skel directory into it.\n", "stderr_lines": ["useradd: warning: the home directory /home/test_user already exists.", "useradd: Not copying any file from skel directory into it."], "system": false, "uid": 1000}
 changed: [host_01] => {"changed": true, "comment": "", "create_home": true, "group": 1000, "home": "/home/test_user", "name": "test_user", "password": "NOT_LOGGING_PASSWORD", "shell": "/bin/sh", "state": "present", "stderr": "useradd: warning: the home directory /home/test_user already exists.\nuseradd: Not copying any file from skel directory into it.\n", "stderr_lines": ["useradd: warning: the home directory /home/test_user already exists.", "useradd: Not copying any file from skel directory into it."], "system": false, "uid": 1000}
 
 TASK [cleanup user] **********************************************************************************************************************************************************************************************
-Wednesday 09 July 2025  20:36:34 +0300 (0:00:00.734)       0:00:04.522 ******** 
-changed: [host_02] => {"changed": true, "force": false, "name": "test_user", "remove": false, "state": "absent"}
+Wednesday 09 July 2025  20:48:45 +0300 (0:00:00.981)       0:00:03.276 ******** 
 changed: [host_01] => {"changed": true, "force": false, "name": "test_user", "remove": false, "state": "absent"}
+changed: [host_02] => {"changed": true, "force": false, "name": "test_user", "remove": false, "state": "absent"}
 
 TASK [cleanup group] *********************************************************************************************************************************************************************************************
-Wednesday 09 July 2025  20:36:35 +0300 (0:00:00.691)       0:00:05.214 ******** 
+Wednesday 09 July 2025  20:48:46 +0300 (0:00:00.869)       0:00:04.146 ******** 
 changed: [host_02] => {"changed": true, "name": "test", "state": "absent"}
 changed: [host_01] => {"changed": true, "name": "test", "state": "absent"}
 
 PLAY RECAP *******************************************************************************************************************************************************************************************************
-host_01                    : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-host_02                    : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+host_01                    : ok=5    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+host_02                    : ok=5    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
-Wednesday 09 July 2025  20:36:35 +0300 (0:00:00.613)       0:00:05.828 ******** 
+Wednesday 09 July 2025  20:48:47 +0300 (0:00:00.602)       0:00:04.749 ******** 
 =============================================================================== 
-Gathering Facts ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 3.13s
-create user ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.73s
-cleanup user ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.69s
-create group ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.65s
-cleanup group --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.61s
-Playbook run took 0 days, 0 hours, 0 minutes, 5 seconds
+Gathering Facts ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.66s
+create user ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.98s
+cleanup user ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.87s
+create group ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.62s
+cleanup group --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.60s
+Playbook run took 0 days, 0 hours, 0 minutes, 4 seconds
 ```

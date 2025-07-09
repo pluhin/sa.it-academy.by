@@ -7,12 +7,13 @@
         state: present
       tags:
         - create_group
+
     - name: create user
       ansible.builtin.user:
         name: "{{ user | default('ansible') }}"
         state: present
         create_home: yes
-        password: "{{ password }}"
+        password: "{{ password | password_hash('sha512') }}"
         group: "{{ group | default('ansible') }}"
 #      no_log: true
       tags:
