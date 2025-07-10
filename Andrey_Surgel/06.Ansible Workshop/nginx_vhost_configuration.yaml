@@ -63,7 +63,7 @@
           owner: www-data
           group: www-data
         loop: "{{ sites }}"
-  
+
   post_tasks:
   - name: http check
     ansible.builtin.uri:
@@ -72,6 +72,3 @@
     register: index
     failed_when: index is failed or item not in index.content
     loop: "{{ sites }}"
-
-
-
