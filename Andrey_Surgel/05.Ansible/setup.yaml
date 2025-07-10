@@ -1,0 +1,15 @@
+- hosts: "{{ host | default('all_workers')}}"
+  tasks:
+    - name: install htop
+      ansible.builtin.apt:
+        name: htop
+        state: present
+      tags:
+        - install
+  post_tasks:
+    - name: cleanup
+      ansible.builtin.apt:
+        name: htop
+        state: absent
+      tags:
+        - cleanup
