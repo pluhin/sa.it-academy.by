@@ -72,6 +72,3 @@
     register: index
     failed_when: index is failed or item not in index.content
     loop: "{{ sites }}"
-
-
-
