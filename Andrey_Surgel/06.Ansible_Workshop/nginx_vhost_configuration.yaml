@@ -1,3 +1,4 @@
+---
 - name: install nginx and configure vhosts
   hosts: "{{ hosts | default('ansible_workshop') }}"
   vars:
@@ -40,7 +41,6 @@
           dest: "/etc/nginx/sites-enabled/{{ item }}.conf"
           state: link
         loop: "{{ sites }}"
-
       - name: reload nginx
         ansible.builtin.systemd:
           name: nginx
@@ -55,7 +55,6 @@
           owner: www-data
           group: www-data
         loop: "{{ sites }}"
-
       - name: template index file
         ansible.builtin.template:
           src: templates/index.html.j2
@@ -63,7 +62,6 @@
           owner: www-data
           group: www-data
         loop: "{{ sites }}"
-
   post_tasks:
   - name: http check
     ansible.builtin.uri:
