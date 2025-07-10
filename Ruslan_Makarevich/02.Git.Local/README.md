@@ -1,3 +1,5 @@
+# HA1:
+
   118  mkdir 02.Git_Homework
   119  git init
   120  git status
@@ -9,6 +11,7 @@
   126  git add --all
   127  git commit -m "First commit for homework"
   128  git log --oneline
+# HA2:
   129  git checkout feature-branch
   130  git log --oneline
   131  git branch
@@ -21,6 +24,7 @@
   138  nano README.md 
   139  git add -all
   140  git add --all
+# HA3:
   141  git commit -m "Created new branch"
   142  git checkout master
   143  git merge feature-branch
@@ -32,6 +36,7 @@
   149  git branch
   150  git log --oneline
   151  git checkout c2853c2
+# HA4:
   152  git log --oneline
   153  git log
   154  git tag -a v1.0
@@ -46,6 +51,7 @@
   163  git log --oneline
   164  git tag -a v2.0 -m "version 2.0"
   165  git log --oneline
+# HA5:
   166  git checkout -b bug-fix
   167  git branch
   168  nano README.md 
@@ -65,6 +71,7 @@
   182  git commit -m "Add bug-fix for version 2.2"
   183  git log --oneline
   184  git checkout master
+# HA6:
   185  git checkout -b experimental-feature
   186  bit branch
   187  git branch
@@ -147,6 +154,7 @@
   264  ls
   265  nano README.md 
   266  history
+# HA7:
   267  git config
   268  ls -la
   269  cat .git/config 
