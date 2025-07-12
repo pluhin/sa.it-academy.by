@@ -1,0 +1,72 @@
+---
+- name: install nginx and configure vhosts
+  hosts: "{{ hosts | default('ansible_workshop') }}"
+  vars:
+    sites:
+      - TEST_1
+      - TEST_2
+  pre_tasks:
+  - name: remove apache2
+    ansible.builtin.apt:
+      name: apache2
+      state: absent
+  - name: install nginx
+    ansible.builtin.apt:
+      name: nginx
+      state: present
+  - name: start nginx
+    ansible.builtin.systemd:
+      name: nginx
+      state: started
+  tasks:
+  - name: configure vhosts
+    block:
+      - name: update host file
+        ansible.builtin.lineinfile:
+          path: /etc/hosts
+          state: present
+          line: "{{ hostvars[inventory_hostname]['ansible_host'] }} {{ item }}"
+        loop: "{{ sites }}"
+        tags:
+          - hosts
+      - name: template vhosts
+        ansible.builtin.template:
+          src: templates/vhost_template.j2
+          dest: "/etc/nginx/sites-available/{{ item }}.conf"
+        loop: "{{ sites }}" 
+        register: nginx_reload
+      - name: create symlink
+        ansible.builtin.file:
+          src: "/etc/nginx/sites-available/{{ item }}.conf"
+          dest: "/etc/nginx/sites-enabled/{{ item }}.conf"
+          state: link
+        loop: "{{ sites }}"
+      - name: reload nginx
+        ansible.builtin.systemd:
+          name: nginx
+          state: reload
+        when: nginx_reload.changed
+  - name: create index files
+    block:
+      - name: create root dirs
+        ansible.builtin.file:
+          path: "/var/www/html/{{ item }}"
+          state: directory
+          owner: www-data
+          group: www-data
+        loop: "{{ sites }}"
+      - name: template index file
+        ansible.builtin.template:
+          src: templates/index.html.j2
+          dest: "/var/www/html/{{ item }}/{{ item }}.html"
+          owner: www-data
+          group: www-data
+        loop: "{{ sites }}"
+  post_tasks:
+  - name: http check
+    ansible.builtin.uri:
+      url: "http://{{ item }}"
+      return_content: true
+    register: index
+    failed_when: index is failed or item not in index.content
+    loop: "{{ sites }}"
