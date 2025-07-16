@@ -1,0 +1,8 @@
+server{
+    server_name {{ item }};
+    
+    listen 80;
+
+    root /var/www/html/{{ item }}/;
+    index {{ item }}.html;
+}   
