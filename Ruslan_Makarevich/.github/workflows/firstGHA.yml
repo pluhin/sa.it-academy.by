@@ -1,0 +1,11 @@
+name: FirstGHA
+
+on: [push]
+
+jobs:
+  log:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Console.log
+        run: echo "Hello world!"
