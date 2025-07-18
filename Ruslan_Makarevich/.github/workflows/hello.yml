@@ -16,4 +16,4 @@ jobs:
             - name: checkout
               uses: actions/checkout@v4
             - name: Run script PY
-              run: ././04.GitOps/helloGA.py
+              run: ../../04.GitOps/helloGA.py
