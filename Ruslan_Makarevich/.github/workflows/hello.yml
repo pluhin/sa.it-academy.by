@@ -4,12 +4,10 @@ on:
         branches:
 
             - md-sa2-32-25
-
 jobs:
   run-helloGA:
     runs-on: ubuntu-latest
     steps:
-
             - name: Install python
               run: sudo apt update && sudo apt install -y python3
               run: echo "python has been installed!"
