@@ -1,8 +1,7 @@
 name: Hello GitHub Actions!
 on:
   push:
-    branches:
-    - md-sa2-32-25
+    branches: [ "md-sa2-32-25" ]
   paths:
     - "Ruslan_Makarevich/**"
 jobs:
