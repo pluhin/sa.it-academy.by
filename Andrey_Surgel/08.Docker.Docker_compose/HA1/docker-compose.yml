@@ -1,0 +1,61 @@
+version: '2'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: bookstack-dev
+      MYSQL_USER: bookstack-test
+      MYSQL_PASSWORD: bookstack-test
+      MYSQL_RANDOM_ROOT_PASSWORD: 'true'
+    volumes:
+      - ./BookStack/dev/docker/init.db:/docker-entrypoint-initdb.d
+      - db:/var/lib/mysql
+  app:
+    image: nginx:latest
+    depends_on:
+      - php-fpm
+      - db
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: bookstack-dev
+      DB_USERNAME: bookstack-test
+      DB_PASSWORD: bookstack-test
+      TEST_DATABASE_URL: mysql://bookstack-test:bookstack-test@db/bookstack-test
+    volumes:
+      - ./BookStack/:/app/
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./php-fpm/Dockerfile
+    volumes: 
+      - ./BookStack/:/app
+      - ./php-fpm/entrypoint.sh:/app/dev/docker/entrypoint.app.sh
+    entrypoint: /app/dev/docker/entrypoint.app.sh
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: bookstack-dev
+      DB_USERNAME: bookstack-test
+      DB_PASSWORD: bookstack-test
+      TEST_DATABASE_URL: mysql://bookstack-test:bookstack-test@db/bookstack-test
+  node:
+    image: node:22-alpine
+    working_dir: /app
+    user: node
+    volumes:
+      - ./BookStack/:/app/
+    entrypoint: /app/dev/docker/entrypoint.node.sh
+volumes:
+   db: {}
