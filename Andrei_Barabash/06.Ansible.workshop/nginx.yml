@@ -1,0 +1,92 @@
+- hosts: all_workers
+  gather_facts: false
+  strategy: free
+  serial: 1
+  become: yes
+  vars:
+    domain: "my{{ inventory_hostname }}.loc"
+    templates_dir: /opt/www/templates
+    root_dir: /var/www/html
+    
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Check nginx installed
+      shell: |
+        which nginx
+      register: out
+    - debug:
+       msg: "{{ out.stdout_lines }}"
+       
+    - name: Remove default nginx configuration
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Create directory for templates
+      file:
+        path: "{{ templates_dir }}"
+        state: directory
+        mode: 0755   
+       
+    - name: Create nginx configuration
+      template:
+        src: ./templates/static-website.j2
+        dest: '{{ templates_dir }}/static-website'
+        mode: 0644
+ 
+    - name: Copy nginx configuration
+      copy:
+        src: '{{ templates_dir }}/static-website'
+        dest: /etc/nginx/sites-available/static-website
+        mode: 0644
+        remote_src: true
+        
+    - name: Create directory for static content
+      file:
+        path: "{{ root_dir }}"
+        state: directory
+        mode: 0755
+        
+    - name: Create "index.html" file
+      template:
+        src: "./templates/index.html.j2"
+        dest: '{{ templates_dir }}/index.html'
+        mode: 0644
+        
+    - name: Copy "index.html" to default nginx location
+      copy:
+        src: '{{ templates_dir }}/index.html'
+        dest: '{{ root_dir }}/index.html'
+        mode: 0644
+        remote_src: true
+        
+    - name: Enable website configuration
+      file:
+        src: /etc/nginx/sites-available/static-website
+        dest: /etc/nginx/sites-enabled/static-website
+        state: link
+        
+    - name: Add line to "/etc/hosts" file
+      #shell: echo '127.0.0.1  {{ domain }}' >> /etc/hosts
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        line: 127.0.0.1  {{ domain }}
+        state: present
+
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+        
+    - name: Remove "{{ templates_dir }}" directory
+      file:
+        state: absent
+        path: "{{ templates_dir }}"
+      tags:
+        - no_facts
+
