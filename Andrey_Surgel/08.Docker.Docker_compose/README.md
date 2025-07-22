@@ -513,3 +513,98 @@ app-1      | 172.19.128.1 - - [19/Jul/2025:21:54:24 +0000] "GET /dist/app.js?ver
 app-1      | 172.19.128.1 - - [19/Jul/2025:21:54:24 +0000] "GET /user_avatar.png HTTP/1.1" 200 3180 "http://172.19.134.101/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0" "-"
 app-1      | 172.19.128.1 - - [19/Jul/2025:21:54:24 +0000] "GET /dist/styles.css.map HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0" "-"
 ```
+
+# HA2
+
+## Build Process
+
+```bash
+Run docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09
+GitHub Actions runtime token ACs
+Docker info
+Proxy configuration
+Buildx version
+/usr/bin/docker buildx build --cache-from type=gha --cache-to type=gha,mode=max --iidfile /tmp/docker-actions-toolkit-dO1xZw/iidfile --label org.opencontainers.image.created=2025-07-20T18:31:34.699Z --label org.opencontainers.image.description= --label org.opencontainers.image.licenses= --label org.opencontainers.image.revision=c1bd10c6b7abfb6c67b08247bd511e4ff17bcf44 --label org.opencontainers.image.source=https://github.com/t1wg/multistage-build --label org.opencontainers.image.title=multistage-build --label org.opencontainers.image.url=https://github.com/t1wg/multistage-build --label org.opencontainers.image.version=main --tag ghcr.io/t1wg/multistage-build:main --metadata-file /tmp/docker-actions-toolkit-dO1xZw/metadata-file --push .
+#0 building with "builder-423f7a86-e110-45c5-95aa-2955a239216f" instance using docker-container driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 435B done
+#1 WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (line 1)
+#1 DONE 0.0s
+
+#2 [auth] library/debian:pull token for registry-1.docker.io
+#2 DONE 0.0s
+
+#3 [auth] library/python:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/python:3.11-slim
+#4 ...
+
+#5 [internal] load metadata for docker.io/library/debian:stable-slim
+#5 DONE 0.4s
+
+#4 [internal] load metadata for docker.io/library/python:3.11-slim
+#4 DONE 0.5s
+
+#6 [internal] load .dockerignore
+#6 transferring context: 2B done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 DONE 0.0s
+
+#8 [stage-1 1/2] FROM docker.io/library/debian:stable-slim@sha256:7e0b7fe7c6d695d615eabaea8d19adf592a6a9ff3dbd5206d3e31139b9afdfa7
+#8 resolve docker.io/library/debian:stable-slim@sha256:7e0b7fe7c6d695d615eabaea8d19adf592a6a9ff3dbd5206d3e31139b9afdfa7 done
+#8 DONE 0.0s
+
+#9 [builder 1/5] FROM docker.io/library/python:3.11-slim@sha256:139020233cc412efe4c8135b0efe1c7569dc8b28ddd88bddb109b764f8977e30
+#9 resolve docker.io/library/python:3.11-slim@sha256:139020233cc412efe4c8135b0efe1c7569dc8b28ddd88bddb109b764f8977e30 0.0s done
+#9 DONE 0.0s
+
+#10 importing cache manifest from gha:15748900788057950132
+#10 DONE 0.2s
+
+#7 [internal] load build context
+#7 transferring context: 195B done
+#7 DONE 0.0s
+
+#11 [builder 2/5] WORKDIR /app
+#11 CACHED
+
+#12 [builder 3/5] RUN apt-get update &&     apt-get install -y --no-install-recommends binutils &&     rm -rf /var/lib/apt/lists/*
+#12 CACHED
+
+#13 [builder 4/5] COPY main.py .
+#13 CACHED
+
+#14 [builder 5/5] RUN pip install --no-cache-dir pyinstaller &&     pyinstaller --onefile --name myapp --clean main.py
+#14 CACHED
+
+#15 [stage-1 2/2] COPY --from=builder /app/dist/myapp /usr/local/bin/myapp
+#15 CACHED
+
+#16 [auth] t1wg/multistage-build:pull,push token for ghcr.io
+#16 DONE 0.0s
+
+#17 exporting to image
+#17 exporting layers done
+#17 exporting manifest sha256:9bbf77b559e7bca8809c5dad9c625a91232395031e6c3e447c77365565c0a41b done
+#17 exporting config sha256:3a29523a93cc5a35e9b3452b3ddff3c1c984d1fbf43d966d0b12277bf8fa9fc8 done
+#17 exporting attestation manifest sha256:77143accd2033f87bc9497b4b2a7a886df1785551ce36cef84c4a56f71d9908d done
+#17 exporting manifest list sha256:1dc0578e94db682573f0c062b35dabc070da6592f7bb7b11c5d26f2a062c9535 done
+#17 pushing layers
+#17 pushing layers 1.2s done
+#17 pushing manifest for ghcr.io/t1wg/multistage-build:main@sha256:1dc0578e94db682573f0c062b35dabc070da6592f7bb7b11c5d26f2a062c9535
+#17 pushing manifest for ghcr.io/t1wg/multistage-build:main@sha256:1dc0578e94db682573f0c062b35dabc070da6592f7bb7b11c5d26f2a062c9535 0.8s done
+#17 DONE 2.0s
+
+#18 exporting to GitHub Actions Cache
+#18 preparing build cache for export
+#18 preparing build cache for export 0.6s done
+#18 DONE 0.6s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+
+```
