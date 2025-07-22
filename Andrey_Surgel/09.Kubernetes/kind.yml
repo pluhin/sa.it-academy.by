@@ -1,0 +1,16 @@
+name: Create Cluster
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-cluster:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create k8s Kind Cluster
+        uses: helm/kind-action@v1
+      - name: shell commands
+        run: kubectl cluster-info --context kind-chart-testing
+      - run: kubectl get nodes -A --context kind-chart-testing
