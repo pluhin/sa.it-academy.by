@@ -2,16 +2,16 @@ name: Hello GitHub Actions!
 on:
   push:
     branches: [md-sa2-32-25]
-  paths:
-    - "Ruslan_Makarevich/**"
 jobs:
   run-helloGA:
     runs-on: ubuntu-latest
     steps:
        - name: Install python
-         run: sudo apt update && sudo apt install -y python3
-         run: echo "python has been installed!"
+         run: |
+           sudo apt update && sudo apt install -y python3
+           echo "python has been installed!"
        - name: checkout
          uses: actions/checkout@v4
        - name: Run script PY
-         run: python Ruslan_Makarevich/04.GitOps/helloGA.py
+         run: python3 helloGA.py
+
