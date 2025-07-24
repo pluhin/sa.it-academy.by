@@ -1,0 +1,27 @@
+name: Create Cluster minikube
+
+on:
+  pull_request:
+      branches:
+        - main
+
+jobs:
+  create-cluster:
+    runs-on: ubuntu-latest
+    steps:
+    - name: start minikube
+      id: minikube
+      uses: medyagh/setup-minikube@latest
+      with:
+          cache: false
+          minikube-version: 1.24.0
+          driver: docker
+          container-runtime: containerd
+          kubernetes-version: v1.22.3
+          nodes: 2
+          cpus: 4
+          memory: 4000m
+          cni: bridge
+          addons: registry,ingress
+    - name: shell commands
+      run: kubectl get nodes -A
