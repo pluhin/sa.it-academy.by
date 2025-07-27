@@ -1,0 +1,26 @@
+name: Check failure
+
+on: workflow_dispatch
+jobs:
+  check:
+    runs-on: [self-hosted]
+    steps:
+      - uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        
+        with:
+          redirect-to: FAILED_PODS
+          args: get pods -n default -o=jsonpath="{.items[?(@.status.phase!='Running')].metadata.name}"
+          
+      - name: Slack Notification
+        if: ${{ env.FAILED_PODS }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: test-notifications-1
+          SLACK_COLOR: 'failure' # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_MESSAGE: ${{ env.FAILED_PODS }}
+          SLACK_TITLE: Post Title
+          SLACK_USERNAME: test
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL}}
