@@ -6,7 +6,9 @@
 
 ![K3s pods sreenshot](https://github.com/2Qic1/04.Github-actions/blob/refs/heads/kind/photo/k3s.jpg)
 
-'''
+## Github action
+
+```
 name: Check Pods
 on:
   push:
@@ -45,6 +47,6 @@ jobs:
         SLACK_USERNAME: rtCamp
         SLACK_TITLE: "Some pods have crashed"
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-'''
+```
 
 
