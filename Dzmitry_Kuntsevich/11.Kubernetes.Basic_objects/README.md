@@ -1,3 +1,12 @@
+## Nginx pods
+
+![Nginx pods](https://github.com/2Qic1/04.Github-actions/blob/master/photo/Nginx%20pods.jpg)
+
+## nginx.k8s-4.sa
+
+![nginx.k8s-4.sa](https://github.com/2Qic1/04.Github-actions/blob/master/photo/nginx.k8s-4.sa.jpg)
+
+
 ## app.yaml
 
 ```
