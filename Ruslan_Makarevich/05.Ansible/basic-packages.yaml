@@ -1,0 +1,24 @@
+- name: Install basic packages
+  hosts: work_sa
+  become: true
+
+  vars:
+    basic_packages:
+      - htop
+      - vim
+      - curl
+      - git
+      - unzip
+      - net-tools
+      - wget
+
+  tasks:
+    - name: Update basic packages
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install basic packages
+      apt:
+        name: "{{ basic_packages }}"
+        state: present
