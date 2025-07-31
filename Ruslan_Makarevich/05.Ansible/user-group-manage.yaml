@@ -1,0 +1,69 @@
+- hosts: all_workers
+  gather_facts: yes
+  become: yes
+
+  vars_prompt:
+    - name: "new_user"
+      prompt: "Enter the username for the new user"
+      private: no
+    - name: "user_password"
+      prompt: "Enter the password for the new user"
+      private: yes
+    - name: "user_group"
+      prompt: "Enter the group name to assign the user"
+      private: no
+
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+    - name: Ensure python3-pip is installed (Debian/Ubuntu)
+      apt:
+        name: python3-pip
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Ensure python3-pip is installed (RedHat/CentOS)
+      yum:
+        name: python3-pip
+        state: present
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: Install passlib python package via pip
+      pip:
+        name: passlib
+        executable: pip3
+        state: present
+
+    - name: Add new user {{ new_user }}
+      user:
+        name: "{{ new_user }}"
+        state: present
+        shell: /bin/bash
+        password: "{{ user_password | password_hash('sha512') }}"
+      register: out
+    - debug:
+        var: out
+
+    - name: Create group {{ user_group }}
+      group:
+        name: "{{ user_group }}"
+        state: present
+      register: out
+    - debug:
+        var: out
+
+    - name: Add user {{ new_user }} to groups {{ user_group }} and sudo
+      user:
+        name: "{{ new_user }}"
+        groups: "{{ user_group }},sudo"
+        append: yes
+      register: out
+    - debug:
+        var: out
+
+    - name: Check user groups
+      shell: id "{{ new_user }}"
+      register: out
+    - debug:
+        var: out.stdout_lines

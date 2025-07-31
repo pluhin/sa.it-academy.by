@@ -1,0 +1,12 @@
+name: Run Python program!
+on:
+  push:
+    branches: [md-sa2-32-25]
+jobs:
+  run-str:
+    runs-on: ubuntu-latest
+    steps:
+       - name: checkout
+         uses: actions/checkout@v4
+       - name: Run script PY(string)
+         run: python3 string.py

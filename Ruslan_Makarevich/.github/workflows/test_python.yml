@@ -1,0 +1,12 @@
+name: Run Python test!
+on:
+  push:
+    branches: [md-sa2-32-25]
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+       - name: checkout
+         uses: actions/checkout@v4
+       - name: Run script tests
+         run: python3 test.py
