@@ -1,0 +1,87 @@
+- name: Install and configure nginx with virtual hosts
+  hosts: db_all
+  become: yes
+
+  vars_files:
+    - vars.yaml
+
+  tasks:
+
+    - name: Ensure nginx is installed
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Create root directories for each site
+      file:
+        path: "{{ item.root }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop: "{{ nginx_vhosts }}"
+
+    - name: Create index.html with unique content per host
+      template:
+        src: index_{{ item.name }}.html.j2
+        dest: "{{ item.root }}/index.html"
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      loop: "{{ nginx_vhosts }}"
+      loop_control:
+        loop_var: item
+
+    - name: Deploy nginx config for each virtual host
+      template:
+        src: nginx_vhost.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.name }}"
+        owner: root
+        group: root
+        mode: '0644'
+      loop: "{{ nginx_vhosts }}"
+
+    - name: Enable virtual hosts by creating symlinks
+      file:
+        src: "/etc/nginx/sites-available/{{ item.name }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.name }}"
+        state: link
+      loop: "{{ nginx_vhosts }}"
+
+    - name: Remove default nginx site if exists
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Ensure nginx is started and enabled
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes
+
+    - name: Verify that nginx returns correct page on port 80 (vhost01)
+      uri:
+        url: "http://localhost:80"
+        return_content: yes
+      register: vhost01_response
+      failed_when: >
+        (nginx_vhosts[0].name not in vhost01_response.content) and
+        (nginx_vhosts[0].domain not in vhost01_response.content)
+
+    - name: Show nginx page content from vhost01 (port 80)
+      debug:
+        msg: "Content from localhost:80: {{ vhost01_response.content | truncate(300, True) }}"
+
+    - name: Verify that nginx returns correct page on port 8080 (vhost02)
+      uri:
+        url: "http://localhost:8080"
+        return_content: yes
+      register: vhost02_response
+      failed_when: >
+        (nginx_vhosts[1].name not in vhost02_response.content) and
+        (nginx_vhosts[1].domain not in vhost02_response.content)
+
+    - name: Show nginx page content from vhost02 (port 8080)
+      debug:
+        msg: "Content from localhost:8080: {{ vhost02_response.content | truncate(300, True) }}"
