@@ -24,7 +24,7 @@
 
     - name: Create index.html with unique content per host
       template:
-        src: index_{{ item.name }}.html.j2
+        src: index.html.j2
         dest: "{{ item.root }}/index.html"
         owner: www-data
         group: www-data
@@ -71,7 +71,7 @@
 
     - name: Show nginx page content from vhost01 (port 80)
       debug:
-        msg: "Content from localhost:80: {{ vhost01_response.content | truncate(300, True) }}"
+        msg: "Content from localhost:80: {{ vhost01_response.content | truncate(400, True) }}"
 
     - name: Verify that nginx returns correct page on port 8080 (vhost02)
       uri:
@@ -84,4 +84,4 @@
 
     - name: Show nginx page content from vhost02 (port 8080)
       debug:
-        msg: "Content from localhost:8080: {{ vhost02_response.content | truncate(300, True) }}"
+        msg: "Content from localhost:8080: {{ vhost02_response.content | truncate(400, True) }}"

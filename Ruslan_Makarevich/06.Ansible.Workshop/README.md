@@ -53,32 +53,22 @@ server {
 }
 ```
 
-## index_VHOST01.html.j2
+## index.html.j2
 
 ```bash
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome to {{ item.name }} ({{ item.domain }}) THIS IS TEST PAGE01</title>
+    <title>Welcome to {{ item.name }} ({{ item.domain }}) {% if item.name == 'VHOST01' %}THIS IS TEST PAGE01{% elif item.name == 'VHOST02' %}THIS IS TEST PAGE02{% endif %}</title>
 </head>
 <body>
     <h1>Hello from {{ item.name }} at {{ item.domain }}</h1>
     <p>Document root: {{ item.root }}</p>
-</body>
-</html>
-```
-
-## index_VHOST02.html.j2
-
-```bash
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Welcome to {{ item.name }} ({{ item.domain }}) THIS IS TEST PAGE02</title>
-</head>
-<body>
-    <h1>Hello from {{ item.name }} at {{ item.domain }}</h1>
-    <p>Document root: {{ item.root }}</p>
+    {% if item.name == 'VHOST01' %}
+        <p>THIS IS TEST PAGE01</p>
+    {% elif item.name == 'VHOST02' %}
+        <p>THIS IS TEST PAGE02</p>
+    {% endif %}
 </body>
 </html>
 ```
@@ -114,7 +104,7 @@ server {
 
     - name: Create index.html with unique content per host
       template:
-        src: index_{{ item.name }}.html.j2
+        src: index.html.j2
         dest: "{{ item.root }}/index.html"
         owner: www-data
         group: www-data
@@ -183,80 +173,81 @@ server {
 PLAY [Install and configure nginx with virtual hosts] ***************************************************************************************************************************************
 
 TASK [Gathering Facts] **********************************************************************************************************************************************************************
-Sunday 03 August 2025  10:04:55 +0000 (0:00:00.008)       0:00:00.008 *********
+Monday 04 August 2025  13:28:59 +0000 (0:00:00.018)       0:00:00.018 *********
 [WARNING]: Platform linux on host mysql is using the discovered Python interpreter at /usr/bin/python3.8, but future installation of another Python interpreter could change the meaning of
 that path. See https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
 ok: [mysql]
 
 TASK [Ensure nginx is installed] ************************************************************************************************************************************************************
-Sunday 03 August 2025  10:05:02 +0000 (0:00:06.659)       0:00:06.667 *********
+Monday 04 August 2025  13:29:06 +0000 (0:00:07.397)       0:00:07.416 *********
 ok: [mysql]
 
 TASK [Create root directories for each site] ************************************************************************************************************************************************
-Sunday 03 August 2025  10:05:07 +0000 (0:00:04.691)       0:00:11.359 *********
+Monday 04 August 2025  13:29:13 +0000 (0:00:06.754)       0:00:14.170 *********
 ok: [mysql] => (item={'name': 'VHOST01', 'domain': 'vhost01.com', 'root': '/var/www/vhost01', 'port': 80})
 ok: [mysql] => (item={'name': 'VHOST02', 'domain': 'vhost02.com', 'root': '/var/www/vhost02', 'port': 8080})
 
 TASK [Create index.html with unique content per host] ***************************************************************************************************************************************
-Sunday 03 August 2025  10:05:13 +0000 (0:00:05.994)       0:00:17.354 *********
+Monday 04 August 2025  13:29:23 +0000 (0:00:09.758)       0:00:23.929 *********
 changed: [mysql] => (item={'name': 'VHOST01', 'domain': 'vhost01.com', 'root': '/var/www/vhost01', 'port': 80})
 changed: [mysql] => (item={'name': 'VHOST02', 'domain': 'vhost02.com', 'root': '/var/www/vhost02', 'port': 8080})
 
 TASK [Deploy nginx config for each virtual host] ********************************************************************************************************************************************
-Sunday 03 August 2025  10:05:27 +0000 (0:00:13.842)       0:00:31.196 *********
+Monday 04 August 2025  13:29:41 +0000 (0:00:18.378)       0:00:42.308 *********
 ok: [mysql] => (item={'name': 'VHOST01', 'domain': 'vhost01.com', 'root': '/var/www/vhost01', 'port': 80})
 ok: [mysql] => (item={'name': 'VHOST02', 'domain': 'vhost02.com', 'root': '/var/www/vhost02', 'port': 8080})
 
 TASK [Enable virtual hosts by creating symlinks] ********************************************************************************************************************************************
-Sunday 03 August 2025  10:05:37 +0000 (0:00:10.713)       0:00:41.909 *********
+Monday 04 August 2025  13:29:56 +0000 (0:00:14.631)       0:00:56.939 *********
 ok: [mysql] => (item={'name': 'VHOST01', 'domain': 'vhost01.com', 'root': '/var/www/vhost01', 'port': 80})
 ok: [mysql] => (item={'name': 'VHOST02', 'domain': 'vhost02.com', 'root': '/var/www/vhost02', 'port': 8080})
 
 TASK [Remove default nginx site if exists] **************************************************************************************************************************************************
-Sunday 03 August 2025  10:05:46 +0000 (0:00:08.902)       0:00:50.812 *********
+Monday 04 August 2025  13:30:06 +0000 (0:00:10.003)       0:01:06.943 *********
 ok: [mysql]
 
 TASK [Ensure nginx is started and enabled] **************************************************************************************************************************************************
-Sunday 03 August 2025  10:05:49 +0000 (0:00:02.906)       0:00:53.718 *********
+Monday 04 August 2025  13:30:10 +0000 (0:00:04.677)       0:01:11.621 *********
 changed: [mysql]
 
 TASK [Verify that nginx returns correct page on port 80 (vhost01)] **************************************************************************************************************************
-Sunday 03 August 2025  10:05:52 +0000 (0:00:03.307)       0:00:57.026 *********
+Monday 04 August 2025  13:30:15 +0000 (0:00:05.206)       0:01:16.827 *********
 ok: [mysql]
 
 TASK [Show nginx page content from vhost01 (port 80)] ***************************************************************************************************************************************
-Sunday 03 August 2025  10:05:57 +0000 (0:00:04.308)       0:01:01.334 *********
+Monday 04 August 2025  13:30:20 +0000 (0:00:04.931)       0:01:21.759 *********
 ok: [mysql] => {
-    "msg": "Content from localhost:80: <!DOCTYPE html>\n<html>\n<head>\n    <title>Welcome to VHOST01 (vhost01.com) THIS IS TEST PAGE01</title>\n</head>\n<body>\n    <h1>Hello from VHOST01 at vhost01.com</h1>\n    <p>Document root: /var/www/vhost01</p>\n</body>\n</html>\n"
+    "msg": "Content from localhost:80: <!DOCTYPE html>\n<html>\n<head>\n    <title>Welcome to VHOST01 (vhost01.com) THIS IS TEST PAGE01</title>\n</head>\n<body>\n    <h1>Hello from VHOST01 at vhost01.com</h1>\n    <p>Document root: /var/www/vhost01</p>\n            <p>THIS IS TEST PAGE01</p>\n    </body>\n</html>\n"
 }
 
 TASK [Verify that nginx returns correct page on port 8080 (vhost02)] ************************************************************************************************************************
-Sunday 03 August 2025  10:05:57 +0000 (0:00:00.062)       0:01:01.396 *********
+Monday 04 August 2025  13:30:20 +0000 (0:00:00.060)       0:01:21.820 *********
 ok: [mysql]
 
 TASK [Show nginx page content from vhost02 (port 8080)] *************************************************************************************************************************************
-Sunday 03 August 2025  10:06:01 +0000 (0:00:03.766)       0:01:05.163 *********
+Monday 04 August 2025  13:30:25 +0000 (0:00:04.911)       0:01:26.731 *********
 ok: [mysql] => {
-    "msg": "Content from localhost:8080: <!DOCTYPE html>\n<html>\n<head>\n    <title>Welcome to VHOST02 (vhost02.com) THIS IS TEST PAGE02</title>\n</head>\n<body>\n    <h1>Hello from VHOST02 at vhost02.com</h1>\n    <p>Document root: /var/www/vhost02</p>\n</body>\n</html>\n"
+    "msg": "Content from localhost:8080: <!DOCTYPE html>\n<html>\n<head>\n    <title>Welcome to VHOST02 (vhost02.com) THIS IS TEST PAGE02</title>\n</head>\n<body>\n    <h1>Hello from VHOST02 at vhost02.com</h1>\n    <p>Document root: /var/www/vhost02</p>\n            <p>THIS IS TEST PAGE02</p>\n    </body>\n</html>\n"
 }
 
 PLAY RECAP **********************************************************************************************************************************************************************************
 mysql                      : ok=12   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-Sunday 03 August 2025  10:06:01 +0000 (0:00:00.049)       0:01:05.212 *********
+Monday 04 August 2025  13:30:25 +0000 (0:00:00.048)       0:01:26.779 *********
 ===============================================================================
-Create index.html with unique content per host -------------------------------------------------------------------------------------------------------------------------------------- 13.84s
-Deploy nginx config for each virtual host ------------------------------------------------------------------------------------------------------------------------------------------- 10.71s
-Enable virtual hosts by creating symlinks -------------------------------------------------------------------------------------------------------------------------------------------- 8.90s
-Gathering Facts ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- 6.66s
-Create root directories for each site ------------------------------------------------------------------------------------------------------------------------------------------------ 5.99s
-Ensure nginx is installed ------------------------------------------------------------------------------------------------------------------------------------------------------------ 4.69s
-Verify that nginx returns correct page on port 80 (vhost01) -------------------------------------------------------------------------------------------------------------------------- 4.31s
-Verify that nginx returns correct page on port 8080 (vhost02) ------------------------------------------------------------------------------------------------------------------------ 3.77s
-Ensure nginx is started and enabled -------------------------------------------------------------------------------------------------------------------------------------------------- 3.31s
-Remove default nginx site if exists -------------------------------------------------------------------------------------------------------------------------------------------------- 2.91s
+Create index.html with unique content per host -------------------------------------------------------------------------------------------------------------------------------------- 18.38s
+Deploy nginx config for each virtual host ------------------------------------------------------------------------------------------------------------------------------------------- 14.63s
+Enable virtual hosts by creating symlinks ------------------------------------------------------------------------------------------------------------------------------------------- 10.00s
+Create root directories for each site ------------------------------------------------------------------------------------------------------------------------------------------------ 9.76s
+Gathering Facts ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- 7.40s
+Ensure nginx is installed ------------------------------------------------------------------------------------------------------------------------------------------------------------ 6.75s
+Ensure nginx is started and enabled -------------------------------------------------------------------------------------------------------------------------------------------------- 5.21s
+Verify that nginx returns correct page on port 80 (vhost01) -------------------------------------------------------------------------------------------------------------------------- 4.93s
+Verify that nginx returns correct page on port 8080 (vhost02) ------------------------------------------------------------------------------------------------------------------------ 4.91s
+Remove default nginx site if exists -------------------------------------------------------------------------------------------------------------------------------------------------- 4.68s
 Show nginx page content from vhost01 (port 80) --------------------------------------------------------------------------------------------------------------------------------------- 0.06s
 Show nginx page content from vhost02 (port 8080) ------------------------------------------------------------------------------------------------------------------------------------- 0.05s
-Playbook run took 0 days, 0 hours, 1 minutes, 5 seconds
+Playbook run took 0 days, 0 hours, 1 minutes, 26 seconds
+
 ```
 
