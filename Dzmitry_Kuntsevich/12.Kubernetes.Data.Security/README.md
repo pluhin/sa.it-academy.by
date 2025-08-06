@@ -1,0 +1,166 @@
+## app.yaml
+
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-html
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Welcome to nginx!</title>
+    </head>
+    <body>
+      <h1>Hello from HTML file!</h1>
+      <p>Pod: HOSTNAME</p>
+    </body>
+    </html>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-nginx
+  labels:
+    app: nginx
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      initContainers:
+        - name: init-nginx-container
+          image: nginx:latest
+          volumeMounts:
+            - name: index-html-configmap
+              mountPath: /tmp
+            - name: updated-nginx-html
+              mountPath: /usr/share/nginx/html
+          command: ["sh", "-c", 'sed -e "s/HOSTNAME/$HOSTNAME/" /tmp/index.html > /usr/share/nginx/html/index.html']
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+          - containerPort: 80
+        resources:
+          requests:
+            cpu: 51m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+          - name: updated-nginx-html
+            mountPath: /usr/share/nginx/html
+          - name: ssh-volume
+            mountPath: /root/.ssh
+      volumes:
+        - name: index-html-configmap
+          configMap:
+            name: nginx-html
+        - name: updated-nginx-html
+          emptyDir: {}
+        - name: ssh-volume
+          secret:
+            secretName: root-ssh-keys
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  labels:
+    run: app-service
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+  selector:
+    app: nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-sa-nginx
+  annotations:
+    nginx.ingress.kubernetes.io/server-alias: "app.k8s-4.sa"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: app.k8s-3.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app-service
+                port:
+                  number: 80
+```
+
+## init_secret.yaml
+
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: root-ssh-keys
+  namespace: default
+type: Opaque
+data:
+  privateKey: LS0tLS1CRUdJTiBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0KYjNCbGJuTnphQzFyWlhrdGRqRUFBQUFBQkc1dmJtVUFBQUFFYm05dVpRQUFBQUFBQUFBQkFBQUNGd0FBQUFkemMyZ3RjbgpOaEFBQUFBd0VBQVFBQUFnRUE3Wlp1SnUzOG0raHcwNzBja2xrZmRiZ1JQWXIvVS9xOVRvbjVqdm4yZWNKVi94Y0FTbjAwCkhYNW9oT2xXRmlVOVdQNnpHUjJyYWhEU0JvQ2RBQ2lmbnFoZmphS3o4ekdXWG42RjZKUkUwUHRhYmN6SlAxMTNFTFVEWmkKbTM0TFZLSm95WGI3TEx1Vmc3cHVaTEViM25TN0hmNEYrcEJDNzJNMmFMTzN2TEREdkNwdkFieEd4NVFkc1Niam9aWXVpcwowRFRiUk82RkVYNm9jVHY0T0x6ZEdpRDMwMDdnSUdtb0hNem9DSVRTTlBDTEVmN3pLWm1IdURZZkNLaWYzQW5EYmdHK2o5CkY2bkV4N0NCbGJTbTB3by9MWGo3V2l6M3E4bDBJSnpOWTl2ekhOZkhRdlZ3QWI2cFdTSzdLK0taYXlSWkI2ZTk5bis1SVUKdnNqQUNqVjJMVldqNGtVb0h1eDM1SVJiaXlqYWFSN1FBVC9DRm44eHIrMGJsVjkzbXNveXJQZnFJOGpsUWdIMmhzaDVKcQpKcHA5Z1l0aWw0VXA4bnRLNHBUSVpEUjVTNkIrVnk1Q0tTdCtXVk8wdWhFSFFoQ1BQT3RvNkRIVEhxOFRDaWdTT0lYTFkwClo2SzhZMkNGZG1JQ2tjWk4rSGJtTFV3eTZXbU5iQUMvZzU2dVdHU0dVOWNFc0hEUVhrU3d5cHg3U2xUa1lIN2JqYytDc3cKd3E5VUY2bmVsUkRrMGVvaDdmcm13VnhPVWFrWTlZVS9FY3pwdHVoQ2ZzUHI2RkRodzMxNEl0WUlJVXZjUzBpRWdkZXJLTApvSjJRUklLV0ozVXljckFQYTZFdEFWai9LTFFsNXExQk90WmU0TDFxZm9BeExDU1JSRzFWSFZ3Wit4N3lCamdaYWpZRjhYCk1BQUFkSUlCUW1DU0FVSmdrQUFBQUhjM05vTFhKellRQUFBZ0VBN1padUp1MzhtK2h3MDcwY2tsa2ZkYmdSUFlyL1UvcTkKVG9uNWp2bjJlY0pWL3hjQVNuMDBIWDVvaE9sV0ZpVTlXUDZ6R1IycmFoRFNCb0NkQUNpZm5xaGZqYUt6OHpHV1huNkY2SgpSRTBQdGFiY3pKUDExM0VMVURaaW0zNExWS0pveVhiN0xMdVZnN3B1WkxFYjNuUzdIZjRGK3BCQzcyTTJhTE8zdkxERHZDCnB2QWJ4R3g1UWRzU2Jqb1pZdWlzMERUYlJPNkZFWDZvY1R2NE9MemRHaUQzMDA3Z0lHbW9ITXpvQ0lUU05QQ0xFZjd6S1oKbUh1RFlmQ0tpZjNBbkRiZ0crajlGNm5FeDdDQmxiU20wd28vTFhqN1dpejNxOGwwSUp6Tlk5dnpITmZIUXZWd0FiNnBXUwpLN0srS1pheVJaQjZlOTluKzVJVXZzakFDalYyTFZXajRrVW9IdXgzNUlSYml5amFhUjdRQVQvQ0ZuOHhyKzBibFY5M21zCm95clBmcUk4amxRZ0gyaHNoNUpxSnBwOWdZdGlsNFVwOG50SzRwVElaRFI1UzZCK1Z5NUNLU3QrV1ZPMHVoRUhRaENQUE8KdG82REhUSHE4VENpZ1NPSVhMWTBaNks4WTJDRmRtSUNrY1pOK0hibUxVd3k2V21OYkFDL2c1NnVXR1NHVTljRXNIRFFYawpTd3lweDdTbFRrWUg3YmpjK0Nzd3dxOVVGNm5lbFJEazBlb2g3ZnJtd1Z4T1Vha1k5WVUvRWN6cHR1aENmc1ByNkZEaHczCjE0SXRZSUlVdmNTMGlFZ2RlcktMb0oyUVJJS1dKM1V5Y3JBUGE2RXRBVmovS0xRbDVxMUJPdFplNEwxcWZvQXhMQ1NSUkcKMVZIVndaK3g3eUJqZ1phallGOFhNQUFBQURBUUFCQUFBQ0FENlZtME9PK2pWWmgrc0d6RkZ5djVwRFYrdEZ3NWRzRzlUbAovSUtncnNBSkpKMFRBb1Vjc1E4NTNxOXdSYmlFcThIWEtmZHFQTjZ1T3B6eTRTaUxDdTBBdmxieGJvU1g0ZHZYYVUvSVNzCjVmLzhTZnByMlYwY2pwWGRGYUdQRk00QkVDaE51c0ZnVW5UR05kRTVaRFYzdTFpZHN4WjdUTjZCWEhJOU1SKzMwbit0RDkKdTlyRWxqWjJUa2NSNytFQm1KQXA5RDZXdEIvVkpPcmJHTHBkYWNLNXYzNStyd1Jxd0ptQmtuZTRBU1ZuM2NKcVRjUitDRwpYS2YrZElmLysyNUsrRUx4MzBXTjkyT0F4OG5YTWdDeW1NelNLeWZvWTM5eGpERVJEUHVLazJKY0pzV3BJSTJkR3ovN0thCkhZU1lDVExRNmFyYXdTbmdJNjNUOU41YmtkckNYMTRSem12UWFldWM4ekJKTjNhNytFTlY1OWs1OGdjbmdsd2JrOXZvaGMKZUFhRTgzaGgrUFIxVTcvWUROTjJVQVUxQlUwTzVBKzBXVmFOSzhEOEh3aVlDSWEveU0yR3QrLzVXNDBDT1FFUXhOcU5KcQp3OHhEMEd5eVRkNHlVNkZhelNFeHZNa0xOWjN2VkZWU3Vjc0VxY1Z3RDdOeTVkWXlZanZjVXFoUlhXemJZbFNIVUpnc3d1ClFMOHZUWXYyZDJCYVZzelRVdURUYlNPM3JybzdqeWhjRThxT0w4MTVYT1VUckxtaEpWZVhZLytlV1BVZXVHclZtMS9DbjAKc2p2dzdXMVpCQTBIMXgxbDZyQWNSNWxBUnp5Z1ovbFJhV2RneWFLU2E3WVRGaVprRkZkNDFPK0ROdVBqeGF3ZUN3eUdwbwpOSSs0QmJCVzZFcU55WTFuZmhBQUFCQVFDVnF5WkVreEI0U3hTQ3ZRWUUxWjlLemZCQmE3RWgzdzZoZFh2b2kvNmtvTkdiCnpicDZ1WFl4ek1zdXUrZTRrRDF3a2N0a1VNZEpycWhka2liWUNzdW9hb0l3eG9OeldNaWVKQUx1ZlljMVdvQmhNWFBWMncKbzBPeUJ6bENTejJDTUZKQzU3UnpXd0U5Vzl2bEgxVHdaTnpSY09PZ1RITU9YMXMreXU5ZFh5T0prcngrV0I5VURDdXRuMgpaT2xUSmQ0eVhSU0ZXT3FpdXdScythTWpoUjJCWjBpTFVUOEl5K25samU0Q29UVCtpZDRDTjl4UlFLMWNDOVgyV3pjWlFrClhqMkloSGtZSWlPL1FTbkQ1OXRmdHVRWEQ3Q1JSQXRGaG1ZRGtaS2J0aDNYb1RTQ213WVhZWnlWMnNCRmNYU293Tit2WkQKUUlqNWVMYkVUeHBXQVZzVkFBQUJBUUQzemhwQkY0VnFiNWRtNzJjbWx1Sk96ektrYStuL0dRY3l2enJBVktUOTlleGczRQpyOUdHRGpxK2dIYXkybmZUb084b1RheW85MEptUTJxc3VydlUrbDY5MFY0dGFCdUdyZkc5YnUrQkFydFZDRHkrUXBFaDY5ClZ3U3A4bStEeUZlMHJzNVlXN1pZWERKcEpDWWdFSFBWc0F2bHFtam1tTko5VTRXRVFMV0g4V2kxV00rQ0daZ3pBemgyRzkKbnp0b3hKRk9kSWl1a1JScmZSQjh5QWlkUnJISW1GMWNSMW1JR3NnNG9mMTMxNk5DdWYwQVZBS2RLdnd5bFRSbTNqVm96MgplWFVvaVVsUFNvcytGcWZFSE5EMXp4S0VxUWhHMW9CSHIxUysrWjRWSW9kaW5rWUpKTU0zYjNsblpOYUw1c0MyRHVWM3hECkhSQ1A4ZkhMdW12WDRUQUFBQkFRRDFjZFBVL1lycFNIa2s0bVFNbHFUTU5QeFdPeG9CR09Nd3pwWld2ZlBxa1RQMDZyajcKcGZ0U2xIMlA1Snc0d0FOSngwanJxV3lDUGwwL0pUc1QzQktxUkVXRTF0YjZpQW9jV21kVVNwQ0xKR0ZVUGUzVUhUODBWZgoyVlhoUlZ1QStsa1ZCUnNpL0ZpRUFZWEpGOTlvem5xc0pFaVNXYnhIeFRvUXdLcUVwRC90RDUzaDdaUlBudmZ3cFpPS2dsCittQncvSW91c2t6NXNTWU9CRWZUQks3NTZOVEJxeFNYdnZQbS9qVVd6RjY5K09MSkZHNFdCckp0VnFNclRqTEhEMWhPaHkKbi9HREtONTZmRGhoT3UxRlFmS1h6Lzh6UEdma2owWXdPSklua1BLVS8vM1l0MkkwZndmYmlQNTFFN3dwUzI0WGlpbzNTYgp1bnlFL1AxT1Zxc2hBQUFBREdGa2JXbHVRRlZpZFc1MGRRRUNBd1FGQmc9PQotLS0tLUVORCBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0K
+  publicKey: c3NoLXJzYSBBQUFBQjNOemFDMXljMkVBQUFBREFRQUJBQUFDQVFEdGxtNG03ZnliNkhEVHZSeVNXUjkxdUJFOWl2OVQrcjFPaWZtTytmWjV3bFgvRndCS2ZUUWRmbWlFNlZZV0pUMVkvck1aSGF0cUVOSUdnSjBBS0orZXFGK05vclB6TVpaZWZvWG9sRVRRKzFwdHpNay9YWGNRdFFObUtiZmd0VW9takpkdnNzdTVXRHVtNWtzUnZlZExzZC9nWDZrRUx2WXpab3M3ZThzTU84S204QnZFYkhsQjJ4SnVPaGxpNkt6UU5OdEU3b1VSZnFoeE8vZzR2TjBhSVBmVFR1QWdhYWdjek9nSWhOSTA4SXNSL3ZNcG1ZZTROaDhJcUovY0NjTnVBYjZQMFhxY1RIc0lHVnRLYlRDajh0ZVB0YUxQZXJ5WFFnbk0xajIvTWMxOGRDOVhBQnZxbFpJcnNyNHBsckpGa0hwNzMyZjdraFMreU1BS05YWXRWYVBpUlNnZTdIZmtoRnVMS05wcEh0QUJQOElXZnpHdjdSdVZYM2VheWpLczkrb2p5T1ZDQWZhR3lIa21vbW1uMkJpMktYaFNueWUwcmlsTWhrTkhsTG9INVhMa0lwSzM1WlU3UzZFUWRDRUk4ODYyam9NZE1lcnhNS0tCSTRoY3RqUm5vcnhqWUlWMllnS1J4azM0ZHVZdFRETHBhWTFzQUwrRG5xNVlaSVpUMXdTd2NOQmVSTERLbkh0S1ZPUmdmdHVOejRLekRDcjFRWHFkNlZFT1RSNmlIdCt1YkJYRTVScVJqMWhUOFJ6T20yNkVKK3crdm9VT0hEZlhnaTFnZ2hTOXhMU0lTQjE2c291Z25aQkVncFluZFRKeXNBOXJvUzBCV1A4b3RDWG1yVUU2MWw3Z3ZXcCtnREVzSkpGRWJWVWRYQm43SHZJR09CbHFOZ1h4Y3c9PSBhZG1pbkBVYnVudHUK
+```
+
+## sealed_secret.yaml
+
+```
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: root-ssh-keys
+  namespace: default
+spec:
+  encryptedData:
+    privateKey: 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
+    publicKey: AgBYC1geYkd43TAtWeQl3p2AqBB4hHU82hoKtAVKNmvbmZm7ab7n+Tu9wHXDVPniEJMKjQRvVZutJzv51eZz8zMpfPoPC7F+2v0W22upwKmXuAPfcET/WdBroXtZWKYDhjONhPoAPTmbUkyxTWCyziX6ULxvBxReV3f/aijOQTtkhlRHtkHeiLXznXkEjkzA16D9jDiOGL6Ec05Anp3tenbLaomlNgWSEweC4Sohr3aH71UqPXtCEGTgcjXsL9sQipQMmnfm8rNmlFsYbjtsAhd+Lzupp6X0zdOMz1peF+5aCHQU8O9btEVwdr8NG5ZsCAADo0yxOiSE7pt5SQeY/4JdMrFVTR845hvRrd2fwimKfvLq1h4+aZOD3X9Pe9LjslRLYOZ+plVOb3sinqO13xgRcug8XLlSMVN3LCfhYJiByB0tyoH2gXIPJhEvBFO/ewgD9Tp1m38hzaaBAoelycHutRqq3RVKbbBtMgsd7n6WDllN+sJ5wHtaiN0Iix2p6Tywa/4dEcJdkGQW76Eu4ekhIy651HzpOxjBoOJT3vdEvTkdFM/9oERW2B2vvvyMe/lwpgTl1ALmF7uulQbsWxBPQvcRKsJAPrGn4Vcxrijb6zIa4Lh+rbWyGTXRpqlkKRPXY1uLZZ5ss7SDe1EZnhRuhzVbDsCXsTiwjxS5y5Zp4/m494bTvSbYLZhhOD5oyrhyneEekjiUbTNPVMB9nITotNxWFmyc1TKR+PCEeOTq4WYKKEXTeYUCXFHQXPUldNDy5h5BG8+fSkgca3JSPylU6UvticATHwkSxQy38KAoEL21smvDz2RVXC5qTYueUJXOBWSQl+4qTUiEFvUu96aSZUtPdVrf7QWA0abMnzb6l7/IXakPbUJs5nyIW3kZBPhAZKJZBw28OmresJma76bijqPgvYoRKlXVW4T7p7JfRPjXONoDPdKY+FBx4WX5holBvzkYwpSH7UrknLBNtm4HQbqihSb/9bMw1zVzsZlEeQW34nMzod7F2aVP+u+b55KzHMm8zDtt7Cx/xHMP0BYDVevucyuuoNrVNAFUv0NZ/xx8EVH2rGzOKjtQOaCP9nuJ55ef4LUN4A4jQ0UHH6bIxLa61tdJUye+M9qdKRbPAT9kTsNjToRO9bRQRJKQHqgWHcLLnLx1zntVn2TW1FZXXuDs3gJ0sNeGb+qs1aopVoPNKfpcCz/X8fUB71AvncELG7zH3TQ0ueZIaMYOIsxSATvMm9Oi7kBUfhuf4gfe/Yw9EeHnFLMgz7OgDkJXjQdagIlpmG0wu5/VikQyKOMJPr542Ma3ggVCIceu7zt0bLsc2NPdS4EvX0IBQ9d9VlrojNm/5Vs++MIgNQSoFhp3cg/nnOwuVSZAJFRB5fjTQMoMi1NWmjfYS8Wf8L8X2x0+MWGWnsIdhMBQ/Hl1Rz9FROXBKyDnOHqp/ZUDfxwKOPMiVmQmGQmQZzKxu3cAaGPNy/YYBO06CfNuUwZB4I6JV59E7Pvh/d4U2AHgrau/ndm94flcE3+rDtUgvZjCNwlcfXKv76UKspgaUiN3uy61Xf7PXOQLW7e0W/uzXsTUoOeDkOMrbD8o6pfLzYuQ9SYPV11/uM23jDsZ5L/Ft82+vs5FCdgbnZbtxl7qDhEBtlOJFHBusOy/nPr7/6RZ8R0hF87nBAfgMJ+2Lp8E09yG7U8=
+  template:
+    metadata:
+      creationTimestamp: null
+      name: root-ssh-keys
+      namespace: default
+    type: Opaque
+```
+
+## pod-1
+
+![pod-1](https://github.com/2Qic1/04.Github-actions/blob/master/photo/pod-1.jpg)
+
+
+## pod-2
+
+![pod-2](https://github.com/2Qic1/04.Github-actions/blob/master/photo/pod-2.jpg)
+
+
+## pod-3
+
+![pod-3](https://github.com/2Qic1/04.Github-actions/blob/master/photo/pod-3.jpg)
+
+
+## root-ssh-key
+
+![root-ssh-key](https://github.com/2Qic1/04.Github-actions/blob/master/photo/root-ssh-key.jpg)
+
