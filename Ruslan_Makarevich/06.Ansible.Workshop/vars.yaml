@@ -1,0 +1,10 @@
+nginx_vhosts:
+  - name: VHOST01
+    domain: vhost01.com
+    root: /var/www/vhost01
+    port: 80
+
+  - name: VHOST02
+    domain: vhost02.com
+    root: /var/www/vhost02
+    port: 8080
