@@ -1,0 +1,11 @@
+adminAddress: "surgelandrey@gmail.com"
+ingress:
+  host: "jenkins-release.k8s-9.sa"
+externalUrl: "http://jenkins-release.k8s-9.sa"
+
+imageName: "jfrog.it-academy.by/public/jenkins-ci:asurgel_32"
+
+ingressClassName: nginx
+
+secret:
+  password: 123qweasdASD
