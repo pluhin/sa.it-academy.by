@@ -177,6 +177,10 @@ laravel-db      mysql:8                      "docker-entrypoint.s…"   db      
 laravel-nginx   nginx:latest                 "/docker-entrypoint.…"   nginx     42 minutes ago   Up 42 minutes   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp
 ```
 
+## Print-screen Laravel
+
+![Laravel app](https://github.com/MakTruue/sa.it-academy.by/blob/md-sa2-32-25/Ruslan_Makarevich/08.Docker.Docker_compose/laravel.jpg)
+
 # HA2: Docker build automation (github action)
 
 ## docker-build.yml
@@ -245,6 +249,9 @@ func main() {
     http.ListenAndServe(":8080", nil)
 }
 ```
+## Print-screen Go app
+
+![Hello go](https://github.com/MakTruue/sa.it-academy.by/blob/md-sa2-32-25/Ruslan_Makarevich/08.Docker.Docker_compose/hello_go.jpg)
 
 ## Docker file (go_app)
 
@@ -285,3 +292,7 @@ docker login
 docker tag mygoapp:latest dockeruser/mygoapp:latest
 docker push dockeruser/mygoapp:latest
 ```
+
+## Print-screen Slack notofication
+
+![Slack notify](https://github.com/MakTruue/sa.it-academy.by/blob/md-sa2-32-25/Ruslan_Makarevich/08.Docker.Docker_compose/slack_notification.png)

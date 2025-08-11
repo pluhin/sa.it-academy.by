@@ -2,6 +2,8 @@
 
 ## Finish full install k8s (hosts 192.168.208.5-6)
 
+![K8s cluster](https://github.com/MakTruue/sa.it-academy.by/blob/md-sa2-32-25/Ruslan_Makarevich/09.K8s.Install/k8s_cluster.jpg)
+
 # HA 1: KinD Kubernetes Cluster Setup
 
 ## Installing the utility KinD
