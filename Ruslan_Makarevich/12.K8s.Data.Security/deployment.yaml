@@ -31,8 +31,8 @@ spec:
           emptyDir: {}
         - name: ssh-keys
           secret:
-            secretName: nginx-ssh-secret   # <= этот Secret должен существовать в web-test
-            defaultMode: 0600              # файлы ключей будут с правами 600
+            secretName: nginx-ssh-secret
+            defaultMode: 0600
       initContainers:
         - name: init-index
           image: busybox:1.36
@@ -55,7 +55,7 @@ spec:
             - name: web-root
               mountPath: /usr/share/nginx/html
             - name: ssh-keys
-              mountPath: /root/.ssh     # здесь появятся id_rsa и id_rsa.pub из секрета
+              mountPath: /root/.ssh
               readOnly: true
 ---
 apiVersion: v1
@@ -77,8 +77,6 @@ kind: Ingress
 metadata:
   name: nginx-test-ingress
   namespace: web-test
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
     - host: nginx-test.k8s-5.sa

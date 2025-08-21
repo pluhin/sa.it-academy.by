@@ -2,7 +2,7 @@
 
 ## DEPLOYMENT.YAML
 
-```bash
+```yaml
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -82,8 +82,6 @@ kind: Ingress
 metadata:
   name: nginx-test-ingress
   namespace: web-test
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
     - host: nginx-test.k8s-5.sa
@@ -100,7 +98,7 @@ spec:
 
 ## SSH-KEYS-SEALED.YAML
  
-```bash
+```yaml
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
