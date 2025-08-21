@@ -1,0 +1,56 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k6-config
+  namespace: ci-cd
+data:
+  k6-script.js: |
+    import { Trend } from 'k6/metrics';
+    import http from 'k6/http';
+    import { check, sleep } from 'k6';
+
+    let myTrend = new Trend('my_trend');
+
+    export let options = {
+        stages: [
+            { duration: '30s', target: 20 },
+            { duration: '1m', target: 20 },
+            { duration: '10s', target: 0 },
+        ],
+        thresholds: {
+            'http_req_duration': ['p(95)<500'], // 95% of requests must complete below 500ms
+            'my_trend': ['avg<200'], // Custom threshold for the custom metric
+        },
+    };
+
+    export default function () {
+        let res = http.get('http://jenkins.k8s-11.sa/');
+        check(res, {
+            'status is 200': (r) => r.status === 200,
+        });
+        myTrend.add(res.timings.duration);
+        sleep(1);
+    }
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: k6-load-test
+  namespace: ci-cd
+spec:
+  hostAliases:
+  - ip: "178.124.206.53"
+    hostnames:
+    - "jenkins.k8s-11.sa"  
+  containers:
+  - name: k6
+    image: loadimpact/k6
+    command: ["k6", "run", "/mnt/k6-config/k6-script.js"]
+    volumeMounts:
+      - name: k6-config-volume
+        mountPath: "/mnt/k6-config"
+  volumes:
+    - name: k6-config-volume
+      configMap:
+        name: k6-config
