@@ -1,0 +1,33 @@
+name: ci
+
+on:
+  push:
+
+env:
+  TEST_TAG: user/app:test
+  LATEST_TAG: user/app:latest
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v6
+        with:
+          load: true
+          tags: ${{ env.TEST_TAG }}
+
+      - name: Test
+        run: |
+          docker run --rm ${{ env.TEST_TAG }}
+      - name: Test container runs as non-root by default
+        run: |
+          # Test that the container doesn't run as root by default
+          echo "Testing default user behavior..."
+          docker run --rm ${{ env.TEST_TAG }} whoami | grep -v "root" && echo "✓ Not running as root" || (echo "✗ Running as root!" && exit 1)
