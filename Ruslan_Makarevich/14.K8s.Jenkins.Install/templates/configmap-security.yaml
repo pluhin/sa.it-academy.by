@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: basic-security
+  namespace: {{ .Values.namespace }}
+data:
+  basic-security.groovy: |-
+{{ .Values.configMaps.basicSecurity | indent 4 }}
