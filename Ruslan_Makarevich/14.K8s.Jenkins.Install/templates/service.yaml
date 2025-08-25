@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: jenkins
+  ports:
+    - name: http
+      port: {{ .Values.service.ports.http }}
+      targetPort: {{ .Values.jenkins.httpPort }}
+    - name: jnlp
+      port: {{ .Values.service.ports.jnlp }}
+      targetPort: {{ .Values.jenkins.jnlpPort }}
