@@ -1,0 +1,80 @@
+name: kubeconform Matrix Validation with Slack
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  discover-directories:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Find all directories
+        id: set-matrix
+        run: |
+          dirs=$(find . -maxdepth 1 -type d -not -path '*/\.*' -not -path '\.' | sed 's|^\./||' | grep -v -E '(^\.git$|^\.github$)')
+          matrix=$(echo "$dirs" | jq -R -s -c 'split("\n") | map(select(. != ""))')
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+
+  validate-manifests:
+    needs: discover-directories
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory: ${{ fromJson(needs.discover-directories.outputs.matrix) }}
+      fail-fast: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Validate ${{ matrix.directory }} with kubeconform
+        id: kubeconform
+        uses: docker://ghcr.io/yannh/kubeconform:latest
+        continue-on-error: true
+        with:
+          args: >-
+            -verbose
+            -output json
+            -schema-location default
+            -schema-location "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{ .Group }}/{{ .ResourceKind }}_{{ .ResourceAPIVersion }}.json"
+            ${{ matrix.directory }}/
+            
+  notify-result:
+    needs: [validate-manifests]
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+  
+    steps:
+      - name: Check overall status
+        id: check-status
+        run: |
+          # Convert needs context to JSON string and check for any failures
+          results='${{ toJSON(needs) }}'
+          
+          if echo "$results" | grep -q '"result":"failure"'; then
+            echo "status=failure" >> $GITHUB_OUTPUT
+            echo "Overall status: FAILURE"
+          else
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "Overall status: SUCCESS"
+          fi
+  
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: ${{ steps.check-status.outputs.status == 'success' && 'test-notifications-1' || 'test-notifications' }}
+          SLACK_COLOR: ${{ steps.check-status.outputs.status == 'success' && 'success' || 'failure' }}
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_MESSAGE: ${{ steps.check-status.outputs.status == 'success' && 'All manifests validation succeeded!' || 'Manifests validation failed!' }}
+          SLACK_TITLE: Validation Result
+          SLACK_USERNAME: GitHub Actions Bot
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
