@@ -1,0 +1,36 @@
+name: Test minikube installation
+
+#on:
+#  release:
+#    types: [published]
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  setup_minikube:
+    name: test minikube setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Minikube
+        uses: medyagh/setup-minikube@latest
+        id: minikube
+
+      - name: Minikube status
+        run: |
+          minikube status
+
+      - name: Build image
+        run: |
+          minikube image build -t andybar69/githubaction:v1 .
+
+      - name: Check that the cluster is operational
+        run: kubectl get pods -A
+        
+      - name: Kubernetes version
+        run: kubectl version
+

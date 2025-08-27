@@ -1,0 +1,50 @@
+version: "3.8"
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public:/var/www/symfony_app/public
+    container_name: ${PROJECT_NAME}-nginx
+    depends_on:
+      - php
+    networks:
+      - app_network
+
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - .:/var/www/symfony_app
+    container_name: ${PROJECT_NAME}-php
+    ports:
+      - "9000:9000"
+    networks:
+      - app_network
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: symfony
+      MYSQL_USER: user
+      MYSQL_PASSWORD: paasword1
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    container_name: ${PROJECT_NAME}-db
+    networks:
+      - app_network
+
+volumes:
+  db_data:
+
+networks:
+  app_network:
+    driver: bridge

@@ -1,0 +1,38 @@
+name: Test Kind installation
+
+#on:
+#  release:
+#    types: [published]
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  setup_kind:
+    name: Test Kind setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Build docker image as prod
+        run: |
+          docker build -t andybar69/githubaction:v1 .
+
+      - name: Create KinD Cluster
+        uses: helm/kind-action@v1.12.0 # Use the latest stable version
+        with:
+          config: .github/kind-config.yaml
+          cluster_name: my-kind-cluster
+
+      - name: Configuring and testing the Installation
+        run: |
+          kubectl cluster-info --context kind-my-kind-cluster
+
+      - name: Verify that the cluster is up and running
+        run: kubectl get pods -A
+        
+      - name: Kubernetes version
+        run: kubectl version
+
