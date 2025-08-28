@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smee-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smee-client
+  template:
+    metadata:
+      labels:
+        app: smee-client
+    spec:
+      containers:
+        - name: smee-client
+          image: node:18-alpine
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              npm install -g smee-client;
+              echo "Starting ${SMEE_URL} for ${JENKINS_WEBHOOK}";
+              smee --url ${SMEE_URL} --target ${JENKINS_WEBHOOK} --path /github-webhook/ --port 3000
+          env:
+            - name: SMEE_URL
+              value: "https://smee.io/XXXXXX"
+            - name: JENKINS_WEBHOOK
+              value: "http://jenkins.ci-cd.svc.cluster.local:8080/github-webhook/"
