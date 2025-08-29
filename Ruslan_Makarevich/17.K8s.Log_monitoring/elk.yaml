@@ -1,0 +1,45 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: bitnami-charts-oci
+  namespace: flux-system
+spec:
+  type: oci
+  interval: 1h
+  url: oci://registry-1.docker.io/bitnamicharts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: elasticsearch
+  namespace: elasticsearch
+spec:
+  interval: 15m
+  timeout: 10m
+  chart:
+    spec:
+      chart: elasticsearch
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-charts-oci
+        namespace: flux-system
+  values:
+    global:
+      defaultStorageClass: nfs-client
+      kibanaEnabled: true
+    master:
+      persistence:
+        storageClass: nfs-client
+    data:
+      persistence:
+        storageClass: nfs-client
+    ingress:
+      enabled: true
+      hostname: elk.k8s-25.sa
+      ingressClassName: nginx
+    kibana:
+      ingress:
+        enabled: true
+        hostname: kibana.k8s-25.sa
+        ingressClassName: nginx
