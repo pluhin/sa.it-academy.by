@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: constant-cpu-load
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: constant-cpu-load
+  template:
+    metadata:
+      labels:
+        app: constant-cpu-load
+    spec:
+      containers:
+      - name: cpu-loader
+        image: busybox
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do echo 'Generating CPU load'; done"]
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "128Mi"

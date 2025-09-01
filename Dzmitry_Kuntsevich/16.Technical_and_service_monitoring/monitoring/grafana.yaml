@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://grafana.github.io/helm-charts
+    chart: grafana
+    targetRevision: 9.3.1
+    helm:
+      values: |
+        adminUser: admin
+        adminPassword: XXXXXXX
+        service:
+          type: ClusterIP
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          hosts:
+            - grafana.k8s-3.sa
+          path: /
+          pathType: Prefix
+        env:
+          GF_SERVER_ROOT_URL: "https://grafana.k8s-3.sa"
+          GF_SERVER_DOMAIN: "grafana.k8s-3.sa"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true 

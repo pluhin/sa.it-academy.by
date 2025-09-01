@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+type: Opaque
+stringData:
+  alertmanager.yml: |
+    global:
+      resolve_timeout: 5m
+    
+    route:
+      group_by: ['alertname']
+      group_wait: 10s
+      group_interval: 1m
+      repeat_interval: 5m
+      receiver: 'discord-notifications'
+    
+    receivers:
+    - name: 'discord-notifications'
+      webhook_configs:
+      - url: 'https://discordapp.com/api/webhooks/1409577998444793856/TAduFB3cR-Ip3CxquarZbn99cvKUKTuJFonE8kVxosxbUTtFZVTF-haqyPw8GPZkANmG'
+        send_resolved: true
