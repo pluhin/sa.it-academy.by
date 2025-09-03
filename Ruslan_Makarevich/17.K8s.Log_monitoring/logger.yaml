@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logger-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: logger
+  template:
+    metadata:
+      labels:
+        app: logger
+    spec:
+      containers:
+      - name: logger
+        image: busybox
+        command: ["/bin/sh", "-c"]
+        args:
+          - i=0; 
+            while true; do 
+              echo "{\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"counter\":$i}";
+              i=$((i+1));
+              sleep 2; 
+            done;
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "50m"

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-stress
+spec:
+  containers:
+  - name: cpu
+    image: vish/stress
+    args:
+    - "-cpus"
+    - "1"
