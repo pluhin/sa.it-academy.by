@@ -21,3 +21,6 @@ Second job starts checking repository files for keys (private and public)
 ### Deployment flows short description:
 
 AgroCD syncs with repository, deploys application to kubernetes cluster.
+
+### Links:
+  [Progect repository](https://github.com/2Qic1/wordpress-ci-cd.git)
