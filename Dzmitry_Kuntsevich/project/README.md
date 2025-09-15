@@ -12,21 +12,25 @@
 ## Pipeline. High Level Design
 ![project-scheme](https://github.com/2Qic1/04.Github-actions/blob/master/photo/project.jpg)
 
-All infrastructure code is stored in Git repositories, GitHub acts as a single source of truth,
-all repositories are stored here.
-GitHub action is implemented as follows: when changes are pushed to the results repository,
-the presence of repository files on the keys (private and public) is checked, after which it comes.
+All infrastructure code is stored in a Git repository, GitHub acts as a single source of truth,
+all configurations are stored here.
 
-The Heart system is ArgoCD, which implements the GitOps approach: it constantly monitors change
-repositories, automatically synchronizes the state of the cluster configuration in Git,
-provides a user interface for connected flows.
+GitHub Action is implemented as follows: when pushing changes to the repository,
+the repository files are checked for keys (private and public),
+after which a notification is sent to Discord that someone made a push and about the keys found.
+
+The heart of the system is ArgoCD, which implements the GitOps approach:
+1) Constantly monitors the repository for changes
+2) Automatically synchronizes the cluster state with the configuration in Git
+3) Provides a UI for monitoring the status of applications.
 
 The cluster deploys:
-1) MariaDB as a Stateful Service with persistent volumes (separate storage on the disk)
-2) WordPress as a Stateless Application (in simple terms, this is: a website engine that does not store data itself, but only takes it from the database)
-3) an Ingress controller is implemented for incoming traffic.
+1) MariaDB as a Stateful Service with Persistent Volumes (separate storage on the disk)
+2) WordPress as a Stateless Application (Simply put: This is a website engine that does not store data itself, but only takes it from the database)
+3) an Ingress controller is implemented for incoming traffic
 
 🌐 http://wp.k8s-3.sa/
- Endpoint access for users. Access to the WordPress application is configured through Ingress.
+   Endpoint access for users. Access to the WordPress application is configured via Ingress.
+
 ### Links:
   [Progect repository](https://github.com/2Qic1/wordpress-ci-cd.git)
