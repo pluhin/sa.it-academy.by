@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-html
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset='utf-8'>
+      <title>Welcome to nginx!</title>
+    </head>
+    <body>
+      <h1>Hello from index file</h1>
+      <p>Hostname: HOSTNAME</p>
+    </body>
+    </html>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-nginx
+  labels:
+    app: nginx
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      initContainers:
+        - name: init-nginx-container
+          image: nginx:latest
+          volumeMounts:
+            - name: index-html-configmap
+              mountPath: /opt
+            - name: updated-nginx-html
+              mountPath: /usr/share/nginx/html
+          command: ["sh", "-c", 'sed -e "s/HOSTNAME/$HOSTNAME/" /opt/index.html > /usr/share/nginx/html/index.html']
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
+        volumeMounts:
+          - name: updated-nginx-html
+            mountPath: /usr/share/nginx/html
+          - name: ssh-volume
+            mountPath: /root/.ssh
+      volumes:
+        - name: index-html-configmap
+          configMap:
+            name: nginx-html
+        - name: updated-nginx-html
+          emptyDir: {}
+        - name: ssh-volume
+          secret:
+            secretName: root-ssh-keys
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  labels:
+    run: app-service
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+  selector:
+     app: nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-sa-nginx
+  annotations:
+    nginx.ingress.kubernetes.io/server-alias: "nginx-test.k8s-2.sa"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: nginx-test.k8s-1.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app-service
+                port:
+                  number: 80
+
