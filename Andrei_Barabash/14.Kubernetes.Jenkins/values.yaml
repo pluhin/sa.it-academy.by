@@ -1,0 +1,79 @@
+namespace: ci-cd
+
+jenkins:
+  image: jfrog.it-academy.by/public/jenkins-ci:andrey-bar
+  pullPolicy: IfNotPresent
+  cpuRequest: 2
+  memoryRequest: 2Gi
+  cpuLimit: 3
+  memoryLimit: 3Gi
+  httpPort: 8080
+  jnlpPort: 50000
+
+secret:
+  name: jenkins-secret
+  password: cGFzc3dvcmQ=  # base64-кодированный пароль "password"
+
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci
+  tag: andrey-bar
+
+persistence:
+  nfs:
+    server: 192.168.37.105
+    path: /mnt/IT-Academy/nfs-data/sa2-32-25/abarabash/jenkins
+
+service:
+  type: ClusterIP
+  ports:
+    http: 8080
+    jnlp: 50000
+
+ingress:
+  enabled: true
+  host: jenkins.k8s-1.sa
+
+configMaps:
+  jenkinsConfig: |-
+    jenkins:
+      numExecutors: 2
+      clouds:
+      - kubernetes:
+          containerCapStr: "10"
+          maxRequestsPerHostStr: "32"
+          jenkinsUrl: "http://jenkins:8080"
+          name: "kubernetes"
+          namespace: {{ .Values.namespace }}
+          skipTlsVerify: true
+    credentials:
+      system:
+        domainCredentials:
+        - credentials:
+          - usernamePassword:
+              description: "Githubuser"
+              id: "some_random"
+              password: "XXXXXXXXXXX"
+              scope: GLOBAL
+              username: "git_hub_user11"
+    unclassified:
+      location:
+        adminAddress: "andrey-bar@gmail.com"
+        url: "http://jenkins.k8s-1.sa/"
+      shell:
+        shell: "/bin/bash"
+
+  basicSecurity: |-
+    #!groovy
+    import jenkins.model.*
+    import hudson.security.*
+    def instance = Jenkins.getInstance()
+    println "--> creating local user 'admin'"
+    def password = System.getenv("PASS")
+    def hudsonRealm = new HudsonPrivateSecurityRealm(false)
+    hudsonRealm.createAccount('admin', password)
+    instance.setSecurityRealm(hudsonRealm)
+    def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
+    strategy.setAllowAnonymousRead(true)
+    instance.setAuthorizationStrategy(strategy)
+    instance.save()
+
