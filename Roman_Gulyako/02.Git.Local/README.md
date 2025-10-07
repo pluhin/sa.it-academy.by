@@ -28,3 +28,14 @@ git log --oneline -5
 git log --author="Roman Gulyako"
 git show 9e23c33
 ```
+
+## Homework Assignment 4: Creating and Applying Tags
+```bash
+git log --oneline
+git tag v1.0 c28e8b4
+git tag
+echo "New changes for new tag" >> README.md
+git add --all
+git commit -m "Add additional changes"
+git tag -a v2.0 -m "Annotated tag"
+```
