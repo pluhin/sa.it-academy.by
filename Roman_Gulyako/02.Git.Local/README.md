@@ -71,3 +71,17 @@ git stash pop
 git add --all
 git commit -m "Get changes from stash and resolve conflict"
 ```
+
+## Homework Assignment 7: Git Aliases and Configuration
+```bash
+git config --global user.name "Roman Gulyako"
+git config --global user.email "romangulyako@gmail.com"
+git config --global alias.st status
+git config --global alias.ci commit
+git config --global alias.cam commit -am
+git config --global alias.br branch
+git config --global alias.co checkout
+git config --global alias.cb checkout -b
+git config --global alias.history 'log --pretty=format:"%C(yellow)%h%Creset %ad | %Cgreen%s%Creset %Cblue[%an]%Creset %C(red)%d%Creset" --date=short'
+git config --global --list
+```
