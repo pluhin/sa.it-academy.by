@@ -39,3 +39,20 @@ git add --all
 git commit -m "Add additional changes"
 git tag -a v2.0 -m "Annotated tag"
 ```
+
+## Homework Assignment 5: Undoing Changes
+```bash
+git checkout -b bug-fix
+echo "Some changes to README.md" >> README.md
+git add --all
+git commit -m "Add change to README.md"
+echo "Another change to README.md" >> README.md
+git add --all
+git commit -m "Add new change to README.md"
+git reset --soft HEAD~1
+git commit -m "Add new change to README.md"
+git reset --mixed HEAD~1
+git add --all
+git commit -m "Add new change to README.md"
+git reset --hard HEAD~1
+```
