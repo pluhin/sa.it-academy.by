@@ -56,3 +56,18 @@ git add --all
 git commit -m "Add new change to README.md"
 git reset --hard HEAD~1
 ```
+
+## Homework Assignment 6: Stashing Changes
+```bash
+git checkout -b experimental-feature
+echo "Experimental changes to README.md" >> README.md
+git stash
+git stash list
+git checkout feature-branch
+echo "different set of changes" >> README.md
+git add --all
+git commit -m "Add different set of changes"
+git stash pop
+git add --all
+git commit -m "Get changes from stash and resolve conflict"
+```
