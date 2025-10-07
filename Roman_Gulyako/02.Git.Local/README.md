@@ -17,3 +17,14 @@ git commit -m "Add description of project"
 git checkout main
 git merge feature-branch
 ```
+
+## Homework Assignment 3: Exploring Git History
+```bash
+git log
+git log --oneline
+git log --pretty=full
+git log --pretty=format:"%h - %an, %ar : %s"
+git log --oneline -5
+git log --author="Roman Gulyako"
+git show 9e23c33
+```
