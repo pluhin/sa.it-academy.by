@@ -1,5 +1,5 @@
-...bash
- 131  cd 02.GIT.Local
+```bash
+  131  cd 02.GIT.Local
   132  git init
   133  echo "# 02.GIT.Local" > README.md
   134  git add README.md
