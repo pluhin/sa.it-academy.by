@@ -70,4 +70,9 @@
   201  git config --global user.name "Siarhei Auchynnik"
   202  git config --global user.email "artegaas@gmail.com"
   203  git config --list
+  204  git config --global alias.cck checkout
+  205  git config --global alias.cmt commit
+  206  git config --global alias.sts status
+  207  git config --global alias.brn branch
+  203  git config --list
 ```
