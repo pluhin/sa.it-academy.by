@@ -70,3 +70,4 @@
   201  git config --global user.name "Siarhei Auchynnik"
   202  git config --global user.email "artegaas@gmail.com"
   203  git config --list
+```
