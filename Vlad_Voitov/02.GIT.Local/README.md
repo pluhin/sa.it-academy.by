@@ -1,4 +1,4 @@
-# Demo git local
+# Homework git local
 
 ```bash
     1  git init
