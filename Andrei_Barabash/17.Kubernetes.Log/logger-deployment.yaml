@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-app
+  labels:
+    app: log-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: log-app
+  template:
+    metadata:
+      labels:
+        app: log-app
+    spec:
+      containers:
+      - name: log-container
+        image: busybox
+        command: ["sh", "-c"]
+        args: ["counter=0; while :; do echo \"Timestamp: $(date) - Counter: $counter\"; counter=$((counter+1)); sleep 5; done"]
