@@ -1,5 +1,6 @@
 # 04. GitOps
 
+
 ## Homework Assignment 1: Setting up a Basic GitHub Action && Homework Assignment 2: Building and Testing with GitHub Actions
 
 https://github.com/ArtegaAS/gh-act-hello
