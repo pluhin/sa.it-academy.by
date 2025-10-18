@@ -44,7 +44,7 @@ ansible_user: root
         name: htop
         state: present
 ```
-4. used command 'ansible-playbook -i inv.yaml playbook02.yaml' that installed htop to IT-Academy DC's 
+4. used command `ansible-playbook -i inv.yaml playbook02.yaml` that installed htop to IT-Academy DC's 
 
 #### Exercise 03
 ## Uses:
