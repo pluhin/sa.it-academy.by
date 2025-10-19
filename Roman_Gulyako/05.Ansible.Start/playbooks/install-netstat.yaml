@@ -1,0 +1,29 @@
+- name: Install netstat on remote hosts
+  hosts: remotes
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: Check if netstat is already installed
+      command: which netstat
+      register: netstat_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: Display current netstat status
+      debug:
+        msg: "netstat is already installed on {{ inventory_hostname }}"
+      when: netstat_check.rc == 0
+
+    - name: Install net-tools package
+      package:
+        name: net-tools
+        state: present
+      when: netstat_check.rc != 0
+      notify:
+        - Verify netstat installation
+
+  handlers:
+    - name: Verify netstat installation
+      debug:
+        msg: "netstat has been successfully installed on {{ inventory_hostname }}"
