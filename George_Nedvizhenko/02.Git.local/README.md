@@ -8,7 +8,7 @@
     7  ls
     8  cd /home/g/Documents/study/git init
     9  cd /home/g/Documents/study/
-git local
+    git local
    10  git init
    11  git add README.md
    12  README.md
