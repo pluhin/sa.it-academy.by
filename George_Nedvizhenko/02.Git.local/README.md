@@ -1,4 +1,4 @@
-git local
+    git local
     1  sudo apt-get update
     2  sudo apt-git install git-all
     3  sudo apt-get install git-all
