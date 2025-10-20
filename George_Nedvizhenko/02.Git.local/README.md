@@ -1,4 +1,7 @@
-1  sudo apt-get update
+  #HW Git local
+
+```bash
+    1  sudo apt-get update
     2  sudo apt-git install git-all
     3  sudo apt-get install git-all
     4  ls
