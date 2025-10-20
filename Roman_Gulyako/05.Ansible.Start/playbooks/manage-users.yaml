@@ -1,0 +1,39 @@
+- name: Manage users and groups on remote hosts
+  hosts: remotes
+  become: yes
+  vars_files:
+    - user_vars.yaml
+    - password.yaml
+
+  tasks:
+    - name: Create group
+      group:
+        name: "{{ target_group }}"
+        state: present
+        gid: "{{ group_id | default(omit) }}"
+
+    - name: Create user account
+      user:
+        name: "{{ target_user }}"
+        group: "{{ target_group }}"
+        groups: "{{ additional_groups | default(omit) }}"
+        shell: "{{ user_shell | default('/bin/bash') }}"
+        comment: "{{ user_comment | default('Ansible Managed User') }}"
+        password: "{{ user_password | string | password_hash('sha512') }}"
+        update_password: on_create
+        create_home: yes
+        home: "/home/{{ target_user }}"
+        state: present
+
+    - name: Verify user creation
+      command: "id {{ target_user }}"
+      register: user_check
+      changed_when: false
+
+    - name: Display user information
+      debug:
+        msg: |
+          User '{{ target_user }}' created successfully!
+          UID: {{ user_check.stdout }}
+          Home: /home/{{ target_user }}
+          Groups: {{ target_group }}
