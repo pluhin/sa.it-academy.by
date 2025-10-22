@@ -1,0 +1,144 @@
+---
+- name: Install and configure Nginx with two vhosts (templates)
+  hosts: webservers
+  become: true
+  gather_facts: true
+  gather_subset: [min]
+
+  vars:
+    vhosts:
+      - name: site1
+        server_name: site1.local
+        web_root: /var/www/site1
+        title: "Welcome to Site 1"
+      - name: site2
+        server_name: site2.local
+        web_root: /var/www/site2
+        title: "Welcome to Site 2"
+
+  handlers:
+    - name: reload nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
+
+  tasks:
+    - name: Ensure apt cache updated (once)
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+
+    - name: Stop & disable Apache if present (avoid port 80 conflict)
+      ansible.builtin.systemd:
+        name: apache2
+        state: stopped
+        enabled: false
+      ignore_errors: true
+
+    - name: Remove default site symlink
+      ansible.builtin.file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: reload nginx
+
+    - name: Remove default site file
+      ansible.builtin.file:
+        path: /etc/nginx/sites-available/default
+        state: absent
+      notify: reload nginx
+
+    - name: Ensure sites-available/enabled exist
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0755"
+      loop:
+        - /etc/nginx/sites-available
+        - /etc/nginx/sites-enabled
+
+    - name: Create web roots
+      ansible.builtin.file:
+        path: "{{ item.web_root }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: "0755"
+      loop: "{{ vhosts }}"
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Deploy vhost config from template
+      ansible.builtin.template:
+        src: templates/vhost.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.name }}.conf"
+        owner: root
+        group: root
+        mode: "0644"
+      vars:
+        name: "{{ item.name }}"
+        server_name: "{{ item.server_name }}"
+        web_root: "{{ item.web_root }}"
+      loop: "{{ vhosts }}"
+      loop_control:
+        label: "{{ item.name }}"
+      notify: reload nginx
+
+    - name: Enable vhost (symlink)
+      ansible.builtin.file:
+        src: "/etc/nginx/sites-available/{{ item.name }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ item.name }}.conf"
+        state: link
+      loop: "{{ vhosts }}"
+      loop_control:
+        label: "{{ item.name }}"
+      notify: reload nginx
+
+    - name: Place per-vhost index.html from template
+      ansible.builtin.template:
+        src: templates/index.html.j2
+        dest: "{{ item.web_root }}/index.html"
+        owner: www-data
+        group: www-data
+        mode: "0644"
+      vars:
+        title: "{{ item.title }}"
+        fqdn: "{{ item.server_name }}"
+        web_root: "{{ item.web_root }}"
+      loop: "{{ vhosts }}"
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Cleanup stale nginx pid if exists
+      ansible.builtin.file:
+        path: /run/nginx.pid
+        state: absent
+
+    - name: Validate nginx config (nginx -t)
+      ansible.builtin.command: nginx -t
+      register: nginx_test
+      changed_when: false
+      failed_when: nginx_test.rc != 0
+
+    - name: Ensure nginx is running
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: "Quick check: curl both vhosts via Host header (loop)"
+      ansible.builtin.shell: |
+        curl -sI -H "Host: {{ item.server_name }}" http://127.0.0.1 | head -n1
+      register: curl_checks
+      changed_when: false
+      loop: "{{ vhosts }}"
+      loop_control:
+        label: "{{ item.server_name }}"
+
+    - name: Show curl results
+      ansible.builtin.debug:
+        var: curl_checks.results
