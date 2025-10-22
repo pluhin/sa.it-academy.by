@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ title }}</title>
+</head>
+<body>
+  <h1>{{ title }}</h1>
+  <ul>
+    <li><b>Host (inventory_hostname):</b> {{ inventory_hostname }}</li>
+    <li><b>Hostname (ansible_hostname):</b> {{ ansible_hostname }}</li>
+    <li><b>FQDN (виртуальный хост):</b> {{ fqdn }}</li>
+    <li><b>Web root:</b> {{ web_root }}</li>
+  </ul>
+</body>
+</html>
