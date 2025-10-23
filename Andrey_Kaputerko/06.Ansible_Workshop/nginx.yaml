@@ -1,0 +1,148 @@
+- hosts: itacademy
+  vars:
+    nginx_user: webserver
+    nginx_document_root: /var/www/html
+    nginx_sites:
+      - name: first_site
+        server_name: "localhost"
+        root: "{{ nginx_document_root }}"
+        port: 80
+      - name: second_site
+        server_name: "localhost"
+        root: "{{ nginx_document_root }}/app"
+        port: 8080
+  pre_tasks:
+  - name: Validate
+    debug:
+      msg:
+       - "ansible_hostname: {{ ansible_hostname }}"
+    tags: always
+  tasks:  
+  - name: Creating user for nginx - {{ nginx_user }}
+    user:
+      name: "{{ nginx_user }}"
+      state: present
+
+  - name: Install nginx
+    apt:
+      name: nginx 
+      state: latest
+      update_cache: true
+    when: ansible_os_family == "Debian"
+    tags: install
+    notify: Restart Nginx
+
+  
+  - name: Create Nginx root directories
+    file:
+      path: "/etc/nginx"
+      state: directory
+      owner: "{{ nginx_user }}"
+      group: "{{ nginx_user }}"
+      mode: '0755'
+
+  - name: Nginx Configure
+    template:
+      src: nginx.conf.j2
+      dest: /etc/nginx/nginx.conf
+      mode: '0644'
+      backup: yes
+    notify: Restart Nginx
+  
+  - name: Create document root directories
+    file:
+      path: "{{ item.root }}"
+      state: directory
+      owner: "{{ nginx_user }}"
+      group: "{{ nginx_user }}"
+      mode: '0755'
+    loop: "{{ nginx_sites }}"
+    notify: Restart Nginx
+
+  - name: Create custom HTML files
+    template:
+      src: index.html.j2
+      dest: "{{ item.root }}/index.html"
+      owner: "{{ nginx_user }}"
+      group: "{{ nginx_user }}"
+      mode: '0644'
+    loop: "{{ nginx_sites }}"
+    notify: Restart Nginx
+
+  - name: Create sites-available nginx directory if not exists
+    file:
+      path: "/etc/nginx/sites-available"
+      state: directory
+      owner: "{{ nginx_user }}"
+      group: "{{ nginx_user }}"
+      mode: '0755'
+    loop: "{{ nginx_sites }}"
+    notify: Restart Nginx
+
+  - name: Create sites-enabled nginx directory if not exists
+    file:
+      path: "/etc/nginx/sites-enabled"
+      state: directory
+      owner: "{{ nginx_user }}"
+      group: "{{ nginx_user }}"
+      mode: '0755'
+    loop: "{{ nginx_sites }}"
+    notify: Restart Nginx
+  
+  - name: Create Nginx virtual host configurations
+    template:
+      src: nginx-site.conf.j2
+      dest: "/etc/nginx/sites-available/{{ item.name }}.conf"
+      mode: '0644'
+    loop: "{{ nginx_sites }}"
+    notify: Restart Nginx
+
+  - name: Enable Nginx sites
+    file:
+      src: "/etc/nginx/sites-available/{{ item.name }}.conf"
+      dest: "/etc/nginx/sites-enabled/{{ item.name }}.conf"
+      state: link
+    loop: "{{ nginx_sites }}"
+    notify: Restart Nginx
+
+  - name: Restart nginx
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
+
+  - name: Ensure Nginx is running and enabled
+    service:
+      name: nginx
+      state: started
+      enabled: yes
+  
+  - name: Flush handlers to restart nginx
+    meta: flush_handlers
+
+  - name: Check if Nginx is listening on expected ports
+    wait_for:
+      port: "{{ item.port }}"
+      host: localhost
+      timeout: 5
+    loop: "{{ nginx_sites }}"
+    loop_control:
+      label: "{{ item.name }} (port {{ item.port }})"
+
+  - name: Verify site content for each virtual host
+    uri:
+      url: "http://localhost:{{ item.port }}"
+      return_content: yes
+      status_code: 200
+    loop: "{{ nginx_sites }}"
+    loop_control:
+      label: "{{ item.name }} (port {{ item.port }})"
+    register: site_content_checks
+    failed_when: "'ws-4' not in site_content_checks.content"
+    ignore_errors: yes
+
+  handlers:
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+      
