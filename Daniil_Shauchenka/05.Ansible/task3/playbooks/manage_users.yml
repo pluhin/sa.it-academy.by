@@ -1,0 +1,24 @@
+---
+- name: Manage users and groups
+  hosts: remote
+  become: yes
+  vars:
+    username: "{{ user_name | default('ansible_user') }}"
+    groupname: "{{ group_name | default('ansible_group') }}"
+    user_password: "{{ user_pass | default('root') }}"
+  tasks:
+    - name: Ensure group exists
+      ansible.builtin.group:
+        name: "{{ groupname }}"
+        state: present
+
+    - name: Ensure user exists and added to group
+      ansible.builtin.user:
+        name: "{{ username }}"
+        groups: "{{ groupname }}"
+        append: yes
+        password: "{{ user_password | password_hash('sha512') }}"
+        shell: /bin/bash
+        state: present
+        create_home: yes
+        home: "/home/{{ username }}"
