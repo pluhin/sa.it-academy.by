@@ -1,0 +1,172 @@
+- hosts: nginx
+  become: true
+  vars:
+    nginx_user: nginx
+    nginx_document_root: /var/www
+    nginx_sites:
+      - name: vhost1
+        server_name: "vhost1.study.com"
+        root: "{{ nginx_document_root }}/vhost1"
+        port: 8080
+      - name: vhost2
+        server_name: "vhost2.study.com"
+        root: "{{ nginx_document_root }}/vhost2"
+        port: 8081
+
+  pre_tasks:
+    - name: Validate hostname fact
+      debug:
+        msg: "ansible_hostname: {{ ansible_hostname }}"
+      tags: always
+
+    - name: Ensure nginx_user variable is defined
+      assert:
+        that:
+          - nginx_user is defined
+          - nginx_user | length > 0
+        fail_msg: "nginx_user is not defined properly"
+
+  tasks:
+    - name: Ensure nginx user exists
+      user:
+        name: "{{ nginx_user }}"
+        state: present
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: true
+      when: ansible_os_family == "Debian"
+      notify: Restart Nginx
+
+    - name: Verify nginx binary exists
+      stat:
+        path: /usr/sbin/nginx
+      register: nginx_bin
+
+    - name: Assert nginx binary is present
+      assert:
+        that:
+          - nginx_bin.stat.exists
+        fail_msg: "Nginx binary not found after installation!"
+
+    - name: Create document root directories
+      file:
+        path: "{{ item.root }}"
+        state: directory
+        owner: "{{ nginx_user }}"
+        group: "{{ nginx_user }}"
+        mode: '0755'
+      loop: "{{ nginx_sites }}"
+
+    - name: Verify document root directories exist
+      stat:
+        path: "{{ item.root }}"
+      loop: "{{ nginx_sites }}"
+      register: docroots
+
+    - name: Assert document roots created
+      assert:
+        that:
+          - item.stat.exists
+        fail_msg: "Document root {{ item.invocation.module_args.path }} not created!"
+      loop: "{{ docroots.results }}"
+
+    - name: Deploy nginx.conf
+      template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+        mode: '0644'
+        backup: yes
+      notify: Restart Nginx
+
+    - name: Create custom HTML files
+      template:
+        src: index.html.j2
+        dest: "{{ item.root }}/index.html"
+        owner: "{{ nginx_user }}"
+        group: "{{ nginx_user }}"
+        mode: '0644'
+      loop: "{{ nginx_sites }}"
+      notify: Restart Nginx
+
+    - name: Ensure sites-available directory exists
+      file:
+        path: "/etc/nginx/sites-available"
+        state: directory
+        owner: "{{ nginx_user }}"
+        group: "{{ nginx_user }}"
+        mode: '0755'
+
+    - name: Ensure sites-enabled directory exists
+      file:
+        path: "/etc/nginx/sites-enabled"
+        state: directory
+        owner: "{{ nginx_user }}"
+        group: "{{ nginx_user }}"
+        mode: '0755'
+
+    - name: Remove default site if exists
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Create Nginx virtual host configurations
+      template:
+        src: vhost.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.name }}.conf"
+        mode: '0644'
+      loop: "{{ nginx_sites }}"
+      notify: Restart Nginx
+
+    - name: Enable Nginx sites
+      file:
+        src: "/etc/nginx/sites-available/{{ item.name }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ item.name }}.conf"
+        state: link
+      loop: "{{ nginx_sites }}"
+      notify: Restart Nginx
+
+    - name: Test nginx config syntax
+      command: nginx -t
+      register: nginx_test
+      changed_when: false
+      failed_when: nginx_test.rc != 0
+
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+      when: nginx_test.rc == 0
+
+    - name: Ensure Nginx is running and enabled
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Check if Nginx is listening on expected ports
+      wait_for:
+        port: "{{ item.port }}"
+        host: localhost
+        timeout: 5
+      loop: "{{ nginx_sites }}"
+      loop_control:
+        label: "{{ item.server_name }} (port {{ item.port }})"
+
+    - name: Verify site content for each virtual host
+      uri:
+        url: "http://localhost:{{ item.port }}"
+        return_content: yes
+        status_code: 200
+      loop: "{{ nginx_sites }}"
+      register: site_content_checks
+      failed_when: "'study.com' not in site_content_checks.content"
+      ignore_errors: no
+
+  handlers:
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
