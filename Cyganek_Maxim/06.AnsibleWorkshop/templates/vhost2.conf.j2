@@ -1,0 +1,16 @@
+server {
+    listen {{ vhost2_port }};
+    listen [::]:{{ vhost2_port }};
+
+    server_name _ localhost 127.0.0.1;
+
+    root /var/www/{{ vhost2_name }}/html;
+    index index.html index.htm;
+
+    access_log /var/log/nginx/{{ vhost2_name }}_access.log;
+    error_log /var/log/nginx/{{ vhost2_name }}_error.log;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
