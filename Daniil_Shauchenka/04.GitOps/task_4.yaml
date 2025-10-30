@@ -1,0 +1,56 @@
+name: multi-deployment
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - test
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v4
+
+      - name: Show environment
+        run: echo "Running workflow for branch '${{ github.ref_name }}'"
+
+      - name: Inject environment name to index.html
+        run: |
+          sed -i "s|\${ENVIRONMENT}|${{ github.ref_name }}|g" project/index.html
+
+      - name: Run tests (only on test)
+        if: github.ref_name == 'test'
+        run: |
+          echo "Running tests for TEST environment..."
+          echo "tests passed"
+
+      - name: Build preview (only on dev)
+        if: github.ref_name == 'dev'
+        run: |
+          echo "DEVELOPMENT..."
+          echo "build complete"
+
+      - name: Upload files (only on main)
+        if: github.ref_name == 'main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./project
+          name: github-pages-${{ github.ref_name }}
+
+      - id: deployment
+        if: github.ref_name == 'main'
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.ref_name }}
+

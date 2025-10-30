@@ -1,0 +1,122 @@
+- name: Install and configure Nginx with virtual hosts
+  hosts: nginx_hosts
+  become: yes
+  vars:
+    vhost1_name: "site1"
+    vhost2_name: "site2"
+    vhost1_port: 8080
+    vhost2_port: 8081
+
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Create web directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop:
+        - /var/www/{{ vhost1_name }}/html
+        - /var/www/{{ vhost2_name }}/html
+
+    - name: Create custom index.html for vhost1
+      template:
+        src: files/index1.html.j2
+        dest: /var/www/{{ vhost1_name }}/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Create custom index.html for vhost2
+      template:
+        src: files/index2.html.j2
+        dest: /var/www/{{ vhost2_name }}/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Create virtual host configuration for site1
+      template:
+        src: templates/vhost1.conf.j2
+        dest: /etc/nginx/sites-available/{{ vhost1_name }}
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Create virtual host configuration for site2
+      template:
+        src: templates/vhost2.conf.j2
+        dest: /etc/nginx/sites-available/{{ vhost2_name }}
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable virtual hosts
+      file:
+        src: "/etc/nginx/sites-available/{{ item }}"
+        dest: "/etc/nginx/sites-enabled/{{ item }}"
+        state: link
+      loop:
+        - "{{ vhost1_name }}"
+        - "{{ vhost2_name }}"
+
+    - name: Disable default Nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: restart nginx
+
+    - name: Test Nginx configuration
+      command: nginx -t
+      register: nginx_test
+      changed_when: false
+
+    - name: Show Nginx test result
+      debug:
+        var: nginx_test.stdout
+
+    - name: Restart Nginx to apply changes
+      systemd:
+        name: nginx
+        state: restarted
+        enabled: yes
+
+    - name: Test all virtual hosts
+      uri:
+        url: "http://localhost:{{ item.port }}"
+        method: GET
+        status_code: 200
+        timeout: 10
+      register: site_test_results
+      loop:
+        - { name: "{{ vhost1_name }}", port: "{{ vhost1_port }}" }
+        - { name: "{{ vhost2_name }}", port: "{{ vhost2_port }}" }
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Show test results
+      debug:
+        msg: |
+          📊 Site Test Results:
+          {% for result in site_test_results.results %}
+          {{ result.item.name }} (port {{ result.item.port }}):
+            Status: {{ result.status }}
+            Response Time: {{ result.elapsed }}s
+            {% if result.status == 200 %}✅ OK{% else %}❌ FAILED{% endif %}
+          {% endfor %}
+
+  handlers:
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted
