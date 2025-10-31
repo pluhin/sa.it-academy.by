@@ -25,7 +25,7 @@ RUN /app/venv/bin/pip install --no-cache-dir -r requirements.txt
 
 ### Stage 2: Runtime Stage
 
-```
+``` Docker
 FROM python:3.9-alpine AS runtime
 RUN adduser -D webapp
 WORKDIR /app
