@@ -1,0 +1,28 @@
+name: Build and Test with MiniKube
+on:
+  push:
+    branches: [ main ]
+jobs:
+  setup-minikube-cluster:
+    name: Set up MiniKube Cluster
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Start Minikube
+        id: minikube
+        uses: hiberbee/github-action-minikube@latest
+      #- name: Get Minikube status
+      #  run: minikube status
+      - name: Get cluster info
+        run: kubectl cluster-info
+      #- name: Get Kubernetes pods
+      #  run: kubectl get services --all-namespaces
+      #- name: Get Minikube IP
+      #  run: echo ${{ steps.minikube.outputs.ip }}
+      #- name: Get Docker containers
+      #  run: docker ps
+      - name: Get Nodes
+        run: kubectl get nodes
+      - name: Get Kubectl version
+        run: kubectl version
