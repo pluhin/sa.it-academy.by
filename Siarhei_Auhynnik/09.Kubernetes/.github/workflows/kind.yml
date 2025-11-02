@@ -1,0 +1,12 @@
+name: KinD Cluster
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  kind:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up KinD
+        uses: helm/kind-action@v1.8.0
+      - run: kubectl get nodes -o wide
