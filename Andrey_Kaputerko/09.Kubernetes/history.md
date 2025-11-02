@@ -1,3 +1,4 @@
+# History
 ```bash
     1  vim /etc/ssh/sshd_config
     2  service ssh restart
@@ -52,3 +53,26 @@ EOF
    43  kubectl get nodes
    44  history >> history.txt
 ```
+
+# Nodes count, Kubectl bersion, spin up
+## Nodes
+### KinD Cluster
+##### 1 Node
+##### `chart-testing-control-plane   Ready    control-plane   28s   v1.32.0`
+### MiniKube Cluster
+##### 1 node
+##### `minikube   Ready    control-plane   6s    v1.24.3`
+## Kubectl Version
+### KinD Cluster
+##### Client Version: v1.31.4
+##### Kustomize Version: v5.4.2
+##### Server Version: v1.32.0
+### MiniKube Cluster
+##### Client Version: v1.24.3
+##### Kustomize Version: v4.5.4
+##### Server Version: v1.24.3
+## Spin up
+### KinD Cluster
+##### 51s
+### MiniKube Cluster
+##### 1m23s
