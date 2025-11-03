@@ -1,0 +1,90 @@
+# Homework Assignment 1: Initializing a Local Repository
+ - git init
+ - touch README.md 
+ - date >> README.md
+ - git add README.md 
+ - git commit -m "added README.md" 
+ - git log --oneline
+# Homework Assignment 2: Basic Version Control
+ - git branch feature-branch
+ - git checkout feature-branch
+ - date >> README.md 
+ - git add README.md 
+ - git commit -m "edited README.md" 
+ - git log --oneline
+ - git checkout master
+ - git merge feature-branch
+# Homework Assignment 3: Exploring Git History
+ - git log
+ - git log --oneline
+ - git show 6a847a29ceb529464d356ec8517d530c918430ae
+ - git show ffda1de
+# Homework Assignment 4: Creating and Applying Tags
+ - git log 
+ - git tag -a v1.0 6a847a2
+ - git log --oneline
+ - date >> README.md 
+ - git add README.md 
+ - git commit -m "1 more edit README.md" 
+ - git log --oneline
+ - git tag -a v2.0 42c8c86
+ - git tag v3.0
+ - git show v2.0
+ - git show v3.0
+# Homework Assignment 5: Undoing Changes
+ - git branch bug-fix
+ - git checkout bug-fix
+ - date >> README.md 
+ - git add README.md 
+ - git commit -m "undoung changes first commit README.md" 
+ - git log --oneline
+ - date >> README.md 
+ - git add README.md 
+ - git commit -m "undoung changes second commit README.md" 
+ - git log --oneline
+ - git reset
+ - git status
+ - git log
+ - git log --oneline | less
+ - git reset --soft 4cbc24a
+ - git log
+ - git reset --hard 4cbc24a
+ - git log
+# Homework Assignment 6: Stashing Changes
+ - git branch experimental-feature
+ - git checkout experimental-feature
+ - date >> README.md 
+ - git status
+ - git add README.md
+ - git status
+ - git stash
+ - git status
+ - git checkout master
+ - date >> README.md 
+ - git add README.md 
+ - git commit -m "working with git stash" 
+ - git log --oneline
+ - git status
+ - git stash pop
+ - git status
+ - git add README.md
+ - git status
+ - git commit -m "Unstashed changes"
+ - git log --oneline
+ - git log
+ - git show c4c0423
+ - git show 7a3a6a0
+ - git show c4c0423
+ - git log
+ - git log --oneline
+ - git checkout bug-fix
+ - git log --oneline
+# Homework Assignment 7: Git Aliases and Configuration
+ - git checkout master
+ - git config --global user.name "Timinsky"
+ - git config --global user.email "grnre61@gmail.com"
+ - git config --global alias.co checkout
+ - git config --global alias.cm commit
+ - git config --global alias.st status
+ - git config --global alias.br branch
+ - git co experimental-feature
