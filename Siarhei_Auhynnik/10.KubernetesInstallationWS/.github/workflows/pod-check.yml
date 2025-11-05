@@ -2,7 +2,7 @@ name: Pod Status Check
 
 on:
   schedule:
-    - cron: "*/10 * * * *"   # every 10 min
+    - cron: "0 0 * * *"   # every day
   workflow_dispatch:
 
 jobs:
@@ -12,9 +12,12 @@ jobs:
       - name: Check pod status
         id: pods
         env:
-          KUBECONFIG: /home/runner/.kube/config-k8s   # kubeconfig path
+          KUBECONFIG: /home/student/.kube/config-k8s   # kubeconfig path
         run: |
-          kubectl --context=k8s get pods -A --no-headers | grep -E 'CrashLoopBackOff|Error|Failed' > failed_pods.txt || true
+          kubectl --context=k8s get pods -A --no-headers \
+            | grep -E 'CrashLoopBackOff|Error|Failed' \
+            | awk '{print "• " $1 "/" $2 " (" $4 ")"}' > failed_pods.txt || true
+
           if [ -s failed_pods.txt ]; then
             echo "failed=true" >> $GITHUB_OUTPUT
           else
@@ -27,7 +30,9 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          TEXT="❌ В кластере (context=k8s) есть упавшие поды:\n$(cat failed_pods.txt)"
-          curl -s -X POST https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage \
-            -d chat_id=${TELEGRAM_CHAT_ID} \
+          PODS=$(cat failed_pods.txt)
+          TEXT="В кластере k8s есть проблемные поды! $PODS"
+
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d chat_id="${TELEGRAM_CHAT_ID}" \
             -d text="$TEXT"
