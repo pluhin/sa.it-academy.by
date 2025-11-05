@@ -1,0 +1,50 @@
+- hosts: all_workers
+  tasks:
+    - name: Add new user {{ new_user }}
+      user:
+        name: "{{ new_user }}"
+        state: present
+        shell: "/bin/bash"
+        password: "{{ 'password' | password_hash('sha512') }}"
+      register: out
+    - debug:
+       msg: "{{ out }}"
+       
+    - name: Check user
+      shell: |
+        grep "{{ new_user }}" /etc/passwd
+        grep "^{{ new_user }}*" /etc/group
+      register: out
+    - debug:
+       msg: "{{ out.stdout_lines }}"
+ 
+    - name: Create a group {{ user_group }}
+      group:
+        name: "{{ user_group }}"
+        state: present
+      register: out
+    - debug:
+       msg: "{{ out }}"
+       
+    - name: Check group exists
+      shell: |
+        grep "^{{ user_group }}*" /etc/group
+      register: out
+    - debug:
+       msg: "{{ out.stdout_lines }}"   
+       
+    - name: Add a user {{ new_user }} to a group {{ user_group }}
+      user:
+        name: "{{ new_user }}"
+        groups: "{{ user_group }}, sudo"
+        append: yes
+      register: out
+    - debug:
+       msg: "{{ out }}"
+       
+    - name: Check user in group
+      shell: |
+        id "{{ new_user }}"
+      register: out
+    - debug:
+       msg: "{{ out.stdout_lines }}"  
