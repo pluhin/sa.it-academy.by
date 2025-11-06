@@ -1,0 +1,69 @@
+## Action.yml
+```yaml
+name: Kubernetes Pod Health Check
+on:
+  schedule:
+    - cron: '*/60 * * * *'
+  workflow_dispatch:
+
+jobs:
+  pod-health-check:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Check pod status
+      id: pod-check
+      env:
+        KUBECONFIG: /home/runner/.kube/config-k8s
+      run: |
+        kubectl --context k8s get pods -A --no-headers | grep 'CrashLoopBackOff|Error|Failed' > fail.txt || true
+        if [ -s fail.txt ]; then
+          echo "failed=true" >> $GITHUB_OUTPUT
+        else
+          echo "failed=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Send Slack notification for failed pods
+      if: steps.pod-check.outputs.failed == 'true'
+      uses: slackapi/slack-github-action@v1.24.0
+      with:
+        payload: |
+          {
+            "text": "❌ Kubernetes Pod Health Check Passed",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "❌ *Kubernetes Pod Health Check Failed*\nSome pods are failed in *K8s* cluster."
+                }
+              }
+            ]
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+    - name: Send success notification
+      if: steps.pod-check.outputs.failed == 'false'
+      uses: slackapi/slack-github-action@v1.24.0
+      with:
+        payload: |
+          {
+            "text": "✅ Kubernetes Pod Health Check Passed",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "✅ *Kubernetes Pod Health Check Passed*\nAll pods are running smoothly in *K8s* cluster."
+                }
+              }
+            ]
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+```
