@@ -1,0 +1,99 @@
+- name: Install and configure Nginx
+  hosts: nginx
+  become: yes
+
+  vars:
+    virtual_hosts:
+      - name: "site1"
+        port: 8081
+        web_root: "/var/www/site1"
+        title: "First Website"
+
+      - name: "site2"
+        port: 8082
+        web_root: "/var/www/site2"
+        title: "Second Website"
+
+  tasks:
+    - name: Install Nginx
+      package:
+        name: nginx
+        state: present
+      tags: install
+
+    - name: Run and enable Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+      tags: service
+
+    - name: Create web directories for virtual hosts
+      file:
+        path: "{{ item.web_root }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop: "{{ virtual_hosts }}"
+      tags: directories
+
+    - name: Create Nginx virtual host configurations
+      template:
+        src: nginx-vhost.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.name }}.conf"
+        owner: root
+        group: root
+        mode: '0644'
+      loop: "{{ virtual_hosts }}"
+      tags: config
+
+    - name: Create HTML content for virtual hosts
+      template:
+        src: index.html.j2
+        dest: "{{ item.web_root }}/index.html"
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      loop: "{{ virtual_hosts }}"
+      tags: content
+
+    - name: Enable virtual host sites
+      file:
+        src: "/etc/nginx/sites-available/{{ item.name }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ item.name }}.conf"
+        state: link
+      loop: "{{ virtual_hosts }}"
+      tags: config
+
+    - name: Remove default Nginx site
+      file:
+        path: "/etc/nginx/sites-enabled/default"
+        state: absent
+      ignore_errors: yes
+      tags: config
+
+    - name: Test Nginx configuration
+      command: nginx -t
+      register: nginx_test
+      changed_when: false
+      tags: verify
+
+    - name: Show Nginx test result
+      debug:
+        msg: "{{ nginx_test.stdout }}"
+      tags: verify
+
+    - name: Restart Nginx to apply configurations
+      service:
+        name: nginx
+        state: restarted
+      when: nginx_test.rc == 0
+
+    - name: Verify websites are accessible
+      uri:
+        url: "http://localhost:{{ item.port }}/"
+        status_code: 200
+        timeout: 10
+      loop: "{{ virtual_hosts }}"
+      tags: verify

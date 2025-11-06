@@ -1,5 +1,8 @@
 ###### [Homework 1: Git.Local](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/02.Git.Local)
 ###### [Homework 2: Git.Hosting](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/03.Git.Hosting)
 ###### [Homework 3: GitOps](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/04.GitOps)
-
 ###### [Homework 4: Ansible.Start](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/05.Ansible.Start)
+###### [Homework 5: Ansible.Workshop](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/06.Ansible.Workshop)
+###### [Homework 6: Docker](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/07.Docker)
+###### [Homework 7: Docker.Docker-compose](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/08.Docker.Docker-compose)
+###### [Homework 8: Kubernetes](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/09.Kubernetes)
