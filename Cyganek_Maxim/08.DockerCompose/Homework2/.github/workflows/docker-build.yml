@@ -1,0 +1,167 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      # 1. Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 3. Log in to GitHub Container Registry
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 4. Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set image name
+        id: set-image
+        run: |
+          # Преобразуем имя репозитория в lowercase
+          IMAGE_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_OUTPUT
+          echo "Using image name: ${IMAGE_NAME}"
+
+      # 5. Extract metadata for Docker
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ steps.set-image.outputs.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=sha,prefix=commit-
+
+      # 6. Build and push Docker image
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+          # 7. Working network test
+      - name: Working network test
+        if: github.event_name != 'pull_request'
+        run: |
+          set -e  # Exit on error
+          
+          IMAGE_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          IMAGE_FULL="ghcr.io/$IMAGE_NAME:main"
+          
+          echo "🔧 Testing: $IMAGE_FULL"
+          
+          # Create network
+          docker network create test-network
+          
+          # Start MySQL (internal only)
+          echo "🐬 Starting MySQL..."
+          docker run -d --name mysql-container \
+          --network test-network \
+          -e MYSQL_ROOT_PASSWORD=rootpass \
+          -e MYSQL_DATABASE=testdb \
+          mysql:8.0
+          
+          # Wait for MySQL
+          echo "⏳ Waiting for MySQL..."
+          sleep 40
+          
+          # Start Application
+          echo "🚀 Starting Spring Boot..."
+          docker run -d --name app-container \
+          --network test-network \
+          -p 8080:8080 \
+          -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql-container:3306/testdb \
+          -e SPRING_DATASOURCE_USERNAME=root \
+          -e SPRING_DATASOURCE_PASSWORD=rootpass \
+          -e SPRING_JPA_HIBERNATE_DDL_AUTO=update \
+          "$IMAGE_FULL"
+          
+          # Wait for app
+          echo "⏳ Waiting for Spring Boot..."
+          sleep 75
+          
+          # Test application
+          echo "🧪 Testing application..."
+          curl -f http://localhost:8080/api/health
+          
+          # Cleanup
+          echo "🧹 Cleaning up..."
+          docker stop app-container mysql-container
+          docker rm app-container mysql-container
+          docker network rm test-network
+          
+          echo "✅ Network test PASSED"
+
+      # 8. Telegram Notification on Success
+      - name: Telegram Notification Success
+        if: success() && github.event_name != 'pull_request'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            ✅ *Docker Build Success*
+            
+            *Repository:* ${{ github.repository }}
+            *Branch:* ${{ github.ref_name }}
+            *Commit:* ${{ github.sha }}
+            *Author:* ${{ github.actor }}
+            
+            *Image:* ${{ env.REGISTRY }}/${{ steps.set-image.outputs.IMAGE_NAME }}:main
+            *Status:* ✅ Build and tests completed successfully
+            
+            [View Workflow](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          parse_mode: markdown
+
+      # 9. Telegram Notification on Failure
+      - name: Telegram Notification Failure
+        if: failure() && github.event_name != 'pull_request'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            ❌ *Docker Build Failed*
+            
+            *Repository:* ${{ github.repository }}
+            *Branch:* ${{ github.ref_name }}
+            *Commit:* ${{ github.sha }}
+            *Author:* ${{ github.actor }}
+            
+            *Status:* ❌ Build or tests failed
+            
+            [View Workflow Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          parse_mode: markdown

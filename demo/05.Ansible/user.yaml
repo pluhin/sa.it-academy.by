@@ -3,7 +3,7 @@
   - name: Print variable
     debug:
       msg: "You requested user {{ user_to_add }}"
-  - name: Creating user {{ user_to_add }}
+  - name: Creating user {{ user_to_add | default('myuser')}}
     user:
       name: "{{ user_to_add }}"
       comment: Managed by ansible
