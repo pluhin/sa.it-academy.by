@@ -1,0 +1,13 @@
+- hosts: "{{ host | default('all_workers')}}"
+  tasks:
+    - name: Install package {{ package_name }}
+      ansible.builtin.apt:
+        name: "{{ package_name }}"
+        state: latest
+
+    - name: Check package installed
+      shell: |
+        which "{{ package_name }}"
+      register: out
+    - debug:
+       msg: "{{ out.stdout_lines }}"
