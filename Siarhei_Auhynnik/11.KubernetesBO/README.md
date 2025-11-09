@@ -87,7 +87,7 @@ Commercial support is available at
 __Input__
 ```
 kubectl create secret generic github-runner-secret \
-  --from-literal=GH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+  --from-literal=GH_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
   -n default --context k8s
 kubectl apply -f runner.yaml -n default --context k8s
 kubectl get pods -n default --context k8s
@@ -109,6 +109,8 @@ ubuntu-default                      1/1     Running   0              5d21h
 ## URLs
 
 k8s-runner https://github.com/ArtegaAS/11K8S/settings/actions/runners
+
+
 
 
 
