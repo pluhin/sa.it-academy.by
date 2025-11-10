@@ -1,0 +1,71 @@
+# -------------------------------
+# Deployment: Nginx with 4 replicas
+# -------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0   # No pod should be unavailable during update
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.25
+        ports:
+        - containerPort: 80 # Port 80 inside container
+        resources:
+          requests:
+            cpu: "100m"     # Minimum CPU
+            memory: "128Mi" # Minimum memory
+          limits:
+            cpu: "250m"     # Maximum CPU
+            memory: "256Mi" # Maximum memory
+---
+# -------------------------------
+# Service: ClusterIP
+# -------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx             # Match pods with label app=nginx
+  ports:
+    - protocol: TCP
+      port: 80             # Service port
+      targetPort: 80       # Forward traffic to container port
+  type: ClusterIP          # Internal service (not exposed outside cluster)
+---
+# -------------------------------
+# Ingress: Host-based routing
+# Nginx service via hostname nginx-test.k8s-1.sa
+# -------------------------------
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+spec:
+  rules:
+  - host: nginx-test.k8s-1.sa
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service       # Route traffic to nginx-service
+            port:
+              number: 80
