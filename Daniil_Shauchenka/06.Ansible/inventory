@@ -1,0 +1,7 @@
+[webservers]
+web1 ansible_host=192.168.202.17
+web2 ansible_host=192.168.202.18
+
+[jumphost]
+bastion ansible_host=178.124.206.53 ansible_port=32511 ansible_user=jump_sa
+

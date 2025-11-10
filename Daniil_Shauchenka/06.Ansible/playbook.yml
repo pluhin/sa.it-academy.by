@@ -1,0 +1,74 @@
+---
+- name: Install and configure Nginx
+  hosts: webservers
+  become: yes
+
+  vars:
+    vhosts:
+      - server_name: sa-17.it-academy.local
+        root: /var/www/sa-17
+      - server_name: sa-18.it-academy.local
+        root: /var/www/sa-18
+
+  tasks:
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Create web root directories
+      file:
+        path: "{{ item.root }}"
+        state: directory
+      loop: "{{ vhosts }}"
+
+    - name: Create index.html for each vhost
+      template:
+        src: index.html.j2
+        dest: "{{ item.root }}/index.html"
+      loop: "{{ vhosts }}"
+      vars:
+        hostname: "{{ inventory_hostname }}"
+        fqdn: "{{ item.server_name }}"
+
+    - name: Deploy Nginx config
+      template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+
+    - name: Deploy virtual hosts
+      template:
+        src: vhost.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.server_name }}"
+      loop: "{{ vhosts }}"
+      vars:
+        server_name: "{{ item.server_name }}"
+        root: "{{ item.root }}"
+
+    - name: Enable sites
+      file:
+        src: "/etc/nginx/sites-available/{{ item.server_name }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.server_name }}"
+        state: link
+      loop: "{{ vhosts }}"
+
+    - name: Remove default nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+        force: yes
+
+    - name: Remove default nginx config
+      file:
+        path: /etc/nginx/sites-available/default
+        state: absent
+        force: yes
+
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes
+
