@@ -1,0 +1,59 @@
+name: K8s Pod Check
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  pod-check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup kubectl
+      uses: azure/setup-kubectl@v3
+      
+    - name: Create SSH tunnel
+      run: |
+        echo "${{ secrets.BASTION_SSH_KEY }}" > /tmp/bastion_key
+        chmod 600 /tmp/bastion_key
+        
+        ssh -i /tmp/bastion_key \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            -p ${{ secrets.BASTION_PORT }} \
+            -L 6444:${{ secrets.K8S_MASTER_HOST }}:${{ secrets.K8S_MASTER_PORT }} \
+            -N -f \
+            ${{ secrets.BASTION_USER }}@${{ secrets.BASTION_HOST }}
+        
+        sleep 10
+        
+        if nc -z localhost 6444; then
+          echo "SSH tunnel established successfully"
+        else
+          echo "SSH tunnel failed"
+          exit 1
+        fi
+
+    - name: Check for failed pods
+      id: check
+      run: |
+        echo "${{ secrets.KUBECONFIG }}" > /tmp/config
+        export KUBECONFIG="/tmp/config"
+
+        FAILED_PODS=$(kubectl get pods --all-namespaces -o json | \
+          jq -r '.items[] | select(.status.containerStatuses[]?.ready==false) | "\(.metadata.namespace)/\(.metadata.name)"' | tr '\n' ', ')
+
+        if [ ! -z "$FAILED_PODS" ]; then
+          echo "Failed pods: $FAILED_PODS"
+          echo "message=K8s Alert: Failed pods detected - $FAILED_PODS" >> $GITHUB_OUTPUT
+        else
+          echo "All pods are healthy"
+          echo "message=K8s Status: All pods are running normally" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Notify Telegram
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        message: ${{ steps.check.outputs.message }}

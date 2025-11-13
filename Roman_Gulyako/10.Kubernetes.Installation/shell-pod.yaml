@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-shell
+  namespace: default
+  labels:
+    app: debug-shell
+spec:
+  containers:
+  - name: debug-container
+    image: busybox:latest
+    command: ["/bin/sh"]
+    args: ["-c", "sleep 3600"]
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "50m"
+      limits:
+        memory: "128Mi"
+        cpu: "100m"
+  restartPolicy: Never

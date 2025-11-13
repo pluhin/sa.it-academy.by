@@ -1,0 +1,45 @@
+name: Minikube Cluster CI
+
+on:
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  minikube-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Minikube
+        run: |
+          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+      - name: Record start time
+        run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
+
+      - name: Start Minikube cluster
+        run: |
+          minikube start --driver=docker --kubernetes-version=stable --wait=all
+
+      - name: Record end time
+        run: |
+          END_TIME=$(date +%s)
+          echo "Cluster startup time: $((END_TIME - START_TIME)) seconds"
+
+      - name: Show cluster info
+        run: |
+          kubectl cluster-info
+          kubectl get nodes -o wide
+
+      - name: Show Minikube version
+        run: |
+          minikube version
+
+      - name: Stop Minikube
+        run: |
+          minikube stop
+
