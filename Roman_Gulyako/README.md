@@ -6,4 +6,5 @@
 ###### [Homework 6: Docker](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/07.Docker)
 ###### [Homework 7: Docker.Docker-compose](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/08.Docker.Docker-compose)
 ###### [Homework 8: Kubernetes](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/09.Kubernetes)
-###### [Homework 9: Kubernetes installation](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/10.Kubernetes installation)
+###### [Homework 9: Kubernetes installation](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/10.Kubernetes.Installation)
+###### [Homework 10: Kubernetes. Basic objects](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/11.K8s.Basic.Objects)
