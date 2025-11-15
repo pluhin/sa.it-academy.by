@@ -8,3 +8,4 @@
 ###### [Homework 8: Kubernetes](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/09.Kubernetes)
 ###### [Homework 9: Kubernetes installation](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/10.Kubernetes.Installation)
 ###### [Homework 10: Kubernetes. Basic objects](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/11.K8s.Basic.Objects)
+###### [Homework 11: Kubernetes. Data. Security](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/12.K8s.Data.Security)
