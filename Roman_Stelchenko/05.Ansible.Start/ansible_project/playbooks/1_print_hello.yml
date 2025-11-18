@@ -1,0 +1,6 @@
+- name: "Homework Assignment 1: Setting Up Ansible"
+  hosts: localhost
+  tasks:
+   - name: Print hello
+     debug:
+       msg: Hello, Ansible!
