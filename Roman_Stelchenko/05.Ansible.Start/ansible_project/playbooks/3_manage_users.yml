@@ -1,0 +1,45 @@
+- name: "Homework Assignment 3: Managing Users and Groups"
+  gather_facts: false
+  hosts: "{{ group | default('all_workers') }}"
+
+  vars:
+    user_to_add: "{{ user | default('default_user') }}"
+    group_to_add: "{{ user_group | default('default_group') }}"
+    password_to_add: "{{ user_password | default('!') }}"
+
+  tasks:
+  - name: Print debug info
+    debug:
+      msg: "Creating user {{ user_to_add }} with group {{ group_to_add }}"
+
+  - name: Creating group {{ group_to_add }}
+    group:
+      name: "{{ group_to_add }}"
+      state: present
+
+  - name: Creating user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      groups: "{{ group_to_add }}"
+      password: "{{ password_to_add }}"
+      comment: Managed by ansible
+      state: present
+
+  - name: Check user info
+    command: "id {{ user_to_add }}"
+    register: user_info
+    changed_when: false
+
+  - debug:
+      msg: "{{ user_info.stdout_lines }}"
+
+# Just to clean
+  - name: Removing user {{ user_to_add }}
+    user:
+      name: "{{ user_to_add }}"
+      state: absent
+
+  - name: Removing group {{ group_to_add }}
+    group:
+      name: "{{ group_to_add }}"
+      state: absent
