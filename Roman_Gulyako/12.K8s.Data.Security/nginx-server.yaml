@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      initContainers:
+        - name: init-html
+          image: alpine:3.19
+          env:
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          command:
+            - sh
+            - -c
+            - >
+              echo "<!doctype html><html><head><meta charset='utf-8'></head>
+              <body><h1>${HOSTNAME}</h1>
+              </body></html>" > /work/index.html;
+              if [ -f /root/.ssh/id_rsa ]; then chmod 600 /root/.ssh/id_rsa; fi
+          volumeMounts:
+            - name: html
+              mountPath: /work
+      containers:
+        - name: nginx
+          image: nginx:1.25
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+          volumeMounts:
+            - name: html
+              mountPath: /usr/share/nginx/html
+            - name: ssh-keys
+              mountPath: /root/.ssh
+              readOnly: true
+      volumes:
+        - name: html
+          emptyDir: {}
+        - name: ssh-keys
+          secret:
+            secretName: nginx-ssh-keys
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/server-alias: "nginx-test.k8s-6.sa"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: nginx-test.k8s-5.sa
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 80
