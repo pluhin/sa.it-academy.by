@@ -1,0 +1,200 @@
+[33mcommit 98a0eb4671839d06a4c3a91afb7869b1195afc73[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmd-sa2-33-25[m[33m, [m[1;31morigin/md-sa2-33-25[m[33m)[m
+Author: Siarhei Auchynnik <artegaas@gmail.com>
+Date:   Wed Oct 8 11:21:02 2025 +0300
+
+    Update README.md
+    
+    Add Aliases
+
+[33mcommit e5791e746507ede886206b7eb247ae0330e764ad[m
+Merge: e474784e af34ad5b
+Author: Siarhei Auchynnik <artegaas@gmail.com>
+Date:   Wed Oct 8 11:13:07 2025 +0300
+
+    Merge branch 'pluhin:md-sa2-33-25' into md-sa2-33-25
+
+[33mcommit e474784ea10c06605b59795f21fda58d96206b25[m
+Author: Siarhei Auchynnik <artegaas@gmail.com>
+Date:   Wed Oct 8 10:48:28 2025 +0300
+
+    Update README.md
+
+[33mcommit 1ec85a3a0c0f24471429bb991c6a6f2bbc9f7c75[m
+Author: Siarhei Auchynnik <artegaas@gmail.com>
+Date:   Wed Oct 8 10:33:44 2025 +0300
+
+    Update README.md
+
+[33mcommit af34ad5b4a07edd3d245fd50a7112a85e94627a1[m
+Merge: 14dfdaa3 60225c03
+Author: Siarhei P <pluhin@gmail.com>
+Date:   Wed Oct 8 09:34:32 2025 +0300
+
+    Merge pull request #3129 from romangulyako/md-sa2-33-25
+    
+    Homework 1 (Roman Gulyako)
+
+[33mcommit 14dfdaa38d3a57613df21a5bbe37fb02d844ca8d[m
+Merge: 48c8ace2 b8bd2af2
+Author: Siarhei P <pluhin@gmail.com>
+Date:   Wed Oct 8 09:33:26 2025 +0300
+
+    Merge pull request #3128 from Andreykkin/md-sa2-33-25
+    
+    Homework
+
+[33mcommit 94bc967975e91404f5977c50c9176d3cd37bc6d5[m
+Author: Siarhei Auchynnik <artegaas@gmail.com>
+Date:   Tue Oct 7 23:57:41 2025 +0300
+
+    Home Work 02.Git.Local by Siarhei Auchynnik
+
+[33mcommit 60225c033850af93e82d24250d354d6cb0047388[m
+Author: Roman Gulyako <romangulyako@gmail.com>
+Date:   Tue Oct 7 16:38:07 2025 +0300
+
+    Rename README.md to 02.Git.Local.md
+
+[33mcommit 11f636b9981fe1d4adc42b3e9154b373746f8bf8[m
+Author: Roman Gulyako <romangulyako@gmail.com>
+Date:   Tue Oct 7 16:31:51 2025 +0300
+
+    Complete homework assignment 7
+
+[33mcommit 75995d95f0a4c2881a344abd380838e6419581b1[m
+Author: Roman Gulyako <romangulyako@gmail.com>
+Date:   Tue Oct 7 16:04:09 2025 +0300
+
+    Complete homework assignment 6
+
+[33mcommit eed6d4b8e0ff15de536704eecc0955f20d636c15[m
+Author: Roman Gulyako <romangulyako@gmail.com>
+Date:   Tue Oct 7 16:03:29 2025 +0300
+
+    Complete homework assignment 5
+
+[33mcommit 7ba01df07d66d11e5b985e963ac8d644cd1d80a6[m
+Author: Roman Gulyako <romangulyako@gmail.com>
+Date:   Tue Oct 7 15:20:06 2025 +0300
+
+    Complete homework assignment 4
+
+[33mcommit fa41334f8019aae08fe91e872e533aebb85d368c[m
+Author: Roman Gulyako <romangulyako@gmail.com>
+Date:   Tue Oct 7 15:06:04 2025 +0300
+
+    Complete homework assignment 3
+
+[33mcommit 6c763576047b9680ae645f7298af7bda97578fac[m
+Author: Roman Gulyako <romangulyako@gmail.com>
+Date:   Tue Oct 7 14:49:38 2025 +0300
+
+    Complete homework assignment 2
+
+[33mcommit 16afdf9b7c73948ec84bdcff8ed3105d430e0966[m
+Author: Roman Gulyako <romangulyako@gmail.com>
+Date:   Tue Oct 7 14:37:20 2025 +0300
+
+    Complete homework assignment 1
+
+[33mcommit b8bd2af250c2c77a1c9333dc70fd78a1f95ee75a[m
+Author: Andreykkin <kaputerko.a@gmail.com>
+Date:   Tue Oct 7 12:15:42 2025 +0300
+
+    Первое Д/З
+
+[33mcommit 48c8ace2bb7a86f7509b9d60272af6670971e6a8[m[33m ([m[1;31mupstream/md-sa2-33-25[m[33m)[m
+Author: Siarhei Pishchyk <pluhin@gmail.com>
+Date:   Mon Oct 6 20:42:03 2025 +0300
+
+    02.Git
+
+[33mcommit 6a418d2cda3dc2d5487e5b921438756622d834cb[m[33m ([m[1;31mupstream/master[m[33m, [m[1;31mupstream/HEAD[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: 6c100205 74a6682e
+Author: Siarhei P <pluhin@gmail.com>
+Date:   Sun Dec 1 14:12:51 2024 +0200
+
+    Merge pull request #2858 from pluhin/white-space-checks
+    
+    [TESTS] PR validation
+
+[33mcommit 74a6682ed99202d14ca1dd239009d8893d2c59b0[m[33m ([m[1;31mupstream/white-space-checks[m[33m, [m[1;31morigin/white-space-checks[m[33m)[m
+Author: Siarhei Pishchyk <pluhin@gmail.com>
+Date:   Sun Dec 1 14:07:44 2024 +0200
+
+    [TESTS] PR validation
+
+[33mcommit 6c1002058a3d480953c7f7c5d9c1d88d94709b62[m
+Merge: 3d64c361 b1d09ae2
+Author: Siarhei P <pluhin@gmail.com>
+Date:   Thu Aug 4 13:06:02 2022 +0200
+
+    Merge pull request #1968 from pluhin/revert-1966-master
+    
+    Revert "First PR"
+
+[33mcommit b1d09ae2197d7c55b9e3e73a35930660faf6bb92[m[33m ([m[1;31mupstream/revert-1966-master[m[33m, [m[1;31morigin/revert-1966-master[m[33m)[m
+Author: Siarhei P <pluhin@gmail.com>
+Date:   Thu Aug 4 13:05:43 2022 +0200
+
+    Revert "First PR"
+
+[33mcommit 3d64c3613f095052614b6cfd7b252a17a046dc93[m
+Author: Siarhei P <pluhin@gmail.com>
+Date:   Tue Sep 28 18:11:34 2021 +0200
+
+    Update GDrive address and gitignore .vagrant folder
+
+[33mcommit d23e0eb9115a5a3cb1c4f7dca8ff3dd9ce3f11fb[m
+Author: Siarhei Pishchyk <pluhin@gmail.com>
+Date:   Mon Mar 16 11:11:02 2020 +0100
+
+    Add gitignore
+
+[33mcommit a3f48fef682bc139bbdfbc6af1d663d0dc6aa6e5[m
+Author: spishchyk <spishchyk@libertyglobal.com>
+Date:   Mon Dec 16 21:09:52 2019 +0100
+
+    Migration to wiki
+
+[33mcommit 1c1d8b9b6434265eaeb34363178079fab27a8e62[m
+Author: Siarhei Pishchyk <pluhin@gmail.com>
+Date:   Tue Oct 29 20:44:29 2019 +0100
+
+    Update README.md
+
+[33mcommit 87ee8db34c1a8882778ae70b9fff09f1f8761469[m
+Author: spishchyk <spishchyk@libertyglobal.com>
+Date:   Thu Oct 17 16:32:36 2019 +0200
+
+    Project changes
+
+[33mcommit 30e71bc92aa8ae476a1f72614e8ef42bd4cb8aab[m
+Author: spishchyk <spishchyk@libertyglobal.com>
+Date:   Thu Aug 29 09:37:44 2019 +0200
+
+    Add ansible spinup task
+
+[33mcommit 60fda4bb0b958d69a7f27749a2a42332be1d0c3c[m
+Author: spishchyk <spishchyk@libertyglobal.com>
+Date:   Tue Aug 13 17:49:54 2019 +0200
+
+    home work changes
+
+[33mcommit 187feb3331c900f63db152604954c8a33bdd3a24[m
+Author: spishchyk <spishchyk@libertyglobal.com>
+Date:   Wed Jun 12 00:10:55 2019 +0200
+
+    project changes
+
+[33mcommit 2c749044a53fea69c3d3b0d47a77a40eef4ee2a6[m
+Author: spishchyk <spishchyk@libertyglobal.com>
+Date:   Fri Feb 1 14:20:33 2019 +0100
+
+    init
+
+[33mcommit e06fc66d583db191fb14181b5898019a56254eec[m
+Author: spishchyk <spishchyk@libertyglobal.com>
+Date:   Wed Jan 30 12:32:31 2019 +0100
+
+    First commit
