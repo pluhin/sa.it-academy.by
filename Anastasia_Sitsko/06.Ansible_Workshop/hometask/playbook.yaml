@@ -1,0 +1,80 @@
+---
+- name: Install and configure nginx
+  hosts: nginx
+  become: yes
+
+  vars_files:
+    - vars.yaml
+
+  tasks:
+
+    - name: Ensure nginx is installed
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Create root directories for each site
+      file:
+        path: "{{ item.root }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop: "{{ nginx_hosts }}"
+
+    - name: Create index.html with unique content per host
+      template:
+        src: index.html.j2
+        dest: "{{ item.root }}/index.html"
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      loop: "{{ nginx_hosts }}"
+      loop_control:
+        loop_var: item
+
+    - name: Remove default nginx site if exists
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Deploy nginx config for each virtual host
+      template:
+        src: nginx.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.name }}"
+        owner: root
+        group: root
+        mode: '0644'
+      loop: "{{ nginx_hosts }}"
+
+    - name: Enable virtual hosts by creating symlinks
+      file:
+        src: "/etc/nginx/sites-available/{{ item.name }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.name }}"
+        state: link
+      loop: "{{ nginx_hosts }}"
+
+    
+    - name: Show last 20 lines of nginx journal
+      command: journalctl -xeu nginx.service -n 20 --no-pager
+      register: nginx_journal
+      ignore_errors: yes
+
+    - name: Print nginx journal
+      debug:
+        var: nginx_journal.stdout_lines
+
+    - name: Ensure nginx is started and enabled
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes
+    
+    - name: Verify websites are accessible
+      uri:
+        url: "http://localhost:{{ item.port }}/"
+        status_code: 200
+        timeout: 10
+      loop: "{{ nginx_hosts }}"
+      tags: verify

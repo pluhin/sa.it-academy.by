@@ -1,0 +1,10 @@
+nginx_hosts:
+  - name: HOST1
+    domain: host1.com
+    root: /var/www/host1
+    port: 90
+
+  - name: HOST2
+    domain: host2.com
+    root: /var/www/host2
+    port: 8080
