@@ -1,4 +1,4 @@
-№ 14. Kubernetes application deployment
+# 14. Kubernetes application deployment
 
 ## Chart structure
 ```
