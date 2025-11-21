@@ -1,0 +1,34 @@
+name: "_10-kubernetes-ws-homework-1-check-pods-status"
+
+on: workflow_dispatch
+
+jobs:
+  _10-kubernetes-ws-homework-1-check-pods-status:
+    runs-on: self-hosted
+    steps:
+      - name: Print info
+        run: echo "Run _10-kubernetes-ws-homework-1-check-pods-status"
+
+      - name: Get pods info
+        id: pods_info_step
+        env:
+          KUBECONFIG: /home/github_runner/.kube/config
+        run: |
+          has_failed=$(kubectl get pods -A -o custom-columns='PHASE:.status.phase,REASON:.status.containerStatuses[*].state.waiting.reason' | grep -Eq "Failed|CrashLoopBackOff|Unknown|Error" && echo 1 || echo 0)
+          pods_info=$(kubectl get pods -A)
+          {
+            echo "has_failed=$has_failed"
+            echo "pods_info<<EOF"
+            echo "$pods_info"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Send slack notification
+        run: |
+          has_failed=${{steps.pods_info_step.outputs.has_failed}}
+          pods_info="${{steps.pods_info_step.outputs.pods_info}}"
+
+          message_body_pattern='{"text":"%s\nCurrent pods info: ```%s```"}'
+          pods_status="$( [[ ${has_failed} = 1 ]] && echo ":red_circle: ATTENTION! Crushed pods were detected" || echo ":large_green_circle: No crushed pods were detected")"
+          message_body=$(printf "${message_body_pattern}" "${pods_status}" "${pods_info}")
+          curl -X POST -H 'Content-type: application/json' --data "${message_body}" ${{ secrets.SECRET_SLACK_WEBHOOK_URL }}
