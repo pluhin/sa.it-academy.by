@@ -10,3 +10,4 @@
 ###### [Homework 10: Kubernetes. Basic objects](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/11.K8s.Basic.Objects)
 ###### [Homework 11: Kubernetes. Data. Security](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/12.K8s.Data.Security)
 ###### [Homework 12: Kubernetes. Helm](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/13.K8s.Helm)
+###### [Homework 13: Kubernetes. Application.Deployment](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/14.K8s.Application.Deployment)
