@@ -1,0 +1,27 @@
+drupalUsername: drupal_user
+drupalPassword: drupal_pass
+
+global:
+  defaultStorageClass: nfs-client
+
+image:
+  registry: docker.io
+  repository: bitnamilegacy/drupal
+
+mariadb:
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/mariadb
+  auth:
+    username: drupal_user
+    password: drupal_pass
+    database: drupal_db
+    rootPassword: drupal_root_pass
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: drupal-app.k8s-13.sa
+  extraHosts:
+    - name: drupal-app.k8s-14.sa
+      path: /
