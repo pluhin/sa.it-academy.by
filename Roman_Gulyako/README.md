@@ -11,3 +11,4 @@
 ###### [Homework 11: Kubernetes. Data. Security](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/12.K8s.Data.Security)
 ###### [Homework 12: Kubernetes. Helm](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/13.K8s.Helm)
 ###### [Homework 13: Kubernetes. Application.Deployment](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/14.K8s.Application.Deployment)
+###### [Homework 14: Kubernetes. CI/CD](https://github.com/pluhin/sa.it-academy.by/tree/md-sa2-33-25/Roman_Gulyako/15.K8s.CI-CD)
