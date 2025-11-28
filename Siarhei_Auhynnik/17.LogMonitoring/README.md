@@ -209,7 +209,7 @@ Nov 28 10:34:55 node2 kubelet[23877]: E1128 10:34:55.832046   23877 pod_workers.
 ## Screenshot
 
 ![kubectl_log_pod.jpg](kubectl_log_pod.jpg "")
-![kubextl_logs_previous.jpg](kubextl_logs_previous.jpg "")
+![kubectl_logs_previous.jpg](kubectl_logs_previous.jpg "")
 ![ls_var_log_containers.jpg](ls_var_log_containers.jpg "")
 ![Journalctl_kublet.jpg](Journalctl_kublet.jpg "")
 
