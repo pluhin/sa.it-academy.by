@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  jenkins:
+    - apiVersion: v2
+      appVersion: latest
+      created: "2025-11-27T19:23:33.146870117Z"
+      description: A Helm chart for Jenkins CI/CD
+      digest: 750f4932f67de17a94e2b01b7b26c859e80536f499d859707fbbf81e0345ef4d
+      name: jenkins
+      type: application
+      urls:
+        - https://cyganekm.github.io/helmJenkins/jenkins-0.1.0.tgz
+      version: 0.1.0
+generated: "2025-11-27T19:23:33.123169148Z"
