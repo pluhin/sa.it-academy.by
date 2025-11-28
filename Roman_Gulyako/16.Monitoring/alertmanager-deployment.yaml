@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+  namespace: monitoring
+  labels:
+    app: alertmanager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      labels:
+        app: alertmanager
+    spec:
+      containers:
+        - name: alertmanager
+          image: prom/alertmanager
+          args:
+            - "--config.file=/etc/alertmanager/alertmanager.yaml"
+            - "--storage.path=/alertmanager"
+          ports:
+            - containerPort: 9093
+          volumeMounts:
+            - name: config
+              mountPath: /etc/alertmanager
+            - name: slack-secret
+              mountPath: /etc/alertmanager/secrets
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: alertmanager-config
+            items:
+              - key: alertmanager.yaml
+                path: alertmanager.yaml
+        - name: slack-secret
+          secret:
+            secretName: alertmanager-slack-webhook
