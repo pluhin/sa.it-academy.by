@@ -1,0 +1,40 @@
+name: Pods health check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/5 * * * *"
+
+jobs:
+  check:
+    runs-on: self-hosted
+
+    steps:
+      - name: Write kubeconfig
+        shell: bash
+        run: |
+          mkdir -p ~/.kube
+          echo "${KUBECONFIG_B64}" | base64 -d > ~/.kube/config
+          chmod 600 ~/.kube/config
+        env:
+          KUBECONFIG_B64: ${{ secrets.KUBECONFIG_B64 }}
+
+      - name: Find bad pods
+        id: pods
+        shell: bash
+        run: |
+          BAD="$(kubectl get pods -A --no-headers | egrep -v 'Running|Succeeded|Completed' || true)"
+          echo "bad<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$BAD" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Notify Slack if bad pods
+        if: ${{ steps.pods.outputs.bad != '' }}
+        shell: bash
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          BAD: ${{ steps.pods.outputs.bad }}
+        run: |
+          MSG="⚠️ Bad pods detected:\n\`\`\`\n${BAD}\n\`\`\`"
+          PAYLOAD="$(python3 -c 'import json,os; print(json.dumps({"text": os.environ["MSG"]}))' )"
+          curl -sS -X POST -H 'Content-type: application/json' --data "$PAYLOAD" "$SLACK_WEBHOOK_URL"
