@@ -5,4 +5,4 @@
 
 ## HTML screenshot:
 
-![HTML screenshot](<screenshots/Screenshot 2025-12-03 180503.png>)
+![HTML screenshot](<screenshots/Screenshot 2025-12-03 181803.png>)
