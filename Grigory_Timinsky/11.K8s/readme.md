@@ -1,4 +1,4 @@
-##10. Kubernetes installation
+# 11. Kubernetes. Basic objects
 
 nginx_deployment.yml
 
