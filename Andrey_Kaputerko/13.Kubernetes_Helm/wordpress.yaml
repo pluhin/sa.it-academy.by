@@ -1,15 +1,25 @@
+global:
+  storageClass: "standard"
+
 ingress:
   enabled: true
   ingressClassName: nginx
-  hostname: wordpress.k8s-7.sa
+  hostname: wordpress.k8s-25.sa
 
 service:
   type: ClusterIP
 
-persistence:
-  enabled: false
+wordpressUsername: "admin"
+wordpressPassword: "admin"
+wordpressEmail: "admin@example.com"
+wordpressFirstName: "Admin"
+wordpressLastName: "User"
+wordpressBlogName: "My Wordpress Blog"
 
 mariadb:
-  primary:
-    persistence:
-      enabled: false
+  enabled: true
+  auth:
+    rootPassword: "rootpassword123"
+    database: "wordpress"
+    username: "wordpress"
+    password: "wordpress123"
