@@ -11,6 +11,6 @@ helm install my-wordpress oci://registry-1.docker.io/bitnamicharts/wordpress -n 
 helm install my-drupal oci://registry-1.docker.io/bitnamicharts/drupal -n apps -f drupal.yaml
 ```
 
-![DRUPAL](<screenshots/Screenshot 2025-12-05 152125.png>)
+![DRUPAL](<screenshots/screenshot2.png>)
 
-![WP](<screenshots/Screenshot 2025-12-05 151854.png>)
+![WP](<screenshots/screenshot1.png>)
