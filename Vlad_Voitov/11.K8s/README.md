@@ -27,4 +27,4 @@ nano ingress-controller.yaml
  # add nodePort: 30001 
  kubectl apply -f ingress-controller.yaml
 ```
-![alt text]("screenshots/Screenshot 2025-12-03 150441.png")
+![msg](<screenshots/Screenshot 2025-12-03 150441.png>)
