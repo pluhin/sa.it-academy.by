@@ -1,0 +1,70 @@
+name: Docker Image Test
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: self-hosted
+    env:
+      IMAGE: ghcr.io/artegaas/flask-app
+      TAG: nonroot
+      PORT: 5000
+      CONTAINER_NAME: flask-test-nonroot
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+
+      - name: Verify environment
+        run: |
+          echo "Checking tools..."
+          git --version || echo "git missing"
+          tar --version || echo "tar missing"
+          docker --version || echo "docker missing"
+          curl --version || echo "curl missing"
+
+      - name: Login to GHCR
+        run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u artegaas --password-stdin
+
+      - name: Pull image
+        run: docker pull "${IMAGE}:${TAG}"
+
+      - name: Run container
+        run: |
+          docker run -d \
+            --name "${CONTAINER_NAME}" \
+            -p "${PORT}:${PORT}" \
+            "${IMAGE}:${TAG}"
+
+      - name: Wait for readiness
+        run: ./scripts/docker_wait.sh "http://localhost:${PORT}/" 60
+
+      - name: Test endpoint returns OK
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:${PORT}/")
+          echo "HTTP ${code}"
+          test "${code}" -ge 200 && test "${code}" -lt 400
+
+      - name: Assert non-root runtime
+        run: |
+          uid=$(docker exec "${CONTAINER_NAME}" id -u)
+          echo "Container UID: ${uid}"
+          if [ "${uid}" = "0" ]; then
+            echo "FAIL: Container runs as root"; exit 1
+          else
+            echo "PASS: Non-root (UID=${uid})"
+          fi
+
+      - name: Show logs on failure
+        if: failure()
+        run: docker logs "${CONTAINER_NAME}" || true
+
+      - name: Cleanup
+        if: always()
+        run: docker rm -f "${CONTAINER_NAME}" || true

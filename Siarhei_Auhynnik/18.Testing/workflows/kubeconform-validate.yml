@@ -1,0 +1,87 @@
+name: CI Validate
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+
+jobs:
+  # check Docker-образа
+  docker-validate:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE: ghcr.io/artegaas/flask-app
+      TAG: nonroot
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u artegaas --password-stdin
+
+      - name: Pull Docker image
+        run: docker pull "${IMAGE}:${TAG}"
+
+      - name: Run container test
+        run: |
+          docker run --rm "${IMAGE}:${TAG}" id -u | grep -q "1000"
+
+      - name: Notify Docker result
+        if: always()
+        run: |
+          status="${{ job.status }}"
+          branch="${{ github.ref_name }}"
+          echo "Workflow: Docker Validate" > msg.txt
+          echo "Branch: $branch" >> msg.txt
+          echo "Result: $status" >> msg.txt
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d text="$(cat msg.txt)"
+
+  # check manifests
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      files: ${{ steps.collect.outputs.files }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Collect manifests
+        id: collect
+        run: |
+          files=$(bash scripts/collect_manifests.sh | jq -R -s -c 'split("\n") | map(select(length>0))')
+          echo "files=${files}" >> "$GITHUB_OUTPUT"
+
+  validate:
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        file: ${{ fromJson(needs.discover.outputs.files) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install kubeconform
+        run: |
+          curl -L https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz \
+            | tar xz
+          sudo mv kubeconform /usr/local/bin/
+      - name: Validate manifest
+        run: kubeconform -summary -strict -exit-on-error "${{ matrix.file }}"
+
+  notify-manifests:
+    needs: [validate]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Send Telegram notification
+        run: |
+          status="${{ needs.validate.result }}"
+          branch="${{ github.ref_name }}"
+          echo "Workflow: Kubeconform Validate" > msg.txt
+          echo "Branch: $branch" >> msg.txt
+          echo "Result: $status" >> msg.txt
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d text="$(cat msg.txt)"
