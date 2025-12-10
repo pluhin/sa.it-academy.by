@@ -1,0 +1,21 @@
+- name: Verify user and group configuration
+  hosts: remotes
+  become: yes
+
+  tasks:
+    - name: Check if group exists
+      command: "getent group {{ target_group | default('ansible_group') }}"
+      register: group_check
+      changed_when: false
+
+    - name: Check if user exists
+      command: "id {{ target_user | default('ansible_user') }}"
+      register: user_check
+      changed_when: false
+
+    - name: Display verification results
+      debug:
+        msg: |
+          Group check: {{ group_check.rc == 0 | ternary('EXISTS', 'MISSING') }}
+          User check: {{ user_check.rc == 0 | ternary('EXISTS', 'MISSING') }}
+          User details: {{ user_check.stdout if user_check.rc == 0 else 'User not found' }}

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-index
+data:
+  index.php: |
+    <?php
+    echo "<h1>" . gethostname() . "</h1>";
+    ?>

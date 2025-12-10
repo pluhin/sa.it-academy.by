@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: github-runner
+  template:
+    metadata:
+      labels:
+        app: github-runner
+    spec:
+      containers:
+        - name: runner
+          image: myoung34/github-runner:latest
+          env:
+            - name: REPO_URL
+              valueFrom:
+                secretKeyRef:
+                  name: github-runner-secret
+                  key: GH_URL
+            - name: RUNNER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: github-runner-secret
+                  key: GH_TOKEN
+            - name: RUNNER_NAME
+              value: "k8s-runner-1"
+            - name: RUNNER_LABELS
+              value: "k8s,self-hosted"
+            - name: RUNNER_WORKDIR
+              value: "/tmp/github-runner"
+          volumeMounts:
+            - name: work
+              mountPath: /tmp/github-runner
+      volumes:
+        - name: work
+          emptyDir: {}

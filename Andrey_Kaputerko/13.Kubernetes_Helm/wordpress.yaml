@@ -1,0 +1,15 @@
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: wordpress.k8s-7.sa
+
+service:
+  type: ClusterIP
+
+persistence:
+  enabled: false
+
+mariadb:
+  primary:
+    persistence:
+      enabled: false

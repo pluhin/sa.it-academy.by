@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  alertmanager.yaml: |-
+    global:
+      resolve_timeout: 5m
+
+    route:
+      receiver: slack-notifications
+      group_by: ['alertname','namespace','pod']
+      group_wait: 10s
+      group_interval: 2m
+      repeat_interval: 30m
+      routes:
+        - matchers:
+            - severity="slack"
+          receiver: slack-notifications
+
+    receivers:
+      - name: slack-notifications
+        slack_configs:
+          - api_url_file: /etc/alertmanager/secrets/webhook_url
+            channel: "#devops-alerts"
+            send_resolved: true
+            title: "{{ .CommonAnnotations.summary }}"
+            text: >-
+              *Alert:* {{ .CommonLabels.alertname }}
+              *Severity:* {{ .CommonLabels.severity }}
+              *Namespace:* {{ .CommonLabels.kubernetes_namespace }}
+              *Pod:* {{ .CommonLabels.kubernetes_pod_name }}
+              *Details:* {{ .CommonAnnotations.description }}

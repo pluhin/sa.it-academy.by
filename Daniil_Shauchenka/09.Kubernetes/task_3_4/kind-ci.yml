@@ -1,0 +1,35 @@
+name: KinD Cluster CI
+
+on:
+  push:
+    branches: ["kind"]
+
+jobs:
+  kind-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Record start time
+        run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
+
+      - name: Set up KinD cluster
+        uses: helm/kind-action@v1.9.0
+        with:
+          version: v0.21.0
+          node_image: kindest/node:v1.29.0
+          cluster_name: ci-cluster
+
+
+      - name: Record end time
+        run: |
+          END_TIME=$(date +%s)
+          echo "Cluster startup time: $((END_TIME - START_TIME)) seconds"
+
+      - name: Show cluster info
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+

@@ -1,0 +1,9 @@
+all_workers:
+  children:
+    work_sa:
+      hosts:
+        host13:
+          ansible_host: 192.168.202.13
+        host14:
+          ansible_host: 192.168.202.14
+

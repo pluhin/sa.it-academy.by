@@ -1,0 +1,70 @@
+name: KinD Cluster Setup
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  setup-kind-cluster:
+    name: Setup KinD Kubernetes Cluster
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup KinD
+      run: |
+        curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
+        chmod +x ./kind
+        sudo mv ./kind /usr/local/bin/
+
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/
+
+        kind --version
+        kubectl version --client
+
+    - name: Create KinD Cluster
+      run: |
+        echo "🕒 Starting cluster creation at $(date)"
+        start_time=$(date +%s)
+
+        # Создаем кластер с нашим конфигом
+        kind create cluster --name github-actions-cluster --wait 5m
+
+        end_time=$(date +%s)
+        duration=$((end_time - start_time))
+        echo "CLUSTER_CREATION_TIME=${duration}" >> $GITHUB_ENV
+        echo "✅ Cluster created in ${duration} seconds"
+
+    - name: Gather Cluster Metrics
+      run: |
+        echo "📊 Gathering cluster information..."
+
+        NODE_COUNT=$(kubectl get nodes -o json | jq -r '.items | length')
+        echo "NODE_COUNT=${NODE_COUNT}" >> $GITHUB_ENV
+
+        K8S_VERSION=$(kubectl version -o json | jq -r '.serverVersion.gitVersion')
+        echo "K8S_VERSION=${K8S_VERSION}" >> $GITHUB_ENV
+
+        echo "🔍 Node Status:"
+        kubectl get nodes -o wide
+
+        echo "🔍 System Pods Status:"
+        kubectl get pods -n kube-system
+
+    - name: Display Results
+      run: |
+        echo "   KIND CLUSTER SETUP COMPLETED!"
+        echo "=================================="
+        echo "   Cluster Metrics:"
+        echo "   Number of nodes: $NODE_COUNT"
+        echo "   Kubernetes version: $K8S_VERSION"
+        echo "   Creation time: $CLUSTER_CREATION_TIME seconds"
+        echo ""
+        echo "Cluster is ready for testing!"
+        echo "Use 'kubectl' commands to interact with the cluster"

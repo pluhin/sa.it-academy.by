@@ -1,0 +1,19 @@
+- name: "Homework Assignment 2: Managing Remote Hosts"
+  gather_facts: false
+  hosts: all_workers
+  tasks:
+   - name: Print debug info
+     debug:
+       msg: Starting htop installation on host {{ inventory_hostname }}”
+
+   - name: Install htop
+     apt:
+       pkg:
+         - htop
+
+   - name: Check htop version
+     shell: htop --version
+     register: out
+
+   - debug:
+      msg: "{{ out.stdout_lines }}"

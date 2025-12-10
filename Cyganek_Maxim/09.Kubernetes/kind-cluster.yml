@@ -1,0 +1,15 @@
+name: KinD Cluster
+
+on: [push]
+
+jobs:
+  setup-kind:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: container-tools/kind-action@v1
+        with:
+          name: test-cluster
+      - run: |
+          kubectl get nodes
+          kubectl cluster-info

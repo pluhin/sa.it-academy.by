@@ -1,0 +1,15 @@
+---
+- hosts: all_workers
+  tasks:
+    - name: Create group
+      group:
+        name: "{{ dev_group }}"
+        state: present
+
+    - name: Create user
+      user:
+        name: "{{ new_user }}"
+        group: "{{ dev_group }}"
+        shell: /bin/bash
+        password: "{{ 'password' | password_hash('sha512') }}"
+        state: present

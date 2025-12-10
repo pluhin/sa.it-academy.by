@@ -1,0 +1,27 @@
+wordpressUsername: wordpress_user
+wordpressPassword: wordpress_pass
+
+global:
+  defaultStorageClass: nfs-client
+
+image:
+  registry: docker.io
+  repository: bitnamilegacy/wordpress
+
+mariadb:
+  enabled: false
+
+externalDatabase:
+  host: 192.168.201.7
+  port: 3306
+  user: wordpress_user
+  password: wordpress_pass
+  database: wordpress_db
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: wordpress-external-db-app.k8s-13.sa
+  extraHosts:
+    - name: wordpress-external-db-app.k8s-14.sa
+      path: /
