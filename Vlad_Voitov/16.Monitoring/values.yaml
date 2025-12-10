@@ -53,7 +53,7 @@ alertmanager:
     receivers:
     - name: "slack-default"
       slack_configs:
-      - api_url: "https://hooks.slack.com/services/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"
+      - api_url: "MY_SLACK_WEBHOOK"
         channel: "#monitoring"
         send_resolved: true
         title: "[{{ .CommonLabels.severity | toUpper }}] {{ .CommonAnnotations.summary }}"
