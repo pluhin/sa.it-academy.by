@@ -1,0 +1,39 @@
+name: Kubernetes health check
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: latest
+
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+
+      - name: Check failed pods
+        run: |
+          FAILED=$(kubectl get pods -A | grep -Ev 'Running|Completed')
+          echo "$FAILED"
+          if [ -n "$FAILED" ]; then
+            echo "FAILED_PODS=true" >> $GITHUB_ENV
+          fi
+
+      - name: Slack notification
+        if: env.FAILED_PODS == 'true'
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "⚠ Kubernetes error detected:\n${FAILED}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
