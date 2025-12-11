@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: printer-deployment
+  labels:
+    app: printer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: printer
+  template:
+    metadata:
+      labels:
+        app: printer
+    spec:
+      containers:
+      - name: printer
+        image: alpine:3.18
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            i=0
+            while true; do
+              echo "printer-deployment: count=$i time=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+              i=$((i+1))
+              sleep 1
+            done
+        resources:
+          limits:
+            cpu: "100m"
+            memory: "64Mi"
+          requests:
+            cpu: "10m"
+            memory: "16Mi"
