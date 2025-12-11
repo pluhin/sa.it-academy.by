@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: failing-app-alt
+  namespace: log-monitoring
+  labels:
+    app: failing-app-alt
+spec:
+  restartPolicy: OnFailure
+  containers:
+    - name: crasher
+      image: alpine:3.18
+      imagePullPolicy: IfNotPresent
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          ts=$(date -u +"%Y-%m-%dT%H:%M:%S%z" | sed 's/\(.\{2\}\)$/:\1/')
+          printf "%s failing-app-alt: about to exit with code 1\n" "$ts"
+          exit 1
