@@ -1,0 +1,30 @@
+namespace:
+  name: ci-cd
+adminAddress: "cyganek.maxim@gmail.com"
+jenkins:
+  replicas: 1
+  image: jfrog.it-academy.by/public/jenkins-ci:cyganek
+  JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+  CASC_JENKINS_CONFIG: /var/jenkins_home/casc_configs/jenkins.yaml
+  httpPort: 8080
+  jnlpPort: 5000
+  resources:
+    requests:
+      cpu: 2
+      memory: 2Gi
+    limits:
+      cpu: 3
+      memory: 3Gi
+  nfs:
+    server: 192.168.37.105
+    path: /mnt/IT-Academy/nfs-data/sa2-33-25/Cyganek_Maxim/jenkins
+ingress:
+  enabled: true
+  className: nginx
+  host: jenkins.k8s-15.sa
+secret:
+  password: c2VjcmV0
+credentials:
+  github:
+    username: git_hub_user
+    password: "XXXXXXXXXXX"

@@ -1,0 +1,46 @@
+name: Deploy Web Site to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: 
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+
+    - name: Uoload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: '04.GitOps/03.static-web-site'
+
+    - name: Build success message
+      run: echo "Build completed successfully!"
+
+  deploy:
+      environment:
+        name: github-pages
+        url: ${{ steps.deployment.outputs.page_url }}
+
+      runs-on: ubuntu-latest
+
+      needs: build
+
+      if: github.ref == 'refs/heads/main'
+
+      steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

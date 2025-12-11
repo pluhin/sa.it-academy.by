@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to {{ ansible_hostname }}</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to {{ ansible_hostname }}</h1>
+        
+        <div class="info-box">
+            <h2>Server Information</h2>
+            <p><strong>Host Name:</strong> <span class="server-info">{{ ansible_hostname }}</span></p>
+        </div>
+
+        <div class="info-box">
+            <h2>System Details</h2>
+            <p><strong>Operating System:</strong> {{ ansible_distribution }} {{ ansible_distribution_version }}</p>
+            <p><strong>Kernel:</strong> {{ ansible_kernel }}</p>
+            <p><strong>Architecture:</strong> {{ ansible_architecture }}</p>
+        </div>
+    </div>
+</body>
+</html>

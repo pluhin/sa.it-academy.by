@@ -1,0 +1,68 @@
+name: Minikube Cluster Setup
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  setup-minikube-cluster:
+    name: Setup Minikube Kubernetes Cluster
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Minikube and kubectl
+      run: |
+        curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
+        sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/
+
+        minikube version
+        kubectl version --client
+
+    - name: Start Minikube Cluster
+      run: |
+        echo "Starting cluster creation at $(date)"
+        start_time=$(date +%s)
+
+        minikube start --driver=docker --wait=all
+
+        end_time=$(date +%s)
+        duration=$((end_time - start_time))
+        echo "CLUSTER_CREATION_TIME=${duration}" >> $GITHUB_ENV
+        echo "Cluster created in ${duration} seconds"
+
+    - name: Gather Cluster Metrics
+      run: |
+        echo "Gathering cluster information..."
+
+        NODE_COUNT=$(kubectl get nodes -o json | jq -r '.items | length')
+        echo "NODE_COUNT=${NODE_COUNT}" >> $GITHUB_ENV
+
+        K8S_VERSION=$(kubectl version -o json | jq -r '.serverVersion.gitVersion')
+        echo "K8S_VERSION=${K8S_VERSION}" >> $GITHUB_ENV
+
+        echo "Node Status:"
+        kubectl get nodes -o wide
+
+        echo "System Pods Status:"
+        kubectl get pods -n kube-system
+
+    - name: Display Results
+      run: |
+        echo "   MINIKUBE CLUSTER SETUP COMPLETED!"
+        echo "======================================"
+        echo "   Cluster Metrics:"
+        echo "   Number of nodes: $NODE_COUNT"
+        echo "   Kubernetes version: $K8S_VERSION"
+        echo "   Creation time: $CLUSTER_CREATION_TIME seconds"
+        echo ""
+        echo "Cluster is ready for testing!"
+        echo "Use 'kubectl' commands to interact with the cluster"

@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:mysql://mysql-db:3306/userdb
+    username: appuser
+    password: apppass
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.example.demo: INFO

@@ -1,0 +1,70 @@
+alertmanager:
+  enabled: true
+  config:
+    global:
+      slack_api_url: 'Slack Webhook Url'
+    route:
+      group_by: ['alertname', 'cluster']
+      group_wait: 10s
+      group_interval: 10s
+      repeat_interval: 1h
+      receiver: 'slack-default'
+      routes:
+        - match:
+            alertname: NodeHighCpuUsage
+          receiver: slack-default
+        - match:
+            alertname: NodeHighMemoryUsage
+          receiver: slack-default
+        - match:
+            severity: critical
+          receiver: slack-critical
+          repeat_interval: 30m
+    receivers:
+      - name: 'slack-default'
+        slack_configs:
+          - channel: '#all-alerts'
+            send_resolved: true
+            title: "{{ .GroupLabels.alertname }}"
+            text: |-
+              {{ range .Alerts }}
+              *Оповещение:* {{ .Annotations.summary }}
+              *Описание:* {{ .Annotations.description }}
+              *Node:* {{ .Labels.instance }}
+              *Pod:* {{ .Labels.pod }}
+              *Время:* {{ .StartsAt }}
+              *Важность:* {{ .Labels.severity }}
+              {{ end }}
+
+      - name: 'slack-default'
+        slack_configs:
+          - channel: '#all-alerts'
+            send_resolved: true
+            title: "⚠️ WARNING: {{ .GroupLabels.alertname }}"
+            color: 'warning'
+            text: |-
+              {{ range .Alerts }}
+              *Оповещение:* {{ .Annotations.summary }}
+              *Описание:* {{ .Annotations.description }}
+              *Node:* {{ .Labels.instance }}
+              *Pod:* {{ .Labels.pod }}
+              *Время:* {{ .StartsAt }}
+              *Важность:* {{ .Labels.severity }}
+              {{ end }}
+
+      - name: 'slack-critical'
+        slack_configs:
+          - channel: '#critical-alerts'
+            send_resolved: true
+            title: "🚨 CRITICAL: {{ .GroupLabels.alertname }}"
+            color: 'danger'
+            text: |-
+              {{ range .Alerts }}
+              *Оповещение:* {{ .Annotations.summary }}
+              *Описание:* {{ .Annotations.description }}
+              *Node:* {{ .Labels.instance }}
+              *Pod:* {{ .Labels.pod }}
+              *Время:* {{ .StartsAt }}
+              *Важность:* {{ .Labels.severity }}
+              {{ end }}
+

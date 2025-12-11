@@ -1,0 +1,48 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    app: kube-prometheus-stack
+    release: prometheus
+  name: node-resource-alerts
+  namespace: monitoring
+spec:
+  groups:
+  - name: node-resource-usage
+    rules:
+    - alert: NodeHighCpuUsage
+      expr: |
+        100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 40
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Высокое использование CPU на ноде {{ $labels.instance }}"
+        description: "Нода {{ $labels.instance }} использует более 40% CPU в течение 5 минут. Текущее значение: {{ $value }}%."
+    - alert: NodeHighMemoryUsage
+      expr: |
+        (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 40
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Высокое использование памяти на ноде {{ $labels.instance }}"
+        description: "Нода {{ $labels.instance }} использует более 40% памяти. Текущее значение: {{ $value }}%."
+    - alert: NodeCriticalCpuUsage
+      expr: |
+        100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+      for: 3m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Критическое использование CPU на ноде {{ $labels.instance }}"
+        description: "Нода {{ $labels.instance }} использует более 80% CPU в течение 3 минут. Текущее значение: {{ $value }}%."
+    - alert: NodeCriticalMemoryUsage
+      expr: |
+        (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 80
+      for: 3m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Критическое использование памяти на ноде {{ $labels.instance }}"
+        description: "Нода {{ $labels.instance }} использует более 80% памяти. Текущее значение: {{ $value }}%."

@@ -1,0 +1,16 @@
+---
+- name: Install package on remote host
+  hosts: remote
+  become: yes
+  tasks:
+    - name: Ensure vim is installed
+      apt:
+        name: vim
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Ensure htop is installed
+      yum:
+        name: htop
+        state: present
+      when: ansible_os_family == "RedHat"

@@ -1,0 +1,21 @@
+name: Run Hello script
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  run-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Run script
+      run: python 04.GitOps/01.script/hello.py

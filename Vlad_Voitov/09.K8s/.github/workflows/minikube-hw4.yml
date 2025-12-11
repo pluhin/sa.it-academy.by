@@ -1,0 +1,67 @@
+name: HW4 - Minikube cluster on PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: hw4-minikube-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  minikube:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.32.2'
+
+      - name: Cache minikube downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.minikube/cache
+          key: ${{ runner.os }}-minikube-cache-v1
+
+      - name: Install minikube
+        run: |
+          set -euo pipefail
+          curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          chmod +x minikube
+          sudo mv minikube /usr/local/bin/minikube
+          minikube version
+
+      - name: Start minikube (timed)
+        run: |
+          set -euo pipefail
+          start=$(date +%s)
+          minikube start --driver=docker --wait=all --wait-timeout=180s
+          end=$(date +%s)
+          echo "spinup_seconds=$((end-start))"
+          minikube status
+
+      - name: Report nodes / k8s version
+        run: |
+          set -euo pipefail
+          echo "=== Nodes ==="
+          kubectl get nodes -o wide
+          echo "nodes_total=$(kubectl get nodes --no-headers | wc -l)"
+
+          echo "=== Kubernetes version ==="
+          kubectl version --short || true
+
+          echo "=== Cluster info ==="
+          kubectl cluster-info
+          kubectl get pods -A
+
+      - name: Debug (always)
+        if: always()
+        run: |
+          minikube logs --length=200 || true
+          docker ps -a || true

@@ -1,0 +1,38 @@
+kubectl describe pod github-runner-585446b584-6pf6p -n default --context k8sapiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-runner
+  labels:
+    app: github-runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: github-runner
+  template:
+    metadata:
+      labels:
+        app: github-runner
+    spec:
+      containers:
+      - name: runner
+        image: myoung34/github-runner:latest
+        env:
+        - name: REPO_URL
+          value: https://github.com/ArtegaAS/11K8S
+        - name: RUNNER_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: github-runner-secret
+              key: GH_TOKEN
+        - name: RUNNER_NAME
+          value: k8s-runner
+        - name: RUNNER_WORKDIR
+          value: /tmp/runner
+        - name: RUNNER_GROUP
+          value: Default
+        - name: LABELS
+          value: k8s,self-hosted
+        - name: ORG_RUNNER
+          value: "false"  # ← поставь "true", если хочешь подключить к организации
+      restartPolicy: Always

@@ -1,0 +1,90 @@
+- name: "Homework Assignment 1: Configuration Management"
+  gather_facts: false
+  hosts: "{{ group | default('all_workers') }}"
+
+  vars:
+    nginx_data_directory: /var/www
+    nginx_port: "{{ arg_nginx_port | default(2222)  }}"
+    nginx_site_available_path: /etc/nginx/sites-available
+    nginx_site_enabled_path: /etc/nginx/sites-enabled
+    template_nginx_conf_path: ../templates/nginx.conf_template.j2
+    template_index_html_path: ../templates/index.html_template.j2
+    nginx_hosts:
+      - webserver1-itacademy.com
+      - webserver2-itacademy.com
+
+  tasks:
+
+  - name: Print debug info
+    debug:
+      msg: Starting nginx configuration on host {{ inventory_hostname }}”
+
+  - name: "Install Nginx"
+    apt:
+      name: "nginx"
+      state: present
+
+  - name: Create nginx configurations from template for hosts
+    template:
+      src: "{{ template_nginx_conf_path }}"
+      dest: "{{ nginx_site_available_path }}/{{ item }}.conf"
+    loop: "{{ nginx_hosts }}"
+
+  - name: Create links to configs
+    file:
+      dest: "{{ nginx_site_enabled_path }}/{{ item }}.conf"
+      src: "{{ nginx_site_available_path }}/{{ item }}.conf"
+      state: link
+    loop: "{{ nginx_hosts }}"
+
+  - name: Create nginx data directory
+    file:
+      path: "{{ nginx_data_directory }}/{{ item }}"
+      state: directory
+    loop: "{{ nginx_hosts }}"
+
+  - name: Create index.html from template and copy to the data directory for each host
+    template:
+      src: "{{ template_index_html_path }}"
+      dest: "{{ nginx_data_directory }}/{{ item }}/index.html"
+    loop: "{{ nginx_hosts }}"
+
+  - name: Disable default site
+    file:
+      path: "{{ nginx_site_enabled_path }}/default"
+      state: absent
+
+  - name: Add web server names to /etc/hosts
+    become: yes
+    lineinfile:
+      path: /etc/hosts
+      regexp: '.*\s{{ item }}$'
+      line: "{{ ansible_default_ipv4.address | default('127.0.0.1') }} {{ item }}"
+      state: present
+    loop: "{{ nginx_hosts }}"
+
+  - name: Restart nginx
+    service:
+      name: nginx
+      state: restarted
+
+  - name: Verify that nginx is running
+    service:
+      name: nginx
+      state: started
+      enabled: yes
+
+  - name: Send request to each host and check that returned page contains correct data
+    uri:
+      url: "http://{{ item }}:{{ nginx_port }}"
+      return_content: yes
+    failed_when: item not in page_response.content
+    loop: "{{ nginx_hosts }}"
+    register: page_response
+
+  - name: Print page response from each host
+    debug:
+      msg: "{{ item.item }}: {{ item.content }}"
+    loop: "{{ page_response.results }}"
+    loop_control:
+     label: "{{ item.item }}"

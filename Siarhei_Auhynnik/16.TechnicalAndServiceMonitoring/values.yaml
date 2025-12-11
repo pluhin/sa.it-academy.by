@@ -1,0 +1,90 @@
+grafana:
+  enabled: true
+  service:
+    type: ClusterIP
+    port: 80
+  grafana.ini:
+    server:
+      domain: grafana.k8s-1.sa
+      root_url: http://grafana.k8s-1.sa
+      serve_from_sub_path: false
+  adminPassword: "XXXXXX"
+  defaultDashboardsEnabled: true
+
+prometheus:
+  enabled: true
+  service:
+    type: ClusterIP
+    port: 9090
+  prometheusSpec:
+    externalLabels:
+      cluster: "k8s-1"
+    ruleSelectorNilUsesHelmValues: false
+    ruleNamespaceSelector: {}
+    ruleSelector:
+      matchLabels:
+        release: kube-prometheus-stack
+
+alertmanager:
+  enabled: true
+  alertmanagerSpec:
+    externalUrl: http://alertmanager.k8s-1.sa
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: local-path
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 1Gi
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      receiver: "slack-default"
+      group_by: ["namespace", "pod"]
+      group_wait: 30s
+      group_interval: 2m
+      repeat_interval: 2h
+      routes:
+      - match:
+          alertname: Watchdog
+        receiver: "slack-default"
+    receivers:
+    - name: "slack-default"
+      slack_configs:
+      - api_url: "My_Slack_WH_URL"
+        channel: "#monitoring"
+        send_resolved: true
+        title: "[{{ .CommonLabels.severity | toUpper }}] {{ .CommonAnnotations.summary }}"
+        text: "{{ .CommonAnnotations.description }}\nLabels: {{ .CommonLabels }}"
+
+
+prometheusRule:
+  additionalRules:
+    - name: pod-overload
+      groups:
+        - name: pod-overload
+          rules:
+            - alert: PodCpuOverload
+              expr: sum by (namespace, pod) (rate(container_cpu_usage_seconds_total{container!="",container!="POD"}[2m])) > 0.5
+              for: 2m
+              labels:
+                severity: warning
+              annotations:
+                summary: "CPU overload on pod {{ $labels.pod }}"
+                description: "Pod {{ $labels.pod }} in {{ $labels.namespace }} has CPU usage > 0.5 core for 2m."
+            - alert: PodMemoryOverload
+              expr: |
+                sum by (namespace, pod) (
+                  container_memory_usage_bytes{container!="",pod!=""}
+                  /
+                  container_spec_memory_limit_bytes{container!="",pod!=""}
+                ) > 0.5
+              for: 2m
+              labels:
+                severity: warning
+              annotations:
+                summary: "Memory overload on pod {{ $labels.pod }}"
+                description: "Pod {{ $labels.pod }} in {{ $labels.namespace }} is using more than 50% of its memory limit for 2m."
+

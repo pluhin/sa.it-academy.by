@@ -1,0 +1,44 @@
+name: "[09.Kubernetes] GitHub Action for Minikube setup"
+
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  _09-kubernetes-minikube-setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print start info
+        run: echo "Run 09-kubernetes-homework-4 minikube setup"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install minikube
+        run: |
+          curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
+          sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+
+      - name: Create cluster
+        id: create_minikube_cluster
+        run: |
+          start=$(date +%s)
+          minikube start --driver=docker
+          end=$(date +%s)
+          echo "cluster_spinup_time=$(( end - start ))" >> "$GITHUB_OUTPUT"
+
+      - name: Check cluster info
+        run: |
+          echo "Contexts: "
+          kubectl config get-contexts
+          echo "Nodes: "
+          kubectl get nodes
+          echo "Pods: "
+          kubectl get pods -A
+
+      - name: Print report
+        run: |
+          echo "Minikube report:"
+          echo "Number of nodes: $(kubectl get nodes --no-headers | wc -l)"
+          echo "Kubernetes version: { $(kubectl version) }"
+          echo "Spin-up time: ${{ steps.create_minikube_cluster.outputs.cluster_spinup_time }} seconds"

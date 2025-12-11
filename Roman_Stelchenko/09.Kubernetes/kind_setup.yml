@@ -1,0 +1,46 @@
+name: "[09.Kubernetes] GitHub Action for KinD setup"
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  _09-kubernetes-kind-setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print start info
+        run: echo "Run 09-kubernetes-homework-3 kind setup"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install kind
+        run: |
+          [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.30.0/kind-linux-amd64
+          [ $(uname -m) = aarch64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.30.0/kind-linux-arm64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+
+      - name: Create cluster
+        id: create_kind_cluster
+        run: |
+          start=$(date +%s)
+          kind create cluster --name kind-cluster-homework-3
+          end=$(date +%s)
+          echo "cluster_spinup_time=$(( end - start ))" >> "$GITHUB_OUTPUT"
+
+      - name: Check cluster info
+        run: |
+          echo "Contexts: "
+          kubectl config get-contexts
+          echo "Nodes: "
+          kubectl get nodes
+          echo "Pods: "
+          kubectl get pods -A
+
+      - name: Print report
+        run: |
+          echo "KinD report:"
+          echo "Number of nodes: $(kubectl get nodes --no-headers | wc -l)"
+          echo "Kubernetes version: { $(kubectl version) }"
+          echo "Spin-up time: ${{ steps.create_kind_cluster.outputs.cluster_spinup_time }} seconds"

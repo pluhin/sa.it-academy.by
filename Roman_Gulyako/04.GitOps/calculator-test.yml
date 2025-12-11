@@ -1,0 +1,36 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Run tests with Maven
+      working-directory: 04.GitOps/02.calculator
+      run: mvn clean test
+
+    - name: Test Report Success
+      if: success()
+      run: |
+        echo "All tests passed!"
+        echo "BUILD SUCCESS - All tests completed successfully"
+        
+    - name: Test Report Failure
+      if: failure()
+      run: |
+        echo "Some tests failed!"
+        echo "BUILD FAILED - Check the test reports above for details"

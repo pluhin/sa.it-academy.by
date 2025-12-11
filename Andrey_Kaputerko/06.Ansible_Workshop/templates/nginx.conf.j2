@@ -1,0 +1,52 @@
+user {{ nginx_user }};
+worker_processes {{ nginx_worker_processes | default('auto') }};
+{% if nginx_worker_rlimit_nofile is defined %}
+worker_rlimit_nofile {{ nginx_worker_rlimit_nofile }};
+{% endif %}
+
+
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections {{ nginx_worker_connections | default('1024')}};
+    {% if nginx_multi_accept is defined and nginx_multi_accept %}
+    multi_accept on;
+    {% endif %}
+    {% if nginx_use_epoll is defined and nginx_use_epoll %}
+    use epoll;
+    {% endif %}
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    sendfile {{ nginx_sendfile | default('on') }};
+    tcp_nopush {{ nginx_tcp_nopush | default('on') }};
+    tcp_nodelay {{ nginx_tcp_nodelay | default('on') }};
+    {% if nginx_keepalive_timeout is defined %}
+    keepalive_timeout {{ nginx_keepalive_timeout | default('60') }};
+    {% endif %}
+    {% if nginx_keepalive_requests is defined %}
+    keepalive_requests {{ nginx_keepalive_requests }};
+    {% endif %}
+    types_hash_max_size {{ nginx_types_hash_max_size | default(2048) }};
+    server_tokens {{ nginx_server_tokens | default('off') }};
+
+    gzip {{ nginx_gzip | default('on') }};
+    {% if nginx_gzip_types is defined %}
+    gzip_types {{ nginx_gzip_types }};
+    {% endif %}
+    {% if nginx_gzip_min_length is defined %}
+    gzip_min_length {{ nginx_gzip_min_length }};
+    {% endif %}
+    {% if nginx_gzip_comp_level is defined %}
+    gzip_comp_level {{ nginx_gzip_comp_level | default('6')}};
+    {% endif %}
+
+    
+
+
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+}

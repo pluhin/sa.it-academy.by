@@ -1,0 +1,144 @@
+name: Multi-Environment application CI/CD
+
+on:
+  push:
+    branches: [ develop, staging, main ]
+  pull_request:
+    branches: [ develop, staging, main ]
+
+env:
+  JAVA_VERSION: '17'
+  PROJECT_DIR: '04.GitOps/04.multi-env-app'
+
+permissions:
+  contents: read
+
+jobs:
+  determine-environment:
+    name: Determine Environment
+    runs-on: ubuntu-latest
+    outputs:
+      profile: ${{ steps.set-env.outputs.profile }}
+      environment: ${{ steps.set-env.outputs.environment }}
+      should-deploy: ${{ steps.set-env.outputs.should_deploy }}
+    steps:
+    - name: Set environment variables based on branch
+      id: set-env
+      run: |
+        if [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+          echo "profile=dev" >> $GITHUB_OUTPUT
+          echo "environment=development" >> $GITHUB_OUTPUT
+          echo "should_deploy=true" >> $GITHUB_OUTPUT
+        elif [[ "${{ github.ref }}" == "refs/heads/staging" ]]; then
+          echo "profile=staging" >> $GITHUB_OUTPUT
+          echo "environment=staging" >> $GITHUB_OUTPUT
+          echo "should_deploy=true" >> $GITHUB_OUTPUT
+        elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          echo "profile=prod" >> $GITHUB_OUTPUT
+          echo "environment=production" >> $GITHUB_OUTPUT
+          echo "should_deploy=true" >> $GITHUB_OUTPUT
+        else
+          echo "profile=dev" >> $GITHUB_OUTPUT
+          echo "environment=development" >> $GITHUB_OUTPUT
+          echo "should_deploy=false" >> $GITHUB_OUTPUT
+        fi
+        echo "Environment detected: ${{ steps.set-env.outputs.environment }}"
+
+  build-and-test:
+    name: Build and Tests
+    runs-on: ubuntu-latest
+    needs: determine-environment
+    
+    outputs:
+      profile: ${{ needs.determine-environment.outputs.profile }}
+      environment: ${{ needs.determine-environment.outputs.environment }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Java ${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Run tests
+      working-directory: ${{ env.PROJECT_DIR }}
+      run: |
+        mvn clean test
+      env:
+        SPRING_PROFILES_ACTIVE: test
+
+    - name: Build application
+      working-directory: ${{ env.PROJECT_DIR }}
+      if: needs.determine-environment.outputs.should-deploy == 'true'
+      run: |
+        mvn clean package -Dspring.profiles.active=${{ needs.determine-environment.outputs.profile }} -DskipTests
+        echo "Build completed for ${{ needs.determine-environment.outputs.environment }}"
+        
+    - name: Upload build artifact
+      if: needs.determine-environment.outputs.should-deploy == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-${{ needs.determine-environment.outputs.environment }}-${{ github.sha }}
+        path: ${{ env.PROJECT_DIR }}/target/*.jar
+        retention-days: 1
+
+  deploy-dev:
+    name: Deploy to Development
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: needs.build-and-test.outputs.environment == 'development'
+
+    environment:
+      name: development
+      url: http://dev-app.romangulyako.by
+
+    steps:
+    - name: Download build artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: app-development-${{ github.sha }}
+
+    - name: Simulate deployment
+      run: echo "Deploying to DEVELOPMENT..."
+        
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: needs.build-and-test.outputs.environment == 'staging'
+    
+    environment:
+      name: staging
+      url: http://staging-app.romangulyako.by
+      
+    steps:
+    - name: Download build artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: app-staging-${{ github.sha }}
+
+    - name: Simulate deployment
+      run: echo "Deploying to STAGING..."
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: needs.build-and-test.outputs.environment == 'production'
+    
+    environment:
+      name: production
+      url: http://prod-app.romangulyako.by
+    
+    steps:
+    - name: Download build artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: app-production-${{ github.sha }}
+
+    - name: Simulate deployment
+      run: echo "Deploying to PRODUCTION..."

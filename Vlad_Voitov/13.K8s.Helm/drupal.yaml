@@ -1,0 +1,29 @@
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: drupal.k8s-3.sa
+
+service:
+  type: ClusterIP
+
+persistence:
+  enabled: false
+
+mariadb:
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/mariadb
+    tag: latest
+  auth:
+    rootPassword: secretpassword
+  primary:
+    persistence:
+      enabled: false
+
+image:
+  registry: docker.io
+  repository: bitnamilegacy/drupal
+  tag: latest
+
+drupalUsername: admin
+drupalPassword: admin

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: github-runner-pod
+spec:
+  containers:
+  - name: github-runner
+    image: ghcr.io/romastelchenko/github_runner:latest
+    env:
+      - name: GITHUB_RUNNER_URL
+        value: "https://github.com/romastelchenko/it-academy.11-kubernetes-basic-objects"
+      - name: GITHUB_RUNNER_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: secret-github-runner-token
+            key: GITHUB_RUNNER_TOKEN
+      - name: K8S_NODE_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: spec.nodeName

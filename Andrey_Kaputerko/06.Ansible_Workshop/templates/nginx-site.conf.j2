@@ -1,0 +1,29 @@
+{% for site in nginx_sites %}
+server {
+    listen {{ site.port }};
+    server_name {{ site.server_name }};
+    root {{ site.root }};
+    index index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location /status {
+        stub_status on;
+        allow 127.0.0.1;
+        deny all;
+    }
+
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header X-Content-Type-Options "nosniff" always;
+
+    # Gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/javascript application/xml+rss application/json;
+}
+{% endfor %}
