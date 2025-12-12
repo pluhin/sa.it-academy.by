@@ -1,0 +1,104 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@338.va_0a_b_50e29397">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>H 19 * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/usr/bin/env bash
+set -u
+
+TZ=&apos;Europe/Minsk&apos;
+today=$(TZ=&quot;$TZ&quot; date +%F)
+year=$(TZ=&quot;$TZ&quot; date +%Y)
+
+mkdir -p ci
+
+# --- Проверка праздников в Беларуси ---
+HOLIDAYS_URL=&quot;https://date.nager.at/api/v3/PublicHolidays/${year}/BY&quot;
+hol_json=$(curl -sS &quot;${HOLIDAYS_URL}&quot; || echo &apos;[]&apos;)
+holiday_name=$(echo &quot;$hol_json&quot; | grep &quot;\&quot;date\&quot;: \&quot;$today\&quot;&quot; | sed -E &apos;s/.*&quot;localName&quot;: *&quot;([^&quot;]*)&quot;.*/\1/&apos;)
+
+if [ -n &quot;$holiday_name&quot; ]; then
+  is_holiday=true
+else
+  is_holiday=false
+fi
+
+# --- Получение курсов BYN -&gt; USD, EUR через open.er-api.com ---
+RATES_URL=&quot;https://open.er-api.com/v6/latest/BYN&quot;
+rates_json=$(curl -sS &quot;${RATES_URL}&quot; || echo &apos;{}&apos;)
+
+usd_rate=$(echo &quot;$rates_json&quot; | grep -o &apos;&quot;USD&quot;:[^,}]*&apos; | cut -d: -f2 | tr -d &apos;&quot;&apos;)
+[ -z &quot;$usd_rate&quot; ] &amp;&amp; usd_rate=&quot;N/A&quot;
+
+eur_rate=$(echo &quot;$rates_json&quot; | grep -o &apos;&quot;EUR&quot;:[^,}]*&apos; | cut -d: -f2 | tr -d &apos;&quot;&apos;)
+[ -z &quot;$eur_rate&quot; ] &amp;&amp; eur_rate=&quot;N/A&quot;
+
+summary=&quot;Date: ${today} (tz: ${TZ})\nHoliday: ${is_holiday}\n&quot;
+[ &quot;$is_holiday&quot; = true ] &amp;&amp; summary=&quot;${summary}Holiday name: ${holiday_name}\n&quot;
+summary=&quot;${summary}Rates (1 BYN -&gt;): USD ${usd_rate}, EUR ${eur_rate} (source: open.er-api.com)&quot;
+
+# --- Текстовый отчет ---
+echo -e &quot;$summary&quot; &gt; ci/summary.txt
+
+# --- HTML отчет ---
+cat &gt; ci/report.html &lt;&lt;HTML
+&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;Daily report ${today}&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Daily report — ${today} (Europe/Minsk)&lt;/h1&gt;
+&lt;h2&gt;Holiday check&lt;/h2&gt;
+&lt;p&gt;Is holiday in Belarus today? &lt;b&gt;${is_holiday}&lt;/b&gt;&lt;/p&gt;
+$( [ &quot;$is_holiday&quot; = true ] &amp;&amp; echo &quot;&lt;p&gt;Holiday: &lt;b&gt;${holiday_name}&lt;/b&gt;&lt;/p&gt;&quot; || echo &quot;&lt;p&gt;No public holiday today.&lt;/p&gt;&quot; )
+&lt;h2&gt;Exchange rates&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;1 BYN → USD: &lt;b&gt;${usd_rate}&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;1 BYN → EUR: &lt;b&gt;${eur_rate}&lt;/b&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;Raw holiday API: ${HOLIDAYS_URL}
+Raw rates API: ${RATES_URL}&lt;/pre&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+HTML
+
+# --- Сохранение JSON для отладки ---
+echo &quot;$hol_json&quot; &gt; ci/holidays_${year}.json
+echo &quot;$rates_json&quot; &gt; ci/rates_latest.json
+
+echo &quot;Report generated: ci/report.html&quot;
+echo &quot;$summary&quot;
+</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.tasks.ArtifactArchiver>
+      <artifacts>ci/*</artifacts>
+      <allowEmptyArchive>false</allowEmptyArchive>
+      <onlyIfSuccessful>false</onlyIfSuccessful>
+      <fingerprint>false</fingerprint>
+      <defaultExcludes>true</defaultExcludes>
+      <caseSensitive>true</caseSensitive>
+      <followSymlinks>false</followSymlinks>
+    </hudson.tasks.ArtifactArchiver>
+  </publishers>
+  <buildWrappers/>
