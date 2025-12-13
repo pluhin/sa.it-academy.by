@@ -5,6 +5,7 @@
 - Развёртывание используя ArgoCD
 ![success](screenshot/prometheus-alertmanager.png)
 ![success](screenshot/alert.png)
+- ![success](screenshot/Slack-alert.png)
 - Развёртывание GRAFANA https://grafana.github.io/helm-charts используя ArgoCD grafana-application.yaml
   ![success](screenshot/grafana.png)
   - sum(container_memory_working_set_bytes{container!="POD", container!="", pod=~".+"}) by (pod)
