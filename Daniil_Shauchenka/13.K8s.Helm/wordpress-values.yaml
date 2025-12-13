@@ -1,0 +1,12 @@
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: wordpress.k8s-17.sa
+  path: /
+  pathType: Prefix
+
+service:
+  type: ClusterIP
+
+mariadb:
+  enabled: true
