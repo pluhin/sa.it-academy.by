@@ -11,3 +11,6 @@ __pycache__
 *.iml
 .project
 .vagrant
+.terraform*
+.terragrunt*
+terraform.tfstate*
