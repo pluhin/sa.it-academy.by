@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nginx-passwords
+  namespace: default
+type: Opaque
+stringData:
+  root-password: Qwerty123root
+  admin-password: Qwerty123admin
