@@ -1,0 +1,93 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+    <actions/>
+    <description></description>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@338.va_0a_b_50e29397">
+            <autoRebuild>false</autoRebuild>
+            <rebuildDisabled>false</rebuildDisabled>
+        </com.sonyericsson.rebuild.RebuildSettings>
+    </properties>
+    <scm class="hudson.scm.NullSCM"/>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers>
+        <hudson.triggers.TimerTrigger>
+            <spec>0 9 * * * </spec>
+        </hudson.triggers.TimerTrigger>
+    </triggers>
+    <concurrentBuild>false</concurrentBuild>
+    <builders>
+        <hudson.tasks.Shell>
+            <command>#!/bin/bash
+                echo &quot;Exchange rates to the Belarusian ruble for current dates&quot;
+                TODAY = $(date +%Y-%m-%d)
+                curl -sS &quot;https://api.nbrb.by/exrates/rates?ondate=${TODAY}&amp;periodicity=0&quot; &gt; exchange_rate_$TODAY.json
+                cat exchange_rate_$TODAY.json</command>
+            <configuredLocalRules/>
+        </hudson.tasks.Shell>
+    </builders>
+    <publishers>
+        <events.notify.NotifyEventsPublisher plugin="notify-events@1.6.2">
+            <token>{AQAAABAAAAAQlcEjqEl8K7en/aDRExd15WrEIlaBnBkS26f6SjYtLI4=}</token>
+            <title>$PROJECT_NAME: #$BUILD_NUMBER - $BUILD_STATUS</title>
+            <message>Build &lt;a href=&quot;$PROJECT_URL&quot;&gt;$PROJECT_NAME&lt;/a&gt;: #&lt;a href=&quot;$BUILD_URL&quot;&gt;$BUILD_NUMBER&lt;/a&gt; result with status: &lt;b&gt;$BUILD_STATUS&lt;/b&gt;
+
+                &lt;a href=&quot;$BUILD_URL/console&quot;&gt;Build log&lt;/a&gt;</message>
+            <attachBuildLog>false</attachBuildLog>
+            <attachment></attachment>
+            <onSuccess>true</onSuccess>
+            <onSuccessCustom>false</onSuccessCustom>
+            <onSuccessCustomTitle>$PROJECT_NAME: #$BUILD_NUMBER - $BUILD_STATUS</onSuccessCustomTitle>
+            <onSuccessCustomMessage>Build &lt;a href=&quot;$PROJECT_URL&quot;&gt;$PROJECT_NAME&lt;/a&gt;: #&lt;a href=&quot;$BUILD_URL&quot;&gt;$BUILD_NUMBER&lt;/a&gt; result with status: &lt;b&gt;$BUILD_STATUS&lt;/b&gt;
+
+                &lt;a href=&quot;$BUILD_URL/console&quot;&gt;Build log&lt;/a&gt;</onSuccessCustomMessage>
+            <onSuccessCustomPriority>normal</onSuccessCustomPriority>
+            <onSuccessCustomLevel>success</onSuccessCustomLevel>
+            <onSuccessCustomAttachBuildLog>false</onSuccessCustomAttachBuildLog>
+            <onSuccessCustomAttachment></onSuccessCustomAttachment>
+            <onUnstable>true</onUnstable>
+            <onUnstableCustom>false</onUnstableCustom>
+            <onUnstableCustomTitle>$PROJECT_NAME: #$BUILD_NUMBER - $BUILD_STATUS</onUnstableCustomTitle>
+            <onUnstableCustomMessage>Build &lt;a href=&quot;$PROJECT_URL&quot;&gt;$PROJECT_NAME&lt;/a&gt;: #&lt;a href=&quot;$BUILD_URL&quot;&gt;$BUILD_NUMBER&lt;/a&gt; result with status: &lt;b&gt;$BUILD_STATUS&lt;/b&gt;
+
+                &lt;a href=&quot;$BUILD_URL/console&quot;&gt;Build log&lt;/a&gt;</onUnstableCustomMessage>
+            <onUnstableCustomPriority>high</onUnstableCustomPriority>
+            <onUnstableCustomLevel>warning</onUnstableCustomLevel>
+            <onUnstableCustomAttachBuildLog>false</onUnstableCustomAttachBuildLog>
+            <onUnstableCustomAttachment></onUnstableCustomAttachment>
+            <onFailure>true</onFailure>
+            <onFailureCustom>false</onFailureCustom>
+            <onFailureCustomTitle>$PROJECT_NAME: #$BUILD_NUMBER - $BUILD_STATUS</onFailureCustomTitle>
+            <onFailureCustomMessage>Build &lt;a href=&quot;$PROJECT_URL&quot;&gt;$PROJECT_NAME&lt;/a&gt;: #&lt;a href=&quot;$BUILD_URL&quot;&gt;$BUILD_NUMBER&lt;/a&gt; result with status: &lt;b&gt;$BUILD_STATUS&lt;/b&gt;
+
+                &lt;a href=&quot;$BUILD_URL/console&quot;&gt;Build log&lt;/a&gt;</onFailureCustomMessage>
+            <onFailureCustomPriority>highest</onFailureCustomPriority>
+            <onFailureCustomAttachBuildLog>false</onFailureCustomAttachBuildLog>
+            <onFailureCustomAttachment></onFailureCustomAttachment>
+            <onAborted>true</onAborted>
+            <onAbortedCustom>false</onAbortedCustom>
+            <onAbortedCustomTitle>$PROJECT_NAME: #$BUILD_NUMBER - $BUILD_STATUS</onAbortedCustomTitle>
+            <onAbortedCustomMessage>Build &lt;a href=&quot;$PROJECT_URL&quot;&gt;$PROJECT_NAME&lt;/a&gt;: #&lt;a href=&quot;$BUILD_URL&quot;&gt;$BUILD_NUMBER&lt;/a&gt; result with status: &lt;b&gt;$BUILD_STATUS&lt;/b&gt;
+
+                &lt;a href=&quot;$BUILD_URL/console&quot;&gt;Build log&lt;/a&gt;</onAbortedCustomMessage>
+            <onAbortedCustomPriority>normal</onAbortedCustomPriority>
+            <onAbortedCustomLevel>info</onAbortedCustomLevel>
+            <onAbortedCustomAttachBuildLog>false</onAbortedCustomAttachBuildLog>
+            <onAbortedCustomAttachment></onAbortedCustomAttachment>
+        </events.notify.NotifyEventsPublisher>
+    </publishers>
+    <buildWrappers>
+        <org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper plugin="credentials-binding@702.vfe613e537e88">
+            <bindings>
+                <org.jenkinsci.plugins.credentialsbinding.impl.StringBinding>
+                    <credentialsId>notify_events_token</credentialsId>
+                    <variable>TOKEN</variable>
+                </org.jenkinsci.plugins.credentialsbinding.impl.StringBinding>
+            </bindings>
+        </org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper>
+    </buildWrappers>
+</project>
