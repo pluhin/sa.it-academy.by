@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-index
+  namespace: test
+data:
+  index.php: |
+    <?php
+      echo "<h1>Pod: " . gethostname() . "</h1>";
+    ?>
