@@ -1,0 +1,45 @@
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - prometheus.k8s-17.sa
+    paths:
+      - /
+    pathType: Prefix
+
+alertmanager:
+  enabled: true
+
+  alertmanagerSpec:
+    replicas: 1
+    secrets:
+      - alertmanager-telegram
+
+  config:
+    global:
+      resolve_timeout: 5m
+
+    route:
+      receiver: telegram-notifications
+      group_by: ["alertname", "namespace", "pod"]
+      group_wait: 10s
+      group_interval: 1m
+      repeat_interval: 2m
+
+    receivers:
+    - name: telegram-notifications
+      telegram_configs:
+      - bot_token_file: /etc/alertmanager/secrets/alertmanager-telegram/BOT_TOKEN
+        chat_id: 5422554942
+        parse_mode: Markdown
+        message: |
+          🚨 *{{ .Status | toUpper }}*
+          *Alert:* {{ .CommonLabels.alertname }}
+          *Namespace:* {{ .CommonLabels.namespace }}
+          *Pod:* {{ .CommonLabels.pod }}
+          *Severity:* {{ .CommonLabels.severity }}
+          *Description:* {{ .CommonAnnotations.description }}
+    - name: "null"
+
+
