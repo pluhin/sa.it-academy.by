@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: test
+spec:
+  replicas: 4
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+
+  selector:
+    matchLabels:
+      app: nginx
+
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+
+      initContainers:
+      - name: init-copy-index
+        image: busybox
+        command:
+          - sh
+          - -c
+          - |
+            cp /config/index.php /work/index.php
+        volumeMounts:
+        - name: app
+          mountPath: /work
+        - name: index
+          mountPath: /config
+
+      containers:
+      - name: nginx
+        image: nginx:1.25
+        ports:
+        - containerPort: 80
+
+        volumeMounts:
+        - name: app
+          mountPath: /var/www/html
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d
+        - name: keys
+          mountPath: /root/.ssh
+          readOnly: true
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "300m"
+            memory: "256Mi"
+
+      - name: php-fpm
+        image: php:8.2-fpm
+        ports:
+        - containerPort: 9000
+
+        volumeMounts:
+        - name: app
+          mountPath: /var/www/html
+        - name: keys
+          mountPath: /root/.ssh
+          readOnly: true
+
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "300m"
+            memory: "256Mi"
+
+      volumes:
+      - name: app
+        emptyDir: {}
+
+      - name: index
+        configMap:
+          name: nginx-index
+
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+
+      - name: keys
+        secret:
+          secretName: nginx-keys
