@@ -1,4 +1,4 @@
-# 10. Kubernetes installation
+# 14. Kubernetes application deployment
 
 ## Jenkins Deployment with Helm
 
