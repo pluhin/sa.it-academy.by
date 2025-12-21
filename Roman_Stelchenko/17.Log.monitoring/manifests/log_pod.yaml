@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logtest
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: logtest
+  template:
+    metadata:
+      labels:
+        app: logtest
+    spec:
+      containers:
+      - name: logtest
+        image: busybox:1.36
+        command:
+          - sh
+          - -c
+          - |
+            while true; do
+              echo "Host: $(hostname), Date: $(date)"
+              sleep 10
+            done
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "32Mi"
+          limits:
+            cpu: "500m"
+            memory: "64Mi"
