@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: loadtest
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loadtest
+  namespace: loadtest
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: loadtest
+  template:
+    metadata:
+      labels:
+        app: loadtest
+    spec:
+      containers:
+      - name: loadtest
+        image: busybox:1.36
+        command:
+          - sh
+          - -c
+          - |
+            while true; do
+              BURST="$(awk 'BEGIN{srand(); printf "%d\n", 200+int(rand()*400)}')"
+              SLEEP="$(awk 'BEGIN{srand(); printf "%d\n", 3600+int(rand()*7200)}')"
+              echo "burst=${BURST}s sleep=${SLEEP}s"
+              end=$(( $(date +%s) + BURST ))
+              while [ "$(date +%s)" -lt "$end" ]; do :; done
+              sleep "$SLEEP"
+            done
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "32Mi"
+          limits:
+            cpu: "500m"
+            memory: "64Mi"

@@ -3,7 +3,7 @@
 ## Homework progress table
 |  Homework No |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| STATUS | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| STATUS | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
 
 ## Homework details
 ### 02. GIT. Local
@@ -44,3 +44,6 @@ Please find solutions in 14.Kubernetes.app.deployment folder
 
 ### 15. Kubernetes CI CD
 Please find solutions in 15.Kubernetes.CI.CD folder
+
+### 16. Technical and service monitoring
+Please find solutions in 16.Technical.and.service.monitoring folder
