@@ -1,0 +1,25 @@
+global:
+  storageClass: "standard"
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: wordpress.k8s-25.sa
+
+service:
+  type: ClusterIP
+  
+wordpressUsername: "admin"
+wordpressPassword: "admin123"
+wordpressEmail: "admin@example.com"
+wordpressFirstName: "Admin"
+wordpressLastName: "User"
+wordpressBlogName: "My Wordpress Blog"
+
+mariadb:
+  enabled: true
+  auth:
+    rootPassword: "rootpassword123"
+    database: "wordpress"
+    username: "wordpress"
+    password: "wordpress123"

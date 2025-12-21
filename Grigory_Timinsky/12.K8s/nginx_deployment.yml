@@ -1,0 +1,136 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-index-html
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Welcome to nginx!</title>
+    </head>
+    <body>
+      <h1>Pod: HOSTNAME</h1>
+    </body>
+    </html>
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: nginx-passwords
+  namespace: default
+spec:
+  encryptedData:
+    admin-password: AgA6pOhAl7RssEGJUfNj1ssFpcW/MWWBZJ0+9l44Ci9WS4yYLsZbw3S12yGb1EdugYyWa3aRhXz4DQE/rzfiuaWTk5gYNa0dDzTihZ8QTC/dXTWUdqWyrM1P5wvmi5a6TVp1PlocQ27bfZHnFWmJ7W++uQZBzDxK9gMPkEFBOubfIWZPhPPVRX8svLfkVp9jXdF4j08YupHvGwpGPx+EbQXlUiBd3oXqX/U7bzY4iFGcdcEyvhSCacanmmzeQNry6rudgb/k0zHyuID3ONZ22UImGZ+BBWUGAP+9zSSRk8QBvKGXi1/UgZFzxCv3lbHwA69nOacOL4kyEpkU2+Ewze4FNYqOEzHYYDlD99eXO3PydE9pw1evZOnzYWUUr+2A2/9bgjmpIhZo9aCjLFWgzXnHQ0pfGkCssNbh9+O4iu0D9Mxnb0RoHtWXUhmnvz4DEHm5qS04Z+y/K58XBe75vgrGnhdkBkZ7/XJTA/XObqg/L+9WxOTVdl6mOF29w5uDvGAllse/1fPs1Kya4KeoSMqIZkHAuL1CtVhIO+plD8H9JVFgx0ceVZ/OEhm3gSgAjZ/G9rj2CLbf7jB3ByviDaecUgUhr3J9pHtKEv+uFVQYweLUJqe+MpYWqKuiMeQ/WXzdEfFkEBBycocY4LR3eQToAEbTz7yBsMdjVg/BeqzCWyYrs5a7/4tleG/RmTwg91sifa6Ukdzn+7MQElDb1Q==
+    root-password: AgBeX+B8cg4hs4jxjr0qNIXUd2Kr4M4BSJNe4wWEyqpKgKIY4h/9rrQpwnqXwarPrRCgwl/glbHyS6QRNt03a7kTV2eLwRSRKv3FzYuceE7EwxwvDP9+q/gmZ+rJXZ+9RUIB2gr3QRO2C6a3NNoKuA6hugRUMqzA39m553EJi4ozOk7u6SHWJgPh17ZAyRiBSJPeFC8wnf7dqfpyOIto+G9c6xOmazuP2TyPs4J9d8yyBlHMTIZKkncpQS90JiZ3tiVapNZVC5zilIBoXPdyRxHC82diOBrk/EFEJj71e/7DplWUHmnhXb5sbvWl/cSv8MAuuYvO017cXsdz6onan1uX83psNTrFOyvrq/Ng31A7HCqTJ7lOcmbO0yDzyTrYj2x1EzxmA5bi4DhaaZokV6PLDXUuziHzIZ9KMJLjLvo5Q21vqHXkxwnHdaQnlLKajvCCtAA4HlRU4tvq9jFKExWOihsPaEmXCHrsOdpUHuah05wwyg7hhjmhUTRv/Ulk61M2P4iaTbPWdNNKGkJXVndQGqiBax+u74nZywRj5RZ3iaThnK1/M3SFDTCm+LsWqVwBhSrQDbfONSITy+zGyi9YT8T1tbNTSuAp89bVpvYLbNwzr8sF+VVvMIKYYj0t28QL9xTefQf0iYzFLKost7B5hoEcrt2+Y7gC+qU+OJD6jSOKm/1m7Dv7vWHTq4918PFCVpfF2z1atlqqG+FE
+  template:
+    metadata:
+      name: nginx-passwords
+      namespace: default
+    type: Opaque
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      initContainers:
+        - name: replace-hostname
+          image: busybox
+          command: ['sh', '-c', 'sed "s/HOSTNAME/$POD_NAME/g" /templates/index.html > /html/index.html']
+          volumeMounts:
+            - name: nginx-templates
+              mountPath: /templates
+            - name: nginx-html
+              mountPath: /html
+          securityContext:
+            runAsUser: 0
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+      containers:
+        - name: nginx
+          image: nginx:1.25-alpine
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts:
+            - name: nginx-html
+              mountPath: /usr/share/nginx/html
+              readOnly: true
+          securityContext:
+            runAsUser: 0
+      volumes:
+        - name: nginx-templates
+          configMap:
+            name: nginx-index-html
+        - name: nginx-html
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-sa
+  annotations:
+    nginx.ingress.kubernetes.io/server-alias: "app.k8s-26.sa"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: app.k8s-25.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80

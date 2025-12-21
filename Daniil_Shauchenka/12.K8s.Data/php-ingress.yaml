@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: php-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: php-test.k8s-17.sa
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: php-service
+            port:
+              number: 80

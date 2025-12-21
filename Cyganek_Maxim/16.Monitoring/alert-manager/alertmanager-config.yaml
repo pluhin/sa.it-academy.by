@@ -1,0 +1,79 @@
+# alertmanager-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  alertmanager.yml: |
+    global:
+      slack_api_url: 'https://hooks.slack.com/services/XXXXXXXXXX/XXXXXXXXXXX/XXXXXXXXXXXXXXX'
+      # smtp_smarthost: 'smtp.gmail.com:587'
+      # smtp_from: 'alertmanager@example.com'
+      # smtp_auth_username: 'user@gmail.com'
+      # smtp_auth_password: 'password'
+    route:
+      group_by: ['alertname', 'cluster', 'service']
+      group_wait: 10s
+      group_interval: 10s
+      repeat_interval: 1h
+      receiver: 'slack-notifications'
+      routes:
+        - match:
+            severity: critical
+          receiver: 'slack-critical'
+          continue: true
+        - match:
+            severity: warning
+          receiver: 'slack-warnings'
+          continue: true
+        - match:
+            severity: test
+          receiver: 'slack-test'
+          continue: true
+    receivers:
+      - name: 'slack-notifications'
+        slack_configs:
+          - channel: '#prometheus-alert'
+            title: '{{ template "slack.default.title" . }}'
+            text: '{{ template "slack.default.text" . }}'
+            icon_emoji: ':prometheus:'
+            send_resolved: true
+            actions:
+              - type: button
+                text: "📊 Open Prometheus"
+                url: "http://prometheus.k8s-15.sa"
+              - type: button
+                text: "🚨 Open AlertManager"
+                url: "http://alertmanager.k8s-15.sa"
+      - name: 'slack-critical'
+        slack_configs:
+          - channel: '#prometheus-alert'
+            title: '🚨 CRITICAL: {{ .GroupLabels.alertname }}'
+            text: |
+              *Severity:* {{ .CommonLabels.severity }}
+              *Summary:* {{ .CommonAnnotations.summary }}
+              *Description:* {{ .CommonAnnotations.description }}
+              *Affected:* {{ range .Alerts }}{{ .Labels.instance }} {{ end }}
+            icon_emoji: ':fire:'
+            color: 'danger'
+      - name: 'slack-warnings'
+        slack_configs:
+          - channel: '#prometheus-alert'
+            title: '⚠️ WARNING: {{ .GroupLabels.alertname }}'
+            text: |
+              {{ range .Alerts }}
+              *Alert:* {{ .Labels.alertname }}
+              *Summary:* {{ .Annotations.summary }}
+              *Pod:* {{ .Labels.pod }}
+              *Namespace:* {{ .Labels.namespace }}
+              {{ end }}
+            icon_emoji: ':warning:'
+      - name: 'slack-test'
+        slack_configs:
+          - channel: '#prometheus-alert'
+            title: '🧪 TEST: {{ .GroupLabels.alertname }}'
+            text: 'This is a test alert from AlertManager. Please ignore.'
+            icon_emoji: ':test_tube:'
+    templates:
+      - '/etc/alertmanager/templates/*.tmpl'

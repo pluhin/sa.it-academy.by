@@ -1,0 +1,57 @@
+name: Pod Monitor with Telegram Alerts
+
+on:
+#  schedule:
+#    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  check-pods:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup SSH and check pods
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          
+          cat > ~/.ssh/config << EOF
+          Host bastion
+            HostName ${{ secrets.BASTION_HOST }}
+            User ${{ secrets.BASTION_USER }}
+            Port ${{ secrets.BASTION_PORT }}
+            StrictHostKeyChecking no
+            UserKnownHostsFile /dev/null
+            IdentityFile ~/.ssh/id_rsa
+          
+          Host k8s-node
+            HostName ${{ secrets.K8S_NODE }}
+            User ${{ secrets.K8S_NODE_USER }}
+            ProxyJump bastion
+            StrictHostKeyChecking no
+            UserKnownHostsFile /dev/null
+            IdentityFile ~/.ssh/id_rsa
+          EOF
+          
+          ssh k8s-node "kubectl get pods -A --field-selector=status.phase!=Running" > failing_pods.txt
+
+      - name: Send Telegram alert
+        run: |
+          if [ -s failing_pods.txt ]; then
+            FAILING_PODS=$(cat failing_pods.txt)
+            curl -s -X POST \
+              "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+              -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+              -d "text=❌ K8s Pod Alert: Failed pods detected: $FAILING_PODS"
+          else
+            curl -s -X POST \
+              "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+              -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+              -d "text=✅ K8s Cluster Healthy: All pods running at $(date +'%Y-%m-%d %H:%M:%S')"
+          fi
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -f ~/.ssh/id_rsa failing_pods.txt

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-deployment
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: phpapp
+  template:
+    metadata:
+      labels:
+        app: phpapp
+    spec:
+      containers:
+      - name: php
+        image: php:8.2-apache
+        volumeMounts:
+        - name: index-page
+          mountPath: /var/www/html/index.php
+          subPath: index.php
+        - name: ssh-keys
+          mountPath: /root/.ssh
+        ports:
+        - containerPort: 80
+      volumes:
+      - name: index-page
+        configMap:
+          name: nginx-index
+      - name: ssh-keys
+        secret:
+          secretName: ssh-keys

@@ -1,0 +1,12 @@
+nginx_hosts:
+  host11:
+    name: HOST11
+    domain: host11.com
+    root: /var/www/host11
+    port: 8080
+
+  host12:
+    name: HOST12
+    domain: host12.com
+    root: /var/www/host12
+    port: 8080

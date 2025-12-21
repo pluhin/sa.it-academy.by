@@ -1,0 +1,40 @@
+# alertmanager-templates.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-templates
+  namespace: monitoring
+data:
+  slack.tmpl: |
+    {{ define "slack.default.title" -}}
+    {{ if eq .Status "firing" }}🔥{{ else }}✅{{ end }} [{{ .Status | toUpper }}] {{ .GroupLabels.SortedPairs.Values | join " " }}
+    {{- end }}
+    {{ define "slack.default.text" -}}
+    {{ range .Alerts }}
+    *Alert:* {{ .Labels.alertname }}
+    *Severity:* {{ .Labels.severity }}
+    *Status:* {{ .Status }}
+    {{- if .Annotations.summary }}
+    *Summary:* {{ .Annotations.summary }}
+    {{- end }}
+    {{- if .Annotations.description }}
+    *Description:* {{ .Annotations.description }}
+    {{- end }}
+    {{- if .Labels.instance }}
+    *Instance:* {{ .Labels.instance }}
+    {{- end }}
+    {{- if .Labels.pod }}
+    *Pod:* {{ .Labels.pod }}
+    {{- end }}
+    {{- if .Labels.namespace }}
+    *Namespace:* {{ .Labels.namespace }}
+    {{- end }}
+    {{- if .StartsAt }}
+    *Started:* {{ .StartsAt.Format "2006-01-02 15:04:05 UTC" }}
+    {{- end }}
+    {{- if .GeneratorURL }}
+    *Link:* <{{ .GeneratorURL }}|Prometheus>
+    {{- end }}
+    ---
+    {{ end }}
+    {{- end }}

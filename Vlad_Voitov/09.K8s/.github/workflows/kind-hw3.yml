@@ -1,0 +1,54 @@
+name: HW3 - Kind cluster setup
+
+on:
+  push:
+    branches:
+      - kind-hw3
+
+concurrency:
+  group: hw3-kind-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  kind-cluster:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.32.2'
+
+      - name: Install kind
+        run: |
+          set -euo pipefail
+          curl -Lo kind https://kind.sigs.k8s.io/dl/v0.27.0/kind-linux-amd64
+          chmod +x kind
+          sudo mv kind /usr/local/bin/kind
+          kind version
+
+      - name: Create kind cluster (timed)
+        run: |
+          set -euo pipefail
+          start=$(date +%s)
+          kind create cluster --name gha-hw3 --wait 120s
+          end=$(date +%s)
+          echo "spinup_seconds=$((end-start))"
+
+      - name: Report nodes / k8s version
+        run: |
+          set -euo pipefail
+          echo "=== Nodes ==="
+          kubectl get nodes -o wide
+          echo "nodes_total=$(kubectl get nodes --no-headers | wc -l)"
+
+          echo "=== Kubernetes version ==="
+          kubectl version --short || true
+
+          echo "=== Cluster info ==="
+          kubectl cluster-info
+          kubectl get pods -A

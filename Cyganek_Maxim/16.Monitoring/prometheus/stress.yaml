@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-hog
+  namespace: monitoring
+spec:
+  containers:
+    - name: cpu-hog
+      image: vish/stress
+      resources:
+        limits:
+          cpu: "1"
+      args:
+        - -cpus
+        - "1"
