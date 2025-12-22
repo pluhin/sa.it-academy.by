@@ -1,0 +1,120 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1559.va_a_533730b_ea_d">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2277.v00573e73ddf1"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2277.v00573e73ddf1">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>5</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+        <removeLastBuild>false</removeLastBuild>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@338.va_0a_b_50e29397">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>CUSTOM_DATE</name>
+          <description>Custom date for holiday check(YYYY-MM-DD)</description>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <hudson.triggers.TimerTrigger>
+          <spec>TZ=Europe/Warsaw
+04 18 * * *</spec>
+        </hudson.triggers.TimerTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@4218.vff679a_5c0f3a_">
+    <script>pipeline {
+    agent any
+        stages {
+            stage(&apos;Init report file&apos;) {
+                steps {
+                    sh &quot;rm -rf report.txt &amp;&amp; touch report.txt&quot;
+                }
+            }
+            stage(&apos;Check holiday&apos;) {
+                steps {
+                    withEnv([&quot;CUSTOM_DATE=${params.CUSTOM_DATE}&quot;]){
+                        sh &apos;&apos;&apos;
+                    		date_to_check=&quot;$(date +%F)&quot;
+                    	    result_message=&quot;*Holiday check for today($date_to_check): *&quot;
+                    		if [ -n &quot;${CUSTOM_DATE}&quot; ]; then
+                    		  date_to_check=${CUSTOM_DATE}
+                        	  result_message=&quot;*Holiday check for custom date($date_to_check): *&quot;
+                    		fi
+
+                    		year=&quot;$(date -d &quot;$date_to_check&quot; +%Y)&quot;
+                    
+                    		curl &quot;https://date.nager.at/api/v3/PublicHolidays/${year}/BY&quot; -o holiday_rs.json
+                    
+                    		holiday_rs=$(cat holiday_rs.json)
+              			    elem_with_date=&quot;$(printf &quot;%s&quot; &quot;$holiday_rs&quot; | grep -o &quot;\\&quot;date\\&quot;[[:space:]]*:[[:space:]]*\\&quot;$date_to_check\\&quot;[^}]*}&quot; | head -n1)&quot;
+                    	    if [ -n &quot;${elem_with_date}&quot; ]; then
+                    		  holiday_name=&quot;$(printf &quot;%s&quot; &quot;${elem_with_date}&quot; | grep -o &quot;\\&quot;name\\&quot;[[:space:]]*:[[:space:]]*\\&quot;[^\\&quot;]*\\&quot;&quot; | head -n1 | sed -E &quot;s/.*\\&quot;name\\&quot;[[:space:]]*:[[:space:]]*\\&quot;([^\\&quot;]*)\\&quot;.*/\\1/&quot;)&quot;
+                    		  result_message+=&quot;:blush: Today is a holiday: $holiday_name&quot;
+                    		else
+                    		  result_message+=&quot;:cry: Today is not a holiday&quot;
+                    		fi
+                    		echo &quot;${result_message}&quot;
+                    		echo &quot;${result_message}&quot; &gt;&gt; report.txt
+                        &apos;&apos;&apos;
+                    }
+                }
+            }
+            stage(&apos;Check exchange rate&apos;) {
+                steps {
+                    sh &apos;&apos;&apos;
+                        curl &quot;https://api.frankfurter.app/latest?from=USD&amp;to=EUR,GBP&quot; -o exchange_rate_rs.json
+                	    exchange_rate_rs=&quot;$(cat exchange_rate_rs.json)&quot;
+                        rates=&quot;$(printf &apos;%s&apos; &quot;$exchange_rate_rs&quot; | sed -E &quot;s/.*\\&quot;rates\\&quot;:[[:space:]]*\\{([^}]*)\\}.*/\\1/&quot;)&quot;
+                		echo &quot;${rates}&quot;
+                		echo &quot;*Exchange rate check for USD*: ${rates}&quot; &gt;&gt; report.txt
+                    &apos;&apos;&apos;
+                }
+            }
+        } 
+    post {
+        always {
+          script {
+            def status_emoji = [
+              &apos;SUCCESS&apos; : &apos;:large_green_circle:&apos;,
+              &apos;FAILURE&apos; : &apos;:red_circle:&apos;
+            ]
+            def status = currentBuild.currentResult ?: &apos;UNKNOWN&apos;
+            def emoji  = status_emoji.get(status, &apos;:large_yellow_circle:&apos;)
+            def report = fileExists(&apos;report.txt&apos;) ? readFile(&apos;report.txt&apos;).trim() : &apos;&apos;
+            def notify_message = &quot;*Jenkins job:* ${env.JOB_NAME}\n*Build:* #${env.BUILD_NUMBER}\n*Status:* ${emoji} ${status}&quot;
+            if (report) {
+              notify_message += &quot;\n&quot; + report
+            }
+            slackSend(channel: &apos;#itacademy-notifications&apos;, message: notify_message)
+          }
+        }
+    }
+}
+</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
