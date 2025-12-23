@@ -1,0 +1,24 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: pod-cpu-alerts
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  groups:
+  - name: pod-cpu
+    rules:
+    - alert: PodHighCpuUsage
+      expr: |
+        sum by (namespace, pod) (
+          rate(container_cpu_usage_seconds_total{
+            image!="",
+            container!="POD"
+          }[1m])
+        ) > 0.2
+      for: 30s
+      labels:
+        severity: critical
+      annotations:
+        description: Pod {{ $labels.pod }} is using high CPU
