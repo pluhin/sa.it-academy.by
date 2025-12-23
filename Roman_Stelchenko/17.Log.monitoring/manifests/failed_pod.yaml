@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logtest-failed
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: logtest-failed
+  template:
+    metadata:
+      labels:
+        app: logtest-failed
+    spec:
+      containers:
+      - name: logtest-failed
+        image: busybox:1.36
+        command:
+          - sh
+          - -c
+          - -e
+          - |
+            while true; do
+              loops_n="$(awk 'BEGIN{srand(); printf "%d\n", 3+int(rand()*4)}')"
+              echo "Loops before crash: $loops_n"
+              i=1
+              while [ "$i" -le "$loops_n" ]; do
+                echo "Host: $(hostname), Date: $(date)"
+                sleep 1
+                i=$((i+1))
+              done
+              cd /unknown/directory
+            done
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "32Mi"
+          limits:
+            cpu: "500m"
+            memory: "64Mi"

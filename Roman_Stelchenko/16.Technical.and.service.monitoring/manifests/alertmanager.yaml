@@ -1,0 +1,118 @@
+apiVersion: v1
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  config.yml: |-
+    global:
+
+    route:
+      receiver: slack
+      group_by: ["alertname", "namespace","pod","container"]
+      group_wait: 10s
+      repeat_interval: 30m
+
+    receivers:
+    - name: slack
+      slack_configs:
+      - api_url_file: /etc/alertmanager/secrets/slack_webhook_url
+        channel: itacademy-notifications
+        title: "{{ .CommonLabels.alertname }}"
+        text: "{{ .CommonAnnotations.description }}"
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: alertmanager-slack-webhook-url
+  namespace: monitoring
+spec:
+  encryptedData:
+    slack_webhook_url: AgAutgw2buZ+MyVprIcz0jZS4a+L2fDrz0MzCy7r/Wu639X82GE/0GmRW5CZvvJc+XH6Ejw96jD0L3qv20N7qc0nGftdA9EBI2yHaXgLkCr4QoS7ofQqpMOpureqrzqTa17kKBfZzVj3/PlDUg8mYYv52/xYMEln4x/TBpBlpyxv1+YUqNApsLK/SIffOjKx3rmye9I50gQe4kR/iwUf+uJfoUI4D6IGki+yA+4COnfK1WakXxCU2edpm1ZHw7ggurEPV3buLBuCSF07tlvIbjX43AKjeU0jk8r/KcNGqxOypDy1SHQJQmrHwIM3p5m9xaP1ss+dwqXyRL8CrGpAMGPIfLa7fpYfEM1HlY4L2IzXrFEr3R6QUIWNcP8jMoACpDTLFBO4W6PwcIRm74JODB43/Fd0NrfevXaWdTFm5Yr/UDTpCBSU1WHo9Tjx/ksUeHFssWEH2UITmHB/VJwIcDOwVtzAvE95mv2dXDcpTwybJgaKnPZvl4ogohWZQnODE7OriEeY+bsk4ZI099X1uTYmaavV60qTe3OLg1B9E5r405SrmHQSoAB3RpuYrSZtKJ6SuAKPJhPROtRuYTIy+SDnNWKnH/0W2dUb5Wm8nPeHLA5bM691DIkgg6ejaYlk6qYifEq4DSji72/jGnIyKhs0dQJUEt9U6Zq/mGjmo2jVOH0+Gr05NKpyZ6hb9BpHMNHbENTsiXz/T9MFjgaN5uJxsJw68VZdjpKm7JMYJ+jRW49ycFnIUNmmwR/hMg2eIMo3khpn2f1spePMmKoMPcxfwOWsdAHyveBG6TyEDoXrQlY=
+  template:
+    metadata:
+      name: alertmanager-slack-webhook-url
+      namespace: monitoring
+    type: Opaque
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager-deployment
+  namespace: monitoring
+  labels:
+    app: alertmanager-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager-server
+  template:
+    metadata:
+      labels:
+        app: alertmanager-server
+    spec:
+      containers:
+      - name: alertmanager
+        image: prom/alertmanager:latest
+        args:
+          - "--config.file=/etc/alertmanager/config.yml"
+          - "--storage.path=/alertmanager"
+        ports:
+          - containerPort: 9093
+        volumeMounts:
+          - name: alertmanager-config-volume
+            mountPath: /etc/alertmanager/
+          - name: alertmanager-storage-volume
+            mountPath: /alertmanager/
+          - name: alertmanager-secrets-volume
+            mountPath: /etc/alertmanager/secrets
+      volumes:
+        - name: alertmanager-config-volume
+          configMap:
+            defaultMode: 420
+            name: alertmanager-config
+        - name: alertmanager-storage-volume
+          emptyDir: {}
+        - name: alertmanager-secrets-volume
+          secret:
+            secretName: alertmanager-slack-webhook-url
+            items:
+              - key: slack_webhook_url
+                path: slack_webhook_url
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager
+  namespace: monitoring
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/port:   '9090'
+spec:
+  selector:
+    app: alertmanager-server
+  ports:
+    - port: 9093
+      targetPort: 9093
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: alertmanager-ingress
+  namespace: monitoring
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: alertmanager.k8s-13.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: alertmanager
+                port:
+                  number: 9093
