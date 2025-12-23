@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: failing-app
+  namespace: log-monitoring
+  labels:
+    app: failing-app
+spec:
+  restartPolicy: OnFailure
+  containers:
+    - name: failer
+      image: busybox:1.36.1
+      imagePullPolicy: IfNotPresent
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          echo "$(date -Iseconds) failing-app: about to exit with code 1"
+          exit 1
