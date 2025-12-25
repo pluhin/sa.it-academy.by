@@ -3,7 +3,7 @@
 ## Homework progress table
 |  Homework No |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| STATUS | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ |
+| STATUS | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 ## Homework details
 ### 02. GIT. Local
@@ -62,3 +62,6 @@ Please find solutions in 19.Jenkins.Start folder
 
 ### 20. Jenkins. Routine
 Please find solutions in 20.Jenkins.Routine folder
+
+### 21. Jenkins. Docker and Pod
+Please find solutions in 21.Jenkins.Docker.and.Pod folder

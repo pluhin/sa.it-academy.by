@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-time-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: get-time-app
+  template:
+    metadata:
+      labels:
+        app: get-time-app
+    spec:
+      containers:
+      - name: get-time-app
+        image: ${APP_IMAGE}
+        env:
+          - name: ENABLE_DB_LOGS
+            value: "false"
+        ports:
+          - containerPort: 2222
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "32Mi"
+          limits:
+            cpu: "500m"
+            memory: "64Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-time-app
+spec:
+  ports:
+    - port: 2222
+      targetPort: 2222
+  selector:
+    app: get-time-app
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: get-time-app
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: get-time-app-${ENV_NAME}.k8s-13.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: get-time-app
+                port:
+                  number: 2222
