@@ -1,0 +1,39 @@
+services:
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    env_file:
+      - .env
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - app
+
+  get-time-app:
+    image: ghcr.io/romastelchenko/get-time-app:12-24-25
+    restart: always
+    depends_on:
+      - db
+    environment:
+      ENABLE_DB_LOGS: true
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    ports:
+      - "2222:2222"
+    networks:
+      - app
+
+volumes:
+  db:
+
+networks:
+    app: null

@@ -3,7 +3,7 @@
 ## Homework progress table
 |  Homework No |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| STATUS | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | ✅ | ✅ | ⏳ |
+| STATUS | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 ## Homework details
 ### 02. GIT. Local
@@ -23,6 +23,9 @@ Please find solutions in 06.Ansible.Workshop folder
 
 ### 07. Docker
 Please find solutions in 07.Docker folder
+
+### 08. Docker. Docker compose
+Please find solutions in 08.Docker.Docker.compose folder
 
 ### 09. Kubernetes
 Please find solutions in 09.Kubernetes folder
@@ -51,8 +54,14 @@ Please find solutions in 16.Technical.and.service.monitoring folder
 ### 17. Log monitoring
 Please find solutions in 17.Log.monitoring folder
 
+### 18. Testing
+Please find solutions in 18.Testing folder
+
 ### 19. Jenkins. Start
 Please find solutions in 19.Jenkins.Start folder
 
 ### 20. Jenkins. Routine
 Please find solutions in 20.Jenkins.Routine folder
+
+### 21. Jenkins. Docker and Pod
+Please find solutions in 21.Jenkins.Docker.and.Pod folder

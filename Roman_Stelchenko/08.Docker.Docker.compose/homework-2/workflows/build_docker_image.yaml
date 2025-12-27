@@ -1,0 +1,58 @@
+name: "[08. Docker. Docker compose] docker build automation"
+
+on: [push, pull_request]
+
+jobs:
+  _18-docker-build-automation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print info
+        run: echo "Run _18-docker-build-automation"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate image name
+        id: image_name
+        run: |
+          image_name="get-time-app:$(date +%m-%d-%y)"
+          echo "Image name to build: ${image_name}"
+          echo "image_name=${image_name}" >> "$GITHUB_OUTPUT"
+
+      - name: Build docker image
+        env:
+          IMAGE_NAME: ${{ steps.image_name.outputs.image_name }}
+        run: |
+          cd app
+          docker build -t ${IMAGE_NAME} .
+
+      - name: Run docker image
+        env:
+          IMAGE_NAME: ${{ steps.image_name.outputs.image_name }}
+        run: |
+          docker run -d --name app -p 2222:2222 ${IMAGE_NAME}
+          sleep 5
+          curl http://localhost:2222/time
+
+      - name: Tag and push docker image to the registry
+        env:
+          IMAGE_NAME: ${{ steps.image_name.outputs.image_name }}
+        run: |
+          registry_image="ghcr.io/romastelchenko/${IMAGE_NAME}"
+          docker tag ${IMAGE_NAME} ${registry_image}
+          echo ${{ secrets.SECRET_GIHUB_REGISTRY_TOKEN }} | docker login ghcr.io -u ${{ secrets.SECRET_GIHUB_REGISTRY_USERNAME }} --password-stdin
+          docker push "${registry_image}"
+
+      - name: Send slack notification
+        if: always()
+        env:
+          IMAGE_NAME: ${{ steps.image_name.outputs.image_name }}
+        run: |
+          job_status="${{ job.status }}"
+          message=":large_green_circle: docker image ${IMAGE_NAME} was successfully built"
+          if [ "${job_status}" != "success" ]; then
+            message=":red_circle: something went wrong during image ${IMAGE_NAME} build. Check the logs"
+          fi
+          message_body_pattern='{"text":"*Docker image build:*\n%s"}'
+          message_body=$(printf "${message_body_pattern}" "${message}")
+          curl -X POST -H 'Content-type: application/json' --data "${message_body}" ${{ secrets.SECRET_SLACK_WEBHOOK_URL }}

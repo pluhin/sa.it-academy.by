@@ -1,0 +1,46 @@
+name: "[18.Testing] Docker images test"
+
+on: workflow_dispatch
+
+jobs:
+  _18-testing-build-and-test-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print info
+        run: echo "Run _18-testing-build-and-test-docker-image"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build docker image
+        run: |
+          cd docker-homework-1-app
+          docker build -t get_time_app .
+
+      - name: Run docker image
+        run: |
+          docker run -d --name get_time_app -p 2222:2222 get_time_app
+
+      - name: Test docker application
+        run: |
+          echo "Check if docker application available"
+          URL="http://localhost:2222/time?tz=America/New_York"
+          for ((i = 0 ; i < 10 ; i++ )); do
+            echo "Attempt $i: "
+            if curl -fsS --max-time 10 -o app-rs.json "$URL"; then
+              echo "Service is available, rs:"
+              cat app-rs.json
+              exit 0
+            fi
+            sleep $i
+          done
+          echo "Service is not available"
+
+      - name: Check if image has not root access inside
+        run: |
+          docker_image_user="$(docker image inspect get_time_app --format='{{.Config.User}}')"
+          if [ -n "${docker_image_user}" ]; then
+            echo "Docker image has not root access inside. User: ${docker_image_user}"
+          else
+            echo "Docker has root access inside"
+          fi

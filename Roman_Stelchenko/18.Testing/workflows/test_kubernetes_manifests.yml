@@ -1,0 +1,95 @@
+name: "[18.Testing] Kubernetes manifests test"
+
+on: [push, pull_request]
+
+jobs:
+  extract_list_of_manifests:
+    runs-on: ubuntu-latest
+    outputs:
+      manifests: ${{ steps.find_manifests.outputs.manifests }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - id: find_manifests
+        name: Find manifests
+        shell: bash
+        run: |
+          json_list="["
+          files="$(find test_manifests -type f -name "*.yaml")"
+          i=1
+          for file in $files; do
+            json_list+="\"${i}_${file}\","
+            ((i++))
+          done
+          json_list="${json_list%,}]"
+
+          echo "manifests=$json_list" >> "$GITHUB_OUTPUT"
+          echo "Manifests found: $json_list"
+
+  validate_manifests:
+    needs: extract_list_of_manifests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        manifest: ${{ fromJson(needs.extract_list_of_manifests.outputs.manifests) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Print info
+        shell: bash
+        run: |
+          echo "Processing: ${{ matrix.manifest }}"
+
+      - name: Install kubeconform
+        shell: bash
+        run: |
+          wget https://github.com/yannh/kubeconform/releases/download/v0.7.0/kubeconform-linux-amd64.tar.gz
+          sudo tar -C /usr/local/bin/ -xzf kubeconform-linux-amd64.tar.gz
+          kubeconform -v
+
+      - name: Validate manifest
+        shell: bash
+        run: |
+          filename="$(echo ${{ matrix.manifest }} | cut -d '_' -f2-)"
+
+          if kubeconform --summary "${filename}" > res.txt; then
+            validation_result=":large_green_circle: ${filename} - OK"
+          else
+            validation_result=":red_circle: ${filename}\n\`\`\`$(cat res.txt)\`\`\`"
+          fi
+          echo "${validation_result}"
+          echo "${validation_result}" > "validation_result.txt"
+
+      - name: Prepare artifact index
+        id: artifact_idx
+        shell: bash
+        run: |
+          file_idx="$(echo ${{ matrix.manifest }} | cut -d '_' -f1)"
+          echo "idx=${file_idx}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload result artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation_result_${{ steps.artifact_idx.outputs.idx }}.txt
+          path: validation_result.txt
+
+
+  notify_with_results:
+    runs-on: ubuntu-latest
+    needs: validate_manifests
+    steps:
+
+      - name: Download all result artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: results
+
+      - name: Send slack notification
+        run: |
+          report="$(cat $(find results -name "validation_result.txt" -print))"
+          message_body_pattern='{"text":"*Manifests from repo ${{ github.repository }} were validated:*\n%s"}'
+          message_body=$(printf "${message_body_pattern}" "${report}")
+          curl -X POST -H 'Content-type: application/json' --data "${message_body}" ${{ secrets.SECRET_SLACK_WEBHOOK_URL }}
+
