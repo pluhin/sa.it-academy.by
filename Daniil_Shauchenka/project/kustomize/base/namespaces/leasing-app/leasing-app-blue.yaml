@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: leasing-app-blue
+  namespace: leasing-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: leasing-app
+      color: blue
+  template:
+    metadata:
+      labels:
+        app: leasing-app
+        color: blue
+    spec:
+      containers:
+        - name: leasing-app
+          image: 192.168.200.121:5000/leasing-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: leasing-app-config
+            - secretRef:
+                name: leasing-app-secret
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: r1-test, blue

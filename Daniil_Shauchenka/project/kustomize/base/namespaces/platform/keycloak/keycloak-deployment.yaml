@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:26.0.5
+          args:
+            - start-dev
+            - --import-realm
+          envFrom:
+            - secretRef:
+                name: keycloak-secret
+          volumeMounts:
+            - name: realm
+              mountPath: /opt/keycloak/data/import
+          ports:
+            - containerPort: 8080
+      volumes:
+        - name: realm
+          configMap:
+            name: keycloak-realm
