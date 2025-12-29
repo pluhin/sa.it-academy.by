@@ -1,0 +1,110 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1559.va_a_533730b_ea_d">
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@338.va_0a_b_50e29397">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>3</daysToKeep>
+        <numToKeep>-1</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+        <removeLastBuild>false</removeLastBuild>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@4238.va_6fb_65c1f699">
+    <script>pipeline {
+    agent any
+    triggers {
+        cron(&apos;0 15 * * *&apos;)
+    }
+    environment {
+        HOLIDAY_API_KEY = &apos;b824ae96-2bc3-44af-a37a-8ab1d5eb540b&apos;
+    }
+    stages {
+        stage(&apos;Check Holiday in Belarus (via HolidayAPI)&apos;) {
+            steps {
+                script {
+                    echo &quot;=== Проверяем, является ли сегодня праздником в Беларуси (HolidayAPI) ===&quot;
+                    def TODAY = new Date().format(&apos;yyyy-MM-dd&apos;)
+                    def CURRENT_YEAR = new Date().format(&apos;yyyy&apos;)
+                    int PREVIOUS_YEAR = CURRENT_YEAR.toInteger() -1
+                    def YEAR = PREVIOUS_YEAR.toString()
+                    def holidayResponse = sh(
+                        script: &quot;&quot;&quot;
+                            curl -s -G \
+                            --data-urlencode &quot;country=BY&quot; \
+                            --data-urlencode &quot;year=${YEAR}&quot; \
+                            --data-urlencode &quot;key=${HOLIDAY_API_KEY}&quot; \
+                            &quot;https://holidayapi.com/v1/holidays&quot;
+                        &quot;&quot;&quot;,
+                        returnStdout: true
+                    ).trim()
+                    
+                    def slurper = new groovy.json.JsonSlurper()
+                    def holidays = slurper.parseText(holidayResponse)
+                    
+                    echo &quot;Parsed JSON: ${holidays}&quot;
+                    if (holidays?.holidays) {
+                        def todayHoliday = holidays.holidays.find { it.date == TODAY }
+                        if (todayHoliday) {
+                            echo &quot;🎉 ДА, сегодня (${TODAY}) праздник: ${todayHoliday.name}&quot;
+                        } else {
+                            echo &quot;📅 Нет, сегодня (${TODAY}) не праздничный день в Беларуси.&quot;
+                        }
+                    } else {
+                        echo &quot;⚠️  Не удалось получить данные о праздниках. Проверьте ключ API и параметры.&quot;
+                        // Вывод ошибки, если она есть
+                        if (holidays?.error) {
+                            echo &quot;Ошибка API: ${holidays.error}&quot;
+                        }
+                    }
+                }
+            }
+        }
+        stage(&apos;Get Current Exchange Rates&apos;) {
+            steps {
+                script {
+                    echo &quot;\n=== Получаем актуальные курсы валют (на основе EUR) ===&quot;
+                    def USD_Response = sh(
+                        script: &quot;&quot;&quot;
+                            curl -G --data-urlencode periodicity=0 --data-urlencode parammode=0 https://api.nbrb.by/exrates/rates/431
+                        &quot;&quot;&quot;,
+                        returnStdout: true
+                    ).trim()
+                    def EUR_Response = sh(
+                        script: &quot;&quot;&quot;
+                            curl -G --data-urlencode periodicity=0 --data-urlencode parammode=0 https://api.nbrb.by/exrates/rates/451
+                        &quot;&quot;&quot;,
+                        returnStdout: true
+                    ).trim()
+                    def slurper = new groovy.json.JsonSlurper()
+                    def USD_Data = slurper.parseText(USD_Response)
+                    def EUR_Data = slurper.parseText(EUR_Response)
+                    def USD_Rate = USD_Data.Cur_OfficialRate
+                    def EUR_Rate = EUR_Data.Cur_OfficialRate
+                    
+                    echo &quot;Базовая валюта: BYN&quot;
+                    echo &quot;Курсы на ${USD_Data.Date}:&quot;
+                    echo &quot; - USD = ${USD_Rate}&quot;
+                    echo &quot; - EUR = ${EUR_Rate}&quot;
+                }
+            }
+        }
+    }
+    post {
+        always {
+            echo &quot;\n=== Ежедневный сбор информации завершен ===&quot;
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
