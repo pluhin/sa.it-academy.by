@@ -1,0 +1,132 @@
+pipeline {
+    agent { label 'node-01' }
+
+    environment {
+        REGISTRY   = "docker.io/artegaas"
+        IMAGE      = "demoapp"
+        TAG        = "latest"
+        PREPROD_NS = "pre-prod"
+        PROD_NS    = "prod"
+        TELEGRAM_BOT_TOKEN = credentials('telegram-bot-token')
+        TELEGRAM_CHAT_ID   = credentials('telegram-chat-id')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+                sh """
+                    curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+                    -d chat_id=$TELEGRAM_CHAT_ID \
+                    -d text='Stage: Checkout — исходники загружены'
+                """
+            }
+        }
+
+        stage('Validate Dockerfile') {
+            steps {
+                sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
+                sh """
+                    curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+                    -d chat_id=$TELEGRAM_CHAT_ID \
+                    -d text='Stage: Validate — Dockerfile проверен'
+                """
+            }
+        }
+
+        stage('Build Image') {
+            steps {
+                sh "docker build -t $REGISTRY/$IMAGE:$TAG ."
+                sh """
+                    curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+                    -d chat_id=$TELEGRAM_CHAT_ID \
+                    -d text='Stage: Build — образ собран'
+                """
+            }
+        }
+
+        stage('Test Image') {
+            steps {
+                sh """
+                    docker run -d --rm -p 8080:80 --name testapp $REGISTRY/$IMAGE:$TAG
+                    sleep 5
+                    curl -f http://localhost:8080 || (docker logs testapp && exit 1)
+                    docker stop testapp
+                """
+                sh """
+                    curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+                    -d chat_id=$TELEGRAM_CHAT_ID \
+                    -d text='Stage: Test — webUI доступен'
+                """
+            }
+        }
+
+        stage('Push Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    sh "echo $PASS | docker login -u $USER --password-stdin"
+                    sh "docker push $REGISTRY/$IMAGE:$TAG"
+                }
+                sh """
+                    curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+                    -d chat_id=$TELEGRAM_CHAT_ID \
+                    -d text='Stage: Push — образ отправлен в Docker Hub'
+                """
+            }
+        }
+
+        stage('Deploy to Pre-Prod') {
+            steps {
+                input message: "Approve deployment to ${PREPROD_NS}?"
+                sh "kubectl -n $PREPROD_NS apply -f k8s-deployment.yaml"
+                sh "kubectl -n $PREPROD_NS rollout status deployment demoapp"
+                sh """
+                    curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+                    -d chat_id=$TELEGRAM_CHAT_ID \
+                    -d text='Stage: Deploy — приложение развернуто в ${PREPROD_NS}'
+                """
+            }
+        }
+
+        stage('Deploy to Prod') {
+            steps {
+                input message: "Approve deployment to ${PROD_NS}?"
+                sh "kubectl -n $PROD_NS apply -f k8s-deployment.yaml"
+                sh "kubectl -n $PROD_NS rollout status deployment demoapp"
+                sh """
+                    curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+                    -d chat_id=$TELEGRAM_CHAT_ID \
+                    -d text=' Stage: Deploy — приложение развернуто в ${PROD_NS}'
+                """
+            }
+        }
+
+        stage('Cleanup Pre-Prod') {
+            steps {
+                sh "kubectl -n $PREPROD_NS delete deployment demoapp || true"
+                sh """
+                    curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+                    -d chat_id=$TELEGRAM_CHAT_ID \
+                    -d text=' Stage: Cleanup — pre-prod очищен'
+                """
+            }
+        }
+    }
+
+    post {
+        success {
+            sh """
+                curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+                -d chat_id=$TELEGRAM_CHAT_ID \
+                -d text='✅ Pipeline завершился успешно'
+            """
+        }
+        failure {
+            sh """
+                curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+                -d chat_id=$TELEGRAM_CHAT_ID \
+                -d text='❌ Pipeline завершился с ошибкой'
+            """
+        }
+    }
+}
