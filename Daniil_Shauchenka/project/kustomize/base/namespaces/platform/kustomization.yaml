@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: platform
+
+resources:
+  - keycloak/keycloak-deployment.yaml
+  - keycloak/keycloak-secret.yaml
+  - keycloak/keycloak-service.yaml
+  - keycloak/keycloak-nodeport.yaml
+  - postgres/postgres-secret.yaml
+  - postgres/postgres-service.yaml
+  - postgres/postgres-statefulset.yaml
+  - prometheus/prometheus-config.yaml
+  - prometheus/prometheus-deployment.yaml
+  - prometheus/prometheus-service.yaml
+
+configMapGenerator:
+  - name: keycloak-realm
+    files:
+      - leasing-demo-realm.json=keycloak/realm/leasing-demo-realm.json
+
+generatorOptions:
+  disableNameSuffixHash: true
