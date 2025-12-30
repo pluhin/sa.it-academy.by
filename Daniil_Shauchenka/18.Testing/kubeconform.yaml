@@ -1,0 +1,28 @@
+name: Kubernetes Manifests Validation
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  kubeconform:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        manifest:
+          - deployment.yaml
+          - service.yaml
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate ${{ matrix.manifest }}
+        run: |
+          docker run --rm \
+            -v "$PWD/manifests:/manifests" \
+            ghcr.io/yannh/kubeconform:latest \
+            -strict \
+            -summary \
+            /manifests/${{ matrix.manifest }}
