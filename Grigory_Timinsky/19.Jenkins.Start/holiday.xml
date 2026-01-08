@@ -1,0 +1,73 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1559.va_a_533730b_ea_d">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2277.v00573e73ddf1"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2277.v00573e73ddf1">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@338.va_0a_b_50e29397">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@4238.va_6fb_65c1f699">
+    <script>pipeline {
+  agent { label &apos;node-01&apos; }
+  stages {
+    stage(&apos;Holiday check&apos;) {
+      steps {
+        script {
+          def todayIso = sh(script: &quot;date -I&quot;, returnStdout: true).trim()
+          def dayOfWeek = sh(script: &quot;date +%u&quot;, returnStdout: true).trim()
+          def holiday = sh(script: &quot;curl -s \&quot;https://openholidaysapi.org/PublicHolidays?countryIsoCode=BY&amp;languageIsoCode=en&amp;validFrom=${todayIso}&amp;validTo=${todayIso}\&quot;&quot;, returnStdout: true).trim()
+
+          if (dayOfWeek == &quot;6&quot; || dayOfWeek == &quot;7&quot;) {
+            currentBuild.description = &quot;Weekend&quot;
+          } else if (holiday != &quot;[]&quot;) {
+            currentBuild.description = &quot;Holiday&quot;
+          } else {
+            currentBuild.description = &quot;Business day&quot;
+          }
+        }
+      }
+    }
+    stage(&apos;Exchange rates&apos;) {
+      steps {
+        script {
+          def usd = sh(script: &quot;curl -s https://api.nbrb.by/exrates/rates/USD?parammode=2 | jq -r .Cur_OfficialRate&quot;, returnStdout: true).trim()
+          def eur = sh(script: &quot;curl -s https://api.nbrb.by/exrates/rates/EUR?parammode=2 | jq -r .Cur_OfficialRate&quot;, returnStdout: true).trim()
+          def cny = sh(script: &quot;curl -s https://api.nbrb.by/exrates/rates/CNY?parammode=2 | jq -r .Cur_OfficialRate&quot;, returnStdout: true).trim()
+
+          // сохраним в глобальные переменные
+          currentBuild.displayName = &quot;USD=${usd}, EUR=${eur}, CNY=${cny}&quot;
+        }
+      }
+    }
+  }
+  post {
+    success {
+      notifyEvents(
+        token: &quot;XXXXfmwydbzk2-qogyuydpgjqo-XXXX&quot;,
+        message: &quot;✅ Pipeline finished successfully\n${currentBuild.description}\n${currentBuild.displayName}&quot;
+      )
+    }
+    failure {
+      notifyEvents(
+        token: &quot;XXXXfmwydbzk2-qogyuydpgjqo-XXXX&quot;,
+        message: &quot;❌ Pipeline failed\n${currentBuild.description}\n${currentBuild.displayName}&quot;
+      )
+    }
+  }
+}
+</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
