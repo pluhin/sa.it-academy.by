@@ -1,0 +1,23 @@
+name: Matrix. Check remote hosts and push reports
+on:
+  push:
+    branches:
+    - master
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        check-sites: [onliner.by, google.com, github.com]
+    steps:
+      - name: Install netcat
+        run: sudo apt update && sudo apt install -y netcat-traditional
+      - run: echo "netcat has been installed"
+      - run: |
+          nc -z -v -w2 ${{ matrix.check-sites }} 443 > ${{ matrix.check-sites }}.log 2>&1
+          ls -la
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.check-sites }}-artifact
+          path: ${{ github.workspace }}/*.log
