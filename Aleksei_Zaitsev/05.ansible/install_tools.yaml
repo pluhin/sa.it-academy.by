@@ -1,0 +1,17 @@
+---
+- name: install net tools
+  hosts: all_workers
+  become: true
+  gather_facts: false
+
+  vars:
+    packages:
+      - net-tools
+      - nmap
+      - traceroute
+  
+  tasks:
+    - name: install net tools
+      package:
+        name: "{{ packages }}"
+        state: present
