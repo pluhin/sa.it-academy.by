@@ -1,0 +1,24 @@
+name: run_tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run_tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: checkout_repository
+        uses: actions/checkout@v6
+
+      - name: python_install
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+
+      - name: pytest_install
+        run: pip install pytest
+
+      - name: run_tests
+        run: pytest -v

@@ -1,0 +1,9 @@
+---
+- name: print hello
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Print hello
+      debug:
+        msg: "Hello, Ansible!"
