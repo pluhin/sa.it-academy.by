@@ -1,0 +1,103 @@
+- hosts: pg
+  vars:
+    app_packages:
+      - postgresql
+      - postgresql-contrib
+      - python3-psycopg2
+    postgresql_port: "{{ pg_port | default(5432) }}"
+    postgresql_listen_address: "{{ pg_listen_address | default(ansible_host) }}"
+  pre_tasks:
+  - name: Validate PostgreSQL configuration
+    debug:
+      msg:
+       - "PostgreSQL host: {{ ansible_host }}"
+       - "PostgreSQL port: {{ postgresql_port }}"
+       - "Listen address: {{ postgresql_listen_address }}"
+    tags: always
+  tasks:
+  - name: PostgreSQL. Install packages
+    apt:
+      name: "{{ app_packages }}"
+      state: latest
+      update_cache: true
+    tags: install
+
+  - name: Get PostgreSQL version
+    shell: pg_config --version | grep -oP '\d+(?=\.\d)' | head -1
+    register: pg_version_output
+    changed_when: false
+    failed_when: pg_version_output.rc != 0
+
+  - name: Set PostgreSQL version fact
+    set_fact:
+      pg_version: "{{ pg_version_output.stdout }}"
+
+  - name: Check if PostgreSQL cluster exists
+    stat:
+      path: "/var/lib/postgresql/{{ pg_version }}/main"
+    register: pg_cluster_stat
+
+  - name: Create PostgreSQL cluster
+    shell: "pg_createcluster {{ pg_version }} main"
+    become_user: root
+    when: not pg_cluster_stat.stat.exists
+
+  - name: Find PostgreSQL configuration directory
+    find:
+      paths: /etc/postgresql
+      patterns: "postgresql.conf"
+      recurse: yes
+    register: pg_conf_find
+
+  - name: Set PostgreSQL config path
+    set_fact:
+      pg_conf_path: "{{ pg_conf_find.files[0].path }}"
+      pg_conf_dir: "{{ pg_conf_find.files[0].path | dirname }}"
+    when: pg_conf_find.files | length > 0
+
+  - name: PostgreSQL. Update postgresql.conf listen_addresses
+    lineinfile:
+      path: "{{ pg_conf_path }}"
+      regexp: "^#?listen_addresses"
+      line: "listen_addresses = '{{ postgresql_listen_address }}'"
+      state: present
+    register: postgresql_conf_updated
+    when: pg_conf_path is defined
+
+  - name: PostgreSQL. Configure pg_hba.conf
+    template:
+      src: pg_hba.conf.j2
+      dest: "{{ pg_conf_dir }}/pg_hba.conf"
+      owner: postgres
+      group: postgres
+      mode: '0640'
+    register: pg_hba_updated
+    when: pg_conf_dir is defined
+
+  - name: Start and enable PostgreSQL service
+    service:
+      name: postgresql
+      state: started
+      enabled: yes
+
+  - name: Restart PostgreSQL if configuration changed
+    service:
+      name: postgresql
+      state: restarted
+    when: postgresql_conf_updated.changed or pg_hba_updated.changed
+
+  - name: Test PostgreSQL connection
+    wait_for:
+      host: "{{ ansible_host }}"
+      port: "{{ postgresql_port }}"
+      timeout: 10
+    tags: test
+
+  - name: Check PostgreSQL status
+    command: systemctl status postgresql
+    register: pg_status
+    changed_when: false
+
+  - name: Display PostgreSQL status
+    debug:
+      msg: "{{ pg_status.stderr_lines }}"
