@@ -31,18 +31,10 @@ docker ps
 # https://docs.docker.com/engine/install/ubuntu/
 
 # Create a new directory for your Dockerfile and application code.
-mkdir flask_app
-cd flask_app/
-nano simple_app.py
-# Write a Dockerfile to build an image for a simple web application (e.g., Flask or Node.js).
-# Copy your application code into the image and set the necessary environment.
-nano Dockerfile
-# Build the Docker image using the docker build command.
-docker build -t simple_app .
-# Run a container based on the image and access the web application.
-docker run -d -p 80:5000 --name simple_app simple_app
-docker ps
-curl http://localhost
-# Document the steps taken to create the Dockerfile, build the image, and access the app.
+
+
+
+docker login -u zaits3v
+
 nano README.md
 ```
