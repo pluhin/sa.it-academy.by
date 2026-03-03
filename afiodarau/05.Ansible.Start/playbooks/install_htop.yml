@@ -1,0 +1,9 @@
+- name: Install htop on remote hosts
+  hosts: servers
+  become: yes
+  tasks:
+    - name: Install htop package
+      apt:
+        name: htop
+        state: present
+        update_cache: yes
