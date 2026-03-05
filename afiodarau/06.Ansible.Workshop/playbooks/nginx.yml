@@ -1,0 +1,68 @@
+- name: Install and configure Nginx with virtual hosts
+  hosts: web
+  become: yes
+  vars_files:
+    - ../vars/vhosts.yml
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Ensure Nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Create web root directories
+      file:
+        path: "{{ item.root }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop: "{{ nginx_vhosts }}"
+
+    - name: Create HTML files for vhosts
+      template:
+        src: index.html.j2
+        dest: "{{ item.root }}/index.html"
+      loop: "{{ nginx_vhosts }}"
+
+    - name: Create Nginx vhost configs
+      template:
+        src: nginx_vhost.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.server_name }}"
+      loop: "{{ nginx_vhosts }}"
+
+    - name: Enable vhosts
+      file:
+        src: "/etc/nginx/sites-available/{{ item.server_name }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.server_name }}"
+        state: link
+        force: yes
+      loop: "{{ nginx_vhosts }}"
+
+    - name: Remove default nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Test nginx configuration
+      command: nginx -t
+      register: nginx_test
+      changed_when: false
+
+    - name: Reload nginx
+      service:
+        name: nginx
+        state: reloaded
+
+    - name: Test HTTP availability
+      uri:
+        url: "http://{{ item.server_name }}"
+        return_content: yes
+      loop: "{{ nginx_vhosts }}"
