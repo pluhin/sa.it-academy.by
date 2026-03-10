@@ -1,5 +1,5 @@
 - name: Install and configure Nginx with virtual hosts
-  hosts: web
+  hosts: servers
   become: yes
   vars_files:
     - ../vars/vhosts.yml
@@ -11,11 +11,10 @@
         state: present
         update_cache: yes
 
-    - name: Ensure Nginx is running
-      service:
-        name: nginx
-        state: started
-        enabled: yes
+    - name: Remove default nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
 
     - name: Create web root directories
       file:
@@ -26,7 +25,7 @@
         mode: '0755'
       loop: "{{ nginx_vhosts }}"
 
-    - name: Create HTML files for vhosts
+    - name: Deploy HTML template
       template:
         src: index.html.j2
         dest: "{{ item.root }}/index.html"
@@ -46,23 +45,28 @@
         force: yes
       loop: "{{ nginx_vhosts }}"
 
-    - name: Remove default nginx site
-      file:
-        path: /etc/nginx/sites-enabled/default
-        state: absent
-
     - name: Test nginx configuration
       command: nginx -t
-      register: nginx_test
       changed_when: false
 
-    - name: Reload nginx
+    - name: Restart nginx
       service:
         name: nginx
-        state: reloaded
+        state: restarted
+        enabled: yes
 
-    - name: Test HTTP availability
+    - name: Verify site1 virtual host
       uri:
-        url: "http://{{ item.server_name }}"
+        url: http://127.0.0.1
+        headers:
+          Host: "{{ nginx_vhosts[0].server_name }}"
         return_content: yes
-      loop: "{{ nginx_vhosts }}"
+        status_code: 200
+
+    - name: Verify site2 virtual host
+      uri:
+        url: http://127.0.0.1
+        headers:
+          Host: "{{ nginx_vhosts[1].server_name }}"
+        return_content: yes
+        status_code: 200
