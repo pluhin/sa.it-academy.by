@@ -1,0 +1,5 @@
+nginx_vhosts:
+  - server_name: site1.example.local
+    root: /var/www/site1
+  - server_name: site2.example.local
+    root: /var/www/site2

@@ -1,0 +1,27 @@
+name: Check Pods
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  check-pods:
+    runs-on: self-hosted
+
+    env:
+      KUBECONFIG: /home/aleks/.kube/config-k8s
+
+    steps:
+      - name: Check pod status
+        run: |
+          kubectl get pods -A
+
+          BAD_PODS=$(kubectl get pods -A --no-headers | grep -v -E 'Running|Completed' || true)
+
+          if [ -n "$BAD_PODS" ]; then
+            echo "Pod has a problem"
+            echo "$BAD_PODS"
+            exit 1
+          else
+            echo "All pods are healthy"
+          fi
