@@ -1,0 +1,40 @@
+namespace: ci-cd
+
+adminPassword: c2VjcmV0
+
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci
+  tag: spishchyk_33
+  pullPolicy: IfNotPresent
+
+resources:
+  requests:
+    cpu: 2
+    memory: 2Gi
+  limits:
+    cpu: 3
+    memory: 3Gi
+
+nfs:
+  server: 192.168.37.105
+  path: /mnt/IT-Academy/nfs-data/sa2-34-26/a_zaitsev/jenkins
+  
+jenkins:
+  numExecutors: 2
+  credentials:
+    username: git_hub_user
+    password: secret
+    description: Githubuser
+    id: some_randome
+  admin:
+    email: pluhin@gmail.com
+  url: "http://jenkins.k8s-7.sa/"
+
+port:
+  master: 8080
+  slave: 50000
+
+ingress:
+  host: jenkins.k8s-7.sa
+  httpPath: /
+  
