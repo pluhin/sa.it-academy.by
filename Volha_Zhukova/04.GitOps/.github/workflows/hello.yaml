@@ -7,11 +7,11 @@ on:
 
 jobs:
   run-hello:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
     steps:
     - name: checkout 
       uses: actions/checkout@v4
       
     - name: run script
-      run: python hello.py
+      run: python Volha_Zhukova/04.GitOps/hello.py
