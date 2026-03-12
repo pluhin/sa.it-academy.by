@@ -1,0 +1,21 @@
+name: run_hello
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run_hello:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: checkout_repository
+        uses: actions/checkout@v6
+
+      - name: python_install
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+
+      - name: run_script
+        run: python hello.py
