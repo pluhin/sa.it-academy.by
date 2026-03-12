@@ -1,0 +1,120 @@
+name: Docker Build & Push
+
+on:
+  push:
+    branches: ["main", "master"]
+    paths:
+      - "08.Docker.Docker-compose/**"
+  pull_request:
+    branches: ["main", "master"]
+    paths:
+      - "08.Docker.Docker-compose/**"
+  workflow_dispatch:
+env:
+  IMAGE_NAME: flask-app
+  DOCKER_HUB_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/flask-app
+  GHCR_IMAGE: ghcr.io/${{ github.repository_owner }}/flask-app
+
+jobs:
+  build-and-push:
+    name: Build, Push & Notify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ env.DOCKER_HUB_IMAGE }}
+            ${{ env.GHCR_IMAGE }}
+          tags: |
+            type=sha,prefix=sha-,format=short
+            type=ref,event=branch
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to GitHub Container Registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: 08.Docker.Docker-compose/app
+          file: 08.Docker.Docker-compose/app/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+
+      - name: Slack notification — success
+        if: success() && github.event_name != 'pull_request'
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "text": "✅ *Docker build succeeded*",
+              "attachments": [
+                {
+                  "color": "good",
+                  "fields": [
+                    { "title": "Repository", "value": "${{ github.repository }}", "short": true },
+                    { "title": "Branch",     "value": "${{ github.ref_name }}",   "short": true },
+                    { "title": "Commit",     "value": "${{ github.sha }}",        "short": true },
+                    { "title": "Actor",      "value": "${{ github.actor }}",      "short": true },
+                    { "title": "Docker Hub", "value": "${{ env.DOCKER_HUB_IMAGE }}:${{ steps.meta.outputs.version }}", "short": false },
+                    { "title": "GHCR",       "value": "${{ env.GHCR_IMAGE }}:${{ steps.meta.outputs.version }}",       "short": false }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+      - name: Slack notification — failure
+        if: failure()
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "text": "❌ *Docker build FAILED*",
+              "attachments": [
+                {
+                  "color": "danger",
+                  "fields": [
+                    { "title": "Repository", "value": "${{ github.repository }}", "short": true },
+                    { "title": "Branch",     "value": "${{ github.ref_name }}",   "short": true },
+                    { "title": "Commit",     "value": "${{ github.sha }}",        "short": true },
+                    { "title": "Actor",      "value": "${{ github.actor }}",      "short": true },
+                    { "title": "Logs",       "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}", "short": false }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
