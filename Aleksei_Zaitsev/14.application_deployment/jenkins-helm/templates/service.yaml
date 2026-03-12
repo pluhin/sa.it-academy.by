@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins
+  namespace: {{ .Values.namespace }}
+spec:
+  ports:
+    - name: master
+      port: {{ .Values.port.master }}
+      targetPort: {{ .Values.port.master }}
+    - name: slave
+      port: {{ .Values.port.slave }}
+      targetPort: {{ .Values.port.slave }}
+  selector:
+    app: jenkins
