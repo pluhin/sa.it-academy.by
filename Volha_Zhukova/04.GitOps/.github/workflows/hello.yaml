@@ -1,21 +1,17 @@
-name: run_hello
+name: run-script
 
 on:
   push:
-    branches:
-      - main
+    branches: 
+    -  master
 
 jobs:
-  run_hello:
-    runs-on: ubuntu-24.04
+  run-hello:
+    runs-on: windows-latest
+    
     steps:
-      - name: checkout_repository
-        uses: actions/checkout@v6
-
-      - name: python_install
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.14'
-
-      - name: run_script
-        run: python hello.py
+    - name: checkout 
+      uses: actions/checkout@v4
+      
+    - name: run script
+      run: python hello.py
