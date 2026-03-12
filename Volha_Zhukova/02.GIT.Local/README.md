@@ -1,8 +1,8 @@
 ## 02. GIT. Local
 ```bash
     1  cd homework/
-    2  mkdir 02.\ GIT.\ Local
-    3  cd 02.\ GIT.\ Local
+    2  mkdir 02.GIT.Local
+    3  cd 02.GIT.Local
     4  git init
     5  touch README.md
     6  echo "# Первая запись" > README.md
