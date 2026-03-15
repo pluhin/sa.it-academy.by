@@ -9,4 +9,6 @@
    61  k9s
 ```
 ### Screenshot k9s
-![k9s Status](./k9s-minikube-status.jpg)
+![k9s Status](k9s.jpg)
+### Screenshot GitHub action
+![k9s Status](github_action.jpg)

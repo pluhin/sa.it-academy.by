@@ -17,7 +17,6 @@ jobs:
           CONTEXTS=$(kubectl --kubeconfig=/home/user/.kube/config-k8s config get-contexts -o name)
           echo "$CONTEXTS"
           
-          # Берем первый контекст из списка
           FIRST_CONTEXT=$(echo "$CONTEXTS" | head -1)
           if [ -n "$FIRST_CONTEXT" ]; then
             echo "Using context: $FIRST_CONTEXT"
@@ -28,8 +27,6 @@ jobs:
           fi
       - name: Check pods
         id: monitor
-        #env:
-        #  KUBECONFIG: /home/user/.kube/config-k8s
         run: |
           PROBLEM_PODS=$(kubectl get pods -A | grep -E "CrashLoopBackOff|Error|Evicted|Pending|ImagePullBackOff|CreateContainerError" || true)
           
