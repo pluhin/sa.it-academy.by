@@ -16,6 +16,34 @@
    27  ansible-playbook -i inventory/myclaster/inventory.ini cluster.yml -u root --ask-pass
    28  deactivate
 ```
+``` bash
+PLAY RECAP *************************************************************************************************************
+node1                      : ok=639  changed=139  unreachable=0    failed=0    skipped=835  rescued=0    ignored=4
+node2                      : ok=432  changed=89   unreachable=0    failed=0    skipped=472  rescued=0    ignored=0
+
+Thursday 05 March 2026  10:44:34 +0300 (0:00:00.078)       0:15:56.505 ********
+===============================================================================
+system_packages : Manage packages ------------------------------------------------------------------------------ 63.49s
+download : Download_container | Download image if required ----------------------------------------------------- 51.40s
+download : Download_file | Download item ----------------------------------------------------------------------- 35.86s
+download : Download_container | Download image if required ----------------------------------------------------- 31.94s
+download : Download_container | Download image if required ----------------------------------------------------- 28.28s
+download : Download_file | Download item ----------------------------------------------------------------------- 28.15s
+download : Download_file | Download item ----------------------------------------------------------------------- 27.29s
+container-engine/runc : Download_file | Download item ---------------------------------------------------------- 24.25s
+container-engine/containerd : Download_file | Download item ---------------------------------------------------- 23.28s
+download : Download_file | Download item ----------------------------------------------------------------------- 22.12s
+bootstrap_os : Assign inventory name to unconfigured hostnames (non-CoreOS, non-Flatcar, Suse and ClearLinux, non-Fedora) -- 21.06s
+download : Download_container | Download image if required ----------------------------------------------------- 20.25s
+download : Download_container | Download image if required ----------------------------------------------------- 19.61s
+download : Download_container | Download image if required ----------------------------------------------------- 18.84s
+download : Download_container | Download image if required ----------------------------------------------------- 18.52s
+container-engine/crictl : Download_file | Download item -------------------------------------------------------- 18.13s
+download : Download_container | Download image if required ----------------------------------------------------- 17.46s
+download : Download_container | Download image if required ----------------------------------------------------- 17.35s
+download : Download_container | Download image if required ----------------------------------------------------- 17.06s
+container-engine/nerdctl : Download_file | Download item ------------------------------------------------------- 16.89s
+```
 ## 1. KinD Kubernetes Cluster Setup
 ```bash
   226  mkdir 09.Kubernetes
@@ -43,8 +71,5 @@
   248  minikube start
   249  kubectl get nodes
   250  kubectl get pods -A
-<<<<<<< HEAD
-=======
   251  minikube stop
->>>>>>> 7d8936c (Cleanup)
 ```
