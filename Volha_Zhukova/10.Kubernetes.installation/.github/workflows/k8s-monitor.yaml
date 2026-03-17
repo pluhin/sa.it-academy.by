@@ -1,0 +1,57 @@
+name: K8s Monitoring
+on:
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: self-hosted
+    steps:
+      - name: Setup kubectl
+        run: |
+          #Проверяем конфиг
+          echo "=== Checking kubeconfig ==="
+          ls -la /home/user/.kube/config-k8s
+          
+          # Получаем список контекстов
+          echo "=== Available contexts ==="
+          CONTEXTS=$(kubectl --kubeconfig=/home/user/.kube/config-k8s config get-contexts -o name)
+          echo "$CONTEXTS"
+          
+          FIRST_CONTEXT=$(echo "$CONTEXTS" | head -1)
+          if [ -n "$FIRST_CONTEXT" ]; then
+            echo "Using context: $FIRST_CONTEXT"
+            echo "KUBE_CONTEXT=$FIRST_CONTEXT" >> $GITHUB_ENV
+          else
+            echo "No contexts found!"
+            exit 1
+          fi
+      - name: Check pods
+        id: monitor
+        run: |
+          PROBLEM_PODS=$(kubectl get pods -A | grep -E "CrashLoopBackOff|Error|Evicted|Pending|ImagePullBackOff|CreateContainerError" || true)
+          
+          if [ -n "$PROBLEM_PODS" ]; then
+            {
+              echo "has_errors=true"
+              echo "message<<EOF"
+              echo "Проблемные поды в кластере"
+              echo ""
+              echo "\`\`\`"
+              echo "$PROBLEM_PODS"
+              echo "\`\`\`"
+              echo ""
+              echo "$(date '+%H:%M %d.%m.%Y')"
+              echo "EOF"
+            } >> $GITHUB_OUTPUT
+          else
+            echo "has_errors=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Send telegram alert
+        if: always()
+        #if: steps.monitor.outputs.has_errors == 'true'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: ${{ steps.monitor.outputs.message }}

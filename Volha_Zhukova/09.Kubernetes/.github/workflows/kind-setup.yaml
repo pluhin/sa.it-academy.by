@@ -1,0 +1,30 @@
+name: KinD Setup
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  kind:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.32.2'
+
+      - name: Install kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.27.0/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+          
+      - name: Create cluster
+        run: kind create cluster --name hw3-cluster --wait 5m
+        
+      - name: Verify
+        run: |
+          kubectl cluster-info
+          kubectl get nodes -o wide
