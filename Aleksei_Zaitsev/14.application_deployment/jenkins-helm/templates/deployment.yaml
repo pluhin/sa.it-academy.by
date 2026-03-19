@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+        - name: jenkins
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PASS
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins-secret
+                  key: password
+            - name: JAVA_OPTS
+              value: "-Djenkins.install.runSetupWizard=false"
+            - name: CASC_JENKINS_CONFIG
+              value: /var/jenkins_home/casc_configs/jenkins.yaml
+          ports:
+            - name: http-port
+              containerPort: {{ .Values.port.master }}
+            - name: jnlp-port
+              containerPort: {{ .Values.port.slave }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+          volumeMounts:
+            - name: jenkins-auth-config
+              mountPath: /var/jenkins_home/init.groovy.d/basic-security.groovy
+              subPath: basic-security.groovy
+            - name: jenkins-config-yaml
+              mountPath: /var/jenkins_home/casc_configs/jenkins.yaml
+              subPath: jenkins.yaml
+            - name: jenkins-config
+              mountPath: /var/jenkins_home
+      volumes:
+        - name: jenkins-auth-config
+          configMap:
+            name: basic-security
+        - name: jenkins-config-yaml
+          configMap:
+            name: jenkins-config
+        - name: jenkins-config
+          nfs:
+            server: {{ .Values.nfs.server }}
+            path: {{ .Values.nfs.path }}
+            

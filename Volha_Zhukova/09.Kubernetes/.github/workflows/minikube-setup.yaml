@@ -1,0 +1,29 @@
+name: Minikube Cluster Setup
+on:
+  pull_request:
+    branches: 
+      - master
+
+jobs:
+  minikube:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.32.2'
+
+      - name: Setup minikube
+        run: |
+          curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          chmod +x minikube
+          sudo mv minikube /usr/local/bin/minikube
+          minikube version
+          minikube start --driver=docker --wait=all       
+
+      - name: Verify cluster
+        run: |
+          kubectl get nodes
+          minikube status

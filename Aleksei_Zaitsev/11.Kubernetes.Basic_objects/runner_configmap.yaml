@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitlab-runner-config
+  namespace: default
+data:
+  entrypoint.sh: |
+    #!/bin/bash
+    set -e
+
+    cleanup() {
+      echo "Unregistering runner..."
+      gitlab-runner unregister --all-runners 2>/dev/null || true
+      exit 0
+    }
+    trap cleanup SIGTERM SIGINT
+
+    gitlab-runner register \
+      --non-interactive \
+      --url "https://gitlab.com/" \
+      --token "${RUNNER_TOKEN}" \
+      --executor "shell" \
+      --description "k8s-runner" \
+
+    gitlab-runner run --working-directory /home/gitlab-runner

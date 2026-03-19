@@ -1,0 +1,20 @@
+- name: Manage users and groups
+  hosts: servers
+  become: yes
+  vars_files:
+    - ../group_vars/users.yml
+
+  tasks:
+    - name: Ensure group exists
+      group:
+        name: "{{ group_name }}"
+        state: present
+
+    - name: Ensure user exists
+      user:
+        name: "{{ user_name }}"
+        group: "{{ group_name }}"
+        password: "{{ user_password }}"
+        shell: /bin/bash
+        create_home: yes
+        state: present
