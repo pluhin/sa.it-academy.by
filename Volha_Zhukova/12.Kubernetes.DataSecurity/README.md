@@ -17,7 +17,7 @@
   350  kubeseal --format=yaml < secret.yaml > sealed-secret.yaml
   # forgot i should add context
   359  kubeseal --context k8s --format=yaml < secret.yaml > sealed-secret.yaml
-  360  nano nginx.yaml
+  360  nano nginx.yaml # updated deployment yaml from lesson 11
   361  nano sealed-secret.yaml
   362  nano nginx.yaml
   363  kubectl --context k8s apply -f sealed-secret.yaml

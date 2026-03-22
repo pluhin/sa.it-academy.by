@@ -44,7 +44,7 @@ spec:
         emptyDir: {} 
       - name: ssh-keys
         secret:
-          secretName: ssh-keys-sealed # Имя секрета, который создаст SealedSecret
+          secretName: ssh-keys #
           defaultMode: 0400
 ---
 apiVersion: v1
