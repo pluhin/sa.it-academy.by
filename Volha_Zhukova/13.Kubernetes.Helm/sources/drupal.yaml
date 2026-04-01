@@ -1,0 +1,44 @@
+global:
+  domain: "k8s-11.sa"
+
+drupal:
+  enabled: true
+  persistence:
+    enabled: false
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/drupal
+    tag: latest
+  
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001
+    runAsNonRoot: true
+  resources:
+    limits:
+      memory: 1536Mi
+    requests:
+      memory: 512Mi    
+
+  mariadb:
+    enabled: true
+    primary:
+      persistence:
+        enabled: false
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/mariadb
+      tag: latest
+    auth:
+      database: "bitnami_drupal"
+      username: "bn_drupal"
+      password: "password123"
+      rootPassword: "password123"
+  drupalUsername: "admin"
+  drupalPassword: "password123"
+  bitnamiDebug: true
+  livenessProbe: {enabled: false}
+  readinessProbe: {enabled: false}
