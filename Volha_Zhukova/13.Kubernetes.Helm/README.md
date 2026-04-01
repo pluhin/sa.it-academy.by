@@ -19,7 +19,7 @@
 
 ### 1.2 Applications install
 
-> for some reason i couldn't install both Wordpress and Drupal at the same time no mater what i did, but they installed just fine one by one. My theory is that i should have deleted Jenkins to give both apps space and resources to install properlly. I have Chart file for both, but commented and updated dependencies when needed to deploy one app or the other. Plus to keep variables in virtualservice file i edited th host name in cluster itself. 
+> For some reason I couldn't install both WordPress and Drupal at the same time no matter what I did, but they installed just fine sequentially. My theory is that it was due to resource constraints (I should have deleted Jenkins). I have a chart file for both, but I commented and updated dependencies when needed to deploy one app or the other. Plus, to keep variables in the virtualservice file, I edited host name in the cluster itself.
 
 Chart.yaml
 ```yaml
