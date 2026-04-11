@@ -25,4 +25,6 @@ Make print-screen of k9s with pods in all namespaces
 Create GitHub action to check status of pods and create slack notification if you have crashed/failed pods
 Your print-screen, github action file add to PR
 
+![alt text](image-1.png)
+
 https://github.com/enFaust/k8s-cluster-monitoring
