@@ -1,0 +1,31 @@
+global:
+  domain: "k8s-11.sa"
+  
+wordpress:
+  persistence:
+    enabled: false
+  wordpressUsername: "admin"
+  wordpressPassword: "password123"
+  mariadb:
+    enabled: true
+    fullnameOverride: "wp-db" 
+    primary:
+      persistence:
+        enabled: false
+    auth:
+      existingSecret: ""
+      database: "bitnami_wordpress"
+      username: "bn_wordpress"
+      password: "password123"
+      rootPassword: "root-password"
+  externalDatabase:
+    existingSecret: ""  
+    host: "wp-db" 
+    user: "bn_wordpress"
+    password: "password123"
+    database: "bitnami_wordpress"
+  ingress:
+    enabled: false
+  service:
+    port: 80
+    type: ClusterIP

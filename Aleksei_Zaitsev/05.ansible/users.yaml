@@ -1,0 +1,19 @@
+---
+- name: manage users and groups
+  hosts: all_workers
+  gather_facts: false
+
+  tasks:
+    - name: create group
+      group:
+        name: "{{ user_group }}"
+        state: present
+
+    - name: create user
+      user:
+        name: "{{ user_name }}"
+        group: "{{ user_group }}"
+        password: "{{ user_password | password_hash('sha512') }}"
+        shell: /bin/bash
+        create_home: true
+        state: present

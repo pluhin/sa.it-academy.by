@@ -1,0 +1,28 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ .Release.Name }}-routing
+  namespace: homework-apps
+spec:
+  gateways:
+  - app-gateway
+  hosts:
+  - "wordpress.{{ .Values.global.domain }}"
+  - "drupal.{{ .Values.global.domain }}"
+  http:
+  - match:
+    - authority:
+        exact: "wordpress.{{ .Values.global.domain }}"
+    route:
+    - destination:
+        host: {{ .Release.Name }}-wordpress
+        port:
+          number: 80
+  - match:
+    - authority:
+        exact: "drupal.{{ .Values.global.domain }}"
+    route:
+    - destination:
+        host: {{ .Release.Name }}-drupal
+        port:
+          number: 80

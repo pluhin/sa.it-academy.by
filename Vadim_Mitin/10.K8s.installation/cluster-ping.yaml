@@ -1,0 +1,43 @@
+name: Ping cluster
+
+on:
+  workflow_dispatch:
+
+jobs:
+  pod-status:
+    runs-on: self-hosted
+    steps:
+      - name: Prepare cluster access
+        run: |
+          echo "KUBECONFIG=$HOME/.kube/config-k3s:$HOME/.kube/config-k8s" >> $GITHUB_ENV
+          pkill -f 'ssh -L 6443:127.0.0.1:6443 root@192.168.208.5' || true
+          pkill -f 'ssh -L 6444:127.0.0.1:6444 root@192.168.203.3' || true
+          sleep 2
+          ssh -o StrictHostKeyChecking=no -L 6443:127.0.0.1:6443 root@192.168.208.5 -f -N
+          ssh -o StrictHostKeyChecking=no -L 6444:127.0.0.1:6444 root@192.168.203.3 -f -N
+          sleep 1
+
+      - name: Show available contexts
+        run: kubectl config get-contexts
+
+      - name: Pod overview — k3s
+        run: kubectl get pods -A --context k3s
+
+      - name: Pod overview — k8s
+        run: kubectl get pods -A --context k8s
+
+      - name: Validate pod health
+        run: |
+          failed=0
+          for ctx in k3s k8s; do
+            not_ready=$(kubectl get pods -A --context $ctx --no-headers 2>/dev/null \
+              | grep -v "Running\|Completed" | grep -v "^\s*$" || true)
+            if [ -n "$not_ready" ]; then
+              echo "[$ctx] unhealthy pods detected:"
+              echo "$not_ready"
+              failed=1
+            else
+              echo "[$ctx] all pods are healthy"
+            fi
+          done
+          [ $failed -eq 0 ] || exit 1

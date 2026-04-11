@@ -1,0 +1,85 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-11-homework
+  namespace: default
+  labels:
+    app: nginx-11
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx-11
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: nginx-11
+    spec:
+      initContainers:
+      - name: init-html
+        image: busybox
+        command: ['sh', '-c', "echo \"<h1>$(hostname)</h1>\" > /data/index.html"]
+        volumeMounts:
+        - name: web-content
+          mountPath: /data
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: web-content
+          mountPath: /usr/share/nginx/html
+        - name: ssh-keys
+          mountPath: /root/.ssh
+          readOnly: true
+      volumes:
+      - name: web-content
+        emptyDir: {} 
+      - name: ssh-keys
+        secret:
+          secretName: ssh-keys #
+          defaultMode: 0400
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-11-service
+  namespace: default
+  labels:
+    run: nginx-11-service
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: nginx-11
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress-11
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: nginx-test.k8s-11.sa
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-11-service
+            port:
+              number: 80

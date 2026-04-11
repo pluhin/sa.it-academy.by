@@ -1,0 +1,14 @@
+all_workers:
+  vars:
+    ansible_user: root
+  hosts:
+    host7:
+      ansible_host: 192.168.202.7
+    host8:
+       ansible_host: 192.168.202.8
+
+
+local:
+  hosts:
+    localhost:
+      ansible_connection: local

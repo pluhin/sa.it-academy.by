@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ my_site.server_name }}</title>
+  <style>
+    body { font-family: monospace; background: #0f172a; color: #e2e8f0;
+           display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 10px;
+            padding: 2rem 2.5rem; min-width: 360px; }
+    h2 { color: #38bdf8; margin-bottom: 1rem; }
+    td:first-child { color: #94a3b8; padding-right: 1.5rem; }
+    td:last-child  { color: #7dd3fc; }
+    tr { line-height: 2; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>{{ my_site.server_name }}</h2>
+    <table>
+      <tr><td>Hostname</td><td>{{ ansible_hostname }}</td></tr>
+      <tr><td>FQDN</td>    <td>{{ ansible_fqdn }}</td></tr>
+      <tr><td>IP</td>      <td>{{ ansible_default_ipv4.address }}</td></tr>
+      <tr><td>Port</td>    <td>{{ my_site.port }}</td></tr>
+      <tr><td>Root</td>    <td>{{ my_site.root }}</td></tr>
+      <tr><td>OS</td>      <td>{{ ansible_distribution }} {{ ansible_distribution_version }}</td></tr>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+- name: Magage remote users and groups
+  hosts: all_workers
+  become: true
+
+  vars_files:
+    - group_vars/all_workers/vault.yaml
+  
+  vars:
+    target_user: "first_user"
+    target_group: "first_group"
+
+  tasks:
+    - name: Check that group exists
+      ansible.builtin.group:
+        name: "{{ target_group }}"
+        state: present
+    - name: Create a new user
+      ansible.builtin.user:
+        name: "{{ target_user }}"
+        group: "{{ target_group }}"
+        password: "{{ user_password }}"
+        shell: /bin/bash
+        state: present
+        create_home: yes
+    - name: Check that user is created
+      ansible.builtin.command: id {{ target_user }}
+      register: user_info
+      changed_when: false
+    - name: Print info
+      ansible.builtin.debug:
+        var: user_info.stdout

@@ -1,0 +1,11 @@
+- name: Vim installation
+  hosts: all_workers
+  become: true
+  tasks:
+   - name: Ping my hosts
+     ansible.builtin.ping:
+
+   - name: Install vim
+     ansible.builtin.package:
+        name: vim
+        state: present

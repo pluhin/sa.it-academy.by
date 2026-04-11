@@ -1,0 +1,19 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: {{ include "first-app.fullname" . }}
+  labels:
+    {{- include "first-app.labels" . | nindent 4 }}
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: {{ .Values.service.port }}
+        name: http
+        protocol: HTTP
+      {{- with .Values.istio.hosts }}
+      hosts:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
