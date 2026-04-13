@@ -16,3 +16,9 @@ fiodarau@EPBYMINW5591 08.DockerCompose % docker port flask_app
 5000/tcp -> 0.0.0.0:8888
 5000/tcp -> [::]:8888
 ```
+
+## Homework Assignment 2: Docker build automation (github action)
+
+
+Repo with task:
+https://github.com/enFaust/docker-compose

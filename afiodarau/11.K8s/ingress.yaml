@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-sa
+  annotations:
+    nginx.ingress.kubernetes.io/server-alias: "app.k8s-2.sa"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: app.k8s-1.sa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: simple-web-service
+                port:
+                  number: 80
