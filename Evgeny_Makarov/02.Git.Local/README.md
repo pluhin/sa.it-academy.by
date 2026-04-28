@@ -1,6 +1,6 @@
 ## 02.Git.Local
 
-‘’’bash
+'''bash
   206  mkdir 02.Git.Local
   207  cd 02.Git.Local
   208  git init
@@ -75,4 +75,4 @@
   289  git config --global user.email "mbl.makarov@gmail.com"
   290  git config --global alias.st status
   291  git st
-‘’’
+'''
