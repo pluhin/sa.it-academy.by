@@ -1,3 +1,4 @@
+```bash
 cd git-practice-homework/
 git init
 echo "DevOps Project" > README.md
@@ -88,3 +89,5 @@ git config --global user.name "Nikita Puntik"
 git config --global user.email "nikita.puntik1@gmail.com"
 git config --global alias.l "log --oneline"
 git l
+history
+```
