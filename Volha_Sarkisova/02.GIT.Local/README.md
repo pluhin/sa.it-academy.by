@@ -1,3 +1,4 @@
+```bash
    51  mkdir 02.GIT.Local
    52  cd 02.GIT.Local
    53  git init
@@ -96,3 +97,4 @@
   146  vim README.md
   147  history>>README.md
 Wed Apr 29 14:01:57 RTZ 2026
+```
