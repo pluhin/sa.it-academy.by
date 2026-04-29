@@ -26,27 +26,29 @@
 	
 git push-all-repositories
 
-To github.com:VolhaSarkisova/sa.it-academy.by.git
- ! [rejected]        md-sa2-35-26 -> md-sa2-35-26 (fetch first)
-error: failed to push some refs to 'github.com:VolhaSarkisova/sa.it-academy.by.g
-it'
-hint: Updates were rejected because the remote contains work that you do not
-hint: have locally. This is usually caused by another repository pushing to
-hint: the same ref. If you want to integrate the remote changes, use
-hint: 'git pull' before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-Enumerating objects: 7, done.
-Counting objects: 100% (7/7), done.
+Enumerating objects: 17, done.
+Counting objects: 100% (17/17), done.
 Delta compression using up to 12 threads
-Compressing objects: 100% (4/4), done.
-Writing objects: 100% (5/5), 775 bytes | 775.00 KiB/s, done.
-Total 5 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+Compressing objects: 100% (11/11), done.
+Writing objects: 100% (13/13), 2.26 KiB | 2.26 MiB/s, done.
+Total 13 (delta 4), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (4/4), completed with 1 local object.
+To github.com:VolhaSarkisova/sa.it-academy.by.git
+   81a4fb6..4fe62fa  md-sa2-35-26 -> md-sa2-35-26
+Enumerating objects: 23, done.
+Counting objects: 100% (21/21), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (11/11), done.
+Writing objects: 100% (13/13), 2.88 KiB | 2.88 MiB/s, done.
+Total 13 (delta 4), reused 0 (delta 0), pack-reused 0 (from 0)
 remote:
 remote: To create a merge request for md-sa2-35-26, visit:
 remote:   https://gitlab.com/volha_sarkisava-group/devops-md-sa2-35-26/-/merge_r
 equests/new?merge_request%5Bsource_branch%5D=md-sa2-35-26
 remote:
 To https://gitlab.com/volha_sarkisava-group/devops-md-sa2-35-26.git
-   6dacc0c..b6f5453  md-sa2-35-26 -> md-sa2-35-26
+   b6f5453..4fe62fa  md-sa2-35-26 -> md-sa2-35-26
+
+
 
 ```
