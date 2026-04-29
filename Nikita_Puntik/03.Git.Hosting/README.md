@@ -1,4 +1,4 @@
-    '''bash
+```bash
     1  history
     2  ssh -T git@github.com
     3  ssh -T git@gitlab.com
@@ -43,4 +43,4 @@
    42  alias
    43  git-push-all
    44  history
-'''
+```
