@@ -8,4 +8,6 @@
 * GitHub: Settings → SSH and GPG keys → New SSH key
 * GitLab: Preferences → Access → SSH Keys → Add new key
 
-
+### Email notifications push/commit events
+* GitHub: My repositories → Settings → Email notifications
+* GitLab: My repositories → Settings → Integrations → Add "Emails on push"
