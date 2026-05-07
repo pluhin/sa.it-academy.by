@@ -1,0 +1,8 @@
+nodes:
+  hosts:
+    node1:
+      ansible_host: 192.168.56.101
+      ansible_user: alex
+    node2:
+      ansible_host: 192.168.56.102  
+      ansible_user: alex

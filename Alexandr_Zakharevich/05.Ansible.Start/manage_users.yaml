@@ -1,0 +1,56 @@
+---
+- name: Управление пользователями и группами
+  hosts: nodes
+  become: yes
+  vars_prompt:
+    - name: user_name
+      prompt: "Введите имя пользователя"
+      private: no
+    - name: group_name
+      prompt: "Введите имя группы"
+      private: no
+    - name: user_password
+      prompt: "Введите пароль"
+      private: yes
+      encrypt: sha512_crypt
+      confirm: yes
+  
+  tasks:
+    - name: Создать группу, если она не существует
+      ansible.builtin.group:
+        name: "{{ group_name }}"
+        state: present
+
+    - name: Создать пользователя
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+        group: "{{ group_name }}"
+        password: "{{ user_password }}"
+        state: present
+        shell: /bin/bash
+        create_home: yes
+
+    - name: Убедиться, что домашняя директория имеет правильные права
+      ansible.builtin.file:
+        path: "/home/{{ user_name }}"
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        mode: '0750'
+        state: directory
+
+    - name: Получить информацию о пользователе через id
+      ansible.builtin.command: "id {{ user_name }}"
+      register: user_id
+      changed_when: false
+
+    - name: Получить информацию о группах пользователя
+      ansible.builtin.command: "groups {{ user_name }}"
+      register: user_groups
+      changed_when: false
+
+    - name: Вывести детальную информацию
+      ansible.builtin.debug:
+        msg:
+          - "📋 id: {{ user_id.stdout }}"
+          - "📋 groups: {{ user_groups.stdout }}"
+          - "📋 Основная группа: {{ group_name }}"    

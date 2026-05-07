@@ -1,0 +1,27 @@
+---
+- name: Установка базовых пакетов на удалённый хост
+  hosts: nodes
+  become: yes
+  vars:
+    app_packages:
+      - htop
+      - vim
+  tasks:
+    - name: Install apps
+      ansible.builtin.apt:
+        name: "{{ app_packages }}"
+        state: present
+        update_cache: yes  
+
+    - name: Проверить установку
+      ansible.builtin.command: "which {{ item }}"
+      loop: "{{ app_packages }}"
+      register: check
+      changed_when: false
+
+    - name: Результат
+      ansible.builtin.debug:
+        msg: "{{ item.item }}: {{ item.stdout }}"
+      loop: "{{ check.results }}"
+      loop_control:
+        label: "{{ item.item }}"

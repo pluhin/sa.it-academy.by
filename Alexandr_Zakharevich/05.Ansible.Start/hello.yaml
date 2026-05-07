@@ -1,0 +1,8 @@
+---
+- name: My first playbook
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Вывести приветственное сообщение
+      ansible.builtin.debug:
+        msg: "Hello, Ansible!"
