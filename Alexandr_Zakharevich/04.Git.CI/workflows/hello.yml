@@ -1,0 +1,27 @@
+# Имя workflow, отображается во вкладке Actions
+name: Hello GitHub Actions
+
+# Триггер: запускать при каждом пуше в ветку master
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  run-hello-script:
+    # Запускаем на виртуальной машине с Ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Скачиваем код репозитория в рабочую директорию раннера
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Настраиваем Python
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+
+      # 3. Запускаем скрипт
+      - name: Run script hello.py
+        run: python 04.Git.CI/hello.py

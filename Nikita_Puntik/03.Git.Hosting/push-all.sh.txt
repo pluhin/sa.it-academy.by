@@ -1,0 +1,46 @@
+set -e  # остановка при ошибке
+
+echo "========================================="
+echo "  Git Push to All Remote Repositories"
+echo "========================================="
+
+# Определяем текущую ветку
+BRANCH=$(git branch --show-current)
+if [ -z "$BRANCH" ]; then
+    echo "❌ Не удалось определить текущую ветку"
+    exit 1
+fi
+echo "📌 Текущая ветка: $BRANCH"
+
+# Получаем список всех уникальных remote
+REMOTES=$(git remote | sort -u)
+
+if [ -z "$REMOTES" ]; then
+    echo "❌ Нет ни одного remote репозитория"
+    echo "   Добавьте remote: git remote add <имя> <URL>"
+    exit 1
+fi
+
+echo "📡 Найдено remote репозиториев:"
+echo "$REMOTES" | sed 's/^/   - /'
+echo ""
+
+# Пуш в каждый remote
+SUCCESS_COUNT=0
+FAIL_COUNT=0
+
+for remote in $REMOTES; do
+    echo "➡️  Push в $remote ..."
+    if git push "$remote" "$BRANCH"; then
+        echo "   ✅ Успешно: $remote"
+        ((SUCCESS_COUNT++))
+    else
+        echo "   ❌ Ошибка: $remote"
+        ((FAIL_COUNT++))
+    fi
+    echo ""
+done
+
+echo "========================================="
+echo "📊 Результат: успешно: $SUCCESS_COUNT, ошибок: $FAIL_COUNT"
+echo "========================================="
