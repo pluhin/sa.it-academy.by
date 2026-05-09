@@ -1,0 +1,36 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+ENV['VAGRANT_SERVER_URL'] = 'https://vagrant.elab.pro'
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/jammy64" # Ubuntu 22.04 LTS
+
+  # --- node1 (192.168.56.101) ---
+  config.vm.define "node1" do |node1|
+    node1.vm.hostname = "node1"
+    node1.vm.network "private_network", ip: "192.168.56.101"
+    
+    # Настройка ресурсов (по желанию)
+    node1.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+      vb.cpus = 1
+    end
+    # Запуск скрипта настройки
+    #node1.vm.provision "shell", path: "ssh.sh"
+  end
+
+  # --- node2 (192.168.56.102) ---  
+  config.vm.define "node2" do |node2|
+    node2.vm.hostname = "node2"
+    node2.vm.network "private_network", ip: "192.168.56.102"
+    
+    # Настройка ресурсов (по желанию)
+    node2.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+      vb.cpus = 1
+    end
+    # Запуск скрипта настройки
+    #node2.vm.provision "shell", path: "ssh.sh"
+  end
+
+end
