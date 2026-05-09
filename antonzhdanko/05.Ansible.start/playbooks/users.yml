@@ -1,0 +1,28 @@
+---
+- hosts: all_workers
+  become: true
+
+  vars:
+    user_name: "{{ user_to_add | default('devopsuser') }}"
+    group_name: "{{ group_to_add | default('devops') }}"
+
+  tasks:
+    - name: Create group
+      group:
+        name: "{{ group_name }}"
+        state: present
+
+    - name: Create user
+      user:
+        name: "{{ user_name }}"
+        group: "{{ group_name }}"
+        shell: /bin/bash
+        password: "{{ 'QwertY_13' | password_hash('sha512') }}"
+        state: present
+    - name: Verify user
+      shell: id {{ user_name }}
+      register: user_info
+
+    - name: Print user info
+      debug:
+        msg: "{{ user_info.stdout }}"
