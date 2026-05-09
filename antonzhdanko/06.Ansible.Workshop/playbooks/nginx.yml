@@ -1,0 +1,70 @@
+---
+- hosts: all_workers
+  become: true
+
+  vars:
+    nginx_vhosts:
+      - site1.local
+      - site2.local
+
+  tasks:
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: true
+
+    - name: Start and enable nginx
+      service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Create web directories
+      file:
+        path: "/var/www/{{ item }}"
+        state: directory
+        mode: '0755'
+      loop: "{{ nginx_vhosts }}"
+
+    - name: Deploy index.html
+      template:
+        src: index.html.j2
+        dest: "/var/www/{{ item }}/index.html"
+      loop: "{{ nginx_vhosts }}"
+
+    - name: Deploy nginx virtualhost config
+      template:
+        src: vhost.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item }}"
+      loop: "{{ nginx_vhosts }}"
+      notify: Reload nginx
+
+    - name: Enable virtualhosts
+      file:
+        src: "/etc/nginx/sites-available/{{ item }}"
+        dest: "/etc/nginx/sites-enabled/{{ item }}"
+        state: link
+      loop: "{{ nginx_vhosts }}"
+      notify: Reload nginx
+
+    - name: Remove default nginx config
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: Reload nginx
+
+    - name: Test nginx config
+      command: nginx -t
+
+    - name: Test HTTP connection
+      uri:
+        url: "http://127.0.0.1"
+        status_code: 200
+
+  handlers:
+    - name: Reload nginx
+      service:
+        name: nginx
+        state: reloaded
