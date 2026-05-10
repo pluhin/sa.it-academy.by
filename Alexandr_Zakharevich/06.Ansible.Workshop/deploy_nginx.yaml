@@ -1,0 +1,128 @@
+---
+- name: Установка и настройка Nginx с несколькими виртуальными хостами
+  hosts: node1
+  become: yes
+  
+  vars:
+    sites:
+      - name: site1.local
+        root_dir: /var/www/site1.local
+      - name: site2.local
+        root_dir: /var/www/site2.local
+
+  tasks:
+    - name: Сбор информации о системе
+      setup:
+
+    - name: Установка Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Запуск Nginx
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Создание директорий
+      file:
+        path: "{{ item.root_dir }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop: "{{ sites }}"
+
+    - name: Настройка виртуальных хостов
+      template:
+        src: vhost.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.name }}.conf"
+      loop: "{{ sites }}"
+
+    - name: Включение виртуальных хостов
+      file:
+        src: "/etc/nginx/sites-available/{{ item.name }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ item.name }}.conf"
+        state: link
+      loop: "{{ sites }}"
+
+    - name: Удаление дефолтного сайта
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      ignore_errors: yes
+
+    - name: Создание HTML файлов
+      template:
+        src: index.html.j2
+        dest: "{{ item.root_dir }}/index.html"
+      loop: "{{ sites }}"
+
+    - name: Добавление записей в /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        line: "127.0.0.1 {{ item.name }}"
+        state: present
+      loop: "{{ sites }}"
+
+    - name: Перезапуск Nginx
+      systemd:
+        name: nginx
+        state: restarted
+
+    - name: Ожидание запуска Nginx
+      pause:
+        seconds: 3
+
+    - name: Проверка синтаксиса Nginx
+      command: nginx -t
+      register: nginx_test
+      failed_when: nginx_test.rc != 0
+
+    # Цикл проверки для всех сайтов
+    - name: Проверка виртуальных хостов
+      uri:
+        url: "http://{{ item.name }}"
+        return_content: yes
+        status_code: 200
+        timeout: 10
+      loop: "{{ sites }}"
+      register: check_results
+      failed_when: false
+
+    - name: Проверка статуса 200 для каждого сайта
+      fail:
+        msg: "❌ {{ item.item.name }} - HTTP статус {{ item.status }} (ожидался 200)"
+      loop: "{{ check_results.results }}"
+      when: item.status != 200
+
+    - name: Проверка наличия hostname в содержимом
+      fail:
+        msg: "❌ {{ item.item.name }} - hostname '{{ ansible_hostname }}' не найден"
+      loop: "{{ check_results.results }}"
+      when: 
+        - item.status == 200
+        - ansible_hostname not in item.content
+
+    - name: Проверка наличия FQDN в содержимом
+      fail:
+        msg: "❌ {{ item.item.name }} - FQDN '{{ ansible_fqdn }}' не найден"
+      loop: "{{ check_results.results }}"
+      when: 
+        - item.status == 200
+        - ansible_fqdn not in item.content
+
+    - name: Успешная проверка всех сайтов
+      debug:
+        msg: |
+          ✅ Все проверки пройдены!
+          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          📊 Хост: {{ ansible_hostname }} ({{ ansible_fqdn }})
+          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          ✅ site1.local - статус 200 (содержит hostname и FQDN)
+          ✅ site2.local - статус 200 (содержит hostname и FQDN)
+          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          🎉 Nginx успешно настроен!
