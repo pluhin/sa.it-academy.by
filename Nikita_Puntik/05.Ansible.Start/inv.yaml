@@ -1,0 +1,15 @@
+all_workers:
+  hosts:
+    host11:
+      ansible_host: 192.168.202.11
+      ansible_user: root
+    host12:
+      ansible_host: 192.168.202.12
+      ansible_user: root
+
+jump_sa:
+  hosts:
+    bastion:
+      ansible_host: 178.124.206.53
+      ansible_user: jump_sa
+      ansible_port: 32511
