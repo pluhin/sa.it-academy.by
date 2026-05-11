@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ item.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(0,0,0,0.7);
+            padding: 30px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+        h1 { color: #ffd700; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Добро пожаловать на {{ item.name }}</h1>
+        <p><strong>Имя хоста:</strong> {{ ansible_hostname }}</p>
+        <p><strong>FQDN:</strong> {{ ansible_fqdn }}</p>
+        <p><strong>Время на сервере:</strong> {{ ansible_date_time.date }} {{ ansible_date_time.time }}</p>
+        <p><strong>ОС:</strong> {{ ansible_distribution }} {{ ansible_distribution_version }}</p>
+    </div>
+</body>
+</html>
