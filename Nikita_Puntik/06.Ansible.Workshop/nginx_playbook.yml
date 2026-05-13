@@ -1,0 +1,73 @@
+---
+- name: Install Nginx with two virtual hosts
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Create web directories
+      file:
+        path: "/var/www/{{ item }}"
+        state: directory
+      loop:
+        - site1
+        - site2
+
+    - name: Deploy virtual host configs
+      template:
+        src: "{{ item.src }}"
+        dest: "/etc/nginx/sites-available/{{ item.dest }}"
+      loop:
+        - { src: site1.conf.j2, dest: site1.local }
+        - { src: site2.conf.j2, dest: site2.local }
+      notify: restart nginx
+
+    - name: Enable sites (create symlinks)
+      file:
+        src: "/etc/nginx/sites-available/{{ item }}"
+        dest: "/etc/nginx/sites-enabled/{{ item }}"
+        state: link
+      loop:
+        - site1.local
+        - site2.local
+      notify: restart nginx
+
+    - name: Remove default site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: restart nginx
+
+    - name: Deploy HTML for site1
+      template:
+        src: index.html.j2
+        dest: /var/www/site1/index.html
+      vars:
+        site_name: "site1.local"
+
+    - name: Deploy HTML for site2
+      template:
+        src: index.html.j2
+        dest: /var/www/site2/index.html
+      vars:
+        site_name: "site2.local"
+
+    - name: Start Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
