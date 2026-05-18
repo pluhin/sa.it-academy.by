@@ -117,3 +117,27 @@ kube-system   kube-proxy-wwjv7                   1/1     Running   0            
 kube-system   kube-scheduler-minikube            1/1     Running   0               4m53s
 kube-system   storage-provisioner                1/1     Running   1 (4m16s ago)   4m51s
 ```
+
+## History
+```
+brew install kind
+kind version
+kind create cluster --name 09.kind-cluster
+kubectl get nodes
+
+brew install minikube
+minikube version
+minikube start --driver=docker
+kubectl get nodes
+```
+
+Git Actions
+```
+vim .github/workflows/kind.yml
+```
+
+
+```
+vim .github/workflows/minikube.yml
+```
+

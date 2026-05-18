@@ -1,0 +1,18 @@
+name: KinD Cluster Setup
+
+on:
+  push:
+
+jobs:
+  kind:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create KinD cluster
+        uses: helm/kind-action@v1
+
+      - name: Check cluster
+        run: kubectl get nodes
