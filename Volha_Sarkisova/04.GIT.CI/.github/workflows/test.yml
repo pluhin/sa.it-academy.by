@@ -1,0 +1,54 @@
+name: Run Unit Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  test:
+    name: Run Python Unit Tests
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Display Python version
+        run: python --version
+      
+      - name: Run unit tests
+        run: |
+          python -m unittest calc_test.py -v
+      
+      - name: Display test results
+        run: |
+          if [ $? -eq 0 ]; then
+            echo "✅ All tests passed on Python ${{ matrix.python-version }}"
+          else
+            echo "❌ Some tests failed on Python ${{ matrix.python-version }}"
+            exit 1
+          fi
+        shell: bash
+      
+      - name: Run with coverage (optional)
+        run: |
+          python -m unittest discover -v 2>&1 | tee test-output.log
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-python-${{ matrix.python-version }}
+          path: test-output.log

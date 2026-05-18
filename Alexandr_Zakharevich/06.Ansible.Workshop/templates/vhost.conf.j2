@@ -1,0 +1,9 @@
+server {
+    listen 80;
+    server_name {{ item.name }};
+    root {{ item.root_dir }};
+    index index.html;
+
+    access_log /var/log/nginx/{{ item.name }}_access.log;
+    error_log /var/log/nginx/{{ item.name }}_error.log;
+}

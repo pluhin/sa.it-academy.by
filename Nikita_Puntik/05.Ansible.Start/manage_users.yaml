@@ -1,0 +1,29 @@
+---
+- name: Manage users and groups
+  hosts: all_workers
+  become: yes
+  vars:
+    user_name: "devops_user"
+    group_name: "devops_team"
+    user_password: "$6$E8MxSL8VIRbp.Znj$W.hWTmysuvKKOG5Os1PIn8aRKYFTChEczmVS.0wYTiHuFf7Wn8/DAvQMv0rh3kyE23.l.H3hEqpW7MNi50InL0"
+  tasks:
+    - name: Create group
+      group:
+        name: "{{ group_name }}"
+        state: present
+
+    - name: Create user
+      user:
+        name: "{{ user_name }}"
+        group: "{{ group_name }}"
+        password: "{{ user_password }}"
+        shell: /bin/bash
+        create_home: yes
+        state: present
+
+    - name: Add user to sudoers
+      copy:
+        content: "{{ user_name }} ALL=(ALL) NOPASSWD:ALL\n"
+        dest: "/etc/sudoers.d/{{ user_name }}"
+        mode: 0440
+        validate: 'visudo -cf %s'
