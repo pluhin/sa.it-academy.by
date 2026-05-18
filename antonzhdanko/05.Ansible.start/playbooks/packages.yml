@@ -1,0 +1,10 @@
+---
+- hosts: all_workers
+  become: true
+
+  tasks:
+    - name: Install htop
+      apt:
+        name: htop
+        state: present
+        update_cache: true
