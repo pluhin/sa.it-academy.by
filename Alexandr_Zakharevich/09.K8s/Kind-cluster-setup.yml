@@ -1,0 +1,49 @@
+name: KinD Cluster Setup
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  kind-cluster:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.30.0'
+        id: install
+      
+      - name: Setup KinD
+        uses: helm/kind-action@v1.10.0
+        with:
+          version: v0.24.0
+          cluster_name: kind-cluster
+          wait: 120s
+          node_image: kindest/node:v1.30.0
+      
+      - name: Verify cluster
+        run: |
+          echo "=== Cluster Info ==="
+          kubectl cluster-info
+          echo "=== Nodes ==="
+          kubectl get nodes -o wide
+          echo "=== Pods in all namespaces ==="
+          kubectl get pods -A
+          echo "=== Node count ==="
+          kubectl get nodes --no-headers | wc -l
+          echo "=== Kubernetes Version ==="
+          kubectl version --short || kubectl version
+      
+      - name: Get cluster details
+        run: |
+          echo "## Кластер KinD" >> $GITHUB_STEP_SUMMARY
+          echo "- Узлов: $(kubectl get nodes --no-headers | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo "- Версия Kubernetes: $(kubectl version -o json | jq -r '.serverVersion.gitVersion')" >> $GITHUB_STEP_SUMMARY
+          echo "- Время создания: $(date)" >> $GITHUB_STEP_SUMMARY
