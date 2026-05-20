@@ -41,3 +41,5 @@ tar xzf actions-runner-linux-x64-latest.tar.gz
 ```
 
 `check-cluster.yml` - workflow автоматически мониторит Kubernetes кластеры и отправляет отчёт в Slack каждый час.
+
+![alt text](image-1.png)
