@@ -1,0 +1,63 @@
+name: Local K8s Cluster Monitor
+
+on:
+  schedule:
+    - cron: '1 * * * *'
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: self-hosted
+    steps:
+      - name: Send Slack notification
+        env:
+          SLACK_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID }}
+          KUBECONFIG: /home/alex/.kube/config:/home/alex/.kube/config-k3s:/home/alex/.kube/config-k8s
+        run: |
+          # Создаём временный файл для отчёта
+          REPORT_FILE="/tmp/k8s_report.txt"
+          
+          > "$REPORT_FILE"
+          
+          for CONTEXT in minikube k3s k8s; do
+            echo "Проверяем: $CONTEXT"
+            
+            if ! kubectl cluster-info --context="$CONTEXT" --request-timeout=5s &>/dev/null; then
+              echo "❌ $CONTEXT — НЕДОСТУПЕН" >> "$REPORT_FILE"
+              echo "" >> "$REPORT_FILE"
+              continue
+            fi
+            
+            # Записываем вывод как во втором скрине
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >> "$REPORT_FILE"
+            echo "📍 $CONTEXT" >> "$REPORT_FILE"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >> "$REPORT_FILE"
+            echo "Time: $(date '+%a %b %d %H:%M:%S %z %Y')" >> "$REPORT_FILE"
+            echo "Host: $(hostname)" >> "$REPORT_FILE"
+            echo "" >> "$REPORT_FILE"
+            echo "Pods:" >> "$REPORT_FILE"
+            echo "\`\`\`" >> "$REPORT_FILE"
+            
+            # Форматируем вывод подов
+            printf "%-15s %-40s %-6s %-10s %-8s %s\n" "NAMESPACE" "NAME" "READY" "STATUS" "RESTARTS" "AGE" >> "$REPORT_FILE"
+            
+            kubectl get pods --all-namespaces --context="$CONTEXT" --no-headers 2>&1 | \
+              while read ns name ready status restarts age; do
+                printf "%-15s %-40s %-6s %-10s %-8s %s\n" "$ns" "$name" "$ready" "$status" "$restarts" "$age" >> "$REPORT_FILE"
+              done
+            
+            echo "\`\`\`" >> "$REPORT_FILE"
+            echo "" >> "$REPORT_FILE"
+          done
+          
+          # Отправляем файл в Slack
+          TEXT=$(cat "$REPORT_FILE" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
+          
+          curl -s -X POST \
+            -H "Authorization: Bearer $SLACK_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"channel\":\"$SLACK_CHANNEL\",\"text\":$TEXT}" \
+            https://slack.com/api/chat.postMessage
+          
+          echo "✅ Отчёт отправлен"
