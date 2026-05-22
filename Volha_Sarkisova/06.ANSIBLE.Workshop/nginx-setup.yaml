@@ -1,0 +1,144 @@
+---
+- name: Simple Nginx setup with two virtual hosts
+  hosts: mysql
+  become: yes
+
+  vars:
+    site1_name: site1
+    site2_name: site2
+    site1_port: 8081
+    site2_port: 8082
+
+  tasks:
+    # 1. Установка Nginx
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    # 2. Запуск Nginx
+    - name: Start Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    # 3. Создание директорий для сайтов
+    - name: Create web directories
+      file:
+        path: "/var/www/{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - "{{ site1_name }}"
+        - "{{ site2_name }}"
+
+    # 4. Создание HTML файлов с уникальными данными
+    - name: Create index page for site1
+      copy:
+        content: |
+          <html>
+          <body>
+            <h1>Site 1</h1>
+            <p>Hostname: {{ ansible_hostname }}</p>
+            <p>FQDN: {{ ansible_fqdn }}</p>
+            <p>IP Address: {{ ansible_default_ipv4.address }}</p>
+            <p>Port: {{ site1_port }}</p>
+            <hr>
+            <p>Deployed by Ansible on {{ ansible_date_time.date }}</p>
+          </body>
+          </html>
+        dest: "/var/www/{{ site1_name }}/index.html"
+        mode: '0644'
+
+    - name: Create index page for site2
+      copy:
+        content: |
+          <html>
+          <body>
+            <h1>Site 2</h1>
+            <p>Hostname: {{ ansible_hostname }}</p>
+            <p>FQDN: {{ ansible_fqdn }}</p>
+            <p>IP Address: {{ ansible_default_ipv4.address }}</p>
+            <p>Port: {{ site2_port }}</p>
+            <hr>
+            <p>Deployed by Ansible on {{ ansible_date_time.date }}</p>
+          </body>
+          </html>
+        dest: "/var/www/{{ site2_name }}/index.html"
+        mode: '0644'
+
+    # 5. Создание конфигураций виртуальных хостов
+    - name: Configure virtual host for site1
+      copy:
+        content: |
+          server {
+              listen {{ site1_port }};
+              server_name _;
+              root /var/www/{{ site1_name }};
+              index index.html;
+          }
+        dest: "/etc/nginx/sites-available/{{ site1_name }}"
+        mode: '0644'
+
+    - name: Configure virtual host for site2
+      copy:
+        content: |
+          server {
+              listen {{ site2_port }};
+              server_name _;
+              root /var/www/{{ site2_name }};
+              index index.html;
+          }
+        dest: "/etc/nginx/sites-available/{{ site2_name }}"
+        mode: '0644'
+
+    # 6. Включение сайтов
+    - name: Enable site1
+      file:
+        src: "/etc/nginx/sites-available/{{ site1_name }}"
+        dest: "/etc/nginx/sites-enabled/{{ site1_name }}"
+        state: link
+
+    - name: Enable site2
+      file:
+        src: "/etc/nginx/sites-available/{{ site2_name }}"
+        dest: "/etc/nginx/sites-enabled/{{ site2_name }}"
+        state: link
+
+    # 7. Удаление default сайта
+    - name: Remove default site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    # 8. Перезагрузка Nginx
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded
+
+    # 9. Проверка
+    - name: Check if site1 is working
+      uri:
+        url: "http://{{ ansible_host }}:{{ site1_port }}"
+        return_content: yes
+      register: site1_check
+
+    - name: Check if site2 is working
+      uri:
+        url: "http://{{ ansible_host }}:{{ site2_port }}"
+        return_content: yes
+      register: site2_check
+
+    # 10. Результат
+    - name: Show success message
+      debug:
+        msg: |
+          ========================================
+          ✅ Nginx successfully configured!
+          ========================================
+          Site 1: http://{{ ansible_host }}:{{ site1_port }}
+          Site 2: http://{{ ansible_host }}:{{ site2_port }}
+          ========================================

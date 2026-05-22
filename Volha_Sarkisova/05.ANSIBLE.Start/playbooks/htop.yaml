@@ -1,0 +1,56 @@
+---
+- name: Install htop on PostgreSQL hosts
+  hosts: host13
+  vars:
+    app_packages:
+      - htop
+
+  pre_tasks:
+    - name: Validate htop configuration
+      debug:
+        msg:
+          - "Target host: {{ ansible_host }}"
+          - "Package to install: {{ app_packages }}"
+      tags: always
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+      tags: install
+
+    - name: Install htop package
+      apt:
+        name: "{{ app_packages }}"
+        state: latest
+        update_cache: false
+      tags: install
+
+    - name: Get htop version
+      shell: htop --version | head -1
+      register: htop_version_output
+      changed_when: false
+      failed_when: htop_version_output.rc != 0
+      tags: verify
+
+    - name: Set htop version fact
+      set_fact:
+        htop_version: "{{ htop_version_output.stdout }}"
+      tags: verify
+
+    - name: Display htop version
+      debug:
+        msg: "htop installed version: {{ htop_version }}"
+      tags: verify
+
+    - name: Check htop binary location
+      command: which htop
+      register: htop_check
+      changed_when: false
+      tags: verify
+
+    - name: Show htop path
+      debug:
+        msg: "htop binary: {{ htop_check.stdout }}"
+      when: htop_check.rc == 0
+      tags: verify

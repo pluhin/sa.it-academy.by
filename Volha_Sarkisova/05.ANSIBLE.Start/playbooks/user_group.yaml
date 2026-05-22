@@ -1,0 +1,38 @@
+---
+- name: Quick user management
+  hosts: host13
+  become: yes
+
+  vars:
+    username: "{{ user_name | default('newuser') }}"
+    groupname: "{{ group_name | default('newgroup') }}"
+    userpass: "{{ password | default('DefaultPass123!') }}"
+
+  tasks:
+    - name: Create group
+      group:
+        name: "{{ groupname }}"
+        state: present
+
+    - name: Create user with group
+      user:
+        name: "{{ username }}"
+        group: "{{ groupname }}"
+        password: "{{ userpass | password_hash('sha512') }}"
+        shell: /bin/bash
+        create_home: yes
+
+    - name: Add user to sudo group
+      user:
+        name: "{{ username }}"
+        groups: sudo
+        append: yes
+
+    - name: Verify user
+      command: id "{{ username }}"
+      register: user_info
+      changed_when: false
+
+    - name: Show user info
+      debug:
+        msg: "{{ user_info.stdout }}"
