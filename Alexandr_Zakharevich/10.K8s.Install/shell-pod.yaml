@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: shell-pod
+  namespace: default
+spec:
+  containers:
+  - name: shell
+    image: alpine
+    command: ["/bin/sh"]
+    args: ["-c", "sleep 3600"]

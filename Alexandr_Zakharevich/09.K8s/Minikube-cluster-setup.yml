@@ -1,0 +1,48 @@
+name: Minikube Cluster Setup
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  minikube-cluster:
+    runs-on: ubuntu-22.04
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Minikube
+        uses: manusa/actions-setup-minikube@v2.10.0
+        with:
+          minikube version: 'v1.32.0'
+          kubernetes version: 'v1.27.2'
+          driver: docker
+          start args: '--memory=4096 --cpus=2'
+      
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.30.0'
+      
+      - name: Verify cluster
+        run: |
+          echo "=== Minikube Status ==="
+          minikube status
+          echo "=== Cluster Info ==="
+          kubectl cluster-info
+          echo "=== Nodes ==="
+          kubectl get nodes -o wide
+          echo "=== Pods in all namespaces ==="
+          kubectl get pods -A
+      
+      - name: Get cluster details
+        run: |
+          echo "## Кластер Minikube" >> $GITHUB_STEP_SUMMARY
+          echo "- Узлов: $(kubectl get nodes --no-headers | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo "- Версия Kubernetes: $(kubectl version -o json | jq -r '.serverVersion.gitVersion')" >> $GITHUB_STEP_SUMMARY
+          echo "- Версия Minikube: $(minikube version)" >> $GITHUB_STEP_SUMMARY
+          echo "- Время создания: $(date)" >> $GITHUB_STEP_SUMMARY
+      
