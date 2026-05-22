@@ -1,0 +1,32 @@
+name: Minikube Cluster Setup
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  minikube:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: latest
+
+      - name: Start Minikube
+        uses: medyagh/setup-minikube@latest
+
+      - name: Check cluster
+        run: kubectl get nodes
+
+      - name: Deploy nginx
+        run: |
+          kubectl create deployment nginx --image=nginx
+          kubectl expose deployment nginx --port=80 --type=NodePort
+
+      - name: Verify resources
+        run: kubectl get all
