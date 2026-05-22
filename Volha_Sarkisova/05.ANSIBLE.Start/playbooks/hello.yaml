@@ -1,0 +1,8 @@
+- name: First playbook - print hello message
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Print Hello, Ansible!
+      ansible.builtin.debug:
+        msg: "Hello, Ansible!"
