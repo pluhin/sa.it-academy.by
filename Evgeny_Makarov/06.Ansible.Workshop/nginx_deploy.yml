@@ -1,0 +1,88 @@
+---
+- name: Install and configure nginx
+  hosts: web
+  become: true
+
+  vars:
+    vhosts:
+      - server_name: site1.local
+        root_dir: /var/www/site1
+
+      - server_name: site2.local
+        root_dir: /var/www/site2
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Create directories for virtual hosts
+      file:
+        path: "{{ item.root_dir }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop: "{{ vhosts }}"
+
+    - name: Create HTML files
+      template:
+        src: templates/index.html.j2
+        dest: "{{ item.root_dir }}/index.html"
+      loop: "{{ vhosts }}"
+
+    - name: Create nginx virtual host configs
+      template:
+        src: templates/vhost.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.server_name }}"
+      loop: "{{ vhosts }}"
+      notify: Restart nginx
+
+    - name: Enable virtual hosts
+      file:
+        src: "/etc/nginx/sites-available/{{ item.server_name }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.server_name }}"
+        state: link
+      loop: "{{ vhosts }}"
+      notify: Restart nginx
+
+    - name: Remove default nginx config
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: Restart nginx
+    
+    - name: Check HTTP 200 for each virtualhost
+      uri:
+        url: "http://127.0.0.1"
+        method: GET
+        headers:
+          Host: "{{ item.server_name }}"
+        status_code: 200
+        return_content: yes
+      register: website_check
+      loop: "{{ vhosts }}"
+
+    - name: Validate hostname in content
+      assert:
+        that:
+          - ansible_facts['hostname'] in item.content
+        fail_msg: "Hostname not found in {{ item.item.server_name }}"
+        success_msg: "Hostname found in {{ item.item.server_name }}"
+      loop: "{{ website_check.results }}"
+
+    - name: Validate FQDN in content
+      assert:
+        that:
+          - ansible_facts['fqdn'] in item.content
+        fail_msg: "FQDN not found in {{ item.item.server_name }}"
+        success_msg: "FQDN found in {{ item.item.server_name }}"
+      loop: "{{ website_check.results }}"
+
+  handlers:
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
