@@ -1,0 +1,51 @@
+name: Minikube Cluster Setup
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  minikube:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.31.0'
+
+      - name: Start Minikube cluster
+        uses: medyagh/setup-minikube@latest
+        with:
+          driver: docker
+          kubernetes-version: v1.31.0
+          start-args: --cpus=2 --memory=4096
+
+      - name: Wait for cluster ready
+        run: |
+          kubectl wait --for=condition=Ready nodes --all --timeout=180s
+
+      - name: Get cluster info
+        run: |
+          kubectl cluster-info
+          kubectl get nodes -o wide
+          kubectl get pods -A
+
+      - name: Verify cluster is working
+        run: |
+          NODE_STATUS=$(kubectl get nodes -o jsonpath='{.items[0].status.conditions[?(@.type=="Ready")].status}')
+          if [ "$NODE_STATUS" != "True" ]; then
+            echo "Cluster not ready"
+            exit 1
+          fi
+          echo "Minikube cluster is ready and working!"
+
+      - name: Show cluster details
+        run: |
+          echo "=== Node info ==="
+          kubectl get nodes
+          echo "=== All pods ==="
+          kubectl get pods -A

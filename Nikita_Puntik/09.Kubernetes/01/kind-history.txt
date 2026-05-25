@@ -1,0 +1,31 @@
+ 1369  wget https://github.com/kubernetes-sigs/kind/releases/download/v0.27.0/kind-linux-amd64
+ 1370  ls
+ 1371  chmod +x kind-linux-amd64
+ 1372  sudo mv kind-linux-amd64 /usr/local/bin/kind
+ 1373  kind version
+ 1374  kind create cluster --name k8s-kind
+ 1382  mkdir 01
+ 1383  cd 01 
+ 1384  ls 
+ 1385  kind version
+ 1386  kubectl version
+ 1387  kubectl cluster-info
+ 1388  kubectl getnodes -o wide
+ 1389  kubectl get nodes -o wide
+ 1390  kubectl get pods -A
+ 1391  history | tail -10 > kind-history.txt
+NAMESPACE            NAME                                             READY   STATUS    RESTARTS   AGE
+kube-system          coredns-668d6bf9bc-q9nnc                         1/1     Running   0          6m31s
+kube-system          coredns-668d6bf9bc-xwg94                         1/1     Running   0          6m31s
+kube-system          etcd-k8s-kind-control-plane                      1/1     Running   0          6m37s
+kube-system          kindnet-w5998                                    1/1     Running   0          6m32s
+kube-system          kube-apiserver-k8s-kind-control-plane            1/1     Running   0          6m37s
+kube-system          kube-controller-manager-k8s-kind-control-plane   1/1     Running   0          6m37s
+kube-system          kube-proxy-7mm97                                 1/1     Running   0          6m32s
+kube-system          kube-scheduler-k8s-kind-control-plane            1/1     Running   0          6m37s
+local-path-storage   local-path-provisioner-7dc846544d-s44xl          1/1     Running   0          6m31s
+kubectl version
+Client Version: v1.36.1
+Kustomize Version: v5.8.1
+Server Version: v1.32.2
+Warning: version difference between client (1.36) and server (1.32) exceeds the supported minor version skew of +/-1
