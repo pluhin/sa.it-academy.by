@@ -1,0 +1,37 @@
+ 	minikube version
+minikube version: v1.38.1
+	minikube start
+😄  minikube v1.38.1 on Ubuntu 24.04 (kvm/amd64)
+✨  Using the docker driver based on user configuration
+❗  Starting v1.39.0, minikube will default to "containerd" container runtime. See #21973 for more info.
+📌  Using Docker driver with root privileges
+❗  For an improved experience it's recommended to use Docker Engine instead of Docker Desktop.
+Docker Engine installation instructions: https://docs.docker.com/engine/install/#server
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🚜  Pulling base image v0.0.50 ...
+🔥  Creating docker container (CPUs=2, Memory=3072MB) ...
+🐳  Preparing Kubernetes v1.35.1 on Docker 29.2.1 ...
+🔗  Configuring bridge CNI (Container Networking Interface) ...
+🔎  Verifying Kubernetes components...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🌟  Enabled addons: storage-provisioner, default-storageclass
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+	minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+	kubectl get nodes
+NAME       STATUS   ROLES           AGE     VERSION
+minikube   Ready    control-plane   2m42s   v1.35.	1
+	kubectl get pods -A
+NAMESPACE     NAME                               READY   STATUS    RESTARTS        AGE
+kube-system   coredns-7d764666f9-6hwrc           1/1     Running   0               2m44s
+kube-system   etcd-minikube                      1/1     Running   0               2m50s
+kube-system   kube-apiserver-minikube            1/1     Running   0               2m52s
+kube-system   kube-controller-manager-minikube   1/1     Running   0               2m50s
+kube-system   kube-proxy-psx7j                   1/1     Running   0               2m44s
+kube-system   kube-scheduler-minikube            1/1     Running   0               2m50s
+kube-system   storage-provisioner                1/1     Running   1 (2m22s ago)   2m49s
