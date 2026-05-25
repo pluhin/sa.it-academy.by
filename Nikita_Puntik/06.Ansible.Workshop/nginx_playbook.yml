@@ -23,11 +23,14 @@
 
     - name: Deploy virtual host configs
       template:
-        src: "{{ item.src }}"
-        dest: "/etc/nginx/sites-available/{{ item.dest }}"
+        src: site.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.name }}"
       loop:
-        - { src: site1.conf.j2, dest: site1.local }
-        - { src: site2.conf.j2, dest: site2.local }
+        - { name: site1.local, dir: site1 }
+        - { name: site2.local, dir: site2 }
+      vars:
+        site_name: "{{ item.name }}"
+        site_dir: "{{ item.dir }}"
       notify: restart nginx
 
     - name: Enable sites (create symlinks)
