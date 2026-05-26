@@ -1,4 +1,4 @@
-'''bash
+```bash
 **Homework Assignment 1: Docker Installation and Basic Commands
   523  mkdir 07.Docker
   524  sudo apt update
@@ -133,4 +133,4 @@
   579  docker ps -a
 			CONTAINER ID   IMAGE         COMMAND    CREATED          STATUS                      PORTS     NAMES
 			c1f757b2beb8   hello-world   "/hello"   42 minutes ago   Exited (0) 42 minutes ago             trusting_lehmann
-'''
+```
