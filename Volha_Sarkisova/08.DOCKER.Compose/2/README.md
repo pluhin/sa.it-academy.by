@@ -1,15 +1,16 @@
 			
+```bash
 **Homework Assignment 2: Docker build automation (github action)
-** Ñòðóêòóðà ïðîåêòà
+** Ð¡Ñ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð° Ð¿Ñ€Ð¾ÐµÐºÑ‚Ð°
 2/
 +-- app/
-¦   L-- main.py
+Â¦   L-- main.py
 +-- requirements.txt
 +-- Dockerfile
 +-- docker-compose.yml
 +-- .github/
-¦   +-- workflows/
-¦   ¦   L-- docker-build.yml
+Â¦   +-- workflows/
+Â¦   Â¦   L-- docker-build.yml
 L-- README.md  
   
   
@@ -61,11 +62,11 @@ L-- README.md
 **kryvol@99-SarkisovaO:/mnt/c/Users/99-SarkisovaOV/08.DOCKER.Compose/2$ docker ps
 
 		CONTAINER ID   IMAGE                COMMAND                  CREATED          STATUS                  PORTS                                         NAMES
-		7fdd6736474b   my-python-app        "uvicorn main:app --…"   19 seconds ago   Up 18 seconds           0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp   my-python-app
-		702ec817613b   python-app           "gunicorn --bind 0.0…"   19 hours ago     Up 19 hours (healthy)   0.0.0.0:5100->5000/tcp, [::]:5100->5000/tcp   python-app
+		7fdd6736474b   my-python-app        "uvicorn main:app --â€¦"   19 seconds ago   Up 18 seconds           0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp   my-python-app
+		702ec817613b   python-app           "gunicorn --bind 0.0â€¦"   19 hours ago     Up 19 hours (healthy)   0.0.0.0:5100->5000/tcp, [::]:5100->5000/tcp   python-app
 		987e97051730   1-web                "python app.py"          23 hours ago     Up 23 hours             0.0.0.0:5000->5000/tcp, [::]:5000->5000/tcp   my-web-app
-		37853e475dd0   postgres:15-alpine   "docker-entrypoint.s…"   23 hours ago     Up 23 hours             0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp   my-database
-		93c99e06efff   node-web-app         "docker-entrypoint.s…"   43 hours ago     Up 43 hours             0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp   my-node-app
+		37853e475dd0   postgres:15-alpine   "docker-entrypoint.sâ€¦"   23 hours ago     Up 23 hours             0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp   my-database
+		93c99e06efff   node-web-app         "docker-entrypoint.sâ€¦"   43 hours ago     Up 43 hours             0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp   my-node-app
 
 **kryvol@99-SarkisovaO:/mnt/c/Users/99-SarkisovaOV/08.DOCKER.Compose/2$ curl http://localhost:8000/
 
@@ -78,22 +79,32 @@ L-- README.md
 **kryvol@99-SarkisovaO:/mnt/c/Users/99-SarkisovaOV/08.DOCKER.Compose/2$ docker history my-python-app
 
 		IMAGE          CREATED         CREATED BY                                      SIZE      COMMENT
-		93891916c416   6 minutes ago   CMD ["uvicorn" "main:app" "--host" "0.0.0.0"…   0B        buildkit.dockerfile.v0
+		93891916c416   6 minutes ago   CMD ["uvicorn" "main:app" "--host" "0.0.0.0"â€¦   0B        buildkit.dockerfile.v0
 		<missing>      6 minutes ago   EXPOSE [8000/tcp]                               0B        buildkit.dockerfile.v0
 		<missing>      6 minutes ago   USER app                                        0B        buildkit.dockerfile.v0
-		<missing>      6 minutes ago   ENV PATH=/opt/venv/bin:/usr/local/bin:/usr/l…   0B        buildkit.dockerfile.v0
+		<missing>      6 minutes ago   ENV PATH=/opt/venv/bin:/usr/local/bin:/usr/lâ€¦   0B        buildkit.dockerfile.v0
 		<missing>      6 minutes ago   COPY app/ . # buildkit                          12.3kB    buildkit.dockerfile.v0
 		<missing>      6 minutes ago   WORKDIR /app                                    8.19kB    buildkit.dockerfile.v0
 		<missing>      6 minutes ago   COPY /opt/venv /opt/venv # buildkit             68MB      buildkit.dockerfile.v0
-		<missing>      6 minutes ago   RUN /bin/sh -c addgroup --system app && addu…   45.1kB    buildkit.dockerfile.v0
+		<missing>      6 minutes ago   RUN /bin/sh -c addgroup --system app && adduâ€¦   45.1kB    buildkit.dockerfile.v0
 		<missing>      7 days ago      CMD ["python3"]                                 0B        buildkit.dockerfile.v0
-		<missing>      7 days ago      RUN /bin/sh -c set -eux;  for src in idle3 p…   16.4kB    buildkit.dockerfile.v0
-		<missing>      7 days ago      RUN /bin/sh -c set -eux;   savedAptMark="$(a…   48.4MB    buildkit.dockerfile.v0
-		<missing>      7 days ago      ENV PYTHON_SHA256=272179ddd9a2e41a0fc8e42e33…   0B        buildkit.dockerfile.v0
+		<missing>      7 days ago      RUN /bin/sh -c set -eux;  for src in idle3 pâ€¦   16.4kB    buildkit.dockerfile.v0
+		<missing>      7 days ago      RUN /bin/sh -c set -eux;   savedAptMark="$(aâ€¦   48.4MB    buildkit.dockerfile.v0
+		<missing>      7 days ago      ENV PYTHON_SHA256=272179ddd9a2e41a0fc8e42e33â€¦   0B        buildkit.dockerfile.v0
 		<missing>      7 days ago      ENV PYTHON_VERSION=3.11.15                      0B        buildkit.dockerfile.v0
-		<missing>      7 days ago      ENV GPG_KEY=A035C8C19219BA821ECEA86B64E628F8…   0B        buildkit.dockerfile.v0
-		<missing>      7 days ago      RUN /bin/sh -c set -eux;  apt-get update;  a…   4.94MB    buildkit.dockerfile.v0
+		<missing>      7 days ago      ENV GPG_KEY=A035C8C19219BA821ECEA86B64E628F8â€¦   0B        buildkit.dockerfile.v0
+		<missing>      7 days ago      RUN /bin/sh -c set -eux;  apt-get update;  aâ€¦   4.94MB    buildkit.dockerfile.v0
 		<missing>      7 days ago      ENV LANG=C.UTF-8                                0B        buildkit.dockerfile.v0
-		<missing>      7 days ago      ENV PATH=/usr/local/bin:/usr/local/sbin:/usr…   0B        buildkit.dockerfile.v0
-		<missing>      9 days ago      # debian.sh --arch 'amd64' out/ 'trixie' '@1…   87.4MB    debuerreotype 0.17  
+		<missing>      7 days ago      ENV PATH=/usr/local/bin:/usr/local/sbin:/usrâ€¦   0B        buildkit.dockerfile.v0
+		<missing>      9 days ago      # debian.sh --arch 'amd64' out/ 'trixie' '@1â€¦   87.4MB    debuerreotype 0.17
+
+
+<img width="734" height="369" alt="image" src="https://github.com/user-attachments/assets/76bef0a3-d897-4930-b2db-06f0ba5b5318" />
+
+<img width="720" height="877" alt="image" src="https://github.com/user-attachments/assets/dd928c57-36ba-4457-8ff8-467cdb190a15" />
+
+<img width="710" height="434" alt="image" src="https://github.com/user-attachments/assets/e38b4615-63f1-4ef7-b6ee-c4656bd018d7" />
+
+
+
 ```
