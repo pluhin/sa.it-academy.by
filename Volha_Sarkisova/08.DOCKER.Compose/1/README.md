@@ -1,7 +1,7 @@
 ```bash
 **Homework Assignment 1: Docker Compose for Application Stacks
 
-** Ñòðóêòóðà ïðîåêòà
+** Ð¡Ñ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð° Ð¿Ñ€Ð¾ÐµÐºÑ‚Ð°
 1/
 +-- docker-compose.yml
 L-- web/
@@ -19,7 +19,7 @@ L-- web/
   688  docker compose ps
   
 			NAME          IMAGE                COMMAND                  SERVICE    CREATED          STATUS          PORTS
-			my-database   postgres:15-alpine   "docker-entrypoint.s…"   database   14 minutes ago   Up 14 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+			my-database   postgres:15-alpine   "docker-entrypoint.sâ€¦"   database   14 minutes ago   Up 14 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
 			my-web-app    1-web                "python app.py"          web        32 seconds ago   Up 22 seconds   0.0.0.0:5000->5000/tcp, [::]:5000->5000/tcp
   
   689  docker compose logs
