@@ -1,0 +1,35 @@
+name: K8s Pods Monitor
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: self-hosted
+    env:
+      KUBECONFIG: /home/nik/.kube/config-k8s
+    steps:
+      - name: Check pods status
+        run: |
+          echo "=== K8s Cluster Monitor ==="
+          echo "Time: $(date)"
+          echo ""
+          echo "=== Nodes ==="
+          kubectl get nodes
+          echo ""
+          echo "=== All pods ==="
+          kubectl get pods -A
+          
+          FAILED=$(kubectl get pods -A --no-headers | grep -E "CrashLoopBackOff|Error|Failed|ImagePullBackOff" || true)
+          
+          if [ -n "$FAILED" ]; then
+            echo ""
+            echo "❌ PROBLEM: Unhealthy pods found!"
+            echo "$FAILED"
+            exit 1
+          else
+            echo ""
+            echo "✅ All pods are healthy"
+          fi
