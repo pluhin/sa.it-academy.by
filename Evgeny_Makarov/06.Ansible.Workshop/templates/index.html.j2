@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ item.server_name }}</title>
+</head>
+<body>
+    <h1>Welcome to {{ item.server_name }}</h1>
+
+    <p>Hostname: {{ ansible_hostname }}</p>
+
+    <p>FQDN: {{ ansible_fqdn }}</p>
+</body>
+</html>
