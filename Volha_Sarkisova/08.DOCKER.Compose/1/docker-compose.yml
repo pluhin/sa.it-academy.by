@@ -1,0 +1,43 @@
+# Определяем сервисы (контейнеры)
+services:
+  # Сервис базы данных
+  database:
+    image: postgres:15-alpine
+    container_name: my-database
+    restart: always
+    environment:
+      POSTGRES_DB: myapp
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  # Сервис веб-приложения
+  web:
+    build: ./web
+    container_name: my-web-app
+    restart: always
+    environment:
+      DB_HOST: database
+      DB_NAME: myapp
+      DB_USER: user
+      DB_PASSWORD: password
+    ports:
+      - "5000:5000"
+    depends_on:
+      - database
+    networks:
+      - app-network
+
+# Определяем сеть
+networks:
+  app-network:
+    driver: bridge
+
+# Определяем том для хранения данных
+volumes:
+  postgres_data:
