@@ -1,0 +1,24 @@
+apiVersion: v1
+entries:
+  first-app:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-05-28T16:58:58.622885812Z"
+    description: A Helm chart for Kubernetes
+    digest: cb3490a3d3ba172645ab7ddda3f7a2ac6db3c6a2bd7bd17f1ae6abb1d474e7b2
+    name: first-app
+    type: application
+    urls:
+    - https://pluhin.github.io/helm-35-26/helm-releases/first-app-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-05-28T16:58:58.621894764Z"
+    description: A Helm chart for Kubernetes
+    digest: 760bfa2d729ff0facae86bc899da5916c110d1bdaef58a74c8ab0a46a12ec16a
+    name: first-app
+    type: application
+    urls:
+    - https://pluhin.github.io/helm-35-26/helm-releases/first-app-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-05-28T16:58:58.62056746Z"
