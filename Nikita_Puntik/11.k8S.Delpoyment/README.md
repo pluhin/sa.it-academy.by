@@ -1,3 +1,4 @@
+```bash
 HOSTS
 178.124.206.53 app.k8s-11.sa app.k8s-12.sa
 178.124.206.53 nginx-test.k8s-11.sa nginx-test.k8s-12.sa
@@ -54,3 +55,6 @@ security features and capabilities please refer to
 
 <p><em>Thank you for using nginx.</em></p>
 </body>
+```
+
+<img width="1916" height="972" alt="image" src="https://github.com/user-attachments/assets/5b366009-4c39-45e4-a9e4-1e22c1a63c4a" />
