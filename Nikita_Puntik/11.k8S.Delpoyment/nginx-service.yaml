@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx               # Отправлять трафик на поды с этой меткой
+  ports:
+  - port: 80                 # Порт, который слушает Service
+    targetPort: 80           # Порт, который слушает контейнер в поде

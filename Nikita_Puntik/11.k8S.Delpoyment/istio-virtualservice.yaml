@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: nginx-virtualservice
+spec:
+  hosts:
+  - "nginx-test.k8s-11.sa"
+  - "nginx-test.k8s-12.sa"
+  gateways:
+  - nginx-gateway
+  http:
+  - route:
+    - destination:
+        host: nginx-service
+        port:
+          number: 80
