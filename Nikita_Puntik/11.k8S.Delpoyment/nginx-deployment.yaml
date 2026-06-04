@@ -1,0 +1,45 @@
+apiVersion: apps/v1          # Версия API для Deployment
+kind: Deployment             # Тип ресурса
+metadata:
+  name: nginx-deployment     # Имя Deployment
+  labels:
+    app: nginx               # Метка для связывания с другими ресурсами
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate      # Обновлять без остановки
+    rollingUpdate:
+      maxSurge: 1            # Можно создать 1 лишний под во время обновления
+      maxUnavailable: 0      # Нельзя останавливать старые поды, пока новые не готовы
+  selector:
+    matchLabels:
+      app: nginx             # Deployment будет управлять подами с этой меткой
+  template:                  # Шаблон для создания подов
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:           # Ограничения ресурсов
+          requests:          # Минимум, который гарантирован
+            memory: "64Mi"
+            cpu: "100m"
+          limits:            # Максимум, который можно использовать
+            memory: "128Mi"
+            cpu: "200m"
+        readinessProbe:      # Проверка готовности принимать трафик
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:       # Проверка жизни контейнера
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 20
