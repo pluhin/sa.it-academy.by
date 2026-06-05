@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-app
+  labels:
+    app: simple-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: simple-web
+  template:
+    metadata:
+      labels:
+        app: simple-web
+    spec:
+      initContainers:
+      - name: setup-ssh
+        image: busybox:latest
+        command:
+        - sh
+        - -c
+        - |
+          mkdir -p /root/.ssh
+          cp /ssh-keys/id_rsa /root/.ssh/id_rsa
+          cp /ssh-keys/id_rsa.pub /root/.ssh/id_rsa.pub
+          chmod 600 /root/.ssh/id_rsa
+          chmod 644 /root/.ssh/id_rsa.pub
+        volumeMounts:
+        - name: ssh-keys
+          mountPath: /ssh-keys
+        - name: ssh-root
+          mountPath: /root/.ssh
+      containers:
+      - name: php-apache
+        image: eboraas/apache-php
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: test-config-env
+        - secretRef:
+            name: secret-from-manifest
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+        - name: php-index
+          mountPath: /var/www/html/index.php
+          subPath: index.php
+        - name: test-config-mount
+          mountPath: /tmp/text.txt
+          subPath: test.txt
+        - name: test-config-mount
+          mountPath: /tmp/text-2.txt
+          subPath: test-2.txt
+        - name: task-pv-storage
+          mountPath: "/data"
+        - name: persistent-storage
+          mountPath: "/nfs_data"
+        - name: persistent-storage-app
+          mountPath: "/var/www/html"
+        - name: ssh-root
+          mountPath: /root/.ssh
+      volumes:
+      - name: php-index
+        configMap:
+          name: php-index-config
+      - name: ssh-keys
+        secret:
+          secretName: ssh-keys-secret
+          defaultMode: 0600
+      - name: ssh-root
+        emptyDir: {}
+      - name: test-config-mount
+        configMap:
+          name: test-config
+      - name: task-pv-storage
+        persistentVolumeClaim:
+          claimName: task-pv-claim
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: app01-pv-claim
+      - name: persistent-storage-app
+        persistentVolumeClaim:
+          claimName: app02-pv-claim

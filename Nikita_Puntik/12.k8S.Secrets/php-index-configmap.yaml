@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: php-index-config
+data:
+  index.php: |
+    <?php
+    $hostname = gethostname();
+    echo "<h1>Pod hostname: $hostname</h1>";
+    ?>
