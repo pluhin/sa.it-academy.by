@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: wordpress-vs
+  namespace: default
+spec:
+  hosts:
+    - wordpress.k8s-11.sa
+  gateways:
+    - wordpress-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: wordpress
+            port:
+              number: 80
