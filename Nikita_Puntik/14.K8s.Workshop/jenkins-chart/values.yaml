@@ -1,0 +1,36 @@
+# values.yaml
+namespace: ci-cd
+
+jenkins:
+  image: jfrog.it-academy.by/public/jenkins-ci:Puntik
+  imagePullPolicy: IfNotPresent
+  adminUser: admin
+  adminPassword: admin123   # будет закодирован в secret
+  resources:
+    requests:
+      cpu: 2
+      memory: 2Gi
+    limits:
+      cpu: 3
+      memory: 3Gi
+  javaOpts: "-Djenkins.install.runSetupWizard=false"
+  cascConfigPath: "/var/jenkins_home/casc_configs/jenkins.yaml"
+
+nfs:
+  server: 192.168.37.105
+  path: /mnt/IT-Academy/nfs-data/sa2-35-26/Puntik/jenkins
+
+ingress:
+  enable: false
+
+istio:
+  gateway:
+    enabled: true
+    host: jenkins.k8s-11.sa
+  virtualService:
+    host: jenkins.k8s-11.sa
+
+credentials:
+  github:
+    username: git_hub_user
+    password: admin   # (можно зашифровать позже)

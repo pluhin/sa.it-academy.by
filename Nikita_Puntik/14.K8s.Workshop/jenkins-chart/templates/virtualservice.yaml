@@ -1,0 +1,21 @@
+{{- if .Values.istio.gateway.enabled }}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: jenkins
+  namespace: {{ .Values.namespace }}
+spec:
+  hosts:
+    - {{ .Values.istio.virtualService.host }}
+  gateways:
+    - jenkins-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: jenkins.{{ .Values.namespace }}.svc.cluster.local
+            port:
+              number: 8080
+{{- end }}
