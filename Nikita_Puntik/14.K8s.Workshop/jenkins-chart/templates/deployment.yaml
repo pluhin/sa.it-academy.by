@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - name: jenkins
+        image: {{ .Values.jenkins.image }}
+        imagePullPolicy: {{ .Values.jenkins.imagePullPolicy }}
+        env:
+        - name: PASS
+          valueFrom:
+            secretKeyRef:
+              name: jenkins-secret
+              key: password
+        - name: JAVA_OPTS
+          value: {{ .Values.jenkins.javaOpts | quote }}
+        - name: CASC_JENKINS_CONFIG
+          value: {{ .Values.jenkins.cascConfigPath | quote }}
+        ports:
+        - name: http-port
+          containerPort: 8080
+        - name: jnlp-port
+          containerPort: 50000
+        resources:
+          requests:
+            cpu: {{ .Values.jenkins.resources.requests.cpu }}
+            memory: {{ .Values.jenkins.resources.requests.memory }}
+          limits:
+            cpu: {{ .Values.jenkins.resources.limits.cpu }}
+            memory: {{ .Values.jenkins.resources.limits.memory }}
+        volumeMounts:
+        - name: jenkins-auth-config
+          mountPath: /var/jenkins_home/init.groovy.d/basic-security.groovy
+          subPath: basic-security.groovy
+        - name: jenkins-config-yaml
+          mountPath: {{ .Values.jenkins.cascConfigPath }}
+          subPath: jenkins.yaml
+        - name: jenkins-config
+          mountPath: /var/jenkins_home
+      volumes:
+      - name: jenkins-auth-config
+        configMap:
+          name: basic-security
+      - name: jenkins-config-yaml
+        configMap:
+          name: jenkins-config
+      - name: jenkins-config
+        nfs:
+          server: {{ .Values.nfs.server }}
+          path: {{ .Values.nfs.path }}
