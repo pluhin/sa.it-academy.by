@@ -1,0 +1,44 @@
+name: KinD Cluster Setup
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  setup-kind:
+    runs-on: [my_runner]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install KinD
+        run: |
+          mkdir -p $HOME/.local/bin
+          curl -Lo $HOME/.local/bin/kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
+          chmod +x $HOME/.local/bin/kind
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          mkdir -p $HOME/.local/bin
+          mv kubectl $HOME/.local/bin/
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      
+      # ✅ Удаляем существующий кластер если есть
+      - name: Delete existing cluster (if any)
+        run: |
+          kind delete cluster --name kind-cluster || true
+      
+      - name: Create KinD cluster
+        run: |
+          kind create cluster --name kind-cluster --wait 5m
+      
+      - name: Verify cluster
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+          kubectl get pods -A

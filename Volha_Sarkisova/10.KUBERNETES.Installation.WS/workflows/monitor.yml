@@ -1,0 +1,42 @@
+name: Monitor K8s Pods
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  check-pods:
+    runs-on: [my_runner_10]
+    steps:
+      - name: Check failed pods
+        id: check
+        run: |
+          FAILED=$(kubectl get pods -A --no-headers | grep -E "CrashLoopBackOff|Error|Failed|ImagePullBackOff|Pending" || true)
+          if [ -n "$FAILED" ]; then
+            echo "FAILED_PODS=$FAILED" >> $GITHUB_ENV
+            echo "status=failure" >> $GITHUB_OUTPUT
+          else
+            echo "status=success" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send Slack notification on failure
+        if: steps.check.outputs.status == 'failure'
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{\"text\":\"❌ *Проблемные поды в кластере:*\n$FAILED_PODS\"}" \
+            $SLACK_WEBHOOK
+
+      - name: Log success
+        if: steps.check.outputs.status == 'success'
+        run: echo "✅ Все поды здоровы"
+
+      - name: Test Slack
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{"text":"Test from GitHub"}' \
+            $SLACK_WEBHOOK
