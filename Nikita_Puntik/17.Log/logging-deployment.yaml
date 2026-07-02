@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-generator
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: log-generator
+  template:
+    metadata:
+      labels:
+        app: log-generator
+    spec:
+      containers:
+      - name: logger
+        image: busybox
+        command:
+        - /bin/sh
+        - -c
+        - |
+          counter=1
+          while true; do
+            echo "[$(date)] Log message number: $counter"
+            counter=$((counter+1))
+            sleep 2
+          done

@@ -1,0 +1,10 @@
+NAME                             READY   STATUS    RESTARTS        AGE
+failing-pod                      1/2     Error     5 (108s ago)    3m26s
+first-app-57bb454d6c-86nfs       2/2     Running   0               47h
+log-generator-856b67c548-tptrs   2/2     Running   0               5m41s
+log-generator-856b67c548-x4q5f   2/2     Running   0               5m41s
+my-drupal-68f556c9fd-wltf9       2/2     Running   1 (22d ago)     22d
+my-drupal-mariadb-0              2/2     Running   0               22d
+shell-pod                        1/1     Running   860 (46m ago)   35d
+wordpress-77f9c947dd-j829c       2/2     Running   0               21d
+wordpress-mariadb-0              2/2     Running   0               21d
