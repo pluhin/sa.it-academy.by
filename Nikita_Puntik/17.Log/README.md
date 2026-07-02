@@ -1,7 +1,8 @@
-1. ✅ Создан Deployment, который генерирует логи.
-2. ✅ Собраны логи с помощью `kubectl logs`.
-3. ✅ Создан падающий под, проверены его логи.
-4. ✅ Посмотрены логи на уровне ноды.
+```bash
+1. Создан Deployment, который генерирует логи.
+2. Собраны логи с помощью `kubectl logs`.
+3. Создан падающий под, проверены его логи.
+4. Посмотрены логи на уровне ноды.
   nano logging-deployment.yaml
   kubectl apply -f logging-deployment.yaml
   kubectl get pods
@@ -25,3 +26,6 @@
   kubectl logs failing-pod > failing-pod-logs.txt 2>&1
   kubectl logs failing-pod --previous 2>&1 | head -10 > failing-pod-previous.txt  
   nano failing-pod-previous.txt
+```
+
+<img width="1891" height="591" alt="image" src="https://github.com/user-attachments/assets/6939f226-e820-47ab-8dfa-df02df3adae3" />
