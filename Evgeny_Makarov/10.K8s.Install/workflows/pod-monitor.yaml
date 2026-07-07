@@ -1,0 +1,57 @@
+name: Pods Monitoring
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: [k8s]
+    steps:
+      - name: Setup kubeconfig
+        env:
+          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
+        run: |
+          mkdir -p ~/.kube
+          echo "$KUBECONFIG_DATA" | base64 -d > ~/.kube/config
+          chmod 600 ~/.kube/config
+          echo "KUBECONFIG is set"
+      - name: Scan for unhealthy pods
+        id: scan
+        run: |
+          UNHEALTHY=$(kubectl get pods -A -o json | jq -r '
+            [.items[] | . as $pod |
+              (.status.containerStatuses // [])[] |
+              select(
+                (.state.waiting.reason == "CrashLoopBackOff") or
+                (.state.waiting.reason == "ImagePullBackOff") or
+                (.state.waiting.reason == "ErrImagePull") or
+                (.state.waiting.reason == "Error") or
+                (.state.terminated.reason == "Error")
+              ) |
+              "\($pod.metadata.namespace)/\($pod.metadata.name)"
+            ] | unique | join("\n")
+          ')
+          if [ -n "$UNHEALTHY" ]; then
+            echo "failed=true" >> $GITHUB_OUTPUT
+            echo "pods<<EOF" >> $GITHUB_ENV
+            echo "$UNHEALTHY" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          else
+            echo "failed=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Notify Slack about problems
+        if: steps.scan.outputs.failed == 'true'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+        run: |
+          POD_LIST=$(echo "$pods" | sed 's/^/• /')
+          PAYLOAD=$(jq -n --arg text "🚨 *UNHEALTHY PODS*
+          $POD_LIST
+          CHECK CLUSTER: \`kubectl get pods -A\`" '{text: $text}')
+          curl -X POST -H 'Content-type: application/json' \
+               --data "$PAYLOAD" "$SLACK_WEBHOOK_URL"
+      - name: Log success (optional)
+        if: steps.scan.outputs.failed == 'false'
+        run: echo "All pods are running smoothly"

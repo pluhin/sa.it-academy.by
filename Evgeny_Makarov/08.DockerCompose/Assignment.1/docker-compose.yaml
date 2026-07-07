@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  app:
+    build: ./app
+    container_name: flask_app
+    ports:
+      - "5001:5000"
+    environment:
+      DB_HOST: db
+      DB_NAME: appdb
+      DB_USER: user
+      DB_PASS: password
+    depends_on:
+      - db
+    networks:
+      - backend
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - backend
+
+networks:
+  backend:
+
+volumes:
+  pgdata:
