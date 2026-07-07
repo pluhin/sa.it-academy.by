@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: nginx
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "80"
+        sidecar.istio.io/inject: "true"   # <--- отключаем Istio
+    spec:
+      initContainers:
+      - name: generate-html
+        image: busybox:latest
+        command:
+        - sh
+        - -c
+        - |
+          echo "<h1>Hostname: $(hostname)</h1>" > /usr/share/nginx/html/index.html
+          echo "Generated on $(date)" >> /usr/share/nginx/html/index.html
+          echo "<p>Fallback page (init container)</p>" >> /usr/share/nginx/html/index.html
+        volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html
+      containers:
+      - name: nginx
+        image: nginx:1.25
+        ports:
+        - containerPort: 80
+          name: http
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 2
+        volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html
+        - name: ssh-keys
+          mountPath: /root/.ssh
+          readOnly: true
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
+        - name: php-index
+          mountPath: /usr/share/nginx/html/index.php
+          subPath: index.php
+      - name: php-fpm
+        image: php:8.2-fpm-alpine
+        volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html
+        - name: php-index
+          mountPath: /usr/share/nginx/html/index.php
+          subPath: index.php
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+      volumes:
+      - name: html-volume
+        emptyDir: {}
+      - name: ssh-keys
+        secret:
+          secretName: ssh-keys
+          defaultMode: 0600
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+      - name: php-index
+        configMap:
+          name: nginx-php-index

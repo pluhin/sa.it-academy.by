@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: nginx-vs
+  labels:
+    app: nginx
+spec:
+  hosts:
+  - "nginx-test.k8s-17.sa"
+  - "nginx-test.k8s-18.sa"
+  gateways:
+  - nginx-gateway
+  http:
+  - route:
+    - destination:
+        host: nginx-service
+        port:
+          number: 80
+      weight: 100
+    retries:
+      attempts: 3
+      perTryTimeout: 2s
+    timeout: 10s
