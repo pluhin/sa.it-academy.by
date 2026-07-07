@@ -1,0 +1,10 @@
+2026-07-02T12:03:59.974152Z	info	cache	generated new workload certificate	resourceName=default latency=75.633823ms ttl=23h59m59.025856719s
+2026-07-02T12:03:59.974342Z	info	cache	Root cert has changed, start rotating root cert
+2026-07-02T12:03:59.974488Z	info	cache	returned workload trust anchor from cache	ttl=23h59m59.025513936s
+2026-07-02T12:04:00.009524Z	info	xdsproxy	connected to delta upstream XDS server: istiod.istio-system.svc:15012	id=1
+2026-07-02T12:04:00.053701Z	info	ads	ADS: new connection for node:1
+2026-07-02T12:04:00.053808Z	info	cache	returned workload certificate from cache	ttl=23h59m58.946195661s
+2026-07-02T12:04:00.054071Z	info	ads	ADS: new connection for node:2
+2026-07-02T12:04:00.054169Z	info	cache	returned workload trust anchor from cache	ttl=23h59m58.945832157s
+2026-07-02T12:04:00.193544Z	info	Readiness succeeded in 510.909286ms
+2026-07-02T12:04:00.194247Z	info	Envoy proxy is ready
