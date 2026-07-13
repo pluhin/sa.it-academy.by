@@ -7,7 +7,7 @@
 - GitHub Actions workflow:
   <https://github.com/antonzhdanko/github-actions-homework/blob/main/.github/workflows/docker-publish.yml>
 - Successful workflow run:
-  <https://github.com/antonzhdanko/github-actions-homework/actions/runs/29163129265>
+  <https://github.com/antonzhdanko/github-actions-homework/actions/runs/29257796070>
 - Container image: `ghcr.io/antonzhdanko/docker-compose-homework`
 
 ## Objective
@@ -236,10 +236,9 @@ The workflow uses:
 No real password or webhook is stored in the repository. `.env.example` leaves
 the password empty. A real local `.env` is ignored by Git and Docker.
 
-At the time of the initial successful workflow run, `SLACK_WEBHOOK` had not yet
-been added, so the notification step completed by reporting that notification
-was skipped. After the secret is configured, the workflow must be run again and
-the received Slack message should be added to the homework evidence.
+`SLACK_WEBHOOK` is configured in GitHub Actions secrets. In the documented
+workflow run, the `Send Slack notification` step completed successfully and
+posted the final job status together with the GHCR image name and commit tag.
 
 ## Conclusion
 
