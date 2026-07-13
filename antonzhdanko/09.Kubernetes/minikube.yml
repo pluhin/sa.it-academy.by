@@ -1,0 +1,61 @@
+name: Minikube cluster
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  minikube:
+    runs-on: ubuntu-latest
+    env:
+      MINIKUBE_VERSION: v1.38.1
+      KUBERNETES_VERSION: v1.35.1
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Install Minikube
+        run: |
+          curl --fail --location --output minikube \
+            "https://github.com/kubernetes/minikube/releases/download/${MINIKUBE_VERSION}/minikube-linux-amd64"
+          chmod +x minikube
+          sudo mv minikube /usr/local/bin/minikube
+          minikube version
+
+      - name: Create cluster and measure startup
+        id: cluster
+        run: |
+          start_time=$(date +%s)
+          minikube start \
+            --driver=docker \
+            --nodes=1 \
+            --kubernetes-version="${KUBERNETES_VERSION}" \
+            --wait=all \
+            --wait-timeout=6m
+          end_time=$(date +%s)
+          echo "startup_seconds=$((end_time - start_time))" >> "$GITHUB_OUTPUT"
+
+      - name: Verify cluster
+        run: |
+          kubectl wait --for=condition=Ready nodes --all --timeout=180s
+          kubectl get nodes --output=wide
+          kubectl get pods --all-namespaces
+
+          node_count=$(kubectl get nodes --no-headers | wc -l | tr -d ' ')
+          kubernetes_version=$(kubectl version --output=json | jq -r '.serverVersion.gitVersion')
+
+          {
+            echo "## Minikube cluster result"
+            echo "- Nodes: ${node_count}"
+            echo "- Kubernetes: ${kubernetes_version}"
+            echo "- Startup: ${{ steps.cluster.outputs.startup_seconds }} seconds"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Delete cluster
+        if: always()
+        run: minikube delete --all --purge

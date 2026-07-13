@@ -1,0 +1,59 @@
+name: KinD cluster
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  kind:
+    runs-on: ubuntu-latest
+    env:
+      KIND_VERSION: v0.32.0
+      KIND_NODE_IMAGE: kindest/node:v1.36.1@sha256:3489c7674813ba5d8b1a9977baea8a6e553784dab7b84759d1014dbd78f7ebd5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Install KinD
+        run: |
+          curl --fail --location --output kind \
+            "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-linux-amd64"
+          chmod +x kind
+          sudo mv kind /usr/local/bin/kind
+          kind version
+
+      - name: Create cluster and measure startup
+        id: cluster
+        run: |
+          start_time=$(date +%s)
+          kind create cluster \
+            --config kind-config.yaml \
+            --image "${KIND_NODE_IMAGE}" \
+            --wait 5m
+          end_time=$(date +%s)
+          echo "startup_seconds=$((end_time - start_time))" >> "$GITHUB_OUTPUT"
+
+      - name: Verify cluster
+        run: |
+          kubectl wait --for=condition=Ready nodes --all --timeout=180s
+          kubectl get nodes --output=wide
+          kubectl get pods --all-namespaces
+
+          node_count=$(kubectl get nodes --no-headers | wc -l | tr -d ' ')
+          kubernetes_version=$(kubectl version --output=json | jq -r '.serverVersion.gitVersion')
+
+          {
+            echo "## KinD cluster result"
+            echo "- Nodes: ${node_count}"
+            echo "- Kubernetes: ${kubernetes_version}"
+            echo "- Startup: ${{ steps.cluster.outputs.startup_seconds }} seconds"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Delete cluster
+        if: always()
+        run: kind delete cluster --name homework
