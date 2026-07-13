@@ -1,0 +1,54 @@
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: cms-apps
+  namespace: homework-13
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - wordpress.k8s-3.sa
+        - wordpress.k8s-4.sa
+        - drupal.k8s-3.sa
+        - drupal.k8s-4.sa
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: wordpress
+  namespace: homework-13
+spec:
+  hosts:
+    - wordpress.k8s-3.sa
+    - wordpress.k8s-4.sa
+  gateways:
+    - cms-apps
+  http:
+    - route:
+        - destination:
+            host: wordpress
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: drupal
+  namespace: homework-13
+spec:
+  hosts:
+    - drupal.k8s-3.sa
+    - drupal.k8s-4.sa
+  gateways:
+    - cms-apps
+  http:
+    - route:
+        - destination:
+            host: drupal
+            port:
+              number: 80

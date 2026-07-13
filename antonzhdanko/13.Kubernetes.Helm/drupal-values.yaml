@@ -1,0 +1,32 @@
+global:
+  security:
+    allowInsecureImages: true
+
+image:
+  registry: docker.io
+  repository: bitnamilegacy/drupal
+
+drupalUsername: anton
+drupalEmail: antonzhdanko@gmail.com
+
+service:
+  type: ClusterIP
+
+persistence:
+  enabled: true
+  storageClass: local-path
+  size: 2Gi
+
+resourcesPreset: micro
+
+mariadb:
+  enabled: true
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/mariadb
+  primary:
+    persistence:
+      enabled: true
+      storageClass: local-path
+      size: 2Gi
+    resourcesPreset: micro

@@ -1,0 +1,37 @@
+global:
+  security:
+    allowInsecureImages: true
+
+image:
+  registry: docker.io
+  repository: bitnamilegacy/wordpress
+
+wordpressUsername: anton
+wordpressEmail: antonzhdanko@gmail.com
+wordpressFirstName: Anton
+wordpressLastName: Zhdanko
+wordpressBlogName: Anton Zhdanko Helm Homework
+wordpressHost: wordpress.k8s-3.sa
+wordpressScheme: http
+
+service:
+  type: ClusterIP
+
+persistence:
+  enabled: true
+  storageClass: local-path
+  size: 2Gi
+
+resourcesPreset: micro
+
+mariadb:
+  enabled: true
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/mariadb
+  primary:
+    persistence:
+      enabled: true
+      storageClass: local-path
+      size: 2Gi
+    resourcesPreset: micro
