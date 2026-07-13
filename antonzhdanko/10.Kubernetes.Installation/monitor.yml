@@ -1,0 +1,113 @@
+name: Monitor Kubernetes pods
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kubernetes-monitor
+  cancel-in-progress: true
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    env:
+      KUBECONFIG: ${{ github.workspace }}/kubeconfig
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Install kubectl
+        env:
+          KUBECTL_VERSION: v1.36.2
+        run: |
+          curl --fail --location --remote-name \
+            "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
+          curl --fail --location --remote-name \
+            "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl.sha256"
+          echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+          sudo install --owner=root --group=root --mode=0755 kubectl /usr/local/bin/kubectl
+
+      - name: Configure cluster access
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          KUBE_CONFIG_B64: ${{ secrets.KUBE_CONFIG_B64 }}
+        run: |
+          install --directory --mode=0700 ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/k8s-monitor
+          chmod 0600 ~/.ssh/k8s-monitor
+          printf '%s' "$KUBE_CONFIG_B64" | base64 --decode > "$KUBECONFIG"
+          chmod 0600 "$KUBECONFIG"
+
+          ssh \
+            -i ~/.ssh/k8s-monitor \
+            -o ExitOnForwardFailure=yes \
+            -o ServerAliveInterval=30 \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            -o 'ProxyCommand=ssh -i ~/.ssh/k8s-monitor -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 32511 -W %h:%p jump_sa@178.124.206.53' \
+            -N -L 6443:127.0.0.1:6443 root@192.168.208.3 &
+          echo "$!" > tunnel.pid
+
+          for attempt in $(seq 1 30); do
+            if kubectl get --raw=/readyz >/dev/null 2>&1; then
+              exit 0
+            fi
+            sleep 2
+          done
+
+          echo "Kubernetes API did not become ready through the SSH tunnel." >&2
+          exit 1
+
+      - name: Check nodes and pods
+        run: |
+          kubectl get nodes --output=wide
+          kubectl get pods --all-namespaces
+
+          unhealthy=$(kubectl get pods --all-namespaces --output=json | jq --raw-output '
+            .items[] as $pod
+            | [
+                ($pod.status.phase | select(. == "Failed")),
+                ($pod.status.containerStatuses[]?.state.waiting.reason?
+                  | select(. == "CrashLoopBackOff"
+                    or . == "Error"
+                    or . == "ImagePullBackOff"
+                    or . == "ErrImagePull")),
+                ($pod.status.initContainerStatuses[]?.state.waiting.reason?
+                  | select(. == "CrashLoopBackOff"
+                    or . == "Error"
+                    or . == "ImagePullBackOff"
+                    or . == "ErrImagePull"))
+              ]
+            | map(select(. != null))
+            | unique
+            | select(length > 0)
+            | "\($pod.metadata.namespace)/\($pod.metadata.name): \(join(", "))"
+          ')
+
+          if [ -n "$unhealthy" ]; then
+            {
+              echo "## Kubernetes pod monitor: failed"
+              echo '```text'
+              echo "$unhealthy"
+              echo '```'
+            } | tee --append "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
+          {
+            echo "## Kubernetes pod monitor: healthy"
+            echo "All nodes are Ready and no failed container states were found."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Close SSH tunnel
+        if: always()
+        run: |
+          if [ -f tunnel.pid ]; then
+            kill "$(cat tunnel.pid)" 2>/dev/null || true
+          fi

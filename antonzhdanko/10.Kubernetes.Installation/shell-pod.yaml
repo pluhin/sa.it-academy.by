@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: shell
+  namespace: default
+  labels:
+    app: shell
+    purpose: internal-checks
+spec:
+  restartPolicy: Always
+  containers:
+    - name: shell
+      image: busybox:1.37
+      imagePullPolicy: IfNotPresent
+      command: ["sh", "-c", "trap : TERM INT; sleep infinity & wait"]
+      resources:
+        requests:
+          cpu: 10m
+          memory: 16Mi
+        limits:
+          cpu: 100m
+          memory: 64Mi
