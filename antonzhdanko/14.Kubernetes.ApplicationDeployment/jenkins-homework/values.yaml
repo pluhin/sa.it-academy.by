@@ -1,0 +1,68 @@
+replicaCount: 1
+
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci
+  tag: antonzhdanko
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: jenkins
+
+admin:
+  username: admin
+  existingSecret: jenkins-admin
+  passwordKey: password
+  email: antonzhdanko@gmail.com
+
+jenkins:
+  url: http://jenkins.k8s-3.sa/
+  numExecutors: 2
+  systemMessage: Jenkins deployed by Anton Zhdanko with Helm and JCasC
+  kubernetes:
+    enabled: true
+    containerCap: 10
+    maxRequestsPerHost: 32
+
+serviceAccount:
+  create: true
+  name: ""
+
+service:
+  type: ClusterIP
+  httpPort: 8080
+  agentPort: 50000
+
+persistence:
+  enabled: true
+  storageClass: local-path
+  accessMode: ReadWriteOnce
+  size: 5Gi
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: "2"
+    memory: 2Gi
+
+podSecurityContext:
+  fsGroup: 1000
+  fsGroupChangePolicy: OnRootMismatch
+
+containerSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  runAsNonRoot: true
+
+istio:
+  enabled: true
+  gatewaySelector:
+    istio: ingressgateway
+  hosts:
+    - jenkins.k8s-3.sa
+    - jenkins.k8s-4.sa
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

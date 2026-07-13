@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "jenkins-homework.fullname" . }}-jcasc
+  labels:
+    {{- include "jenkins-homework.labels" . | nindent 4 }}
+data:
+  jenkins.yaml: |
+    jenkins:
+      systemMessage: {{ .Values.jenkins.systemMessage | quote }}
+      numExecutors: {{ .Values.jenkins.numExecutors }}
+      securityRealm:
+        local:
+          allowsSignup: false
+          users:
+            - id: "${JENKINS_ADMIN_ID}"
+              password: "${JENKINS_ADMIN_PASSWORD}"
+      authorizationStrategy:
+        loggedInUsersCanDoAnything:
+          allowAnonymousRead: false
+      {{- if .Values.jenkins.kubernetes.enabled }}
+      clouds:
+        - kubernetes:
+            name: kubernetes
+            namespace: {{ .Release.Namespace | quote }}
+            jenkinsUrl: {{ printf "http://%s:%v" (include "jenkins-homework.fullname" .) .Values.service.httpPort | quote }}
+            jenkinsTunnel: {{ printf "%s:%v" (include "jenkins-homework.fullname" .) .Values.service.agentPort | quote }}
+            containerCapStr: {{ .Values.jenkins.kubernetes.containerCap | quote }}
+            maxRequestsPerHostStr: {{ .Values.jenkins.kubernetes.maxRequestsPerHost | quote }}
+            skipTlsVerify: true
+      {{- end }}
+    unclassified:
+      location:
+        adminAddress: {{ .Values.admin.email | quote }}
+        url: {{ .Values.jenkins.url | quote }}

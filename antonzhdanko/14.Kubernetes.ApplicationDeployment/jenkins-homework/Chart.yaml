@@ -1,0 +1,6 @@
+apiVersion: v2
+name: jenkins-homework
+description: Jenkins controller with JCasC and Kubernetes agents
+type: application
+version: 0.1.0
+appVersion: "lts-jdk21"
