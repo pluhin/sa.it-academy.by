@@ -13,6 +13,7 @@
 | --- | --- | ---: | --- | ---: | ---: |
 | KinD v0.32.0 | push to `main` | 1 | v1.36.1 | 40 s | 50 s |
 | Minikube v1.38.1 | pull request to `main` | 1 | v1.35.1 | 81 s | 1m 33s |
+| Kubespray | academy hosts | 2 | v1.36.1 | existing cluster | n/a |
 
 Both workflows completed successfully on GitHub-hosted Ubuntu runners. Each
 cluster contained one node with both the `control-plane` role and `Ready`
@@ -60,17 +61,32 @@ attempt was stopped after the initial node image download exceeded six minutes.
 The same pinned configuration completed successfully in GitHub Actions, which
 provides the reproducible results above.
 
-## Kubespray status
+## Kubespray cluster
 
-The previously used academy host `192.168.208.3` is reachable through the SSH
-bastion, but authentication currently fails with `Permission denied
-(publickey,password)`. Kubespray installation requires valid root SSH access to
-one or more Linux hosts and cannot be performed safely without those
-credentials. No remote host was modified during this check.
+The academy Kubespray cluster is installed on two Debian 12 hosts:
+
+```text
+NAME    STATUS   ROLES           VERSION   INTERNAL-IP
+node1   Ready    control-plane   v1.36.1   192.168.208.3
+node2   Ready    <none>          v1.36.1   192.168.208.4
+```
+
+The cluster was 56 days old at validation time. Both `kubelet` and `containerd`
+were active. The `kube-system` namespace contained running Calico, CoreDNS,
+NodeLocal DNS, kube-proxy and control-plane components.
+
+The API server verbose readiness endpoint returned `readyz check passed`,
+including successful etcd and storage readiness checks. A temporary BusyBox pod
+resolved `kubernetes.default.svc.cluster.local` through NodeLocal DNS to the
+service address `10.233.0.1` and was automatically deleted after the test.
+
+The inventory contains one control-plane/etcd node and two worker-group nodes.
+No passwords or bastion credentials are stored in the repository.
 
 ## Files
 
 - `kind-config.yaml` — one-control-plane KinD topology;
+- `inventory.ini` — sanitized Kubespray cluster topology;
 - `kind.yml` — push-triggered KinD workflow;
 - `minikube.yml` — pull-request-triggered Minikube workflow;
 - `commands.md` — command history for installation and validation.

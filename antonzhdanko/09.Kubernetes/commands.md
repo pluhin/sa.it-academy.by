@@ -49,3 +49,24 @@ minikube delete --all --purge
 
 The same commands are executed by GitHub Actions. The CI runs are the source of
 the reproducible timing and cluster output documented in `README.md`.
+
+## Kubespray cluster validation
+
+SSH access uses the academy bastion configured with `ProxyJump` or
+`ProxyCommand`. Passwords are entered interactively and are not stored in this
+repository.
+
+```bash
+ssh root@192.168.208.3
+export KUBECONFIG=/root/.kube/config
+kubectl version
+kubectl get nodes --output=wide
+kubectl get pods --all-namespaces
+kubectl get --raw='/readyz?verbose'
+kubectl run dns-test \
+  --image=busybox:1.37 \
+  --restart=Never \
+  --rm \
+  --attach \
+  --command -- nslookup kubernetes.default.svc.cluster.local
+```
