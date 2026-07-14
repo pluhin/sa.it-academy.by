@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jenkins-homework
+  namespace: argocd
+spec:
+  project: homework-15
+  source:
+    repoURL: https://antonzhdanko.github.io/sa2-35-26-jenkins/
+    chart: jenkins-homework
+    targetRevision: 0.1.0
+    helm:
+      releaseName: jenkins-gitops
+      valuesObject:
+        fullnameOverride: jenkins-gitops
+        admin:
+          username: admin
+          existingSecret: jenkins-admin
+          passwordKey: password
+          email: antonzhdanko@gmail.com
+        jenkins:
+          url: http://jenkins-gitops.k8s-3.sa/
+          numExecutors: 2
+          systemMessage: Jenkins deployed by Argo CD from a published Helm repository
+        persistence:
+          storageClass: local-path
+          size: 5Gi
+        istio:
+          hosts:
+            - jenkins-gitops.k8s-3.sa
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: jenkins-gitops
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+

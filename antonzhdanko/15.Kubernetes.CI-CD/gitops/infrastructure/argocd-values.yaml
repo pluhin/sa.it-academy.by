@@ -1,0 +1,10 @@
+configs:
+  params:
+    server.insecure: true
+
+server:
+  service:
+    type: NodePort
+    nodePortHttp: 30007
+    nodePortHttps: 30443
+
