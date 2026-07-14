@@ -42,9 +42,9 @@ committed.
 Both Argo CD applications are synchronized and healthy:
 
 ```text
-NAME               PROJECT       SYNC     HEALTH    REVISION
-homework-15-root   default       Synced   Healthy   a33728e
-jenkins-homework   homework-15   Synced   Healthy   0.1.0
+NAME               PROJECT       SYNC     HEALTH
+homework-15-root   default       Synced   Healthy
+jenkins-homework   homework-15   Synced   Healthy
 ```
 
 The `homework-15` project contains both required sources:

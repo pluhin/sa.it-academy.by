@@ -7,4 +7,3 @@ server:
     type: NodePort
     nodePortHttp: 30007
     nodePortHttps: 30443
-
