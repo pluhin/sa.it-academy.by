@@ -1,0 +1,16 @@
+$ sudo ls -l /var/log/containers/*homework-17*
+lrwxrwxrwx 1 root root  98 Jul 14 18:57 /var/log/containers/failing-pod_homework-17_failing-container-42dbcb87063817f284f6c0c280582f776aac1b1d95d277a737ee42851a6ea912.log -> /var/log/pods/homework-17_failing-pod_a3c20117-a62a-49ab-8959-412e2e13afd3/failing-container/6.log
+lrwxrwxrwx 1 root root 106 Jul 14 18:49 /var/log/containers/log-generator-5b9cc479ff-l6j7k_homework-17_logger-ddcb87ceef321c708f7ef6bd1813dd2ba6407c5ab3b508f5217ca7c04f7aec8e.log -> /var/log/pods/homework-17_log-generator-5b9cc479ff-l6j7k_dc84cce9-f652-4b1b-974e-2827841575b3/logger/0.log
+
+$ sudo tail -n 5 /var/log/containers/log-generator-*homework-17*.log
+2026-07-14T19:00:19.311341408+03:00 stdout F 2026-07-14T16:00:19+00:00 level=INFO pod=log-generator-5b9cc479ff-l6j7k counter=312 message=homework-log-entry
+2026-07-14T19:00:21.313398808+03:00 stdout F 2026-07-14T16:00:21+00:00 level=INFO pod=log-generator-5b9cc479ff-l6j7k counter=313 message=homework-log-entry
+2026-07-14T19:00:23.315385070+03:00 stdout F 2026-07-14T16:00:23+00:00 level=INFO pod=log-generator-5b9cc479ff-l6j7k counter=314 message=homework-log-entry
+2026-07-14T19:00:25.317471589+03:00 stdout F 2026-07-14T16:00:25+00:00 level=INFO pod=log-generator-5b9cc479ff-l6j7k counter=315 message=homework-log-entry
+2026-07-14T19:00:27.319428290+03:00 stdout F 2026-07-14T16:00:27+00:00 level=INFO pod=log-generator-5b9cc479ff-l6j7k counter=316 message=homework-log-entry
+
+$ sudo journalctl -u kubelet -n 3 --no-pager
+Jul 14 18:59:43 node2 kubelet[23892]: I0714 18:59:43.293742 logs.go:334] "Finished parsing log file" path="/var/log/pods/homework-17_failing-pod_a3c20117-a62a-49ab-8959-412e2e13afd3/failing-container/6.log"
+Jul 14 18:59:59 node2 kubelet[23892]: I0714 18:59:59.374401 scope.go:122] "RemoveContainer" containerID="42dbcb87063817f284f6c0c280582f776aac1b1d95d277a737ee42851a6ea912"
+Jul 14 18:59:59 node2 kubelet[23892]: E0714 18:59:59.376474 pod_workers.go:1324] "Error syncing pod, skipping" err="failed to StartContainer for failing-container with CrashLoopBackOff"
+
