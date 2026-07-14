@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-pod-resources
+  namespace: monitoring
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  labels:
+    grafana_dashboard: "1"
+data:
+  pod-resources.json: |-
+    {
+      "annotations": {"list": []},
+      "editable": true,
+      "graphTooltip": 1,
+      "panels": [
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
+          "fieldConfig": {"defaults": {"unit": "cores"}, "overrides": []},
+          "gridPos": {"h": 12, "w": 24, "x": 0, "y": 0},
+          "id": 1,
+          "targets": [
+            {
+              "expr": "sum by (namespace, pod) (rate(container_cpu_usage_seconds_total{container!=\"\", image!=\"\", namespace=~\"$namespace\", pod=~\"$pod\"}[5m]))",
+              "legendFormat": "{{namespace}} / {{pod}}",
+              "refId": "A"
+            }
+          ],
+          "title": "CPU usage per pod",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {"type": "prometheus", "uid": "prometheus"},
+          "fieldConfig": {"defaults": {"unit": "bytes"}, "overrides": []},
+          "gridPos": {"h": 12, "w": 24, "x": 0, "y": 12},
+          "id": 2,
+          "targets": [
+            {
+              "expr": "sum by (namespace, pod) (container_memory_working_set_bytes{container!=\"\", image!=\"\", namespace=~\"$namespace\", pod=~\"$pod\"})",
+              "legendFormat": "{{namespace}} / {{pod}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Memory working set per pod",
+          "type": "timeseries"
+        }
+      ],
+      "refresh": "10s",
+      "schemaVersion": 41,
+      "tags": ["homework", "kubernetes", "pods"],
+      "templating": {
+        "list": [
+          {
+            "allValue": ".*",
+            "current": {"text": "All", "value": "$__all"},
+            "datasource": {"type": "prometheus", "uid": "prometheus"},
+            "definition": "label_values(kube_pod_info, namespace)",
+            "includeAll": true,
+            "label": "Namespace",
+            "name": "namespace",
+            "query": {"query": "label_values(kube_pod_info, namespace)", "refId": "PrometheusVariableQueryEditor-VariableQuery"},
+            "refresh": 1,
+            "type": "query"
+          },
+          {
+            "allValue": ".*",
+            "current": {"text": "All", "value": "$__all"},
+            "datasource": {"type": "prometheus", "uid": "prometheus"},
+            "definition": "label_values(kube_pod_info{namespace=~\"$namespace\"}, pod)",
+            "includeAll": true,
+            "label": "Pod",
+            "name": "pod",
+            "query": {"query": "label_values(kube_pod_info{namespace=~\"$namespace\"}, pod)", "refId": "PrometheusVariableQueryEditor-VariableQuery"},
+            "refresh": 1,
+            "type": "query"
+          }
+        ]
+      },
+      "time": {"from": "now-15m", "to": "now"},
+      "timezone": "browser",
+      "title": "Kubernetes Pod CPU and Memory",
+      "uid": "homework-pod-resources",
+      "version": 1
+    }

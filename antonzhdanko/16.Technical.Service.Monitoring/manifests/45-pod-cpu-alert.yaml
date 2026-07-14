@@ -1,0 +1,27 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: homework-pod-cpu-alert
+  namespace: monitoring
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: homework.pod.rules
+      rules:
+        - alert: HomeworkPodCPUOverload
+          expr: >-
+            sum by (namespace, pod)
+            (rate(container_cpu_usage_seconds_total{container!="", image!=""}[1m])) > 0.05
+          for: 30s
+          labels:
+            severity: warning
+            homework: "16"
+          annotations:
+            summary: 'High CPU usage detected for pod {{ $labels.pod }}'
+            description: >-
+              Pod {{ $labels.namespace }}/{{ $labels.pod }} is using more than
+              0.05 CPU cores for 30 seconds.

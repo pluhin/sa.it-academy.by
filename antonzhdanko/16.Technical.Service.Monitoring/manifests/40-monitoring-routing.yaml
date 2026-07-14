@@ -1,0 +1,56 @@
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: monitoring
+  namespace: monitoring
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - prometheus.k8s-3.sa
+        - grafana.k8s-3.sa
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: prometheus
+  namespace: monitoring
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  hosts:
+    - prometheus.k8s-3.sa
+  gateways:
+    - monitoring
+  http:
+    - route:
+        - destination:
+            host: monitoring-prometheus
+            port:
+              number: 9090
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: grafana
+  namespace: monitoring
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  hosts:
+    - grafana.k8s-3.sa
+  gateways:
+    - monitoring
+  http:
+    - route:
+        - destination:
+            host: monitoring-grafana
+            port:
+              number: 80

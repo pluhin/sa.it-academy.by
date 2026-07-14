@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpu-load
+  namespace: monitoring
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpu-load
+  template:
+    metadata:
+      labels:
+        app: cpu-load
+    spec:
+      containers:
+        - name: cpu-load
+          image: busybox:1.36.1
+          command:
+            - sh
+            - -c
+            - while true; do :; done
+          resources:
+            requests:
+              cpu: 100m
+              memory: 16Mi
+            limits:
+              cpu: 250m
+              memory: 32Mi
