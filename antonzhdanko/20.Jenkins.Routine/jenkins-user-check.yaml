@@ -1,0 +1,80 @@
+name: Jenkins user existence check
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: Linux user name to check in Jenkins /etc/passwd
+        required: true
+        default: root
+        type: string
+
+jobs:
+  check_user:
+    name: Check user through Jenkins API
+    runs-on: ubuntu-latest
+    env:
+      JENKINS_HOST: jenkins-gitops.k8s-3.sa
+      JENKINS_IP: 178.124.206.53
+      JENKINS_USER: automation
+      JENKINS_PASSWORD: ${{ secrets.JENKINS_AUTOMATION_PASSWORD }}
+    steps:
+      - name: Validate input
+        env:
+          USERNAME_TO_CHECK: ${{ inputs.username }}
+        run: |
+          if [[ ! "$USERNAME_TO_CHECK" =~ ^[A-Za-z0-9._-]+$ ]]; then
+            echo "Invalid user name"
+            exit 2
+          fi
+
+      - name: Trigger Jenkins job and display result
+        env:
+          USERNAME_TO_CHECK: ${{ inputs.username }}
+        run: |
+          set -euo pipefail
+
+          cookies="$(mktemp)"
+
+          jenkins_curl() {
+            curl --silent --show-error --fail-with-body \
+              --resolve "${JENKINS_HOST}:80:${JENKINS_IP}" \
+              --user "${JENKINS_USER}:${JENKINS_PASSWORD}" \
+              --cookie "$cookies" \
+              --cookie-jar "$cookies" \
+              "$@"
+          }
+
+          crumb_json="$(jenkins_curl "http://${JENKINS_HOST}/crumbIssuer/api/json")"
+          crumb_field="$(jq -r .crumbRequestField <<<"$crumb_json")"
+          crumb_value="$(jq -r .crumb <<<"$crumb_json")"
+
+          headers="$(mktemp)"
+          jenkins_curl --dump-header "$headers" --output /dev/null \
+            --request POST \
+            --header "${crumb_field}: ${crumb_value}" \
+            --data-urlencode "USERNAME=${USERNAME_TO_CHECK}" \
+            "http://${JENKINS_HOST}/job/user-existence-check/buildWithParameters"
+
+          queue_url="$(awk 'BEGIN { IGNORECASE=1 } /^Location:/ { gsub(/\r/, "", $2); print $2 }' "$headers")"
+          [[ -n "$queue_url" ]]
+
+          build_url=""
+          for _ in {1..30}; do
+            queue_json="$(jenkins_curl "${queue_url}api/json")"
+            build_url="$(jq -r '.executable.url // empty' <<<"$queue_json")"
+            [[ -n "$build_url" ]] && break
+            sleep 2
+          done
+          [[ -n "$build_url" ]]
+
+          for _ in {1..60}; do
+            build_json="$(jenkins_curl "${build_url}api/json")"
+            [[ "$(jq -r .building <<<"$build_json")" == "false" ]] && break
+            sleep 2
+          done
+
+          jenkins_curl "${build_url}consoleText"
+          result="$(jq -r .result <<<"$build_json")"
+          echo "Jenkins result: ${result}"
+          [[ "$result" == "SUCCESS" ]]
