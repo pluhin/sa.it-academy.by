@@ -1,0 +1,11 @@
+Started by user admin
+Running as SYSTEM
+Building in workspace /var/jenkins_home/workspace/belarus-daily-info
+Date: 2026-07-15
+=== Belarus holiday check ===
+Today is not a public holiday in Belarus.
+=== National Bank of Belarus exchange rates ===
+1 USD = 2.8638 BYN
+1 EUR = 3.2651 BYN
+100 RUB = 3.7282 BYN
+Finished: SUCCESS

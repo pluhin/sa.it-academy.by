@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <actions/>
+  <description>Daily Belarus holiday check and official exchange rates</description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>H H * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/sh
+set -eu
+
+TODAY="$(date +%F)"
+YEAR="$(date +%Y)"
+
+echo "Date: ${TODAY}"
+echo "=== Belarus holiday check ==="
+
+HOLIDAYS="$(curl --fail --silent --show-error "https://tallyfy.com/national-holidays/api/BY/${YEAR}.json")"
+HOLIDAY_NAME="$(printf '%s' "${HOLIDAYS}" | jq -r --arg today "${TODAY}" '.holidays[]? | select(.date == $today) | .name' | head -n 1)"
+
+if [ -n "${HOLIDAY_NAME}" ]; then
+  echo "Today is a public holiday in Belarus: ${HOLIDAY_NAME}"
+else
+  echo "Today is not a public holiday in Belarus."
+fi
+
+echo "=== National Bank of Belarus exchange rates ==="
+RATES="$(curl --fail --silent --show-error 'https://api.nbrb.by/exrates/rates?periodicity=0')"
+
+for CODE in USD EUR RUB; do
+  printf '%s' "${RATES}" | jq -r --arg code "${CODE}" '.[] | select(.Cur_Abbreviation == $code) | "\(.Cur_Scale) \(.Cur_Abbreviation) = \(.Cur_OfficialRate) BYN"'
+done
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+  <logRotator>
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>30</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+</project>
