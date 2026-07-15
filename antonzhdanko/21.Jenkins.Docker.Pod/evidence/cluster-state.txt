@@ -1,0 +1,27 @@
+Argo CD:
+jenkins-homework: chart 0.1.7, Synced, Healthy
+
+Jenkins agent:
+The temporary five-container Kubernetes agent Pod completed and was removed.
+
+Production:
+namespace: prod
+deployment: jenkins-pipeline-app
+ready: 1/1
+image: jfrog.it-academy.by/public/jenkins-routine-app:5
+pod status: Running
+restarts: 0
+
+Pre-production after cleanup:
+namespace: pre-prod
+deployments: none
+services: none
+pods: none
+
+Secrets:
+jenkins-registry: kubernetes.io/dockerconfigjson, generated from SealedSecret
+jenkins-slack: Opaque, generated from SealedSecret
+
+RBAC:
+Jenkins has namespace-scoped jenkins-deployer Roles in pre-prod and prod.
+No cluster-admin role was granted to the Jenkins ServiceAccount.
