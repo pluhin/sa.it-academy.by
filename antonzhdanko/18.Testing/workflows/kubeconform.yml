@@ -1,0 +1,65 @@
+name: Validate Kubernetes manifests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate ${{ matrix.directory }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        directory: [bootstrap, manifests]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run kubeconform in container
+        run: |
+          docker run --rm \
+            --volume "${PWD}:/work:ro" \
+            ghcr.io/yannh/kubeconform:v0.8.0 \
+            -strict \
+            -summary \
+            -schema-location default \
+            -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
+            "/work/${{ matrix.directory }}"
+
+  notify:
+    name: Report validation status
+    needs: validate
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Add validation result to job summary
+        env:
+          VALIDATION_RESULT: ${{ needs.validate.result }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          echo "## Kubeconform result: ${VALIDATION_RESULT}" >> "${GITHUB_STEP_SUMMARY}"
+          echo "[Open workflow run](${RUN_URL})" >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Send optional Slack notification
+        continue-on-error: true
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          VALIDATION_RESULT: ${{ needs.validate.result }}
+        run: |
+          if [ -z "${SLACK_WEBHOOK}" ]; then
+            echo "SLACK_WEBHOOK is not configured; notification skipped."
+            exit 0
+          fi
+          curl --fail --show-error \
+            --header 'Content-Type: application/json' \
+            --data "{\"text\":\"Kubeconform result: ${VALIDATION_RESULT}\"}" \
+            "${SLACK_WEBHOOK}"

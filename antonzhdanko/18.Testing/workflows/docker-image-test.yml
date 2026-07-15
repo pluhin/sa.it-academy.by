@@ -1,0 +1,45 @@
+name: Build and publish Docker Compose application
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docker-compose-app/**"
+      - ".github/workflows/docker-publish.yml"
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-test-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Start Compose stack
+        working-directory: docker-compose-app
+        run: docker compose up --detach --build --wait
+
+      - name: Test application response
+        working-directory: docker-compose-app
+        run: |
+          curl --fail --retry 10 --retry-delay 2 http://localhost:8080/health
+          curl --fail http://localhost:8080/
+
+      - name: Verify application container is non-root
+        working-directory: docker-compose-app
+        run: |
+          user_id="$(docker compose exec --no-TTY web id -u)"
+          echo "Application container UID: ${user_id}"
+          test "${user_id}" -ne 0
+
+      - name: Stop Compose stack
+        if: always()
+        working-directory: docker-compose-app
+        run: docker compose down --volumes --remove-orphans

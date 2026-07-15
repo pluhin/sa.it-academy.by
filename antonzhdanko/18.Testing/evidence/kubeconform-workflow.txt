@@ -1,0 +1,12 @@
+Workflow: Validate Kubernetes manifests
+Run: https://github.com/antonzhdanko/argocd-homework/actions/runs/29397224061
+Conclusion: success
+
+Parallel job: Validate bootstrap
+Summary: 1 resource found in 1 file - Valid: 1, Invalid: 0, Errors: 0, Skipped: 0
+
+Parallel job: Validate manifests
+Summary: 15 resources found in 13 files - Valid: 15, Invalid: 0, Errors: 0, Skipped: 0
+
+Status job: Report validation status
+Conclusion: success
