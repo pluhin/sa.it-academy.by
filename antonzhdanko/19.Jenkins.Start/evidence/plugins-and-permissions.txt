@@ -6,11 +6,20 @@ job-dsl       3654.vdf58f53e2d15  active=true
 
 Restricted viewer checks:
 
-Jenkins API:            HTTP 200
-Job API:                HTTP 200
-Job configuration page: HTTP 403
+Jenkins API:             HTTP 200
+Job API:                 HTTP 200
+Job configuration page:  HTTP 403
+Job build request:        HTTP 403
+Security settings:        HTTP 403
+Plugin Manager API:       HTTP 403
+
+Credential isolation:
+
+JENKINS_ADMIN_PASSWORD  -> jenkins-admin/password
+JENKINS_VIEWER_PASSWORD -> jenkins-viewer/password
+Runtime password comparison: distinct
 
 Argo CD and Kubernetes:
 
-jenkins-homework: Synced Healthy, chart 0.1.2
+jenkins-homework: Synced Healthy, chart 0.1.3
 jenkins Pod:       1/1 Running, restarts 0

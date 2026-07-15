@@ -5,7 +5,7 @@
 Jenkins is deployed to Kubernetes through Argo CD and Helm:
 
 - namespace: `jenkins-gitops`;
-- Helm chart: `jenkins-homework` version `0.1.2`;
+- Helm chart: `jenkins-homework` version `0.1.3`;
 - configuration: Jenkins Configuration as Code;
 - persistent storage: 5 Gi PVC;
 - container runs as UID/GID `1000`;
@@ -33,8 +33,10 @@ The local user `viewer` is configured with Matrix Authorization. It has only:
 - `Job/Read`.
 
 The user can open Jenkins and view `belarus-daily-info`, but receives HTTP 403
-for the job configuration page. The password is read from a Kubernetes Secret
-and is not stored in git.
+when trying to configure or start the job and when opening Jenkins security or
+plugin administration. The administrator and viewer passwords are read from
+different Kubernetes Secrets. The viewer Secret is stored in Git only as a
+SealedSecret, so the password itself is not committed.
 
 ## Daily job
 
