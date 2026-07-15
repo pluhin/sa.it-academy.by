@@ -17,6 +17,11 @@ Author: Anton Zhdanko
 Subject: Document Jenkins routine automation
 Result: SUCCESS
 
+Branch filter verification:
+A temporary commit was pushed to branch `verify-non-main-webhook`.
+The Jenkins last build remained build 1 with no new build triggered.
+The temporary local and remote branches were removed after the test.
+
 Relay:
 Deployment: jenkins-gitops-smee
 Status: 1/1 Running

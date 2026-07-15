@@ -49,6 +49,9 @@ A documentation commit pushed to `main` produced this verified chain:
 
 `GitHub push -> Smee -> Jenkins GitHub trigger -> clone main -> SUCCESS`
 
+A push to a temporary non-main branch was also tested and did not create a
+new Jenkins build, confirming that only `main` changes trigger this job.
+
 The exported job configuration is saved as
 [`github-main-webhook-config.xml`](github-main-webhook-config.xml). Test results
 and links to successful runs are in [`evidence`](evidence/).
