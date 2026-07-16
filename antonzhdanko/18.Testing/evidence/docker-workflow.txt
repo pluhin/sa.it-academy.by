@@ -1,0 +1,13 @@
+Workflow: Build and publish Docker Compose application
+Run: https://github.com/antonzhdanko/github-actions-homework/actions/runs/29397136596
+Conclusion: success
+
+Test application response:
+{"database":"connected","status":"ok"}
+{"message":"Docker Compose homework","visits":1}
+
+Verify application container is non-root:
+Application container UID: 10001
+
+Published image:
+ghcr.io/antonzhdanko/docker-compose-homework:latest
