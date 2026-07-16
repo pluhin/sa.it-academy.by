@@ -1,0 +1,4 @@
+$ kubectl logs -n homework-17 failing-pod --previous --context k8s
+2026-07-14T15:57:30+00:00 level=INFO message=application-started
+2026-07-14T15:57:30+00:00 level=ERROR message=simulated-failure exit_code=1
+

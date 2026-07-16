@@ -1,0 +1,5 @@
+NAME                             READY   STATUS             RESTARTS        AGE     IP               NODE    NOMINATED NODE   READINESS GATES
+failing-pod                      0/1     CrashLoopBackOff   6 (2m10s ago)   8m11s   10.233.75.36     node2   <none>           <none>
+log-generator-5b9cc479ff-l6j7k   1/1     Running            0               9m51s   10.233.75.35     node2   <none>           <none>
+log-generator-5b9cc479ff-w6s4s   1/1     Running            0               9m51s   10.233.102.161   node1   <none>           <none>
+
