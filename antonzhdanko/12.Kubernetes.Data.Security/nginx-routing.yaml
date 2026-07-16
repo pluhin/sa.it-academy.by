@@ -1,0 +1,34 @@
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: nginx
+  namespace: homework-12
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - nginx-test.k8s-3.sa
+        - nginx-test.k8s-4.sa
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: nginx
+  namespace: homework-12
+spec:
+  hosts:
+    - nginx-test.k8s-3.sa
+    - nginx-test.k8s-4.sa
+  gateways:
+    - nginx
+  http:
+    - route:
+        - destination:
+            host: nginx
+            port:
+              number: 80
