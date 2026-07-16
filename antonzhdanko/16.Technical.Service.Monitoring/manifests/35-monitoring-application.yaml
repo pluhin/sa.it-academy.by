@@ -1,0 +1,92 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: homework-15
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: 87.15.2
+    helm:
+      releaseName: monitoring
+      valuesObject:
+        fullnameOverride: monitoring
+        alertmanager:
+          enabled: true
+          alertmanagerSpec:
+            secrets:
+              - alertmanager-slack-webhook
+          config:
+            global:
+              resolve_timeout: 1m
+            route:
+              group_by:
+                - alertname
+                - namespace
+                - pod
+              group_wait: 10s
+              group_interval: 30s
+              repeat_interval: 1h
+              receiver: "null"
+              routes:
+                - receiver: slack-notifications
+                  matchers:
+                    - alertname = "HomeworkPodCPUOverload"
+                - receiver: "null"
+                  matchers:
+                    - alertname = "Watchdog"
+            receivers:
+              - name: "null"
+              - name: slack-notifications
+                slack_configs:
+                  - api_url_file: /etc/alertmanager/secrets/alertmanager-slack-webhook/url
+                    send_resolved: true
+                    title: '[{{ .Status | toUpper }}] {{ .CommonLabels.alertname }}'
+                    text: >-
+                      {{ range .Alerts }}{{ .Annotations.summary }}
+                      Namespace: {{ .Labels.namespace }} Pod: {{ .Labels.pod }}{{ end }}
+        prometheus:
+          enabled: true
+          prometheusSpec:
+            retention: 2d
+            resources:
+              requests:
+                cpu: 300m
+                memory: 750Mi
+              limits:
+                cpu: "2"
+                memory: 2Gi
+        grafana:
+          enabled: true
+          admin:
+            existingSecret: grafana-admin
+            userKey: admin-user
+            passwordKey: admin-password
+          sidecar:
+            dashboards:
+              enabled: true
+              label: grafana_dashboard
+              labelValue: "1"
+              searchNamespace: monitoring
+            datasources:
+              enabled: true
+              defaultDatasourceEnabled: true
+              isDefaultDatasource: true
+        kube-state-metrics:
+          enabled: true
+        prometheus-node-exporter:
+          enabled: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

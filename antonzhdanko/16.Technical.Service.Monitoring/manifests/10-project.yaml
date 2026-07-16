@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: homework-15
+  namespace: argocd
+spec:
+  description: Homework applications delivered from Git and Helm repositories
+  sourceRepos:
+    - git@github.com:antonzhdanko/argocd-homework.git
+    - https://antonzhdanko.github.io/sa2-35-26-jenkins/
+    - https://prometheus-community.github.io/helm-charts
+  destinations:
+    - namespace: jenkins-gitops
+      server: https://kubernetes.default.svc
+    - namespace: monitoring
+      server: https://kubernetes.default.svc
+    - namespace: kube-system
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
