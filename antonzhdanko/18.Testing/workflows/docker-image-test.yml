@@ -8,6 +8,9 @@ on:
       - ".github/workflows/docker-publish.yml"
   pull_request:
     branches: [main]
+    paths:
+      - "docker-compose-app/**"
+      - ".github/workflows/docker-publish.yml"
   workflow_dispatch:
 
 permissions:
@@ -17,14 +20,22 @@ permissions:
 jobs:
   build-test-publish:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/docker-compose-homework
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
 
+      - name: Validate Compose configuration
+        working-directory: docker-compose-app
+        run: docker compose config --quiet
+
       - name: Start Compose stack
         working-directory: docker-compose-app
-        run: docker compose up --detach --build --wait
+        run: |
+          docker compose up --detach --build --wait
 
       - name: Test application response
         working-directory: docker-compose-app
@@ -43,3 +54,42 @@ jobs:
         if: always()
         working-directory: docker-compose-app
         run: docker compose down --volumes --remove-orphans
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log in to GHCR
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and publish image
+        uses: docker/build-push-action@v7
+        with:
+          context: docker-compose-app
+          file: docker-compose-app/Dockerfile
+          target: runtime
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.IMAGE_NAME }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Send Slack notification
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          if [ -z "$SLACK_WEBHOOK" ]; then
+            echo "SLACK_WEBHOOK is not configured; notification skipped."
+            exit 0
+          fi
+          curl --fail --show-error \
+            --header 'Content-Type: application/json' \
+            --data "{\"text\":\"Docker workflow ${JOB_STATUS}: ${IMAGE_NAME}:${IMAGE_TAG}\"}" \
+            "$SLACK_WEBHOOK"
