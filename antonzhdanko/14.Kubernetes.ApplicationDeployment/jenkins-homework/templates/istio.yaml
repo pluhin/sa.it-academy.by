@@ -1,0 +1,36 @@
+{{- if .Values.istio.enabled }}
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: {{ include "jenkins-homework.fullname" . }}
+  labels:
+    {{- include "jenkins-homework.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- toYaml .Values.istio.gatewaySelector | nindent 4 }}
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        {{- toYaml .Values.istio.hosts | nindent 8 }}
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: {{ include "jenkins-homework.fullname" . }}
+  labels:
+    {{- include "jenkins-homework.labels" . | nindent 4 }}
+spec:
+  hosts:
+    {{- toYaml .Values.istio.hosts | nindent 4 }}
+  gateways:
+    - {{ include "jenkins-homework.fullname" . }}
+  http:
+    - route:
+        - destination:
+            host: {{ include "jenkins-homework.fullname" . }}
+            port:
+              number: {{ .Values.service.httpPort }}
+{{- end }}

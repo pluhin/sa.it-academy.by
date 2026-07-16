@@ -1,0 +1,7 @@
+Jenkins URL:
+{{- range .Values.istio.hosts }}
+  http://{{ . }}
+{{- end }}
+
+Administrator: {{ .Values.admin.username }}
+Password Secret: {{ .Values.admin.existingSecret }}/{{ .Values.admin.passwordKey }}

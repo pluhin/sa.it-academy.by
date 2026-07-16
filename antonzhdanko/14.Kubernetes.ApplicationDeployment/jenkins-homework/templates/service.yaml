@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "jenkins-homework.fullname" . }}
+  labels:
+    {{- include "jenkins-homework.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    {{- include "jenkins-homework.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: http
+      port: {{ .Values.service.httpPort }}
+      targetPort: http
+    - name: agent
+      port: {{ .Values.service.agentPort }}
+      targetPort: agent
