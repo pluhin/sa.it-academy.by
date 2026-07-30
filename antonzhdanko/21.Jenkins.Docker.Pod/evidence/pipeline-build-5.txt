@@ -1,0 +1,19 @@
+Jenkins job: docker-pod-pipeline
+Build: 5
+Source revision: d9f1087c6061c33431a03bd5ab1b366cadd0d14c
+
+Checkout code: SUCCESS
+Dockerfile validation: hadolint Dockerfile - SUCCESS
+Docker build: jfrog.it-academy.by/public/jenkins-routine-app:5
+Local WebUI test: SUCCESS
+Registry push digest: sha256:4110dee6912988278fda735125a82ffd1dd9c84ccfcc80b5109308951535c7ca
+Pre-production rollout: SUCCESS
+Pre-production HTTP test: SUCCESS
+Manual gate: Approved by admin
+Production rollout: SUCCESS
+Production HTTP test: SUCCESS
+Pre-production Service deleted: SUCCESS
+Pre-production Deployment deleted: SUCCESS
+Slack notification response: ok
+
+Finished: SUCCESS
