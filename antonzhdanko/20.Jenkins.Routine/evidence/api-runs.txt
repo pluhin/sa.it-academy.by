@@ -1,0 +1,20 @@
+GitHub Actions -> Jenkins API -> user-existence-check
+
+Existing user test:
+Run: https://github.com/antonzhdanko/sa2-35-26-jenkins/actions/runs/29402288819
+Input: root
+Output: User 'root' exists in /etc/passwd.
+Jenkins result: SUCCESS
+GitHub Actions result: SUCCESS
+
+Missing user test:
+Run: https://github.com/antonzhdanko/sa2-35-26-jenkins/actions/runs/29402345676
+Input: homework-user-missing
+Output: User 'homework-user-missing' does not exist in /etc/passwd.
+Jenkins result: SUCCESS
+GitHub Actions result: SUCCESS
+
+Authentication:
+Jenkins user: automation
+Permissions: Overall/Read, Job/Read, Job/Build
+Password storage: GitHub Actions Secret and Kubernetes SealedSecret

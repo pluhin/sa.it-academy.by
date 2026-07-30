@@ -1,0 +1,28 @@
+GitHub push -> Smee -> Jenkins -> clone main
+
+GitHub delivery:
+Event: push
+Delivery status: OK
+HTTP status: 200
+Delivered at: 2026-07-15T08:57:09Z
+
+Jenkins build:
+Job: github-main-webhook
+Build: 1
+Started by GitHub push by antonzhdanko
+Checked out: refs/remotes/origin/main
+Webhook build for branch: origin/main
+Commit: b4e5f1d7d7db4acd55ccbbc124bdae1d18e56a41
+Author: Anton Zhdanko
+Subject: Document Jenkins routine automation
+Result: SUCCESS
+
+Branch filter verification:
+A temporary commit was pushed to branch `verify-non-main-webhook`.
+The Jenkins last build remained build 1 with no new build triggered.
+The temporary local and remote branches were removed after the test.
+
+Relay:
+Deployment: jenkins-gitops-smee
+Status: 1/1 Running
+Smee channel: stored in a Kubernetes SealedSecret and redacted from logs
