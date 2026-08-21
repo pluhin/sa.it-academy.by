@@ -1,0 +1,16 @@
+name: Run Hello Script
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  print-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Run Python script
+        run: python hello.py
