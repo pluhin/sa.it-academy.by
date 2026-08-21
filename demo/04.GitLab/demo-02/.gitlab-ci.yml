@@ -1,0 +1,45 @@
+image: alpine:3.24
+
+stages:
+  - check
+  - notify
+
+check_websites:
+  stage: check
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - |
+      failed=""
+      for site in https://onliner.by https://google.com https://no-such-host.example; do
+        if ! curl -sSf --max-time 5 -o /dev/null "$site"; then
+          failed="$failed $site"
+        fi
+      done
+      if [ -n "$failed" ]; then
+        echo "DOWN:$failed" | tee failed_sites.txt
+      else
+        echo "All sites are up"
+      fi
+  artifacts:
+    paths:
+      - failed_sites.txt
+    when: always
+    expire_in: 1 week
+  rules:
+    - if: '$CI_COMMIT_BRANCH'
+
+notify_if_down:
+  stage: notify
+  needs: ["check_websites"]
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - |
+      if [ -f failed_sites.txt ] && [ -s failed_sites.txt ]; then
+        echo "Would send alert:"; cat failed_sites.txt
+      else
+        echo "Nothing to report"
+      fi
+  rules:
+    - if: '$CI_COMMIT_BRANCH'

@@ -1,0 +1,32 @@
+image: alpine:3.20
+
+stages:
+  - run
+  - notify
+
+job_on_self_hosted:
+  stage: run
+  tags:
+    - lab-runner
+  script:
+    - echo "Running on our own runner"
+    - echo "commit=$CI_COMMIT_SHORT_SHA branch=$CI_COMMIT_BRANCH"
+
+show_secret_is_masked:
+  stage: run
+  script:
+    - echo "webhook is set? [${SLACK_WEBHOOK_URL:+yes}]"
+
+notify_slack:
+  stage: notify
+  when: always
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - |
+      if [ -z "${SLACK_WEBHOOK_URL:-}" ]; then
+        echo "SLACK_WEBHOOK_URL not set, skipping"; exit 0
+      fi
+      curl -X POST -H 'Content-type: application/json' \
+        --data "{\"text\":\"Pipeline $CI_PIPELINE_ID for $CI_PROJECT_PATH -> $CI_JOB_STATUS\"}" \
+        "$SLACK_WEBHOOK_URL"
