@@ -1,0 +1,23 @@
+stages:
+  - build
+  - test
+run-script-job:
+  stage: build
+  image: cr.yandex/mirror/alpine:latest
+  before_script:
+    - chmod +x hello.sh
+  script:
+    # Запускаем скрипт явно через интерпретатор sh
+    - sh hello.sh
+curl-check-job:
+  stage: test
+  image: cr.yandex/mirror/alpine:latest
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - curl -I https://google.com
+nc-check-job:
+  stage: test
+  image: cr.yandex/mirror/alpine:latest
+  script:
+    - nc -z -v -w5 google.com 443
