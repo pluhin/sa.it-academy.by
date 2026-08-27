@@ -1,0 +1,13 @@
+# Скопировать в terraform.tfvars и поправить под себя:
+#   cp terraform.tfvars.example terraform.tfvars
+# terraform.tfvars НЕ коммитим, если кладём туда пароль.
+
+demo_id  = 1
+hostname = "tf-demo"
+cores    = 1
+memory   = 512
+disk_size = 4
+
+# Пароль лучше передавать через окружение, а не через tfvars в git:
+#   export TF_VAR_lxc_password='...'
+# lxc_password = "DemoPass_123"

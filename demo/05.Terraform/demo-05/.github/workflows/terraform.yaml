@@ -1,0 +1,38 @@
+name: terraform
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+env:
+  PROXMOX_VE_ENDPOINT: ${{ secrets.PROXMOX_VE_ENDPOINT }}
+  PROXMOX_VE_API_TOKEN: ${{ secrets.PROXMOX_VE_API_TOKEN }}
+  PROXMOX_VE_INSECURE: "true"
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 05.Terraform/terraform_demo_05_cicd
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+
+      - name: Init
+        run: terraform init -input=false
+
+      - name: Format check
+        run: terraform fmt -check -recursive
+
+      - name: Validate
+        run: terraform validate
+
+      - name: Plan
+        run: terraform plan -input=false
+
+      - name: Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve -input=false

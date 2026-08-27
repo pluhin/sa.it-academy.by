@@ -1,0 +1,45 @@
+image:
+  name: hashicorp/terraform:1.9
+  entrypoint: [""]
+
+variables:
+  TF_IN_AUTOMATION: "true"
+
+stages:
+  - validate
+  - plan
+  - apply
+
+cache:
+  paths:
+    - .terraform
+
+fmt_validate:
+  stage: validate
+  script:
+    - terraform init -input=false
+    - terraform fmt -check -recursive
+    - terraform validate
+
+plan:
+  stage: plan
+  script:
+    - terraform init -input=false
+    - terraform plan -input=false -out=plan.tfplan
+  artifacts:
+    paths:
+      - plan.tfplan
+    expire_in: 1 day
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+apply:
+  stage: apply
+  needs: ["plan"]
+  script:
+    - terraform init -input=false
+    - terraform apply -input=false plan.tfplan
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: manual
