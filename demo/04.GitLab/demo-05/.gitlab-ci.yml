@@ -1,0 +1,54 @@
+image: alpine:3.20
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  script:
+    - echo "build artifact for $CI_COMMIT_SHORT_SHA"
+
+deploy_staging:
+  stage: deploy
+  script:
+    - echo "Deploying $CI_COMMIT_SHORT_SHA to STAGING"
+  environment:
+    name: staging
+    url: https://staging.example.com
+  rules:
+    - if: '$CI_COMMIT_BRANCH'
+
+deploy_production:
+  stage: deploy
+  script:
+    - echo "Deploying $CI_COMMIT_SHORT_SHA to PRODUCTION"
+  environment:
+    name: production
+    url: https://example.com
+  rules:
+    - if: '$CI_COMMIT_BRANCH'
+      when: manual
+  allow_failure: false
+
+review_app:
+  stage: deploy
+  script:
+    - echo "Spin up review env for branch $CI_COMMIT_REF_SLUG"
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    url: https://$CI_COMMIT_REF_SLUG.review.example.com
+    on_stop: stop_review
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+stop_review:
+  stage: deploy
+  script:
+    - echo "Tearing down review env for $CI_COMMIT_REF_SLUG"
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    action: stop
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: manual
