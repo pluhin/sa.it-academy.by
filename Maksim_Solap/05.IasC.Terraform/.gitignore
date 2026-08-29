@@ -1,0 +1,11 @@
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate*
+*.tfvars
+*.tfvars.json
+*.vars
+.terragrunt-cache/
+dist/
+*-config.txt
+.DS_Store
+Thumbs.db
