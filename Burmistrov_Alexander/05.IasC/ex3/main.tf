@@ -4,5 +4,5 @@ module gen_config_file {
     count = length(var.get_env)
     environment = var.get_env[count.index]
     read_password = var.env_pass[count.index]
-    path = var.env_path
+    path = path.module
 }
