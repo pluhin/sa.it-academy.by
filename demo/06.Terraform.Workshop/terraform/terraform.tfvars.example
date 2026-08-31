@@ -1,0 +1,10 @@
+# Скопировать в terraform.tfvars. Обе переменные обязательны — дефолтов нет.
+student_id = 1
+pool_id    = "student-01"
+
+# Необязательные (значения курса по умолчанию), максимум 5 на каждый тип:
+# env_host_count   = 2
+# k3s_node_count   = 1
+# k8s_node_count   = 2
+# start_containers = true
+# start_vms        = true
