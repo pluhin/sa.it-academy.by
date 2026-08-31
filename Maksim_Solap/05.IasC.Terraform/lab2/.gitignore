@@ -1,0 +1,6 @@
+.terraform/
+terraform.tfstate*
+*.tfvars*
+.terragrunt-cache/
+.terraform.lock.hcl
+*-CONFIG.txt

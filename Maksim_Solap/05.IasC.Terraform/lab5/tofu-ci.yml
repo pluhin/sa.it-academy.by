@@ -1,0 +1,45 @@
+name: "OpenTofu Security & Quality CI"
+
+on:
+  push:
+    branches: [ "main", "master", "feature/**" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  validate-and-plan:
+    name: "Tofu Quality Guard"
+    runs-on: ubuntu-latest
+
+    steps:
+      # Шаг 1: Клонируем исходный код репозитория на виртуальную машину-раннер
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      # Шаг 2: Устанавливаем официальный бинарник OpenTofu через GitHub Action Marketplace
+      - name: Install OpenTofu CLI
+        uses: opentofu/setup-opentofu@v2
+        with:
+          tofu_version: "1.12.6"
+
+      # Шаг 3: Проверяем каноническое форматирование кода (Лабораторная работа 1)
+      - name: OpenTofu Format Check
+        run: tofu fmt -check -recursive
+        # Флаг -check заставляет команду падать с ошибкой, если код не выровнен
+
+      # Шаг 4: Тестируем синтаксис третьей лабораторной работы
+      - name: Initialize Lab 3 Root Configuration
+        run: |
+          cd lab3
+          tofu init -backend=false
+
+      - name: OpenTofu Validate (Lab 3)
+        run: |
+          cd lab3
+          tofu validate
+
+      # Шаг 5: Формируем план симуляции (Dry Run) для проверки совместимости провайдеров
+      - name: OpenTofu Plan (Lab 3 Simulation)
+        run: |
+          cd lab3
+          tofu plan -no-color
