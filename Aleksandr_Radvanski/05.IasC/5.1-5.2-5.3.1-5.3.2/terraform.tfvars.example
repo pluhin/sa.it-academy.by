@@ -1,0 +1,8 @@
+# Имя файла
+Files_petsname = "custome_pets.txt"
+
+#Количество слов в имени
+random_pet = 4
+
+# Секретный префикс
+prefix = "my-secret-prefix"
