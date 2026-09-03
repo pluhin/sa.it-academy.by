@@ -1,0 +1,6 @@
+*.tfstate*
+.terraform/
+.terragrunt-cache/
+terraform.lock.hcl
+*.vars
+*tfvars*
