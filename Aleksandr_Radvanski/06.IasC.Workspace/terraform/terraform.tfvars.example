@@ -1,0 +1,8 @@
+# Copy to terraform.tfvars and set your student number.
+student_id = 1
+
+# Optional overrides:
+# k8s_node_count  = 2
+# k3s_node_count  = 1
+# pool_id         = "SA"
+# start_on_create = true
