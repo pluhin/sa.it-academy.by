@@ -1,0 +1,6 @@
+filename       = "production_pet.txt"
+content_prefix = "Production Pet: "
+pet_length     = 3
+pet_separator  = "_"
+environment    = "production"
+api_key        = "your-secret-api-key-here"
