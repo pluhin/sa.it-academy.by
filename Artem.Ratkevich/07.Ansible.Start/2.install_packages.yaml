@@ -1,0 +1,29 @@
+- name: Install Package on Remote Host
+  hosts: host_vm
+  become: true
+  gather_facts: true
+  
+  vars:
+    package_name: vim
+    
+  tasks:
+    - name: Update apt cache (Debian/Ubuntu)
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+      
+    - name: Install package
+      ansible.builtin.package:
+        name: "{{ package_name }}"
+        state: present
+        
+    - name: Verify package installation
+      ansible.builtin.command:
+        cmd: "which {{ package_name }}"
+      register: package_path
+      changed_when: false
+      
+    - name: Display package location
+      ansible.builtin.debug:
+        msg: "{{ package_name }} is installed at {{ package_path.stdout }}"

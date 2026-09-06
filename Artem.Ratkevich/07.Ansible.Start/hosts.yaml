@@ -1,0 +1,8 @@
+---
+all_workers:
+  hosts:
+    host_vm:
+      ansible_host: 192.168.56.101 # local VM
+      ansible_user: user
+      ansible_ssh_private_key_file: ~/.ssh/id_rsa
+      ansible_python_interpreter: /usr/bin/python3

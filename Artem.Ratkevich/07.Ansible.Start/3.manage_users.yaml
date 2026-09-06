@@ -1,0 +1,56 @@
+- name: Manage Users and Groups
+  hosts: host_vm
+  become: true
+  gather_facts: true
+  
+  vars:
+    user_name: "developer"
+    group_name: "devops"
+    user_password: "{{ 'SecurePassword123!' | password_hash('sha512') }}"
+    user_comment: "Development Team User"
+    user_shell: "/bin/bash"
+    
+  tasks:
+    - name: Ensure group exists
+      ansible.builtin.group:
+        name: "{{ group_name }}"
+        state: present
+        system: false
+        
+    - name: Create user with specific group
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+        groups: "{{ group_name }}"
+        append: yes
+        password: "{{ user_password }}"
+        comment: "{{ user_comment }}"
+        shell: "{{ user_shell }}"
+        create_home: yes
+        state: present
+        
+    - name: Set user password expiration
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+        password_expire_min: 1
+        password_expire_max: 90
+        
+    - name: Verify user creation
+      ansible.builtin.command:
+        cmd: "id {{ user_name }}"
+      register: user_info
+      changed_when: false
+      
+    - name: Display user information
+      ansible.builtin.debug:
+        msg: "User created: {{ user_info.stdout }}"
+        
+    - name: Create additional group for user
+      ansible.builtin.group:
+        name: "{{ user_name }}_group"
+        state: present
+        
+    - name: Add user to additional group
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+        groups: "{{ user_name }}_group"
+        append: yes
