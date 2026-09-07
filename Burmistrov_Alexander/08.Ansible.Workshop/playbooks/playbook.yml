@@ -1,0 +1,90 @@
+---
+- name: Set hostname and new_fqdn
+  hosts: all
+  gather_facts: false
+  become: true
+
+  tasks:
+  - name: Set hostname
+    ansible.builtin.hostname:
+      name: "{{ new_hostname }}"
+
+  - name: Set FQDN 
+    ansible.builtin.lineinfile:
+      path: /etc/hosts
+      regexp: "^{{ ansible_host | regex_escape }}\\s"
+      line: "{{ ansible_host }} {{new_fqdn}} {{new_hostname}}"
+      state: present
+
+- name: Setup nginx
+  hosts: all
+  gather_facts: true
+  become: true
+
+  tasks:
+
+    - name: Update packets
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+
+    - name: Create site config
+      ansible.builtin.template:
+        src: ../template/site.conf.jinja
+        dest: /etc/nginx/sites-available/site.conf
+        owner: root
+        group: root
+        mode: '0640'
+
+    - name: Create index.html
+      ansible.builtin.template:
+        src: ../template/index.html.jinja
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0640'
+
+    - name: Remove default.conf config on nginx
+      ansible.builtin.file:
+        path: /etc/nginx/sites-enabled/default.conf
+        state: absent
+
+    - name: Create a symbolyc link to enable site.conf
+      ansible.builtin.file:
+        src: /etc/nginx/sites-available/site.conf
+        dest: /etc/nginx/sites-enabled/site.conf
+        owner: root
+        group: root
+        state: link
+
+    - name: Check valid nginx config
+      ansible.builtin.command: nginx -t
+
+    - name: Restart nginx
+      ansible.builtin.systemd_service:
+        name: nginx
+        state: restarted
+
+- name: Validation Install
+  hosts: all
+  gather_facts: false
+  
+  tasks:
+
+  - name: GET hosts
+    ansible.builtin.uri:
+      url: "http://{{ new_fqdn }}"
+      return_content: true
+    register: response
+
+  - name: Show response content
+    ansible.builtin.debug:
+      msg:
+        status: "{{response.status}}"
+        content: "{{response.content}}"
+
+        
