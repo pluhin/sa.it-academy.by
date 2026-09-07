@@ -1,0 +1,9 @@
+---
+- name: Homework 2 - Instal Package
+  hosts: lxc
+  become: true
+  tasks:
+    - name: Install htop package
+      ansible.builtin.package:
+        name: htop 
+        state: present
