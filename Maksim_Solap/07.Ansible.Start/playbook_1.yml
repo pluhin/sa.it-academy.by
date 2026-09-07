@@ -1,0 +1,9 @@
+---
+- name: Homework 1 - Hello Ansible
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Print Hello Message
+      ansible.builtin.debug:
+        msg: "Hello, Ansible!"

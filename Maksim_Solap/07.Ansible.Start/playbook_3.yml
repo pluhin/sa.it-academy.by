@@ -1,0 +1,23 @@
+---
+- name: Homework 3 - Manage Users and Groups
+  hosts: lxc
+  become: true
+  vars_files:
+    - vars_secret.yml  # Подключаем наш зашифрованный файл
+  vars:
+    target_group: "developers"
+    target_user: "developer_user"
+
+  tasks:
+    - name: Create a specific group
+      ansible.builtin.group:
+        name: "{{ target_group }}"
+        state: present
+
+    - name: Create a new user and assign to the group
+      ansible.builtin.user:
+        name: "{{ target_user }}"
+        group: "{{ target_group }}"
+        password: "{{ plain_password | string | ansible.builtin.password_hash('sha512') }}"
+        shell: /bin/bash
+        state: present
