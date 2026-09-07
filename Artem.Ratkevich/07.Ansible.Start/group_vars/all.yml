@@ -1,0 +1,2 @@
+# Global variables for all hosts
+ansible_python_interpreter: /usr/bin/python3
