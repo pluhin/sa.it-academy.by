@@ -1,0 +1,20 @@
+---
+- name: Update packets and install htop
+  hosts: PC_test
+  gather_facts: false
+  become: true
+
+  tasks:
+    - name: Update packets
+      ansible.builtin.apt:
+        update_cache: true
+      register: apt_update
+
+    - name: Show apt output
+      ansible.builtin.debug:
+        var: apt_update
+
+    - name: Install htop
+      ansible.builtin.apt:
+        name: htop
+        state: present

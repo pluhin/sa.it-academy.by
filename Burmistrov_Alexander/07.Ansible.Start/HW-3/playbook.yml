@@ -1,0 +1,25 @@
+---
+- name: Add user 
+  hosts: PC_test
+  gather_facts: false
+  become: true
+
+  vars_prompt:
+    - name: user_pass
+      prompt: "Enter HASH password"
+      private: true
+
+    - name: username
+      prompt: "Enter username"
+      
+  tasks:
+
+    - name: Create groups
+      ansible.builtin.group:
+        name: "{{ username | default ('user') }}"
+
+    - name: Create user
+      ansible.builtin.user:
+        name: "{{ username | default ('user') }}"
+        groups: "{{ username | default ('user') }}"
+        password: "{{ user_pass | default ('!') }}"
