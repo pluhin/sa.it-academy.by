@@ -1,0 +1,41 @@
+- hosts: all
+  gather_facts: no
+  #become: true #права root (sudo) для выполннения
+
+  vars_files:
+  - secrets.yaml
+  vars:
+    user_name: "testuser"
+    group_name: "testgroup"
+    vault_user_password: "{{ 'my_secure_password' | password_hash('sha512') }}"
+
+
+  tasks:
+  - name: add group
+    ansible.builtin.group:
+        name: "{{ group_name }}"
+        state: present
+
+  - name: add user stydent1
+    ansible.builtin.user:
+        name: "{{ user_name }}"
+        password: "{{ vault_user_password }}"
+        groups: "{{ group_name }}"
+        append: true
+        state: present
+        shell: /bin/bash
+
+  - name: Check 'add user'
+    ansible.builtin.getent:
+      database: passwd
+      key: "{{ user_name }}"
+    register: user_check
+
+  - name: Show user check result
+    ansible.builtin.debug:
+      var: user_check.ansible_facts.getent_passwd
+
+
+  - name: Out work info
+    ansible.builtin.debug:
+        msg: "Done. User {{ user_name }} has been verified."
