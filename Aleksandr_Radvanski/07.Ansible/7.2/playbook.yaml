@@ -1,0 +1,9 @@
+- hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Install htop
+      ansible.builtin.apt:
+        name: htop
+        state: present
+        update_cache: yes
