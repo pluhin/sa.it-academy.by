@@ -1,0 +1,102 @@
+---
+- name: Homework 1 - Nginx Configuration Management with VirtualHosts
+  hosts: webservers
+  become: true
+  gather_facts: true  # Обязательно собираем факты для получения ansible_hostname и ansible_fqdn
+
+  vars:
+    # Определяем массив из двух виртуальных хостов
+    virtualhosts:
+      - domain: "site1.local"
+      - domain: "site2.local"
+  
+  tasks:
+    - name: Ensure Nginx is installed
+      ansible.builtin.package:
+        name: nginx
+        state: present
+        update_cache: true
+
+    - name: Create document root directories for virtualhosts
+      ansible.builtin.file:
+        path: "/var/www/{{ item.domain }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop: "{{ virtualhosts }}"
+
+    - name: Deploy index.html from Jinja2 template
+      ansible.builtin.template:
+        src: templates/index.html.j2
+        dest: "/var/www/{{ item.domain }}/index.html"
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      loop: "{{ virtualhosts }}"
+
+    - name: Deploy Nginx virtualhost configurations
+      ansible.builtin.template:
+        src: templates/nginx_vhost.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.domain }}"
+        owner: root
+        group: root
+        mode: '0644'
+        validate: nginx -t -c %s
+      loop: "{{ virtualhosts }}"
+      notify: Restart Nginx
+
+    - name: Enable virtualhost sites via symlink
+      ansible.builtin.file:
+        src: "/etc/nginx/sites-available/{{ item.domain }}"
+        dest: "/etc/nginx/sites-enabled/{{ item.domain }}"
+        state: link
+      loop: "{{ virtualhosts }}"
+      notify: Restart Nginx
+
+    - name: Run Nginx syntax verification check
+      ansible.builtin.command: nginx -t
+      register: nginx_validation_output  # Сохраняем весь вывод команды в переменную
+      changed_when: false                 # Указываем, что эта команда не меняет состояние системы
+
+    - name: Display Nginx Validation Report
+      ansible.builtin.debug:
+        msg:
+          - "---------------- NGINX VALIDATION REPORT ----------------"
+          - "{{ nginx_validation_output.stderr_lines }}"
+          - "---------------------------------------------------------"
+
+    - name: Remove default Nginx site configuration
+      ansible.builtin.file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: Restart Nginx
+
+
+    - name: Verify HTTP availability for each VirtualHost
+      ansible.builtin.uri:
+        url: "http://127.0.0.1"
+        headers:
+          Host: "{{ item.domain }}"
+        status_code: 200            # Мы ожидаем, что сервер вернет успешный код 200 OK
+        return_content: true        # Просим Ansible прочитать содержимое страницы
+      loop: "{{ virtualhosts }}"
+      register: website_checks       # Сохраняем результаты проверок в переменную
+
+    - name: Display Website Status Report
+      ansible.builtin.debug:
+        msg:
+          - "================ WEBSITE STATUS REPORT ================"
+          - "URL: http://{{ item.item.domain }}"
+          - "HTTP Status: {{ item.status }}"
+          - "Content Verification: Page contains 'Welcome to VirtualHost: {{ item.item.domain }}'"
+          - "======================================================="
+      loop: "{{ website_checks.results }}"
+      loop_control:
+        label: "{{ item.item.domain }}" # Делает вывод в консоли более компактным
+
+  handlers:
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted

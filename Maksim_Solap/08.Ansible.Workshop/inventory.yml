@@ -1,0 +1,8 @@
+---
+all:
+  children:
+    webservers:
+      hosts:
+        remote_target:
+          ansible_host: 192.168.202.7
+          ansible_user: root
