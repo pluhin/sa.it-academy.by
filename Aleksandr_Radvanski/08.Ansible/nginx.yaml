@@ -1,0 +1,80 @@
+- name: Install Nginx
+  hosts: all
+  become: true
+  vars:
+    vhosts: # создание переменной с функцией списка
+      - name: "site1.local"
+        port: 8081
+      - name: "site2.local"
+        port: 8082
+
+  tasks:
+    - name: Обновление кэша пакетов apt
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian" # запуск только если  ОS Debian/Ubuntu
+
+    - name: Установка curl
+      package:
+        name: curl
+        state: present # проверка, установлен ли пакет
+
+    - name: Установка веб-сервера Nginx
+      package:
+        name: nginx
+        state: present
+
+    - name: Запуск службы Nginx
+      service: # модуль управления системными службами (sistemd/sysvinit)
+        name: nginx
+        state: started #запуск службы сразу после установки
+        enabled: yes #автозагрузка службы при старте ОС
+
+    - name: Создание корневых директорий для сайтов
+      file: #модуль работы с файлами
+        path: "/var/www/{{ item.name }}"
+        state: directory #создать папку по задданному выше пути
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop: "{{ vhosts }}" # цикл. Запускает задачу столько раз, сколько находит переменных в файле
+
+    - name: Создание уникальных HTML-страниц
+      template:
+        src: templates/index.html.j2 # путь к шаблону на локальной машине
+        dest: "/var/www/{{ item.name }}/index.html" # путь, куа сохранить файлы на удаленной машине
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      loop: "{{ vhosts }}"
+
+    - name: Настройка конфигурационных файлов Nginx
+      template:
+        src: templates/nginx.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.name }}.conf"
+        owner: root
+        group: root
+        mode: '0644'
+      loop: "{{ vhosts }}"
+      notify: Reload Nginx # Запуск блока handler при изменении файла конфигурации. Запук только в конце плейбука.
+
+    - name: Активация виртуальных хостов
+      file:
+        src: "/etc/nginx/sites-available/{{ item.name }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ item.name }}.conf"
+        state: link
+      loop: "{{ vhosts }}"
+      notify: Reload Nginx
+
+    - name: Удаление дефолтного конфига Nginx
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent # удаление файлов
+      notify: Reload Nginx
+
+  handlers: # задачи, запускаемые только по параметру notify
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded # перечитывает конфигурацию, а не перезагружает весь сервер

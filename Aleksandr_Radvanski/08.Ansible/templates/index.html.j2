@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добро пожаловать на {{ item.name }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; color: #333; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: #0066cc; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Успешно развернуто через Ansible!</h1>
+        <p><strong>Виртуальный хост:</strong> {{ item.name }}</p>
+        <p><strong>Порт:</strong> {{ item.port }}</p>
+        <hr>
+        <h3>Данные удаленного сервера:</h3>
+        <ul>
+            <li><strong>Имя хоста (Hostname):</strong> {{ ansible_hostname }}</li>
+            <li><strong>Полное доменное имя (FQDN):</strong> {{ ansible_fqdn }}</li>
+        </ul>
+    </div>
+</body>
+</html>
