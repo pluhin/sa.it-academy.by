@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Site 1 — {{ server_name_1 }}</title>
+    <style>
+        body { font-family: sans-serif; background:#eef; padding:3rem; }
+        code { background:#fff; padding:.2rem .4rem; border-radius:4px; }
+    </style>
+</head>
+<body>
+    <h1>Hello from Site&nbsp;1 🚀</h1>
+    <p><strong>Hostname:</strong> <code>{{ ansible_hostname }}</code></p>
+    <p><strong>FQDN:</strong>     <code>{{ ansible_fqdn }}</code></p>
+    <p><strong>Virtual host:</strong> <code>{{ server_name_1 }}</code></p>
+    <p><strong>Managed by:</strong> Ansible</p>
+</body>
+</html>
