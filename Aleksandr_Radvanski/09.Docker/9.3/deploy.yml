@@ -1,0 +1,66 @@
+name: Git&Slack
+
+on:
+  push:
+    branches: [ "main" ]
+    tags: [ 'v*.*.*' ]
+
+env:
+  REGISTRY: ghcr.io # GitHub Container Registry
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions: # права есть у этой виртуальной машины внутри GitHub:
+      contents: read # разрешено читать исходный код из репозитория
+      packages: write # разрешено записывать готовые Docker-образы в хранилище GitHub Packages
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3 # авторизации в Docker-реестрах
+        with:
+          registry: ${{ env.REGISTRY }} # cсылка на ghcr.io  из блока выше
+          username: ${{ github.actor }} # имя пользователя для запуска
+          password: ${{ secrets.GITHUB_TOKEN }} #  временный автоматически генерируемый пароль
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta # Уникальный идентификатор шага. Создает теги по параметрам ниже для дальйнешего использования.
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: | # правила создания тегов
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+
+      - name: Build and push Docker image
+        id: docker_build
+        uses: docker/build-push-action@v5 # аналог docker build для облака GitHub
+        with:
+          context: . # папка, где искать файлы для сборки
+          push: true # отправить образ на GitHub Container Registry сразу после создания
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      # Уведомление в Slack при успешном завершении
+      - name: Slack Notification on Success
+        if: success() # сработает при выполнении предыдущих шагов
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_COLOR: '#36a64f'
+          SLACK_TITLE: 'Сборка успешна! 🚀'
+          SLACK_MESSAGE: "Образ успешно собран и опубликован.\n*Тег:* `${{ steps.meta.outputs.version }}`\n*Репозиторий:* ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+
+      # Уведомление в Slack при ошибке сборки
+      - name: Slack Notification on Failure
+        if: failure() # сработает при ошибке в предыдущих шагах
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_COLOR: '#ff0000'
+          SLACK_TITLE: 'Ошибка сборки ❌'
+          SLACK_MESSAGE: "Произошла ошибка при сборке или публикации Docker-образа для коммита ${{ github.sha }}."
