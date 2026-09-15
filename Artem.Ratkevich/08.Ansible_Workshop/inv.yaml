@@ -1,0 +1,18 @@
+---
+all:
+  children:
+    webservers:
+      hosts:
+        web1:
+          ansible_host: 192.168.201.2
+          ansible_user: root
+          ansible_ssh_private_key_file: ~/.ssh/id_rsa
+          # ansible_port: 22                       # optional, default 22
+          # ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+      vars:
+        ansible_python_interpreter: /usr/bin/python3
+        # --- Nginx / vhost settings (kept here so they can be overridden per host) ---
+        server_name_1: site1.local
+        server_name_2: site2.local
+        web_root_1:    /var/www/site1
+        web_root_2:    /var/www/site2

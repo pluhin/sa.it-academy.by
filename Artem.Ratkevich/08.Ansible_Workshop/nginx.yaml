@@ -1,0 +1,106 @@
+---
+- name: Install and configure Nginx with two virtual hosts
+  hosts: webservers
+  become: true
+  vars:
+    server_name_1: "site1.local"
+    server_name_2: "site2.local"
+    web_root_1:    "/var/www/site1"
+    web_root_2:    "/var/www/site2"
+
+  tasks:
+
+    # ---------- Nginx installation ----------
+    - name: Update apt cache (Debian/Ubuntu)
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Install Nginx
+      package:
+        name: nginx
+        state: present
+
+    - name: Ensure Nginx is enabled and running
+      service:
+        name: nginx
+        state: started
+        enabled: true
+
+    # ---------- Document roots ----------
+    - name: Create document roots for both virtual hosts
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: "0755"
+      loop:
+        - "{{ web_root_1 }}"
+        - "{{ web_root_2 }}"
+
+    # ---------- HTML pages (templated, unique per host) ----------
+    - name: Deploy index.html for site1
+      template:
+        src: index1.html.j2
+        dest: "{{ web_root_1 }}/index.html"
+        owner: www-data
+        group: www-data
+        mode: "0644"
+      notify: Reload Nginx
+
+    - name: Deploy index.html for site2
+      template:
+        src: index2.html.j2
+        dest: "{{ web_root_2 }}/index.html"
+        owner: www-data
+        group: www-data
+        mode: "0644"
+      notify: Reload Nginx
+
+    # ---------- Virtual host configs ----------
+    - name: Deploy virtual host config for site1
+      template:
+        src: site1.conf.j2
+        dest: /etc/nginx/sites-available/site1.conf
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Reload Nginx
+
+    - name: Deploy virtual host config for site2
+      template:
+        src: site2.conf.j2
+        dest: /etc/nginx/sites-available/site2.conf
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Reload Nginx
+
+    - name: Enable both virtual hosts (sites-enabled symlinks)
+      file:
+        src:  "/etc/nginx/sites-available/{{ item }}"
+        dest: "/etc/nginx/sites-enabled/{{ item }}"
+        state: link
+      loop:
+        - site1.conf
+        - site2.conf
+      notify: Reload Nginx
+
+    - name: Remove default Nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: Reload Nginx
+
+    # ---------- Validate config ----------
+    - name: Validate Nginx configuration
+      command: nginx -t
+      changed_when: false
+
+  handlers:
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded
