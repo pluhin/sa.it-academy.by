@@ -1,0 +1,34 @@
+name: Minikube
+
+# Настройка триггера для запуска при создании или обновлении Pull Request
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  minikube-setup:
+    # Использование актуальной и поддерживаемой среды выполнения (Ubuntu)
+    runs-on: ubuntu-latest
+
+    steps:
+      # Шаг 1: Клонирование репозитория в виртуальную среду выполнения
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Шаг 2: Развертывание Minikube кластера
+      - name: Setup Minikube
+        uses: medyagh/setup-minikube@master
+        with:
+          minikube-version: 'latest'
+          kubernetes-version: 'latest'
+          # В качестве драйвера docker
+          driver: 'docker'
+
+      # Шаг 3: Проверка работоспособности кластера
+      - name: Verify Minikube and Kubernetes
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+          kubectl get pods -A
+          minikube status
