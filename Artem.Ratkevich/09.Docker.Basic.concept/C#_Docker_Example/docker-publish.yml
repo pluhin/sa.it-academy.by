@@ -1,0 +1,158 @@
+# .github/workflows/docker-publish.yml
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  REGISTRY_GHCR: ghcr.io
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      # 1. Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Compute Docker-safe image names
+      #    - lowercase everything
+      #    - collapse any run of [._-] into a single "-"
+      #    - trim leading/trailing separators from each path component
+      - name: Compute Docker-safe image names
+        id: names
+        shell: bash
+        run: |
+          sanitize() {
+            # $1 = raw image path like "owner/repo"
+            echo "$1" \
+              | tr '[:upper:]' '[:lower:]' \
+              | sed -E 's/[._-]+/-/g' \
+              | sed -E 's#(^|/)-+#\1#g; s#-+(/|$)#\1#g'
+          }
+
+          GHCR_IMAGE="$(sanitize "${GITHUB_REPOSITORY}")"
+          DH_IMAGE="$(sanitize "${{ secrets.DOCKERHUB_USERNAME }}/csharp-docker-app")"
+
+          echo "ghcr=$GHCR_IMAGE"     >> "$GITHUB_OUTPUT"
+          echo "dockerhub=$DH_IMAGE"  >> "$GITHUB_OUTPUT"
+
+          echo "GHCR image:      $GHCR_IMAGE"
+          echo "DockerHub image: $DH_IMAGE"
+
+      # 3. Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 4. Extract metadata for Docker tags and labels
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ env.REGISTRY_GHCR }}/${{ steps.names.outputs.ghcr }}
+            ${{ steps.names.outputs.dockerhub }}
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      # 5. Log in to GitHub Container Registry
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY_GHCR }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 6. Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 7. Build and push the Docker image
+      - name: Build and push Docker image
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # 8. Build Slack payload dynamically (success case)
+      - name: Build Slack payload (success)
+        if: success()
+        id: slack_payload_success
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const tags = `${{ steps.meta.outputs.tags }}`.split('\n').filter(Boolean);
+            const payload = {
+              text: "✅ Build Succeeded",
+              blocks: [
+                {
+                  type: "section",
+                  text: {
+                    type: "mrkdwn",
+                    text: `*${{ github.repository }}* — Docker image built and pushed successfully.\n*Image tags:*\n${tags.map(t => `• \`${t}\``).join('\n')}\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>`
+                  }
+                }
+              ]
+            };
+            fs.writeFileSync('slack-payload.json', JSON.stringify(payload));
+      # 9. Notify Slack (success case)
+      - name: Notify Slack on Success
+        if: success()
+        uses: slackapi/slack-github-action@v2
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload-file-path: slack-payload.json
+      # 10. Notify Slack payload (failure case)
+      - name: Build Slack payload (failure)
+        if: failure()
+        id: slack_payload_failure
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const payload = {
+              text: "❌ Build Failed",
+              blocks: [
+                {
+                  type: "section",
+                  text: {
+                    type: "mrkdwn",
+                    text: `*${{ github.repository }}* — Docker image build failed.\n*Branch/Tag:* \`${{ github.ref_name }}\`\n*Commit:* \`${{ github.sha }}\`\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>`
+                  }
+                }
+              ]
+            };
+            fs.writeFileSync('slack-payload.json', JSON.stringify(payload));
+      # 11. Notify Slack on Failure
+      - name: Notify Slack on Failure
+        if: failure()
+        uses: slackapi/slack-github-action@v2
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload-file-path: slack-payload.json
