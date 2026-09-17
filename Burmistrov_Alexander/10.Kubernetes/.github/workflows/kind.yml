@@ -1,0 +1,40 @@
+name: kind
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "kind" ]
+
+jobs:
+  kind:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install kind
+        run: |
+          curl -Lo kind \
+            https://kind.sigs.k8s.io/dl/v0.33.0/kind-linux-amd64
+
+          chmod +x kind
+          sudo mv kind /usr/local/bin/kind
+
+      - name: Create cluster
+        run: |
+          kind create cluster \
+            --name test-ci \
+            --config kind/kind-1cp-1w.yml 
+
+      - name: Show cluster
+        run: |
+          kubectl cluster-info
+          kubectl get nodes -o wide
+
+      - name: Debug
+        if: always()
+        run: |
+          kubectl get nodes -o wide
+          kubectl get pods -A -o wide
+          kubectl get events -A
