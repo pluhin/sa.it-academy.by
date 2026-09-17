@@ -1,0 +1,59 @@
+---
+- name: "Assignment 1: Инсталляция Docker, kubectl, KinD и запуск кластера"
+  hosts: kind 
+  become: true
+  vars:
+    kind_version: "v0.33.0" # Актуальная стабильная версия на 2026 год
+
+  tasks:
+    - name: Обновление кэша пакетов APT
+      apt:
+        update_cache: yes
+
+    - name: Установка системных зависимостей
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - gnupg
+        state: present
+
+    - name: Установка Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Добавление текущего пользователя в группу docker
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+    - name: Загрузка и установка kubectl
+      get_url:
+        url: "https://dl.k8s.io/release/v1.37.0/bin/linux/amd64/kubectl"
+        dest: /usr/local/bin/kubectl
+        mode: '0755'
+
+    - name: Загрузка и установка KinD
+      get_url:
+       url: "https://kind.sign.k8s.io/dl/v0.33.0/kind-linux-amd64"
+        dest: /usr/local/bin/kind
+        mode: '0755'
+
+    - name: Запуск KinD кластера (от имени обычного пользователя)
+      become: false
+      command: kind create cluster --name it-academy-cluster
+      register: kind_output
+      changed_when: "'Creating cluster' in kind_output.stdout"
+
+    - name: Проверка нод кластера KinD
+      become: false
+      command: kubectl get nodes
+      register: kubectl_nodes
+
+    - name: Вывод информации о нодах
+      debug:
+        var: kubectl_nodes.stdout_lines
