@@ -1,0 +1,25 @@
+name: KinD Cluster Setup
+
+on:
+  push:
+    branches:
+      - main        # change to your specific branch if needed
+
+jobs:
+  kind-setup:
+    runs-on: ubuntu-latest   # GitHub-hosted runner (Docker pre-installed)
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create KinD cluster
+        uses: helm/kind-action@v1
+        with:
+          cluster_name: homework-cluster
+          node_image: kindest/node:v1.31.0
+
+      - name: Verify cluster
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+          kubectl get pods -A

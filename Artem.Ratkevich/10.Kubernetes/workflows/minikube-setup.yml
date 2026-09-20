@@ -1,0 +1,32 @@
+name: Minikube Cluster Setup
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  minikube-setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Start Minikube cluster
+        uses: medyagh/setup-minikube@latest
+        with:
+          driver: docker
+          minikube-version: 1.34.0
+          kubernetes-version: v1.31.0
+
+      - name: Verify cluster
+        run: |
+          minikube status
+          kubectl get nodes
+          kubectl cluster-info
+
+      - name: Run a smoke test
+        run: |
+          kubectl create deployment hello --image=nginxdemos/hello
+          kubectl rollout status deployment/hello --timeout=90s
+          kubectl get deployments
