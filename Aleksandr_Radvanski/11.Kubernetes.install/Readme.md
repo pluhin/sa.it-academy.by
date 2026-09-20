@@ -1,3 +1,4 @@
+https://github.com/aionfiend/11.-Kubernetes-installation/settings/secrets/actions
 #11.2
 ```
 users-MacBook-Pro$ kubectl config use-context k8s
