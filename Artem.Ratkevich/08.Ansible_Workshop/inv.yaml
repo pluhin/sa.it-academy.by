@@ -1,0 +1,22 @@
+---
+all:
+  children:
+    webservers:
+      hosts:
+        web1:
+          ansible_host: 192.168.201.2
+          ansible_user: root
+          ansible_ssh_private_key_file: ~/.ssh/id_rsa
+      vars:
+        ansible_python_interpreter: /usr/bin/python3
+        nginx_sites:
+          site1:
+            server_name: site1.local
+            root:        /var/www/site1
+            title:       "Site 1"
+            color:       "#eef"
+          site2:
+            server_name: site2.local
+            root:        /var/www/site2
+            title:       "Site 2"
+            color:       "#fee"
