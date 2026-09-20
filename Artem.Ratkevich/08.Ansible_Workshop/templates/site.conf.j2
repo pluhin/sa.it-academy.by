@@ -1,0 +1,15 @@
+server {
+    listen      80;
+    listen      [::]:80;
+    server_name {{ site_config.server_name }};
+
+    root  {{ site_config.root }};
+    index index.html;
+
+    access_log /var/log/nginx/{{ site_name }}.access.log;
+    error_log  /var/log/nginx/{{ site_name }}.error.log;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}

@@ -75,190 +75,34 @@ curl --resolve site1.local:80:192.168.201.2 http://site1.local/
     <meta charset="utf-8">
     <title>Site 1 — site1.local</title>
     <style>
-        body { font-family: sans-serif; background:#eef; padding:3rem; }
+        body { font-family: sans-serif; background: #eef; padding: 3rem; }
         code { background:#fff; padding:.2rem .4rem; border-radius:4px; }
     </style>
 </head>
 <body>
-    <h1>Hello from Site&nbsp;1 🚀</h1>
-    <p><strong>Hostname:</strong> <code>ws-2</code></p>
-    <p><strong>FQDN:</strong>     <code>ws-2.it-academy.local</code></p>
+    <h1>Hello from Site 1 🚀</h1>
+    <p><strong>Hostname:</strong>     <code>ws-2</code></p>
+    <p><strong>FQDN:</strong>         <code>ws-2.it-academy.local</code></p>
     <p><strong>Virtual host:</strong> <code>site1.local</code></p>
-    <p><strong>Managed by:</strong> Ansible</p>
+    <p><strong>Managed by:</strong>   Ansible</p>
 </body>
-</html>root@ws-2:~# curl --resolve site1.local:80:192.168.201.2 http://site1.local/
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Site 1 — site1.local</title>
-    <style>
-        body { font-family: sans-serif; background:#eef; padding:3rem; }
-        code { background:#fff; padding:.2rem .4rem; border-radius:4px; }
-    </style>
-</head>
-<body>
-    <h1>Hello from Site&nbsp;1 🚀</h1>
-    <p><strong>Hostname:</strong> <code>ws-2</code></p>
-    <p><strong>FQDN:</strong>     <code>ws-2.it-academy.local</code></p>
-    <p><strong>Virtual host:</strong> <code>site1.local</code></p>
-    <p><strong>Managed by:</strong> Ansible</p>
-</body>
-</html>root@ws-2:~# curl --resolve site1.local:80:192.168.201.2 http://site1.loc             cls
-Command 'cls' not found, but there are 19 similar ones.
-root@ws-2:~# curl --resolve site2.local:80:192.168.201.2 http://site2.local/
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Site 2 — site2.local</title>
-    <style>
-        body { font-family: sans-serif; background:#fee; padding:3rem; }
-        code { background:#fff; padding:.2rem .4rem; border-radius:4px; }
-    </style>
-</head>
-<body>
-    <h1>Hello from Site&nbsp;2 🎉</h1>
-    <p><strong>Hostname:</strong> <code>ws-2</code></p>
-    <p><strong>FQDN:</strong>     <code>ws-2.it-academy.local</code></p>
-    <p><strong>Virtual host:</strong> <code>site2.local</code></p>
-    <p><strong>Managed by:</strong> Ansible</p>
-</body>
-</html>root@ws-2:~# curl --resolve site2.local:80:192.168.201.2 http://site2.loccls
-curl: option --rescls: is unknown
-curl: try 'curl --help' or 'curl --manual' for more information
-root@ws-2:~# curl --resolve site2.local:80:192.168.201.2 http://site2.local/
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Site 2 — site2.local</title>
-    <style>
-        body { font-family: sans-serif; background:#fee; padding:3rem; }
-        code { background:#fff; padding:.2rem .4rem; border-radius:4px; }
-    </style>
-</head>
-<body>
-    <h1>Hello from Site&nbsp;2 🎉</h1>
-    <p><strong>Hostname:</strong> <code>ws-2</code></p>
-    <p><strong>FQDN:</strong>     <code>ws-2.it-academy.local</code></p>
-    <p><strong>Virtual host:</strong> <code>site2.local</code></p>
-    <p><strong>Managed by:</strong> Ansible</p>
-</body>
-```
 
-```
-curl --resolve site1.local:80:192.168.201.2 http://site1.local/
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Site 1 — site1.local</title>
-    <style>
-        body { font-family: sans-serif; background:#eef; padding:3rem; }
-        code { background:#fff; padding:.2rem .4rem; border-radius:4px; }
-    </style>
-</head>
-<body>
-    <h1>Hello from Site&nbsp;1 🚀</h1>
-    <p><strong>Hostname:</strong> <code>ws-2</code></p>
-    <p><strong>FQDN:</strong>     <code>ws-2.it-academy.local</code></p>
-    <p><strong>Virtual host:</strong> <code>site1.local</code></p>
-    <p><strong>Managed by:</strong> Ansible</p>
-</body>
-</html>root@ws-2:~# curl --resolve site1.local:80:192.168.201.2 http://site1.local/
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Site 1 — site1.local</title>
-    <style>
-        body { font-family: sans-serif; background:#eef; padding:3rem; }
-        code { background:#fff; padding:.2rem .4rem; border-radius:4px; }
-    </style>
-</head>
-<body>
-    <h1>Hello from Site&nbsp;1 🚀</h1>
-    <p><strong>Hostname:</strong> <code>ws-2</code></p>
-    <p><strong>FQDN:</strong>     <code>ws-2.it-academy.local</code></p>
-    <p><strong>Virtual host:</strong> <code>site1.local</code></p>
-    <p><strong>Managed by:</strong> Ansible</p>
-</body>
-</html>root@ws-2:~# curl --resolve site1.local:80:192.168.201.2 http://site1.loc             cls
-Command 'cls' not found, but there are 19 similar ones.
-root@ws-2:~# curl --resolve site2.local:80:192.168.201.2 http://site2.local/
+curl --resolve site2.local:80:192.168.201.2 http://site2.local/
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Site 2 — site2.local</title>
     <style>
-        body { font-family: sans-serif; background:#fee; padding:3rem; }
+        body { font-family: sans-serif; background: #fee; padding: 3rem; }
         code { background:#fff; padding:.2rem .4rem; border-radius:4px; }
     </style>
 </head>
 <body>
-    <h1>Hello from Site&nbsp;2 🎉</h1>
-    <p><strong>Hostname:</strong> <code>ws-2</code></p>
-    <p><strong>FQDN:</strong>     <code>ws-2.it-academy.local</code></p>
+    <h1>Hello from Site 2 🚀</h1>
+    <p><strong>Hostname:</strong>     <code>ws-2</code></p>
+    <p><strong>FQDN:</strong>         <code>ws-2.it-academy.local</code></p>
     <p><strong>Virtual host:</strong> <code>site2.local</code></p>
-    <p><strong>Managed by:</strong> Ansible</p>
-</body>
-</html>root@ws-2:~# curl --resolve site2.local:80:192.168.201.2 http://site2.loccls
-curl: option --rescls: is unknown
-curl: try 'curl --help' or 'curl --manual' for more information
-root@ws-2:~# curl --resolve site2.local:80:192.168.201.2 http://site2.local/
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Site 2 — site2.local</title>
-    <style>
-        body { font-family: sans-serif; background:#fee; padding:3rem; }
-        code { background:#fff; padding:.2rem .4rem; border-radius:4px; }
-    </style>
-</head>
-<body>
-    <h1>Hello from Site&nbsp;2 🎉</h1>
-    <p><strong>Hostname:</strong> <code>ws-2</code></p>
-    <p><strong>FQDN:</strong>     <code>ws-2.it-academy.local</code></p>
-    <p><strong>Virtual host:</strong> <code>site2.local</code></p>
-    <p><strong>Managed by:</strong> Ansible</p>
-</body>
-</html>root@ws-2:~# curl --resolve site2.local:80:192.168.201.2 http://site2.local/           url --resolve site1.local:80:192.168.201.2 http://site1.local/
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Site 1 — site1.local</title>
-    <style>
-        body { font-family: sans-serif; background:#eef; padding:3rem; }
-        code { background:#fff; padding:.2rem .4rem; border-radius:4px; }
-    </style>
-</head>
-<body>
-    <h1>Hello from Site&nbsp;1 🚀</h1>
-    <p><strong>Hostname:</strong> <code>ws-2</code></p>
-    <p><strong>FQDN:</strong>     <code>ws-2.it-academy.local</code></p>
-    <p><strong>Virtual host:</strong> <code>site1.local</code></p>
-    <p><strong>Managed by:</strong> Ansible</p>
-</body>
-</html>root@ws-2:~# curl --resolve site1.local:80:192.168.201.2 http://site1.local/
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Site 1 — site1.local</title>
-    <style>
-        body { font-family: sans-serif; background:#eef; padding:3rem; }
-        code { background:#fff; padding:.2rem .4rem; border-radius:4px; }
-    </style>
-</head>
-<body>
-    <h1>Hello from Site&nbsp;1 🚀</h1>
-    <p><strong>Hostname:</strong> <code>ws-2</code></p>
-    <p><strong>FQDN:</strong>     <code>ws-2.it-academy.local</code></p>
-    <p><strong>Virtual host:</strong> <code>site1.local</code></p>
-    <p><strong>Managed by:</strong> Ansible</p>
+    <p><strong>Managed by:</strong>   Ansible</p>
 </body>
 ```
