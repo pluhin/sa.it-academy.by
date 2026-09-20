@@ -1,0 +1,118 @@
+name: Kubernetes Cluster Monitor (Via Bastion Tunnel)
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  monitor-pods:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.36.4'
+
+      - name: Configure Kubeconfig
+        run: |
+          mkdir -p ~/.kube
+
+          # Записываем чистый YAML без экранирования
+          cat << 'EOF' > ~/.kube/config
+          ${{ secrets.KUBECONFIG_DATA_MONITORING }}
+          EOF
+
+          kubectl config set-cluster k8s --server=https://127.0.0.1:6444
+          kubectl config set-cluster k8s --insecure-skip-tls-verify=true
+
+      - name: Start SSH Agent and Add Encrypted Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.BASTION_SSH_KEY }}
+          # Передаем пробел-заглушку, чтобы экшен не падал из-за валидации обязательного поля
+          known_hosts: ' '
+
+
+      - name: Establish SSH Tunnel through Bastion
+        env:
+          B_HOST: ${{ secrets.BASTION_HOST }}
+          B_USER: ${{ secrets.BASTION_USER }}
+          B_PORT: ${{ secrets.BASTION_PORT }}
+          R_IP: ${{ secrets.REMOTE_K8S_IP }}
+          PASSPHRASE: ${{ secrets.BASTION_KEY_PASSPHRASE }}
+        run: |
+          mkdir -p ~/.ssh
+
+          # Исправлено: принудительно удаляем старый заблокированный файл ключа
+          rm -f ~/.ssh/id_rsa
+
+          # Запишем файл ключа
+          cat << 'EOF' > ~/.ssh/id_rsa
+          ${{ secrets.BASTION_SSH_KEY }}
+          EOF
+          chmod 600 ~/.ssh/id_rsa
+
+          # Сканируем ключи хоста бастиона
+          ssh-keyscan -p "$B_PORT" -H "$B_HOST" >> ~/.ssh/known_hosts
+
+          echo "=== Запуск локального SSH-агента ==="
+          eval $(ssh-agent -s)
+
+          # Устанавливаем expect для автоматического ввода пароля при добавлении в агент
+          sudo apt-get update && sudo apt-get install -y expect
+
+          # Добавляем ключ в агент с помощью expect
+          expect <<EOF
+          spawn ssh-add /home/runner/.ssh/id_rsa
+          expect "Enter passphrase for"
+          send "$PASSPHRASE\r"
+          expect eof
+          EOF
+
+          echo "=== Запуск фонового SSH-туннеля ==="
+          ssh -f -N -p "$B_PORT" -L 6444:"$R_IP":6443 "$B_USER"@"$B_HOST" -i ~/.ssh/id_rsa
+
+          sleep 5
+
+          if nc -z 127.0.0.1 6444; then
+            echo "::notice::✅ SSH-туннель успешно поднят! Связь с кластером через бастион установлена."
+            echo "=== Связь с кластером установлена ==="
+          else
+            echo "::error::❌ Ошибка: Не удалось открыть локальный порт 6444."
+            exit 1
+          fi
+
+      - name: Check Pods Status
+        id: check_pods
+        run: |
+          echo "=== Проверка статуса подов во всех пространствах имен ==="
+
+          # Получаем список всех подов, кроме тех, что в статусе Running или Completed
+          FAILED_PODS=$(kubectl get pods -A --context k8s --no-headers | awk '$4 !~ /Running|Completed/ {print $1 "/" $2 " (Status: " $4 ")"}')
+
+          if [ -n "$FAILED_PODS" ]; then
+            echo "::error::Обнаружены проблемные поды в кластере!"
+            echo "----------------------------------------"
+            echo "$FAILED_PODS"
+            echo "----------------------------------------"
+
+            # Считаем количество упавших подов
+            FAILED_COUNT=$(echo "$FAILED_PODS" | wc -l)
+            echo "FAILED_COUNT=$FAILED_COUNT" >> $GITHUB_ENV
+            exit 1
+          else
+            echo "Все поды работают в штатном режиме (Running/Completed)."
+          fi
+      
+
+      - name: Create GitHub Summary Notification
+        if: failure()
+        run: |
+          echo "### ⚠️ Сбой в кластере Kubernetes!" >> \$GITHUB_STEP_SUMMARY
+          echo "Обнаружено проблемных подов: \({{ env.FAILED_COUNT }}" >> \)GITHUB_STEP_SUMMARY
+          echo "Пожалуйста, откройте k9s или выполните \`kubectl get pods -A\` для диагностики." >> \$GITHUB_STEP_SUMMARY

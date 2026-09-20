@@ -1,0 +1,30 @@
+name: KinD
+
+# Настройка запуска при каждом изменении (push) в любую ветку
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  setup-kind:
+    # Использование стандартного средства запуска задач (runner), размещенного на GitHub
+    runs-on: ubuntu-latest
+
+    steps:
+      # Шаг 1: Клонирование репозитория с кодом ваших заданий
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Шаг 2: Установка и настройка кластера KinD
+      # Этот action автоматически устанавливает KinD, разворачивает кластер и настраивает kubectl
+      - name: Create KinD Cluster
+        run: |
+          kind create cluster --image kindest/node:v1.31.0 --wait 5m
+
+      # Шаг 3: Проверка работоспособности кластера
+      - name: Test cluster connection
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+          kubectl get pods -A
