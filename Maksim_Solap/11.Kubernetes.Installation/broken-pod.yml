@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: broken-app-test
+  namespace: default
+spec:
+  containers:
+  - name: web-container
+    image: nginx:this-tag-does-not-exist
