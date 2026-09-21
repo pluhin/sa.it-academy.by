@@ -1,0 +1,98 @@
+name: Kubernetes Cluster Monitor Pro (Full Status Slack)
+
+on:
+  push:
+    branches: [ main, master ]
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch: 
+
+jobs:
+  monitor:
+    runs-on: self-hosted
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'v1.31.0'
+
+    - name: Scan Cluster and Gather Stats
+      id: scan_k8s
+      run: |
+        echo "=== Сбор общей статистики кластера ==="
+        
+        # 1. Считаем поды с двух кластеров (обрати внимание на синтаксис скобок '$( ( ... ) | ... )')
+        TOTAL_PODS=$( (kubectl get pods -A --no-headers --context k3s; kubectl get pods -A --no-headers --context k8s) | wc -l | tr -d ' ')
+        RUNNING_PODS=$( (kubectl get pods -A --no-headers --context k3s; kubectl get pods -A --no-headers --context k8s) | grep -c "Running" || true)
+        COMPLETED_PODS=$( (kubectl get pods -A --no-headers --context k3s; kubectl get pods -A --no-headers --context k8s) | grep -c "Completed" || true)
+        
+        echo "TOTAL_PODS_COUNT=$TOTAL_PODS" >> $GITHUB_ENV
+        echo "RUNNING_PODS_COUNT=$RUNNING_PODS" >> $GITHUB_ENV
+        echo "COMPLETED_PODS_COUNT=$COMPLETED_PODS" >> $GITHUB_ENV
+        
+        # 2. Ищем проблемные поды на обоих кластерах и маркируем их именами контекстов
+        FAILED_K3S=$(kubectl get pods -A --no-headers --context k3s | grep -v -E "Running|Completed" | awk '{print "[k3s] " $0}' || true)
+        FAILED_K8S=$(kubectl get pods -A --no-headers --context k8s | grep -v -E "Running|Completed" | awk '{print "[k8s] " $0}' || true)
+        
+        # Объединяем упавшие поды в один список
+        FAILED_PODS=$(echo -e "${FAILED_K3S}\n${FAILED_K8S}" | grep -v -E '^$' || true)
+        
+        if [ -n "$(echo "$FAILED_PODS" | tr -d '[:space:]')" ]; then
+          echo "ALERT_TRIGGERED=true" >> $GITHUB_ENV
+          echo "❌ ОБНАРУЖЕНЫ СБОИ В ПОДАХ!"
+          
+          echo "FAILED_PODS_LIST<<EOF" >> $GITHUB_ENV
+          echo "$FAILED_PODS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          
+          # Логирование describe в консоль GitHub Actions
+          echo "$FAILED_K3S" | grep -v -E '^$' | while read -r tag ns name ready status restarts age; do
+            [ -z "$name" ] && continue
+            echo ">> Describe [k3s] $ns/$name"
+            kubectl describe pod "$name" -n "$ns" --context k3s | tail -n 15
+          done
+          echo "$FAILED_K8S" | grep -v -E '^$' | while read -r tag ns name ready status restarts age; do
+            [ -z "$name" ] && continue
+            echo ">> Describe [k8s] $ns/$name"
+            kubectl describe pod "$name" -n "$ns" --context k8s | tail -n 15
+          done
+          
+          exit 1
+        else
+          echo "ALERT_TRIGGERED=false" >> $GITHUB_ENV
+          echo "✅ Все поды работают штатно. Собираем общий список для отчета..."
+          
+          # Собираем красивый отчет по всем подам с указанием кластера
+          PODS_K3S=$(kubectl get pods -A --no-headers -o custom-columns="NAMESPACE:.metadata.namespace,NAME:.metadata.name,STATUS:.status.phase" --context k3s | awk '{print "[k3s] " $0}' || true)
+          PODS_K8S=$(kubectl get pods -A --no-headers -o custom-columns="NAMESPACE:.metadata.namespace,NAME:.metadata.name,STATUS:.status.phase" --context k8s | awk '{print "[k8s] " $0}' || true)
+          
+          ALL_PODS_SUMMARY=$(echo -e "${PODS_K3S}\n${PODS_K8S}" | grep -v -E '^$' || true)
+          
+          echo "ALL_PODS_LIST<<EOF" >> $GITHUB_ENV
+          echo "$ALL_PODS_SUMMARY" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+        fi
+
+    # СЦЕНАРИЙ 1: Отправка уведомления при УСПЕШНОЙ проверке
+    - name: Send Slack Notification on Success
+      if: success()
+      run: |
+        echo "=== Отправка отчета в Slack ==="
+        
+        curl -X POST -H 'Content-type: application/json' \
+          --data '{"text": "✅ *K8s кластер полностью здоров!*\n*Статистика:*\n• Всего подов: ${{ env.TOTAL_PODS_COUNT }}\n• Running: ${{ env.RUNNING_PODS_COUNT }}\n• Completed: ${{ env.COMPLETED_PODS_COUNT }}"}' \
+          "${{ secrets.SLACK_WEBHOOK_URL }}"
+
+    # СЦЕНАРИЙ 2: Отправка уведомления при ОБНАРУЖЕНИИ ОШИБОК
+    - name: Send Slack Notification on Failure
+      if: failure() && env.ALERT_TRIGGERED == 'true'
+      run: |
+        echo "=== Отправка аларма в Slack ==="
+        
+        curl -X POST -H 'Content-type: application/json' \
+          --data '{"text": "🚨 *Критический сбой в Kubernetes!*\n*Обнаружены проблемные поды:*\n```\n\${{ env.FAILED_PODS_LIST }}\n```"}' \
+          "${{ secrets.SLACK_WEBHOOK_URL }}"
