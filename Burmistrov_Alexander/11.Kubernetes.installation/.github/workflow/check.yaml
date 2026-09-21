@@ -1,0 +1,20 @@
+name: Kubernetes Monitor
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  monitor:
+    runs-on: self-hosted
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'v1.31.0'
+
+    - name: Get Kubernetes Pods
+      run: kubectl get po -A --context k8s
