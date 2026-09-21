@@ -1,0 +1,38 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: simple-web-gateway
+  namespace: default
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - app.k8s-XX.sa
+        - app.k8s-YY.sa
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: simple-web-vs
+  namespace: default
+spec:
+  hosts:
+    - app.k8s-XX.sa
+    - app.k8s-YY.sa
+  gateways:
+    - simple-web-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: simple-web-service
+            port:
+              number: 80
