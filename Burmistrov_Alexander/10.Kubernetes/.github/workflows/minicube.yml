@@ -1,0 +1,36 @@
+name: minicube
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [opened, reopened]
+
+jobs:
+  minicube:
+    runs-on: ubuntu-latest    
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install minicube
+        run: |
+          curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
+
+          sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+
+      - name: Create cluster
+        run: |
+          minikube start --driver=docker
+
+      - name: Show cluster
+        run: |
+          kubectl cluster-info
+          kubectl get nodes -o wide
+
+      - name: Debug
+        if: always()
+        run: |
+          kubectl get nodes -o wide
+          kubectl get pods -A -o wide
+          kubectl get events -A

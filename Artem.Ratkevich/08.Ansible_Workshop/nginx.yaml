@@ -1,0 +1,98 @@
+---
+- name: Install and configure Nginx with multiple virtual hosts
+  hosts: webservers
+  become: true
+
+  tasks:
+
+    # ---------- Nginx installation ----------
+    - name: Update apt cache (Debian/Ubuntu)
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Install Nginx
+      package:
+        name: nginx
+        state: present
+
+    - name: Ensure Nginx is enabled and running
+      service:
+        name: nginx
+        state: started
+        enabled: true
+
+    # ---------- Document roots ----------
+    # dict2items turns the dictionary into a list of {key, value} pairs
+    # so we can loop over it with the familiar `item.key` / `item.value`.
+    - name: Create document roots
+      file:
+        path: "{{ item.value.root }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: "0755"
+      loop: "{{ nginx_sites | dict2items }}"
+      loop_control:
+        label: "{{ item.key }} → {{ item.value.root }}"
+
+    # ---------- HTML pages (one template, parameterised) ----------
+    - name: Deploy index.html for every site
+      template:
+        src: index.html.j2
+        dest: "{{ item.value.root }}/index.html"
+        owner: www-data
+        group: www-data
+        mode: "0644"
+      loop: "{{ nginx_sites | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
+      vars:
+        # expose the current site's data to the template under short names
+        site_name:   "{{ item.key }}"
+        site_config: "{{ item.value }}"
+      notify: Reload Nginx
+
+    # ---------- Virtual host configs (one template, parameterised) ----------
+    - name: Deploy virtual host configs
+      template:
+        src: site.conf.j2
+        dest: "/etc/nginx/sites-available/{{ item.key }}.conf"
+        owner: root
+        group: root
+        mode: "0644"
+      loop: "{{ nginx_sites | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
+      vars:
+        site_name:   "{{ item.key }}"
+        site_config: "{{ item.value }}"
+      notify: Reload Nginx
+
+    - name: Enable virtual hosts (sites-enabled symlinks)
+      file:
+        src:  "/etc/nginx/sites-available/{{ item.key }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ item.key }}.conf"
+        state: link
+      loop: "{{ nginx_sites | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
+      notify: Reload Nginx
+
+    - name: Remove default Nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: Reload Nginx
+
+    # ---------- Validate ----------
+    - name: Validate Nginx configuration
+      command: nginx -t
+      changed_when: false
+
+  handlers:
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded

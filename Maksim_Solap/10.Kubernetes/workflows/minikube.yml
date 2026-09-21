@@ -1,0 +1,32 @@
+name: "Assignment 4: Minikube Cluster Setup"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches:
+      - main  # Сработает при создании PR в ветку main
+
+jobs:
+  minikube-setup:
+    runs-on: ubuntu-latest # Используем стандартный GitHub-hosted runner
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Minikube Cluster
+        uses: medyagh/setup-minikube@v0.0.21  # Правильное название официального экшена
+        with:
+          minikube-version: "latest"
+          kubernetes-version: "v1.31.0"
+          driver: "docker"
+
+
+      - name: Verify Minikube Cluster Status
+        run: |
+          echo "=== Проверка статуса Minikube ==="
+          minikube status
+          
+          echo "=== Проверка доступных нод и их версий ==="
+          kubectl get nodes -o wide
