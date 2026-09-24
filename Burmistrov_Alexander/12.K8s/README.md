@@ -3,7 +3,7 @@
 Для доступа к нашему Deployment надо поправить istio-ingressgateway, так как он слушает не тот порт. Для этого мы берем текущую конфигурация этого Service, выводим ее в файл, меняем что нам надо и просим К8с заменить этот Service правленным. 
 
 ```bash
-kubectl --context k8s -n istio-system get svc -o yaml >> istio-ingressgateway-fix.yaml
+kubectl --context k8s -n istio-system get svc istio-ingressgateway -o yaml >> istio-ingressgateway-fix.yaml
   ports:
   - name: status-port
     nodePort: 31081
