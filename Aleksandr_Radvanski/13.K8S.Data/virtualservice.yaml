@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1alpha3 # версия API Istio
+kind: VirtualService # тип объекта Istio, отвечающий за правила маршрутизации (роутинга) внутри сети
+metadata:
+  name: nginx-virtualservice
+  namespace: default
+spec:
+  hosts: # доменные имена, для которых написаны правила ниже. Если запрос пришел на один из этих хостов, VirtualService берет его в обработку
+    - "nginx-test.k8s-1.sa"
+    - "nginx-test.k8s-2.sa"
+  gateways: # привязка этого маршрутизатора к конкретному шлюзу
+    - nginx-gateway
+  http:
+    - match:
+        - uri:
+            prefix: / # совпадение по пути в URL. Означает «обрабатывать абсолютно все запросы», идущие на корень сайта и любые вложенные страницы (например, /, /index.html, /images/ и т.д.)
+      route: #  конечная точка назначения, куда перенаправить совпавший запрос
+        - destination:
+            host: nginx-service # доменное имя (FQDN) внутреннего Kubernetes-сервиса, созданного во втором файле
+            port:
+              number: 80

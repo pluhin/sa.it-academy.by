@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+      annotations:
+        sidecar.istio.io/inject: "false" # Отключаем Istio-прокси во избежание конфликтов
+    spec:
+      # Генерируем index.html внутри контейнера инициализации
+      initContainers:
+        - name: init-html
+          image: busybox:1.28
+          command: ['sh', '-c', 'rm -f /usr/share/nginx/html/index.html && echo "<h1>Pod Hostname: $HOSTNAME</h1>" > /usr/share/nginx/html/index.html']
+          volumeMounts:
+            - name: web-content
+              mountPath: /usr/share/nginx/html
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          volumeMounts:
+            # 2. Передаем сгенерированный файл index.html в Nginx через общий том
+            - name: web-content
+              mountPath: /usr/share/nginx/html
+            # Монтируем расшифрованные из SealedSecret ключи пользователю root
+            - name: root-ssh-volume
+              mountPath: /root/.ssh
+              readOnly: true
+      volumes:
+        # Разделяемая папка (emptyDir) для передачи index.html из init-контейнера в основной
+        - name: web-content
+          emptyDir: {}
+        # Подключение секрета для пользователя root
+        - name: root-ssh-volume
+          secret:
+            secretName: root-ssh-secret
+            defaultMode: 0400 # Ограничиваем права доступа (r--------)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
