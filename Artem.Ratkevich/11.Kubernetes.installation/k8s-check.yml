@@ -1,0 +1,75 @@
+name: K8s Pod Health Monitor
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:         
+  push:
+    branches: [ main ]
+
+jobs:
+  check-pods:
+    runs-on: [self-hosted, Linux-Laptop]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify kubectl & cluster access
+        run: |
+          kubectl version --client
+          kubectl cluster-info
+
+      - name: Check for crashed / failed pods
+        id: podcheck
+        shell: bash
+        run: |
+          set +e
+          echo "=== All pods in all namespaces ==="
+          kubectl get pods -A -o wide
+
+          echo ""
+          echo "=== Scanning for unhealthy pods ==="
+
+          # Get every pod whose phase is not Running / Succeeded,
+          # or whose containers have restarts / non-ready status
+          UNHEALTHY=$(kubectl get pods -A \
+            --field-selector=status.phase!=Running,status.phase!=Succeeded \
+            -o jsonpath='{range .items[*]}{.metadata.namespace}/{.metadata.name} phase={.status.phase}{"\n"}{end}')
+
+          # Also catch CrashLoopBackOff / Error / ImagePullBackOff etc.
+          BAD_REASONS=$(kubectl get pods -A -o jsonpath='{range .items[*]}{.metadata.namespace}/{.metadata.name} {.status.containerStatuses[*].state.waiting.reason}{"\n"}{end}' \
+            | grep -Ei 'CrashLoopBackOff|Error|ImagePullBackOff|ErrImagePull|OOMKilled|CreateContainerConfigError' || true)
+
+          echo "--- Phase-based issues ---"
+          echo "${UNHEALTHY:-none}"
+
+          echo "--- Container-state issues ---"
+          echo "${BAD_REASONS:-none}"
+
+          # Emit a GitHub Actions warning/error annotation
+          if [ -n "$UNHEALTHY" ] || [ -n "$BAD_REASONS" ]; then
+            echo "::error title=Unhealthy pods detected::The cluster has crashed/failed pods. See logs above."
+            {
+              echo "status=unhealthy"
+              echo "details<<EOF"
+              echo "$UNHEALTHY"
+              echo "$BAD_REASONS"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+            exit 1
+          else
+            echo "::notice title=Cluster healthy::All pods are Running or Succeeded."
+            echo "status=healthy" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Final summary
+        if: always()
+        run: |
+          echo "### K8s Pod Health Check" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** ${{ steps.podcheck.outputs.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          kubectl get pods -A >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
