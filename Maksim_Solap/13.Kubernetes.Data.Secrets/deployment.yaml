@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      # 1. INIT-КОНТЕЙНЕР: Создает index.html до запуска основного nginx
+      initContainers:
+      - name: html-generator
+        image: busybox:1.28
+        # Берем имя пода из переменной окружения и записываем в <h1> в общую папку
+        command: ['sh', '-c', 'echo "<h1>${MY_POD_NAME}</h1>" > /work-dir/index.html']
+        env:
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        volumeMounts:
+        - name: shared-web-root
+          mountPath: /work-dir
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "50m"
+          limits:
+            memory: "64Mi"
+            cpu: "100m"
+
+      # 2. ОСНОВНОЙ КОНТЕЙНЕР
+      containers:
+      - name: nginx
+        image: nginx:1.25-alpine
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+        volumeMounts:
+        # Подменяем стандартную веб-директорию nginx на наш общий том
+        - name: shared-web-root
+          mountPath: /usr/share/nginx/html
+        # Монтируем секретные ключи в домашнюю папку root
+        - name: ssh-keys-volume
+          mountPath: /root/.ssh
+          readOnly: true
+
+      # 3. ОПРЕДЕЛЕНИЕ ТОМОВ (VOLUMES)
+      volumes:
+      # Временная папка в оперативной памяти (живет, пока жив Pod)
+      - name: shared-web-root
+        emptyDir: {}
+      # Подключение секрета, который автоматически сгенерирует твой SealedSecret object
+      - name: ssh-keys-volume
+        secret:
+          secretName: ssh-keys-secret
+          defaultMode: 0400 # Важно: права 0400 (owner read-only), иначе SSH откажется работать с ключами
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
