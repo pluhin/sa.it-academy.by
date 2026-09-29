@@ -1,0 +1,215 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nginx-test
+
+---
+# The page itself — gethostname() is evaluated on every request
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-test-index
+  namespace: nginx-test
+data:
+  index.php: |
+    <?php
+    header('Content-Type: text/html; charset=utf-8');
+    echo '<h1>' . gethostname() . '</h1>';
+
+---
+# nginx vhost that hands *.php to the local php-fpm sidecar
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-test-nginx-conf
+  namespace: nginx-test
+data:
+  default.conf: |
+    server {
+        listen 80;
+        server_name _;
+
+        root  /usr/share/nginx/html;
+        index index.php;
+
+        location / {
+            try_files $uri $uri/ /index.php?$args;
+        }
+
+        location ~ \.php$ {
+            try_files $uri =404;
+            include fastcgi_params;
+            fastcgi_pass  127.0.0.1:9000;
+            fastcgi_index index.php;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        }
+    }
+    
+---    
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-test
+  namespace: nginx-test
+  labels:
+    app: nginx-test
+spec:
+  selector:
+    app: nginx-test
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-test
+  namespace: nginx-test
+  labels:
+    app: nginx-test
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: nginx-test
+  template:
+    metadata:
+      labels:
+        app: nginx-test
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: nginx
+          image: nginx:1.27
+          ports:
+            - containerPort: 80
+              name: http
+          volumeMounts:
+            - name: web-content        # index.php from ConfigMap
+              mountPath: /usr/share/nginx/html
+              readOnly: true
+            - name: nginx-conf         # vhost, subPath keeps rest of conf.d intact
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+              readOnly: true
+            - name: ssh-keys           # keypair for root
+              mountPath: /root/.ssh
+              readOnly: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
+          readinessProbe:              # probe hits / -> exercises nginx AND php-fpm
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 5"]
+
+        # FastCGI sidecar that actually executes index.php
+        - name: php-fpm
+          image: php:8.3-fpm-alpine
+          ports:
+            - containerPort: 9000
+              name: fastcgi            # pod-internal only, not in the Service
+          volumeMounts:
+            - name: web-content        # must see the same index.php
+              mountPath: /usr/share/nginx/html
+              readOnly: true
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
+          readinessProbe:
+            tcpSocket:
+              port: 9000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 9000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+      volumes:
+        - name: web-content
+          configMap:
+            name: nginx-test-index
+            defaultMode: 0644          # www-data (php-fpm) must be able to read it
+        - name: nginx-conf
+          configMap:
+            name: nginx-test-nginx-conf
+        - name: ssh-keys
+          secret:
+            secretName: nginx-test-ssh-keys
+            defaultMode: 0600          # private key perms for root
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: nginx-test-pdb
+  namespace: nginx-test
+spec:
+  minAvailable: 3
+  selector:
+    matchLabels:
+      app: nginx-test
+
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: nginx-test-gateway
+  namespace: nginx-test
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "nginx-test.k8s-3.sa"
+
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: nginx-test
+  namespace: nginx-test
+spec:
+  hosts:
+    - "nginx-test.k8s-3.sa"
+  gateways:
+    - nginx-test-gateway
+  http:
+    - route:
+        - destination:
+            host: nginx-test
+            port:
+              number: 80
