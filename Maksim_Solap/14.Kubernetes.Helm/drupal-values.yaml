@@ -1,0 +1,28 @@
+global:
+  storageClass: nfs-app
+  security:
+    allowInsecureImages: true
+
+ingress:
+  enabled: false
+
+drupalUsername: xxx
+drupalPassword: xxx
+
+mariadb:
+  auth:
+    rootPassword: xxx
+  primary:
+    persistence:
+      storageClass: nfs-app
+    podAnnotations:
+      proxy.istio.io/config: '{"holdApplicationUntilProxyStarts": true}'
+
+image:
+  registry: docker.io
+  repository: bitnamilegacy/drupal
+
+mariadb:
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/mariadb
