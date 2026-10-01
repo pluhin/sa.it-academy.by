@@ -1,0 +1,37 @@
+wordpressUsername: admin
+wordpressPassword: "123"
+wordpressEmail: admin@example.local
+wordpressBlogName: "Kind WordPress"
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: false
+
+httpRoute:
+  enabled: true
+  parentRefs:
+    - name: wordpress-gateway
+      namespace: wordpress
+      sectionName: http
+  hostnames:
+    - wordpress.local
+
+persistence:
+  enabled: true
+  size: 5Gi
+
+mariadb:
+  enabled: true
+
+  auth:
+    rootPassword: "123"
+    database: bitnami_wordpress
+    username: bn_wordpress
+    password: "123"
+
+  primary:
+    persistence:
+      enabled: true
+      size: 3Gi
