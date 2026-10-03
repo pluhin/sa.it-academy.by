@@ -1,0 +1,27 @@
+USER-SUPPLIED VALUES:
+global:
+  imageRegistry: mirror.gcr.io
+  security:
+    allowInsecureImages: true
+mariadb:
+  auth:
+    existingSecret: wordpress-passwords-v2
+  image:
+    registry: mirror.gcr.io
+  osShell:
+    image:
+      registry: mirror.gcr.io
+  primary:
+    persistence:
+      enabled: false
+  volumePermissions:
+    enabled: false
+persistence:
+  enabled: false
+service:
+  type: ClusterIP
+volumePermissions:
+  enabled: false
+wordpressSecretName: wordpress-passwords-v2
+wordpressSecretPasswordKey: wordpress-password
+wordpressUsername: admin
