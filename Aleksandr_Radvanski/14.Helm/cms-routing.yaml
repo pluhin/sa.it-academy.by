@@ -1,0 +1,60 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: cms-gateway
+  namespace: default
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "wordpress.k8s-1.sa"
+        - "drupal.k8s-1.sa"
+       # - "wordpress.k8s-2.sa"
+        #- "drupal.k8s-2.sa"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: wordpress-vs
+  namespace: default
+spec:
+  hosts:
+    - "wordpress.k8s-1.sa"
+    #- "wordpress.k8s-2.sa"
+  gateways:
+    - cms-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: wordpress
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: drupal-vs
+  namespace: default
+spec:
+  hosts:
+    - "drupal.k8s-1.sa"
+    #- "drupal.k8s-2.sa"
+  gateways:
+    - cms-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: drupal
+            port:
+              number: 8080
