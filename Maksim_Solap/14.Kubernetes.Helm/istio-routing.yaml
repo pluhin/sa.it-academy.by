@@ -1,0 +1,50 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: app-gateway
+  namespace: default
+spec:
+  selector:
+    istio: ingressgateway # Используем стандартный селектор Istio Gateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "wordpress.k8s-7.sa"
+    - "drupal.k8s-8.sa"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: wordpress-vs
+  namespace: default
+spec:
+  hosts:
+  - "wordpress.k8s-7.sa"
+  gateways:
+  - app-gateway
+  http:
+  - route:
+    - destination:
+        host: wordpress.default.svc.cluster.local # Имя сервиса, созданного Helm
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: drupal-vs
+  namespace: default
+spec:
+  hosts:
+  - "drupal.k8s-8.sa"
+  gateways:
+  - app-gateway
+  http:
+  - route:
+    - destination:
+        host: drupal.default.svc.cluster.local # Имя сервиса, созданного Helm
+        port:
+          number: 80

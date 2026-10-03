@@ -1,0 +1,5 @@
+global:
+  storageClass: nfs-app
+
+ingress:
+  enabled: false
