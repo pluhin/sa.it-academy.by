@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ServiceAccount # Создание сервисного аккаунта, под которым будет работать сам Jenkins
+metadata:
+  name: jenkins # Фиксированное имя аккаунта внутри кластера
+  namespace: {{ .Values.namespace.name }} # Подстановка пространства имен из файла переменных
+---
+apiVersion: rbac.authorization.k8s.io/v1 # Версия API для управления доступом на основе ролей (RBAC)
+kind: Role # Локальная роль, описывающая права внутри одного пространства имен
+metadata:
+  name: jenkins-agents # Имя роли для динамических воркеров (агентов) Jenkins
+  namespace: {{ .Values.namespace.name }} # Ограничение роли пространством имен
+rules: # Свод правил и разрешений для данной роли
+  - apiGroups: [""] # Базовая группа API (пустая строка означает core-группу)
+    resources: ["pods"] # Объект управления: Поды (контейнеры)
+    verbs: ["create", "delete", "get", "list", "watch"] # Разрешенные действия: создание, удаление, просмотр и отслеживание подов
+  - apiGroups: [""] # Базовая группа API
+    resources: ["pods/exec"] # Объект управления: выполнение команд внутри контейнеров (нужно для работы шагов пайплайна)
+    verbs: ["create", "get"] # Разрешение на запуск процессов внутри подов агентов
+  - apiGroups: [""] # Базовая группа API
+    resources: ["pods/log"] # Объект управления: системные логи контейнеров
+    verbs: ["get", "list"] # Разрешение на чтение логов сборки для вывода их в консоль Jenkins
+  - apiGroups: [""] # Базовая группа API
+    resources: ["events"] # Объект управления: системные события Kubernetes
+    verbs: ["get", "list", "watch"] # Разрешение мониторить статус запуска и ошибки подов
+  - apiGroups: [""] # Базовая группа API
+    resources: ["secrets"] # Объект управления: секреты (пароли, ключи)
+    verbs: ["get", "list"] # Разрешение читать секреты (например, для передачи их в шаги сборки)
+---
+apiVersion: rbac.authorization.k8s.io/v1 # Версия API для связывания ролей
+kind: RoleBinding # Связывание роли и сервисного аккаунта
+metadata:
+  name: jenkins-agents # Имя объекта связывания
+  namespace: {{ .Values.namespace.name }} # Пространство имен связывания
+roleRef: # Ссылка на роль, которую мы передаем
+  apiGroup: rbac.authorization.k8s.io # Группа API для RBAC
+  kind: Role # Указываем, что ссылаемся на локальную Role
+  name: jenkins-agents # Имя роли, созданной выше
+subjects: # Субъекты, которым присваивается данная роль
+  - kind: ServiceAccount # Указываем, что получателем прав является сервисный аккаунт
+    name: jenkins # Имя аккаунта, созданного в начале этого файла
+    namespace: {{ .Values.namespace.name }} # Пространство имен, где живет этот аккаунт

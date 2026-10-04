@@ -1,0 +1,50 @@
+# Настройки пространства имен (Namespace) и интеграции с сервисной сеткой Istio
+namespace:
+  name: "ci-cd"             # Имя пространства имен, где будут развернуты все ресурсы Jenkins
+  istioInjection: "enabled" # Метка для Istio, включающая автоматическое внедрение sidecar-контейнеров envoy
+
+# Параметры Docker-образа для Jenkins
+image:
+  repository: "jfrog.it-academy.by/public/jenkins-ci" # Адрес вашего репозитория (реестра) и путь к образу
+  tag: "aradvanski_36"                                # Персональный тег (версия) вашего собранного образа
+  pullPolicy: "IfNotPresent"                         # Политика скачивания: скачивать образ только если его нет на ноде
+
+# Параметры масштабирования и ресурсов пода
+replicaCount: 1
+resources:
+  requests:
+    cpu: "500m"
+    memory: "2Gi"
+  limits:
+    cpu: "2"
+    memory: "4Gi"
+
+# Секретные данные для аутентификации и интеграций
+secrets:
+  adminPassword: "admin" # Пароль администратора, который будет установлен при первом запуске
+  githubToken: "admin"    # Токен доступа к API GitHub для интеграции с репозиториями
+
+# Конфигурация постоянного хранилища (NFS PV и PVC)
+persistence:
+  pvName: "jenkins-ci-cd-pv"                                        # Уникальное имя создаваемого PersistentVolume
+  pvcName: "jenkins-home"                                           # Имя заявки на постоянный диск (PersistentVolumeClaim)
+  storageSize: "10Gi"                                               # Объем выделяемого дискового пространства
+  accessModes:
+    - ReadWriteMany                                                 # Режим доступа: разрешено чтение/запись с нескольких нод одновременно
+  nfs:
+    server: "192.168.37.105"                                        # IP-адрес удаленного NFS-сервера
+    path: "/mnt/IT-Academy/nfs-data/sa2-36-26/aradvanski/jenkins"  # Точный сетевой путь к вашей персональной папке на NFS
+
+# Настройки конфигурации Jenkins как код (JCasC)
+casc:
+  numExecutors: 2                       # Количество одновременных задач (воркеров), которые могут выполняться на самом мастере
+  maxRequestsPerHostStr: "32"           # Ограничение на максимальное число запросов к Kubernetes API от одного хоста
+  containerCapStr: "10"                 # Максимально допустимое количество одновременно запущенных динамических агентов
+  adminAddress: "aion.fiend@gmail.com"  # Почтовый адрес администратора Jenkins для уведомлений
+  domainUsername: "aionfiend"           # Имя пользователя GitHub, используемое по умолчанию в учетных данных
+
+# Сетевые настройки для маршрутизации трафика через Istio
+ingress:
+  host: "jenkins.k8s-1.sa"          # Доменное имя, по которому Jenkins будет доступен в браузере
+  gatewayName: "jenkins"            # Имя ресурса Istio Gateway
+  virtualServiceName: "jenkins"     # Имя ресурса Istio VirtualService

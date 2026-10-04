@@ -1,0 +1,82 @@
+apiVersion: apps/v1 # Версия API для контроллеров приложений (Deployments)
+kind: Deployment # Основной ресурс управления жизненным циклом подов приложения
+metadata:
+  name: jenkins # Фиксированное имя развертывания Jenkins внутри кластера
+  namespace: {{ .Values.namespace.name }} # Динамическая подстановка пространства имен
+spec:
+  replicas: {{ .Values.replicaCount }} # Количество работающих копий мастера (1)
+  strategy: # Стратегия обновления приложения при изменении настроек
+    type: Recreate # Стратегия "Пересоздать" для предотвращения блокировки NFS-диска
+  selector: # Логика связывания Deployment с создаваемыми подами
+    matchLabels: # Поиск подов по совпадению меток
+      app: jenkins # Находить поды с меткой app=jenkins
+  template: # Шаблон, по которому будет построен под с контейнером
+    metadata:
+      labels: # Метки, вешаемые на сам запускаемый под
+        app: jenkins
+    spec: # Спецификация внутренней начинки пода
+      serviceAccountName: jenkins # Привязка сервисного аккаунта с правами управления подами
+      securityContext: # Настройки безопасности на уровне всего пода
+        fsGroup: 1000 # Установка прав для группы 1000 (пользователь jenkins в контейнере)
+      containers: # Список контейнеров внутри пода
+        - name: jenkins # Имя контейнера
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}" # Шаблонизированный путь к образу и тег
+          imagePullPolicy: {{ .Values.image.pullPolicy }} # Политика скачивания образа (IfNotPresent)
+          env: # Блок объявления переменных окружения ОС внутри контейнера
+            - name: ADMIN_PASSWORD # Переменная для Groovy-скрипта безопасности
+              valueFrom: # Загрузка значения из секретов Kubernetes
+                secretKeyRef:
+                  name: jenkins-secret # Имя секретного объекта
+                  key: admin-password # Ключ внутри секрета
+            - name: GITHUB_TOKEN # Переменная для плагина JCasC
+              valueFrom: # Загрузка значения из секретов Kubernetes
+                secretKeyRef:
+                  name: jenkins-secret
+                  key: github-token
+            - name: JAVA_OPTS # Опции запуска виртуальной машины Java
+              value: "-Djenkins.install.runSetupWizard=false" # Отключение мастера ручной настройки Jenkins при старте
+            - name: CASC_JENKINS_CONFIG # Переменная конфигуратора JCasC
+              value: /var/jenkins_config/jenkins.yaml # Путь к конфигурационному файлу внутри контейнера
+          ports: # Порты, которые контейнер слушает и открывает наружу
+            - name: http # Имя порта для веб-интерфейса
+              containerPort: 8080 # Внутренний порт веб-сервера Jenkins
+            - name: jnlp # Имя порта для связи с постоянными агентами
+              containerPort: 50000 # Порт протокола JNLP
+          resources: # Выделяемые аппаратные ресурсы (процессор и память)
+            requests: # Минимальные гарантированные требования для пода
+              cpu: {{ .Values.resources.requests.cpu | quote }} # Минимальное количество ядер CPU
+              memory: {{ .Values.resources.requests.memory | quote }} # Минимальный объем оперативной памяти
+            limits: # Максимально допустимые лимиты для пода
+              cpu: {{ .Values.resources.limits.cpu | quote }} # Максимальное количество ядер CPU
+              memory: {{ .Values.resources.limits.memory | quote }} # Максимальный объем оперативной памяти
+          readinessProbe: # Проверка готовности приложения принимать сетевой трафик
+            httpGet: # Тип проверки: отправка HTTP GET запроса
+              path: /login # Путь проверки (страница логина)
+              port: 8080 # На какой порт слать запросы
+            initialDelaySeconds: 30 # Задержка перед первой проверкой после старта контейнера
+            periodSeconds: 10 # Частота выполнения проверки (каждые 10 секунд)
+          livenessProbe: # Проверка "живучести" контейнера (перезапуск в случае зависания)
+            httpGet: # Тип проверки: отправка HTTP GET
+              path: /login
+              port: 8080
+            initialDelaySeconds: 120 # Большая задержка для инициализации и старта плагинов
+            periodSeconds: 20 # Проверять контейнер каждые 20 секунд
+            failureThreshold: 6 # Количество неудач подряд, после которых под пойдет на перезагрузку
+          volumeMounts: # Точки монтирования папок внутрь контейнера
+            - name: jenkins-home # Имя подключаемого тома (описано ниже в volumes)
+              mountPath: /var/jenkins_home # Куда примонтировать диск внутри контейнера (основная папка Jenkins)
+            - name: casc-config # Имя подключаемого тома для конфигурации
+              mountPath: /var/jenkins_config # Папка с файлом jenkins.yaml внутри контейнера
+            - name: init-scripts # Имя подключаемого тома со скриптом инициализации
+              mountPath: /var/jenkins_home/init.groovy.d/basic-security.groovy # Полный путь до файла скрипта
+              subPath: basic-security.groovy # Монтирование конкретного файла из ConfigMap без затирания всей папки
+      volumes: # Описание источников данных (томов) для монтирования
+        - name: jenkins-home # Имя тома для постоянных данных
+          persistentVolumeClaim: # Источник — заявка на диск PVC
+            claimName: {{ .Values.persistence.pvcName }} # Динамическая подстановка имени вашей PVC
+        - name: casc-config # Имя тома для конфигурации JCasC
+          configMap: # Источник — созданный ConfigMap
+            name: jenkins-config # Имя конфигмапа с файлом конфигурации
+        - name: init-scripts # Имя тома для скрипта автоматической безопасности
+          configMap: # Источник — созданный ConfigMap
+            name: basic-security # Имя конфигмапа со скриптом Groovy
