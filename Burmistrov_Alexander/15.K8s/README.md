@@ -16,6 +16,7 @@ jenkins-local
 ```bash
 helm create jenkins-local
 helm template my-jenkins-release . --namespace ci-cd
+kubectl apply -f namespace.yaml
 helm install jenkins . --namespace test-helm
 ```
 
