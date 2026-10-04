@@ -1,0 +1,16 @@
+image:
+  repository: bitnamilegacy/drupal
+
+git:
+  image:
+    repository: bitnamilegacy/git
+
+mariadb:
+  image:
+    repository: bitnamilegacy/mariadb
+  volumePermissions:
+    image:
+      repository: bitnamilegacy/os-shell
+  metrics:
+    image:
+      repository: bitnamilegacy/mysqld-exporter

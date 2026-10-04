@@ -1,0 +1,42 @@
+# istio-ingress.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: apps-gw
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port: { number: 80, name: http, protocol: HTTP }
+      hosts:
+        - "wordpress.k8s-3.sa"
+        - "drupal.k8s-3.sa"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: wordpress
+  namespace: wordpress
+spec:
+  hosts: ["wordpress.k8s-3.sa"]
+  gateways: ["istio-system/apps-gw"]     # gateway lives in another namespace → ns/name form
+  http:
+    - route:
+        - destination:
+            host: wordpress.wordpress.svc.cluster.local
+            port: { number: 80 }
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: drupal
+  namespace: drupal
+spec:
+  hosts: ["drupal.k8s-3.sa"]
+  gateways: ["istio-system/apps-gw"]
+  http:
+    - route:
+        - destination:
+            host: drupal.drupal.svc.cluster.local
+            port: { number: 80 }
