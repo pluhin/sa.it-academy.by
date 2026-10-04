@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: PersistentVolume # Создание физического/сетевого тома (доступного всему кластеру)
+metadata:
+  name: {{ .Values.persistence.pvName }} # Динамическое имя тома из values.yaml
+  labels: # Метка для связывания с другими компонентами
+    app: jenkins # Идентификатор приложения
+spec: # Спецификация диска
+  capacity: # Доступная емкость
+    storage: {{ .Values.persistence.storageSize }} # Подстановка размера диска (10Gi)
+  accessModes: # Режимы чтения/записи
+  {{ toYaml .Values.persistence.accessModes | indent 4 }} # Форматирование режимов доступа (ReadWriteMany) со сдвигом 4 пробела
+persistentVolumeReclaimPolicy: Retain # Политика сохранения данных: при удалении PVC сам сетевой диск и данные не удаляются
+storageClassName: "" # Пустая строка отключает использование динамических автоматических хранилищ (StorageClass)
+claimRef: # Жесткая привязка этого тома к конкретному запросу (PVC)
+  namespace: {{ .Values.namespace.name }} # Пространство имен, из которого можно затребовать диск
+  name: {{ .Values.persistence.pvcName }} # Имя PVC, которому эксклюзивно отдается этот PV
+nfs: # Конфигурация подключения к сетевой системе NFS
+  server: {{ .Values.persistence.nfs.server }} # Сетевой IP NFS сервера из values.yaml
+  path: {{ .Values.persistence.nfs.path }} # Сетевой путь к вашей личной папке на сервере
+---
+apiVersion: v1
+kind: PersistentVolumeClaim # Запрос приложения на выделение диска
+metadata:
+  name: {{ .Values.persistence.pvcName }} # Имя заявки, которое будет использоваться в Deployment
+  namespace: {{ .Values.namespace.name }} # Целевое пространство имен
+spec: # Описание требований приложения к диску
+  accessModes: # Запрашиваемый режим доступа
+  {{ toYaml .Values.persistence.accessModes | indent 4 }} # Должен совпадать с режимом самого PV (ReadWriteMany)
+storageClassName: "" # Привязка вручную к PV без использования динамических провайдеров
+resources: # Запрашиваемые ресурсы
+  requests: # Минимальные требования
+    storage: {{ .Values.persistence.storageSize }} # Объем диска (10Gi)

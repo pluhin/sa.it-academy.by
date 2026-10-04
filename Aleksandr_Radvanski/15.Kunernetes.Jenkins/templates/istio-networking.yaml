@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1beta1 # Версия API Istio для сетевых ресурсов
+kind: Gateway # Ресурс Istio, описывающий балансировщик на границе кластера, принимающий внешний трафик
+metadata:
+  name: {{ .Values.ingress.gatewayName }} # Динамическое имя шлюза из values.yaml
+  namespace: {{ .Values.namespace.name }} # Пространство имен шлюза
+spec:
+  selector:
+    istio: ingressgateway # Привязка этих правил к стандартному входному контроллеру Istio кластера
+  servers: # Описание серверов (портов), которые шлюз слушает снаружи
+    - port:
+        number: 80 # Принимать входящий внешний трафик на стандартном 80 HTTP-порту
+        name: http # Имя порта шлюза
+        protocol: HTTP # Используемый сетевой протокол приложения
+      hosts:
+        - {{ .Values.ingress.host | quote }} # Список доменных имен в кавычках, запросы к которым шлюз должен обрабатывать
+---
+apiVersion: networking.istio.io/v1beta1 # Версия API Istio
+kind: VirtualService # Ресурс Istio, управляющий маршрутизацией трафика внутри кластера (умный роутер)
+metadata:
+  name: {{ .Values.ingress.virtualServiceName }} # Динамическое имя виртуального сервиса
+  namespace: {{ .Values.namespace.name }}
+spec:
+  hosts:
+    - {{ .Values.ingress.host | quote }} # Для какого внешнего доменного имени применяются правила маршрутизации
+  gateways:
+    - {{ .Values.ingress.gatewayName }} # Привязка к созданному выше объекту Gateway
+  http: # Блок правил для HTTP протокола
+    - match: # Условия совпадения запроса
+        - uri:
+            prefix: / # Совпадение по префиксу URL (обрабатывать абсолютно все входящие пути, начинающиеся со слэша)
+      route: # Куда перенаправлять трафик, если условие совпало
+        - destination: # Конечная точка назначения внутри сети Kubernetes
+            host: "jenkins.{{ .Values.namespace.name }}.svc.cluster.local" # Полное внутреннее FQDN DNS-имя службы Service Jenkins
+            port:
+              number: 8080 # На какой именно порт внутренней службы Service отправить веб-трафик (8080 порт веб-интерфейса)

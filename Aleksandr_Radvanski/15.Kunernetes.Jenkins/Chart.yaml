@@ -1,0 +1,12 @@
+apiVersion: v2 # Версия API Helm. v2 используется для Helm 3 (современный стандарт)
+name: jenkins-chart # Официальное имя чарта
+description: A Helm chart for Jenkins deployment in ci-cd namespace with Istio
+
+# Тип чарта application означает, что этот чарт разворачивает полноценное приложение (а не просто библиотеку)
+type: application
+
+# Версия самого чарта. Меняется вручную каждый раз, когда ты обновляешь шаблоны или values.yaml
+version: 0.1.0
+
+# Версия самого приложения (Jenkins), которое упаковано внутри.
+appVersion: "0.0.1"
