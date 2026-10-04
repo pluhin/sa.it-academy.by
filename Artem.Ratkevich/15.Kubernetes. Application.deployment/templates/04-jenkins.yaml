@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.fullnameOverride }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.controller.replicas }}
+  strategy:
+    type: {{ .Values.controller.strategy }}
+  selector:
+    matchLabels:
+      app: {{ .Values.fullnameOverride }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.fullnameOverride }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      securityContext:
+        fsGroup: {{ .Values.controller.securityContext.fsGroup }}
+      containers:
+        - name: jenkins
+          image: "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
+          imagePullPolicy: {{ .Values.controller.image.pullPolicy }}
+          env:
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.credentials.secretName }}
+                  key: admin-password
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.credentials.secretName }}
+                  key: github-token
+            - name: JAVA_OPTS
+              value: {{ .Values.controller.javaOpts | quote }}
+            - name: CASC_JENKINS_CONFIG
+              value: {{ .Values.controller.cascConfigPath | quote }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.controller.containerPorts.http }}
+            - name: jnlp
+              containerPort: {{ .Values.controller.containerPorts.jnlp }}
+          resources:
+{{- toYaml .Values.controller.resources | nindent 12 }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.controller.probes.readiness.path }}
+              port: {{ .Values.controller.containerPorts.http }}
+            initialDelaySeconds: {{ .Values.controller.probes.readiness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.controller.probes.readiness.periodSeconds }}
+            failureThreshold: {{ .Values.controller.probes.readiness.failureThreshold }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.controller.probes.liveness.path }}
+              port: {{ .Values.controller.containerPorts.http }}
+            initialDelaySeconds: {{ .Values.controller.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.controller.probes.liveness.periodSeconds }}
+            failureThreshold: {{ .Values.controller.probes.liveness.failureThreshold }}
+          volumeMounts:
+            - name: jenkins-home
+              mountPath: /var/jenkins_home
+            - name: casc-config
+              mountPath: /var/jenkins_config
+            - name: init-scripts
+              mountPath: /var/jenkins_home/init.groovy.d/basic-security.groovy
+              subPath: basic-security.groovy
+      volumes:
+        - name: jenkins-home
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.pvc.name }}
+        - name: casc-config
+          configMap:
+            name: {{ .Values.fullnameOverride }}-config
+        - name: init-scripts
+          configMap:
+            name: basic-security
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.fullnameOverride }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: {{ .Values.fullnameOverride }}
+  ports:
+    - name: http
+      port: {{ .Values.service.ports.http }}
+      targetPort: {{ .Values.controller.containerPorts.http }}
+    - name: jnlp
+      port: {{ .Values.service.ports.jnlp }}
+      targetPort: {{ .Values.controller.containerPorts.jnlp }}

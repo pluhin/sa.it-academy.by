@@ -1,0 +1,132 @@
+# ==========================================================
+# Global
+# ==========================================================
+global:
+  namespace: ci-cd
+  # set to false if the namespace already exists or use --create-namespace
+  namespaceCreate: true
+  istioInjection: "enabled"
+
+fullnameOverride: "jenkins"
+
+# ==========================================================
+# ServiceAccount
+# ==========================================================
+serviceAccount:
+  create: true
+  name: jenkins
+
+# ==========================================================
+# RBAC
+# ==========================================================
+rbac:
+  create: true
+  roleName: jenkins-agents
+  rules:
+    - apiGroups: [""]
+      resources: ["pods"]
+      verbs: ["create", "delete", "get", "list", "watch"]
+    - apiGroups: [""]
+      resources: ["pods/exec"]
+      verbs: ["create", "get"]
+    - apiGroups: [""]
+      resources: ["pods/log"]
+      verbs: ["get", "list"]
+    - apiGroups: [""]
+      resources: ["events"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: [""]
+      resources: ["secrets"]
+      verbs: ["get", "list"]
+
+# ==========================================================
+# Persistence
+# ==========================================================
+persistence:
+  enabled: true
+  pv:
+    create: true
+    name: jenkins-ci-cd-pv
+    capacity: 10Gi
+    accessModes:
+      - ReadWriteMany
+    reclaimPolicy: Retain
+    storageClassName: ""
+    nfs:
+      server: 192.168.37.105
+      path: /mnt/IT-Academy/nfs-data/sa2-36-26/mrrollwar/jenkins
+  pvc:
+    name: jenkins-home
+    capacity: 10Gi
+    accessModes:
+      - ReadWriteMany
+    storageClassName: ""
+
+# ==========================================================
+# Credentials
+# ==========================================================
+credentials:
+  adminUser: {ADMIN_USER}
+  adminPassword: {ADMIN_PASSWORD}
+  githubToken: {GITHUB_TOKEN}
+  secretName: jenkins-secret
+
+# ==========================================================
+# Jenkins configuration (JCasC)
+# ==========================================================
+jenkins:
+  numExecutors: 2
+  githubUsername: {GITHUB_USER}
+  adminAddress: mrrollwar@gmail.com
+  externalUrl: http://jenkins.k8s-3.sa
+  shell: /bin/bash
+  cloud:
+    name: kubernetes
+    containerCap: "10"
+    maxRequestsPerHost: "32"
+    skipTlsVerify: true
+
+# ==========================================================
+# Controller (Deployment)
+# ==========================================================
+controller:
+  replicas: 1
+  strategy: Recreate
+  image:
+    repository: jfrog.it-academy.by/public/jenkins-ci
+    tag: mrrollwar
+    pullPolicy: IfNotPresent
+  javaOpts: "-Djenkins.install.runSetupWizard=false"
+  cascConfigPath: /var/jenkins_config/jenkins.yaml
+  containerPorts:
+    http: 8080
+    jnlp: 50000
+  securityContext:
+    fsGroup: 1000
+  resources:
+    requests:
+      cpu: 500m
+      memory: 2Gi
+    limits:
+      cpu: "2"
+      memory: 4Gi
+  probes:
+    readiness:
+      path: /login
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      failureThreshold: 3
+    liveness:
+      path: /login
+      initialDelaySeconds: 120
+      periodSeconds: 20
+      failureThreshold: 6
+
+# ==========================================================
+# Service
+# ==========================================================
+service:
+  type: ClusterIP
+  ports:
+    http: 8080
+    jnlp: 50000
