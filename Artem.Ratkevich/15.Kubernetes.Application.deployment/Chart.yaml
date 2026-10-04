@@ -1,0 +1,12 @@
+apiVersion: v2
+name: jenkins
+description: Helm chart for Jenkins controller with Kubernetes agents, NFS storage and Istio ingress
+type: application
+version: 0.1.0
+appVersion: "2.440.3"
+keywords:
+  - jenkins
+  - ci
+  - cd
+maintainers:
+  - name: mrrollwar
