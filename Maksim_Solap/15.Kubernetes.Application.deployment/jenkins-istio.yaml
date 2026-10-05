@@ -1,0 +1,36 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: jenkins
+  namespace: ci-cd
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - jenkins.k8s-7.sa
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: jenkins
+  namespace: ci-cd
+spec:
+  hosts:
+    - jenkins.k8s-7.sa
+  gateways:
+    - jenkins
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: jenkins.ci-cd.svc.cluster.local
+            port:
+              number: 8080
