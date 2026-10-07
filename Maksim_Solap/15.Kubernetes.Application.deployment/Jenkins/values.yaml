@@ -1,0 +1,37 @@
+# values.yaml
+global:
+  namespace: ci-cd
+
+replicaCount: 1
+
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci
+  tag: maksim_solap_36
+  pullPolicy: IfNotPresent
+
+secret:
+  adminPassword: admin
+  githubToken: admin
+
+casc:
+  numExecutors: 2
+  containerCapStr: "10"
+  maxRequestsPerHostStr: "32"
+  githubUser: "maksimsolapai-gif"
+  adminAddress: "maksimsolapai@gmail.com"
+
+nfs:
+  server: 192.168.37.105
+  path: /mnt/IT-Academy/nfs-data/sa2-36-26/solap/jenkins
+  storageSize: 10Gi
+
+routing:
+  host: jenkins.k8s-7.sa
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 2Gi
+  limits:
+    cpu: "2"
+    memory: 4Gi

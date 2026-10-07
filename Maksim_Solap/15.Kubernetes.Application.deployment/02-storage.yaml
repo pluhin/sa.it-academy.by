@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jenkins-ci-cd-pv
+  labels:
+    app: jenkins
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  claimRef:
+    namespace: ci-cd
+    name: jenkins-home
+#  mountOptions:
+#    - nfsvers=4.1
+#    - hard
+  nfs:
+    server: 192.168.37.105
+    path: /mnt/IT-Academy/nfs-data/sa2-36-26/solap/jenkins
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-home
+  namespace: ci-cd
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 10Gi

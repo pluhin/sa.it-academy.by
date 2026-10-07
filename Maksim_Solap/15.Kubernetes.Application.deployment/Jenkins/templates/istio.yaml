@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: jenkins
+  namespace: {{ .Values.global.namespace }}
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - {{ .Values.routing.host | quote }}
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: jenkins
+  namespace: {{ .Values.global.namespace }}
+spec:
+  hosts:
+    - {{ .Values.routing.host | quote }}
+  gateways:
+    - jenkins
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: "jenkins.{{ .Values.global.namespace }}.svc.cluster.local"
+            port:
+              number: 8080
