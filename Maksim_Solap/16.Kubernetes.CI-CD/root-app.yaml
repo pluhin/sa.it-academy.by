@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-app-of-apps
+  namespace: argocd
+spec:
+  project: default
+    repoURL: https://github.com/maksimsolapai-gif/argo-flux-36-26.git
+    targetRevision: HEAD
+    path: argo-apps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+    automated:
+      prune: true
+      selfHeal: true

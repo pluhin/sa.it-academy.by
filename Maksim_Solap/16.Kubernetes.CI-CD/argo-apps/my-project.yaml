@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: homework-project
+  namespace: argocd
+spec:
+  description: "Project for Homework applications"
+  destinations:
+  - namespace: '*'
+    server: '*'
+  sourceRepos:
+  - 'https://github.com/maksimsolapai-gif/argo-flux-36-26.git'
+  - 'https://maksimsolapai-gif.github.io/sa-36-26-jenkins/' 
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'

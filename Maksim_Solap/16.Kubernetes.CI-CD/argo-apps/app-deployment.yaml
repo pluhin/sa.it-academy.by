@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-helm-app
+  namespace: argocd
+spec:
+  project: homework-project 
+  source:
+    repoURL: https://maksimsolapai-gif.github.io/sa-36-26-jenkins/
+
+    chart: jenkins 
+    targetRevision: 0.1.0 
+  destination:
+    server: https://kubernetes.default.svc 
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
