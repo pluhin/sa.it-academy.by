@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vso-demo
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vso-app
+  namespace: vso-demo

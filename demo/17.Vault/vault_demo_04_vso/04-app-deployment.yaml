@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vso-app
+  namespace: vso-demo
+  labels:
+    app: vso-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vso-app
+  template:
+    metadata:
+      labels:
+        app: vso-app
+    spec:
+      serviceAccountName: vso-app
+      containers:
+        - name: app
+          image: nginx:1.27
+          envFrom:
+            - secretRef:
+                name: app-db
+          ports:
+            - containerPort: 80
