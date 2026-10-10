@@ -1,0 +1,11 @@
+apiVersion: v2
+name: drupal-homework-chart
+description: "Кастомный Helm-чарт Drupal + SealedSecrets + Istio"
+type: application
+version: 1.0.0
+appVersion: "11.2.3"
+
+dependencies:
+  - name: drupal
+    version: "16.1.1" # Стабильная версия чарта Drupal от Bitnami
+    repository: "oci://registry-1.docker.io/bitnamicharts"

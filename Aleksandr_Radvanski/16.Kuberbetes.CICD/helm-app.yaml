@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: drupal-helm-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/aionfiend/16.-Kubernetes.CICD
+    targetRevision: main
+    path: argo-apps/drupal-chart
+    helm:
+        valueFiles:
+          - values.yaml
+
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: drupal-prod
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
