@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: drupal-gateway
+  namespace: drupal-prod # Целевой namespace приложения
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "drupal.local"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: drupal-virtualservice
+  namespace: drupal-prod
+spec:
+  hosts:
+    - "drupal.local"
+  gateways:
+    - drupal-gateway
+  http:
+    - route:
+        - destination:
+            # Исправленное имя сервиса (имя_релиза-имя_субчарта)
+            host: drupal-helm-app-drupal
+            port:
+              number: 8080 # Должен соответствовать spec.ports[].port у сервиса
