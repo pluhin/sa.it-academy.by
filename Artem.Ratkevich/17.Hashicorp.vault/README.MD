@@ -192,3 +192,25 @@ curl -i http://nginx-test.k8s-3.sa/secrets/db_password
 ![VD8](Screenshots/Vault8-k8s.png)
 ![VD9](Screenshots/Vault9-k8s.png)
 ![VD10](Screenshots/Vault10-k8s.png)
+
+### What happens to the env vars of an already-running Pod after rotation?
+
+Nothing. Kubernetes injects environment variables once, at container creation: the kubelet reads the Secret and materializes the values into the process environment, which is an OS-level copy the cluster no longer controls. Secret updates are not pushed into running containers (unlike Secret volumes, which get updated on disk via an atomic symlink swap). That's why printenv before and after rotation shows the same old value — the K8s Secret changed, the process environment is a stale snapshot.
+
+### What to do about it:
+
+Restart the workload: kubectl rollout restart deployment/myapp.
+Automate it with VSO: add a restart target to the VaultStaticSecret:
+yaml
+
+VSO is better at:
+
+Rotation — change the value in Vault, the K8s Secret updates itself; with Sealed Secrets every change means re-encrypt (kubeseal), commit, and apply.
+Dynamic secrets — DB credentials with TTLs, PKI, etc. Sealed Secrets can only store static ciphertext.
+Central control — audit log, revocation, least-privilege per-app auth (SA-bound roles), version history in Vault.
+Git hygiene — Git holds only references; not even ciphertext leaves Vault.
+Sealed Secrets is better at:
+
+Self-containment — the ciphertext decrypts with the cluster-local private key; the cluster's secrets work even if Vault is down/sealed/gone. VSO makes secrets a runtime dependency: with Vault sealed, no new syncs happen.
+Simplicity — one controller and kubeseal vs a Vault cluster + unseal quorum + operator + three CRDs.
+Disaster recovery from Git — with Sealed Secrets, "restore cluster from Git" restores actual values; with VSO it restores only links — the data itself needs a separate Vault storage backup.
