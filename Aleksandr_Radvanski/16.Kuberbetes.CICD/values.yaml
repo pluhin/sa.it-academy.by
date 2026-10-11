@@ -1,0 +1,96 @@
+replicaCount: 1
+drupalSecretName: drupal-passwords-v2
+drupalSecretPasswordKey: drupal-password
+drupalUsername: admin
+
+# Корневой блок авторизации
+auth:
+  existingSecret: drupal-passwords-v2
+  passwordKey: drupal-password
+  databasePassword: SecretPassword123!   # Заменяем ключ на прямой текстовый пароль
+
+drupal:
+  global:
+    imageRegistry: docker.io
+    security:
+      allowInsecureImages: true
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/drupal
+    tag: 11.2.3-debian-12-r1
+
+  # СКРИПТ ОЖИДАНИЯ ГОТОВНОСТИ БАЗЫ ДАННЫХ
+  initContainers:
+    - name: wait-for-db
+      image: docker.io/bitnamilegacy/os-shell:latest
+      command:
+        - /bin/bash
+        - -ec
+        - |
+          echo "Waiting for MariaDB to be ready at drupal-helm-app-mariadb:3306..."
+          until timeout 1 bash -c 'cat < /dev/null > /dev/tcp/drupal-helm-app-mariadb/3306' 2>/dev/null; do
+            echo "Database is not reachable yet. Sleeping 5 seconds..."
+            sleep 5
+          done
+          echo "MariaDB is UP and running!"
+
+  # Таймауты старта приложения
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 180
+    periodSeconds: 10
+    failureThreshold: 15
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 240
+    periodSeconds: 15
+    failureThreshold: 8
+
+  # Авторизация приложения Drupal (переключаем обратно на bn_drupal с текстом)
+  auth:
+    existingSecret: drupal-passwords-v2
+    passwordKey: drupal-password
+    databasePassword: SecretPassword123!
+    username: bn_drupal
+    database: bitnami_drupal
+
+  persistence:
+    enabled: false
+  volumePermissions:
+    enabled: false
+  service:
+    type: ClusterIP
+    ports:
+      http: 8080
+
+  # Конфигурация субчарта базы данных MariaDB (Убираем existingSecret)
+  mariadb:
+    enabled: true
+    auth:
+      allowEmptyPassword: false
+      rootPassword: RootPassword123!
+      password: SecretPassword123!       # Этот пароль гарантированно совпадет с Drupal
+      username: bn_drupal
+      database: bitnami_drupal
+    persistence:
+      enabled: false
+    volumePermissions:
+      enabled: false
+    primary:
+      replicaCount: 1
+      auth:
+        allowEmptyPassword: false
+        rootPassword: RootPassword123!
+        password: SecretPassword123!
+        username: bn_drupal
+        database: bitnami_drupal
+      persistence:
+        enabled: false
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/mariadb
+      tag: 12.0.2-debian-12-r0
+    osShell:
+      image:
+        registry: docker.io
+        repository: bitnamilegacy/os-shell
