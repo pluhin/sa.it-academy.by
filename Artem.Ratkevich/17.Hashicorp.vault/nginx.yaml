@@ -1,0 +1,122 @@
+---
+# ── VSO chain in nginx-test (CRDs are namespaced — one per ns) ──
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: myapp-vso
+  namespace: nginx-test
+
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultConnection
+metadata:
+  name: vault-connection
+  namespace: nginx-test
+spec:
+  address: http://vault.vault.svc.cluster.local:8200   # FQDN works cross-namespace
+
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: vault-auth
+  namespace: nginx-test
+spec:
+  vaultConnectionRef: vault-connection    # same namespace as this VaultAuth
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: vso
+    serviceAccount: myapp-vso             # the SA created above, same ns
+
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
+  name: myapp-config
+  namespace: nginx-test
+spec:
+  vaultAuthRef: vault-auth                # same namespace
+  mount: secret
+  type: kv-v2
+  path: myapp/config                      # same Vault path as for myapp
+  refreshAfter: 20s
+  destination:
+    name: myapp-config                    # → native Secret in nginx-test
+    create: true
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-test
+  namespace: nginx-test
+  labels:
+    app: nginx-test
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: nginx-test
+  template:
+    metadata:
+      labels:
+        app: nginx-test
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: nginx
+          image: nginx:1.27
+          ports:
+            - containerPort: 80
+          envFrom:                        # snapshot semantics (like myapp)
+            - secretRef:
+                name: myapp-config
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              cat > /usr/share/nginx/html/index.html <<HTML
+              <h1>myapp secrets — env snapshot at container start</h1>
+              DB_USER=$DB_USER<br>
+              DB_PASSWORD=$DB_PASSWORD<br>
+              <h2>live files — Secret volume, updates itself on rotation</h2>
+              <a href="/secrets/db_user">/secrets/db_user</a><br>
+              <a href="/secrets/db_password">/secrets/db_password</a>
+              HTML
+              exec nginx -g 'daemon off;'
+          volumeMounts:                   # live semantics: kubelet keeps these files in sync
+            - name: secrets
+              mountPath: /usr/share/nginx/html/secrets
+              readOnly: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 5"]
+      volumes:
+        - name: secrets
+          secret:
+            secretName: myapp-config

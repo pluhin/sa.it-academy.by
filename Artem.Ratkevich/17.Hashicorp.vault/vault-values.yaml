@@ -1,0 +1,16 @@
+# vault-values.yaml
+server:
+  ha:
+    enabled: true
+    replicas: 1
+    raft:
+      enabled: true
+      setNodeId: true
+  dataStorage:
+    enabled: true
+    size: 1Gi
+    storageClass: local-path    # ← explicit name from `kubectl get sc`,
+  auditStorage:                 #   otherwise the PVC stays Pending forever
+    enabled: true
+    size: 1Gi
+    storageClass: local-path

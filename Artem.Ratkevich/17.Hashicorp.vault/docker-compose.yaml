@@ -1,0 +1,12 @@
+# docker-compose.yml
+services:
+  vault:
+    image: hashicorp/vault:1.20          # or the version used in your course
+    container_name: vault-dev
+    cap_add:
+      - IPC_LOCK
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: root-hw1
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
