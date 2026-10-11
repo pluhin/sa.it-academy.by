@@ -1,0 +1,74 @@
+name: Docker image tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  IMAGE: app-under-test:${{ github.sha }}
+  PORT: "8080"
+
+jobs:
+  test:
+    name: Build, deploy & test image
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ---- 1. Build & deploy docker image for test ----
+      - name: Build image
+        run: docker build -t "$IMAGE" .
+
+      - name: Deploy container
+        run: docker run -d --name app -p "${PORT}:${PORT}" "$IMAGE"
+
+      - name: Wait until app is ready
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS "http://localhost:${PORT}/health" >/dev/null 2>&1; then
+              echo "App is ready"; exit 0
+            fi
+            sleep 2
+          done
+          echo "::error::App did not become ready in time"
+          docker logs app
+          exit 1
+
+      # ---- 2. Test: request data from image ----
+      - name: Test HTTP response (main endpoint)
+        run: |
+          code=$(curl -s -o body.json -w '%{http_code}' "http://localhost:${PORT}/")
+          echo "HTTP status: $code"; cat body.json; echo
+          test "$code" = "200" || { echo "::error::expected 200"; exit 1; }
+          grep -q '"status"' body.json   # basic body assertion
+
+      - name: Test /health endpoint
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' "http://localhost:${PORT}/health")
+          test "$code" = "200"
+
+      # ---- 3. Test: no root access inside container ----
+      - name: Non-root check (running container)
+        run: |
+          docker exec app id
+          uid=$(docker exec app id -u)
+          echo "Inside container: uid=$uid"
+          test "$uid" != "0" || { echo "::error::container runs as ROOT"; exit 1; }
+
+      - name: Non-root check (fresh container from image)
+        run: |
+          uid=$(docker run --rm --entrypoint sh "$IMAGE" -c 'id -u')
+          test "$uid" != "0"
+
+      - name: Dump container logs on failure
+        if: failure()
+        run: docker logs app || true
+
+      - name: Cleanup
+        if: always()
+        run: docker rm -f app || true
