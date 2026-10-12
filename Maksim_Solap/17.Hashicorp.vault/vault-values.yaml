@@ -1,0 +1,53 @@
+global:
+  enabled: true
+  tlsDisable: true
+
+server:
+
+  ha:
+    enabled: true
+    replicas: 1
+    raft:
+      enabled: true
+      setNodeId: true
+      config: |
+        ui = true
+        listener "tcp" {
+          tls_disable = 1
+          address = "[::]:8200"
+          cluster_address = "[::]:8201"
+        }
+        storage "raft" {
+          path = "/vault/data"
+        }
+        service_registration "kubernetes" {}
+
+  dataStorage:
+    enabled: true
+    size: 5Gi
+    storageClass: nfs-client
+    accessMode: ReadWriteOnce
+
+  service:
+    enabled: true
+    type: ClusterIP
+    port: 8200
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+ui:
+  enabled: true
+  serviceType: ClusterIP
+
+injector:
+  enabled: true
+  replicas: 1
+
+csi:
+  enabled: false
