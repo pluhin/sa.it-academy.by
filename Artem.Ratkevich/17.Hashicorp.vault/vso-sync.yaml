@@ -1,0 +1,37 @@
+# vso-sync.yaml
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultConnection
+metadata:
+  name: vault-connection
+  namespace: default
+spec:
+  address: http://vault.vault.svc.cluster.local:8200
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: vault-auth
+  namespace: default
+spec:
+  vaultConnectionRef: vault-connection
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: vso
+    serviceAccount: myapp-vso        # ← the missing field
+    # same namespace as this VaultAuth → serviceAccountNamespace not needed
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
+  name: myapp-config
+  namespace: default
+spec:
+  vaultAuthRef: vault-auth
+  mount: secret
+  type: kv-v2
+  path: myapp/config
+  refreshAfter: 20s      # poll Vault — this is what makes rotation propagate
+  destination:
+    name: myapp-config      # the native K8s Secret VSO creates/updates
+    create: true

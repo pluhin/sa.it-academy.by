@@ -1,0 +1,21 @@
+# app.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: myapp}
+  template:
+    metadata:
+      labels: {app: myapp}
+    spec:
+      containers:
+        - name: app
+          image: busybox:1.36
+          command: ["sh","-c","printenv | grep ^DB_ ; sleep infinity"]
+          envFrom:
+            - secretRef:
+                name: myapp-config
