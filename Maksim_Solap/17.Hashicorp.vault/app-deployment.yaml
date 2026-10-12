@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secret-consumer
+  namespace: app-zone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer
+  template:
+    metadata:
+      labels:
+        app: consumer
+    spec:
+      serviceAccountName: app-sa # Обязательно указываем наш SA
+      containers:
+      - name: app
+        image: alpine
+        command: ["sh", "-c", "while true; do date; sleep 5; done"]
+        envFrom:
+        - secretRef:
+            name: k8s-native-secret # Подтягиваем секрет как переменные окружения
