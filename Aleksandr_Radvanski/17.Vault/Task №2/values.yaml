@@ -1,0 +1,37 @@
+# values.yaml
+global:
+  enabled: true
+  tlsDisable: true
+
+server:
+  dev:
+    enabled: false
+
+  # Отключаем Istio sidecar
+  annotations:
+    sidecar.istio.io/inject: "false"
+
+  # Переводим в режим одиночного stateful-сервера
+  standalone:
+    enabled: true
+    config: |
+      ui = true
+      listener "tcp" {
+        tls_disable = 1
+        address = "[::]:8200"
+        cluster_address = "[::]:8201"
+      }
+      storage "raft" {
+        path = "/vault/data"
+        node_id = "vault-0"
+      }
+
+  # Используем внутренний emptyDir вместо проблемных внешних PVC/PV на hostPath.!
+  dataStorage:
+    enabled: false
+  volumes:
+    - name: data
+      emptyDir: {}
+  volumeMounts:
+    - name: data
+      mountPath: /vault/data
