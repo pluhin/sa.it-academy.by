@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clock
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clock
+  template:
+    metadata:
+      labels:
+        app: clock
+    spec:
+      containers:
+        - name: clock
+          image: localhost/clock:0.1
+          imagePullPolicy: Never
