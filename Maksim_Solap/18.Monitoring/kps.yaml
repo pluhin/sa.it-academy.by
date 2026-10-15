@@ -1,0 +1,92 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kps
+  namespace: monitoring
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: "92.3.0"
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: monitoring
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+  values:
+    # Задание 1: Описание правила алерта для CPU
+    additionalPrometheusRulesMap:
+      custom-cpu-alerts:
+        groups:
+          - name: custom-pod-rules
+            rules:
+              - alert: HighPodCpuLoad
+                expr: sum(rate(container_cpu_usage_seconds_total{container!=""}[5m])) by (pod, namespace) > 0.8
+                for: 2m
+                labels:
+                  severity: warning
+                annotations:
+                  summary: "Высокая нагрузка CPU на поде {{ $labels.pod }}"
+                  description: "Под {{ $labels.pod }} в namespace {{ $labels.namespace }} потребляет более 0.8 ядра."
+
+    # Настройка Alertmanager
+    alertmanager:
+      enabled: true
+      alertmanagerSpec:
+        # Указываем оператору взять готовый конфиг из созданного нами секрет-ключа
+        configSelector: {}
+        configSecret: alertmanager-kps-generated
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: nfs-client
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 2Gi
+
+    prometheus:
+      prometheusSpec:
+        retention: 7d
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: nfs-client
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 10Gi
+        resources:
+          requests: {cpu: 200m, memory: 512Mi}
+          limits: {cpu: "1", memory: 2Gi}
+    kubeProxy:
+      enabled: false
+    grafana:
+      enabled: true
+      adminPassword: admin
+      persistence:
+        enabled: true
+        storageClassName: nfs-client
+        size: 2Gi
+      sidecar:
+        dashboards:
+          enabled: true
+          label: grafana_dashboard
+          labelValue: "1"
+          searchNamespace: monitoring
+          folderAnnotation: grafana_folder
+          provider:
+            foldersFromFilesStructure: true
+      additionalDataSources:
+        - name: Loki
+          type: loki
+          uid: loki
+          access: proxy
+          url: http://cluster.local
+          jsonData:
+            maxLines: 1000
