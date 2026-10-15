@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'username', defaultValue: 'root', description: 'Username to look up in /etc/passwd')
+    }
+
+    stages {
+        stage('Validate input') {
+            steps {
+                script {
+                    // prevents shell injection via the parameter
+                    if (!(params.username ==~ /^[a-zA-Z0-9._-]+$/)) {
+                        error "Invalid username: '${params.username}'"
+                    }
+                }
+            }
+        }
+
+        stage('Check /etc/passwd') {
+            steps {
+                script {
+                    def exists = sh(
+                        script: "grep -q '^${params.username}:' /etc/passwd",
+                        returnStatus: true
+                    ) == 0
+
+                    if (exists) {
+                        echo "USER_CHECK_RESULT=EXISTS — user '${params.username}' exists in /etc/passwd"
+                    } else {
+                        echo "USER_CHECK_RESULT=NOT_EXISTS — user '${params.username}' not found in /etc/passwd"
+                    }
+                }
+            }
+        }
+    }
+}
