@@ -1,0 +1,70 @@
+# vso-app.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: myapp-sa
+  namespace: default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultConnection
+metadata:
+  name: vault-connection
+  namespace: default
+spec:
+  address: https://kubernetes.default.svc:443 #http://vault.default.svc.cluster.local:8200
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: vault-auth
+  namespace: default
+spec:
+  vaultConnectionRef: vault-connection
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: myapp-role
+    serviceAccount: myapp-sa
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
+  name: myapp-vault-secret
+  namespace: default
+spec:
+  vaultAuthRef: vault-auth
+  mount: secret
+  path: myapp/config
+  type: kv-v2
+  refreshAfter: 10s # Частота проверки обновлений оператором
+  # Фича авторестарта Deployment при ротации секретов
+  rolloutRestartTargets:
+    - kind: Deployment
+      name: myapp
+  destination:
+    name: myapp-k8s-secret # Сюда VSO положит нативный Kubernetes Secret
+    create: true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      serviceAccountName: myapp-sa
+      containers:
+        - name: app
+          image: alpine
+          command: ["/bin/sh", "-c", "while true; do sleep 3600; done"]
+          envFrom:
+            - secretRef:
+                name: myapp-k8s-secret

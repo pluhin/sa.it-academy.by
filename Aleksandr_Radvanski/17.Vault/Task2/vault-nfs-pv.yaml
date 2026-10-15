@@ -1,0 +1,15 @@
+# vault-nfs-pv.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: vault-nfs-pv
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-client
+  hostPath:
+    path: /tmp/vault-data-clean # Сюда мы запишем абсолютно чистую БД
