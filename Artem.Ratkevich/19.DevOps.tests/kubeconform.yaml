@@ -1,0 +1,133 @@
+name: kubeconform
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  KUBE_VERSION: "1.29.7"
+
+jobs:
+  # ---------- Discover all folders containing manifests -> parallel matrix ----------
+  discover:
+    name: Find manifest folders
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/yannh/kubeconform:v0.6.7-alpine   # all tools inside container
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Install tools
+        run: apk add --no-cache git jq >/dev/null
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build matrix
+        id: set-matrix
+        run: |
+          # FIX: prune .github so workflow files are never picked up
+          dirs=$(find . \
+                  \( -type d -name .github -prune \) -o \
+                  \( -type f \( -name '*.yaml' -o -name '*.yml' \) -exec dirname {} \; \) \
+                | sed 's|^\./||' | sort -u | jq -R . | jq -sc .)
+          [ -n "$dirs" ] && [ "$dirs" != "[]" ] || dirs='["."]'
+          echo "Will validate: $dirs"
+          echo "matrix=$dirs" >> "$GITHUB_OUTPUT"
+
+  # ---------- One parallel job (container/pod) per folder ----------
+  validate:
+    name: validate ${{ matrix.dir }}
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        dir: ${{ fromJSON(needs.discover.outputs.matrix) }}
+    container:
+      image: ghcr.io/yannh/kubeconform:v0.6.7-alpine
+    steps:
+      - name: Install tools
+        run: apk add --no-cache git curl jq >/dev/null
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run kubeconform on ./${{ matrix.dir }}
+        run: |
+          # FIX: prune .github here too (the bug: validate was scanning workflow files)
+          MANIFESTS=$(find "${{ matrix.dir }}" \
+                        \( -type d -name .github -prune \) -o \
+                        \( -type f \( -name '*.yaml' -o -name '*.yml' \) -print \) \
+                      | wc -l)
+          if [ "$MANIFESTS" -eq 0 ]; then
+            echo "::warning::No manifest files found in ${{ matrix.dir }} - nothing to validate"
+            exit 0
+          fi
+
+          find "${{ matrix.dir }}" \
+            \( -type d -name .github -prune \) -o \
+            \( -type f \( -name '*.yaml' -o -name '*.yml' \) -print0 \) \
+          | xargs -0 -r /kubeconform \
+              -strict \
+              -summary \
+              -ignore-missing-schemas \
+              -kubernetes-version "$KUBE_VERSION"
+
+          echo "Folder ${{ matrix.dir }}: $MANIFESTS manifest file(s) validated" >> "$GITHUB_STEP_SUMMARY"
+
+  # ---------- Aggregated status notification ----------
+  notify:
+    name: Notify status
+    needs: [discover, validate]
+    if: always()
+    runs-on: ubuntu-latest
+    container:
+      image: alpine:3.20
+    env:
+      # secrets are NOT auto-injected into container jobs - must be mapped explicitly
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+    steps:
+      - name: Send Slack notification
+        if: env.SLACK_WEBHOOK != ''   # skip (don't fail) on fork PRs / before secret exists
+        env:
+          RESULT:  ${{ needs.validate.result }}
+          REPO:    ${{ github.repository }}
+          BRANCH:  ${{ github.ref_name }}
+          ACTOR:   ${{ github.actor }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          apk add --no-cache curl jq >/dev/null
+
+          case "$RESULT" in
+            success) emoji=":white_check_mark:"; status="PASSED"; color="good" ;;
+            *)       emoji=":x:";               status="FAILED ($RESULT)"; color="danger" ;;
+          esac
+
+          payload=$(jq -n \
+            --arg color  "$color" \
+            --arg title  "$emoji *kubeconform $status*" \
+            --arg repo   "$REPO" \
+            --arg branch "$BRANCH" \
+            --arg actor  "$ACTOR" \
+            --arg runurl "$RUN_URL" \
+            '{
+              attachments: [{
+                color: $color,
+                blocks: [
+                  { type: "section",
+                    text: { type: "mrkdwn", text: $title } },
+                  { type: "section",
+                    text: { type: "mrkdwn",
+                            text: ("*Repo:* " + $repo + "\n*Branch:* " + $branch + "\n*Actor:* " + $actor + "\n<" + $runurl + "|View workflow run>") } }
+                ]
+              }]
+            }')
+
+          # notification must never break the pipeline -> warn instead of fail
+          curl -sf -X POST -H 'Content-type: application/json' -d "$payload" "$SLACK_WEBHOOK" \
+            || echo "::warning::Slack notification failed"
