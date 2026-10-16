@@ -1,0 +1,69 @@
+name: Check user in /etc/passwd
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: 'Username to check in /etc/passwd'
+        required: true
+        default: 'root'
+
+jobs:
+  check-user:
+    runs-on: [self-hosted, linux, ARM64]
+    steps:
+      - name: Trigger Jenkins job via API
+        id: trigger
+        run: |
+          RESPONSE=$(curl -s -i -X POST \
+            "${{ secrets.JENKINS_URL }}/job/check-user/buildWithParameters" \
+            --user "${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_API_TOKEN }}" \
+            --data-urlencode "username=${{ inputs.username }}")
+
+          HTTP_CODE=$(echo "$RESPONSE" | head -n 1 | awk '{print $2}')
+          [ "$HTTP_CODE" = "201" ] || { echo "Trigger failed (HTTP $HTTP_CODE)"; echo "$RESPONSE"; exit 1; }
+
+          # Jenkins returns the queue item URL in the Location header
+          QUEUE_URL=$(echo "$RESPONSE" | grep -i '^location:' | awk '{print $2}' | tr -d '\r')
+          echo "Queued: $QUEUE_URL"
+          echo "queue_url=$QUEUE_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for build to start
+        id: start
+        run: |
+          BUILD_URL=""
+          for i in {1..30}; do
+            BUILD_URL=$(curl -s -L --user "${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_API_TOKEN }}" \
+              "${{ steps.trigger.outputs.queue_url }}/api/json" | jq -r '.executable.url // empty')
+            [ -n "$BUILD_URL" ] && break
+            sleep 2
+          done
+          [ -z "$BUILD_URL" ] && { echo "Build never started"; exit 1; }
+          echo "build_url=$BUILD_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for build to finish
+        id: build
+        run: |
+          RESULT=""
+          for i in {1..60}; do
+            RESULT=$(curl -s -L --user "${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_API_TOKEN }}" \
+              "${{ steps.start.outputs.build_url }}/api/json" | jq -r '.result // empty')
+            [ -n "$RESULT" ] && break
+            sleep 3
+          done
+          [ -z "$RESULT" ] && { echo "Build did not finish in time"; exit 1; }
+          echo "result=$RESULT" >> "$GITHUB_OUTPUT"
+
+      - name: Show Jenkins output and result
+        run: |
+          curl -s -L --user "${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_API_TOKEN }}" \
+            "${{ steps.start.outputs.build_url }}consoleText"
+
+          LOG=$(curl -s -L --user "${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_API_TOKEN }}" \
+            "${{ steps.start.outputs.build_url }}consoleText")
+
+          if echo "$LOG" | grep -q "USER_CHECK_RESULT=EXISTS"; then
+            echo "✅ User '${{ inputs.username }}' EXISTS in /etc/passwd"
+          else
+            echo "❌ User '${{ inputs.username }}' does NOT exist in /etc/passwd"
+          fi
