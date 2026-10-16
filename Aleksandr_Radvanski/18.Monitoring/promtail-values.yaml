@@ -1,0 +1,12 @@
+config:
+  log_level: info
+  server:
+    http_listen_port: 9080
+    grpc_listen_port: 0
+
+  # Жестко прописываем правильный клиентский URL до вашего сервиса Loki
+  clients:
+    - url: http://cluster.local
+
+rbac:
+  create: true

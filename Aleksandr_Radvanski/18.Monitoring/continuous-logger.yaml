@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: continuous-logger
+  namespace: monitoring
+  labels:
+    app: syslog-emulator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: syslog-emulator
+  template:
+    metadata:
+      labels:
+        app: syslog-emulator
+    spec:
+      containers:
+        - name: generator
+          image: alpine
+          command: ["sh", "-c", "counter=1; while true; do echo \"[$(date +'%Y-%m-%d %H:%M:%S')] Log entry #$counter\"; counter=$((counter+1)); sleep 1; done"]
