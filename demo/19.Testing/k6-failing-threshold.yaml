@@ -1,0 +1,43 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k6-script-strict
+  namespace: testing
+data:
+  script.js: |
+    import http from 'k6/http';
+    import { check, sleep } from 'k6';
+
+    export const options = {
+      vus: 5,
+      duration: '20s',
+      thresholds: {
+        http_req_duration: ['p(95)<0.5'],
+      },
+    };
+
+    export default function () {
+      const res = http.get('http://kps-grafana.monitoring.svc.cluster.local/api/health');
+      check(res, { 'status is 200': (r) => r.status === 200 });
+      sleep(1);
+    }
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: k6-strict
+  namespace: testing
+spec:
+  restartPolicy: Never
+  containers:
+    - name: k6
+      image: grafana/k6:0.54.0
+      command: ["k6", "run", "/scripts/script.js"]
+      volumeMounts:
+        - name: script
+          mountPath: /scripts
+  volumes:
+    - name: script
+      configMap:
+        name: k6-script-strict
