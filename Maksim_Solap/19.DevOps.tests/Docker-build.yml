@@ -1,0 +1,51 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches: [ "master" ] # Запуск при пуше в ветку main
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Авторизация на Docker Hub
+      - name: Log in to Docker Hub
+        if: github.event_name != 'pull_request' # Не пушить при проверке PR
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Сборка и отправка образа
+      - name: Build and Push Docker image
+        id: docker_build
+        uses: docker/build-push-action@v5
+        with:
+          context: ./homework3
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:latest
+
+      # Уведомление в Slack при успехе
+      - name: Slack Notification on Success
+        if: success()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: 'good'
+          SLACK_TITLE: 'Docker Build Success!'
+          SLACK_MESSAGE: 'Image: ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:latest successfully built and pushed.'
+
+      # Уведомление в Slack при ошибке
+      - name: Slack Notification on Failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: 'danger'
+          SLACK_TITLE: 'Docker Build Failed ❌'
+          SLACK_MESSAGE: 'Failed to build image for commit ${{ github.sha }}.'
