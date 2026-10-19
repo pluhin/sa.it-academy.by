@@ -1,0 +1,48 @@
+deploymentMode: SingleBinary
+
+loki:
+  auth_enabled: false
+
+  # Конфигурация для работы в один поток (SingleBinary)
+  commonConfig:
+    replication_factor: 1
+
+  storage:
+    type: filesystem
+
+  # Настройка путей хранения внутри контейнера
+  storageConfig:
+    filesystem:
+      chunks_directory: /var/loki/chunks
+      rules_directory: /var/loki/rules
+
+  # Правильное место для schemaConfig (внутри основного блока loki)
+  schemaConfig:
+    configs:
+      - from: "2024-04-01"
+        store: tsdb
+        object_store: filesystem
+        schema: v13
+        index:
+          prefix: index_
+          period: 24h
+
+# ПОЛНОСТЬЮ ОТКЛЮЧАЕМ ШЛЮЗ (Решает проблему с падающим Nginx)
+gateway:
+  enabled: false
+
+singleBinary:
+  replicas: 1
+  persistence:
+    enabled: true
+    storageClass: "nfs-client"
+    volumeName: "pv-monitoring-loki"
+    size: 10Gi
+
+# Отключаем микросервисы, так как используем SingleBinary
+read:
+  replicas: 0
+write:
+  replicas: 0
+backend:
+  replicas: 0

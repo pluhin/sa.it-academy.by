@@ -1,0 +1,84 @@
+name: Docker Integration and Security Test
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 1. РАЗВЕРТЫВАНИЕ: Сборка и запуск контейнера
+      - name: Build Docker Image
+        run: |
+          docker build -t my-homework-app:latest .
+
+      - name: Deploy Container
+        run: |
+          docker run -d --name test-container -p 8080:8080 my-homework-app:latest
+          echo "Ожидание запуска контейнера..."
+          sleep 5 # Даем контейнеру 5 секунд на полную инициализацию
+
+      # 2. ТЕСТ: Запрос данных из контейнера
+      - name: Test Data Query
+        run: |
+          echo "Отправляем HTTP-запрос к контейнеру..."
+          
+          # Если curl упадет, команда '|| true' позволит скрипту не прерываться сразу,
+          # чтобы мы могли распечатать логи контейнера для диагностики.
+          RESPONSE=$(curl --silent --fail http://localhost:8080/) || ERROR=1
+          
+          if [ "$ERROR" = "1" ]; then
+            echo "Ошибка: curl не смог подключиться к контейнеру (Exit code 7)."
+            echo "=== ЛОГИ КОНТЕЙНЕРА ДЛЯ ДИАГНОСТИКИ ==="
+            docker logs test-container
+            echo "======================================="
+            exit 1
+          fi
+          
+          echo "Полученный ответ из контейнера:"
+          echo "$RESPONSE"
+          
+          if [ -z "$RESPONSE" ]; then
+            echo "Ошибка: Данные из образа пустые!"
+            exit 1
+          else
+            echo "Успешно: Тест запроса данных пройден."
+          fi
+
+      # 3. ПРОВЕРКА БЕЗОПАСНОСТИ: Контроль отсутствия root-прав
+      - name: Verify Non-Root Status
+        run: |
+          echo "Проверяем права пользователя внутри контейнера..."
+          USER_ID=$(docker exec test-container id -u)
+          USER_NAME=$(docker exec test-container whoami)
+          
+          echo "Контейнер запущен от UID: $USER_ID ($USER_NAME)"
+          
+          if [ "$USER_ID" -eq 0 ] || [ "$USER_NAME" = "root" ]; then
+            echo "Ошибка безопасности: Обнаружен ROOT-доступ внутри контейнера!"
+            exit 1
+          else
+            echo "Успешно: Корневой доступ отсутствует. Безопасность подтверждена."
+          fi
+
+      # ОЧИСТКА: Удаление контейнера после завершения
+      - name: Cleanup Environment
+        if: always() # Выполнять в любом случае (даже если тесты упали)
+        run: |
+          echo "Проверяем наличие контейнера перед удалением..."
+          # Проверяем, существует ли контейнер, и удаляем только если он найден
+          if [ "$(docker ps -a -q -f name=test-container)" ]; then
+            echo "Останавливаем и удаляем тестовый контейнер..."
+            docker stop test-container || true
+            docker rm test-container || true
+          else
+            echo "Контейнер test-container не найден, очистка не требуется."
+          fi
+      
