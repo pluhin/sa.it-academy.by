@@ -1,0 +1,74 @@
+name: Kubernetes Manifests Validation (Kubeconform)
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  # Задача 1: Динамический поиск файлов для создания параллельной матрицы
+  list-manifests:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Скрипт сканирует папку k8s-manifests и формирует массив JSON со списком файлов
+      - name: Find all Kubernetes YAML files
+        id: set-matrix
+        run: |
+          FILES=$(find k8s-manifests/ -type f \( -name "*.yaml" -o -name "*.yml" \) | jq -R -s -c 'split("\n")[:-1]')
+          echo "Найдено файлов для проверки: $FILES"
+          echo "matrix=$FILES" >> $GITHUB_OUTPUT
+
+  # Задача 2: ПАРАЛЛЕЛЬНАЯ ПРОВЕРКА манифестов внутри изолированных контейнеров
+  validate-kubeconform:
+    needs: list-manifests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        manifest: ${{ fromJson(needs.list-manifests.outputs.matrix) }}
+      fail-fast: false # Если один файл содержит ошибку, остальные всё равно проверятся
+
+    # ВСЕ ИНСТРУМЕНТЫ ВНУТРИ КОНТЕЙНЕРА (официальный образ Kubeconform)
+    container:
+      image: ghcr.io/yannh/kubeconform:latest-alpine
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Kubeconform validation
+        run: |
+          echo "=== Старт проверки манифеста: ${{ matrix.manifest }} ==="
+
+          # Утилита вызывается по абсолютному пути, домен и путь каталога схем исправлены
+          /kubeconform \
+            -strict \
+            -summary \
+            -schema-location default \
+            -schema-location 'https://githubusercontent.com{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
+            ${{ matrix.manifest }}
+  
+
+  # Задача 3: УВЕДОМЛЕНИЕ О СТАТУСЕ ПРОВЕРКИ
+  notify-status:
+    needs: validate-kubeconform
+    runs-on: ubuntu-latest
+    if: always() # Запускается при любом исходе проверок
+    steps:
+      - name: Send status notification
+        run: |
+          if [ "${{ needs.validate-kubeconform.result }}" = "success" ]; then
+            echo "=========================================================="
+            echo " SUCCESS: Все манифесты Jenkins и Istio успешно проверены!"
+            echo " Конфигурации полностью валидны. "
+            echo "=========================================================="
+          else
+            echo "=========================================================="
+            echo " FAILURE: В манифестах Kubernetes обнаружены синтаксические ошибки!"
+            echo " Пожалуйста, изучите логи параллельных шагов выше. "
+            echo "=========================================================="
+            exit 1
+          fi
