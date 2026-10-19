@@ -1,0 +1,58 @@
+name: Kubernetes Manifests Validation
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  kubeconform-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Запускаем официальный docker-образ kubeconform для папки monitoring
+      - name: Run Kubeconform validation
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/apps -w /apps ghcr.io/yannh/kubeconform:latest-alpine \
+            -summary \
+            -verbose \
+            -workers 4 \
+            -strict \
+            monitoring/
+
+      # Интеграция уведомлений о статусе (пример для Telegram1)
+      # Обязательно добавьте секреты TELEGRAM_TO и TELEGRAM_TOKEN в Settings -> Secrets вашего репозитория
+      - name: Send Telegram Notification
+        if: always() # Уведомление отправится и при успехе, и при ошибке
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            👤 Автор: ${{ github.actor }}
+            📦 Репозиторий: ${{ github.repository }}
+            🚀 Воркфлоу: ${{ github.workflow }}
+            📊 Статус: ${{ job.status == 'success' && '✅ Успешно выполнен' || '❌ Произошла ошибка' }}
+            🔗 Коммит: https://github.com{{ github.repository }}/commit/${{ github.sha }}
+
+# SLACK NOTIFICATION
+      - name: Send Slack Notification
+        if: always() # Уведомление отправится в любом случае
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_CHANNEL: general
+          SLACK_USERNAME: GitHub CI/CD
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_TITLE: 'Результат валидации Kubernetes манифестов'
+          SLACK_MESSAGE: |
+            👤 Автор: ${{ github.actor }}
+            📦 Репозиторий: ${{ github.repository }}
+            🚀 Воркфлоу: ${{ github.workflow }}
+            📊 Статус: ${{ job.status == 'success' && '✅ Успешно выполнен' || '❌ Произошла ошибка' }}
+            🔗 Коммит: https://github.com{{ github.repository }}/commit/${{ github.sha }}
+
+
