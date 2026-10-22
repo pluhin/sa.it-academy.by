@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+    stages {
+        stage('Clone') {
+            steps {
+                // Use local git storage instead of github (gitea)
+                git branch: 'main', url: 'https://localhost:3000/Rollwar/test.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'ls -la'
+            }
+        }
+    }
+}
