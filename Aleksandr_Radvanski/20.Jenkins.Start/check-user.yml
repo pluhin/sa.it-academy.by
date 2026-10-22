@@ -1,0 +1,35 @@
+name: Check Jenkins User System
+
+on:
+  workflow_dispatch:
+    inputs:
+      username_to_check:
+        description: 'Имя пользователя для проверки в /etc/passwd'
+        required: true
+        default: 'root'
+
+jobs:
+  trigger-jenkins:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Jenkins via Webhook
+        run: |
+          JENKINS_URL="http://${{ secrets.JENKINS_HOST }}"
+          USER_PARAM="${{ github.event.inputs.username_to_check }}"
+          
+          echo "🚀 Отправка JSON-вебхука в Jenkins для пользователя: $USER_PARAM"
+          
+          # Отправляем POST-запрос строго на эндпоинт плагина invoke
+          HTTP_CODE=$(curl -X POST -s -L \
+            -H "Content-Type: application/json" \
+            -o /dev/null -w "%{http_code}" \
+            -d "{\"username\": \"$USER_PARAM\"}" \
+            "$JENKINS_URL/generic-webhook-trigger/invoke?token=my-super-secret-token")
+          
+          if [ "$HTTP_CODE" -ne 200 ]; then
+            echo "❌ Ошибка: Не удалось вызвать вебхук. HTTP Код ответа: $HTTP_CODE"
+            exit 1
+          fi
+          
+          echo "✅ Успех! Вебхук успешно доставлен в Jenkins (HTTP 200)."
+          echo "Задачаcheck-system-user запущена в вашем Kubernetes контуре!"
