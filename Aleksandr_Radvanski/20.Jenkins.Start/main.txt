@@ -1,0 +1,57 @@
+pipeline {
+    agent any
+
+    // Встроенные триггеры больше не нужны, так как плагин Generic Webhook Trigger уже включен галочкой в UI
+
+    parameters {
+        string(name: 'USERNAME', defaultValue: 'root', description: 'Имя пользователя')
+    }
+
+    stages {
+        stage('Filter Changes') {
+            steps {
+                script {
+                    // Проверяем, пришел ли запуск от плагина Generic Webhook Trigger
+                    if (currentBuild.getBuildCauses().toString().contains('GenericWebhookCause')) {
+
+                        // GitHub при пуше присылает массив коммитов и список измененных файлов.
+                        // Проверяем, содержит ли лог изменений упоминание файла 'main'
+                        def fileChanged = currentBuild.changeSets.any { set ->
+                            set.items.any { item ->
+                                item.affectedPaths.any { path -> path.contains('main') }
+                            }
+                        }
+
+                        // Если вы тестируете без коммитов в git, а просто шлете JSON из GitHub,
+                        // для учебных целей можно временно разрешить выполнение, убрав этот if/else,
+                        // но для задания логика отмены выглядит так:
+                        if (!fileChanged) {
+                            currentBuild.result = 'ABORTED'
+                            error("Сборка отменена: в коммите не найден файл 'main'")
+                        } else {
+                            echo "✅ Обнаружены изменения в файле 'main'. Продолжаем работу..."
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Check User & Report') {
+            steps {
+                script {
+                    def statusCode = sh(script: "getent passwd ${params.USERNAME}", returnStatus: true)
+                    def resultMessage = ""
+
+                    if (statusCode == 0) {
+                        resultMessage = "RESULT: User '${params.USERNAME}' EXISTS in the system."
+                    } else {
+                        resultMessage = "RESULT: User '${params.USERNAME}' DOES NOT exist."
+                    }
+
+                    echo resultMessage
+                    sh "echo '${resultMessage}'"
+                }
+            }
+        }
+    }
+}
