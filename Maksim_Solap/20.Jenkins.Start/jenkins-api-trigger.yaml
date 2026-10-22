@@ -1,0 +1,53 @@
+name: Direct Jenkins Trigger via IP
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: 'Имя пользователя для проверки в /etc/passwd'
+        required: true
+        default: 'root'
+
+jobs:
+  run-jenkins-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Trigger Remote Jenkins Job Directly
+        run: |
+          # В качестве URL используем прямой публичный IP из вашего /etc/hosts
+          JENKINS_IP="http://178.124.206.53"
+          HOST_HEADER="jenkins.k8s-7.sa"
+          
+          USER="${{ secrets.JENKINS_USER }}"
+          TOKEN="${{ secrets.JENKINS_TOKEN }}"
+          CHECK_USER="${{ github.event.inputs.username }}"
+
+          echo "=== Шаг 1: Получение защитного CSRF Crumb ==="
+          # Передаем заголовок -H "Host: ..." чтобы Ingress пропустил запрос к Jenkins
+          CRUMB_DATA=$(curl -s -X GET -u "$USER:$TOKEN" \
+            -H "Host: $HOST_HEADER" \
+            --cookie-jar cookies.txt \
+            "$JENKINS_IP/crumbIssuer/api/json")
+          
+          echo "Ответ сервера безопасности:"
+          echo "$CRUMB_DATA"
+          
+          CRUMB=$(echo "$CRUMB_DATA" | jq -r '.crumb // empty')
+          HEADER=$(echo "$CRUMB_DATA" | jq -r '.crumbRequestField // empty')
+
+          if [ -z "$CRUMB" ]; then
+            echo "Ошибка: Не удалось получить Crumb. Проверьте логин/токен в секретах GitHub."
+            exit 1
+          fi
+          echo "Crumb успешно получен."
+
+          echo "=== Шаг 2: Запуск параметризованной сборки ==="
+          # Выполняем финальный POST-запрос с подстановкой Host, Cookie и Crumb
+          curl -s -i -X POST -u "$USER:$TOKEN" \
+            -H "Host: $HOST_HEADER" \
+            -H "${HEADER}: ${CRUMB}" \
+            --cookie cookies.txt \
+            "$JENKINS_IP/job/check-user-profile/buildWithParameters?USER_NAME=$CHECK_USER"
+            
+          echo -e "\nЗапрос успешно доставлен напрямую в ваш кластер для пользователя: $CHECK_USER"
