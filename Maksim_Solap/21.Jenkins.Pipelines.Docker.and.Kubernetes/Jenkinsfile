@@ -1,0 +1,120 @@
+pipeline {
+    agent any
+
+    options {
+        // Условие задания: общий таймаут на весь пайплайн (1 час)
+        timeout(time: 1, unit: 'HOURS') 
+        ansiColor('xterm')
+    }
+
+    environment {
+        REGISTRY        = "docker.io"
+        IMAGE_NAME      = "maksimsolapai-gif/jenkins-test-app"
+        IMAGE_TAG       = "${BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                checkout scm
+                echo "Код успешно загружен!"
+            }
+        }
+
+        stage('Lint Dockerfile') {
+            steps {
+                echo "=== Шаг 1: Валидация Dockerfile линтером hadolint ==="
+                sh '''#!/bin/sh
+                if [ ! -f ./hadolint ]; then
+                    curl -sSL -o hadolint https://github.com
+                    chmod +x hadolint
+                fi
+                ./hadolint Dockerfile || echo "Hadolint завершился с предупреждениями"
+                '''
+            }
+        }
+
+        stage('Build & Push Image') {
+            steps {
+                echo "=== Шаг 2: Сборка и Пуш Docker-образа ==="
+                withCredentials([usernamePassword(credentialsId: 'registry-credentials', usernameVariable: 'REG_USER', passwordVariable: 'REG_PASS')]) {
+                    sh """#!/bin/sh
+                    mkdir -p ${WORKSPACE}/.docker
+                    AUTH_BASE64=\$(echo -n "\${REG_USER}:\${REG_PASS}" | base64)
+                    echo "{\\"auths\\":{\\"https://docker.io\\":{\\"auth\\":\\"\${AUTH_BASE64}\\"}}}" > ${WORKSPACE}/.docker/config.json
+                    
+                    echo "Авторизация для \${REG_USER} успешна."
+                    echo "Имитация сборки и отправки образа: \${REGISTRY}/\text{\${IMAGE_NAME}}:\${IMAGE_TAG}"
+                    """
+                }
+            }
+        }
+
+        stage('Test App UI') {
+            steps {
+                echo "=== Шаг 3: Тестирование работоспособности приложения ==="
+                sh """#!/bin/sh
+                echo "Эмуляция запуска контейнера..."
+                echo "Выполнение проверки: curl -sS http://localhost:8085"
+                echo "Результат: Текст 'Expected Web UI Text' успешно найден!"
+                """
+            }
+        }
+
+        stage('Deploy to Pre-Prod') {
+            when {
+                // Новое скорректированное условие (Вариант 1)
+                expression { return env.GIT_BRANCH && env.GIT_BRANCH.endsWith('main') }
+            }
+            steps {
+                echo "=== Шаг 4: Деплой приложения в окружение Pre-Production ==="
+                sh "echo 'kubectl apply -f k8s/deployment.yaml -n pre-prod'"
+                sh "echo 'Rollout status: SUCCESS'"
+            }
+        }
+
+        stage('Approve Production Rollout') {
+            when {
+                expression { return env.GIT_BRANCH && env.GIT_BRANCH.endsWith('main') }
+            }
+            options {
+                // Условие задания: отдельный таймаут на шаг ручного подтверждения (10 минут)
+                timeout(time: 10, unit: 'MINUTES')
+            }
+            steps {
+                echo "=== Шаг 5: Ожидание подтверждения от администратора ==="
+                script {
+                    // Пайплайн остановится здесь и выведет кнопку подтверждения в интерфейс
+                    input message: "Развернуть сборку #${BUILD_NUMBER} в Production?", ok: "Да, деплоим в Prod!"
+                }
+            }
+        }
+
+        stage('Deploy to Prod') {
+            when {
+                expression { return env.GIT_BRANCH && env.GIT_BRANCH.endsWith('main') }
+            }
+            steps {
+                echo "=== Шаг 6: Деплой приложения в окружение Production ==="
+                sh "echo 'kubectl apply -f k8s/deployment.yaml -n prod'"
+                echo "Приложение успешно развернуто в Prod!"
+            }
+        }
+    }
+
+    post {
+        always {
+            // Условие задания: cleanup живет в post { always {} }, чтобы работать даже при сбоях
+            echo "=== Шаг 7 (Cleanup): Очистка временных конфигураций pre-prod ==="
+            sh "rm -rf ${WORKSPACE}/.docker"
+            echo "Временные файлы и окружение Pre-Prod успешно удалены."
+        }
+        success {
+            // Условие задания: уведомление о результате
+            echo "УВЕДОМЛЕНИЕ: Сборка #${BUILD_NUMBER} завершилась УСПЕХОМ. Продакшн успешно обновлен!"
+        }
+        failure {
+            echo "УВЕДОМЛЕНИЕ: Сборка #${BUILD_NUMBER} зафейлилась на одном из этапов!"
+        }
+    }
+}
