@@ -1,0 +1,63 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: linkding
+  namespace: linkding
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  minReadySeconds: 10
+  progressDeadlineSeconds: 60
+  progressDeadlineAbort: true
+
+  strategy:
+    canary:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: linkding
+  template:
+    metadata:
+      labels:
+        app: linkding
+    spec:
+#      imagePullSecrets:
+#        - name: forgejo-registry
+#      imagePullSecrets:
+#        - name: ghcr-registry
+      containers:
+        - name: linkding
+          image: linkding
+          ports:
+            - name: http
+              containerPort: 9090
+          env:
+            - name: LD_SERVER_HOST
+              value: "0.0.0.0"
+            - name: LD_CSRF_TRUSTED_ORIGINS
+              value: "http://linkding.internal"
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 1Gi
+          volumeMounts:
+            - name: data
+              mountPath: /etc/linkding/data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: linkding-data
