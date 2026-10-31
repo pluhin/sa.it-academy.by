@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- linkding-argorollout.yaml
+- linkding-httproute.yaml
+- linkding-pvc.yaml
+- linkding-svc.yaml
+
+images:
+- name: linkding
+  newName: ghcr.io/alexb-pixel-bash/linkding
+  newTag: sha-5e770e2e0ab3c3d4a7f47f0db7c2151bcb40c19d
