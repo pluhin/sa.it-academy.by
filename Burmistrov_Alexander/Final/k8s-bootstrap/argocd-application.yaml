@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: linkding
+spec:
+  destination:
+    namespace: linkding
+    server: https://kubernetes.default.svc
+  source:
+    path: argocd
+    repoURL: https://github.com/AlexB-pixel-bash/linkding-k8s-manifests
+    targetRevision: main
+  sources: []
+  project: linkding
+  syncPolicy:
+    automated: null
+    syncOptions:
+      - ServerSideApply=true
+      - CreateNamespace=true
+      - Delete=true

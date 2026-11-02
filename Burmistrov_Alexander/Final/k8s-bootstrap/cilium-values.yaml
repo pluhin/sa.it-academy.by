@@ -1,0 +1,27 @@
+k8sServiceHost: "cicd-control-plane"
+k8sServicePort: 6443
+
+kubeProxyReplacement: true
+
+ipam:
+  mode: kubernetes
+
+routingMode: tunnel
+tunnelProtocol: vxlan
+
+operator:
+  replicas: 1
+
+l7Proxy: true
+
+envoy:
+  enabled: true
+
+gatewayAPI:
+  enabled: true
+
+  gatewayClass:
+    create: "true"
+
+  hostNetwork:
+    enabled: true

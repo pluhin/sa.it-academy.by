@@ -1,0 +1,16 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: TLSRoute
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  parentRefs:
+    - name: main-gateway
+      namespace: gateway-system
+      sectionName: tls
+  hostnames:
+    - argocd.internal
+  rules:
+    - backendRefs:
+        - name: argocd-server
+          port: 443
