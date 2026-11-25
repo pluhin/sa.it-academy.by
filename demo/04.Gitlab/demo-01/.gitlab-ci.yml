@@ -1,0 +1,30 @@
+image: ubuntu:22.04
+
+stages:
+  - install
+  - test
+
+install_apache:
+  stage: install
+  script:
+    - apt-get update -yqq
+    - apt-get install -yqq apache2
+    - apache2ctl configtest
+
+test_with_curl:
+  stage: test
+  before_script:
+    - apt-get update -yqq
+    - apt-get install -yqq apache2 curl
+    - service apache2 start
+  script:
+    - curl -f http://localhost
+
+test_with_nc:
+  stage: test
+  before_script:
+    - apt-get update -yqq
+    - apt-get install -yqq apache2 netcat-openbsd
+    - service apache2 start
+  script:
+    - nc -zv localhost 80
